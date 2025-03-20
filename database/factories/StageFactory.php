@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ActProfile>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Stage>
  */
-class ActProfileFactory extends Factory
+class StageFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,6 +17,7 @@ class ActProfileFactory extends Factory
     public function definition(): array
     {
         return [
+            'title' => $this->faker->unique()->sentence(),
             'description' => $this->faker->paragraph(),
         ];
     }

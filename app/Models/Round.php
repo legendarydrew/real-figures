@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Round extends Model
+{
+    /** @use HasFactory<\Database\Factories\RoundFactory> */
+    use HasFactory;
+
+    public function stage(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Stage::class);
+    }
+}
