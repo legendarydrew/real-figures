@@ -5,13 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class RoundVote extends Model
 {
+    protected $guarded = ['id'];
 
     public function round(): BelongsTo
     {
         return $this->belongsTo(Round::class);
+    }
+
+    public function stage(): HasOneThrough
+    {
+        return $this->hasOneThrough(Stage::class, Round::class, 'id', 'id', 'id', 'stage_id');
     }
 
     public function first_choice(): BelongsTo

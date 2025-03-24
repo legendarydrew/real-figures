@@ -5,11 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class RoundOutcome extends Model
 {
     /** @use HasFactory<\Database\Factories\RoundOutcomeFactory> */
     use HasFactory;
+
+    public function stage(): HasOneThrough
+    {
+        return $this->hasOneThrough(Stage::class, Round::class, 'id', 'id', 'id', 'stage_id');
+    }
 
     public function round(): BelongsTo
     {

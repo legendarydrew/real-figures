@@ -21,14 +21,14 @@ class ActFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->name();
+        $name = $this->faker->unique()->name;
         return [
             'name' => $name,
             'slug' => Str::slug($name)
         ];
     }
 
-    public function withProfile(): Factory|ActFactory
+    public function withProfile(): ActFactory
     {
         return $this->afterCreating(fn(Act $act) => ActProfile::factory()->createOne([
             'act_id' => $act->id,
@@ -36,7 +36,7 @@ class ActFactory extends Factory
         );
     }
 
-    public function withSong($song_title = null): Factory|ActFactory
+    public function withSong($song_title = null): ActFactory
     {
         return $this->afterCreating(fn(Act $act) => Song::factory()->createOne([
             'act_id' => $act->id,
