@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Relations;
+namespace Relations;
 
 use App\Models\Act;
 use App\Models\Round;
@@ -33,6 +33,14 @@ class RoundTest extends TestCase
             'round_id' => $this->round->id,
             'song_id'  => $songs->get(0)->id
         ]);
+        RoundSongs::create([
+            'round_id' => $this->round->id,
+            'song_id'  => $songs->get(1)->id
+        ]);
+        RoundSongs::create([
+            'round_id' => $this->round->id,
+            'song_id'  => $songs->get(2)->id
+        ]);
 
         RoundVote::create([
             'round_id'         => $this->round->id,
@@ -58,7 +66,7 @@ class RoundTest extends TestCase
 
     public function test_songs_relation()
     {
-        self::assertGreaterThan(0, $this->round->songs()->count());
+        self::assertEquals(3, $this->round->songs()->count());
     }
 
     public function test_votes_relation()
