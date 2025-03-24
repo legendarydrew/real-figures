@@ -38,6 +38,10 @@ class SongTest extends TestCase
 
     public function test_outcomes_relation()
     {
-        self::assertGreaterThanOrEqual(1, $this->song->outcomes->count());
+        self::assertEquals(1, $this->song->outcomes->count());
+        foreach ($this->song->outcomes as $outcome)
+        {
+            self::assertInstanceOf(RoundOutcome::class, $outcome);
+        }
     }
 }

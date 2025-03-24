@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Relations;
+namespace Relations;
 
 use App\Models\Act;
 use App\Models\ActProfile;
@@ -11,12 +11,18 @@ class ActProfileTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_act_relation()
+    protected function setUp(): void
     {
+        parent::setUp();
+
         $act = Act::factory()->create();
-        $act_profile = ActProfile::factory()->create([
+        $this->act_profile = ActProfile::factory()->create([
             'act_id' => $act->id,
         ]);
-        self::assertInstanceOf(Act::class, $act_profile->act);
+    }
+
+    public function test_act_relation()
+    {
+        self::assertInstanceOf(Act::class, $this->act_profile->act);
     }
 }

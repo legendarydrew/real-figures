@@ -1,9 +1,10 @@
 <?php
 
-namespace Unit\Relations;
+namespace Relations;
 
 use App\Models\Act;
 use App\Models\ActProfile;
+use App\Models\Song;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -14,7 +15,11 @@ class ActTest extends TestCase
     public function test_songs_relation()
     {
         $act = Act::factory()->withSong()->create();
-        self::assertGreaterThan(0, $act->songs()->count());
+        self::assertEquals(1, $act->songs()->count());
+        foreach ($act->songs as $song)
+        {
+            self::assertInstanceOf(Song::class, $song);
+        }
     }
 
     public function test_profile_relation()

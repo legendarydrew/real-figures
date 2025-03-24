@@ -49,7 +49,7 @@ class RoundTest extends TestCase
             'third_choice_id'  => $songs->get(2)->id,
         ]);
 
-        RoundOutcome::factory(3)->create([
+        RoundOutcome::factory()->create([
             'round_id' => $this->round->id,
             'song_id'  => new Sequence(
                 $songs->get(0)->id,
@@ -67,15 +67,24 @@ class RoundTest extends TestCase
     public function test_songs_relation()
     {
         self::assertEquals(3, $this->round->songs()->count());
+        foreach ($this->round->songs as $song) {
+            self::assertInstanceOf(Song::class, $song);
+        }
     }
 
     public function test_votes_relation()
     {
-        self::assertGreaterThan(0, $this->round->votes()->count());
+        self::assertEquals(1, $this->round->votes()->count());
+        foreach ($this->round->votes as $vote) {
+            self::assertInstanceOf(RoundVote::class, $vote);
+        }
     }
 
     public function test_outcomes_relation()
     {
-        self::assertGreaterThan(0, $this->round->votes()->count());
+        self::assertEquals(1, $this->round->outcomes()->count());
+        foreach ($this->round->outcomes as $outcome) {
+            self::assertInstanceOf(RoundOutcome::class, $outcome);
+        }
     }
 }

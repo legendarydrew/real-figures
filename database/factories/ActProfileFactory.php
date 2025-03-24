@@ -20,4 +20,5 @@ class ActProfileFactory extends Factory
             'description' => $this->faker->paragraph(),
         ];
     }
+
 }

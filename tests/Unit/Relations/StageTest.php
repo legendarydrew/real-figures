@@ -15,7 +15,11 @@ class StageTest extends TestCase
     {
         $stage = Stage::factory()->create();
         Round::factory()->count(2)->create(['stage_id' => $stage->id]);
-        self::assertGreaterThan(0, $stage->rounds()->count());
+
+        self::assertEquals(2, $stage->rounds()->count());
+        foreach ($stage->rounds as $round) {
+            self::assertInstanceOf(Round::class, $round);
+        }
     }
 
 }
