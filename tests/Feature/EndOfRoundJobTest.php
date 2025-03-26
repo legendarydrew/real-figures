@@ -1,0 +1,128 @@
+<?php
+
+
+// use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Jobs\EndOfRound;
+use App\Models\Round;
+use App\Models\RoundOutcome;
+use App\Models\RoundSongs;
+use App\Models\RoundVote;
+use App\Models\Song;
+use App\Models\Stage;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Depends;
+use Tests\TestCase;
+
+class EndOfRoundJobTest extends TestCase
+{
+    use DatabaseMigrations;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->number_of_songs = 4;
+        $songs                 = Song::factory($this->number_of_songs)->withAct()->create();
+        $this->song_ids        = $songs->pluck('id')->toArray();
+
+        $this->round = Round::factory()
+                            ->for(Stage::factory())
+                            ->create([
+                                'starts_at' => now()->subDay(),
+                                'ends_at'   => now()->subDay(),
+                            ]);
+        foreach ($this->song_ids as $song_id)
+        {
+            RoundSongs::create([
+                'round_id' => $this->round->id,
+                'song_id'  => $song_id,
+            ]);
+        }
+
+        // Create some votes.
+        $number_of_votes = fake()->numberBetween(1, 10);
+        for ($i = 0; $i < $number_of_votes; $i++)
+        {
+            $picks = fake()->randomElements($this->song_ids, 3);
+            RoundVote::create([
+                'round_id'         => $this->round->id,
+                'first_choice_id'  => $picks[0],
+                'second_choice_id' => $picks[1],
+                'third_choice_id'  => $picks[2]
+            ]);
+        }
+
+        $number_of_outcomes = RoundOutcome::whereRoundId($this->round->id)->count();
+        self::assertEquals(0, $number_of_outcomes);
+    }
+
+    public function test_after_round_end()
+    {
+        EndOfRound::dispatch($this->round);
+
+        // Test for the creation of RoundOutcomes.
+        $number_of_outcomes = RoundOutcome::whereRoundId($this->round->id)->count();
+        self::assertEquals($this->number_of_songs, $number_of_outcomes);
+
+        // Each Song associated with the round should have an associated RoundOutcome.
+        $outcome_song_ids = RoundOutcome::whereRoundId($this->round->id)->pluck('song_id');
+        foreach ($this->round->songs as $song)
+        {
+            self::assertContains($song->id, $outcome_song_ids);
+        }
+    }
+
+    public function test_before_round_begins()
+    {
+        $this->round->update([
+            'starts_at' => now()->addDay(),
+        ]);
+        EndOfRound::dispatch($this->round);
+
+        $number_of_outcomes = RoundOutcome::whereRoundId($this->round->id)->count();
+        self::assertEquals(0, $number_of_outcomes);
+    }
+
+    public function test_before_round_end()
+    {
+        $this->round->update([
+            'ends_at' => now()->addDay(),
+        ]);
+        EndOfRound::dispatch($this->round);
+
+        $number_of_outcomes = RoundOutcome::whereRoundId($this->round->id)->count();
+        self::assertEquals(0, $number_of_outcomes);
+    }
+
+    #[Depends('test_after_round_end')]
+    public function test_if_no_votes()
+    {
+        RoundVote::truncate();
+
+        // Originally, if there were no votes for a round, we would employ a "panel of judges"
+        // that would assign random scores.
+        // Instead, it was decided that I'm going to vote on the entries in the round myself.
+        // (But how would this impact the calculation of runners-up? What if there is a tie?)
+        // So this test would check that NO outcomes are generated when a round with no votes is up.
+
+        EndOfRound::dispatch($this->round);
+
+        $number_of_outcomes = RoundOutcome::whereRoundId($this->round->id)->count();
+        self::assertEquals(0, $number_of_outcomes);
+    }
+
+    #[Depends('test_after_round_end')]
+    public function test_duplicate()
+    {
+        EndOfRound::dispatch($this->round);
+
+        $number_of_outcomes = RoundOutcome::whereRoundId($this->round->id)->count();
+        self::assertEquals($this->number_of_songs, $number_of_outcomes);
+
+        EndOfRound::dispatch($this->round);
+
+        // Only one set of outcomes (one for each song) should have been created.
+        $number_of_outcomes = RoundOutcome::whereRoundId($this->round->id)->count();
+        self::assertEquals($this->number_of_songs, $number_of_outcomes);
+    }
+}
