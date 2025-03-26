@@ -40,4 +40,5 @@ class Round extends Model
     {
         return $this->hasMany(RoundVote::class);
     }
+
 }

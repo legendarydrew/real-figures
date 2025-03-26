@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Act;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,5 +20,12 @@ class SongFactory extends Factory
         return [
             'title' => config('contest.song.default-title')
         ];
+    }
+
+    public function withAct(): SongFactory
+    {
+        return $this->state(function () {
+            return ['act_id' => Act::factory()];
+        });
     }
 }

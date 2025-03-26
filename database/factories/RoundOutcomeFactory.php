@@ -20,7 +20,12 @@ class RoundOutcomeFactory extends Factory
             'first_votes'  => $this->faker->numberBetween(0, 10),
             'second_votes' => $this->faker->numberBetween(0, 10),
             'third_votes'  => $this->faker->numberBetween(0, 10),
-            'was_random'   => $this->faker->boolean(10),
+            'was_manual'   => false,
         ];
+    }
+
+    public function manualVote(): RoundOutcomeFactory
+    {
+        return $this->state(fn() => ['was_manual' => true]);
     }
 }

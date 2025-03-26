@@ -47,7 +47,7 @@ return new class extends Migration {
             $table->unsignedInteger('first_votes')->default(0);
             $table->unsignedInteger('second_votes')->default(0);
             $table->unsignedInteger('third_votes')->default(0);
-            $table->boolean('was_random')->default(false)
+            $table->boolean('was_manual')->default(false)
                                          ->comment('True in the case where there were no public votes.');
             $table->timestamps();
 
