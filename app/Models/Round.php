@@ -59,6 +59,54 @@ class Round extends Model
     }
 
     /**
+     * Returns lists of winning and runner-up Songs, based on the results.
+     *
+     * @param int $runner_up_count
+     * @return Collection[]|null
+     */
+    public function winning_songs(int $runner_up_count = 1): ?array
+    {
+        if (!$this->outcomes()->count())
+        {
+            return null;
+        }
+
+        $results     = $this->results();
+        $output      = [
+            'winners'    => new Collection(),
+            'runners_up' => new Collection(),
+        ];
+        $last_result = null;
+
+        // Build a list of winning entries.
+        // There may be more than one, based on the scores and votes.
+        foreach ($results as $index => $result)
+        {
+            if ($last_result && !$this->isSameResult($result, $last_result))
+            {
+                break;
+            }
+            $output['winners']->push($result->song);
+            $last_result = $result;
+        }
+
+        // Build a list of runners-up, up to the number requested.
+        $results = $results->slice($index);
+        foreach ($results as $result)
+        {
+            if ($output['runners_up']->count() === $runner_up_count ||
+                ($last_result && !$this->isSameResult($result, $last_result)))
+            {
+                break;
+            }
+            $output['runners_up']->push($result->song);
+            $last_result = $result;
+        }
+
+        return $output;
+    }
+
+    /**
      * A callback function for sorting RoundOutcomes.
      * The entries are ranked in descending order, by:
      * - total score;
@@ -108,5 +156,13 @@ class Round extends Model
         {
             return $a < $b ? 1 : -1;
         }
+    }
+
+    protected function isSameResult(RoundOutcome $a, RoundOutcome $b): bool
+    {
+        return ($a->score === $b->score) &&
+            ($a->first_votes === $b->first_votes) &&
+            ($a->second_votes === $b->second_votes) &&
+            ($a->third_votes === $b->third_votes);
     }
 }

@@ -40,7 +40,6 @@ class ResultsTest extends TestCase
                 'song_id'  => $song_id,
             ]);
         }
-
     }
 
     public function test_no_outcomes()
