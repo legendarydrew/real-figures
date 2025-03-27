@@ -71,17 +71,24 @@ class Round extends Model
      */
     protected function sortOutcomes(RoundOutcome $a, RoundOutcome $b): int
     {
-        $score_result         = $this->intcmp($a->score, $b->score);
-        $first_choice_result  = $this->intcmp($a->first_votes, $b->first_votes);
-        $second_choice_result = $this->intcmp($a->second_votes, $b->second_votes);
+        $score_result         = $this->int_compare($a->score, $b->score);
+        $first_choice_result  = $this->int_compare($a->first_votes, $b->first_votes);
+        $second_choice_result = $this->int_compare($a->second_votes, $b->second_votes);
 
-        if ($score_result) {
-            return $score_result;
+        if ($score_result)
+        {
+            $result = $score_result;
         }
-        if ($first_choice_result) {
-            return $first_choice_result;
+        elseif ($first_choice_result)
+        {
+            $result = $first_choice_result;
         }
-        return $second_choice_result;
+        else
+        {
+            $result = $second_choice_result;
+        }
+
+        return $result;
     }
 
     /**
@@ -91,7 +98,7 @@ class Round extends Model
      * @param int $b
      * @return int
      */
-    protected function intcmp(int $a, int $b): int
+    protected function int_compare(int $a, int $b): int
     {
         if ($a === $b)
         {

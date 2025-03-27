@@ -112,7 +112,7 @@ class ResultsTest extends TestCase
     }
 
     #[Depends('test_by_descending_score')]
-    public function test_by_first_and_second_votes()
+    public function test_by_second_votes()
     {
         // For this test to work, the scores and number of first votes for each song
         // have to be the same.
@@ -153,4 +153,5 @@ class ResultsTest extends TestCase
             $last_outcome = $result;
         }
     }
+
 }
