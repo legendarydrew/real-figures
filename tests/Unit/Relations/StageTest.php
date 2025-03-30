@@ -14,10 +14,11 @@ class StageTest extends TestCase
     public function test_rounds_relation()
     {
         $stage = Stage::factory()->create();
-        Round::factory()->count(2)->create(['stage_id' => $stage->id]);
+        Round::factory(2)->for($stage)->create();
 
-        self::assertEquals(2, $stage->rounds()->count());
-        foreach ($stage->rounds as $round) {
+        self::assertEquals(2, $stage->rounds->count());
+        foreach ($stage->rounds as $round)
+        {
             self::assertInstanceOf(Round::class, $round);
         }
     }

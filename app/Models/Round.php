@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\HasEnded;
-use App\Models\Scopes\HasStarted;
 use Database\Factories\RoundFactory;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
-#[ScopedBy([HasStarted::class, HasEnded::class])]
 class Round extends Model
 {
     /** @use HasFactory<RoundFactory> */
@@ -44,6 +41,16 @@ class Round extends Model
     public function votes(): HasMany
     {
         return $this->hasMany(RoundVote::class);
+    }
+
+    public function scopeHasStarted(Builder $builder): void
+    {
+        $builder->where('starts_at', '<=', now());
+    }
+
+    public function scopeHasEnded(Builder $builder): void
+    {
+        $builder->where('ends_at', '>', now());
     }
 
     /**
