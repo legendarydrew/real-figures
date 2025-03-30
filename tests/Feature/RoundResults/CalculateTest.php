@@ -1,7 +1,8 @@
 <?php
 
-namespace Tests\Unit\Round;
+namespace Tests\Feature\RoundResults;
 
+use App\Facades\RoundResultsFacade;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\RoundSongs;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class WinningSongsTest extends TestCase
+class CalculateTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -44,7 +45,7 @@ class WinningSongsTest extends TestCase
 
     public function test_no_outcomes()
     {
-        $results = $this->round->winning_songs();
+        $results = RoundResultsFacade::calculate($this->round);
         self::assertNull($results);
     }
 
@@ -59,7 +60,7 @@ class WinningSongsTest extends TestCase
                         'third_votes'  => new Sequence(...range(1, $this->number_of_songs)),
                     ]);
 
-        $results = $this->round->winning_songs();
+        $results = RoundResultsFacade::calculate($this->round);
 
         self::assertNotNull($results);
         self::assertCount(1, $results['winners']);
@@ -82,7 +83,7 @@ class WinningSongsTest extends TestCase
                         'song_id' => new Sequence(...array_slice($this->song_ids, $tied_winner_count)),
                     ]);
 
-        $results = $this->round->winning_songs();
+        $results = RoundResultsFacade::calculate($this->round);
 
         self::assertNotNull($results);
         self::assertCount($tied_winner_count, $results['winners']);
@@ -99,7 +100,7 @@ class WinningSongsTest extends TestCase
                         'third_votes'  => new Sequence(...range(1, $this->number_of_songs)),
                     ]);
 
-        $results = $this->round->winning_songs(0);
+        $results = RoundResultsFacade::calculate($this->round, 0);
         self::assertCount(0, $results['runners_up']);
     }
 
@@ -114,7 +115,7 @@ class WinningSongsTest extends TestCase
                         'third_votes'  => new Sequence(...range(1, $this->number_of_songs)),
                     ]);
 
-        $results = $this->round->winning_songs(1);
+        $results = RoundResultsFacade::calculate($this->round, 1);
         self::assertCount(0, $results['runners_up']);
     }
 
@@ -130,7 +131,7 @@ class WinningSongsTest extends TestCase
                     ]);
 
         $runner_up_count = ceil($this->number_of_songs / 2);
-        $results         = $this->round->winning_songs($runner_up_count);
+        $results         = RoundResultsFacade::calculate($this->round, $runner_up_count);
         self::assertLessThanOrEqual($runner_up_count, $results['runners_up']->count());
     }
 }

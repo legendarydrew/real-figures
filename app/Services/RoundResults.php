@@ -104,7 +104,7 @@ class RoundResults
             $this->intCompare($a->second_votes, $b->second_votes)
         ]);
 
-        return $values ? $values[0] : 0;
+        return count($values) ? array_values($values)[0] : 0;
     }
 
     /**
