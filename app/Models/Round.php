@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\RoundFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,6 +41,16 @@ class Round extends Model
     public function votes(): HasMany
     {
         return $this->hasMany(RoundVote::class);
+    }
+
+    public function scopeHasStarted(Builder $builder): void
+    {
+        $builder->where('starts_at', '<=', now());
+    }
+
+    public function scopeHasEnded(Builder $builder): void
+    {
+        $builder->where('ends_at', '>', now());
     }
 
     /**
@@ -164,5 +175,26 @@ class Round extends Model
             ($a->first_votes === $b->first_votes) &&
             ($a->second_votes === $b->second_votes) &&
             ($a->third_votes === $b->third_votes);
+    }
+
+
+    /**
+     * Returns TRUE if the Round has started.
+     *
+     * @return bool
+     */
+    public function hasStarted(): bool
+    {
+        return $this->starts_at < now();
+    }
+
+    /**
+     * Returns TRUE if the Round has ended.
+     *
+     * @return bool
+     */
+    public function hasEnded(): bool
+    {
+        return $this->ends_at < now();
     }
 }

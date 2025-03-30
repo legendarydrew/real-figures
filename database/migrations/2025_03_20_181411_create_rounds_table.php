@@ -22,7 +22,7 @@ return new class extends Migration {
         Schema::create('rounds', function (Blueprint $table)
         {
             $table->id();
-            $table->foreignId('stage_id')->constrained();
+            $table->foreignId('stage_id')->constrained('stages', 'id')->cascadeOnDelete();
             $table->string('title')->unique();
             $table->datetime('starts_at');
             $table->datetime('ends_at');
@@ -32,8 +32,8 @@ return new class extends Migration {
         Schema::create('round_songs', function (Blueprint $table)
         {
             $table->id();
-            $table->foreignId('round_id')->constrained();
-            $table->foreignId('song_id')->constrained();
+            $table->foreignId('round_id')->constrained('rounds', 'id')->cascadeOnDelete();
+            $table->foreignId('song_id')->constrained('songs', 'id')->cascadeOnDelete();
             $table->timestamps();
 
             $table->unique(['round_id', 'song_id']);
@@ -42,8 +42,8 @@ return new class extends Migration {
         Schema::create('round_outcomes', function (Blueprint $table)
         {
             $table->id();
-            $table->foreignId('round_id')->constrained();
-            $table->foreignId('song_id')->constrained();
+            $table->foreignId('round_id')->constrained('rounds', 'id')->cascadeOnDelete();
+            $table->foreignId('song_id')->constrained('songs', 'id')->cascadeOnDelete();
             $table->unsignedInteger('first_votes')->default(0);
             $table->unsignedInteger('second_votes')->default(0);
             $table->unsignedInteger('third_votes')->default(0);

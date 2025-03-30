@@ -24,9 +24,7 @@ class RoundTest extends TestCase
         $songs = Song::factory()->count(3)->create(['act_id' => $act->id]);
 
         $this->stage = Stage::factory()->create();
-        $this->round = Round::factory()->create([
-            'stage_id' => $this->stage->id
-        ]);
+        $this->round = Round::factory()->for($this->stage)->create();
 
 
         RoundSongs::create([
