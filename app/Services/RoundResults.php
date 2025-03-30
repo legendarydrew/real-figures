@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Collection;
 
 class RoundResults
 {
+    /**
+     * Returns TRUE if the specified Round should have results calculated.
+     *
+     * @param Round $round
+     * @return bool
+     */
     protected function isRoundEligible(Round $round): bool
     {
         return $round->hasEnded() && $round->outcomes()->count();
@@ -22,8 +28,8 @@ class RoundResults
         if ($this->isRoundEligible($round))
         {
             return $round->outcomes()->get()
-                        ->sort(fn($a, $b) => self::sortOutcomes($a, $b))
-                        ->values(); // a nasty gotcha - otherwise the keys are preserved.
+                         ->sort(fn($a, $b) => self::sortOutcomes($a, $b))
+                         ->values(); // a nasty gotcha - otherwise the keys are preserved.
         }
         return null;
     }
@@ -39,44 +45,44 @@ class RoundResults
      */
     public function calculate(Round $round, int $runner_up_count = 1): ?array
     {
-        if (!$this->isRoundEligible($round))
+        if ($this->isRoundEligible($round))
         {
-            return null;
-        }
+            $results     = $this->ranked($round);
+            $output      = [
+                'winners'    => new Collection(),
+                'runners_up' => new Collection(),
+            ];
+            $last_result = null;
 
-        $results     = $this->ranked($round);
-        $output      = [
-            'winners'    => new Collection(),
-            'runners_up' => new Collection(),
-        ];
-        $last_result = null;
-
-        // Build a list of winning entries.
-        // There may be more than one, based on the scores and votes.
-        foreach ($results as $index => $result)
-        {
-            if ($last_result && !$this->hasSameResult($result, $last_result))
+            // Build a list of winning entries.
+            // There may be more than one, based on the scores and votes.
+            foreach ($results as $index => $result)
             {
-                break;
+                if ($last_result && !$this->hasSameResult($result, $last_result))
+                {
+                    break;
+                }
+                $output['winners']->push($result->song);
+                $last_result = $result;
             }
-            $output['winners']->push($result->song);
-            $last_result = $result;
-        }
 
-        // Build a list of runners-up, up to the number requested.
-        $results = $results->slice($index);
-        foreach ($results as $result)
-        {
-            if ($output['runners_up']->count() === $runner_up_count ||
-                ($last_result && !$this->hasSameResult($result, $last_result)))
+            // Build a list of runners-up, up to the number requested.
+            $results = $results->slice($index);
+            foreach ($results as $result)
             {
-                break;
+                if ($output['runners_up']->count() === $runner_up_count ||
+                    ($last_result && !$this->hasSameResult($result, $last_result)))
+                {
+                    break;
+                }
+                $output['runners_up']->push($result->song);
+                $last_result = $result;
             }
-            $output['runners_up']->push($result->song);
-            $last_result = $result;
+
+            return $output;
         }
 
-        return $output;
+        return null;
     }
 
     /**
@@ -92,28 +98,18 @@ class RoundResults
      */
     protected function sortOutcomes(RoundOutcome $a, RoundOutcome $b): int
     {
-        $score_result         = $this->intCompare($a->score, $b->score);
-        $first_choice_result  = $this->intCompare($a->first_votes, $b->first_votes);
-        $second_choice_result = $this->intCompare($a->second_votes, $b->second_votes);
+        $values = array_filter([
+            $this->intCompare($a->score, $b->score),
+            $this->intCompare($a->first_votes, $b->first_votes),
+            $this->intCompare($a->second_votes, $b->second_votes)
+        ]);
 
-        if ($score_result)
-        {
-            $result = $score_result;
-        }
-        elseif ($first_choice_result)
-        {
-            $result = $first_choice_result;
-        }
-        else
-        {
-            $result = $second_choice_result;
-        }
-
-        return $result;
+        return $values ? $values[0] : 0;
     }
 
     /**
      * A convenience function for returning a value for sorting based on two integers.
+     * Returns a value used for sorting a list of integers in ascending order.
      *
      * @param int $a
      * @param int $b
