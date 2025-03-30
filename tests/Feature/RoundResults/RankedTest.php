@@ -1,7 +1,8 @@
 <?php
 
-namespace Tests\Unit\Round;
+namespace Tests\Feature\RoundResults;
 
+use App\Facades\RoundResultsFacade;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\RoundSongs;
@@ -12,7 +13,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class ResultsTest extends TestCase
+class RankedTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -44,7 +45,7 @@ class ResultsTest extends TestCase
 
     public function test_no_outcomes()
     {
-        $results = $this->round->results();
+        $results = RoundResultsFacade::ranked($this->round);
         self::assertNull($results);
     }
 
@@ -56,7 +57,7 @@ class ResultsTest extends TestCase
                         'song_id' => new Sequence(...$this->song_ids)
                     ]);
 
-        $results = $this->round->results();
+        $results = RoundResultsFacade::ranked($this->round);
 
         $last_score = null;
         foreach ($results as $index => $result)
@@ -97,7 +98,7 @@ class ResultsTest extends TestCase
                         'third_votes'  => new Sequence(...$third_votes_sequence),
                     ]);
 
-        $results      = $this->round->results();
+        $results = RoundResultsFacade::ranked($this->round);
         $last_outcome = null;
         foreach ($results as $index => $result)
         {
@@ -139,7 +140,7 @@ class ResultsTest extends TestCase
                         'third_votes'  => new Sequence(...$third_votes_sequence),
                     ]);
 
-        $results      = $this->round->results();
+        $results = RoundResultsFacade::ranked($this->round);
         $last_outcome = null;
         foreach ($results as $index => $result)
         {
