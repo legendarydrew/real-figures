@@ -30,17 +30,13 @@ class ActFactory extends Factory
 
     public function withProfile(): ActFactory
     {
-        return $this->afterCreating(fn(Act $act) => ActProfile::factory()->createOne([
-            'act_id' => $act->id,
-        ])
-        );
+        return $this->afterCreating(fn(Act $act) => ActProfile::factory()->for($act)->createOne());
     }
 
     public function withSong(string $song_title = null): ActFactory
     {
-        return $this->afterCreating(fn(Act $act) => Song::factory()->createOne([
-            'act_id' => $act->id,
-            'title'  => $song_title ?? config('contest.song.default-title')
+        return $this->afterCreating(fn(Act $act) => Song::factory()->for($act)->createOne([
+            'title' => $song_title ?? config('contest.song.default-title')
         ])
         );
     }

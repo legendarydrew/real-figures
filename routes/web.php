@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,4 +9,8 @@ Route::get('/', function ()
     return view('welcome');
 });
 
+// ----------------------------------------------------------------------------
+// API endpoints.
+// ----------------------------------------------------------------------------
+Route::get('/api/acts', [ActController::class, 'index']);
 Route::post('/api/vote', [VoteController::class, 'create']);
