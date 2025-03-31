@@ -1,6 +1,6 @@
 <?php
 
-namespace Relations;
+namespace Tests\Unit\Relations;
 
 use App\Models\Act;
 use App\Models\Round;

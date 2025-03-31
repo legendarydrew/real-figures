@@ -36,7 +36,7 @@ class ActFactory extends Factory
         );
     }
 
-    public function withSong($song_title = null): ActFactory
+    public function withSong(string $song_title = null): ActFactory
     {
         return $this->afterCreating(fn(Act $act) => Song::factory()->createOne([
             'act_id' => $act->id,
