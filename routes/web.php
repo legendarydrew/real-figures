@@ -16,5 +16,6 @@ Route::get('/api/acts', [ActController::class, 'index']);
 Route::get('/api/acts/{id}', [ActController::class, 'show']);
 Route::post('/api/acts', [ActController::class, 'store']);
 Route::put('/api/acts/{id}', [ActController::class, 'update']);
+Route::delete('/api/acts/{id}', [ActController::class, 'destroy']);
 
 Route::post('/api/vote', [VoteController::class, 'store']);

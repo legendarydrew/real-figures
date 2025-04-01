@@ -63,8 +63,11 @@ class ActController extends Controller
         return fractal($act, new ActTransformer())->respond();
     }
 
-    public function destroy(int $act_id)
+    public function destroy(int $act_id): JsonResponse
     {
-        // to be implemented.
+        $act = Act::findOrFail($act_id);
+        $act->delete();
+
+        return response()->json(null, 204);
     }
 }
