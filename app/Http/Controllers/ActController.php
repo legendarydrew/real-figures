@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Act;
 use App\Transformers\ActTransformer;
+use Illuminate\Http\JsonResponse;
 use Spatie\Fractal\Fractal;
 
 class ActController extends Controller
 {
-    public function index(): Fractal
+    public function index(): JsonResponse
     {
-        return fractal(Act::paginate(), new ActTransformer());
+        return fractal(Act::paginate(), new ActTransformer())->respond();
     }
 
     public function show(int $act_id)
     {
-        // to be implemented.
+        $act = Act::findOrFail($act_id);
+        return fractal($act, new ActTransformer())->includeProfile()->respond();
     }
 
     public function create()

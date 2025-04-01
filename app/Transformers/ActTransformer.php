@@ -3,33 +3,14 @@
 namespace App\Transformers;
 
 use App\Models\Act;
+use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 
 class ActTransformer extends TransformerAbstract
 {
-    /**
-     * List of resources to automatically include
-     *
-     * @var array
-     */
-    protected array $defaultIncludes = [
-        //
-    ];
 
-    /**
-     * List of resources possible to include
-     *
-     * @var array
-     */
-    protected array $availableIncludes = [
-        //
-    ];
+    protected array $availableIncludes = ['profile'];
 
-    /**
-     * A Fractal transformer.
-     *
-     * @return array
-     */
     public function transform(Act $act): array
     {
         return [
@@ -37,5 +18,10 @@ class ActTransformer extends TransformerAbstract
             'slug'        => $act->slug,
             'has_profile' => (bool)$act->profile
         ];
+    }
+
+    public function includeProfile(Act $act): Item
+    {
+        return $this->item($act->profile, new ActProfileTransformer());
     }
 }

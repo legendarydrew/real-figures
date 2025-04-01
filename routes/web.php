@@ -13,4 +13,5 @@ Route::get('/', function ()
 // API endpoints.
 // ----------------------------------------------------------------------------
 Route::get('/api/acts', [ActController::class, 'index']);
+Route::get('/api/acts/{id}', [ActController::class, 'show']);
 Route::post('/api/vote', [VoteController::class, 'create']);
