@@ -16,12 +16,12 @@ class ActController extends Controller
         return fractal(Act::paginate(), new ActTransformer())->respond();
     }
 
-    public function show(int $act_id)
+    public function show(int $act_id): JsonResponse
     {
         return fractal(Act::findOrFail($act_id), new ActTransformer())->includeProfile()->respond();
     }
 
-    public function store(ActRequest $request)
+    public function store(ActRequest $request): JsonResponse
     {
         $data = $request->validated();
         $act  = null;
@@ -39,9 +39,28 @@ class ActController extends Controller
         return fractal($act, new ActTransformer())->respond(201);
     }
 
-    public function update(int $act_id)
+    public function update(ActRequest $request, int $act_id): JsonResponse
     {
-        // to be implemented.
+        $act  = Act::findOrFail($act_id);
+        $data = $request->validated();
+
+        DB::transaction(function () use ($act, $data)
+        {
+            $act->update([
+                'name' => $data['name']
+            ]);
+            if (isset($data['profile']))
+            {
+                $act->profile()->updateOrCreate(['act_id' => $act->id], $data['profile']);
+                // https://stackoverflow.com/a/62489173/4073160
+            }
+            else
+            {
+                $act->profile()->delete();
+            }
+        });
+
+        return fractal($act, new ActTransformer())->respond();
     }
 
     public function destroy(int $act_id)
