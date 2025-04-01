@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StageRequest;
+use App\Models\Stage;
+use App\Transformers\StageTransformer;
+use Illuminate\Http\JsonResponse;
+
+class StageController extends Controller
+{
+    public function index(): JsonResponse
+    {
+        return fractal(Stage::paginate(), new StageTransformer())->respond();
+    }
+
+    public function show(int $stage_id): JsonResponse
+    {
+        return fractal(Stage::findOrFail($stage_id), new StageTransformer())->respond();
+    }
+
+    public function store(StageRequest $request): JsonResponse
+    {
+        $data  = $request->validated();
+        $stage = Stage::factory()->create($data);
+
+        return fractal($stage, new StageTransformer())->respond(201);
+    }
+
+    public function update(StageRequest $request, int $stage_id): JsonResponse
+    {
+        $stage = Stage::findOrFail($stage_id);
+        $data  = $request->validated();
+        $stage->update($data);
+
+        return fractal($stage, new StageTransformer())->respond();
+    }
+
+    public function destroy(int $stage_id): JsonResponse
+    {
+        $stage = Stage::findOrFail($stage_id);
+        $stage->delete();
+
+        return response()->json(null, 204);
+    }
+}

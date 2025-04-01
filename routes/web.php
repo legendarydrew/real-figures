@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActController;
+use App\Http\Controllers\StageController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,5 +18,11 @@ Route::get('/api/acts/{id}', [ActController::class, 'show']);
 Route::post('/api/acts', [ActController::class, 'store']);
 Route::put('/api/acts/{id}', [ActController::class, 'update']);
 Route::delete('/api/acts/{id}', [ActController::class, 'destroy']);
+
+Route::get('/api/stages', [StageController::class, 'index']);
+Route::get('/api/stages/{id}', [StageController::class, 'show']);
+Route::post('/api/stages', [StageController::class, 'store']);
+Route::put('/api/stages/{id}', [StageController::class, 'update']);
+Route::delete('/api/stages/{id}', [StageController::class, 'destroy']);
 
 Route::post('/api/vote', [VoteController::class, 'store']);
