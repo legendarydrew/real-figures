@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ActRequest;
 use App\Models\Act;
+use App\Models\ActProfile;
 use App\Transformers\ActTransformer;
 use Illuminate\Http\JsonResponse;
-use Spatie\Fractal\Fractal;
+use Illuminate\Support\Facades\DB;
 
 class ActController extends Controller
 {
@@ -16,13 +18,25 @@ class ActController extends Controller
 
     public function show(int $act_id)
     {
-        $act = Act::findOrFail($act_id);
-        return fractal($act, new ActTransformer())->includeProfile()->respond();
+        return fractal(Act::findOrFail($act_id), new ActTransformer())->includeProfile()->respond();
     }
 
-    public function create()
+    public function store(ActRequest $request)
     {
-        // to be implemented.
+        $data = $request->validated();
+        $act  = null;
+        DB::transaction(function () use (&$act, $data)
+        {
+            $act = Act::factory()->create([
+                'name' => $data['name']
+            ]);
+            if (isset($data['profile']))
+            {
+                ActProfile::factory()->for($act)->create($data['profile']);
+            }
+        });
+
+        return fractal($act, new ActTransformer())->respond(201);
     }
 
     public function update(int $act_id)

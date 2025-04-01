@@ -34,6 +34,7 @@ class IndexTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
+                    'id',
                     'name',
                     'slug',
                     'has_profile'

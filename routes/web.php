@@ -14,4 +14,6 @@ Route::get('/', function ()
 // ----------------------------------------------------------------------------
 Route::get('/api/acts', [ActController::class, 'index']);
 Route::get('/api/acts/{id}', [ActController::class, 'show']);
-Route::post('/api/vote', [VoteController::class, 'create']);
+Route::post('/api/acts', [ActController::class, 'store']);
+
+Route::post('/api/vote', [VoteController::class, 'store']);

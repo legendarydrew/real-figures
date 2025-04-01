@@ -39,6 +39,7 @@ class ShowTest extends TestCase
     {
         $response = $this->getJson(sprintf(self::ENDPOINT, $this->act->id));
         $response->assertJsonStructure([
+            'id',
             'name',
             'slug',
             'has_profile',

@@ -8,12 +8,12 @@ use League\Fractal\TransformerAbstract;
 
 class ActTransformer extends TransformerAbstract
 {
-
     protected array $availableIncludes = ['profile'];
 
     public function transform(Act $act): array
     {
         return [
+            'id'          => (int)$act->id,
             'name'        => $act->name,
             'slug'        => $act->slug,
             'has_profile' => (bool)$act->profile
