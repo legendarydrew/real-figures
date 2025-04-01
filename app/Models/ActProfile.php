@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ActProfile extends Model
 {
-
     use HasFactory;
+
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     public function act(): BelongsTo
     {

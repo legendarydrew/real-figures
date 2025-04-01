@@ -1,6 +1,6 @@
 <?php
 
-namespace Round;
+namespace Tests\Unit\Round;
 
 use App\Models\Round;
 use App\Models\Stage;

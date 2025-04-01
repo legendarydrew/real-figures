@@ -20,7 +20,7 @@ return new class extends Migration
 
         Schema::create('act_profiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('act_id')->constrained();
+            $table->foreignId('act_id')->references('id')->on('acts')->onDelete('cascade');
             $table->text('description');
             $table->timestamps();
         });

@@ -11,7 +11,7 @@ class VoteController extends Controller
 {
     //
 
-    public function create(VoteRequest $request): JsonResponse
+    public function store(VoteRequest $request): JsonResponse
     {
         $data = $request->validated();
 

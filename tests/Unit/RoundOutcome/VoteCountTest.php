@@ -1,6 +1,6 @@
 <?php
 
-namespace RoundOutcome;
+namespace Tests\Unit\RoundOutcome;
 
 use App\Models\RoundOutcome;
 use Tests\TestCase;
