@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\ActController;
-use App\Http\Controllers\StageController;
-use App\Http\Controllers\VoteController;
+use App\Http\Controllers\API\ActController;
+use App\Http\Controllers\API\StageController;
+use App\Http\Controllers\API\VoteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function ()
