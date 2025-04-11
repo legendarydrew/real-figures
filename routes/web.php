@@ -6,7 +6,8 @@ use App\Http\Controllers\API\VoteController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
+Route::get('/', function ()
+{
     return Inertia::render('welcome');
 })->name('home');
 
@@ -27,11 +28,19 @@ Route::delete('/api/stages/{id}', [StageController::class, 'destroy']);
 
 Route::post('/api/vote', [VoteController::class, 'store']);
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
+Route::middleware(['auth', 'verified'])->group(function ()
+{
+    Route::get('dashboard', function ()
+    {
         return Inertia::render('dashboard');
     })->name('dashboard');
 });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';
+
+// Back office pages.
+Route::middleware('auth')->group(function ()
+{
+    Route::get('/admin/stages', [\App\Http\Controllers\Back\StagesController::class, 'index'])->name('admin.stages');
+});
