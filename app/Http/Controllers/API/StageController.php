@@ -7,6 +7,8 @@ use App\Http\Requests\StageRequest;
 use App\Models\Stage;
 use App\Transformers\StageTransformer;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Response;
 
 class StageController extends Controller
 {
@@ -20,12 +22,14 @@ class StageController extends Controller
         return fractal(Stage::findOrFail($stage_id), new StageTransformer())->respond();
     }
 
-    public function store(StageRequest $request): JsonResponse
+    public function store(StageRequest $request): RedirectResponse
     {
         $data  = $request->validated();
-        $stage = Stage::factory()->create($data);
+        Stage::factory()->create($data);
 
-        return fractal($stage, new StageTransformer())->respond(201);
+        return to_route('admin.stages');
+        // This would go back to the stages admin page, automatically updating the list of stages.
+        // Validation errors are taken care of.
     }
 
     public function update(StageRequest $request, int $stage_id): JsonResponse

@@ -32,7 +32,8 @@ type StageForm = {
 export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stageId }) => {
     // const { auth } = usePage<SharedData>().props;
 
-    const { data, setData, post, patch, errors, processing } = useForm<Required<StageForm>>({
+    // useForm() provides some very useful methods.
+    const { data, setData, post, patch, errors, setError, processing } = useForm<Required<StageForm>>({
         title: '',
         description: ''
     })
@@ -40,10 +41,12 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stageId 
     const changeTitleHandler = (e: ChangeEvent) => {
         // We are using setData from useForm(), so we don't have to create separate states.
         setData('title', e.target.value);
+        setError('title', '');
     };
 
     const changeDescriptionHandler = (e: ChangeEvent) => {
         setData('description', e.currentTarget.value);
+        setError('description', '');
     };
 
     const saveHandler = (e: SubmitEvent) => {
@@ -55,17 +58,19 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stageId 
             // Updating an existing Stage.
             // (Getting into the habit of using patch instead of put: the latter implies that
             // the whole row is being updated.)
-            patch(route('api.stage.update'), {
+            patch(route('stages.update'), {
                 onSuccess: onOpenChange,
                 preserveScroll: true
             });
         } else {
             // Creating a new Stage.
-            post(route('api.stage.create'), {
+            post(route('stages.create'), {
                 onSuccess: onOpenChange,
                 preserveScroll: true
             });
         }
+        // NOTE: to use route(), the endpoints have to be named in the route definitions.
+        // We can probably use url() as well.
     };
 
 
