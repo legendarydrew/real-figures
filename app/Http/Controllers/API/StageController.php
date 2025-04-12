@@ -39,11 +39,10 @@ class StageController extends Controller
         return to_route('admin.stages');
     }
 
-    public function destroy(int $stage_id): JsonResponse
+    public function destroy(int $stage_id): RedirectResponse
     {
-        $stage = Stage::findOrFail($stage_id);
-        $stage->delete();
+        Stage::findOrFail($stage_id)->delete();
 
-        return response()->json(null, 204);
+        return to_route('admin.stages');
     }
 }

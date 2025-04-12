@@ -4,17 +4,24 @@ import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { StageDialog } from '@/components/admin/stage-dialog';
 import { useState } from 'react';
-import { ChevronDown, Edit } from 'lucide-react';
+import { ChevronDown, Edit, Trash } from 'lucide-react';
 import { Stage } from '@/types';
+import { DeleteStageDialog } from '@/components/admin/delete-stage-dialog';
 
 export default function Stages({ stages }: Readonly<{ stages: any[] }>) {
 
     const [currentStage, setCurrentStage] = useState<Stage>();
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
     const editHandler = (stage: Stage) => {
         setCurrentStage(stage);
         setIsEditDialogOpen(true);
+    }
+
+    const deleteHandler = (stage: Stage) => {
+        setCurrentStage(stage);
+        setIsDeleteDialogOpen(true);
     }
 
     return (
@@ -39,6 +46,11 @@ export default function Stages({ stages }: Readonly<{ stages: any[] }>) {
                                     title="Edit Stage">
                                 <Edit className="h-3 w-3"/>
                             </Button>
+                            <Button variant="destructive" className="p-3 cursor-pointer"
+                                    onClick={() => deleteHandler(stage)}
+                                    title="Delete Stage">
+                                <Trash className="h-3 w-3"/>
+                            </Button>
                             <CollapsibleTrigger className="p-3 hover:bg-gray-400 cursor-pointer" title="Expand">
                                 <ChevronDown className="h-3 w-3"/>
                             </CollapsibleTrigger>
@@ -51,6 +63,8 @@ export default function Stages({ stages }: Readonly<{ stages: any[] }>) {
             </div>
 
             <StageDialog stage={currentStage} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
+            <DeleteStageDialog stage={currentStage} open={isDeleteDialogOpen}
+                               onOpenChange={() => setIsDeleteDialogOpen(false)}/>
         </AppLayout>
     );
 }
