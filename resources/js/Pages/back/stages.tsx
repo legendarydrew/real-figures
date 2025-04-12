@@ -2,17 +2,18 @@ import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { StageDialog } from '@/components/admin/stage-dialog';
+import { useState } from 'react';
 
-export default function Stages(readonly {
-    stages
-}
-:
-{
-    stages: any[]
-}
-)
-{
+export default function Stages({ stages }: { stages: any[] }) {
 
+    const [currentStage, setCurrentStage] = useState<number>();
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+
+    const editHandler = (stageId?: number) => {
+        setCurrentStage(stageId);
+        setIsEditDialogOpen(true);
+    }
 
     return (
         <AppLayout>
@@ -21,7 +22,7 @@ export default function Stages(readonly {
             <div className="flex mb-3 p-4">
                 <h1 className="flex-grow text-2xl">Stages</h1>
                 <div className="flex gap-1">
-                    <Button>Create Stage</Button>
+                    <Button onClick={editHandler}>Create Stage</Button>
                 </div>
             </div>
 
@@ -40,6 +41,8 @@ export default function Stages(readonly {
                     </Collapsible>
                 ))}
             </div>
+
+            <StageDialog open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
         </AppLayout>
     );
 }
