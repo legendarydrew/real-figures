@@ -25,7 +25,7 @@ Route::prefix('/api')->group(function ()
     Route::get('stages', [StageController::class, 'index']);
     Route::get('stages/{id}', [StageController::class, 'show']);
     Route::post('stages', [StageController::class, 'store'])->name('stages.create');
-    Route::put('stages/{id}', [StageController::class, 'update'])->name('stages.update');
+    Route::patch('stages/{id}', [StageController::class, 'update'])->name('stages.update');
     Route::delete('stages/{id}', [StageController::class, 'destroy'])->name('stages.delete');
 
     Route::post('vote', [VoteController::class, 'store']);

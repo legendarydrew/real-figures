@@ -4,14 +4,16 @@ import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { StageDialog } from '@/components/admin/stage-dialog';
 import { useState } from 'react';
+import { ChevronDown, Edit } from 'lucide-react';
+import { Stage } from '@/types';
 
-export default function Stages({ stages }: { stages: any[] }) {
+export default function Stages({ stages }: Readonly<{ stages: any[] }>) {
 
-    const [currentStage, setCurrentStage] = useState<number>();
+    const [currentStage, setCurrentStage] = useState<Stage>();
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
 
-    const editHandler = (stageId?: number) => {
-        setCurrentStage(stageId);
+    const editHandler = (stage: Stage) => {
+        setCurrentStage(stage);
         setIsEditDialogOpen(true);
     }
 
@@ -20,7 +22,7 @@ export default function Stages({ stages }: { stages: any[] }) {
             <Head title="Stages"/>
 
             <div className="flex mb-3 p-4">
-                <h1 className="flex-grow text-2xl">Stages</h1>
+                <h1 className="flex-grow font-bold text-2xl">Stages</h1>
                 <div className="flex gap-1">
                     <Button onClick={editHandler}>Create Stage</Button>
                 </div>
@@ -29,12 +31,18 @@ export default function Stages({ stages }: { stages: any[] }) {
             <div className="p-4">
                 {stages.data.map((stage) => (
                     <Collapsible key={stage.id} className="mb-2">
-                        <CollapsibleTrigger
-                            className="flex gap-2 p-3 b-2 w-full bg-gray-200 hover:bg-gray-400 justify-between">
-                            <span className="flex-grow text-left">{stage.title}</span>
-                            <span>...</span>
-                            <span>...</span>
-                        </CollapsibleTrigger>
+                        <div
+                            className="flex gap-2 py-2 px-3 b-2 w-full bg-gray-200 hover:bg-gray-300 items-center justify-between">
+                            <span className="flex-grow font-bold text-left">{stage.title}</span>
+                            <Button variant="secondary" className="p-3 cursor-pointer"
+                                    onClick={() => editHandler(stage)}
+                                    title="Edit Stage">
+                                <Edit className="h-3 w-3"/>
+                            </Button>
+                            <CollapsibleTrigger className="p-3 hover:bg-gray-400 cursor-pointer" title="Expand">
+                                <ChevronDown className="h-3 w-3"/>
+                            </CollapsibleTrigger>
+                        </div>
                         <CollapsibleContent className="p-3">
                             {stage.description}
                         </CollapsibleContent>
@@ -42,7 +50,7 @@ export default function Stages({ stages }: { stages: any[] }) {
                 ))}
             </div>
 
-            <StageDialog open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
+            <StageDialog stage={currentStage} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
         </AppLayout>
     );
 }
