@@ -22,8 +22,8 @@ Route::prefix('/api')->middleware(['auth', 'verified'])->group(function ()
     Route::put('acts/{id}', [ActController::class, 'update']);
     Route::delete('acts/{id}', [ActController::class, 'destroy']);
 
-    Route::get('stages', [StageController::class, 'index']);
-    Route::get('stages/{id}', [StageController::class, 'show']);
+    Route::get('stages', [StageController::class, 'index'])->name('stages.index');
+    Route::get('stages/{id}', [StageController::class, 'show'])->name('stages.edit');
     Route::post('stages', [StageController::class, 'store'])->name('stages.create');
     Route::patch('stages/{id}', [StageController::class, 'update'])->name('stages.update');
     Route::delete('stages/{id}', [StageController::class, 'destroy'])->name('stages.delete');
