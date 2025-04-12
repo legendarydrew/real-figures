@@ -22,22 +22,29 @@ class ShowTest extends TestCase
         $this->stage = Stage::factory()->create();
     }
 
-    public function test_valid_row(): void
+    public function test_as_guest()
     {
         $response = $this->getJson(sprintf(self::ENDPOINT, $this->stage->id));
+        $response->assertUnauthorized();
+    }
+
+    public function test_as_user()
+    {
+        $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, $this->stage->id));
         $response->assertOk();
     }
 
+    #[Depends('test_as_user')]
     public function test_invalid_row(): void
     {
-        $response = $this->getJson(sprintf(self::ENDPOINT, 404));
+        $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, 404));
         $response->assertNotFound();
     }
 
-    #[Depends('test_valid_row')]
+    #[Depends('test_as_user')]
     public function test_structure(): void
     {
-        $response = $this->getJson(sprintf(self::ENDPOINT, $this->stage->id));
+        $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, $this->stage->id));
         $response->assertJsonStructure([
             'id',
             'title',

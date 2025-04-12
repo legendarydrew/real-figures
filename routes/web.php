@@ -14,7 +14,7 @@ Route::get('/', function ()
 // ----------------------------------------------------------------------------
 // API endpoints.
 // ----------------------------------------------------------------------------
-Route::prefix('/api')->group(function ()
+Route::prefix('/api')->middleware(['auth', 'verified'])->group(function ()
 {
     Route::get('acts', [ActController::class, 'index']);
     Route::get('acts/{id}', [ActController::class, 'show']);
