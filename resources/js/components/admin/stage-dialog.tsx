@@ -103,8 +103,6 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
 
                     <div>
                         <Label htmlFor="stageDescription">Description</Label>
-                        {/*<Textarea id="stageDescription" rows="4" value={data.description}*/}
-                        {/*          onChange={changeDescriptionHandler}/>*/}
                         <MarkdownEditor value={data.description} onChange={changeDescriptionHandler}/>
                         <InputError className="mt-2" message={errors.description}/>
                     </div>

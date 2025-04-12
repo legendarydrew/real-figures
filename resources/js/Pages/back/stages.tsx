@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { ChevronDown, Edit, Trash } from 'lucide-react';
 import { Stage } from '@/types';
 import { DeleteStageDialog } from '@/components/admin/delete-stage-dialog';
+import { StageStatusTag } from '@/components/ui/stage-status-tag';
 
 export default function Stages({ stages }: Readonly<{ stages: any[] }>) {
 
@@ -41,6 +42,7 @@ export default function Stages({ stages }: Readonly<{ stages: any[] }>) {
                         <div
                             className="flex gap-2 py-2 px-3 b-2 w-full bg-gray-200 hover:bg-gray-300 items-center justify-between">
                             <span className="flex-grow font-bold text-left">{stage.title}</span>
+                            <StageStatusTag stage={stage}/>
                             <Button variant="secondary" className="p-3 cursor-pointer"
                                     onClick={() => editHandler(stage)}
                                     title="Edit Stage">

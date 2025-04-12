@@ -47,4 +47,9 @@ export interface Stage {
     id?: number;
     title: string;
     description: string;
+    status?: {
+        has_started: boolean;
+        has_ended: boolean;
+    };
+    rounds?: any[];
 }
