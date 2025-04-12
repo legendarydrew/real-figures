@@ -6,32 +6,44 @@ use App\Http\Controllers\API\VoteController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
+Route::get('/', function ()
+{
     return Inertia::render('welcome');
 })->name('home');
 
 // ----------------------------------------------------------------------------
 // API endpoints.
 // ----------------------------------------------------------------------------
-Route::get('/api/acts', [ActController::class, 'index']);
-Route::get('/api/acts/{id}', [ActController::class, 'show']);
-Route::post('/api/acts', [ActController::class, 'store']);
-Route::put('/api/acts/{id}', [ActController::class, 'update']);
-Route::delete('/api/acts/{id}', [ActController::class, 'destroy']);
+Route::prefix('/api')->group(function ()
+{
+    Route::get('acts', [ActController::class, 'index']);
+    Route::get('acts/{id}', [ActController::class, 'show']);
+    Route::post('acts', [ActController::class, 'store']);
+    Route::put('acts/{id}', [ActController::class, 'update']);
+    Route::delete('acts/{id}', [ActController::class, 'destroy']);
 
-Route::get('/api/stages', [StageController::class, 'index']);
-Route::get('/api/stages/{id}', [StageController::class, 'show']);
-Route::post('/api/stages', [StageController::class, 'store']);
-Route::put('/api/stages/{id}', [StageController::class, 'update']);
-Route::delete('/api/stages/{id}', [StageController::class, 'destroy']);
+    Route::get('stages', [StageController::class, 'index']);
+    Route::get('stages/{id}', [StageController::class, 'show']);
+    Route::post('stages', [StageController::class, 'store'])->name('stages.create');
+    Route::patch('stages/{id}', [StageController::class, 'update'])->name('stages.update');
+    Route::delete('stages/{id}', [StageController::class, 'destroy'])->name('stages.delete');
 
-Route::post('/api/vote', [VoteController::class, 'store']);
+    Route::post('vote', [VoteController::class, 'store']);
+});
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
+Route::middleware(['auth', 'verified'])->group(function ()
+{
+    Route::get('dashboard', function ()
+    {
         return Inertia::render('dashboard');
     })->name('dashboard');
 });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';
+
+// Back office pages.
+Route::middleware('auth')->group(function ()
+{
+    Route::get('/admin/stages', [\App\Http\Controllers\Back\StagesController::class, 'index'])->name('admin.stages');
+});

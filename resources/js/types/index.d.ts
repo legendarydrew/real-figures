@@ -41,3 +41,15 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+
+export interface Stage {
+    id?: number;
+    title: string;
+    description: string;
+    status?: {
+        has_started: boolean;
+        has_ended: boolean;
+    };
+    rounds?: any[];
+}

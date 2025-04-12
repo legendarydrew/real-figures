@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StageRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class StageRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -23,7 +24,9 @@ class StageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'       => ['required', 'string', 'unique:stages,title'],
+            'title' => ['required', 'string',
+                Rule::unique('stages', 'title')->ignore($this->id)
+            ],
             'description' => ['required', 'string'],
         ];
     }
