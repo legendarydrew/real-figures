@@ -3,11 +3,11 @@ import { Dialog, DialogContent, DialogFooter, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { useForm } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Stage } from '@/types';
 import { Toaster } from '@/components/ui/toast-message';
+import { MarkdownEditor } from '@/components/ui/markdown-editor';
 
 /**
  * STAGE admin page
@@ -55,8 +55,8 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
         setError('title', '');
     };
 
-    const changeDescriptionHandler = (e: ChangeEvent) => {
-        setData('description', e.currentTarget.value);
+    const changeDescriptionHandler = (value: string) => {
+        setData('description', value);
         setError('description', '');
     };
 
@@ -103,8 +103,9 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
 
                     <div>
                         <Label htmlFor="stageDescription">Description</Label>
-                        <Textarea id="stageDescription" rows="4" value={data.description}
-                                  onChange={changeDescriptionHandler}/>
+                        {/*<Textarea id="stageDescription" rows="4" value={data.description}*/}
+                        {/*          onChange={changeDescriptionHandler}/>*/}
+                        <MarkdownEditor value={data.description} onChange={changeDescriptionHandler}/>
                         <InputError className="mt-2" message={errors.description}/>
                     </div>
 
