@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useForm } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Stage } from '@/types';
+import { Toaster } from '@/components/ui/toast-message';
 
 /**
  * STAGE admin page
@@ -37,13 +38,11 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
     });
 
     useEffect(() => {
-        if (isEditing()) {
-            // We're editing a Stage, so populate the form.
-            setData({
-                title: stage?.title,
-                description: stage?.description
-            });
-        }
+        // We're editing a Stage, so populate the form.
+        setData({
+            title: isEditing() ? stage?.title : '',
+            description: isEditing() ? stage?.description : ''
+        });
     }, [stage]);
 
     const isEditing = (): boolean => {
@@ -69,13 +68,19 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
             // (Getting into the habit of using patch instead of put: the latter implies that
             // the whole row is being updated.)
             patch(route('stages.update', { id: stage.id }), {
-                onSuccess: onOpenChange,
+                onSuccess: () => {
+                    Toaster.success(`"${stage.title}" was updated.`);
+                    onOpenChange();
+                },
                 preserveScroll: true
             });
         } else {
             // Creating a new Stage.
             post(route('stages.create'), {
-                onSuccess: onOpenChange,
+                onSuccess: () => {
+                    Toaster.success(`"${data.title}" was created.`);
+                    onOpenChange();
+                },
                 preserveScroll: true
             });
         }

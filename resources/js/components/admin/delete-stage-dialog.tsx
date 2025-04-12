@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogFooter, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Stage } from '@/types';
 import { useForm } from '@inertiajs/react';
+import { Toaster } from '@/components/ui/toast-message';
 
 interface DeleteStageDialogProps {
     // Dialog properties.
@@ -17,7 +18,10 @@ export const DeleteStageDialog: FC<DeleteStageDialogProps> = ({ open, onOpenChan
     const confirmHandler = () => {
 
         destroy(route('stages.delete', { id: stage.id }), {
-            onSuccess: onOpenChange,
+            onSuccess: () => {
+                Toaster.success(`"${stage.title}" was deleted.`);
+                onOpenChange();
+            },
             preserveScroll: true
         });
     };
