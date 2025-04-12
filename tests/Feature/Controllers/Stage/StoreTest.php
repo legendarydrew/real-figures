@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\Stage;
 
+use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
@@ -24,21 +25,24 @@ class StoreTest extends TestCase
         ];
     }
 
-    public function test_creates_stage()
+    public function test_as_guest()
     {
         $response = $this->postJson(self::ENDPOINT, $this->payload);
-        $response->assertCreated();
+        $response->assertUnauthorized();
     }
 
-    #[Depends('test_creates_stage')]
-    public function test_structure(): void
+    public function test_as_user()
     {
-        $response = $this->postJson(self::ENDPOINT, $this->payload);
-        $response->assertJsonStructure([
-            'id',
-            'title',
-            'description'
-        ]);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertRedirect(route('admin.stages'));
+    }
+
+    #[Depends('test_as_user')]
+    public function test_creates_stage()
+    {
+        $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $stage = Stage::whereTitle($this->payload['title'])->first();
+        self::assertInstanceOf(Stage::class, $stage);
     }
 
 }

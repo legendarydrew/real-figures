@@ -9,7 +9,7 @@ import { Stage } from '@/types';
 import { DeleteStageDialog } from '@/components/admin/delete-stage-dialog';
 import { StageStatusTag } from '@/components/ui/stage-status-tag';
 
-export default function Stages({ stages }: Readonly<{ stages: any[] }>) {
+export default function Stages({ stages }: Readonly<{ stages: Stage[] }>) {
 
     const [currentStage, setCurrentStage] = useState<Stage>();
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);

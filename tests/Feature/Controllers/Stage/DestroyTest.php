@@ -24,22 +24,29 @@ class DestroyTest extends TestCase
         Round::factory(4)->for($this->stage)->create();
     }
 
-    public function test_valid_row(): void
+    public function test_as_guest()
     {
         $response = $this->deleteJson(sprintf(self::ENDPOINT, $this->stage->id));
-        $response->assertNoContent();
+        $response->assertUnauthorized();
     }
 
+    public function test_as_user()
+    {
+        $response = $this->actingAs($this->user)->deleteJson(sprintf(self::ENDPOINT, $this->stage->id));
+        $response->assertRedirect(route('admin.stages'));
+    }
+
+    #[Depends('test_as_user')]
     public function test_invalid_row(): void
     {
-        $response = $this->deleteJson(sprintf(self::ENDPOINT, 404));
+        $response = $this->actingAs($this->user)->deleteJson(sprintf(self::ENDPOINT, 404));
         $response->assertNotFound();
     }
 
-    #[Depends('test_valid_row')]
+    #[Depends('test_as_user')]
     public function test_deletes_stage_and_rounds(): void
     {
-        $this->deleteJson(sprintf(self::ENDPOINT, $this->stage->id));
+        $this->actingAs($this->user)->deleteJson(sprintf(self::ENDPOINT, $this->stage->id));
         $stage  = Stage::find($this->stage->id);
         $rounds = Round::whereStageId($this->stage->id)->first();
 
