@@ -110,9 +110,9 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
                     </div>
 
                     <DialogFooter>
-                        <Button variant="ghost" type="button" onClick={onOpenChange}>Cancel</Button>
                         <Button variant="default" type="submit" onClick={saveHandler}
                                 disabled={processing}>Save</Button>
+                        <Button variant="ghost" type="button" onClick={onOpenChange}>Cancel</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
