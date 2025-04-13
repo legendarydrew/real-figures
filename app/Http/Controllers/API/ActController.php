@@ -8,6 +8,7 @@ use App\Models\Act;
 use App\Models\ActProfile;
 use App\Transformers\ActTransformer;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 
 class ActController extends Controller
@@ -22,11 +23,10 @@ class ActController extends Controller
         return fractal(Act::findOrFail($act_id), new ActTransformer())->includeProfile()->respond();
     }
 
-    public function store(ActRequest $request): JsonResponse
+    public function store(ActRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $act  = null;
-        DB::transaction(function () use (&$act, $data)
+        DB::transaction(function () use ($data)
         {
             $act = Act::factory()->create([
                 'name' => $data['name']
@@ -37,10 +37,10 @@ class ActController extends Controller
             }
         });
 
-        return fractal($act, new ActTransformer())->respond(201);
+        return to_route('admin.acts');
     }
 
-    public function update(ActRequest $request, int $act_id): JsonResponse
+    public function update(ActRequest $request, int $act_id): RedirectResponse
     {
         $act  = Act::findOrFail($act_id);
         $data = $request->validated();
@@ -61,14 +61,13 @@ class ActController extends Controller
             }
         });
 
-        return fractal($act, new ActTransformer())->respond();
+        return to_route('admin.acts');
     }
 
-    public function destroy(int $act_id): JsonResponse
+    public function destroy(int $act_id): RedirectResponse
     {
-        $act = Act::findOrFail($act_id);
-        $act->delete();
+        Act::findOrFail($act_id)->delete();
 
-        return response()->json(null, 204);
+        return to_route('admin.acts');
     }
 }

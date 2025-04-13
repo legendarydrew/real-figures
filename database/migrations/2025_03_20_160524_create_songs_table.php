@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('songs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('act_id')->constrained();
+            $table->foreignId('act_id')->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->unsignedBigInteger('play_count')->default(0);
             $table->timestamps();

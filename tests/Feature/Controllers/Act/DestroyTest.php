@@ -20,25 +20,32 @@ class DestroyTest extends TestCase
     {
         parent::setUp();
 
-        $this->act = Act::factory()->withProfile()->create();
+        $this->act = Act::factory()->withProfile()->withSong()->create();
     }
 
-    public function test_valid_row(): void
+    public function test_as_guest(): void
     {
         $response = $this->deleteJson(sprintf(self::ENDPOINT, $this->act->id));
-        $response->assertNoContent();
+        $response->assertUnauthorized();
     }
 
+    public function test_as_user(): void
+    {
+        $response = $this->actingAs($this->user)->deleteJson(sprintf(self::ENDPOINT, $this->act->id));
+        $response->assertRedirectToRoute('admin.acts');
+    }
+
+    #[Depends('test_as_user')]
     public function test_invalid_row(): void
     {
-        $response = $this->deleteJson(sprintf(self::ENDPOINT, 404));
+        $response = $this->actingAs($this->user)->deleteJson(sprintf(self::ENDPOINT, 404));
         $response->assertNotFound();
     }
 
-    #[Depends('test_valid_row')]
+    #[Depends('test_as_user')]
     public function test_deletes_act_and_profile(): void
     {
-        $this->deleteJson(sprintf(self::ENDPOINT, $this->act->id));
+        $this->actingAs($this->user)->deleteJson(sprintf(self::ENDPOINT, $this->act->id));
         $act         = Act::find($this->act->id);
         $act_profile = ActProfile::whereActId($this->act->id)->first();
 

@@ -20,8 +20,8 @@ class ActTransformer extends TransformerAbstract
         ];
     }
 
-    public function includeProfile(Act $act): Item
+    public function includeProfile(Act $act): ?Item
     {
-        return $this->item($act->profile, new ActProfileTransformer());
+        return $act->profile ? $this->item($act->profile, new ActProfileTransformer()) : null;
     }
 }

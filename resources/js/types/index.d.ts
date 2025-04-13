@@ -53,3 +53,12 @@ export interface Stage {
     };
     rounds?: any[];
 }
+
+export interface Act {
+    id?: number;
+    name: string;
+    has_profile: boolean;
+    profile?: {
+        description: string;
+    };
+}

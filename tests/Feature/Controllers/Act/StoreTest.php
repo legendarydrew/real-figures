@@ -2,6 +2,8 @@
 
 namespace Controllers\Act;
 
+use App\Models\Act;
+use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
@@ -23,42 +25,38 @@ class StoreTest extends TestCase
         ];
     }
 
-    public function test_creates_post()
+    public function test_as_guest()
     {
         $response = $this->postJson(self::ENDPOINT, $this->payload);
-        $response->assertCreated();
+        $response->assertUnauthorized();
     }
 
-    #[Depends('test_creates_post')]
-    public function test_structure(): void
+    public function test_as_user()
     {
-        $response = $this->postJson(self::ENDPOINT, $this->payload);
-        $response->assertJsonStructure([
-            'id',
-            'name',
-            'slug',
-            'has_profile'
-        ]);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertRedirectToRoute('admin.acts');
     }
 
-    #[Depends('test_structure')]
+    #[Depends('test_as_user')]
     public function test_creates_post_without_profile()
     {
         $this->payload['profile'] = null;
-        $response = $this->postJson(self::ENDPOINT, $this->payload);
+        $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
 
-        $response->assertCreated();
-        $response->assertJsonPath('has_profile', false);
+        $act = Act::first();
+        self::assertEquals($act->name, $this->payload['name']);
+        self::assertNull($act->profile);
     }
 
-    #[Depends('test_structure')]
+    #[Depends('test_as_user')]
     public function test_creates_post_with_profile()
     {
         $this->payload['profile'] = ['description' => fake()->paragraph];
-        $response = $this->postJson(self::ENDPOINT, $this->payload);
+        $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
 
-        $response->assertCreated();
-        $response->assertJsonPath('has_profile', true);
+        $act = Act::first();
+        self::assertEquals($act->name, $this->payload['name']);
+        self::assertInstanceOf(ActProfile::class, $act->profile);
     }
 
 }
