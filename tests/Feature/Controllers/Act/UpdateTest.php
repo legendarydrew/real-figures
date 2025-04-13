@@ -27,31 +27,32 @@ class UpdateTest extends TestCase
         ];
     }
 
+    public function test_as_guest()
+    {
+        $response = $this->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+        $response->assertUnauthorized();
+    }
+
+    public function test_as_user()
+    {
+        $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+        $response->assertRedirectToRoute('admin.acts');
+    }
+
+    #[Depends('test_as_user')]
     public function test_updates_act()
     {
-        $response = $this->putJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
-        $response->assertOk();
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
         $this->act->refresh();
         self::assertEquals($this->payload['name'], $this->act->name);
     }
 
+    #[Depends('test_as_user')]
     public function test_invalid_act()
     {
-        $response = $this->putJson(sprintf(self::ENDPOINT, 404), $this->payload);
+        $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, 404), $this->payload);
         $response->assertNotFound();
-    }
-
-    #[Depends('test_updates_act')]
-    public function test_structure(): void
-    {
-        $response = $this->putJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
-        $response->assertJsonStructure([
-            'id',
-            'name',
-            'slug',
-            'has_profile'
-        ]);
     }
 
     #[Depends('test_updates_act')]
@@ -59,9 +60,7 @@ class UpdateTest extends TestCase
     {
         ActProfile::factory()->for($this->act)->createOne();
         $this->payload['profile'] = ['description' => fake()->paragraph];
-        $response                 = $this->putJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
-
-        $response->assertOk();
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
         $this->act->load('profile');
         self::assertEquals($this->payload['profile']['description'], $this->act->profile->description);
@@ -71,10 +70,11 @@ class UpdateTest extends TestCase
     public function test_updates_and_creates_profile()
     {
         $this->payload['profile'] = ['description' => fake()->paragraph];
-        $response                 = $this->putJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
-        $response->assertOk();
-        $response->assertJsonPath('has_profile', true);
+        $this->act->load('profile');
+        self::assertInstanceOf(ActProfile::class, $this->act->profile);
+        self::assertEquals($this->payload['profile']['description'], $this->act->profile->description);
     }
 
     #[Depends('test_updates_act')]
@@ -82,10 +82,10 @@ class UpdateTest extends TestCase
     {
         ActProfile::factory()->for($this->act)->createOne();
         $this->payload['profile'] = null;
-        $response                 = $this->putJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
-        $response->assertOk();
-        $response->assertJsonPath('has_profile', false);
+        $this->act->load('profile');
+        self::assertNull($this->act->profile);
     }
 
 }

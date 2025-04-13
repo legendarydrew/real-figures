@@ -21,16 +21,22 @@ class IndexTest extends TestCase
         Act::factory(10)->withProfile()->create();
     }
 
-    public function test_access(): void
+    public function test_as_guest(): void
     {
         $response = $this->getJson(self::ENDPOINT);
-        $response->assertStatus(200);
+        $response->assertUnauthorized();
     }
 
-    #[Depends('test_access')]
+    public function test_as_user(): void
+    {
+        $response = $this->actingAs($this->user)->getJson(self::ENDPOINT);
+        $response->assertOk();
+    }
+
+    #[Depends('test_as_user')]
     public function test_structure(): void
     {
-        $response = $this->getJson(self::ENDPOINT);
+        $response = $this->actingAs($this->user)->getJson(self::ENDPOINT);
         $response->assertJsonStructure([
             'data' => [
                 '*' => [

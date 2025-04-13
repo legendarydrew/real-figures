@@ -8,6 +8,9 @@ import axios from 'axios';
 import { ActDialog } from '@/components/admin/act-dialog';
 import { DeleteActDialog } from '@/components/admin/delete-act-dialog';
 
+// TODO indicate whether the Act has a profile.
+// TODO display the Act picture, or a placeholder if not present.
+
 export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }>) {
 
     const [currentAct, setCurrentAct] = useState<Act>();

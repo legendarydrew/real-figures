@@ -22,6 +22,8 @@ type ActForm = {
     } | null;
 }
 
+// TODO upload a picture of the act.
+
 export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
 
     const { data, setData, post, patch, errors, setError, processing } = useForm<Required<ActForm>>({
