@@ -1,0 +1,119 @@
+import { ChangeEvent, FC, useEffect } from 'react';
+import { Dialog, DialogContent, DialogFooter, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { useForm } from '@inertiajs/react';
+import InputError from '@/components/input-error';
+import { Song } from '@/types';
+import { Toaster } from '@/components/ui/toast-message';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
+
+interface SongDialogProps {
+    // Dialog properties.
+    open: boolean;
+    onOpenChange: () => void;
+    song?: Song;
+    acts: { id: number, name: string }[];
+}
+
+type SongForm = {
+    act_id: number | null;
+    title: string;
+}
+
+export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts }) => {
+    // useForm() provides some very useful methods.
+    const { data, setData, post, patch, errors, setError, processing } = useForm<Required<SongForm>>({
+        act_id: null,
+        title: ''
+    });
+
+    useEffect(() => {
+        setData({
+            title: isEditing() ? song?.title : '',
+            act_id: isEditing() ? song?.act_id : ''
+        });
+    }, [song]);
+
+    const isEditing = (): boolean => {
+        return !!song?.id;
+    }
+
+    const changeTitleHandler = (e: ChangeEvent) => {
+        // We are using setData from useForm(), so we don't have to create separate states.
+        setData('title', e.target.value);
+        setError('title', '');
+    };
+
+    const changeActHandler = (value: string) => {
+        setData('act_id', parseInt(value));
+        setError('act_id', '');
+    };
+
+    const getMatchingActName = (): string | null => {
+        if (data.act_id) {
+            return acts.find((act) => act.id === data.act_id)?.name ?? null
+        }
+    };
+
+    const saveHandler = (e: SubmitEvent) => {
+        e.preventDefault();
+
+        if (isEditing()) {
+            patch(route('songs.update', { id: song.id }), {
+                onSuccess: () => {
+                    Toaster.success("Song was updated.");
+                    onOpenChange();
+                },
+                preserveScroll: true
+            });
+        } else {
+            post(route('songs.store'), {
+                onSuccess: () => {
+                    Toaster.success("Song was created.");
+                    onOpenChange();
+                },
+                preserveScroll: true
+            });
+        }
+    };
+
+
+    return (
+        <Dialog open={open} onClose={onOpenChange}>
+            <DialogContent aria-describedby={undefined}>
+                <DialogTitle>{isEditing() ? 'Update' : 'Create'} Song</DialogTitle>
+                <form onSubmit={saveHandler}>
+                    <div className="mb-2">
+                        <Label htmlFor="songAct">Act</Label>
+
+                        {/* Stylised select component - again, no documentation. */}
+                        <Select id="songAct" value={data.act_id} onValueChange={changeActHandler}>
+                            <SelectTrigger>{getMatchingActName() ?? 'Select an Act'}</SelectTrigger>
+                            <SelectContent>
+                                {acts.map((act) => (
+                                    <SelectItem key={act.id} value={act.id}>{act.name}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <InputError className="mt-2" message={errors.act_id}/>
+                    </div>
+
+                    <div className="mb-2">
+                        <Label htmlFor="songTitle">Song Title</Label>
+                        <Input id="songTitle" type="text" className="font-bold" value={data.title}
+                               onChange={changeTitleHandler}/>
+                        <InputError className="mt-2" message={errors.title}/>
+                    </div>
+
+                    <DialogFooter>
+                        <Button variant="default" type="submit" onClick={saveHandler}
+                                disabled={processing}>Save</Button>
+                        <Button variant="ghost" type="button" onClick={onOpenChange}>Cancel</Button>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </Dialog>
+    )
+}
