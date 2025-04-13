@@ -6,6 +6,7 @@ import { Edit, Trash } from 'lucide-react';
 import { Act, PaginatedResponse } from '@/types';
 import axios from 'axios';
 import { ActDialog } from '@/components/admin/act-dialog';
+import { DeleteActDialog } from '@/components/admin/delete-act-dialog';
 
 export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }>) {
 
@@ -68,8 +69,8 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
             </div>
 
             <ActDialog act={currentAct} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
-            {/*<DeleteStageDialog stage={currentStage} open={isDeleteDialogOpen}*/}
-            {/*                   onOpenChange={() => setIsDeleteDialogOpen(false)}/>*/}
+            <DeleteActDialog act={currentAct} open={isDeleteDialogOpen}
+                             onOpenChange={() => setIsDeleteDialogOpen(false)}/>
         </AppLayout>
     );
 }

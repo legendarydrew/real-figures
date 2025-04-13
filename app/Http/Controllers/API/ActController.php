@@ -64,11 +64,10 @@ class ActController extends Controller
         return to_route('admin.acts');
     }
 
-    public function destroy(int $act_id): JsonResponse
+    public function destroy(int $act_id): RedirectResponse
     {
-        $act = Act::findOrFail($act_id);
-        $act->delete();
+        Act::findOrFail($act_id)->delete();
 
-        return response()->json(null, 204);
+        return to_route('admin.acts');
     }
 }
