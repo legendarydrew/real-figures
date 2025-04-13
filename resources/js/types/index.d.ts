@@ -62,3 +62,13 @@ export interface Act {
         description: string;
     };
 }
+
+export interface Song {
+    id?: number;
+    act_id: number;
+    title: string;
+    play_count?: number;
+    act: {
+        name: string;
+    };
+}

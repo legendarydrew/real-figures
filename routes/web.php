@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\ActController;
+use App\Http\Controllers\API\SongController;
 use App\Http\Controllers\API\StageController;
 use App\Http\Controllers\API\VoteController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,10 @@ Route::prefix('/api')->middleware(['auth', 'verified'])->group(function ()
     Route::post('acts', [ActController::class, 'store'])->name('acts.store');
     Route::patch('acts/{id}', [ActController::class, 'update'])->name('acts.update');
     Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
+
+    Route::post('songs', [SongController::class, 'store'])->name('songs.store');
+    Route::patch('songs/{id}', [SongController::class, 'update'])->name('songs.update');
+    Route::delete('songs/{id}', [SongController::class, 'destroy'])->name('songs.destroy');
 
     Route::get('stages', [StageController::class, 'index'])->name('stages.index');
     Route::get('stages/{id}', [StageController::class, 'show'])->name('stages.edit');
@@ -46,5 +51,6 @@ require __DIR__ . '/auth.php';
 Route::middleware('auth')->group(function ()
 {
     Route::get('/admin/acts', [\App\Http\Controllers\Back\ActsController::class, 'index'])->name('admin.acts');
+    Route::get('/admin/songs', [\App\Http\Controllers\Back\SongsController::class, 'index'])->name('admin.songs');
     Route::get('/admin/stages', [\App\Http\Controllers\Back\StagesController::class, 'index'])->name('admin.stages');
 });
