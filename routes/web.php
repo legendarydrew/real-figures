@@ -45,5 +45,6 @@ require __DIR__ . '/auth.php';
 // Back office pages.
 Route::middleware('auth')->group(function ()
 {
+    Route::get('/admin/acts', [\App\Http\Controllers\Back\ActsController::class, 'index'])->name('admin.acts');
     Route::get('/admin/stages', [\App\Http\Controllers\Back\StagesController::class, 'index'])->name('admin.stages');
 });

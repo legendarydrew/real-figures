@@ -1,0 +1,62 @@
+import AppLayout from '@/layouts/app-layout';
+import { Head } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
+import React, { useState } from 'react';
+import { Edit, Trash } from 'lucide-react';
+import { Act, PaginatedResponse } from '@/types';
+
+export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }>) {
+
+    const [currentAct, setCurrentAct] = useState<Act>();
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+
+    const editHandler = (act: Act) => {
+        setCurrentAct(act);
+        setIsEditDialogOpen(true);
+    }
+
+    const deleteHandler = (act: Act) => {
+        setCurrentAct(act);
+        setIsDeleteDialogOpen(true);
+    }
+
+    return (
+        <AppLayout>
+            <Head title="Acts"/>
+
+            <div className="flex mb-3 p-4">
+                <h1 className="flex-grow font-bold text-2xl">Acts</h1>
+                <div className="flex gap-1">
+                    <Button onClick={editHandler}>Create Act</Button>
+                </div>
+            </div>
+
+            <div className="flex flex-wrap p-4 gap-1">
+                {acts.data.map((act) => (
+                    <div key={act.id}
+                         className="flex rounded-md py-2 px-3 b-2 h-[260px] w-full md:w-1/2 lg:w-1/4 bg-gray-200 hover:bg-gray-300 items-center flex-col justify-end">
+                        <div className="w-full p-1 flex justify-between align-end gap-1">
+                            <span
+                                className="flex-grow text-lg leading-none font-bold text-left text-shadow-md">{act.name}</span>
+                            <Button variant="secondary" size="icon" className="cursor-pointer"
+                                    onClick={() => editHandler(act)}
+                                    title="Edit Act">
+                                <Edit className="h-3 w-3"/>
+                            </Button>
+                            <Button variant="destructive" size="icon" className="cursor-pointer"
+                                    onClick={() => deleteHandler(act)}
+                                    title="Delete Act">
+                                <Trash className="h-3 w-3"/>
+                            </Button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/*<StageDialog stage={currentStage} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>*/}
+            {/*<DeleteStageDialog stage={currentStage} open={isDeleteDialogOpen}*/}
+            {/*                   onOpenChange={() => setIsDeleteDialogOpen(false)}/>*/}
+        </AppLayout>
+    );
+}
