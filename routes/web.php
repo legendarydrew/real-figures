@@ -17,10 +17,10 @@ Route::get('/', function ()
 Route::prefix('/api')->middleware(['auth', 'verified'])->group(function ()
 {
     Route::get('acts', [ActController::class, 'index']);
-    Route::get('acts/{id}', [ActController::class, 'show']);
-    Route::post('acts', [ActController::class, 'store']);
-    Route::put('acts/{id}', [ActController::class, 'update']);
-    Route::delete('acts/{id}', [ActController::class, 'destroy']);
+    Route::get('acts/{id}', [ActController::class, 'show'])->name('acts.show');
+    Route::post('acts', [ActController::class, 'store'])->name('acts.store');
+    Route::patch('acts/{id}', [ActController::class, 'update'])->name('acts.update');
+    Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
     Route::get('stages', [StageController::class, 'index'])->name('stages.index');
     Route::get('stages/{id}', [StageController::class, 'show'])->name('stages.edit');

@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { Edit, Trash } from 'lucide-react';
 import { Act, PaginatedResponse } from '@/types';
+import axios from 'axios';
+import { ActDialog } from '@/components/admin/act-dialog';
 
 export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }>) {
 
@@ -11,9 +13,20 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
-    const editHandler = (act: Act) => {
-        setCurrentAct(act);
-        setIsEditDialogOpen(true);
+    const editHandler = (act?: Act) => {
+        if (act) {
+            // Until I figure out how I can do this with Inertia, use axios to fetch the existing
+            // act information for editing in the dialog (because we want to obtain the associated
+            // profile, if present).
+            axios.get(route('acts.show', { id: act.id }))
+                .then((response) => {
+                    setCurrentAct(response.data);
+                    setIsEditDialogOpen(true);
+                });
+        } else {
+            setCurrentAct(null);
+            setIsEditDialogOpen(true);
+        }
     }
 
     const deleteHandler = (act: Act) => {
@@ -28,7 +41,7 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
             <div className="flex mb-3 p-4">
                 <h1 className="flex-grow font-bold text-2xl">Acts</h1>
                 <div className="flex gap-1">
-                    <Button onClick={editHandler}>Create Act</Button>
+                    <Button onClick={() => editHandler()}>Create Act</Button>
                 </div>
             </div>
 
@@ -54,7 +67,7 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
                 ))}
             </div>
 
-            {/*<StageDialog stage={currentStage} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>*/}
+            <ActDialog act={currentAct} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
             {/*<DeleteStageDialog stage={currentStage} open={isDeleteDialogOpen}*/}
             {/*                   onOpenChange={() => setIsDeleteDialogOpen(false)}/>*/}
         </AppLayout>

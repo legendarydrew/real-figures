@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ActRequest extends FormRequest
 {
@@ -22,7 +23,8 @@ class ActRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'                => ['required', 'string', 'unique:acts,name'],
+            'name' => ['required', 'string',
+                Rule::unique('acts', 'name')->ignore($this->id)],
             'profile'             => ['nullable', 'array'],
             'profile.description' => ['string']
         ];
