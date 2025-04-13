@@ -46,5 +46,6 @@ require __DIR__ . '/auth.php';
 Route::middleware('auth')->group(function ()
 {
     Route::get('/admin/acts', [\App\Http\Controllers\Back\ActsController::class, 'index'])->name('admin.acts');
+    Route::get('/admin/songs', [\App\Http\Controllers\Back\SongsController::class, 'index'])->name('admin.songs');
     Route::get('/admin/stages', [\App\Http\Controllers\Back\StagesController::class, 'index'])->name('admin.stages');
 });
