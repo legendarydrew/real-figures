@@ -18,12 +18,12 @@ export default function Songs({ acts, songs }: Readonly<{ stages: Song[] }>) {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
-    const editHandler = (stage: Song) => {
+    const editHandler = (stage: Song): void => {
         setCurrentSong(stage);
         setIsEditDialogOpen(true);
     }
 
-    const deleteHandler = (stage: Song) => {
+    const deleteHandler = (stage: Song): void => {
         setCurrentSong(stage);
         setIsDeleteDialogOpen(true);
     }
