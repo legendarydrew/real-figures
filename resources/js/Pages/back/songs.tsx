@@ -1,14 +1,14 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Edit, Trash } from 'lucide-react';
 import { Song } from '@/types';
 import { SongDialog } from '@/components/admin/song-dialog';
 import { DeleteSongDialog } from '@/components/admin/delete-song-dialog';
 import { LanguageFlag } from '@/components/language-flag';
+import { Pagination } from '@/components/admin/pagination';
 
-// TODO a good example of where pagination would be required.
 // TODO sort songs.
 // TODO filter songs.
 
@@ -17,6 +17,10 @@ export default function Songs({ acts, songs }: Readonly<{ stages: Song[] }>) {
     const [currentSong, setCurrentSong] = useState<Song>();
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+
+    const pageHandler = (pageNumber: number): void => {
+        router.reload({ data: { page: pageNumber } });
+    };
 
     const editHandler = (stage: Song): void => {
         setCurrentSong(stage);
@@ -78,6 +82,8 @@ export default function Songs({ acts, songs }: Readonly<{ stages: Song[] }>) {
                 ))}
                 </tbody>
             </table>
+
+            <Pagination results={songs} onPageChange={pageHandler}/>
 
             <SongDialog song={currentSong} acts={acts} open={isEditDialogOpen}
                         onOpenChange={() => setIsEditDialogOpen(false)}/>
