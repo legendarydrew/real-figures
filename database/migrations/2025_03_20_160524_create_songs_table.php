@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('act_id')->constrained()->cascadeOnDelete();
             $table->string('title');
+            $table->string('language', 2)->default('en');
             $table->unsignedBigInteger('play_count')->default(0);
             $table->timestamps();
         });

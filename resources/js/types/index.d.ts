@@ -67,6 +67,7 @@ export interface Song {
     id?: number;
     act_id: number;
     title: string;
+    language: string;
     play_count?: number;
     act: {
         name: string;

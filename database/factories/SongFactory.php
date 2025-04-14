@@ -18,13 +18,15 @@ class SongFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => config('contest.song.default-title')
+            'title'    => config('contest.song.default-title'),
+            'language' => fake()->boolean(80) ? 'en' : fake()->languageCode()
         ];
     }
 
     public function withAct(): SongFactory
     {
-        return $this->state(function () {
+        return $this->state(function ()
+        {
             return ['act_id' => Act::factory()];
         });
     }

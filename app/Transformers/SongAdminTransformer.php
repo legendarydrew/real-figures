@@ -13,12 +13,12 @@ class SongAdminTransformer extends TransformerAbstract
         return [
             'id'         => (int)$song->id,
             'title'      => $song->title,
+            'language' => $song->language,
             'act_id'     => (int)$song->act_id,
             'act'        => [
                 'name' => $song->act->name
             ],
             'play_count' => (int)$song->play_count,
-            // TODO perhaps add the song language.
         ];
     }
 }
