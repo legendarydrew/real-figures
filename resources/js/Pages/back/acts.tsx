@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { Edit, Trash } from 'lucide-react';
@@ -7,6 +7,7 @@ import { Act, PaginatedResponse } from '@/types';
 import axios from 'axios';
 import { ActDialog } from '@/components/admin/act-dialog';
 import { DeleteActDialog } from '@/components/admin/delete-act-dialog';
+import { Pagination } from '@/components/admin/pagination';
 
 // TODO indicate whether the Act has a profile.
 // TODO display the Act picture, or a placeholder if not present.
@@ -17,7 +18,12 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
-    const editHandler = (act?: Act) => {
+    const pageHandler = (pageNumber: number): void => {
+        // Nice!
+        router.reload({ data: { page: pageNumber } });
+    };
+
+    const editHandler = (act?: Act): void => {
         if (act) {
             // Until I figure out how I can do this with Inertia, use axios to fetch the existing
             // act information for editing in the dialog (because we want to obtain the associated
@@ -33,7 +39,7 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
         }
     }
 
-    const deleteHandler = (act: Act) => {
+    const deleteHandler = (act: Act): void => {
         setCurrentAct(act);
         setIsDeleteDialogOpen(true);
     }
@@ -48,6 +54,8 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
                     <Button onClick={() => editHandler()}>Create Act</Button>
                 </div>
             </div>
+
+            <Pagination results={acts} onPageChange={pageHandler}/>
 
             <div className="flex flex-wrap p-4 gap-1">
                 {acts.data.map((act) => (

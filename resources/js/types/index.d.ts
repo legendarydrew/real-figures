@@ -28,6 +28,7 @@ export interface SharedData {
     auth: Auth;
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
+
     [key: string]: unknown;
 }
 
@@ -39,6 +40,7 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+
     [key: string]: unknown; // This allows for additional properties...
 }
 
@@ -72,4 +74,18 @@ export interface Song {
     act: {
         name: string;
     };
+}
+
+export interface PaginatedResponse<T> {
+    data: T[],
+    meta: {
+        pagination: {
+            total: number;
+            count: number;
+            per_page: number;
+            current_page: number;
+            total_pages: number;
+            links: { [key: string]: string };
+        }
+    }
 }
