@@ -8,7 +8,7 @@ interface PaginationProps {
     onPageChange?: (page: number) => void;
 }
 
-export const Pagination: React.FC<PaginationProps> = ({ results, linkCount = 5, onPageChange }) => {
+export const Pagination: React.FC<PaginationProps> = ({ results, linkCount = 6, onPageChange }) => {
 
     const paginationData = results?.meta.pagination ?? undefined;
 
@@ -53,6 +53,7 @@ export const Pagination: React.FC<PaginationProps> = ({ results, linkCount = 5, 
             {pageNumbers.map((pageNumber: number) => (
                 <React.Fragment key={pageNumber}>
                     {pageNumber ? (<Button variant={isPageActive(pageNumber) ? 'default' : 'ghost'}
+                                           className="cursor-pointer"
                                            disabled={isPageActive(pageNumber)}
                                            onClick={() => onPageChange && onPageChange(pageNumber)}
                                            title={`Go to page ${pageNumber}`}>

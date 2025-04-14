@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { Edit, Trash } from 'lucide-react';
@@ -19,7 +19,8 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
     const pageHandler = (pageNumber: number): void => {
-        console.log('change page', pageNumber);
+        // Nice!
+        router.reload({ data: { page: pageNumber } });
     };
 
     const editHandler = (act?: Act): void => {
