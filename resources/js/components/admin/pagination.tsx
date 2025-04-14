@@ -1,6 +1,7 @@
 import { PaginatedResponse } from '@/types';
 import { Button } from '@/components/ui/button';
 import React, { useEffect, useState } from 'react';
+import { Input } from '@/components/ui/input';
 
 interface PaginationProps {
     results: PaginatedResponse<unknown>;
@@ -13,6 +14,7 @@ export const Pagination: React.FC<PaginationProps> = ({ results, linkCount = 6, 
     const paginationData = results?.meta.pagination ?? undefined;
 
     const [pageNumbers, setPageNumbers] = useState<(number | null)[]>([]);
+    const [manualPageNumber, setManualPageNumber] = useState<number | undefined>();
 
     useEffect(() => {
         buildPageNumbers();
@@ -21,12 +23,14 @@ export const Pagination: React.FC<PaginationProps> = ({ results, linkCount = 6, 
     const buildPageNumbers = (): void => {
         const pageNumbers: (number | null)[] = [];
         if (paginationData && paginationData?.total_pages > 1) {
-            // Always include the first page.
-            pageNumbers.push(1);
 
             // Which page numbers do we include?
-            const minPageNumber = Math.max(2, Math.ceil(paginationData.current_page - linkCount / 2));
-            const maxPageNumber = Math.min(paginationData.total_pages - 1, Math.floor(paginationData.current_page + linkCount / 2));
+            const minPageNumber = Math.max(2, paginationData.current_page - Math.ceil((linkCount + 1) / 2));
+            const maxPageNumber = Math.min(paginationData.total_pages - 1, Math.ceil(paginationData.current_page + (linkCount + 1) / 2));
+            // (This will take some figuring out!)
+
+            // Always include the first page.
+            pageNumbers.push(1);
 
             if (minPageNumber > 2) {
                 pageNumbers.push(null);
@@ -48,8 +52,26 @@ export const Pagination: React.FC<PaginationProps> = ({ results, linkCount = 6, 
         return paginationData?.current_page === pageNumber;
     }
 
+    const shouldShowInput = (): boolean => {
+        return pageNumbers.includes(null);
+    }
+
+    const manualSubmitHandler = (e: SubmitEvent) => {
+        e.preventDefault();
+        if (onPageChange && manualPageNumber && !isNaN(manualPageNumber)) {
+            onPageChange(manualPageNumber);
+        }
+        setManualPageNumber(undefined);
+    }
+
     return paginationData?.total_pages > 1 && (
         <nav className="flex mx-4 my-3 justify-center items-center gap-x-2">
+            {shouldShowInput() && <form onSubmit={manualSubmitHandler}>
+                <Input onChange={(v) => setManualPageNumber(v.target.value)} type="number" min="0"
+                       max={paginationData?.total_pages}
+                       className="w-[6em] text-right"
+                       placeholder="Page"/>
+            </form>}
             {pageNumbers.map((pageNumber: number) => (
                 <React.Fragment key={pageNumber}>
                     {pageNumber ? (<Button variant={isPageActive(pageNumber) ? 'default' : 'ghost'}
