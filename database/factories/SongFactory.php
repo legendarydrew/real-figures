@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Act;
+use App\Models\Song;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -28,6 +29,14 @@ class SongFactory extends Factory
         return $this->state(function ()
         {
             return ['act_id' => Act::factory()];
+        });
+    }
+
+    public function withGoldenBuzzer(): SongFactory
+    {
+        return $this->afterCreating(function (Song $song)
+        {
+            $song->setGoldenBuzzer(true);
         });
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /**
  *
@@ -50,5 +51,43 @@ class Song extends Model
     public function outcomes(): HasMany
     {
         return $this->hasMany(RoundOutcome::class);
+    }
+
+    public function goldenBuzzers(): HasMany
+    {
+        return $this->hasMany(GoldenBuzzer::class);
+    }
+
+    /**
+     * Returns TRUE if this Song can receive a Golden Buzzer.
+     *
+     * @return bool
+     */
+    public function canReceiveGoldenBuzzer(): bool
+    {
+        return DB::table('golden_buzzer_songs')
+                 ->where('song_id', $this->id)
+                 ->count() > 0;
+    }
+
+    /**
+     * Set whether the song cab receive Golden Buzzers.
+     *
+     * @param bool $state
+     * @return void
+     */
+    public function setGoldenBuzzer(bool $state): void
+    {
+        if ($state)
+        {
+            DB::table('golden_buzzer_songs')
+              ->updateOrInsert(['song_id', $this->id]);
+        }
+        else
+        {
+            DB::table('golden_buzzer_songs')
+              ->where('song_id', $this->id)
+              ->delete();
+        }
     }
 }
