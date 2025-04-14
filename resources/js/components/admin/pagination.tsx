@@ -9,11 +9,16 @@ interface PaginationProps {
     onPageChange?: (page: number) => void;
 }
 
+interface PaginationItem {
+    id: string;
+    value: number | null;
+}
+
 export const Pagination: React.FC<PaginationProps> = ({ results, sideLinkCount = 2, onPageChange }) => {
 
     const paginationData = results?.meta.pagination ?? undefined;
 
-    const [pageNumbers, setPageNumbers] = useState<(number | null)[]>([]);
+    const [pageNumbers, setPageNumbers] = useState<PaginationItem[]>([]);
     const [manualPageNumber, setManualPageNumber] = useState<number | ''>();
 
     useEffect(() => {
@@ -21,7 +26,7 @@ export const Pagination: React.FC<PaginationProps> = ({ results, sideLinkCount =
     }, [results]);
 
     const buildPageNumbers = (): void => {
-        const pageNumbers: (number | null)[] = [];
+        const pageNumbers: PaginationItem[] = [];
 
         // Only bother with calculating the page numbers if there is more than one page.
         if (paginationData && paginationData?.total_pages > 1) {
@@ -43,25 +48,25 @@ export const Pagination: React.FC<PaginationProps> = ({ results, sideLinkCount =
             maxPageNumber = Math.max(maxPageNumber, 1 + sideLinkCount * 2);
 
             // Always include the first page.
-            pageNumbers.push(1);
+            pageNumbers.push({ id: 'first', value: 1 });
 
             // Add an indicator if there are more pages past the left boundary.
             if (minPageNumber > 2) {
-                pageNumbers.push(null);
+                pageNumbers.push({ id: `nl`, value: null });
             }
 
             // Add the page numbers to display.
             for (let i = minPageNumber; i <= maxPageNumber; i++) {
-                pageNumbers.push(i);
+                pageNumbers.push({ id: `p${i}`, value: i });
             }
 
             // Add an indicator if there are more pages past the right boundary.
             if (maxPageNumber < totalPages - 1) {
-                pageNumbers.push(null);
+                pageNumbers.push({ id: 'nr', value: null });
             }
 
             // Also include the last page.
-            pageNumbers.push(totalPages);
+            pageNumbers.push({ id: 'last', value: totalPages });
         }
         setPageNumbers(pageNumbers);
     };
@@ -71,7 +76,7 @@ export const Pagination: React.FC<PaginationProps> = ({ results, sideLinkCount =
     }
 
     const shouldShowInput = (): boolean => {
-        return pageNumbers.includes(null);
+        return pageNumbers.some((pn) => pn.value === null);
     }
 
     const manualSubmitHandler = (e: SubmitEvent) => {
@@ -93,14 +98,14 @@ export const Pagination: React.FC<PaginationProps> = ({ results, sideLinkCount =
                        className="w-[6em] text-right"
                        placeholder="Page"/>
             </form>}
-            {pageNumbers.map((pageNumber: number, index) => (
-                <React.Fragment key={index}>
-                    {pageNumber ? <Button variant={isPageActive(pageNumber) ? 'default' : 'ghost'}
+            {pageNumbers.map((pageNumber: PaginationItem) => (
+                <React.Fragment key={pageNumber.id}>
+                    {pageNumber.value ? <Button variant={isPageActive(pageNumber.value!) ? 'default' : 'ghost'}
                                           className="cursor-pointer"
-                                          disabled={isPageActive(pageNumber)}
-                                          onClick={() => onPageChange && onPageChange(pageNumber)}
-                                          title={`Go to page ${pageNumber}`}>
-                        {pageNumber}
+                                                disabled={isPageActive(pageNumber.value!)}
+                                                onClick={() => onPageChange && onPageChange(pageNumber.value!)}
+                                                title={`Go to page ${pageNumber.value}`}>
+                        {pageNumber.value}
                     </Button> : <Button variant="ghost" disabled>...</Button>}
                 </React.Fragment>
             ))}
