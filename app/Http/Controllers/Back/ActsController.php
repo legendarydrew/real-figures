@@ -13,9 +13,9 @@ class ActsController extends Controller
 
     public function index(): Response
     {
-        $acts = fractal(Act::paginate())->transformWith(ActTransformer::class)->toArray();
         return Inertia::render('back/acts', [
-            'acts' => $acts
+            'acts' => fn() => fractal(Act::paginate())->transformWith(ActTransformer::class)->toArray()
+            // "lazy loading" of data by using a callback.
         ]);
     }
 }
