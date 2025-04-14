@@ -36,7 +36,7 @@ class SongFactory extends Factory
     {
         return $this->afterCreating(function (Song $song)
         {
-            $song->setGoldenBuzzer(true);
+            $song->setGoldenBuzzerStatus(true);
         });
     }
 }

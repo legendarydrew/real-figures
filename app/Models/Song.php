@@ -71,17 +71,17 @@ class Song extends Model
     }
 
     /**
-     * Set whether the song cab receive Golden Buzzers.
+     * Set whether the song can receive Golden Buzzers.
      *
      * @param bool $state
      * @return void
      */
-    public function setGoldenBuzzer(bool $state): void
+    public function setGoldenBuzzerStatus(bool $state): void
     {
         if ($state)
         {
             DB::table('golden_buzzer_songs')
-              ->updateOrInsert(['song_id', $this->id]);
+                ->updateOrInsert(['song_id' => $this->id]);
         }
         else
         {
