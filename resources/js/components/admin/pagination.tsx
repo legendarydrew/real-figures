@@ -41,11 +41,8 @@ export const Pagination: React.FC<PaginationProps> = ({ results, sideLinkCount =
             const currentPage = paginationData.current_page;
             const totalPages = paginationData.total_pages;
 
-            let minPageNumber = Math.max(2, currentPage - sideLinkCount);
-            let maxPageNumber = Math.min(currentPage + sideLinkCount, totalPages - 1);
-
-            minPageNumber = Math.min(minPageNumber, totalPages - sideLinkCount * 2 - 1);
-            maxPageNumber = Math.max(maxPageNumber, 1 + sideLinkCount * 2);
+            const minPageNumber = Math.max(2, currentPage - sideLinkCount);
+            const maxPageNumber = Math.min(currentPage + sideLinkCount, totalPages - 1);
 
             // Always include the first page.
             pageNumbers.push({ id: 'first', value: 1 });
