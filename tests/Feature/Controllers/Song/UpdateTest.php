@@ -23,8 +23,9 @@ class UpdateTest extends TestCase
 
         $this->song    = Song::factory()->withAct()->createOne();
         $this->payload = [
-            'title'  => fake()->sentence(),
-            'act_id' => Act::factory()->createOne()->id,
+            'title'    => fake()->sentence(),
+            'act_id'   => Act::factory()->createOne()->id,
+            'language' => fake()->languageCode
         ];
     }
 
