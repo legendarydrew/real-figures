@@ -23,6 +23,7 @@ class StoreTest extends TestCase
         $this->payload = [
             'title'  => fake()->sentence(),
             'act_id' => Act::factory()->createOne()->id,
+            'language' => fake()->languageCode
         ];
     }
 

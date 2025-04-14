@@ -6,6 +6,7 @@ import { Edit, Trash } from 'lucide-react';
 import { Song } from '@/types';
 import { SongDialog } from '@/components/admin/song-dialog';
 import { DeleteSongDialog } from '@/components/admin/delete-song-dialog';
+import { LanguageFlag } from '@/components/language-flag';
 
 // TODO a good example of where pagination would be required.
 // TODO sort songs.
@@ -41,6 +42,7 @@ export default function Songs({ acts, songs }: Readonly<{ stages: Song[] }>) {
             <table className="mx-4 mb-8">
                 <thead className="text-sm">
                 <tr className="border-b-2">
+                    <th/>
                     <th scope="col" className="text-left px-2">Title</th>
                     <th scope="col" className="text-left px-2">Act</th>
                     <th scope="col" className="text-right px-2">Play count</th>
@@ -50,7 +52,10 @@ export default function Songs({ acts, songs }: Readonly<{ stages: Song[] }>) {
                 <tbody>
                 {songs.data.map((song) => (
                     <tr className="hover:bg-accent/50 select-none" key={song.id}>
-                        <th className="font-bold text-left px-2 py-1">
+                        <th>
+                            <LanguageFlag languageCode={song.language}/>
+                        </th>
+                        <th scope="row" className="font-bold text-left px-2 py-1">
                             {song.title}
                         </th>
                         <td className="text-left px-2 py-1">{song.act.name}</td>

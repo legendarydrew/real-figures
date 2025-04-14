@@ -8,6 +8,8 @@ import InputError from '@/components/input-error';
 import { Song } from '@/types';
 import { Toaster } from '@/components/ui/toast-message';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
+import { LanguageCodes } from '@/lib/language-codes';
+import { LanguageFlag } from '@/components/language-flag';
 
 interface SongDialogProps {
     // Dialog properties.
@@ -26,13 +28,15 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
     // useForm() provides some very useful methods.
     const { data, setData, post, patch, errors, setError, processing } = useForm<Required<SongForm>>({
         act_id: null,
-        title: ''
+        title: '',
+        language: 'en'
     });
 
     useEffect(() => {
         setData({
-            title: isEditing() ? song?.title : '',
-            act_id: isEditing() ? song?.act_id : ''
+            title: song?.title ?? '',
+            act_id: song?.act_id ?? '',
+            language: song?.language ?? 'en'
         });
     }, [song]);
 
@@ -49,6 +53,11 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
     const changeActHandler = (value: string) => {
         setData('act_id', parseInt(value));
         setError('act_id', '');
+    };
+
+    const changeLanguageHandler = (value: string) => {
+        setData('language', value);
+        setError('language', '');
     };
 
     const getMatchingActName = (): string | null => {
@@ -105,6 +114,28 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
                         <Input id="songTitle" type="text" className="font-bold" value={data.title}
                                onChange={changeTitleHandler}/>
                         <InputError className="mt-2" message={errors.title}/>
+                    </div>
+
+                    <div className="mb-2">
+                        <Label htmlFor="songLanguage">Song Language</Label>
+
+                        <Select id="songLanguage" value={data.language} onValueChange={changeLanguageHandler}>
+                            <SelectTrigger>
+                                {data.language && (<LanguageFlag languageCode={data.language}/>)}
+                                <span className="flex-grow text-left px-2">
+                                {data.language ? LanguageCodes[data.language] : 'Select a language'}
+                                </span>
+                            </SelectTrigger>
+                            <SelectContent>
+                                {Object.keys(LanguageCodes).map((languageCode) => (
+                                    <SelectItem key={languageCode} value={languageCode}>
+                                        <LanguageFlag languageCode={languageCode}/>
+                                        {LanguageCodes[languageCode]}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <InputError className="mt-2" message={errors.act_id}/>
                     </div>
 
                     <DialogFooter>
