@@ -3,19 +3,19 @@
 namespace Controllers;
 
 use App\Facades\PaypalServiceFacade;
-use App\Mail\DonationConfirmation;
-use App\Models\Donation;
+use App\Mail\GoldenBuzzerConfirmation;
+use App\Models\GoldenBuzzer;
+use App\Models\Song;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
-use function PHPUnit\Framework\assertEquals;
 
-class DonationTest extends TestCase
+class GoldenBuzzerTest extends TestCase
 {
     use DatabaseMigrations;
 
-    private const string ENDPOINT = '/api/donation';
+    private const string ENDPOINT = '/api/golden-buzzer';
 
     private array $payload;
 
@@ -24,7 +24,9 @@ class DonationTest extends TestCase
         parent::setUp();
         Mail::fake();
 
+        $song          = Song::factory()->withAct()->createOne();
         $this->payload = [
+            'song_id'        => $song->id,
             'transaction_id' => fake()->uuid,
             'message'        => fake()->text,
         ];
@@ -42,13 +44,14 @@ class DonationTest extends TestCase
     {
         $this->mockSuccessfulCapture();
         $this->postJson(self::ENDPOINT, $this->payload);
-        $donation = Donation::whereTransactionId($this->payload['transaction_id'])->first();
-        self::assertInstanceOf(Donation::class, $donation);
+        $donation = GoldenBuzzer::whereTransactionId($this->payload['transaction_id'])->first();
+        self::assertInstanceOf(GoldenBuzzer::class, $donation);
 
-        assertEquals('John Doe', $donation->name);
-        assertEquals(100.00, $donation->amount);
-        assertEquals('USD', $donation->currency);
-        assertEquals($this->payload['message'], $donation->message);
+        self::assertEquals($this->payload['song_id'], $donation->song_id);
+        self::assertEquals('John Doe', $donation->name);
+        self::assertEquals(100.00, $donation->amount);
+        self::assertEquals('USD', $donation->currency);
+        self::assertEquals($this->payload['message'], $donation->message);
     }
 
     #[Depends('test_as_guest')]
@@ -56,7 +59,7 @@ class DonationTest extends TestCase
     {
         $this->mockSuccessfulCapture();
         $this->postJson(self::ENDPOINT, $this->payload);
-        Mail::assertSent(DonationConfirmation::class, function (DonationConfirmation $mail)
+        Mail::assertSent(GoldenBuzzerConfirmation::class, function (GoldenBuzzerConfirmation $mail)
         {
             return $mail->hasTo('customer@example.com');
         });
@@ -69,21 +72,20 @@ class DonationTest extends TestCase
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertBadRequest();
 
-        $donation = Donation::whereTransactionId($this->payload['transaction_id'])->first();
+        $donation = GoldenBuzzer::whereTransactionId($this->payload['transaction_id'])->first();
         self::assertNull($donation);
-        Mail::assertNotSent(DonationConfirmation::class);
+        Mail::assertNotSent(GoldenBuzzerConfirmation::class);
     }
 
-    #[Depends('test_as_guest')]
     public function test_failed_unprocessable()
     {
         $this->mockUnprocessableCapture();
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertBadRequest();
 
-        $donation = Donation::whereTransactionId($this->payload['transaction_id'])->first();
+        $donation = GoldenBuzzer::whereTransactionId($this->payload['transaction_id'])->first();
         self::assertNull($donation);
-        Mail::assertNotSent(DonationConfirmation::class);
+        Mail::assertNotSent(GoldenBuzzerConfirmation::class);
     }
 
     protected function mockSuccessfulCapture(): void

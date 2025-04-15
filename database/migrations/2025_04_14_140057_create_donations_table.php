@@ -25,14 +25,14 @@ return new class extends Migration {
         {
             $table->id();
             $table->comment('Eligibility for the Golden Buzzer.');
-            $table->foreignId('song_id')->constrained('golden_buzzer_songs')->cascadeOnDelete();
+            $table->foreignId('song_id')->constrained('songs')->cascadeOnDelete();
             $table->timestamps();
         });
 
         Schema::create('golden_buzzers', function (Blueprint $table)
         {
             $table->id();
-            $table->foreignId('song_id')->constrained('golden_buzzer_songs')->cascadeOnDelete();
+            $table->foreignId('song_id')->constrained('songs')->cascadeOnDelete();
             $table->string('name');
             $table->decimal('amount');
             $table->string('currency', 3)->index();

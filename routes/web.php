@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\ActController;
+use App\Http\Controllers\API\BuzzerController;
 use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\SongController;
 use App\Http\Controllers\API\StageController;
@@ -8,21 +9,12 @@ use App\Http\Controllers\API\VoteController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function ()
-{
-    return Inertia::render('welcome');
-})->name('home');
+Route::get('/', fn() => Inertia::render('welcome'))->name('home');
 
 if (app()->hasDebugModeEnabled())
 {
     Route::get('kitchen-sink', fn() => Inertia::render('kitchen-sink'))->name('kitchen-sink');
 }
-
-Route::post('/golden-buzzer/record', [\App\Http\Controllers\API\BuzzerController::class, 'store']);
-Route::get('/golden-buzzer/thank-you', function ()
-{
-    return Inertia::render('Donation/ThankYou');
-});
 
 // ----------------------------------------------------------------------------
 // API endpoints.
@@ -31,7 +23,7 @@ Route::prefix('/api')->group(function ()
 {
     // Routes accessible without authentication.
     Route::post('donation', [DonationController::class, 'store']);
-
+    Route::post('golden-buzzer', [BuzzerController::class, 'store']);
     Route::post('vote', [VoteController::class, 'store']);
 
     // Routes accessible with authentication.
@@ -59,10 +51,7 @@ Route::prefix('/api')->group(function ()
 // Back office pages.
 Route::middleware(['auth', 'verified'])->group(function ()
 {
-    Route::get('dashboard', function ()
-    {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', fn() => Inertia::render('dashboard'))->name('dashboard');
 
     Route::get('/admin/acts', [\App\Http\Controllers\Back\ActsController::class, 'index'])->name('admin.acts');
     Route::get('/admin/songs', [\App\Http\Controllers\Back\SongsController::class, 'index'])->name('admin.songs');
