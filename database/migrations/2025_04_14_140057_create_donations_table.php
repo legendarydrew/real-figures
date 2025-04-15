@@ -10,6 +10,17 @@ return new class extends Migration {
      */
     public function up(): void
     {
+        Schema::create('donations', function (Blueprint $table)
+        {
+            $table->id();
+            $table->string('name');
+            $table->decimal('amount');
+            $table->string('currency', 3)->index();
+            $table->string('transaction_id')->unique();
+            $table->text('message')->nullable();
+            $table->timestamps();
+        });
+
         Schema::create('golden_buzzer_songs', function (Blueprint $table)
         {
             $table->id();
@@ -22,8 +33,11 @@ return new class extends Migration {
         {
             $table->id();
             $table->foreignId('song_id')->constrained('golden_buzzer_songs')->cascadeOnDelete();
+            $table->string('name');
             $table->decimal('amount');
+            $table->string('currency', 3)->index();
             $table->string('transaction_id')->unique();
+            $table->text('message')->nullable();
             $table->timestamps();
         });
     }
@@ -35,5 +49,6 @@ return new class extends Migration {
     {
         Schema::dropIfExists('golden_buzzers');
         Schema::dropIfExists('golden_buzzer_songs');
+        Schema::dropIfExists('donations');
     }
 };

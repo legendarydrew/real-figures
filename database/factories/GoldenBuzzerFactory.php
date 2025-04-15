@@ -18,8 +18,11 @@ class GoldenBuzzerFactory extends Factory
     public function definition(): array
     {
         return [
-            'amount'         => $this->faker->randomFloat(2, 10, 100),
+            'name'     => $this->faker->name(),
             'transaction_id' => $this->faker->unique()->uuid(),
+            'amount'   => $this->faker->randomFloat(2, 1, 999),
+            'currency' => $this->faker->boolean(80) ? 'USD' : $this->faker->currencyCode(),
+            'message'  => $this->faker->boolean(20) ? $this->faker->realText() : null,
         ];
     }
 }

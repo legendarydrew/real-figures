@@ -5,6 +5,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DonationRequest;
+use App\Models\Donation;
 use App\Services\PayPalService;
 use Illuminate\Http\JsonResponse;
 
@@ -14,26 +16,35 @@ class DonationController extends Controller
     /**
      * Capture the payment for a PayPal order.
      *
-     * @param \App\Services\PayPalService $paypal
-     * @return JsonResponse|mixed
+     * @param DonationRequest $request
+     * @param PayPalService   $paypal
+     * @return JsonResponse
      */
-    public function store(PayPalService $paypal): JsonResponse
+    public function store(DonationRequest $request, PayPalService $paypal): JsonResponse
     {
-        // At this point the order should have COMPLETED status, as capturing happens in the front end.
-        $transaction = $paypal->verifyOrder(request()->transaction_id);
+        $data = $request->validated();
 
-        if (!$transaction || $transaction['status'] !== 'COMPLETED') {
-            return response()->json(['error' => 'Transaction is invalid or imcomplete.'], 400);
+        // At this point the order should have COMPLETED status, as capturing happens in the front end.
+        $transaction = $paypal->verifyOrder($data['transaction_id']);
+
+        if (!$transaction || $transaction['status'] !== 'COMPLETED')
+        {
+            return response()->json(['error' => 'Transaction is invalid or incomplete.'], 400);
         }
 
         // Success!
-        // TODO we should record regular donations as well.
-        $transaction_id = $transaction['id'];
-        $amount = $transaction['purchase_units'][0]['payments']['captures'][0]['amount']['value'] ?? null;
-        $email = $transaction['payer']['email_address'] ?? null;
+        Donation::create([
+            'transaction_id' => $transaction['id'],
+            'name'           => $transaction['purchase_units'][0]['payments']['captures'][0]['name'],
+            'amount'         => $transaction['purchase_units'][0]['payments']['captures'][0]['amount']['value'],
+            'currency'       => $transaction['purchase_units'][0]['payments']['captures'][0]['currency'],
+            'message'        => $data['message'],
+        ]);
 
         // To support refunds later, store capture_id as well — available in:
         // transaction.purchase_units[0].payments.captures[0].id
+
+        // TODO send an email.
 
         return response()->json(['status' => "Verified!"], 201);
     }
