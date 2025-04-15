@@ -27,6 +27,7 @@ class DonationController extends Controller
         }
 
         // Success!
+        // TODO we should record regular donations as well.
         $transaction_id = $transaction['id'];
         $amount = $transaction['purchase_units'][0]['payments']['captures'][0]['amount']['value'] ?? null;
         $email = $transaction['payer']['email_address'] ?? null;
@@ -34,6 +35,6 @@ class DonationController extends Controller
         // To support refunds later, store capture_id as well — available in:
         // transaction.purchase_units[0].payments.captures[0].id
 
-        return response()->json(['status' => "Verified! $email donated $amount."]);
+        return response()->json(['status' => "Verified!"], 201);
     }
 }

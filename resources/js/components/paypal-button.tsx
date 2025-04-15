@@ -8,25 +8,15 @@ import React from 'react';
 // while I opted to use React components instead.
 // https://developer.paypal.com/sdk/js/reference/
 
-// TODO no need for the shipping address, if possible.
-// TODO configurable amount.
-// TODO configurable details (purpose of donation, etc.).
-// TODO callbacks for success/error etc.
-
 interface DonationButtonProps {
-    currency: string;
+    amount?: number;
+    currency?: string;
+    description?: string; // what the donation is for.
+    onSuccess?: () => void;
+    onFailure?: () => void;
 }
 
-interface OrderData {
-    id: string;
-    details?: {
-        issue: string;
-        description: string;
-    }[];
-    debug_id?: string;
-}
-
-export const PaypalButton: React.FC<DonationButtonProps> = ({ currency = 'USD' }) => {
+export const PaypalButton: React.FC<DonationButtonProps> = ({ description, amount = 10, currency = 'USD', onSuccess, onFailure }) => {
     // see AppServiceProvider.php.
     const { paypalClientId } = usePage().props;
 
@@ -47,14 +37,18 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({ currency = 'USD' }
      * Set up a PayPal order (opens the popup window).
      * If successful, the order information is returned.
      */
-    const createOrderHandler: PayPalButtonsComponentProps['createOrder'] = async (data, actions) => {
+    const createOrderHandler: PayPalButtonsComponentProps['createOrder'] = async (_, actions) => {
         return actions.order.create({
             intent: 'CAPTURE',
+            application_context: {
+                shipping_preference: 'NO_SHIPPING',
+            },
             purchase_units: [
                 {
+                    description,
                     amount: {
                         currency_code: currency,
-                        value: '10.00', // You can make this dynamic
+                        value: amount.toFixed(2),
                     },
                 },
             ],
@@ -64,7 +58,7 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({ currency = 'USD' }
     /**
      * Handle the approval for the PayPal payment.
      */
-    const approveHandler: PayPalButtonsComponentProps['onApprove'] = async (data, actions) => {
+    const approveHandler: PayPalButtonsComponentProps['onApprove'] = async (_, actions) => {
         // The transaction has been approved, but the payment has to be captured before funds can be recieved.
         // For some reason, I had no luck trying to do the capture on the backend.
         const transaction = await actions.order?.capture();
@@ -74,22 +68,21 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({ currency = 'USD' }
                 .post('/donation', {
                     transaction_id: transaction.id,
                 })
-                .then((response) => {
+                .then(() => {
                     // Show success message to buyer
-                    console.log(response.data.status);
+                    onSuccess && onSuccess();
                 })
-                .catch((response) => {
-                    console.log('error:', response.data.error);
+                .catch(() => {
+                    onFailure && onFailure();
                 });
-            }
-            else {
-                throw 'No order details!';
-            }
-        };
+        } else {
+            throw 'No order details!';
+        }
+    };
 
     return (
         <PayPalScriptProvider options={scriptOptions}>
-            <PayPalButtons style={buttonStyle} createOrder={createOrderHandler} onApprove={approveHandler} />
+            <PayPalButtons style={buttonStyle} createOrder={createOrderHandler} onApprove={approveHandler} onError={onFailure} />
         </PayPalScriptProvider>
     );
 };
