@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Make certain configured values available to our app. (Thanks once again, ChatGPT.)
+        Inertia::share([
+            'paypalClientId' => config('services.paypal.client_id'),
+        ]);
     }
 }
