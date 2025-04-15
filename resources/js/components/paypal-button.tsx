@@ -1,5 +1,10 @@
 import { usePage } from '@inertiajs/react';
-import { PayPalButtons, PayPalButtonsComponentProps, PayPalScriptProvider, ReactPayPalScriptOptions } from '@paypal/react-paypal-js';
+import {
+    PayPalButtons,
+    PayPalButtonsComponentProps,
+    PayPalScriptProvider,
+    ReactPayPalScriptOptions
+} from '@paypal/react-paypal-js';
 import axios from 'axios';
 import React from 'react';
 
@@ -10,27 +15,35 @@ import React from 'react';
 
 interface DonationButtonProps {
     amount?: number;
+    approveEndpoint?: string;
     currency?: string;
     description?: string; // what the donation is for.
-    onSuccess?: () => void;
     onFailure?: () => void;
+    onSuccess?: () => void;
 }
 
-export const PaypalButton: React.FC<DonationButtonProps> = ({ description, amount = 10, currency = 'USD', onSuccess, onFailure }) => {
+export const PaypalButton: React.FC<DonationButtonProps> = ({
+                                                                approveEndpoint,
+                                                                description,
+                                                                amount = 10,
+                                                                currency = 'USD',
+                                                                onSuccess,
+                                                                onFailure
+                                                            }) => {
     // see AppServiceProvider.php.
     const { paypalClientId } = usePage().props;
 
     const scriptOptions: ReactPayPalScriptOptions = {
         clientId: paypalClientId as string,
         disableFunding: ['credit'],
-        enableFunding: ['card', 'venmo'],
+        enableFunding: ['card', 'venmo']
     };
 
     const buttonStyle: PayPalButtonsComponentProps['style'] = {
         shape: 'rect',
         label: 'paypal',
         layout: 'horizontal',
-        tagline: false,
+        tagline: false
     };
 
     /**
@@ -41,17 +54,17 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({ description, amoun
         return actions.order.create({
             intent: 'CAPTURE',
             application_context: {
-                shipping_preference: 'NO_SHIPPING',
+                shipping_preference: 'NO_SHIPPING'
             },
             purchase_units: [
                 {
                     description,
                     amount: {
                         currency_code: currency,
-                        value: amount.toFixed(2),
-                    },
-                },
-            ],
+                        value: amount.toFixed(2)
+                    }
+                }
+            ]
         });
     };
 
@@ -59,30 +72,35 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({ description, amoun
      * Handle the approval for the PayPal payment.
      */
     const approveHandler: PayPalButtonsComponentProps['onApprove'] = async (_, actions) => {
-        // The transaction has been approved, but the payment has to be captured before funds can be recieved.
+        // The transaction has been approved, but the payment has to be captured before funds can be received.
         // For some reason, I had no luck trying to do the capture on the backend.
         const transaction = await actions.order?.capture();
 
         if (transaction) {
             return axios
-                .post('/donation', {
-                    transaction_id: transaction.id,
+                .post(approveEndpoint ?? '/api/donation', {
+                    transaction_id: transaction.id
                 })
                 .then(() => {
                     // Show success message to buyer
-                    onSuccess && onSuccess();
+                    if (onSuccess) {
+                        onSuccess();
+                    }
                 })
                 .catch(() => {
-                    onFailure && onFailure();
+                    if (onFailure) {
+                        onFailure();
+                    }
                 });
-        } else {
-            throw 'No order details!';
+        } else if (onFailure) {
+            onFailure();
         }
     };
 
     return (
         <PayPalScriptProvider options={scriptOptions}>
-            <PayPalButtons style={buttonStyle} createOrder={createOrderHandler} onApprove={approveHandler} onError={onFailure} />
+            <PayPalButtons style={buttonStyle} createOrder={createOrderHandler} onApprove={approveHandler}
+                           onError={onFailure}/>
         </PayPalScriptProvider>
     );
 };
