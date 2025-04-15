@@ -12,6 +12,12 @@ Route::get('/', function ()
     return Inertia::render('welcome');
 })->name('home');
 
+if (app()->hasDebugModeEnabled()) {
+    Route::get('kitchen-sink', fn() => Inertia::render('kitchen-sink'))->name('kitchen-sink');
+}
+
+Route::post('/golden-buzzer/record', [\App\Http\Controllers\API\BuzzerController::class, 'store']);
+
 // ----------------------------------------------------------------------------
 // API endpoints.
 // ----------------------------------------------------------------------------
