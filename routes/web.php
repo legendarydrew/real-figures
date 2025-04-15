@@ -16,6 +16,8 @@ if (app()->hasDebugModeEnabled()) {
     Route::get('kitchen-sink', fn() => Inertia::render('kitchen-sink'))->name('kitchen-sink');
 }
 
+Route::post('/donation', [\App\Http\Controllers\API\DonationController::class, 'store']);
+
 Route::post('/golden-buzzer/record', [\App\Http\Controllers\API\BuzzerController::class, 'store']);
 
 // ----------------------------------------------------------------------------

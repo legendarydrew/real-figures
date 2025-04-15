@@ -8,6 +8,11 @@ import React from 'react';
 // while I opted to use React components instead.
 // https://developer.paypal.com/sdk/js/reference/
 
+// TODO no need for the shipping address, if possible.
+// TODO configurable amount.
+// TODO configurable details (purpose of donation, etc.).
+// TODO callbacks for success/error etc.
+
 interface DonationButtonProps {
     currency: string;
 }
@@ -57,20 +62,30 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({ currency = 'USD' }
     };
 
     /**
-     * Capture the payment for the PayPal order.
+     * Handle the approval for the PayPal payment.
      */
-    const approveHandler: PayPalButtonsComponentProps['onApprove'] = async (data) => {
-        // Capture the funds from the transaction.
-        return axios
-            .post('/my-server/capture-paypal-order', {
-                orderID: data.orderID,
-            })
-            .then((response) => {
-                // Show success message to buyer
-                const details = response.data;
-                alert(`Transaction completed by ${details.payer.name.given_name}.`);
-            });
-    };
+    const approveHandler: PayPalButtonsComponentProps['onApprove'] = async (data, actions) => {
+        // The transaction has been approved, but the payment has to be captured before funds can be recieved.
+        // For some reason, I had no luck trying to do the capture on the backend.
+        const transaction = await actions.order?.capture();
+
+        if (transaction) {
+            return axios
+                .post('/donation', {
+                    transaction_id: transaction.id,
+                })
+                .then((response) => {
+                    // Show success message to buyer
+                    console.log(response.data.status);
+                })
+                .catch((response) => {
+                    console.log('error:', response.data.error);
+                });
+            }
+            else {
+                throw 'No order details!';
+            }
+        };
 
     return (
         <PayPalScriptProvider options={scriptOptions}>
