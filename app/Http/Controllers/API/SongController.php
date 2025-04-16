@@ -14,7 +14,11 @@ class SongController extends Controller
     public function store(SongRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $song = Song::factory()->create($data);
+        $song = Song::factory()->create([
+            'title'    => $data['title'],
+            'act_id'   => $data['act_id'],
+            'language' => $data['language']
+        ]);
 
         if (!empty($data['url']))
         {
@@ -31,7 +35,7 @@ class SongController extends Controller
 
         if (!empty($data['url']))
         {
-            SongUrl::updateOrCreate(['song_id' => $song_id, 'url' => $data['url']]);
+            SongUrl::updateOrCreate(['song_id' => $song_id], ['url' => $data['url']]);
         }
         else
         {
