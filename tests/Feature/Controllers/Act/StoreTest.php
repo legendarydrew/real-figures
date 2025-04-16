@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Act;
+namespace Tests\Feature\Controllers\Act;
 
 use App\Models\Act;
 use App\Models\ActProfile;

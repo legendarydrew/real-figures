@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Act;
 use App\Models\Song;
+use App\Models\SongUrl;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -37,6 +38,17 @@ class SongFactory extends Factory
         return $this->afterCreating(function (Song $song)
         {
             $song->setGoldenBuzzerStatus(true);
+        });
+    }
+
+    public function withUrl(int $chance = 100): SongFactory
+    {
+        return $this->afterCreating(function (Song $song) use ($chance)
+        {
+            if ($this->faker->boolean($chance))
+            {
+                SongUrl::factory()->for($song)->create();
+            }
         });
     }
 }

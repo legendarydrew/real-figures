@@ -75,6 +75,7 @@ export interface Song {
     act?: {
         name: string;
     };
+    url: string;
 }
 
 export interface PaginatedResponse<T> {

@@ -13,10 +13,18 @@ return new class extends Migration
     {
         Schema::create('songs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('act_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('act_id')->constrained('acts')->cascadeOnDelete();
             $table->string('title');
             $table->string('language', 2)->default('en');
             $table->unsignedBigInteger('play_count')->default(0);
+            $table->timestamps();
+        });
+
+        Schema::create('song_urls', function (Blueprint $table)
+        {
+            $table->id();
+            $table->foreignId('song_id')->constrained('songs')->cascadeOnDelete();
+            $table->string('url');
             $table->timestamps();
         });
     }
@@ -26,6 +34,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('song_urls');
         Schema::dropIfExists('songs');
     }
 };

@@ -4,6 +4,7 @@ namespace Tests\Feature\Controllers\Song;
 
 use App\Models\Act;
 use App\Models\Song;
+use App\Models\SongUrl;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
@@ -47,6 +48,30 @@ class StoreTest extends TestCase
         self::assertInstanceOf(Song::class, $song);
         self::assertEquals($this->payload['act_id'], $song->act_id);
         self::assertEquals($this->payload['language'], $song->language);
+    }
+
+    #[Depends('test_creates_song')]
+    public function test_creates_song_with_url()
+    {
+        $this->payload['url'] = fake()->url();
+
+        $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $song = Song::whereTitle($this->payload['title'])->first();
+
+        self::assertInstanceOf(SongUrl::class, $song->url);
+        self::assertEquals($this->payload['url'], $song->url->url);
+    }
+
+
+    #[Depends('test_creates_song')]
+    public function test_creates_song_without_url()
+    {
+        $this->payload['url'] = null;
+
+        $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $song = Song::whereTitle($this->payload['title'])->first();
+
+        self::assertNull($song->url);
     }
 
 }
