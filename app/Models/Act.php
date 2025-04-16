@@ -42,4 +42,9 @@ class Act extends Model
     {
         return $this->hasMany(Song::class);
     }
+
+    public function picture(): HasOne
+    {
+        return $this->hasOne(ActPicture::class);
+    }
 }

@@ -24,6 +24,14 @@ return new class extends Migration
             $table->text('description');
             $table->timestamps();
         });
+
+        Schema::create('act_pictures', function (Blueprint $table)
+        {
+            $table->id();
+            $table->foreignId('act_id')->constrained('acts')->cascadeOnDelete();
+            $table->text('image');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -31,6 +39,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('act_pictures');
         Schema::dropIfExists('act_profiles');
         Schema::dropIfExists('acts');
     }
