@@ -1,6 +1,6 @@
 import { Act } from '@/types';
 import { Button } from '@/components/ui/button';
-import { Edit, PersonStanding, Trash } from 'lucide-react';
+import { Edit, PersonStanding, Trash, UserPen } from 'lucide-react';
 import React from 'react';
 
 interface ActItemProps {
@@ -42,6 +42,12 @@ export const ActItem: React.FC<ActItemProps> = ({ act, onEdit, onDelete }) => {
 
             <div className="absolute bottom w-full py-2 px-3 flex justify-between items-center gap-1">
                 <span className={textClasses()}>{act.name}</span>
+                {act.has_profile && (
+                    <span className="bg-green-700 text-white rounded-lg p-1.5 text-sm text-gray-500 text-shadow-lg"
+                          title="Has a profile.">
+                        <UserPen className="h-3 w-3"/>
+                    </span>
+                )}
                 <Button variant="secondary" size="icon" className="cursor-pointer"
                         onClick={editHandler}
                         title="Edit Act">
