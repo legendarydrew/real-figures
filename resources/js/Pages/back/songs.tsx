@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
-import React, { useEffect, useState } from 'react';
+import React, { RefObject, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp, Edit, Trash } from 'lucide-react';
 import { Song } from '@/types';
 import { SongDialog } from '@/components/admin/song-dialog';
@@ -17,43 +17,51 @@ interface TableSort {
     asc: boolean;
 }
 
-export default function Songs({ acts, songs }: Readonly<{ stages: Song[] }>) {
+export default function Songs({ acts, songs }: Readonly<{ songs: Song[] }>) {
 
     const [currentSong, setCurrentSong] = useState<Song>();
-    const [sort, setSort] = useState<TableSort>({ column: 'title', asc: true });
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
+    // Using refs instead of states, as these do not require re-rendering the page.
+    // However, things will look just a little more stiff.
+    const currentPage: RefObject<number> = useRef(songs?.meta.pagination.current_page ?? 1);
+    const currentSort: RefObject<TableSort> = useRef({ column: 'title', asc: true });
+
     const pageHandler = (pageNumber: number): void => {
-        fetchSongs(pageNumber);
+        currentPage.current = pageNumber;
+        fetchSongs();
     };
 
     const sortHandler = (column: string): void => {
-        setSort({ column, asc: column === sort.column ? !sort.asc : sort.asc });
+        currentSort.current = {
+            column,
+            asc: column === currentSort.current.column ? !currentSort.current.asc : currentSort.asc
+        };
+        fetchSongs();
     };
 
-    const fetchSongs = (pageNumber: number = 1): void => {
+    const fetchSongs = (): void => {
         router.reload({
             data: {
-                page: pageNumber ?? songs.meta.pagination.current_page,
-                sort: `${sort.column}:${sort.asc ? 'asc' : 'desc'}`
+                page: currentPage.current,
+                sort: `${currentSort.current.column}:${currentSort.current.asc ? 'asc' : 'desc'}`
             },
             only: ['songs'],
-            showProgress: true
+            showProgress: true,
+            onSuccess: (response) => {
+                currentPage.current = response.props.songs.meta.pagination.current_page;
+            }
         });
     }
 
-    useEffect(() => {
-        fetchSongs();
-    }, [sort]);
-
-    const editHandler = (stage: Song): void => {
-        setCurrentSong(stage);
+    const editHandler = (song?: Song): void => {
+        setCurrentSong(song);
         setIsEditDialogOpen(true);
     }
 
-    const deleteHandler = (stage: Song): void => {
-        setCurrentSong(stage);
+    const deleteHandler = (song: Song): void => {
+        setCurrentSong(song);
         setIsDeleteDialogOpen(true);
     }
 
@@ -64,31 +72,40 @@ export default function Songs({ acts, songs }: Readonly<{ stages: Song[] }>) {
             <div className="flex mb-3 p-4">
                 <h1 className="flex-grow font-bold text-2xl">Songs</h1>
                 <div className="flex gap-1">
-                    <Button onClick={editHandler}>Add Song</Button>
+                    <Button onClick={() => editHandler()}>Add Song</Button>
                 </div>
             </div>
 
             <table className="mx-4 mb-8">
                 <thead className="text-sm">
                 <tr className="border-b-2">
-                    <th/>
+                    <th className="text-left text-xs px-2 select-none cursor-pointer"
+                        onClick={() => sortHandler('language')}>
+                        Lang.
+                        {currentSort.current.column === 'language' ? (
+                            <Icon iconNode={currentSort.current.asc ? ChevronUp : ChevronDown}
+                                  className="h-3 inline"/>) : ''}
+                    </th>
                     <th scope="col" className="text-left px-2 select-none cursor-pointer"
                         onClick={() => sortHandler('title')}>
                         Title
-                        {sort.column === 'title' ? (
-                            <Icon iconNode={sort.asc ? ChevronUp : ChevronDown} className="h-3 inline"/>) : ''}
+                        {currentSort.current.column === 'title' ? (
+                            <Icon iconNode={currentSort.current.asc ? ChevronUp : ChevronDown}
+                                  className="h-3 inline"/>) : ''}
                     </th>
                     <th scope="col" className="text-left px-2 select-none cursor-pointer"
-                        onClick={() => sortHandler('acts.name')}>
+                        onClick={() => sortHandler('act_name')}>
                         Act
-                        {sort.column === 'acts.name' ? (
-                            <Icon iconNode={sort.asc ? ChevronUp : ChevronDown} className="h-3 inline"/>) : ''}
+                        {currentSort.current.column === 'act_name' ? (
+                            <Icon iconNode={currentSort.current.asc ? ChevronUp : ChevronDown}
+                                  className="h-3 inline"/>) : ''}
                     </th>
                     <th scope="col" className="text-right px-2 select-none cursor-pointer"
                         onClick={() => sortHandler('play_count')}>
                         Play count
-                        {sort.column === 'play_count' ? (
-                            <Icon iconNode={sort.asc ? ChevronUp : ChevronDown} className="h-3 inline"/>) : ''}
+                        {currentSort.current.column === 'play_count' ? (
+                            <Icon iconNode={currentSort.current.asc ? ChevronUp : ChevronDown}
+                                  className="h-3 inline"/>) : ''}
                     </th>
                     <th/>
                 </tr>
@@ -96,7 +113,7 @@ export default function Songs({ acts, songs }: Readonly<{ stages: Song[] }>) {
                 <tbody>
                 {songs.data.map((song) => (
                     <tr className="hover:bg-accent/50 select-none" key={song.id}>
-                        <th>
+                        <th className="w-[4em]">
                             <LanguageFlag languageCode={song.language}/>
                         </th>
                         <th scope="row" className="font-bold text-left px-2 py-1">

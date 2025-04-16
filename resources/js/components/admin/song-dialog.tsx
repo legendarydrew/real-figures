@@ -20,14 +20,14 @@ interface SongDialogProps {
 }
 
 type SongForm = {
-    act_id: number | null;
+    act_id: number | '';
     title: string;
 }
 
 export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts }) => {
     // useForm() provides some very useful methods.
-    const { data, setData, post, patch, errors, setError, processing } = useForm<Required<SongForm>>({
-        act_id: null,
+    const { data, setData, post, patch, errors, setError, clearErrors, processing } = useForm<Required<SongForm>>({
+        act_id: '',
         title: '',
         language: 'en'
     });
@@ -38,6 +38,7 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
             act_id: song?.act_id ?? '',
             language: song?.language ?? 'en'
         });
+        clearErrors();
     }, [song]);
 
     const isEditing = (): boolean => {
