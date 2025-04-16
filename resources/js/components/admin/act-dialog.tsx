@@ -20,9 +20,8 @@ type ActForm = {
     profile: {
         description: string;
     } | null;
+    image: string | null;
 }
-
-// TODO upload a picture of the act.
 
 export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
 
@@ -30,7 +29,8 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
         name: '',
         profile: {
             description: ''
-        }
+        },
+        image: ''
     });
 
     useEffect(() => {
@@ -38,7 +38,8 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
             name: act?.name ?? '',
             profile: {
                 description: act?.profile?.description ?? ''
-            }
+            },
+            image: act?.image
         });
     }, [act]);
 
@@ -53,6 +54,21 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
 
     const changeProfileDescriptionHandler = (value: string) => {
         setData('profile', { ...data.profile, description: value }); // a gotcha!
+    };
+
+    const changeImageHandler = (e) => {
+        const file: File = e.target.files[0];
+        // Convert the file to a base64 encoded string.
+        // https://stackoverflow.com/a/53129416/4073160
+        const reader = new FileReader();
+        reader.onload = function () {
+            setData('image', reader.result?.toString());
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const removeImageHandler = () => {
+        setData('image', '');
     };
 
     const saveHandler = (e: SubmitEvent) => {
@@ -91,17 +107,40 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
                     <div className="flex gap-4">
 
                         {/* Left side */}
-                        <div className="flex-grow">
-                            <div className="mb-2">
+                        <div className="flex-grow w-2/5">
+                            <div className="mb-3">
                                 <Label htmlFor="actName">Act's name</Label>
                                 <Input id="actName" type="text" className="font-bold" value={data.name}
                                        onChange={changeNameHandler}/>
                                 <InputError className="mt-2" message={errors.title}/>
                             </div>
+
+                            <div className="mb-2 flex gap-2">
+                                <div className="flex-grow flex-shrink-0">
+                                    <Label>Act picture</Label>
+
+                                    <div className="flex gap-1 mt-2">
+                                        {/* The usual method of using a label styled as a button. */}
+                                        <label
+                                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] h-9 px-4 py-2 has-[>svg]:px-3 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90"
+                                            htmlFor="actImage">{data.image ? 'Replace' : 'Add'}</label>
+                                        <input id="actImage" type="file" accept="image/*" onChange={changeImageHandler}
+                                               className="hidden" aria-describedby="actImageHelp"/>
+
+                                        {data.image && (<Button variant="destructive" type="button"
+                                                                onClick={removeImageHandler}>Remove</Button>)}
+                                    </div>
+                                    <p className="mt-1 text-xs" id="file_input_help">JPEG or PNG recommended.</p>
+                                </div>
+                                {data.image && (
+                                    <div className="bg-gray-200 w-[12em] h-[10em] rounded-sm bg-cover"
+                                         style={{ backgroundImage: `url(${data.image})` }}/>
+                                )}
+                            </div>
                         </div>
 
                         {/* Right side */}
-                        <div className="flex-shrink-0 w-1/2">
+                        <div className="flex-shrink-0 w-3/5">
                             <span className="flex-grow">Profile <small>[optional]</small></span>
                             <div>
                                 <Label htmlFor="actDescription">Description</Label>
