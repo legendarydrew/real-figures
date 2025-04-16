@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Act;
+use App\Models\ActPicture;
 use App\Models\ActProfile;
 use App\Models\Song;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -39,5 +40,16 @@ class ActFactory extends Factory
             'title' => $song_title ?? config('contest.song.default-title')
         ])
         );
+    }
+
+    public function withPicture(int $chance = 100): ActFactory
+    {
+        return $this->afterCreating(function (Act $act) use ($chance)
+        {
+            if ($this->faker->boolean($chance))
+            {
+                ActPicture::factory()->for($act)->createOne();
+            }
+        });
     }
 }

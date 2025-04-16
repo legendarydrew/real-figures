@@ -110,35 +110,35 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 
                 <div className="flex gap-1">
                     <Button className="p-1" variant="outline" type="button" size="sm"
-                            onClick={() => applyFormatting("bold")}>
+                            onClick={() => applyFormatting("bold")} tabIndex="0">
                         <BoldIcon className="h-2"/>
                     </Button>
                     <Button className="p-1" variant="outline" type="button" size="sm"
-                            onClick={() => applyFormatting("italic")}>
+                            onClick={() => applyFormatting("italic")} tabIndex="0">
                         <ItalicIcon className="h-2"/>
                     </Button>
                     <Button className="p-1" variant="outline" type="button" size="sm"
-                            onClick={() => applyFormatting("code")}>
+                            onClick={() => applyFormatting("code")} tabIndex="0">
                         <CodeIcon className="h-2"/>
                     </Button>
                     <Button className="p-1" variant="outline" type="button" size="sm"
-                            onClick={() => applyFormatting("heading")}>
+                            onClick={() => applyFormatting("heading")} tabIndex="0">
                         <HeadingIcon className="h-2"/>
                     </Button>
                     <Button className="p-1" variant="outline" type="button" size="sm"
-                            onClick={() => applyFormatting("link")}>
+                            onClick={() => applyFormatting("link")} tabIndex="0">
                         <LinkIcon className="h-2"/>
                     </Button>
                     <Button className="p-1" variant="outline" type="button" size="sm"
-                            onClick={() => applyFormatting("ulist")}>
+                            onClick={() => applyFormatting("ulist")} tabIndex="0">
                         <ListIcon className="h-2"/>
                     </Button>
                     <Button className="p-1" variant="outline" type="button" size="sm"
-                            onClick={() => applyFormatting("olist")}>
+                            onClick={() => applyFormatting("olist")} tabIndex="0">
                         <ListOrderedIcon className="h-2"/>
                     </Button>
                     <Button className="p-1" variant="outline" type="button" size="sm"
-                            onClick={() => applyFormatting("quote")}>
+                            onClick={() => applyFormatting("quote")} tabIndex="0">
                         <QuoteIcon className="h-2"/>
                     </Button>
                 </div>

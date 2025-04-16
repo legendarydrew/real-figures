@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsBase64Image;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -23,10 +24,11 @@ class ActRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string',
+            'name'                => ['required', 'string',
                 Rule::unique('acts', 'name')->ignore($this->id)],
-            'profile'             => ['nullable', 'array'],
-            'profile.description' => ['string']
+            'profile'             => ['sometimes', 'array'],
+            'profile.description' => ['nullable', 'string'],
+            'image'               => ['nullable', new IsBase64Image()],
         ];
     }
 }

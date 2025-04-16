@@ -63,6 +63,7 @@ export interface Act {
     profile?: {
         description: string;
     };
+    image?: string;
 }
 
 export interface Song {
