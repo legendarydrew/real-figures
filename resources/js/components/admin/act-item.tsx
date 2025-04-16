@@ -1,0 +1,58 @@
+import { Act } from '@/types';
+import { Button } from '@/components/ui/button';
+import { Edit, PersonStanding, Trash } from 'lucide-react';
+import React from 'react';
+
+interface ActItemProps {
+    act: Act
+    onEdit?: () => void;
+    onDelete?: () => void;
+}
+
+export const ActItem: React.FC<ActItemProps> = ({ act, onEdit, onDelete }) => {
+
+    const editHandler = (): void => {
+        if (onEdit) {
+            onEdit();
+        }
+    }
+
+    const deleteHandler = (): void => {
+        if (onDelete) {
+            onDelete();
+        }
+    }
+
+    const textClasses = (): string => {
+        return `flex-grow text-lg leading-none font-bold text-left ${act.image ? 'text-white text-shadow-lg' : ''}`;
+    }
+
+    return (
+        <div
+            className="relative flex rounded-md b-2 h-[260px] w-full md:w-1/2 lg:w-1/4 bg-gray-200 hover:bg-gray-300 items-center flex-col justify-end overflow-hidden">
+
+            {act.image ? (
+                <div className="w-full h-full bg-cover z-0"
+                     style={{ backgroundImage: `url("${act.image}")` }}/>
+            ) : (
+                <div className="w-full h-full z-0 flex items-center justify-center text-gray-500 select-none">
+                    <PersonStanding className="h-1/2 w-1/2"/>
+                </div>
+            )}
+
+            <div className="absolute bottom w-full py-2 px-3 flex justify-between items-center gap-1">
+                <span className={textClasses()}>{act.name}</span>
+                <Button variant="secondary" size="icon" className="cursor-pointer"
+                        onClick={editHandler}
+                        title="Edit Act">
+                    <Edit className="h-3 w-3"/>
+                </Button>
+                <Button variant="destructive" size="icon" className="cursor-pointer"
+                        onClick={deleteHandler}
+                        title="Delete Act">
+                    <Trash className="h-3 w-3"/>
+                </Button>
+            </div>
+        </div>
+    );
+};
