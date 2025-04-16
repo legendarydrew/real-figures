@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ActRequest;
 use App\Models\Act;
+use App\Models\ActPicture;
 use App\Models\ActProfile;
 use App\Transformers\ActTransformer;
 use Illuminate\Http\JsonResponse;
@@ -35,9 +36,19 @@ class ActController extends Controller
             {
                 ActProfile::factory()->for($act)->create($data['profile']);
             }
+            if (!empty($data['image']))
+            {
+                ActPicture::updateOrCreate(['act_id' => $act->id], [
+                    'image' => $data['image']
+                ]);
+            }
+            else
+            {
+                $act->picture()->delete();
+            }
         });
 
-        return to_route('admin.acts');
+        return to_route('admin.acts', ['page' => request('page', 1)]);
     }
 
     public function update(ActRequest $request, int $act_id): RedirectResponse
@@ -59,15 +70,23 @@ class ActController extends Controller
             {
                 $act->profile()->delete();
             }
+            if (!empty($data['image']))
+            {
+                $act->picture()->updateOrCreate(['act_id' => $act->id], ['image' => $data['image']]);
+            }
+            else
+            {
+                $act->picture()->delete();
+            }
         });
 
-        return to_route('admin.acts');
+        return to_route('admin.acts', ['page' => request('page', 1)]);
     }
 
     public function destroy(int $act_id): RedirectResponse
     {
         Act::findOrFail($act_id)->delete();
 
-        return to_route('admin.acts');
+        return to_route('admin.acts', ['page' => request('page', 1)]);
     }
 }

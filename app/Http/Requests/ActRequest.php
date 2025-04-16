@@ -26,9 +26,9 @@ class ActRequest extends FormRequest
         return [
             'name'                => ['required', 'string',
                 Rule::unique('acts', 'name')->ignore($this->id)],
-            'profile'             => ['nullable', 'array'],
-            'profile.description' => ['string'],
-            'picture'             => ['sometimes', new IsBase64Image()],
+            'profile'             => ['sometimes', 'array'],
+            'profile.description' => ['nullable', 'string'],
+            'image'               => ['nullable', new IsBase64Image()],
         ];
     }
 }

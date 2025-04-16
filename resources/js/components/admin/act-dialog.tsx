@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogFooter, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { useForm } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Act } from '@/types';
 import { Toaster } from '@/components/ui/toast-message';
@@ -17,7 +17,7 @@ interface ActDialogProps {
 
 type ActForm = {
     name: string;
-    profile: {
+    profile?: {
         description: string;
     } | null;
     image: string | null;
@@ -25,13 +25,15 @@ type ActForm = {
 
 export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
 
-    const { data, setData, post, patch, errors, setError, processing } = useForm<Required<ActForm>>({
+    const { data, setData, errors, setError, processing } = useForm<Required<ActForm>>({
         name: '',
         profile: {
             description: ''
         },
         image: ''
     });
+
+    const { props } = usePage();
 
     useEffect(() => {
         setData({
@@ -54,6 +56,7 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
 
     const changeProfileDescriptionHandler = (value: string) => {
         setData('profile', { ...data.profile, description: value }); // a gotcha!
+        setError('profile.description', '');
     };
 
     const changeImageHandler = (e) => {
@@ -63,24 +66,29 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
         const reader = new FileReader();
         reader.onload = function () {
             setData('image', reader.result?.toString());
+            setError('image', '');
         };
         reader.readAsDataURL(file);
+        e.target.filename = undefined; // to allow selecting the same file more than once.
     };
 
     const removeImageHandler = () => {
         setData('image', '');
+        setError('image', '');
     };
 
     const saveHandler = (e: SubmitEvent) => {
         e.preventDefault();
 
         // If the profile is empty, remove the whole thing.
+        const formData = { ...data, page: props.acts?.meta.pagination.current_page };
         if (data.profile && Object.values(data.profile).every((v) => !(v || v.length))) {
-            setData('profile', null);
+            delete formData.profile;
         }
 
         if (isEditing()) {
-            patch(route('acts.update', { id: act.id }), {
+            router.patch(route('acts.update', { id: act.id }), formData, {
+                showProgress: true,
                 onSuccess: () => {
                     Toaster.success(`Act "${act.name}" was updated.`);
                     onOpenChange();
@@ -88,7 +96,8 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
                 preserveScroll: true
             });
         } else {
-            post(route('acts.store'), {
+            router.post(route('acts.store'), formData, {
+                showProgress: true,
                 onSuccess: () => {
                     Toaster.success(`Act "${data.name}" was created.`);
                     onOpenChange();
@@ -137,6 +146,7 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
                                          style={{ backgroundImage: `url(${data.image})` }}/>
                                 )}
                             </div>
+                            <InputError className="mt-2" message={errors.image}/>
                         </div>
 
                         {/* Right side */}
@@ -144,9 +154,9 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
                             <span className="flex-grow">Profile <small>[optional]</small></span>
                             <div>
                                 <Label htmlFor="actDescription">Description</Label>
-                                <MarkdownEditor value={data.profile.description}
+                                <MarkdownEditor value={data.profile?.description}
                                                 onChange={changeProfileDescriptionHandler}/>
-                                <InputError className="mt-2" message={errors.description}/>
+                                <InputError className="mt-2" message={errors['profile.description']}/>
                             </div>
                         </div>
 

@@ -6,7 +6,6 @@ use Closure;
 use Exception;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
-use Intervention\Image\Decoders\Base64ImageDecoder;
 use Intervention\Image\Laravel\Facades\Image;
 
 class IsBase64Image implements ValidationRule
@@ -21,7 +20,7 @@ class IsBase64Image implements ValidationRule
         // https://stackoverflow.com/a/39442808/4073160
         try
         {
-            Image::read($value, Base64ImageDecoder::class);
+            Image::read($value);
         }
         catch (Exception $e)
         {
