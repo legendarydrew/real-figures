@@ -3,9 +3,12 @@
 namespace Tests\Feature\Controllers\Act;
 
 use App\Models\Act;
+use App\Models\ActPicture;
 use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Intervention\Image\Laravel\Facades\Image;
 use PHPUnit\Framework\Attributes\Depends;
+use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use Tests\TestCase;
 
 class UpdateTest extends TestCase
@@ -21,7 +24,7 @@ class UpdateTest extends TestCase
     {
         parent::setUp();
 
-        $this->act     = Act::factory()->createOne();
+        $this->act = Act::factory()->withPicture()->createOne();
         $this->payload = [
             'name' => fake()->name
         ];
@@ -81,11 +84,33 @@ class UpdateTest extends TestCase
     public function test_updates_and_deletes_profile()
     {
         ActProfile::factory()->for($this->act)->createOne();
-        $this->payload['profile'] = null;
+        unset($this->payload['profile']);
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
         $this->act->load('profile');
         self::assertNull($this->act->profile);
+    }
+
+    #[Depends('test_updates_act')]
+    public function test_updates_and_adds_image()
+    {
+        fake()->addProvider(new FakerPicsumImagesProvider(fake()));
+        $this->payload['image'] = Image::read(fake()->image())->encode()->toDataUri();
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+
+        $this->act->load('picture');
+        self::assertInstanceOf(ActPicture::class, $this->act->picture);
+        self::assertEquals($this->payload['image'], $this->act->picture->image);
+    }
+
+    #[Depends('test_updates_act')]
+    public function test_updates_and_removes_image()
+    {
+        $this->payload['image'] = null;
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+
+        $this->act->load('picture');
+        self::assertNull($this->act->picture);
     }
 
 }

@@ -6,6 +6,7 @@ use App\Models\ActPicture;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Intervention\Image\Decoders\Base64ImageDecoder;
 use Intervention\Image\Laravel\Facades\Image;
+use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 
 /**
  * @extends Factory<ActPicture>
@@ -19,7 +20,7 @@ class ActPictureFactory extends Factory
      */
     public function definition(): array
     {
-        $this->faker->addProvider(new \Smknstd\FakerPicsumImages\FakerPicsumImagesProvider($this->faker));
+        $this->faker->addProvider(new FakerPicsumImagesProvider($this->faker));
         return [
             'image' => Image::read($this->faker->image)->encode()->toDataUri()
         ];

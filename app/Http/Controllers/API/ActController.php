@@ -48,7 +48,7 @@ class ActController extends Controller
             }
         });
 
-        return to_route('admin.acts', ['page' => request('page', 1)]);
+        return to_route('admin.acts');
     }
 
     public function update(ActRequest $request, int $act_id): RedirectResponse
@@ -80,13 +80,13 @@ class ActController extends Controller
             }
         });
 
-        return to_route('admin.acts', ['page' => request('page', 1)]);
+        return to_route('admin.acts');
     }
 
     public function destroy(int $act_id): RedirectResponse
     {
         Act::findOrFail($act_id)->delete();
 
-        return to_route('admin.acts', ['page' => request('page', 1)]);
+        return to_route('admin.acts');
     }
 }

@@ -3,9 +3,12 @@
 namespace Tests\Feature\Controllers\Act;
 
 use App\Models\Act;
+use App\Models\ActPicture;
 use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Intervention\Image\Laravel\Facades\Image;
 use PHPUnit\Framework\Attributes\Depends;
+use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use Tests\TestCase;
 
 class StoreTest extends TestCase
@@ -38,18 +41,18 @@ class StoreTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_post_without_profile()
+    public function test_creates_act_without_profile()
     {
-        $this->payload['profile'] = null;
+        unset($this->payload['profile']);
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
 
         $act = Act::first();
-        self::assertEquals($act->name, $this->payload['name']);
+        self::assertEquals($this->payload['name'], $act->name);
         self::assertNull($act->profile);
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_post_with_profile()
+    public function test_creates_act_with_profile()
     {
         $this->payload['profile'] = ['description' => fake()->paragraph];
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -57,6 +60,28 @@ class StoreTest extends TestCase
         $act = Act::first();
         self::assertEquals($act->name, $this->payload['name']);
         self::assertInstanceOf(ActProfile::class, $act->profile);
+    }
+
+    #[Depends('test_as_user')]
+    public function test_creates_act_with_image()
+    {
+        fake()->addProvider(new FakerPicsumImagesProvider(fake()));
+        $this->payload['image'] = Image::read(fake()->image())->encode()->toDataUri();
+        $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+
+        $act = Act::first();
+        self::assertInstanceOf(ActPicture::class, $act->picture);
+        self::assertEquals($this->payload['image'], $act->picture->image);
+    }
+
+    #[Depends('test_as_user')]
+    public function test_updates_and_removes_image()
+    {
+        $this->payload['image'] = null;
+        $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+
+        $act = Act::first();
+        self::assertNull($act->picture);
     }
 
 }
