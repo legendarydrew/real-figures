@@ -42,13 +42,14 @@ class UpdateTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_updates_act()
+    public function test_updates_song()
     {
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->song->id), $this->payload);
 
         $this->song->refresh();
         self::assertEquals($this->payload['title'], $this->song->title);
         self::assertEquals($this->payload['act_id'], $this->song->act_id);
+        self::assertEquals($this->payload['language'], $this->song->language);
     }
 
     #[Depends('test_as_user')]

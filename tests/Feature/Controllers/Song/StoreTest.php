@@ -45,6 +45,8 @@ class StoreTest extends TestCase
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $song = Song::whereTitle($this->payload['title'])->first();
         self::assertInstanceOf(Song::class, $song);
+        self::assertEquals($this->payload['act_id'], $song->act_id);
+        self::assertEquals($this->payload['language'], $song->language);
     }
 
 }

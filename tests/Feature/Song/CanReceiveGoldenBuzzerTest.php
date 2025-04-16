@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Song;
+namespace Tests\Feature\Song;
 
 use App\Models\Song;
 use Illuminate\Foundation\Testing\DatabaseMigrations;

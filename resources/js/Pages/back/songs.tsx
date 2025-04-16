@@ -17,6 +17,9 @@ interface TableSort {
     asc: boolean;
 }
 
+// As a future challenge: can we preserve this page's sort order?
+// (perhaps by adding the information to the meta data.)
+
 export default function Songs({ acts, songs }: Readonly<{ songs: Song[] }>) {
 
     const [currentSong, setCurrentSong] = useState<Song>();
