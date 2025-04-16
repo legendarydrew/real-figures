@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -53,9 +54,10 @@ class Song extends Model
         return $this->hasMany(RoundOutcome::class);
     }
 
-    public function urls(): HasMany
+    public function url(): HasOne
     {
-        return $this->hasMany(SongUrl::class);
+        // We should be able to switch to HasMany without rebuilding the database.
+        return $this->hasOne(SongUrl::class);
     }
 
     public function goldenBuzzers(): HasMany

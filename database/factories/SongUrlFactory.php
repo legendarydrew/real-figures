@@ -15,7 +15,7 @@ class SongUrlFactory extends Factory
         // https://github.com/aalaap/faker-youtube
         $this->faker->addProvider(new \Faker\Provider\Youtube($this->faker));
         return [
-            'url' => $this->faker->youtubeEmbedUri(),
+            'url' => $this->faker->youtubeUri(),
         ];
     }
 }

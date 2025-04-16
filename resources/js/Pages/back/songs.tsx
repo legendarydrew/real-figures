@@ -2,15 +2,13 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import React, { RefObject, useRef, useState } from 'react';
-import { ChevronDown, ChevronUp, Edit, Trash } from 'lucide-react';
+import { ChevronDown, ChevronUp, Edit, Music, Trash } from 'lucide-react';
 import { Song } from '@/types';
 import { SongDialog } from '@/components/admin/song-dialog';
 import { DeleteSongDialog } from '@/components/admin/delete-song-dialog';
 import { LanguageFlag } from '@/components/language-flag';
 import { Pagination } from '@/components/admin/pagination';
 import { Icon } from '@/components/icon';
-
-// TODO filter songs.
 
 interface TableSort {
     column: string;
@@ -111,19 +109,23 @@ export default function Songs({ acts, songs }: Readonly<{ songs: Song[] }>) {
                                   className="h-3 inline"/>) : ''}
                     </th>
                     <th/>
+                    <th/>
                 </tr>
                 </thead>
                 <tbody>
                 {songs.data.map((song) => (
                     <tr className="hover:bg-accent/50 select-none" key={song.id}>
-                        <th className="w-[4em]">
+                        <th className="text-center">
                             <LanguageFlag languageCode={song.language}/>
                         </th>
-                        <th scope="row" className="font-bold text-left px-2 py-1">
-                            {song.title}
-                        </th>
+                        <th scope="row" className="font-bold text-left px-2 py-1">{song.title}</th>
                         <td className="text-left px-2 py-1">{song.act.name}</td>
                         <td className="text-sm text-right px-2 py-1">{song.play_count.toLocaleString()}</td>
+                        <td className="text-sm text-center px-2 py-1">
+                            {song.url && <a href={song.url} target="_blank">
+                                <Music/>
+                            </a>}
+                        </td>
                         <td className="px-2 py-1">
                             <div className="flex justify-end gap-1">
                                 <Button variant="secondary" className="p-3 cursor-pointer"

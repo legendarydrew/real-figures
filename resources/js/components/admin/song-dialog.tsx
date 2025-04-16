@@ -29,14 +29,16 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
     const { data, setData, post, patch, errors, setError, clearErrors, processing } = useForm<Required<SongForm>>({
         act_id: '',
         title: '',
-        language: 'en'
+        language: 'en',
+        url: ''
     });
 
     useEffect(() => {
         setData({
             title: song?.title ?? '',
             act_id: song?.act_id ?? '',
-            language: song?.language ?? 'en'
+            language: song?.language ?? 'en',
+            url: song?.url ?? ''
         });
         clearErrors();
     }, [song]);
@@ -59,6 +61,11 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
     const changeLanguageHandler = (value: string) => {
         setData('language', value);
         setError('language', '');
+    };
+
+    const changeUrlHandler = (e: ChangeEvent) => {
+        setData('url', e.target.value);
+        setError('url', '');
     };
 
     const getMatchingActName = (): string | null => {
@@ -138,6 +145,15 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
                         </Select>
                         <InputError className="mt-2" message={errors.act_id}/>
                     </div>
+
+                    <div className="mb-2">
+                        <Label htmlFor="songUrl">URL</Label>
+                        <Input id="songUrl" type="text" value={data.url}
+                               placeholder="YouTube video embed URL"
+                               onChange={changeUrlHandler}/>
+                        <InputError className="mt-2" message={errors.url}/>
+                    </div>
+
 
                     <DialogFooter>
                         <Button variant="default" type="submit" onClick={saveHandler}
