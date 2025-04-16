@@ -53,6 +53,11 @@ class Song extends Model
         return $this->hasMany(RoundOutcome::class);
     }
 
+    public function urls(): HasMany
+    {
+        return $this->hasMany(SongUrl::class);
+    }
+
     public function goldenBuzzers(): HasMany
     {
         return $this->hasMany(GoldenBuzzer::class);

@@ -2,7 +2,7 @@
 
 namespace App\Facades;
 
-use App\Services\PayPalService;
+use App\Services\PaypalService;
 use Illuminate\Support\Facades\Facade;
 
 class PaypalServiceFacade extends Facade
@@ -12,6 +12,6 @@ class PaypalServiceFacade extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return PayPalService::class;
+        return PaypalService::class;
     }
 }
