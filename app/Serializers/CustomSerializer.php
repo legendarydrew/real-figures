@@ -13,7 +13,13 @@ use League\Fractal\Serializer\DataArraySerializer;
  */
 class CustomSerializer extends DataArraySerializer
 {
-    public function item($resourceKey, array $data): array
+    public function collection(?string $resourceKey = 'data', array $data = []): array
+    {
+        // Pass an empty string to avoid nesting the data.
+        return !empty($resourceKey) ? [$resourceKey => $data] : $data;
+    }
+
+    public function item(?string $resourceKey, array $data): array
     {
         return $resourceKey ? [$resourceKey => $data] : $data;
     }

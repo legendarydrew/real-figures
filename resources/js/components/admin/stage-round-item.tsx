@@ -1,6 +1,8 @@
 import { Round } from '@/types';
 import React from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { LanguageFlag } from '@/components/language-flag';
+import { ActImage } from '@/components/ui/act-image';
 
 interface StageItemProps {
     round: Round;
@@ -11,16 +13,33 @@ export const StageRoundItem: React.FC<StageItemProps> = ({ round }) => {
     return round && (
         <Collapsible className="mb-0.5">
             <CollapsibleTrigger
-                className="flex gap-1 py-2 px-3 b-2 w-full bg-blue-100 hover:bg-blue-200 items-center justify-between">
-                <span className="flex-grow font-bold text-left">{round.title}</span>
-                <span className="w-[12em] text-center text-sm">{round.starts_at}</span>
-                <span className="text-sm">to</span>
-                <span className="w-[12em] text-center text-sm">{round.ends_at}</span>
-                {/* small Act images to go here. */}
+                className="flex gap-1 px-3 b-2 w-full bg-blue-100 hover:bg-blue-200 items-center justify-between">
+                <span className="flex-grow font-bold text-left py-2">{round.title}</span>
+                <div className="inline-flex gap-0.5">
+                    {round.songs?.map((song) => (
+                        <ActImage key={song.id} act={song.act} size="10 "/>
+                    ))}
+                </div>
+                <span className="w-[12em] py-2 text-center text-sm">{round.starts_at}</span>
+                <span className="text-sm py-2">to</span>
+                <span className="w-[12em] py-2 text-center text-sm">{round.ends_at}</span>
             </CollapsibleTrigger>
-            <CollapsibleContent className="p-3">
+            <CollapsibleContent className="p-1">
                 {/* Display information about Songs in this Round here. */}
-                ...
+                <ul>
+                    {round.songs?.map((song) => (
+                        <li key={song.id}
+                            className="my-0.5 flex gap-1 justify-between items-center text-sm hover:bg-indigo-100">
+                            <ActImage className="w-10 h-10" act={song.act}/>
+                            <LanguageFlag languageCode={song.language}/>
+                            <span className="w-[20em]">
+                                {song.act.name}
+                            </span>
+                            <span className="mr-auto">{song.title}</span>
+                            <span className="pr-2 text-right w-10">{song.play_count!.toLocaleString()}</span>
+                        </li>
+                    ))}
+                </ul>
             </CollapsibleContent>
         </Collapsible>
     );

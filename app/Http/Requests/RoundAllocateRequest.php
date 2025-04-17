@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RoundAllocateRequest extends FormRequest
 {
@@ -25,9 +26,9 @@ class RoundAllocateRequest extends FormRequest
         return [
             'song_ids'   => ['required', 'array'],
             'song_ids.*' => ['integer', 'exists:songs,id'],
-            'per_round'  => ['required', 'integer', 'between:1,100'],
-            'start_at'   => ['required', 'date', 'future'],
-            'duration'   => ['required', 'integer', 'between:1,31'],
+            'per_round' => ['required', 'integer', 'between:2,' . config('contest.rounds.maxSongs')],
+            'start_at'  => ['required', 'date', Rule::date()->todayOrAfter()],
+            'duration'  => ['required', 'integer', 'between:1,' . config('contest.rounds.maxDuration')],
         ];
     }
 }

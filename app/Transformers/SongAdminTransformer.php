@@ -19,7 +19,8 @@ class SongAdminTransformer extends TransformerAbstract
                 'name' => $song->act->name
             ],
             'play_count' => (int)$song->play_count,
-            'url'      => $song->url ? $song->url->url : null
+            'url'      => $song->url ? $song->url->url : null,
+            'image'    => $song->image?->image ?? null
         ];
     }
 }

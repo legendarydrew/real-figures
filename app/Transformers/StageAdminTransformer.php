@@ -4,6 +4,7 @@ namespace App\Transformers;
 
 use App\Models\Stage;
 use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Primitive;
 use League\Fractal\TransformerAbstract;
 
 class StageAdminTransformer extends TransformerAbstract
@@ -24,8 +25,9 @@ class StageAdminTransformer extends TransformerAbstract
         ];
     }
 
-    public function includeRounds(Stage $stage): Collection
+    public function includeRounds(Stage $stage): Primitive
     {
-        return $this->collection($stage->rounds, new RoundAdminTransformer());
+        $rounds = fractal($stage->rounds)->parseIncludes(['songs'])->transformWith(new RoundAdminTransformer())->toArray();
+        return $this->primitive($rounds);
     }
 }
