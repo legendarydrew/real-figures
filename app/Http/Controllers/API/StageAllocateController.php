@@ -18,7 +18,7 @@ class StageAllocateController extends Controller
         $stage    = Stage::findOrFail($stage_id);
         $data     = $request->validated();
         $songs    = Song::whereIn('id', $data['song_ids'])->get();
-        $start_at = Carbon::parse($data['start_at']);
+        $start_at = isset($data['start_at']) ? Carbon::parse($data['start_at']) : null;
 
         RoundAllocateFacade::songs($stage, $songs, songs_per_round: $data['per_round'], round_start: $start_at, round_duration: "{$data['duration']} days");
 
