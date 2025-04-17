@@ -33,12 +33,13 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
     const { data, setData, reset, errors, processing } = useForm<Required<RoundAllocateForm>>({
         song_ids: [],
         per_round: 4,   // number of songs per round.
-        starts_at: '',
+        starts_at: new Date().toISOString().slice(0, 16),
         duration: 7    // one week.
     });
 
     const maxSongs = useRef(props.roundConfig.maxSongs);
     const maxDuration = useRef(props.roundConfig.maxDuration);
+    const minStartTime = useRef(new Date().toISOString().slice(0, -8));
 
     useEffect(() => {
         reset('song_ids', 'per_round', 'starts_at', 'duration');
@@ -104,8 +105,9 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                         <div className="w-2/5">
                             <div className="mb-4">
                                 <Label htmlFor="allocateStart">First Round start</Label>
-                                <Input id="allocateStart" type="datetime-local" value={data.starts_at}
-                                       onChange={changeStartsAtHandler}/>
+                                <Input id="allocateStart" type="datetime-local" className="w-full"
+                                       value={data.starts_at}
+                                       min={minStartTime.current} onChange={changeStartsAtHandler}/>
                                 <InputError className="mt-2" message={errors.starts_at}/>
                             </div>
 
