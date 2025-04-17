@@ -22,7 +22,7 @@ interface RoundAllocateDialogProps {
 type RoundAllocateForm = {
     song_ids: number[];
     per_round: number;
-    start_at: string;
+    start_at?: string;
     duration: number;
 }
 
@@ -33,7 +33,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
     const { data, setData, reset, post, errors, setError, processing } = useForm<Required<RoundAllocateForm>>({
         song_ids: [],
         per_round: 4,   // number of songs per round.
-        start_at: new Date().toISOString().slice(0, 16),
+        start_at: '',
         duration: 7    // one week.
     });
 

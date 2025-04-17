@@ -24,10 +24,10 @@ class RoundAllocateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'song_ids'   => ['required', 'array'],
+            'song_ids' => ['required', 'array', 'min:2'],
             'song_ids.*' => ['integer', 'exists:songs,id'],
             'per_round' => ['required', 'integer', 'between:2,' . config('contest.rounds.maxSongs')],
-            'start_at'  => ['required', 'date', Rule::date()->todayOrAfter()],
+            'start_at'  => ['nullable', 'date', Rule::date()->todayOrAfter()],
             'duration'  => ['required', 'integer', 'between:1,' . config('contest.rounds.maxDuration')],
         ];
     }
