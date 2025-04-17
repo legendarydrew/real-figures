@@ -22,7 +22,7 @@ interface RoundAllocateDialogProps {
 type RoundAllocateForm = {
     song_ids: number[];
     per_round: number;
-    starts_at: string;
+    start_at: string;
     duration: number;
 }
 
@@ -30,10 +30,10 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
 
     const { props } = usePage();
 
-    const { data, setData, reset, errors, processing } = useForm<Required<RoundAllocateForm>>({
+    const { data, setData, reset, post, errors, setError, processing } = useForm<Required<RoundAllocateForm>>({
         song_ids: [],
         per_round: 4,   // number of songs per round.
-        starts_at: new Date().toISOString().slice(0, 16),
+        start_at: new Date().toISOString().slice(0, 16),
         duration: 7    // one week.
     });
 
@@ -42,7 +42,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
     const minStartTime = useRef(new Date().toISOString().slice(0, -8));
 
     useEffect(() => {
-        reset('song_ids', 'per_round', 'starts_at', 'duration');
+        reset('song_ids', 'per_round', 'start_at', 'duration');
         if (open) {
             if (!(songs && songs.length > 2)) {
                 toast.error('No Songs specified (minimum of two required).');
@@ -54,31 +54,38 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
     }, [open]);
 
     const changeStartsAtHandler = (e: ChangeEvent): void => {
-        setData('starts_at', e.target.value);
+        setData('start_at', e.target.value);
+        setError('start_at', '');
     };
 
     const changeDurationHandler = (value: number): void => {
         setData('duration', value);
+        setError('duration', '');
     };
 
     const changePerRoundHandler = (value: number): void => {
         setData('per_round', value);
+        setError('per_round', '');
     };
 
     const addSongId = (songId: number): void => {
         setData('song_ids', [...new Set([...data.song_ids, songId])]);
+        setError('song_ids', '');
     };
 
     const removeSongId = (songId: number): void => {
         setData('song_ids', data.song_ids.filter((id) => id !== songId));
+        setError('song_ids', '');
     };
 
     const selectAllSongsHandler = (): void => {
         setData('song_ids', songs.map((song) => song.id));
+        setError('song_ids', '');
     }
 
     const selectNoSongsHandler = (): void => {
         setData('song_ids', []);
+        setError('song_ids', '');
     }
 
     const isSongSelected = (songId: number): boolean => {
@@ -87,7 +94,14 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
 
     const saveHandler = (e: SubmitEvent): void => {
         e.preventDefault();
-        console.log(data);
+
+        post(route('stages.allocate', { id: stage?.id }), {
+            only: ['stages'],
+            showProgress: true,
+            onSuccess: () => {
+                onOpenChange();
+            }
+        });
     };
 
 
@@ -106,9 +120,9 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                             <div className="mb-4">
                                 <Label htmlFor="allocateStart">First Round start</Label>
                                 <Input id="allocateStart" type="datetime-local" className="w-full"
-                                       value={data.starts_at}
+                                       value={data.start_at}
                                        min={minStartTime.current} onChange={changeStartsAtHandler}/>
-                                <InputError className="mt-2" message={errors.starts_at}/>
+                                <InputError className="mt-2" message={errors.start_at}/>
                             </div>
 
                             <div className="flex gap-2 justify-between">
@@ -149,7 +163,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                                 </div>
                             </div>
 
-                            <div className="border rounded-sm p-1 h-[30vh] min-h-[10rem] overflow-y-auto">
+                            <div className="border rounded-sm p-1 h-[40vh] min-h-[12rem] overflow-y-auto">
                                 {songs.map((song) => (
                                     <label htmlFor={`song-${song.id}`} key={song.id}
                                            className="flex gap-2 text-xs items-center p-1 hover:bg-gray-100 select-none cursor-pointer">
