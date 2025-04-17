@@ -20,7 +20,7 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
 
         // Fetch a list of Songs before opening the allocation dialog.
         router.reload({
-            only: ['songs'],
+            only: ['songs', 'roundConfig'],
             showProgress: true,
             onSuccess: () => {
                 setIsAllocateDialogOpen(true);

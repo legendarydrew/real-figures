@@ -21,6 +21,7 @@ class StagesController extends Controller
                                             ->orderBy('act_name')
                                             ->orderBy('title')
                                             ->get(), new SongAdminTransformer())->toArray()['data'],
+            'roundConfig' => config('contest.rounds')
         ]);
     }
 }

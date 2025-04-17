@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } f
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Song, Stage } from '@/types';
 import toast from 'react-hot-toast';
@@ -28,6 +28,8 @@ type RoundAllocateForm = {
 
 export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpenChange, onSuccess, stage, songs }) => {
 
+    const { props } = usePage();
+
     const { data, setData, reset, errors, processing } = useForm<Required<RoundAllocateForm>>({
         song_ids: [],
         per_round: 4,   // number of songs per round.
@@ -35,8 +37,8 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
         duration: 7    // one week.
     });
 
-    // TODO store maximums as page props, for consistency.
-    const maxSongs = useRef(0);
+    const maxSongs = useRef(props.roundConfig.maxSongs);
+    const maxDuration = useRef(props.roundConfig.maxDuration);
 
     useEffect(() => {
         reset('song_ids', 'per_round', 'starts_at', 'duration');
@@ -45,7 +47,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                 toast.error('No Songs specified (minimum of two required).');
                 onOpenChange();
             } else {
-                maxSongs.current = Math.min(songs.length, 2);
+                maxSongs.current = Math.min(songs.length, maxSongs.current, props.roundConfig.maxSongs);
             }
         }
     }, [open]);
@@ -111,7 +113,8 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                                 <div>
                                     <Label htmlFor="allocateDuration">Songs per Round</Label>
 
-                                    <RangeInput id="allocateDuration" min="2" max={maxSongs} value={data.per_round}
+                                    <RangeInput id="allocateDuration" min="2" max={maxSongs.current}
+                                                value={data.per_round}
                                                 onChange={changePerRoundHandler}/>
                                     <div className="text-sm font-bold text-center">
                                         {data.per_round} songs
@@ -122,7 +125,8 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                                 <div>
                                     <Label htmlFor="allocateDuration">Round duration</Label>
 
-                                    <RangeInput id="allocateDuration" min="2" max="10" value={data.duration}
+                                    <RangeInput id="allocateDuration" min="1" max={maxDuration.current}
+                                                value={data.duration}
                                                 onChange={changeDurationHandler}/>
                                     <div className="text-sm font-bold text-center">
                                         {data.duration} day(s)
