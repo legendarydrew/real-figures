@@ -53,7 +53,9 @@ export interface Stage {
         has_started: boolean;
         has_ended: boolean;
     };
-    rounds?: any[];
+    rounds?: {
+        data: Round[];
+    };
 }
 
 export interface Act {
@@ -76,6 +78,13 @@ export interface Song {
         name: string;
     };
     url: string;
+}
+
+export interface Round {
+    id: number;
+    title: string;
+    starts_at: string;
+    ends_at: string;
 }
 
 export interface PaginatedResponse<T> {

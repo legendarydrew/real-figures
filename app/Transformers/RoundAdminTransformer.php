@@ -16,6 +16,8 @@ class RoundAdminTransformer extends TransformerAbstract
         return [
             'id'    => (int)$round->id,
             'title' => $round->title,
+            'starts_at' => $round->starts_at->toDateTimeString(),
+            'ends_at'   => $round->ends_at->toDateTimeString(),
         ];
     }
 }
