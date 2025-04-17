@@ -50,7 +50,7 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
             </div>
 
             <div className="p-4">
-                {stages.data.map((stage) => (
+                {stages.map((stage) => (
                     <StageItem key={stage.id} onAllocate={allocateHandler} onEdit={editHandler} onDelete={deleteHandler}
                                stage={stage}/>
                 ))}

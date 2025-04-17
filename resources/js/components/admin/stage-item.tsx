@@ -64,7 +64,7 @@ export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onEdit,
                     {stage.description}
                 </div>
 
-                {stage.rounds.data.map((round) => (
+                {stage.rounds.map((round) => (
                     <StageRoundItem key={round.id} round={round}/>
                 ))}
             </CollapsibleContent>

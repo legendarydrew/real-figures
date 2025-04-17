@@ -20,7 +20,7 @@ class StagesController extends Controller
             'songs'  => fn() => fractal(Song::withAggregate('act', 'name')
                                             ->orderBy('act_name')
                                             ->orderBy('title')
-                                            ->get(), new SongAdminTransformer())->toArray()['data'],
+                ->get(), new SongAdminTransformer())->toArray(),
             'roundConfig' => config('contest.rounds')
         ]);
     }
