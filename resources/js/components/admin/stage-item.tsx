@@ -8,11 +8,18 @@ import { StageRoundItem } from '@/components/admin/stage-round-item';
 
 interface StageItemProps {
     stage: Stage;
+    onAllocate?: (stage: Stage) => void;
     onEdit?: (stage: Stage) => void;
     onDelete?: (stage: Stage) => void;
 }
 
-export const StageItem: React.FC<StageItemProps> = ({ stage, onEdit, onDelete }) => {
+export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onEdit, onDelete }) => {
+
+    const allocateHandler = (): void => {
+        if (onAllocate) {
+            onAllocate(stage);
+        }
+    }
 
     const editHandler = (): void => {
         if (onEdit) {
@@ -33,12 +40,16 @@ export const StageItem: React.FC<StageItemProps> = ({ stage, onEdit, onDelete })
                 className="flex gap-2 py-2 px-3 b-2 w-full bg-gray-200 hover:bg-gray-300 items-center justify-between">
                 <span className="flex-grow font-bold text-left">{stage.title}</span>
                 <StageStatusTag stage={stage}/>
-                <Button variant="secondary" className="p-3 cursor-pointer"
+                <Button type="button" className="p-3 cursor-pointer"
+                        onClick={() => allocateHandler(stage)}>
+                    Allocate
+                </Button>
+                <Button type="button" variant="secondary" className="p-3 cursor-pointer"
                         onClick={() => editHandler(stage)}
                         title="Edit Stage">
                     <Edit className="h-3 w-3"/>
                 </Button>
-                <Button variant="destructive" className="p-3 cursor-pointer"
+                <Button type="button" variant="destructive" className="p-3 cursor-pointer"
                         onClick={() => deleteHandler(stage)}
                         title="Delete Stage">
                     <Trash className="h-3 w-3"/>
