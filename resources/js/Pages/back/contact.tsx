@@ -1,27 +1,63 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { ChevronDown, MessageCircleWarning } from 'lucide-react';
+import { CheckSquare, ChevronDown, MessageCircleWarning, Square } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ContactMessage, PaginatedResponse } from '@/types';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 export default function ContactMessagesPage({ messages }: Readonly<{ messages: PaginatedResponse<ContactMessage> }>) {
 
     // TODO load more messages functionality.
-    // TODO ability to delete messages.
+    // TODO ability to respond to messages.
+
+    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+
+    const selectMessageHandler = (message: ContactMessage): void => {
+        setSelectedIds([...new Set([...selectedIds, message.id])]);
+    }
+
+    const deselectMessageHandler = (message: ContactMessage): void => {
+        setSelectedIds(selectedIds.filter((id) => id !== message.id));
+    }
+
+    const selectAllHandler = (): void => {
+        setSelectedIds(messages.data.map((message) => message.id));
+    }
+
+    const deselectAllHandler = (): void => {
+        setSelectedIds([]);
+    }
+
+    const deleteHandler = (): void => {
+
+    };
 
     return (
         <AppLayout>
             <Head title="Contact Messages"/>
 
-            <div className="flex mb-3 p-4">
-                <h1 className="flex-grow font-bold text-2xl">Contact Messages</h1>
+            <div className="flex mb-3 p-4 items-center">
+                <h1 className="flex-grow font-bold text-2xl mr-auto">Contact Messages</h1>
+
+                <div className="flex gap-1">
+                    <Button variant="outline" type="button" onClick={selectAllHandler}>
+                        <CheckSquare/>
+                    </Button>
+                    <Button variant="outline" type="button" onClick={deselectAllHandler}>
+                        <Square/>
+                    </Button>
+                    <Button variant="destructive" type="button" onClick={deleteHandler} disabled={!selectedIds.length}>Delete
+                        messages</Button>
+                </div>
             </div>
 
             {messages.data ? messages.data.map((message) => (
                 <Collapsible className="my-1 mx-2" key={message.id}>
                     <div className="flex gap-2 items-center p-2 w-full bg-teal-200 hover:bg-teal-300">
-                        <Checkbox className="bg-white"/>
+                        <Checkbox className="bg-white" checked={selectedIds.includes(message.id)}
+                                  onCheckedChange={(state) => state ? selectMessageHandler(message) : deselectMessageHandler(message)}/>
                         <CollapsibleTrigger className="flex gap-3 w-full items-center">
                             <span className="flex-grow text-left">
                                 <span className="font-bold mr-2">{message.name}</span>
