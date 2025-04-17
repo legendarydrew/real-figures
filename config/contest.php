@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'date_format' => 'd/m/Y H:i',
     'contact' => [
         'captcha_threshold' => 0.5, // anything lower is considered spam.
     ],

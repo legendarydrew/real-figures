@@ -20,7 +20,7 @@ class ContactMessageFactory extends Factory
             'name'          => $this->faker->name(),
             'email'         => $this->faker->unique()->safeEmail(),
             'body'          => $this->faker->realText(),
-            'ip'            => $this->faker->ipv4(),
+            'ip_address' => $this->faker->ipv4(),
             'captcha_score' => $this->faker->biasedNumberBetween(1, 10) / 10,
         ];
     }
