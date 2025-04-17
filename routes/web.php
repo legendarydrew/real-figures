@@ -35,6 +35,8 @@ Route::prefix('/api')->group(function ()
         Route::patch('acts/{id}', [ActController::class, 'update'])->name('acts.update');
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
+        Route::delete('messages', [\App\Http\Controllers\API\ContactMessagesController::class, 'destroy'])->name('messages.destroy');
+
         Route::post('songs', [SongController::class, 'store'])->name('songs.store');
         Route::patch('songs/{id}', [SongController::class, 'update'])->name('songs.update');
         Route::delete('songs/{id}', [SongController::class, 'destroy'])->name('songs.destroy');

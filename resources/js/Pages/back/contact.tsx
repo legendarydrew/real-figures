@@ -1,11 +1,13 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { CheckSquare, ChevronDown, MessageCircleWarning, Square } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ContactMessage, PaginatedResponse } from '@/types';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { DestructiveDialog } from '@/components/admin/destructive-dialog';
+import toast from 'react-hot-toast';
 
 export default function ContactMessagesPage({ messages }: Readonly<{ messages: PaginatedResponse<ContactMessage> }>) {
 
@@ -13,6 +15,7 @@ export default function ContactMessagesPage({ messages }: Readonly<{ messages: P
     // TODO ability to respond to messages.
 
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const [isConfirmingDelete, setIsConfirmingDelete] = useState<boolean>(false);
 
     const selectMessageHandler = (message: ContactMessage): void => {
         setSelectedIds([...new Set([...selectedIds, message.id])]);
@@ -30,8 +33,25 @@ export default function ContactMessagesPage({ messages }: Readonly<{ messages: P
         setSelectedIds([]);
     }
 
-    const deleteHandler = (): void => {
+    const confirmDeleteHandler = (): void => {
+        setIsConfirmingDelete(true);
+    };
 
+    const deleteHandler = () => {
+        router.delete(route('messages.destroy'), {
+            data: { message_ids: selectedIds },
+            preserveUrl: true,
+            preserveState: true,
+            showProgress: true,
+            onSuccess: () => {
+                deselectAllHandler();
+                setIsConfirmingDelete(false);
+                toast.success('Message(s) successfully deleted.');
+            },
+            onError: () => {
+                toast.error('Could not delete the message(s).');
+            }
+        })
     };
 
     return (
@@ -48,7 +68,8 @@ export default function ContactMessagesPage({ messages }: Readonly<{ messages: P
                     <Button variant="outline" type="button" onClick={deselectAllHandler}>
                         <Square/>
                     </Button>
-                    <Button variant="destructive" type="button" onClick={deleteHandler} disabled={!selectedIds.length}>Delete
+                    <Button variant="destructive" type="button" onClick={confirmDeleteHandler}
+                            disabled={!selectedIds.length}>Delete
                         messages</Button>
                 </div>
             </div>
@@ -80,6 +101,12 @@ export default function ContactMessagesPage({ messages }: Readonly<{ messages: P
                     No Contact Messages received.
                 </div>
             )}
+
+            <DestructiveDialog title="Deleting Contact Messages" open={isConfirmingDelete} onConfirm={deleteHandler}
+                               onOpenChange={() => setIsConfirmingDelete(false)}>
+                You are about to delete <b>{selectedIds.length.toLocaleString()} messages.</b><br/>
+                Are you sure you want to do this?
+            </DestructiveDialog>
         </AppLayout>
     );
 }
