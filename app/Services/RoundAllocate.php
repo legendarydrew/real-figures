@@ -31,6 +31,10 @@ class RoundAllocate
         {
             throw new DataException('No Songs were provided.');
         }
+        elseif ($songs->count() < 2)
+        {
+            throw new DataException('At least two Songs are required.');
+        }
 
         if ($songs_per_round > 1)
         {
