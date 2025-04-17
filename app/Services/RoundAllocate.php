@@ -15,7 +15,7 @@ class RoundAllocate
 {
 
     /**
-     * Create one or more Rounds, allocating the specified Songs to each Round.
+     * Create one or more Rounds for a Stage, allocating the specified Songs to each Round.
      *
      * @param Stage       $stage
      * @param Collection  $songs
