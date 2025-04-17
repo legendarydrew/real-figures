@@ -12,4 +12,9 @@ class ContactMessage extends Model
     use HasFactory;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    public function isConsideredSpam(): bool
+    {
+        return $this->captcha_score < config('contest.contact.captcha_threshold');
+    }
 }

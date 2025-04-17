@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function ()
     Route::get('dashboard', fn() => Inertia::render('dashboard'))->name('dashboard');
 
     Route::get('/admin/acts', [\App\Http\Controllers\Back\ActsController::class, 'index'])->name('admin.acts');
+    Route::get('/admin/contact', [\App\Http\Controllers\Back\ContactMessageController::class, 'index'])->name('admin.contact');
     Route::get('/admin/songs', [\App\Http\Controllers\Back\SongsController::class, 'index'])->name('admin.songs');
     Route::get('/admin/stages', [\App\Http\Controllers\Back\StagesController::class, 'index'])->name('admin.stages');
 });

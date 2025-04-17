@@ -156,4 +156,8 @@
     body {
         @apply bg-background text-foreground;
     }
+
+    .nothing {
+        @apply px-10 py-4 flex items-center justify-center italic text-base text-muted-foreground;
+    }
 }

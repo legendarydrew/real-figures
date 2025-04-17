@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'contact' => [
+        'captcha_threshold' => 0.5, // anything lower is considered spam.
+    ],
     'song'   => [
         'default-title' => 'Real Figures Don\'t F.O.L.D'
     ],
