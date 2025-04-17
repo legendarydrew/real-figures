@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class RoundFactory extends Factory
     public function definition(): array
     {
         $start_date = $this->faker->dateTimeThisMonth();
-        $end_date   = $start_date->modify('+1 week');
+        $end_date = Carbon::parse($start_date)->addWeek();
         return [
             'title'     => $this->faker->sentence(2),
             'starts_at' => $start_date,

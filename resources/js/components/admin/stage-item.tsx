@@ -4,6 +4,7 @@ import { ChevronDown, Edit, Trash } from 'lucide-react';
 import React from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { StageStatusTag } from '@/components/ui/stage-status-tag';
+import { StageRoundItem } from '@/components/admin/stage-round-item';
 
 interface StageItemProps {
     stage: Stage;
@@ -46,15 +47,15 @@ export const StageItem: React.FC<StageItemProps> = ({ stage, onEdit, onDelete })
                     <ChevronDown className="h-3 w-3"/>
                 </CollapsibleTrigger>
             </div>
-            <CollapsibleContent className="p-3">
-                {stage.description}
-                {stage.rounds.data && (
-                    <ul>
-                        {stage.rounds.data.map((round) => (
-                            <li key={round.id}>{round.title} - {round.starts_at} to {round.ends_at}</li>
-                        ))}
-                    </ul>
-                )}
+            <CollapsibleContent className="bg-gray-100 p-3">
+
+                <div className="mt-2 mb-5 text-sm">
+                    {stage.description}
+                </div>
+
+                {stage.rounds.data.map((round) => (
+                    <StageRoundItem key={round.id} round={round}/>
+                ))}
             </CollapsibleContent>
         </Collapsible>
     );

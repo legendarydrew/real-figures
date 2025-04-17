@@ -13,6 +13,22 @@ export default function Stages({ stages }: Readonly<{ stages: Stage[] }>) {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
+    const expandStageHandler = (stage: Stage): void => {
+        // Fetch information about the specified Stage's Rounds.
+        // This is how we can do it the Inertia way!
+        // https://stackoverflow.com/a/77048332/4073160
+        router.visit(route('stages.rounds', { id: stage.id }), {
+            only: ['rounds'],
+            replace: false,
+            preserveState: true,
+            preserveUrl: true,
+            preserveScroll: true,
+            onSuccess: ((page) => {
+                stage.rounds = page.props.rounds;
+            })
+        });
+    };
+
     const editHandler = (stage: Stage) => {
         setCurrentStage(stage);
         setIsEditDialogOpen(true);
