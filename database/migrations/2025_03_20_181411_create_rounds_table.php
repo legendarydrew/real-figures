@@ -23,10 +23,12 @@ return new class extends Migration {
         {
             $table->id();
             $table->foreignId('stage_id')->constrained('stages', 'id')->cascadeOnDelete();
-            $table->string('title')->unique();
+            $table->string('title');
             $table->datetime('starts_at');
             $table->datetime('ends_at');
             $table->timestamps();
+
+            $table->unique(['stage_id', 'title']);
         });
 
         Schema::create('round_songs', function (Blueprint $table)

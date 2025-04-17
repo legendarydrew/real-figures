@@ -51,7 +51,7 @@ class RoundAllocate
             {
                 $round = Round::factory()->create([
                     'stage_id'  => $stage->id,
-                    'title'     => "Round " . ($index + 1),
+                    'title' => count($song_chunks) === 1 ? 'Final Round' : "Round " . ($index + 1),
                     'starts_at' => $round_start,
                     'ends_at'   => $round_start->clone()->add($interval),
                 ]);
