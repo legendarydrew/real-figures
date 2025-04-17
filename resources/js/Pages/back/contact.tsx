@@ -16,6 +16,7 @@ export default function ContactMessagesPage({ messages }: Readonly<{ messages: P
 
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [isConfirmingDelete, setIsConfirmingDelete] = useState<boolean>(false);
+    const [processing, setProcessing] = useState<boolean>(false);
 
     const selectMessageHandler = (message: ContactMessage): void => {
         setSelectedIds([...new Set([...selectedIds, message.id])]);
@@ -38,11 +39,15 @@ export default function ContactMessagesPage({ messages }: Readonly<{ messages: P
     };
 
     const deleteHandler = () => {
+        setProcessing(true);
         router.delete(route('messages.destroy'), {
             data: { message_ids: selectedIds },
             preserveUrl: true,
             preserveState: true,
             showProgress: true,
+            onFinish: () => {
+                setProcessing(false);
+            },
             onSuccess: () => {
                 deselectAllHandler();
                 setIsConfirmingDelete(false);
@@ -103,6 +108,7 @@ export default function ContactMessagesPage({ messages }: Readonly<{ messages: P
             )}
 
             <DestructiveDialog title="Deleting Contact Messages" open={isConfirmingDelete} onConfirm={deleteHandler}
+                               processing={processing}
                                onOpenChange={() => setIsConfirmingDelete(false)}>
                 You are about to delete <b>{selectedIds.length.toLocaleString()} messages.</b><br/>
                 Are you sure you want to do this?
