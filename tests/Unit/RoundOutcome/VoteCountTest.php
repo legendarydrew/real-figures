@@ -3,10 +3,13 @@
 namespace Tests\Unit\RoundOutcome;
 
 use App\Models\RoundOutcome;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class VoteCountTest extends TestCase
 {
+    use DatabaseMigrations;
+
     public function test_no_votes()
     {
         $outcome = RoundOutcome::factory()->make([
