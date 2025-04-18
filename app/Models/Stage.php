@@ -66,4 +66,13 @@ class Stage extends Model
         return $this->rounds->count() && $this->rounds->every(fn(Round $round) => $round->hasEnded());
     }
 
+    /**
+     * Returns TRUE if any of the Rounds for this Stage require a "manual vote".
+     *
+     * @return bool
+     */
+    public function requiresManualVote(): bool
+    {
+        return $this->rounds->some(fn(Round $round) => $round->requiresManualVote());
+    }
 }
