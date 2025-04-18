@@ -24,7 +24,8 @@ class SongsController extends Controller
                 Song::withAggregate('act', 'name')
                     // creates an additional column called act_name, also prevents conflicting IDs.
                     ->orderBy(...$sort)->paginate()
-            )->transformWith(SongAdminTransformer::class)->toArray()
+            )->transformWith(SongAdminTransformer::class)
+             ->withResourceName('data')->toArray()
         ]);
     }
 }

@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Head } from '@inertiajs/react';
 import { ChangeEvent, useState } from 'react';
+import { LoadingButton } from '@/components/ui/loading-button';
 
 export default function KitchenSinkPage() {
     const [donationAmount, setDonationAmount] = useState(10);
@@ -42,6 +43,12 @@ export default function KitchenSinkPage() {
 
                         {success && <p className="text-green-500">Donation was made!</p>}
                         {failure && <p className="text-red-400">Problem with donation.</p>}
+                    </section>
+
+                    <section className="my-3">
+                        <h2 className="mb-1 text-base font-bold">Loading button</h2>
+                        <LoadingButton variant="outline" isLoading={false}>Hello</LoadingButton><br/>
+                        <LoadingButton variant="outline" isLoading={true}>Hello</LoadingButton>
                     </section>
                 </main>
                 <footer className="text-center text-xs">Copyright &copy; Drew Maughan (SilentMode).</footer>

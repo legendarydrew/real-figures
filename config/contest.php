@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'date_format' => 'd/m/Y H:i',
+    'contact' => [
+        'captcha_threshold' => 0.5, // anything lower is considered spam.
+    ],
     'song'   => [
         'default-title' => 'Real Figures Don\'t F.O.L.D'
     ],

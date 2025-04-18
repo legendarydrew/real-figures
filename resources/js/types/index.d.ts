@@ -100,3 +100,13 @@ export interface PaginatedResponse<T> {
         }
     }
 }
+
+export interface ContactMessage {
+    id: number;
+    name: string;
+    email: string;
+    ip?: string;
+    body: string;
+    sent_at: string;
+    is_considered_spam: boolean;
+}

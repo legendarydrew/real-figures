@@ -35,6 +35,8 @@ Route::prefix('/api')->group(function ()
         Route::patch('acts/{id}', [ActController::class, 'update'])->name('acts.update');
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
+        Route::delete('messages', [\App\Http\Controllers\API\ContactMessagesController::class, 'destroy'])->name('messages.destroy');
+
         Route::post('songs', [SongController::class, 'store'])->name('songs.store');
         Route::patch('songs/{id}', [SongController::class, 'update'])->name('songs.update');
         Route::delete('songs/{id}', [SongController::class, 'destroy'])->name('songs.destroy');
@@ -56,6 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function ()
     Route::get('dashboard', fn() => Inertia::render('dashboard'))->name('dashboard');
 
     Route::get('/admin/acts', [\App\Http\Controllers\Back\ActsController::class, 'index'])->name('admin.acts');
+    Route::get('/admin/contact', [\App\Http\Controllers\Back\ContactMessageController::class, 'index'])->name('admin.contact');
     Route::get('/admin/songs', [\App\Http\Controllers\Back\SongsController::class, 'index'])->name('admin.songs');
     Route::get('/admin/stages', [\App\Http\Controllers\Back\StagesController::class, 'index'])->name('admin.stages');
 });
