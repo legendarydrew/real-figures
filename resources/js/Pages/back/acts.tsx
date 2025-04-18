@@ -58,6 +58,7 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
                 onSuccess: () => {
                     Toaster.success(`"${currentAct.name}" was deleted.`);
                     setIsDeleteDialogOpen(false);
+                    setCurrentAct(undefined);
                 }
             });
         }

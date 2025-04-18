@@ -5,10 +5,12 @@ import React, { RefObject, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp, Edit, Music, Trash } from 'lucide-react';
 import { Song } from '@/types';
 import { SongDialog } from '@/components/admin/song-dialog';
-import { DeleteSongDialog } from '@/components/admin/delete-song-dialog';
 import { LanguageFlag } from '@/components/language-flag';
 import { Pagination } from '@/components/admin/pagination';
 import { Icon } from '@/components/icon';
+import { DestructiveDialog } from '@/components/admin/destructive-dialog';
+import { DialogTitle } from '@/components/ui/dialog';
+import { Toaster } from '@/components/ui/toast-message';
 
 interface TableSort {
     column: string;
@@ -23,6 +25,7 @@ export default function Songs({ acts, songs }: Readonly<{ songs: Song[] }>) {
     const [currentSong, setCurrentSong] = useState<Song>();
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+    const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
     // Using refs instead of states, as these do not require re-rendering the page.
     // However, things will look just a little more stiff.
@@ -65,6 +68,26 @@ export default function Songs({ acts, songs }: Readonly<{ songs: Song[] }>) {
         setCurrentSong(song);
         setIsDeleteDialogOpen(true);
     }
+
+    const confirmDeleteHandler = () => {
+        if (currentSong) {
+            router.delete(route('songs.destroy', { id: currentSong.id }), {
+                preserveUrl: true,
+                preserveScroll: true,
+                onStart: () => {
+                    setIsDeleting(true);
+                },
+                onFinish: () => {
+                    setIsDeleting(false);
+                },
+                onSuccess: () => {
+                    Toaster.success(`"${currentSong.title}" was deleted.`);
+                    setIsDeleteDialogOpen(false);
+                    setCurrentSong(undefined);
+                }
+            });
+        }
+    };
 
     return (
         <AppLayout>
@@ -149,8 +172,13 @@ export default function Songs({ acts, songs }: Readonly<{ songs: Song[] }>) {
 
             <SongDialog song={currentSong} acts={acts} open={isEditDialogOpen}
                         onOpenChange={() => setIsEditDialogOpen(false)}/>
-            <DeleteSongDialog song={currentSong} open={isDeleteDialogOpen}
-                              onOpenChange={() => setIsDeleteDialogOpen(false)}/>
+            <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
+                               onConfirm={confirmDeleteHandler} processing={isDeleting}>
+                <DialogTitle>{`Delete Song "${currentSong?.title}" by ${currentSong?.act.name}`}</DialogTitle>
+
+                <span className="italic">This will remove the Song from all Rounds.</span><br/>
+                Are you sure you want to do this?
+            </DestructiveDialog>
         </AppLayout>
     );
 }
