@@ -92,7 +92,7 @@ class Round extends Model
      */
     public function hasStarted(): bool
     {
-        return $this->starts_at < now();
+        return $this->starts_at->isPast();
     }
 
     /**
@@ -102,6 +102,6 @@ class Round extends Model
      */
     public function hasEnded(): bool
     {
-        return $this->ends_at < now();
+        return $this->ends_at->isPast();
     }
 }
