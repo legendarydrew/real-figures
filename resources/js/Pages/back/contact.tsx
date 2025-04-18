@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { LoadingButton } from '@/components/ui/loading-button';
+import { ContactMessageRespond } from '@/components/admin/contact-message-respond';
 
 interface ContactMessagesPageProps {
     messages: ContactMessage[];
@@ -23,8 +24,6 @@ export default function ContactMessagesPage({
                                                 currentPage,
                                                 hasMorePages
                                             }: Readonly<ContactMessagesPageProps>) {
-
-    // TODO ability to respond to messages.
 
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [isConfirmingDelete, setIsConfirmingDelete] = useState<boolean>(false);
@@ -131,6 +130,8 @@ export default function ContactMessagesPage({
                             <CollapsibleContent className="py-3 px-8 bg-teal-100/50">
                                 <blockquote className="mb-2">{message.body}</blockquote>
                                 <p className="text-xs">This message was sent from IP address {message.ip}.</p>
+
+                                <ContactMessageRespond message={message}/>
                             </CollapsibleContent>
                         </Collapsible>
                     ))}
