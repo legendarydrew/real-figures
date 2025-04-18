@@ -5,17 +5,18 @@ import React, { useState } from 'react';
 import { Act, PaginatedResponse } from '@/types';
 import axios from 'axios';
 import { ActDialog } from '@/components/admin/act-dialog';
-import { DeleteActDialog } from '@/components/admin/delete-act-dialog';
 import { Pagination } from '@/components/admin/pagination';
 import { ActItem } from '@/components/admin/act-item';
-
-// TODO indicate whether the Act has a profile.
+import { DestructiveDialog } from '@/components/admin/destructive-dialog';
+import { Toaster } from '@/components/ui/toast-message';
+import { DialogTitle } from '@/components/ui/dialog';
 
 export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }>) {
 
     const [currentAct, setCurrentAct] = useState<Act>();
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+    const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
     const pageHandler = (pageNumber: number): void => {
         // Nice!
@@ -43,6 +44,26 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
         setIsDeleteDialogOpen(true);
     }
 
+    const confirmDeleteHandler = () => {
+        if (currentAct) {
+            router.delete(route('acts.destroy', { id: currentAct.id }), {
+                preserveUrl: true,
+                preserveScroll: true,
+                onStart: () => {
+                    setIsDeleting(true);
+                },
+                onFinish: () => {
+                    setIsDeleting(false);
+                },
+                onSuccess: () => {
+                    Toaster.success(`"${currentAct.name}" was deleted.`);
+                    setIsDeleteDialogOpen(false);
+                }
+            });
+        }
+    };
+
+
     return (
         <AppLayout>
             <Head title="Acts"/>
@@ -64,8 +85,13 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
             </div>
 
             <ActDialog act={currentAct} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
-            <DeleteActDialog act={currentAct} open={isDeleteDialogOpen}
-                             onOpenChange={() => setIsDeleteDialogOpen(false)}/>
+            <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
+                               onConfirm={confirmDeleteHandler} processing={isDeleting}>
+                <DialogTitle>{`Delete Act "${currentAct?.name}"`}</DialogTitle>
+                <span className="italic">This will also delete Songs associated with this Act,
+                    and remove them from existing Rounds.</span><br/>
+                Are you sure you want to do this?
+            </DestructiveDialog>
         </AppLayout>
     );
 }
