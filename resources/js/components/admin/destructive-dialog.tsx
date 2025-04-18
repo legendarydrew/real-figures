@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { Dialog, DialogContent, DialogFooter, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { LoadingButton } from '@/components/ui/loading-button';
@@ -6,7 +6,7 @@ import { LoadingButton } from '@/components/ui/loading-button';
 interface DestructiveDialogProps {
     // Dialog properties.
     open: boolean;
-    title?: string; // TODO use a slot that takes DialogTitle.
+    title?: string;
     processing: boolean;
     onOpenChange: () => void;
     onConfirm: () => void;
@@ -25,14 +25,21 @@ export const DestructiveDialog: FC<DestructiveDialogProps> = ({
                                                                   children
                                                               }) => {
 
+    // Using slots to organise dialog content.
+    // We can include a DialogTitle component within the component to set the title,
+    // or pass a title property instead.
+    // https://dev.to/neetigyachahar/what-is-the-react-slots-pattern-2ld9
+    const titleElement = React.Children.toArray(children).find(child => child.type === DialogTitle);
+    const otherChildElements = React.Children.toArray(children).filter((child) => child.type !== DialogTitle);
+
     return (
         <Dialog open={open} onClose={onOpenChange}>
             <DialogContent aria-describedby={undefined}>
 
-                <DialogTitle>{title}</DialogTitle>
+                {titleElement ?? <DialogTitle>{title}</DialogTitle>}
 
                 <div>
-                    {children}
+                    {otherChildElements}
                 </div>
 
                 <DialogFooter>

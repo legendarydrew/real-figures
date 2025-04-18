@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import toast from 'react-hot-toast';
+import { DialogTitle } from '@/components/ui/dialog';
 
 export default function ContactMessagesPage({ messages }: Readonly<{ messages: PaginatedResponse<ContactMessage> }>) {
 
@@ -107,11 +108,20 @@ export default function ContactMessagesPage({ messages }: Readonly<{ messages: P
                 </div>
             )}
 
-            <DestructiveDialog title="Deleting Contact Messages" open={isConfirmingDelete} onConfirm={deleteHandler}
+            <DestructiveDialog open={isConfirmingDelete} onConfirm={deleteHandler}
                                processing={processing}
                                onOpenChange={() => setIsConfirmingDelete(false)}>
-                You are about to delete <b>{selectedIds.length.toLocaleString()} messages.</b><br/>
-                Are you sure you want to do this?
+                <DialogTitle>Deleting Contact Messages</DialogTitle>
+                {selectedIds.length === 1 ? (
+                    <>
+                        Are you sure you want to delete this message?
+                    </>
+                ) : (
+                    <>
+                        You are about to delete <b>{selectedIds.length.toLocaleString()} messages.</b><br/>
+                        Are you sure you want to do this?
+                    </>
+                )}
             </DestructiveDialog>
         </AppLayout>
     );
