@@ -43,10 +43,10 @@ Route::prefix('/api')->group(function ()
         Route::delete('songs/{id}', [SongController::class, 'destroy'])->name('songs.destroy');
 
         Route::get('stages', [StageController::class, 'index'])->name('stages.index');
-        Route::get('stages/{id}', [StageController::class, 'show'])->name('stages.edit');
-        Route::post('stages', [StageController::class, 'store'])->name('stages.create');
+        Route::get('stages/{id}', [StageController::class, 'show'])->name('stages.show');
+        Route::post('stages', [StageController::class, 'store'])->name('stages.store');
         Route::patch('stages/{id}', [StageController::class, 'update'])->name('stages.update');
-        Route::delete('stages/{id}', [StageController::class, 'destroy'])->name('stages.delete');
+        Route::delete('stages/{id}', [StageController::class, 'destroy'])->name('stages.destroy');
         Route::post('stages/{id}/allocate', [\App\Http\Controllers\API\StageAllocateController::class, 'store'])->name('stages.allocate');
         Route::get('stages/{id}/rounds', [\App\Http\Controllers\API\StageRoundsController::class, 'show'])->name('stages.rounds');
     });

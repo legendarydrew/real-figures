@@ -2,11 +2,13 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { StageDialog } from '@/components/admin/stage-dialog';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Stage } from '@/types';
-import { DeleteStageDialog } from '@/components/admin/delete-stage-dialog';
 import { StageItem } from '@/components/admin/stage-item';
 import { RoundAllocateDialog } from '@/components/admin/round-allocate-dialog';
+import { DestructiveDialog } from '@/components/admin/destructive-dialog';
+import { DialogTitle } from '@/components/ui/dialog';
+import { Toaster } from '@/components/ui/toast-message';
 
 export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], songs }>) {
 
@@ -14,6 +16,7 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
     const [isAllocateDialogOpen, setIsAllocateDialogOpen] = useState<boolean>(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+    const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
     const allocateHandler = (stage: Stage): void => {
         setCurrentStage(stage);
@@ -38,6 +41,26 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
         setIsDeleteDialogOpen(true);
     }
 
+    const confirmDeleteHandler = () => {
+        if (currentStage) {
+            router.delete(route('stages.destroy', { id: currentStage.id }), {
+                preserveUrl: true,
+                preserveScroll: true,
+                onStart: () => {
+                    setIsDeleting(true);
+                },
+                onFinish: () => {
+                    setIsDeleting(false);
+                },
+                onSuccess: () => {
+                    Toaster.success(`"${currentStage.title}" was deleted.`);
+                    setIsDeleteDialogOpen(false);
+                    setCurrentStage(undefined);
+                }
+            });
+        }
+    };
+
     return (
         <AppLayout>
             <Head title="Stages"/>
@@ -59,8 +82,13 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
             <StageDialog stage={currentStage} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
             <RoundAllocateDialog stage={currentStage} open={isAllocateDialogOpen} songs={songs}
                                  onOpenChange={() => setIsAllocateDialogOpen(false)}/>
-            <DeleteStageDialog stage={currentStage} open={isDeleteDialogOpen}
-                               onOpenChange={() => setIsDeleteDialogOpen(false)}/>
+            <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
+                               onConfirm={confirmDeleteHandler} processing={isDeleting}>
+                <DialogTitle>{`Delete Stage "${currentStage?.title}"`}</DialogTitle>
+
+                <span className="italic">This will also delete the Rounds associated with this Stage.</span><br/>
+                Are you sure you want to do this?
+            </DestructiveDialog>
         </AppLayout>
     );
 }

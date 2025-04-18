@@ -76,7 +76,7 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
             });
         } else {
             // Creating a new Stage.
-            post(route('stages.create'), {
+            post(route('stages.store'), {
                 onSuccess: () => {
                     Toaster.success(`"${data.title}" was created.`);
                     onOpenChange();
