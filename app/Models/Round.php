@@ -104,4 +104,15 @@ class Round extends Model
     {
         return $this->ends_at->isPast();
     }
+
+    /**
+     * Returns TRUE if this Round requires a "manual vote".
+     * This happens if the Round has RoundOutcomes, but all the Songs have zero points.
+     *
+     * @return bool
+     */
+    public function requiresManualVote(): bool
+    {
+        return $this->hasEnded() && $this->outcomes->every('score', '=', 0);
+    }
 }

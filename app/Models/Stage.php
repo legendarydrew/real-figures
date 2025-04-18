@@ -65,4 +65,5 @@ class Stage extends Model
     {
         return $this->rounds->count() && $this->rounds->every(fn(Round $round) => $round->hasEnded());
     }
+
 }
