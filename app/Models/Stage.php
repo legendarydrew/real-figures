@@ -73,6 +73,7 @@ class Stage extends Model
      */
     public function requiresManualVote(): bool
     {
-        return $this->rounds->some(fn(Round $round) => $round->requiresManualVote());
+        return $this->hasEnded() && $this->rounds->some(fn(Round $round) => $round->requiresManualVote());
     }
+
 }

@@ -50,10 +50,10 @@ export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onEdit,
                 className="flex gap-2 py-2 px-3 b-2 w-full bg-gray-200 hover:bg-gray-300 items-center justify-between">
                 <span className="flex-grow font-bold text-left">{stage.title}</span>
                 <StageStatusTag stage={stage}/>
-                <Button type="button" className="p-3 cursor-pointer"
+                {!stage.status?.has_started && (<Button type="button" className="p-3 cursor-pointer"
                         onClick={allocateHandler}>
                     Allocate
-                </Button>
+                </Button>)}
                 {stage.status.manual_vote && <Button type="button" variant="secondary" className="p-3 cursor-pointer"
                                                      onClick={manualVoteHandler}>
                     Manual Vote

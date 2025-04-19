@@ -109,4 +109,11 @@ class RoundAllocateTest extends TestCase
         }
     }
 
+    public function test_stage_has_started()
+    {
+        Round::factory()->for($this->stage)->withSongs(2)->started()->create();
+
+        $this->expectException(DataException::class);
+        RoundAllocateFacade::songs($this->stage, $this->songs, 2);
+    }
 }
