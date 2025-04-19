@@ -48,6 +48,7 @@ Route::prefix('/api')->group(function ()
         Route::patch('stages/{id}', [StageController::class, 'update'])->name('stages.update');
         Route::delete('stages/{id}', [StageController::class, 'destroy'])->name('stages.destroy');
         Route::post('stages/{id}/allocate', [\App\Http\Controllers\API\StageAllocateController::class, 'store'])->name('stages.allocate');
+        Route::post('stages/{id}/manual-vote', [\App\Http\Controllers\API\StageManualVoteController::class, 'store'])->name('stages.manual-vote');
         Route::get('stages/{id}/rounds', [\App\Http\Controllers\API\StageRoundsController::class, 'show'])->name('stages.rounds');
     });
 
