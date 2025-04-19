@@ -34,10 +34,13 @@ class StageManualVoteController extends Controller
         }
 
         return Inertia::render('back/manual-vote', [
-            'stageTitle' => $stage->title,
-            'rounds'     => fn() => fractal($rounds)->parseIncludes(['songs'])
-                                                    ->transformWith(new RoundAdminTransformer())
-                                                    ->toArray(),
+            'stage'  => [
+                'id'    => $stage->id,
+                'title' => $stage->title
+            ],
+            'rounds' => fn() => fractal($rounds)->parseIncludes(['songs'])
+                                                ->transformWith(new RoundAdminTransformer())
+                                                ->toArray(),
         ]);
     }
 
