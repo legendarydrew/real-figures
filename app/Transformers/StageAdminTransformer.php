@@ -3,7 +3,6 @@
 namespace App\Transformers;
 
 use App\Models\Stage;
-use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Primitive;
 use League\Fractal\TransformerAbstract;
 
@@ -21,6 +20,7 @@ class StageAdminTransformer extends TransformerAbstract
             'status'      => [
                 'has_started' => $stage->hasStarted(),
                 'has_ended'   => $stage->hasEnded(),
+                'manual_vote' => $stage->requiresManualVote()
             ],
         ];
     }

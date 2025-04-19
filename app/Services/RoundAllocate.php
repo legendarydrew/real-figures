@@ -35,6 +35,11 @@ class RoundAllocate
         {
             throw new DataException('At least two Songs are required.');
         }
+        elseif ($stage->hasStarted())
+        {
+            throw new DataException('Stage has already started.');
+        }
+
 
         if ($songs_per_round > 1)
         {

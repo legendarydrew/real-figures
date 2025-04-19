@@ -11,38 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
-/**
- *
- *
- * @property int                                            $id
- * @property int                                            $stage_id
- * @property string                                         $title
- * @property \Illuminate\Support\Carbon                     $starts_at
- * @property \Illuminate\Support\Carbon                     $ends_at
- * @property \Illuminate\Support\Carbon|null                $created_at
- * @property \Illuminate\Support\Carbon|null                $updated_at
- * @property-read Collection<int, \App\Models\RoundOutcome> $outcomes
- * @property-read int|null                                  $outcomes_count
- * @property-read Collection<int, \App\Models\Song>         $songs
- * @property-read int|null                                  $songs_count
- * @property-read \App\Models\Stage                         $stage
- * @property-read Collection<int, \App\Models\RoundVote>    $votes
- * @property-read int|null                                  $votes_count
- * @method static \Database\Factories\RoundFactory factory($count = null, $state = [])
- * @method static Builder<static>|Round hasEnded()
- * @method static Builder<static>|Round hasStarted()
- * @method static Builder<static>|Round newModelQuery()
- * @method static Builder<static>|Round newQuery()
- * @method static Builder<static>|Round query()
- * @method static Builder<static>|Round whereCreatedAt($value)
- * @method static Builder<static>|Round whereEndsAt($value)
- * @method static Builder<static>|Round whereId($value)
- * @method static Builder<static>|Round whereStageId($value)
- * @method static Builder<static>|Round whereStartsAt($value)
- * @method static Builder<static>|Round whereTitle($value)
- * @method static Builder<static>|Round whereUpdatedAt($value)
- * @mixin \Eloquent
- */
 class Round extends Model
 {
     /** @use HasFactory<RoundFactory> */
@@ -92,7 +60,7 @@ class Round extends Model
      */
     public function hasStarted(): bool
     {
-        return $this->starts_at < now();
+        return $this->starts_at->isPast();
     }
 
     /**
@@ -102,6 +70,17 @@ class Round extends Model
      */
     public function hasEnded(): bool
     {
-        return $this->ends_at < now();
+        return $this->ends_at->isPast();
+    }
+
+    /**
+     * Returns TRUE if this Round requires a "manual vote".
+     * This happens if the Round has RoundOutcomes, but all the Songs have zero points.
+     *
+     * @return bool
+     */
+    public function requiresManualVote(): bool
+    {
+        return $this->hasEnded() && $this->songs()->count() > 0 && $this->outcomes->every('score', '=', 0);
     }
 }

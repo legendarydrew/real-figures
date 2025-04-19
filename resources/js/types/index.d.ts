@@ -52,6 +52,7 @@ export interface Stage {
     status?: {
         has_started: boolean;
         has_ended: boolean;
+        manual_vote: boolean;
     };
     rounds?: Round[];
 }
@@ -109,4 +110,10 @@ export interface ContactMessage {
     body: string;
     sent_at: string;
     is_considered_spam: boolean;
+}
+
+export interface ManualVoteRoundChoice {
+    first: number;
+    second: number;
+    third: number;
 }

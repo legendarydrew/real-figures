@@ -60,7 +60,7 @@ class RoundOutcome extends Model
     }
 
     /**
-     * Returns the total score for the respective song in the respective round.
+     * Returns the total score for the respective Song in the respective Round.
      *
      * @return int
      */
