@@ -52,6 +52,7 @@ export interface Stage {
     status?: {
         has_started: boolean;
         has_ended: boolean;
+        manual_vote: boolean;
     };
     rounds?: Round[];
 }

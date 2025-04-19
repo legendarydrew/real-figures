@@ -7,9 +7,11 @@ use App\Http\Requests\ManualVoteRequest;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\Stage;
+use App\Transformers\RoundAdminTransformer;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 /**
  * StageManualVoteController
@@ -20,6 +22,24 @@ use Illuminate\Support\Facades\DB;
  */
 class StageManualVoteController extends Controller
 {
+
+    public function show(int $stage_id): \Inertia\Response|RedirectResponse
+    {
+        $stage  = Stage::findOrFail($stage_id);
+        $rounds = $stage->rounds->filter(fn(Round $round) => $round->requiresManualVote());
+
+        if ($rounds->isEmpty())
+        {
+            return to_route('admin.stages')->withErrors('Stage does not require manual votes.');
+        }
+
+        return Inertia::render('back/manual-vote', [
+            'stageTitle' => $stage->title,
+            'rounds'     => fn() => fractal($rounds)->parseIncludes(['songs'])
+                                                    ->transformWith(new RoundAdminTransformer())
+                                                    ->toArray(),
+        ]);
+    }
 
     public function store(ManualVoteRequest $request, int $stage_id): RedirectResponse
     {
