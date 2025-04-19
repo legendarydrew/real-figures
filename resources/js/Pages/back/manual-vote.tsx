@@ -1,12 +1,12 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head, router, useForm } from '@inertiajs/react';
 import React from 'react';
-import { Round } from '@/types';
+import { ManualVoteRoundChoice, Round } from '@/types';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import { ActImage } from '@/components/ui/act-image';
 import { LoadingButton } from '@/components/ui/loading-button';
 import { Button } from '@/components/ui/button';
 import { CircleAlert } from 'lucide-react';
+import { ManualVoteItem } from '@/components/admin/manual-vote-item';
 
 interface ManualVotePageProps {
     stage: {
@@ -41,19 +41,14 @@ export default function ManualVotePage({ stage, rounds }: Readonly<ManualVotePag
         }))
     });
 
-    const positionHasError = (roundIndex: number, position: string): boolean => {
-        return errors[`votes.${roundIndex}.song_ids.${position}`] !== undefined;
+    const positionErrors = (roundIndex: number): string[] => {
+        return ['first', 'second', 'third'].filter((position) => errors[`votes.${roundIndex}.song_ids.${position}`] !== undefined);
     };
 
-    const voteHandler = (index: number, song_id: number, position: string): void => {
-        const newData = [...data.votes];
-        newData[index].song_ids[position] = song_id;
-        setData('votes', newData);
-    };
-
-    const isChecked = (index: number, song_id: number, position: string): boolean => {
-        const newData = [...data.votes];
-        return newData[index].song_ids[position] === song_id;
+    const voteHandler = (roundIndex: number, votes: ManualVoteRoundChoice): void => {
+        const updatedVotes = [...data.votes];
+        updatedVotes[roundIndex].song_ids = votes;
+        setData('votes', updatedVotes);
     };
 
     const cancelHandler = (): void => {
@@ -84,34 +79,9 @@ export default function ManualVotePage({ stage, rounds }: Readonly<ManualVotePag
                     <Card key={round.id} className="p-3 gap-2 mb-3 rounded-0">
                         <CardTitle>{round.title}</CardTitle>
                         <CardContent className="p-0">
-                            <div className="flex gap-2">
-                                <span className="flex-grow"></span>
-                                <span
-                                    className={`w-12 text-xs font-bold text-center ${positionHasError(roundIndex, 'first') ? 'text-red-600' : ''}`}>First</span>
-                                <span
-                                    className={`w-12 text-xs font-bold text-center ${positionHasError(roundIndex, 'second') ? 'text-red-600' : ''}`}>Second</span>
-                                <span
-                                    className={`w-12 text-xs font-bold text-center ${positionHasError(roundIndex, 'third') ? 'text-red-600' : ''}`}>Third</span>
-                            </div>
-                            <ul>
-                                {round.songs.map((song) => (
-                                    <li key={song.id}
-                                        className="flex gap-2 items-center select-none hover:bg-indigo-100/50">
-                                        <ActImage act={song.act} className="h-10 mr-3"/>
-                                        <span className="w-[20em]">{song.act.name}</span>
-                                        <span className="mr-auto">{song.title}</span>
-                                        {['first', 'second', 'third'].map((position) => (
-                                            <label key={`${song.id}-${position}`}
-                                                   className={`table-cell w-12 text-center p-2 hover:bg-indigo-100 ${positionHasError(roundIndex, position) ? 'bg-red-100' : ''}`}
-                                                   aria-label={`${position} place`}>
-                                                <input type="radio" name={`${round.id}-${position}`}
-                                                       defaultChecked={isChecked(roundIndex, song.id, position)}
-                                                       onClick={() => voteHandler(roundIndex, song.id, position)}/>
-                                            </label>
-                                        ))}
-                                    </li>
-                                ))}
-                            </ul>
+                            <ManualVoteItem round={round} votes={data.votes[roundIndex].song_ids}
+                                            positionErrors={positionErrors(roundIndex)}
+                                            onChange={(v) => voteHandler(roundIndex, v)}/>
                         </CardContent>
                     </Card>
                 ))}

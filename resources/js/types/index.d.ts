@@ -111,3 +111,9 @@ export interface ContactMessage {
     sent_at: string;
     is_considered_spam: boolean;
 }
+
+export interface ManualVoteRoundChoice {
+    first: number;
+    second: number;
+    third: number;
+}
