@@ -20,9 +20,10 @@ export const StageRoundItem: React.FC<StageItemProps> = ({ round }) => {
                         <ActImage key={song.id} act={song.act} size="10 "/>
                     ))}
                 </div>
-                <span className="w-[12em] py-2 text-center text-sm">{round.starts_at}</span>
-                <span className="text-sm py-2">to</span>
-                <span className="w-[12em] py-2 text-center text-sm">{round.ends_at}</span>
+                <span className="w-[9em] py-2 text-right text-sm">{round.vote_count} vote(s)</span>
+                <span className="w-[10em] py-2 text-center text-xs">{round.starts_at}</span>
+                <span className="text-xs py-2 text-muted-foreground">to</span>
+                <span className="w-[10em] py-2 text-center text-xs">{round.ends_at}</span>
             </CollapsibleTrigger>
             <CollapsibleContent className="p-1">
                 {/* Display information about Songs in this Round here. */}

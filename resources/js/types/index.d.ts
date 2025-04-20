@@ -86,6 +86,7 @@ export interface Round {
     starts_at: string;
     ends_at: string;
     songs?: Song[];
+    vote_count: number;
 }
 
 export interface PaginatedResponse<T> {
