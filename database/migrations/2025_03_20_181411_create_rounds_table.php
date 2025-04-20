@@ -50,10 +50,22 @@ return new class extends Migration {
             $table->unsignedInteger('second_votes')->default(0);
             $table->unsignedInteger('third_votes')->default(0);
             $table->boolean('was_manual')->default(false)
-                                         ->comment('True in the case where there were no public votes.');
+                ->comment('True in the case where there were no public votes.');
             $table->timestamps();
 
             $table->unique(['round_id', 'song_id']);
+        });
+
+        Schema::create('stage_winners', function (Blueprint $table)
+        {
+            $table->id();
+            $table->foreignId('stage_id')->constrained('stages', 'id')->cascadeOnDelete();
+            $table->foreignId('round_id')->constrained('rounds', 'id')->cascadeOnDelete();
+            $table->foreignId('song_id')->constrained('songs', 'id')->cascadeOnDelete();
+            $table->boolean('is_winner')->default(false)->comment('Whether the Song came in first place.');
+            $table->timestamps();
+
+            $table->unique(['stage_id', 'round_id', 'song_id']);
         });
     }
 
