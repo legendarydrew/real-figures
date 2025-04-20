@@ -35,7 +35,7 @@ class RoundResults
     }
 
     /**
-     * Returns a list of winning and runner-up Songs for the specified Round.
+     * Returns a list of winning and runner-up RoundOutcomes for the specified Round.
      * If the Round has not yet ended, or there are no associated outcomes, nothing is returned.
      * At present, we are allowing for ties.
      *
@@ -62,12 +62,13 @@ class RoundResults
                 {
                     break;
                 }
-                $output['winners']->push($result->song);
+                $output['winners']->push($result);
                 $last_result = $result;
             }
 
             // Build a list of runners-up, up to the number requested.
-            $results = $results->slice($index);
+            $results     = $results->slice($index);
+            $last_result = null;
             foreach ($results as $result)
             {
                 if ($output['runners_up']->count() === $runner_up_count ||
@@ -75,7 +76,7 @@ class RoundResults
                 {
                     break;
                 }
-                $output['runners_up']->push($result->song);
+                $output['runners_up']->push($result);
                 $last_result = $result;
             }
 

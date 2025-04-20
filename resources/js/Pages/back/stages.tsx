@@ -9,14 +9,16 @@ import { RoundAllocateDialog } from '@/components/admin/round-allocate-dialog';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Toaster } from '@/components/ui/toast-message';
+import { StageWinnersDialog } from '@/components/admin/stage-winners-dialog';
 
 export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], songs }>) {
 
     const [currentStage, setCurrentStage] = useState<Stage>();
     const [isAllocateDialogOpen, setIsAllocateDialogOpen] = useState<boolean>(false);
-    const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
     const [isDeleting, setIsDeleting] = useState<boolean>(false);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+    const [isWinnerDialogOpen, setIsWinnerDialogOpen] = useState<boolean>(false);
 
     const allocateHandler = (stage: Stage): void => {
         setCurrentStage(stage);
@@ -29,6 +31,11 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
                 setIsAllocateDialogOpen(true);
             }
         });
+    }
+
+    const chooseWinnerHandler = (stage: Stage) => {
+        setCurrentStage(stage);
+        setIsWinnerDialogOpen(true);
     }
 
     const editHandler = (stage: Stage) => {
@@ -74,7 +81,8 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
 
             <div className="p-4">
                 {stages.map((stage) => (
-                    <StageItem key={stage.id} onAllocate={allocateHandler} onEdit={editHandler} onDelete={deleteHandler}
+                    <StageItem key={stage.id} onAllocate={allocateHandler} onEdit={editHandler}
+                               onDelete={deleteHandler} onChooseWinner={chooseWinnerHandler}
                                stage={stage}/>
                 ))}
             </div>
@@ -82,6 +90,8 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
             <StageDialog stage={currentStage} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
             <RoundAllocateDialog stage={currentStage} open={isAllocateDialogOpen} songs={songs}
                                  onOpenChange={() => setIsAllocateDialogOpen(false)}/>
+            <StageWinnersDialog stage={currentStage} open={isWinnerDialogOpen}
+                                onOpenChange={() => setIsWinnerDialogOpen(false)}/>
             <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
                                onConfirm={confirmDeleteHandler} processing={isDeleting}>
                 <DialogTitle>{`Delete Stage "${currentStage?.title}"`}</DialogTitle>

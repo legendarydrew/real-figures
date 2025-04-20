@@ -50,6 +50,7 @@ export interface Stage {
     title: string;
     description: string;
     status?: {
+        choose_winners: boolean;
         has_started: boolean;
         has_ended: boolean;
         manual_vote: boolean;
