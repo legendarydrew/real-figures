@@ -4,7 +4,11 @@ use App\Http\Controllers\API\ActController;
 use App\Http\Controllers\API\BuzzerController;
 use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\SongController;
+use App\Http\Controllers\API\StageAllocateController;
 use App\Http\Controllers\API\StageController;
+use App\Http\Controllers\API\StageManualVoteController;
+use App\Http\Controllers\API\StageRoundsController;
+use App\Http\Controllers\API\StageWinnersController;
 use App\Http\Controllers\API\VoteController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -47,10 +51,11 @@ Route::prefix('/api')->group(function ()
         Route::post('stages', [StageController::class, 'store'])->name('stages.store');
         Route::patch('stages/{id}', [StageController::class, 'update'])->name('stages.update');
         Route::delete('stages/{id}', [StageController::class, 'destroy'])->name('stages.destroy');
-        Route::post('stages/{id}/allocate', [\App\Http\Controllers\API\StageAllocateController::class, 'store'])->name('stages.allocate');
-        Route::get('stages/{id}/manual-vote', [\App\Http\Controllers\API\StageManualVoteController::class, 'show'])->name('stages.manual-vote.show');
-        Route::post('stages/{id}/manual-vote', [\App\Http\Controllers\API\StageManualVoteController::class, 'store'])->name('stages.manual-vote.store');
-        Route::get('stages/{id}/rounds', [\App\Http\Controllers\API\StageRoundsController::class, 'show'])->name('stages.rounds');
+        Route::post('stages/{id}/allocate', [StageAllocateController::class, 'store'])->name('stages.allocate');
+        Route::get('stages/{id}/manual-vote', [StageManualVoteController::class, 'show'])->name('stages.manual-vote.show');
+        Route::post('stages/{id}/manual-vote', [StageManualVoteController::class, 'store'])->name('stages.manual-vote.store');
+        Route::get('stages/{id}/rounds', [StageRoundsController::class, 'show'])->name('stages.rounds');
+        Route::post('stages/{id}/winners', [StageWinnersController::class, 'store'])->name('stages.winners');
     });
 
 });

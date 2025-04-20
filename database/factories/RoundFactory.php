@@ -38,7 +38,7 @@ class RoundFactory extends Factory
 
     public function ended(): RoundFactory|Factory
     {
-        return $this->state(fn(array $attributes) => ['starts_at' => fake()->dateTimeBetween('-1 week',),
+        return $this->state(fn(array $attributes) => ['starts_at' => fake()->dateTimeBetween('-1 week'),
                                                       'ends_at'   => now()->subSecond()]
         );
     }
@@ -51,7 +51,7 @@ class RoundFactory extends Factory
             $songs = Song::inRandomOrder()->take($count)->get();
             if ($songs->count() < $count)
             {
-                $songs += Song::factory($count - $songs->count())->withAct()->create();
+                $songs = $songs->merge(Song::factory($count - $songs->count())->withAct()->create());
             }
             foreach ($songs as $song)
             {
