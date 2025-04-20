@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Carbon;
 
 /**
@@ -74,6 +75,21 @@ class Stage extends Model
     public function requiresManualVote(): bool
     {
         return $this->hasEnded() && $this->rounds->some(fn(Round $round) => $round->requiresManualVote());
+    }
+
+    public function outcomes(): HasManyThrough
+    {
+        return $this->hasManyThrough(RoundOutcome::class, Round::class);
+    }
+
+    public function winners(): HasMany
+    {
+        return $this->hasMany(StageWinner::class);
+    }
+
+    public function canChooseWinners(): bool
+    {
+        return $this->hasEnded() && $this->outcomes()->count() && !$this->winners()->count();
     }
 
 }

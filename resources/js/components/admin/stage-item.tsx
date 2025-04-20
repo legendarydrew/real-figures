@@ -1,6 +1,6 @@
 import { Stage } from '@/types';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, Edit, Trash } from 'lucide-react';
+import { ChevronDown, Edit, Trash, Trophy, Vote } from 'lucide-react';
 import React from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { StageStatusTag } from '@/components/ui/stage-status-tag';
@@ -11,11 +11,12 @@ import toast from 'react-hot-toast';
 interface StageItemProps {
     stage: Stage;
     onAllocate?: (stage: Stage) => void;
-    onEdit?: (stage: Stage) => void;
+    onChooseWinner?: (stage: Stage) => void;
     onDelete?: (stage: Stage) => void;
+    onEdit?: (stage: Stage) => void;
 }
 
-export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onEdit, onDelete }) => {
+export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onChooseWinner, onEdit, onDelete }) => {
 
     const allocateHandler = (): void => {
         if (onAllocate) {
@@ -43,6 +44,12 @@ export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onEdit,
         }
     }
 
+    const chooseWinnerHandler = (): void => {
+        if (onChooseWinner) {
+            onChooseWinner(stage);
+        }
+    }
+
 
     return (
         <Collapsible className="mb-2">
@@ -51,12 +58,16 @@ export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onEdit,
                 <span className="flex-grow font-bold text-left">{stage.title}</span>
                 <StageStatusTag stage={stage}/>
                 {!stage.status?.has_started && (<Button type="button" className="p-3 cursor-pointer"
-                        onClick={allocateHandler}>
+                                                        onClick={allocateHandler}>
                     Allocate
                 </Button>)}
                 {stage.status.manual_vote && <Button type="button" variant="secondary" className="p-3 cursor-pointer"
-                                                     onClick={manualVoteHandler}>
-                    Manual Vote
+                                                     onClick={manualVoteHandler} title="Manual Voting">
+                    <Vote/>
+                </Button>}
+                {stage.status.choose_winners && <Button type="button" variant="secondary" className="p-3 cursor-pointer"
+                                                        onClick={chooseWinnerHandler}>
+                    <Trophy/>
                 </Button>}
                 <Button type="button" variant="secondary" className="p-3 cursor-pointer"
                         onClick={editHandler}
