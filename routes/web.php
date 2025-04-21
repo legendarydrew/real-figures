@@ -17,7 +17,9 @@ Route::get('/', fn() => Inertia::render('welcome'))->name('home');
 
 if (app()->hasDebugModeEnabled())
 {
-    Route::get('kitchen-sink', fn() => Inertia::render('kitchen-sink'))->name('kitchen-sink');
+    Route::get('kitchen-sink', fn() => Inertia::render('kitchen-sink', [
+        'round' => fractal(\App\Models\Round::started()->first())->transformWith(new \App\Transformers\RoundTransformer())->toArray()
+    ]))->name('kitchen-sink');
 }
 
 // ----------------------------------------------------------------------------
