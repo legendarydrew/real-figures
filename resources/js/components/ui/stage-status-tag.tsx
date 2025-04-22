@@ -22,20 +22,6 @@ export const StageStatusTag: React.FC<StageStatusTagProps> = ({ stage }) => {
         return !!stage.status?.has_started;
     }
 
-    const tagText = (): string => {
-        if (isActive()) {
-            if (hasEnded()) {
-                return "Ended";
-            } else if (hasStarted()) {
-                return "Started";
-            } else {
-                return "Ready"
-            }
-        } else {
-            return "Inactive";
-        }
-    }
-
     const tagClasses = (): string => {
         let baseClasses = "text-xs rounded-lg py-1 px-2"
         if (isActive()) {
@@ -52,5 +38,5 @@ export const StageStatusTag: React.FC<StageStatusTagProps> = ({ stage }) => {
         return baseClasses;
     }
 
-    return (<span className={tagClasses()}>{tagText()}</span>);
+    return (<span className={tagClasses()}>{stage.status.text}</span>);
 };
