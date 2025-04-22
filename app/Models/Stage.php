@@ -95,7 +95,17 @@ class Stage extends Model
      */
     public function canChooseWinners(): bool
     {
-        return $this->hasEnded() && $this->rounds()->count() && !$this->requiresManualVote();
+        return $this->hasEnded() && $this->rounds()->count() && !($this->requiresManualVote() || $this->winners()->count());
+    }
+
+    /**
+     * Returns TRUE if the Stage has ended, and winning Songs were finalised.
+     *
+     * @return bool
+     */
+    public function isOver(): bool
+    {
+        return $this->hasEnded() && $this->winners()->count() > 0;
     }
 
     /**
@@ -111,7 +121,7 @@ class Stage extends Model
         {
             $statuses   = [
                 'judgement' => $this->canChooseWinners() || $this->requiresManualVote(),
-                'ended'     => $this->hasEnded(),
+                'ended' => $this->hasEnded() || $this->isOver(),
                 'started'   => $this->hasStarted(),
                 'ready'     => $this->rounds()->count()
             ];
