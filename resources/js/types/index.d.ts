@@ -57,6 +57,7 @@ export interface Stage {
         manual_vote: boolean;
     };
     rounds?: Round[];
+    winners?: StageWinner[];
 }
 
 export interface Act {
@@ -119,4 +120,13 @@ export interface ManualVoteRoundChoice {
     first: number;
     second: number;
     third: number;
+}
+
+export interface StageWinner {
+    round: string;
+    song: {
+        title: string;
+        act: Act;
+    },
+    is_winner: boolean;
 }
