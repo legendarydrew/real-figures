@@ -90,7 +90,7 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
 
 
     return (
-        <Dialog open={open} onClose={onOpenChange}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent aria-describedby={undefined}>
                 <DialogTitle>{isEditing() ? 'Update' : 'Create'} Stage</DialogTitle>
                 <form onSubmit={saveHandler}>

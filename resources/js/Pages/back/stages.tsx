@@ -10,6 +10,7 @@ import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Toaster } from '@/components/ui/toast-message';
 import { StageWinnersDialog } from '@/components/admin/stage-winners-dialog';
+import { StageResultsDialog } from '@/components/admin/stage-results-dialog';
 
 export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], songs }>) {
 
@@ -18,6 +19,7 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
     const [isDeleting, setIsDeleting] = useState<boolean>(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+    const [isStageResultsDialogOpen, setIsStageResultsDialogOpen] = useState<boolean>(false);
     const [isWinnerDialogOpen, setIsWinnerDialogOpen] = useState<boolean>(false);
 
     const allocateHandler = (stage: Stage): void => {
@@ -36,6 +38,11 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
     const chooseWinnerHandler = (stage: Stage) => {
         setCurrentStage(stage);
         setIsWinnerDialogOpen(true);
+    }
+
+    const showResultsHandler = (stage: Stage) => {
+        setCurrentStage(stage);
+        setIsStageResultsDialogOpen(true);
     }
 
     const editHandler = (stage: Stage) => {
@@ -83,6 +90,7 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
                 {stages.map((stage) => (
                     <StageItem key={stage.id} onAllocate={allocateHandler} onEdit={editHandler}
                                onDelete={deleteHandler} onChooseWinner={chooseWinnerHandler}
+                               onShowResults={showResultsHandler}
                                stage={stage}/>
                 ))}
             </div>
@@ -92,6 +100,8 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
                                  onOpenChange={() => setIsAllocateDialogOpen(false)}/>
             <StageWinnersDialog stage={currentStage} open={isWinnerDialogOpen}
                                 onOpenChange={() => setIsWinnerDialogOpen(false)}/>
+            <StageResultsDialog stage={currentStage} open={isStageResultsDialogOpen}
+                                onOpenChange={() => setIsStageResultsDialogOpen(false)}/>
             <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
                                onConfirm={confirmDeleteHandler} processing={isDeleting}>
                 <DialogTitle>{`Delete Stage "${currentStage?.title}"`}</DialogTitle>

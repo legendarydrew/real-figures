@@ -109,7 +109,7 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
 
 
     return (
-        <Dialog open={open} onClose={onOpenChange}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="lg:w-5xl lg:max-w-[900px]" aria-describedby={undefined}>
                 <DialogTitle>{isEditing() ? 'Update' : 'Create'} Act</DialogTitle>
                 <form onSubmit={saveHandler}>

@@ -1,6 +1,6 @@
 import { Stage } from '@/types';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, Edit, Trash, Trophy, Vote } from 'lucide-react';
+import { Award, Boxes, ChevronDown, Edit, FileBadge, Trash, Vote } from 'lucide-react';
 import React from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { StageStatusTag } from '@/components/ui/stage-status-tag';
@@ -14,9 +14,17 @@ interface StageItemProps {
     onChooseWinner?: (stage: Stage) => void;
     onDelete?: (stage: Stage) => void;
     onEdit?: (stage: Stage) => void;
+    onShowResults?: (stage: Stage) => void;
 }
 
-export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onChooseWinner, onEdit, onDelete }) => {
+export const StageItem: React.FC<StageItemProps> = ({
+                                                        stage,
+                                                        onAllocate,
+                                                        onChooseWinner,
+                                                        onEdit,
+                                                        onDelete,
+                                                        onShowResults
+                                                    }) => {
 
     const allocateHandler = (): void => {
         if (onAllocate) {
@@ -50,37 +58,48 @@ export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onChoos
         }
     }
 
+    const showResultsHandler = (): void => {
+        if (onShowResults) {
+            onShowResults(stage);
+        }
+    }
+
 
     return (
         <Collapsible className="mb-2">
             <div
-                className="flex gap-2 py-2 px-3 b-2 w-full bg-gray-200 hover:bg-gray-300 items-center justify-between">
+                className="flex gap-2 py-0 pl-3 b-2 w-full bg-gray-200 items-center justify-between">
                 <span className="flex-grow font-bold text-left">{stage.title}</span>
                 <StageStatusTag stage={stage}/>
-                {!stage.status?.has_started && (<Button type="button" className="p-3 cursor-pointer"
-                                                        onClick={allocateHandler}>
-                    Allocate
+                {!stage.status.has_started && (<Button type="button" className="p-3 cursor-pointer"
+                                                       onClick={allocateHandler} title="Allocate Songs to Stage">
+                    <Boxes/>
                 </Button>)}
-                {stage.status.manual_vote && <Button type="button" variant="secondary" className="p-3 cursor-pointer"
+                {stage.status.manual_vote && <Button type="button" variant="outline" className="p-3 cursor-pointer"
                                                      onClick={manualVoteHandler} title="Manual Voting">
                     <Vote/>
                 </Button>}
-                {stage.status.choose_winners && <Button type="button" variant="secondary" className="p-3 cursor-pointer"
-                                                        onClick={chooseWinnerHandler}>
-                    <Trophy/>
+                {stage.status.choose_winners && <Button type="button" variant="default" className="p-3 cursor-pointer"
+                                                        onClick={chooseWinnerHandler} title="Choose Winning Songs">
+                    <FileBadge/>
                 </Button>}
+                {stage.winners.length ? (
+                    <Button type="button" variant="default" className="p-3 cursor-pointer"
+                            onClick={showResultsHandler}>
+                        <Award/>
+                    </Button>) : ''}
                 <Button type="button" variant="secondary" className="p-3 cursor-pointer"
                         onClick={editHandler}
                         title="Edit Stage">
-                    <Edit className="h-3 w-3"/>
+                    <Edit/>
                 </Button>
                 <Button type="button" variant="destructive" className="p-3 cursor-pointer"
                         onClick={deleteHandler}
                         title="Delete Stage">
-                    <Trash className="h-3 w-3"/>
+                    <Trash/>
                 </Button>
                 <CollapsibleTrigger className="p-3 hover:bg-gray-400 cursor-pointer" title="Expand">
-                    <ChevronDown className="h-3 w-3"/>
+                    <ChevronDown/>
                 </CollapsibleTrigger>
             </div>
             <CollapsibleContent className="bg-gray-100 p-3">

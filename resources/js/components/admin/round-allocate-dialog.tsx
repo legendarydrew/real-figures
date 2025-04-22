@@ -14,7 +14,6 @@ interface RoundAllocateDialogProps {
     // Dialog properties.
     open: boolean;
     onOpenChange: () => void;
-    onSuccess: (Stage) => void;
     stage?: Stage;
     songs?: Song[]
 }
@@ -26,7 +25,7 @@ type RoundAllocateForm = {
     duration: number;
 }
 
-export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpenChange, onSuccess, stage, songs }) => {
+export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpenChange, stage, songs }) => {
 
     const { props } = usePage();
 
@@ -37,15 +36,16 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
         duration: 7    // one week.
     });
 
-    const maxSongs = useRef(props.roundConfig.maxSongs);
-    const maxDuration = useRef(props.roundConfig.maxDuration);
-    const minStartTime = useRef(new Date().toISOString().slice(0, -8));
+    const minSongs = useRef<number>(props.roundConfig.minSongs);
+    const maxSongs = useRef<number>(props.roundConfig.maxSongs);
+    const maxDuration = useRef<number>(props.roundConfig.maxDuration);
+    const minStartTime = useRef<string>(new Date().toISOString().slice(0, -8));
 
     useEffect(() => {
         reset('song_ids', 'per_round', 'start_at', 'duration');
         if (open) {
-            if (!(songs && songs.length > 2)) {
-                toast.error('No Songs specified (minimum of two required).');
+            if (!(songs && songs.length > minSongs.current)) {
+                toast.error(`No Songs specified (minimum of ${minSongs.current} required).`);
                 onOpenChange();
             } else {
                 maxSongs.current = Math.min(songs.length, maxSongs.current, props.roundConfig.maxSongs);
@@ -106,7 +106,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
 
 
     return (
-        <Dialog open={open} onClose={onOpenChange}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="lg:w-5xl lg:max-w-[900px]">
                 <DialogTitle>Create Rounds for {stage?.title}</DialogTitle>
                 <DialogDescription>
@@ -129,7 +129,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                                 <div>
                                     <Label htmlFor="allocateDuration">Songs per Round</Label>
 
-                                    <RangeInput id="allocateDuration" min="2" max={maxSongs.current}
+                                    <RangeInput id="allocateDuration" min={minSongs.current} max={maxSongs.current}
                                                 value={data.per_round}
                                                 onChange={changePerRoundHandler}/>
                                     <div className="text-sm font-bold text-center">

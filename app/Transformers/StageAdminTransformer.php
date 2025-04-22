@@ -24,6 +24,7 @@ class StageAdminTransformer extends TransformerAbstract
                 'has_ended'      => $stage->hasEnded(),
                 'manual_vote'    => $stage->requiresManualVote()
             ],
+            'winners'     => fractal($stage->winners()->orderByDesc('is_winner')->orderByDesc('id')->get(), new StageWinnerTransformer())
         ];
     }
 
@@ -32,4 +33,5 @@ class StageAdminTransformer extends TransformerAbstract
         $rounds = fractal($stage->rounds)->parseIncludes(['songs'])->transformWith(new RoundAdminTransformer())->toArray();
         return $this->primitive($rounds);
     }
+
 }

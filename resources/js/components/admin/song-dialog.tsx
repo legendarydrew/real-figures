@@ -98,7 +98,7 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
 
 
     return (
-        <Dialog open={open} onClose={onOpenChange}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent aria-describedby={undefined}>
                 <DialogTitle>{isEditing() ? 'Update' : 'Create'} Song</DialogTitle>
                 <form onSubmit={saveHandler}>
