@@ -1,13 +1,12 @@
 import { Stage } from '@/types';
 import { Button } from '@/components/ui/button';
-import { Boxes, ChevronDown, Edit, Trash, Trophy, Vote } from 'lucide-react';
+import { Award, Boxes, ChevronDown, Edit, FileBadge, Trash, Vote } from 'lucide-react';
 import React from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { StageStatusTag } from '@/components/ui/stage-status-tag';
 import { StageRoundItem } from '@/components/admin/stage-round-item';
 import { router } from '@inertiajs/react';
 import toast from 'react-hot-toast';
-import { ActImage } from '@/components/ui/act-image';
 
 interface StageItemProps {
     stage: Stage;
@@ -15,9 +14,17 @@ interface StageItemProps {
     onChooseWinner?: (stage: Stage) => void;
     onDelete?: (stage: Stage) => void;
     onEdit?: (stage: Stage) => void;
+    onShowResults?: (stage: Stage) => void;
 }
 
-export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onChooseWinner, onEdit, onDelete }) => {
+export const StageItem: React.FC<StageItemProps> = ({
+                                                        stage,
+                                                        onAllocate,
+                                                        onChooseWinner,
+                                                        onEdit,
+                                                        onDelete,
+                                                        onShowResults
+                                                    }) => {
 
     const allocateHandler = (): void => {
         if (onAllocate) {
@@ -51,6 +58,12 @@ export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onChoos
         }
     }
 
+    const showResultsHandler = (): void => {
+        if (onShowResults) {
+            onShowResults(stage);
+        }
+    }
+
 
     return (
         <Collapsible className="mb-2">
@@ -68,8 +81,13 @@ export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onChoos
                 </Button>}
                 {stage.status.choose_winners && <Button type="button" variant="default" className="p-3 cursor-pointer"
                                                         onClick={chooseWinnerHandler}>
-                    <Trophy/>
+                    <FileBadge/>
                 </Button>}
+                {stage.status.has_ended && !(stage.status.choose_winners || stage.status.manual_vote) &&
+                    <Button type="button" variant="default" className="p-3 cursor-pointer"
+                            onClick={showResultsHandler}>
+                        <Award/>
+                    </Button>}
                 <Button type="button" variant="secondary" className="p-3 cursor-pointer"
                         onClick={editHandler}
                         title="Edit Stage">
@@ -89,23 +107,6 @@ export const StageItem: React.FC<StageItemProps> = ({ stage, onAllocate, onChoos
                 <div className="mt-2 mb-5 text-sm">
                     {stage.description}
                 </div>
-
-                {stage.winners.length ? (
-                    <>
-                        <h3 className="font-bold mb-2">Winning Songs</h3>
-                        <ul className="text-sm mb-3">
-                            {stage.winners.map((winner) => (
-                                <li key={winner.id} className="flex justify-between items-center gap-2">
-                                    <ActImage act={winner.song.act}/>
-                                    <span className="font-bold">{winner.song.act.name}</span>
-                                    <span className="mr-auto">{winner.song.title}</span>
-                                    <span className="text-right">{winner.is_winner ? 'Winner' : 'Runner-up'}</span>
-                                    <span className="text-right">{winner.round}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </>
-                ) : ''}
 
                 {stage.rounds.map((round) => (
                     <StageRoundItem key={round.id} round={round}/>
