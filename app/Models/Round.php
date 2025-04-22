@@ -70,6 +70,16 @@ class Round extends Model
     }
 
     /**
+     * Returns TRUE if the Round is active/underway.
+     *
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->starts_at->isPast() && $this->ends_at->isFuture();
+    }
+
+    /**
      * Returns TRUE if the Round has ended.
      *
      * @return bool
