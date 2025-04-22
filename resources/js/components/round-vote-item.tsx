@@ -56,7 +56,7 @@ export const RoundVoteItem: React.FC<RoundVoteProps> = ({ round }) => {
             .then(() => {
                 setSuccessful(true);
             })
-            .catch((response) => {
+            .catch(({ response }) => {
                 setError(response.data.message);
             })
             .finally(() => {
