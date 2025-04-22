@@ -59,12 +59,13 @@ class Stage extends Model
 
     /**
      * Returns TRUE if all Rounds in this Stage have ended.
+     * (Or as the code suggests, every fn Round.)
      *
      * @return bool
      */
     public function hasEnded(): bool
     {
-        return $this->rounds->count() && $this->rounds->every(fn(Round $round) => $round->hasEnded());
+        return $this->rounds->every(fn(Round $round) => $round->hasEnded());
     }
 
     /**

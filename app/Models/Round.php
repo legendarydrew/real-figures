@@ -43,14 +43,20 @@ class Round extends Model
         return $this->hasMany(RoundVote::class);
     }
 
-    public function scopeHasStarted(Builder $builder): void
+    public function scopeStarted(Builder $builder): Builder
     {
-        $builder->where('starts_at', '<=', now());
+        return $builder->where('starts_at', '<=', now());
     }
 
-    public function scopeHasEnded(Builder $builder): void
+    public function scopeEnded(Builder $builder): Builder
     {
-        $builder->where('ends_at', '>', now());
+        return $builder->where('ends_at', '>', now());
+    }
+
+    public function scopeActive(Builder $builder): Builder
+    {
+        return $builder->where('starts_at', '<=', now())
+                       ->where('ends_at', '>', now());
     }
 
     /**
@@ -61,6 +67,16 @@ class Round extends Model
     public function hasStarted(): bool
     {
         return $this->starts_at->isPast();
+    }
+
+    /**
+     * Returns TRUE if the Round is active/underway.
+     *
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->starts_at->isPast() && $this->ends_at->isFuture();
     }
 
     /**
