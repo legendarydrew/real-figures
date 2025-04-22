@@ -33,7 +33,7 @@ export const DestructiveDialog: FC<DestructiveDialogProps> = ({
     const otherChildElements = React.Children.toArray(children).filter((child) => child.type !== DialogTitle);
 
     return (
-        <Dialog open={open} onClose={onOpenChange}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent aria-describedby={undefined}>
 
                 {titleElement ?? <DialogTitle>{title}</DialogTitle>}

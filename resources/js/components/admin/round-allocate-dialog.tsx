@@ -106,7 +106,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
 
 
     return (
-        <Dialog open={open} onClose={onOpenChange}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="lg:w-5xl lg:max-w-[900px]">
                 <DialogTitle>Create Rounds for {stage?.title}</DialogTitle>
                 <DialogDescription>

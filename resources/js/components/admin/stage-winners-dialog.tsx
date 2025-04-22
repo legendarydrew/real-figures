@@ -44,7 +44,7 @@ export const StageWinnersDialog: FC<StageWinnersDialogProps> = ({ open, onOpenCh
 
 
     return (
-        <Dialog open={open} onClose={onOpenChange}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogTitle>Confirm Stage Winners</DialogTitle>
                 <DialogDescription>
