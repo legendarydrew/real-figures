@@ -75,7 +75,7 @@ class Stage extends Model
      */
     public function requiresManualVote(): bool
     {
-        return $this->hasEnded() && $this->rounds->some(fn(Round $round) => $round->requiresManualVote());
+        return $this->hasEnded() && !$this->winners()->count() && $this->rounds->some(fn(Round $round) => $round->requiresManualVote());
     }
 
     public function outcomes(): HasManyThrough
@@ -88,9 +88,37 @@ class Stage extends Model
         return $this->hasMany(StageWinner::class);
     }
 
+    /**
+     * Returns TRUE if winning Songs can be chosen for the entire Stage.
+     *
+     * @return bool
+     */
     public function canChooseWinners(): bool
     {
         return $this->hasEnded() && $this->outcomes()->count() && !$this->winners()->count();
+    }
+
+    /**
+     * Returns text representing the Stage's status.
+     *
+     * @return string
+     */
+    public function getStatusAttribute(): string
+    {
+        $status_key = 'inactive';
+
+        if ($this->rounds->count() > 0)
+        {
+            $statuses   = [
+                'judgement' => $this->canChooseWinners() || $this->requiresManualVote(),
+                'ended'     => $this->hasEnded(),
+                'started'   => $this->hasStarted(),
+                'ready'     => $this->rounds()->count()
+            ];
+            $status_key = array_key_first(array_filter($statuses)) ?? $status_key;
+        }
+
+        return trans('contest.stage.status')[$status_key];
     }
 
 }

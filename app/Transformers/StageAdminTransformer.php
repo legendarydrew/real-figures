@@ -18,6 +18,7 @@ class StageAdminTransformer extends TransformerAbstract
             'title'       => $stage->title,
             'description' => $stage->description,
             'status'      => [
+                'text' => $stage->status,
                 'choose_winners' => $stage->canChooseWinners(),
                 'has_started'    => $stage->hasStarted(),
                 'has_ended'      => $stage->hasEnded(),
