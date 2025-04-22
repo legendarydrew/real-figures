@@ -12,5 +12,6 @@ return [
     'rounds' => [
         'maxDuration' => 31,
         'maxSongs'    => 20,
+        'minSongs' => 3,
     ]
 ];

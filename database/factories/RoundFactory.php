@@ -45,9 +45,10 @@ class RoundFactory extends Factory
 
     public function withSongs(int $count = null): RoundFactory|Factory
     {
+        $count = $count ?? fake()->numberBetween(config('contest.rounds.minSongs'), config('contest.round.maxSongs'));
+
         return $this->afterCreating(function (Round $round) use ($count)
         {
-            $count = $count ?? fake()->numberBetween(2, config('contest.round.maxSongs'));
             $songs = Song::inRandomOrder()->take($count)->get();
             if ($songs->count() < $count)
             {

@@ -2,9 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Jobs\EndOfRound;
 use App\Models\Round;
-use App\Models\RoundOutcome;
 use App\Models\RoundSongs;
+use App\Models\RoundVote;
 use App\Models\Song;
 use App\Models\Stage;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -40,29 +41,27 @@ class StageFactory extends Factory
         return $this->afterCreating(function (Stage $stage)
         {
             $this->ensureRoundsForStage($stage);
+            $this->ensureSongsForStage($stage);
 
             foreach ($stage->rounds as $round)
             {
-                if ($round->songs()->count() === 0)
+                // Randomise the chance of a Stage having votes vs. resorting to a "manual vote".
+                if ($this->faker->boolean(80))
                 {
-                    $songs = Song::factory(4)->withAct()->create();
-                    foreach ($songs as $song)
+                    $song_ids = $round->songs->pluck('id')->toArray();
+                    for ($i = 0; $i < 100; $i++)
                     {
-                        RoundSongs::create([
-                            'round_id' => $round->id,
-                            'song_id'  => $song->id,
+                        $votes = $this->faker->randomElements($song_ids, 3);
+                        // Spotted an issue here: because all three choices are required,
+                        // a Round must have at least three Songs.
+                        RoundVote::create([
+                            'round_id'         => $round->id,
+                            'first_choice_id'  => $votes[0],
+                            'second_choice_id' => $votes[1],
+                            'third_choice_id'  => $votes[2],
                         ]);
                     }
-                }
-                foreach ($round->songs as $song)
-                {
-                    RoundOutcome::factory()->create([
-                        'round_id'     => $round->id,
-                        'song_id'      => $song->id,
-                        'first_votes'  => $this->faker->numberBetween(0, 20),
-                        'second_votes' => $this->faker->numberBetween(0, 20),
-                        'third_votes'  => $this->faker->numberBetween(0, 20),
-                    ]);
+                    EndOfRound::dispatchSync($round);
                 }
             }
         });
@@ -84,6 +83,24 @@ class StageFactory extends Factory
                     $round->update([
                         'starts_at' => now()->subDay(),
                         'ends_at'   => now(),
+                    ]);
+                }
+            }
+        }
+    }
+
+    protected function ensureSongsForStage(Stage $stage): void
+    {
+        foreach ($stage->rounds as $round)
+        {
+            if ($round->songs()->count() < config('contest.rounds.minSongs'))
+            {
+                $songs = Song::factory(config('contest.rounds.minSongs') + 1)->withAct()->create();
+                foreach ($songs as $song)
+                {
+                    RoundSongs::create([
+                        'round_id' => $round->id,
+                        'song_id'  => $song->id,
                     ]);
                 }
             }
