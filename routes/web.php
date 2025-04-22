@@ -18,7 +18,7 @@ Route::get('/', fn() => Inertia::render('welcome'))->name('home');
 if (app()->hasDebugModeEnabled())
 {
     Route::get('kitchen-sink', fn() => Inertia::render('kitchen-sink', [
-        'round' => fractal(\App\Models\Round::started()->first())->transformWith(new \App\Transformers\RoundTransformer())->toArray()
+        'round' => fractal(\App\Models\Round::active()->first(), \App\Transformers\RoundTransformer::class)->toArray()
     ]))->name('kitchen-sink');
 }
 
@@ -30,7 +30,7 @@ Route::prefix('/api')->group(function ()
     // Routes accessible without authentication.
     Route::post('donation', [DonationController::class, 'store']);
     Route::post('golden-buzzer', [BuzzerController::class, 'store']);
-    Route::post('vote', [VoteController::class, 'store']);
+    Route::post('vote', [VoteController::class, 'store'])->name('vote');
 
     // Routes accessible with authentication.
     Route::middleware(['auth', 'verified'])->group(function ()

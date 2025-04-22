@@ -58,12 +58,12 @@ export default function KitchenSinkPage({ round }) {
                         <h2 className="mb-1 text-base font-bold">Voting</h2>
 
                         {/* Create a form for voting on Songs in a Round. */}
-                        {round && (
+                        {round ? (
                             <div>
                                 <h3>{round.title}</h3>
                                 <RoundVoteItem round={round}/>
                             </div>
-                        )}
+                        ) : ''}
                     </section>
                 </main>
                 <footer className="text-center text-xs">Copyright &copy; Drew Maughan (SilentMode).</footer>

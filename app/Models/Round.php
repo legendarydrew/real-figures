@@ -53,6 +53,12 @@ class Round extends Model
         return $builder->where('ends_at', '>', now());
     }
 
+    public function scopeActive(Builder $builder): Builder
+    {
+        return $builder->where('starts_at', '<=', now())
+                       ->where('ends_at', '>', now());
+    }
+
     /**
      * Returns TRUE if the Round has started.
      *
