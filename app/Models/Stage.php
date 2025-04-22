@@ -69,7 +69,7 @@ class Stage extends Model
     }
 
     /**
-     * Returns TRUE if any of the Rounds for this Stage require a "manual vote".
+     * Returns TRUE if the Stage has ended, and any of the Rounds for this Stage require a "manual vote".
      *
      * @return bool
      */
@@ -89,13 +89,13 @@ class Stage extends Model
     }
 
     /**
-     * Returns TRUE if winning Songs can be chosen for the entire Stage.
+     * Returns TRUE if the Stage has ended, and winning Songs can be chosen for the entire Stage.
      *
      * @return bool
      */
     public function canChooseWinners(): bool
     {
-        return $this->hasEnded() && $this->outcomes()->count() && !$this->winners()->count();
+        return $this->hasEnded() && $this->rounds()->count() && !$this->requiresManualVote();
     }
 
     /**
