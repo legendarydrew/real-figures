@@ -35,6 +35,11 @@ class Song extends Model
         return $this->plays()->sum('play_count');
     }
 
+    public function getFullTitleAttribute(): string
+    {
+        return $this->act->name . " - " . $this->title;
+    }
+
     public function outcomes(): HasMany
     {
         return $this->hasMany(RoundOutcome::class);

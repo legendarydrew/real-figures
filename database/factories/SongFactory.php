@@ -62,7 +62,7 @@ class SongFactory extends Factory
             {
                 SongPlay::create([
                     'song_id'    => $song->id,
-                    'played_on'  => $date,
+                    'played_on' => $date->format('Y-m-d'),
                     'play_count' => $this->faker->numberBetween(1, 100),
                 ]);
                 $date->addDay();
