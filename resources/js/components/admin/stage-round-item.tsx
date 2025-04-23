@@ -32,12 +32,15 @@ export const StageRoundItem: React.FC<StageItemProps> = ({ round }) => {
                         <li key={song.id}
                             className="my-0.5 flex gap-1 justify-between items-center text-sm hover:bg-indigo-100">
                             <ActImage className="w-10 h-10" act={song.act}/>
-                            <LanguageFlag languageCode={song.language}/>
-                            <span className="w-[20em]">
-                                {song.act.name}
+                            <span className="w-[20em] font-bold">{song.act.name}</span>
+                            <span className="mr-auto flex gap-1 items-center">
+                                <LanguageFlag languageCode={song.language}/>
+                                {song.title}
                             </span>
-                            <span className="mr-auto">{song.title}</span>
-                            <span className="pr-2 text-right w-10">{song.play_count!.toLocaleString()}</span>
+                            <span className="pr-2 text-right">
+                                {song.play_count.toLocaleString()}
+                                <span className="text-xs ml-1">play(s)</span>
+                            </span>
                         </li>
                     ))}
                 </ul>
