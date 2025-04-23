@@ -13,7 +13,7 @@ interface DashboardSongPlaysProps {
     data: DashboardSongPlaysData;
 }
 
-export const DashboardSongPlays: React.FC<DashboardSongPlaysProps> = ({ data }) => {
+export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ data }) => {
 
     return (
         <section>
