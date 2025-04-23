@@ -57,7 +57,8 @@ export default function ContactMessagesPage({
                 page: currentPage + 1
             },
             preserveUrl: true,
-            reset: ['messages', 'currentPage', 'hasMorePages'],
+            only: ['messages'],
+            reset: ['currentPage', 'hasMorePages'],
             onStart: () => {
                 setIsLoading(true);
             },
