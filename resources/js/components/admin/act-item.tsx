@@ -29,7 +29,7 @@ export const ActItem: React.FC<ActItemProps> = ({ act, onEdit, onDelete }) => {
 
     return (
         <div
-            className="relative flex rounded-md b-2 h-[260px] w-full md:w-1/2 lg:w-1/4 bg-gray-200 hover:bg-gray-300 items-center flex-col justify-end overflow-hidden">
+            className="relative flex rounded-md b-2 h-[260px] w-full bg-gray-200 hover:bg-gray-300 items-center flex-col justify-end overflow-hidden">
 
             {act.image ? (
                 <div className="w-full h-full bg-cover z-0"
