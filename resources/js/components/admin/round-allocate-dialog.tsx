@@ -9,6 +9,7 @@ import { Song, Stage } from '@/types';
 import toast from 'react-hot-toast';
 import { RangeInput } from '@/components/ui/range-input';
 import { Checkbox } from '@/components/ui/checkbox';
+import { LoadingButton } from '@/components/ui/loading-button';
 
 interface RoundAllocateDialogProps {
     // Dialog properties.
@@ -182,7 +183,8 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                     </div>
 
                     <DialogFooter>
-                        <Button variant="default" type="submit" disabled={processing}>Create Rounds</Button>
+                        <LoadingButton variant="default" type="submit" isLoading={processing}>Create
+                            Rounds</LoadingButton>
                         <Button variant="ghost" type="button" onClick={onOpenChange}>Cancel</Button>
                     </DialogFooter>
                 </form>

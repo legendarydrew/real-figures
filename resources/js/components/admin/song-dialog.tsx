@@ -10,6 +10,7 @@ import { Toaster } from '@/components/ui/toast-message';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import { LanguageCodes } from '@/lib/language-codes';
 import { LanguageFlag } from '@/components/language-flag';
+import { LoadingButton } from '@/components/ui/loading-button';
 
 interface SongDialogProps {
     // Dialog properties.
@@ -156,8 +157,8 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
 
 
                     <DialogFooter>
-                        <Button variant="default" type="submit" onClick={saveHandler}
-                                disabled={processing}>Save</Button>
+                        <LoadingButton variant="default" type="submit" onClick={saveHandler}
+                                       isLoading={processing}>Save</LoadingButton>
                         <Button variant="ghost" type="button" onClick={onOpenChange}>Cancel</Button>
                     </DialogFooter>
                 </form>

@@ -8,6 +8,7 @@ import InputError from '@/components/input-error';
 import { Act } from '@/types';
 import { Toaster } from '@/components/ui/toast-message';
 import { MarkdownEditor } from '@/components/ui/markdown-editor';
+import { LoadingButton } from '@/components/ui/loading-button';
 
 interface ActDialogProps {
     open: boolean;
@@ -164,8 +165,8 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
 
 
                     <DialogFooter>
-                        <Button variant="default" type="submit" onClick={saveHandler}
-                                disabled={processing}>Save</Button>
+                        <LoadingButton variant="default" type="submit" onClick={saveHandler}
+                                       isLoading={processing}>Save</LoadingButton>
                         <Button variant="ghost" type="button" onClick={onOpenChange}>Cancel</Button>
                     </DialogFooter>
                 </form>
