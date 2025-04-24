@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Act;
 use App\Models\Song;
+use App\Models\SongPlay;
 use App\Models\SongUrl;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -50,5 +51,23 @@ class SongFactory extends Factory
                 SongUrl::factory()->for($song)->create();
             }
         });
+    }
+
+    public function withPlays(): SongFactory
+    {
+        return $this->afterCreating(function (Song $song)
+        {
+            $date = now()->subDays($this->faker->numberBetween(1, 10));
+            while ($date <= now())
+            {
+                SongPlay::create([
+                    'song_id'    => $song->id,
+                    'played_on' => $date->format('Y-m-d'),
+                    'play_count' => $this->faker->numberBetween(1, 100),
+                ]);
+                $date->addDay();
+            }
+        });
+
     }
 }

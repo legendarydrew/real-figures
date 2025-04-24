@@ -78,7 +78,7 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
 
             <Pagination results={acts} onPageChange={pageHandler}/>
 
-            <div className="flex flex-wrap p-4 gap-1">
+            <div className="grid auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
                 {acts.data.map((act) => (
                     <ActItem key={act.id} act={act} onEdit={() => editHandler(act)}
                              onDelete={() => deleteHandler(act)}/>

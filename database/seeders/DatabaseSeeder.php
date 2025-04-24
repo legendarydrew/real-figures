@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Song;
+use App\Models\Stage;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,6 +25,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('temp'),
         ]);
 
-        Song::factory(20)->withAct()->withUrl(80)->create();
+        Song::factory(20)->withAct()->withUrl(80)->withPlays()->create();
+
+        Stage::factory()->withResults()->create();
     }
 }

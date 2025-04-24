@@ -65,7 +65,7 @@ Route::prefix('/api')->group(function ()
 // Back office pages.
 Route::middleware(['auth', 'verified'])->group(function ()
 {
-    Route::get('dashboard', fn() => Inertia::render('dashboard'))->name('dashboard');
+    Route::get('admin', [\App\Http\Controllers\Back\DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::get('/admin/acts', [\App\Http\Controllers\Back\ActsController::class, 'index'])->name('admin.acts');
     Route::get('/admin/contact', [\App\Http\Controllers\Back\ContactMessageController::class, 'index'])->name('admin.contact');
