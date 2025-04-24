@@ -61,10 +61,25 @@ class DashboardController extends Controller
      */
     protected function getVotesThisWeek(): array
     {
-        return RoundVote::where('created_at', '>', now()->subWeek())
-                        ->select([DB::raw('DATE(created_at) as date'), DB::raw('COUNT(id) as votes')])
-                        ->groupBy('date')
-                        ->get()
-                        ->toArray();
+        $vote_counts = RoundVote::where('created_at', '>', now()->subWeek())
+                                ->select([DB::raw('DATE(created_at) as date'), DB::raw('COUNT(id) as votes')])
+                                ->groupBy('date')
+                                ->get()
+                                ->toArray();
+
+        // Fill in the blanks!
+        $date   = now()->subWeek();
+        $output = [];
+        while ($date < now())
+        {
+            $day_date     = $date->format('Y-m-d');
+            $matching_row = array_filter($vote_counts, fn($vote) => $vote['date'] === $day_date);
+            $output[]     = [
+                'date'  => $day_date,
+                'votes' => $matching_row ? reset($matching_row)['votes'] : 0
+            ];
+            $date         = $date->addDay();
+        }
+        return $output;
     }
 }
