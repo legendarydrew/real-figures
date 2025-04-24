@@ -3,7 +3,7 @@ import { Head, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import React, { RefObject, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp, Edit, Music, Trash } from 'lucide-react';
-import { Song } from '@/types';
+import { PaginatedResponse, Song } from '@/types';
 import { SongDialog } from '@/components/admin/song-dialog';
 import { LanguageFlag } from '@/components/language-flag';
 import { Pagination } from '@/components/admin/pagination';
@@ -11,6 +11,7 @@ import { Icon } from '@/components/icon';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Toaster } from '@/components/ui/toast-message';
+import { Nothing } from '@/components/nothing';
 
 interface TableSort {
     column: string;
@@ -20,7 +21,7 @@ interface TableSort {
 // As a future challenge: can we preserve this page's sort order?
 // (perhaps by adding the information to the meta data.)
 
-export default function Songs({ acts, songs }: Readonly<{ songs: Song[] }>) {
+export default function Songs({ acts, songs }: Readonly<{ songs: PaginatedResponse<Song> }>) {
 
     const [currentSong, setCurrentSong] = useState<Song>();
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
@@ -100,6 +101,7 @@ export default function Songs({ acts, songs }: Readonly<{ songs: Song[] }>) {
                 </div>
             </div>
 
+            {songs.meta.pagination.total ? (
             <table className="mx-4 mb-8">
                 <thead className="text-sm">
                 <tr className="border-b-2">
@@ -166,7 +168,11 @@ export default function Songs({ acts, songs }: Readonly<{ songs: Song[] }>) {
                     </tr>
                 ))}
                 </tbody>
-            </table>
+            </table>) : (
+                <Nothing>
+                    No Songs defined.
+                </Nothing>
+            )}
 
             <Pagination results={songs} onPageChange={pageHandler}/>
 
