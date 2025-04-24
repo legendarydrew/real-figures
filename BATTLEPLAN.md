@@ -43,3 +43,8 @@ This battleplan document is for outline some of the steps we want to take to get
 - Add a page for "Golden Buzzers".
 - Add a Donations page.
 - Finishing touches to the interface.
+- Remove the ability for laypeople to register!
+
+## Miscellaneous
+
+- update README.md.

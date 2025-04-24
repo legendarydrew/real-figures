@@ -1,66 +1,93 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CATAWOL Records presents: Real Figures Don't F.O.L.D
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A **Laravel** + **Inertia.js** + **React** web application built as a dynamic music contest platform.
+More than just a coding project: it's a learning tool, a creative showcase, and an advocacy piece
+calling attention to **bullying in adult hobbies**, especially within the **LEGO space**.
 
-## About Laravel
+## 🌟 Purpose
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project serves several goals:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **💻 Tech Exploration**: A playground for learning and demonstrating Laravel and React via the Inertia.js stack.
+- **🎶 Creative Expression**: Showcasing **AI-generated songs** with **original lyrics** across various music genres.
+- **🧱 Social Impact**: Raising awareness about the prevalence of adult bullying in creative spaces.
+- **🫵 Community Engagement**: Lets users vote, support, and donate to their favorite entries or the project itself.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Tech Stack
 
-## Learning Laravel
+- **Backend**: Laravel
+- **Frontend**: React via Inertia.js
+- **Styling**: Tailwind CSS
+- **Database**: MySQL (SQLite for development)
+- **Auth**: Laravel Breeze (Inertia starter pack)
+- **Tooling**: Vite
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🎷 Key Features
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- 🎼 **AI-Generated Songs**  
+  All tracks features in the project were generated with Udio, using AI-generated vocals and arrangements, paired with
+  lyrics written by the developer. Genres range from pop to metal, synthwave to acoustic, and beyond.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- 🗳️ **Interactive Voting System**  
+  Visitors can listen to tracks and cast their vote for their favorite. Simple, fun, and fully reactive.
 
-## Laravel Sponsors
+- 💸 **Donation Support**  
+  Fans of the music—or the mission—can donate to the project or even support individual songs.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- 🎛️ **Contest Dashboard**  
+  Manage entries and view vote tallies through an intuitive interface.
 
-### Premium Partners
+- 🧹 **Modular React Components**  
+  Designed for easy extensibility and component-based structure.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- 🔒 **User Authentication**  
+  Login and registration handled securely through Laravel Breeze.
 
-## Contributing
+## 🔧 Installation
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/legendarydrew/real-figures.git
+   cd real-figures
+   ```
 
-## Code of Conduct
+2. **Install dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## Security Vulnerabilities
+4. **Run database migrations**
+   ```bash
+   php artisan migrate
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. **Start development server**
+   ```bash
+   php artisan serve
+   npm run dev
+   ```
 
-## License
+## ❤️ Contributing
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This is a personal project with a mission, but contributions or forks with aligned purposes are welcome.
+Open an issue or pull request if you'd like to collaborate or adapt the project for your own creative or advocacy
+efforts.
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+### 💬 Final Note
+
+This isn’t just a showcase of code—it’s a statement. In a world where hobbies should unite us, bullying has no place.
+Whether you’re here to listen, learn, or lend your voice—thank you.
+
