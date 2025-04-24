@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
+use App\Models\RoundVote;
 use App\Models\SongPlay;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -14,7 +15,8 @@ class DashboardController extends Controller
     public function index(): Response
     {
         return Inertia::render('dashboard', [
-            'song_plays' => fn() => $this->getPlaysThisWeek()
+            'song_plays' => fn() => $this->getPlaysThisWeek(),
+            'votes'      => fn() => $this->getVotesThisWeek()
         ]);
     }
 
@@ -27,10 +29,11 @@ class DashboardController extends Controller
     {
         // Total Song plays for each day.
         $total_plays = SongPlay::where('played_on', '>', now()->subWeek())
-                               ->select(['played_on', DB::raw('SUM(play_count) as play_count')])
-                               ->orderBy('played_on')
-                               ->groupBy('played_on')
-                               ->get();
+            ->select([DB::raw('DATE(played_on) as date'), DB::raw('SUM(play_count) as play_count')])
+            ->orderBy('date')
+            ->groupBy('date')
+            ->get()
+            ->toArray();
 
         // Songs played in the last day.
         $song_plays = SongPlay::where('played_on', '>', now()->subDay())
@@ -40,16 +43,63 @@ class DashboardController extends Controller
                               ->take(6)
                               ->get();
 
+        $dates              = $this->getDatesForLastWeek();
+        $total_play_results = [];
+        foreach ($dates as $day_date)
+        {
+            $matching_row         = array_filter($total_plays, fn($play) => $play['date'] === $day_date);
+            $total_play_results[] = [
+                'date'       => $day_date,
+                'play_count' => $matching_row ? reset($matching_row)['play_count'] : 0
+            ];
+        }
+
         return [
-            'days'  => $total_plays->map(fn($play) => [
-                'date'       => $play->played_on->format('Y-m-d'),
-                'play_count' => $play->play_count
-            ])->toArray(),
+            'days' => $total_play_results,
             'songs' => $song_plays->map(fn($play) => [
                 'title'      => $play->song->full_title,
                 'play_count' => $play->play_count
             ])
         ];
+    }
+
+    /**
+     * Returns data for the number of votes cast over the last week.
+     *
+     * @return array
+     */
+    protected function getVotesThisWeek(): array
+    {
+        $vote_counts = RoundVote::where('created_at', '>', now()->subWeek())
+                                ->select([DB::raw('DATE(created_at) as date'), DB::raw('COUNT(id) as votes')])
+                                ->groupBy('date')
+                                ->get()
+                                ->toArray();
+
+        // Fill in the blanks!
+        $dates = $this->getDatesForLastWeek();
+        $output = [];
+        foreach ($dates as $day_date)
+        {
+            $matching_row = array_filter($vote_counts, fn($vote) => $vote['date'] === $day_date);
+            $output[]     = [
+                'date'  => $day_date,
+                'votes' => $matching_row ? reset($matching_row)['votes'] : 0
+            ];
+        }
+        return $output;
+    }
+
+    protected function getDatesForLastWeek(): array
+    {
+        $dates = [];
+        $date  = now()->subWeek();
+        while ($date < now())
+        {
+            $dates[] = $date->format('Y-m-d');
+            $date    = $date->addDay();
+        }
+        return $dates;
 
     }
 }

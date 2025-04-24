@@ -36,6 +36,8 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
  */
 class RoundVote extends Model
 {
+    use HasFactory;
+
     protected $guarded = ['id'];
 
     public function round(): BelongsTo
