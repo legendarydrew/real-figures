@@ -23,4 +23,10 @@ class StageWinner extends Model
     {
         return $this->belongsTo(Song::class);
     }
+
+    public function getDescriptionAttribute(): string
+    {
+        $translate_key = $this->is_winner ? 'contest.song.accolade.winner' : 'contest.song.accolade.runner_up';
+        return trans($translate_key, ['stage' => $this->stage->title, 'round' => $this->round->title]);
+    }
 }

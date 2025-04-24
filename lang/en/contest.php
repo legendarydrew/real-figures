@@ -9,5 +9,11 @@ return [
             'judgement' => 'Judgement',
             'ended'     => 'Ended',
         ]
+    ],
+    'song'  => [
+        'accolade' => [
+            'winner'    => 'Winner of :stage: :round',
+            'runner_up' => 'High-scoring runner up in :stage',
+        ]
     ]
 ];

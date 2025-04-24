@@ -15,6 +15,11 @@ class Song extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    public function accolades(): HasMany
+    {
+        return $this->hasMany(StageWinner::class);
+    }
+
     public function act(): BelongsTo
     {
         return $this->belongsTo(Act::class);
