@@ -1,9 +1,22 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "legendarydrew/real-figures",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "A Laravel + Inertia (React) web app that lets users vote on AI-generated songs.",
+    "keywords": [
+        "laravel",
+        "react",
+        "inertiajs",
+        "ai-music",
+        "tailwindcss",
+        "web-app",
+        "music-contest",
+        "social-awareness",
+        "anti-bullying",
+        "silentmode",
+        "catawol-records",
+        "lego-community"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.3",
