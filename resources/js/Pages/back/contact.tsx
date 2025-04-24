@@ -11,6 +11,7 @@ import { DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { LoadingButton } from '@/components/ui/loading-button';
 import { ContactMessageRespond } from '@/components/admin/contact-message-respond';
+import { Nothing } from '@/components/nothing';
 
 interface ContactMessagesPageProps {
     messages: ContactMessage[];
@@ -109,7 +110,7 @@ export default function ContactMessagesPage({
                 </div>
             </div>
 
-            {messages ? (
+            {messages?.length ? (
                 <>
                     {messages.map((message) => (
                         <Collapsible className="my-1 mx-2" key={message.id}>
@@ -143,9 +144,9 @@ export default function ContactMessagesPage({
                     ) : ''}
                 </>
             ) : (
-                <div className="nothing">
+                <Nothing>
                     No Contact Messages received.
-                </div>
+                </Nothing>
             )}
 
             <DestructiveDialog open={isConfirmingDelete} onConfirm={deleteHandler}
