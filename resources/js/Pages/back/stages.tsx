@@ -11,6 +11,7 @@ import { DialogTitle } from '@/components/ui/dialog';
 import { Toaster } from '@/components/ui/toast-message';
 import { StageWinnersDialog } from '@/components/admin/stage-winners-dialog';
 import { StageResultsDialog } from '@/components/admin/stage-results-dialog';
+import { Nothing } from '@/components/nothing';
 
 export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], songs }>) {
 
@@ -87,12 +88,16 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
             </div>
 
             <div className="p-4">
-                {stages.map((stage) => (
+                {stages.length ? stages.map((stage) => (
                     <StageItem key={stage.id} onAllocate={allocateHandler} onEdit={editHandler}
                                onDelete={deleteHandler} onChooseWinner={chooseWinnerHandler}
                                onShowResults={showResultsHandler}
                                stage={stage}/>
-                ))}
+                )) : (
+                    <Nothing>
+                        No Stages present.
+                    </Nothing>
+                )}
             </div>
 
             <StageDialog stage={currentStage} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
