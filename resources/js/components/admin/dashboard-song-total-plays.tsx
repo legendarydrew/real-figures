@@ -1,4 +1,5 @@
-import { CartesianGrid, Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Nothing } from '@/components/nothing';
 
 // https://www.geeksforgeeks.org/create-a-line-chart-using-recharts-in-reactjs/
 
@@ -20,9 +21,9 @@ export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ dat
         fontWeight: 'bold'
     };
 
-    return (
-        <section>
-            <h2 className="font-bold mb-2">Song Plays <small>in the last week</small></h2>
+    return data.days.length ? (
+        <>
+            <h2 className="font-bold mb-2">Song Plays <small>within the last week</small></h2>
             <ResponsiveContainer className="w-full h-[12rem]" aspect={2.5}>
                 <BarChart data={data.days} margin={0}>
                     <CartesianGrid strokeDasharray="3 3"/>
@@ -31,6 +32,10 @@ export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ dat
                     <Bar dataKey="play_count" label="Total song plays"/>
                 </BarChart>
             </ResponsiveContainer>
-        </section>
+        </>
+    ) : (
+        <Nothing className="border-2 w-full h-full">
+            No information about Songs played.
+        </Nothing>
     );
 };
