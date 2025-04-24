@@ -10,6 +10,7 @@ import { ActItem } from '@/components/admin/act-item';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { Toaster } from '@/components/ui/toast-message';
 import { DialogTitle } from '@/components/ui/dialog';
+import { Nothing } from '@/components/nothing';
 
 export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }>) {
 
@@ -78,12 +79,18 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
 
             <Pagination results={acts} onPageChange={pageHandler}/>
 
-            <div className="grid auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
-                {acts.data.map((act) => (
-                    <ActItem key={act.id} act={act} onEdit={() => editHandler(act)}
-                             onDelete={() => deleteHandler(act)}/>
-                ))}
-            </div>
+            {acts.meta.pagination.total ? (
+                <div className="grid auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
+                    {acts.data.map((act) => (
+                        <ActItem key={act.id} act={act} onEdit={() => editHandler(act)}
+                                 onDelete={() => deleteHandler(act)}/>
+                    ))}
+                </div>
+            ) : (
+                <Nothing>
+                    No Acts defined.
+                </Nothing>
+            )}
 
             <ActDialog act={currentAct} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
             <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}

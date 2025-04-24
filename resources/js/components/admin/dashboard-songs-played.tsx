@@ -1,3 +1,5 @@
+import { Nothing } from '@/components/nothing';
+
 type DashboardSongsPlayedData = {
     songs: {
         title: string
@@ -11,8 +13,8 @@ interface DashboardSongsPlayedProps {
 
 export const DashboardSongsPlayed: React.FC<DashboardSongsPlayedProps> = ({ data }) => {
 
-    return (
-        <section>
+    return data.songs.length ? (
+        <>
             <h2 className="font-bold mb-2">Most played Songs <small>within the last day</small></h2>
             <table className="table w-full text-sm">
                 <tbody>
@@ -24,6 +26,10 @@ export const DashboardSongsPlayed: React.FC<DashboardSongsPlayedProps> = ({ data
                 ))}
                 </tbody>
             </table>
-        </section>
+        </>
+    ) : (
+        <Nothing className="border-2 w-full h-full">
+            No information about Songs played.
+        </Nothing>
     );
 };

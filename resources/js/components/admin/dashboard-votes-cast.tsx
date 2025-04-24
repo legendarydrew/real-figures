@@ -1,4 +1,5 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { Nothing } from '@/components/nothing';
 
 type DashboardVotesCastData = {
     date: string;
@@ -16,8 +17,8 @@ export const DashboardVotesCast: React.FC<DashboardVotesCastProps> = ({ data }) 
         fontWeight: 'bold'
     };
 
-    return (
-        <section>
+    return data.length ? (
+        <>
             <h2 className="font-bold mb-2">Votes cast <small>within the last week</small></h2>
             <ResponsiveContainer className="w-full h-[12rem]" aspect={2.5}>
                 <BarChart data={data} margin={2}>
@@ -27,6 +28,9 @@ export const DashboardVotesCast: React.FC<DashboardVotesCastProps> = ({ data }) 
                     <Bar dataKey="votes" label="Votes cast"/>
                 </BarChart>
             </ResponsiveContainer>
-        </section>
+        </>) : (
+        <Nothing className="border-2 w-full h-full">
+            No information about votes cast.
+        </Nothing>
     );
 };

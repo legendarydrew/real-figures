@@ -76,7 +76,7 @@ export interface Song {
     title: string;
     language: string;
     play_count: number;
-    act?: {
+    act: {
         name: string;
         image?: string;
     };
