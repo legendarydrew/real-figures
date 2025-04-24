@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
+use App\Models\RoundVote;
 use App\Models\SongPlay;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -14,7 +15,8 @@ class DashboardController extends Controller
     public function index(): Response
     {
         return Inertia::render('dashboard', [
-            'song_plays' => fn() => $this->getPlaysThisWeek()
+            'song_plays' => fn() => $this->getPlaysThisWeek(),
+            'votes'      => fn() => $this->getVotesThisWeek()
         ]);
     }
 
@@ -50,6 +52,19 @@ class DashboardController extends Controller
                 'play_count' => $play->play_count
             ])
         ];
+    }
 
+    /**
+     * Returns data for the number of votes cast over the last week.
+     *
+     * @return array
+     */
+    protected function getVotesThisWeek(): array
+    {
+        return RoundVote::where('created_at', '>', now()->subWeek())
+                        ->select([DB::raw('DATE(created_at) as date'), DB::raw('COUNT(id) as votes')])
+                        ->groupBy('date')
+                        ->get()
+                        ->toArray();
     }
 }
