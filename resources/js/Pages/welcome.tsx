@@ -1,43 +1,38 @@
-import { type SharedData } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
+import { FrontHeader } from '@/components/front/front-header';
 
 export default function Welcome() {
-    const { auth } = usePage<SharedData>().props;
 
     return (
         <>
-            <Head title="CATAWOL Records presents: Real FIgures Don't F.O.L.D">
+            <Head title="CATAWOL Records presents: Real Figures Don't F.O.L.D">
                 {/* Any tags to go in the <head> section to here. */}
             </Head>
             <div
-                className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:justify-center lg:p-8 dark:bg-[#0a0a0a]">
-                <header className="border-b-1 mb-6 w-full">
-                    <nav className="flex items-center justify-end gap-4">
-                        {auth.user ? (
-                            <Link
-                                href={route('admin.dashboard')}
-                                className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                            >
-                                Dashboard
-                            </Link>
-                        ) : (
-                            <Link
-                                href={route('login')}
-                                className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
-                            >
-                                Log in
-                            </Link>
-                        )}
-                    </nav>
-                </header>
-                <main
-                    className="flex-grow w-full items-center justify-center">
-                    <h1 className="mb-1 font-medium">
-                        Real Figures Don't F.O.L.D
-                    </h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequuntur eveniet, perferendis
-                        praesentium quasi veniam. Aperiam architecto autem debitis dolor, illum optio pariatur
-                        praesentium sit ullam vel! Est, modi, sit.</p>
+                className="flex min-h-screen flex-col items-center bg-[#FDFDFC] text-[#1b1b18] lg:justify-center dark:bg-[#0a0a0a]">
+
+                <FrontHeader/>
+                <main className="flex-grow w-full">
+                    <div className="h-full overflow-y-auto">
+                        <h1 className="mb-1 font-medium">
+                            Real Figures Don't F.O.L.D
+                        </h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequuntur eveniet,
+                            perferendis
+                            praesentium quasi veniam. Aperiam architecto autem debitis dolor, illum optio pariatur
+                            praesentium sit ullam vel! Est, modi, sit.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad assumenda, ea eligendi ipsam
+                            laboriosam maxime modi nesciunt perferendis placeat provident quo tempora unde. Ab,
+                            accusantium autem minus perferendis qui quidem.</p>
+                        <p>Eligendi harum incidunt inventore
+                            placeat possimus quasi quis sint unde voluptate? Accusamus asperiores beatae culpa debitis
+                            dignissimos magnam perferendis, tempora velit. At atque dicta dolor, iste numquam possimus
+                            quod
+                            sunt.</p>
+                        <p>A ab accusamus architecto commodi consequuntur corporis cum dignissimos dolores
+                            eligendi explicabo fugiat illum, incidunt iusto minus mollitia natus numquam omnis quidem
+                            recusandae repellat sapiente similique sit ut vitae voluptas.</p>
+                    </div>
                 </main>
                 <footer className="py-3 px-5 text-xs text-center">
                     Copyright &copy; Drew Maughan (SilentMode), all rights reserved.<br/>
