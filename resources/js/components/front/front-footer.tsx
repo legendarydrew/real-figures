@@ -20,7 +20,7 @@ export const FrontFooter: React.FC = () => {
 
             <Dialog open={isOpen} onOpenChange={closeDialog}>
                 <DialogContent className="lg:max-w-3xl">
-                    <DialogTitle>About the project</DialogTitle>
+                    <DialogTitle>Project Credits</DialogTitle>
                     <DialogDescription>
                         <span className="font-semibold">CATAWOL Records presents: Real Figures Don't F.O.L.D</span><br/>
                         An advocacy project in the form of a song contest, calling attention to <b>bullying in adult
@@ -67,10 +67,8 @@ export const FrontFooter: React.FC = () => {
                                 <div className="text-sm">
                                     <p className="mb-1">All songs are the property of Drew Maughan (SilentMode).</p>
                                     <p>SilentMode, the SilentMode logo, CATAWOL Records, the CATAWOL
-                                        Records logo,
-                                        "Real Figures Don't
-                                        F.O.L.D", act names and character designs are &copy; and &trade; Drew Maughan
-                                        (SilentMode).
+                                        Records logo, "Real Figures Don't F.O.L.D", "F.O.L.D", act names and character
+                                        designs are &copy; and &trade; Drew Maughan (SilentMode).
                                     </p>
                                 </div>
                             </div>

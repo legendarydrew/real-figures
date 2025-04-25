@@ -5,7 +5,7 @@ export const FrontHeader: React.FC = () => {
     const { auth } = usePage<SharedData>().props;
 
     return (
-        <header className="border-b-1 py-2 mb-6 w-full shadow-sm sticky-top">
+        <header className="border-b-1 py-2 w-full shadow-sm">
             <div className="max-w-5xl mx-auto flex items-center justify-between gap-2">
 
                 <Link href={route('home')} className="font-bold">
