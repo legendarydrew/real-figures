@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { Computer, Copyright, User } from 'lucide-react';
 
