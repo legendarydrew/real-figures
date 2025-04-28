@@ -13,7 +13,7 @@ export default function RulesPage() {
     const [panelState, setPanelState] = useState({});
 
     const toggleHandler = (section: string): void => {
-        setPanelState({ ...section, [section]: !panelState[section] });
+        setPanelState({ ...panelState, [section]: !panelState[section] });
     };
 
     const isOpen = (section: string): boolean => {
@@ -29,52 +29,67 @@ export default function RulesPage() {
                 <FrontHeader/>
                 <FrontContent>
                     <Heading title="Real Figures Don't F.O.L.D &ndash; Contest Rules"/>
-                    <p className="text-lg my-3 text-muted-foreground">
-                        In the first ever event of its kind, CATAWOL Records has enlisted 32 of the label's biggest acts
-                        in a
-                        song Contest: showcasing creativity and musical talent, whilst raising awareness of <em>bullying
-                        in adult spaces</em>.
+                    <p className="text-lg my-3">
+                        Welcome to the first-ever CATAWOL Records Song Contest!
                     </p>
-                    <p className="mb-3">
-                        We need your help to decide which Act's version of the song - penned by the MODE Family's Sigfig
-                        - will
-                        become the official anthem.
+                    <p className="text-lg my-3">
+                        We’re bringing together 32 of our biggest Acts to showcase incredible creativity and raise
+                        awareness of bullying in adult spaces.
+                    </p>
+                    <p className="text-lg my-3">
+                        And we need <b className="text-muted-foreground">your votes</b> to help decide which song
+                        becomes the <b className="text-muted-foreground">official
+                        anthem!</b>
                     </p>
 
                     <Collapsible className="border-b" open={isOpen('brief')}
                                  onOpenChange={() => toggleHandler('brief')}>
                         <CollapsibleTrigger
-                            className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">Brief,
-                            Criteria,
-                            Eligibility
+                            className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
+                            Contest Brief
                             {isOpen('brief') ? <ChevronUp/> : <ChevronDown/>}
                         </CollapsibleTrigger>
                         <CollapsibleContent className="py-3 px-5">
-                            <p className="text-muted-foreground mb-3">We believe that a Contest that does not have a
-                                brief, eligibility and criteria statement <em>as a minimum</em> is <em>potentially
-                                    rigged</em>.</p>
+                            <p className="mb-3">Create an original song using lyrics written by the MODE Family’s <b
+                                className="text-muted-foreground">Sigfig</b>.</p>
+                            <p className="mb-3">The goal: <b className="text-muted-foreground">raise awareness of
+                                bullying in adult
+                                environments</b> through music.</p>
+                        </CollapsibleContent>
+                    </Collapsible>
 
-                            <HeadingSmall title="The Brief"/>
-                            <p className="mb-3">Create an original song, using the lyrics written by the MODE Family's
-                                Sigfig, for
-                                raising
-                                awareness of bullying.</p>
-
-                            <HeadingSmall title="Eligibility"/>
-                            <ul className="list-disc my-3 mx-8">
-                                <li>Entry is open to all Acts signed with CATAWOL Records.</li>
-                                <li>Acts must be signed with CATAWOL Records for the duration of the Contest.</li>
-                                <li>A maximum of 32 Acts will be chosen for the Contest.</li>
+                    <Collapsible className="border-b" open={isOpen('eligibility')}
+                                 onOpenChange={() => toggleHandler('eligibility')}>
+                        <CollapsibleTrigger
+                            className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
+                            Eligibility
+                            {isOpen('eligibility') ? <ChevronUp/> : <ChevronDown/>}
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="py-3 px-5">
+                            <ul className="list-disc mb-3 mx-8">
+                                <li>Entry is open to all Acts currently signed with <b
+                                    className="text-muted-foreground">CATAWOL Records</b>.
+                                </li>
+                                <li>Acts must remain signed with CATAWOL Records throughout the Contest.</li>
+                                <li>32 Acts will be shortlisted to participate.</li>
                             </ul>
+                        </CollapsibleContent>
+                    </Collapsible>
 
-                            <HeadingSmall title="Criteria"/>
-                            <ul className="list-disc my-3 mx-8">
-                                <li>Acts are free to interpret the song as they choose, while respecting the original
-                                    lyrics.
+                    <Collapsible className="border-b" open={isOpen('criteria')}
+                                 onOpenChange={() => toggleHandler('criteria')}>
+                        <CollapsibleTrigger
+                            className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
+                            Song Criteria
+                            {isOpen('criteria') ? <ChevronUp/> : <ChevronDown/>}
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="py-3 px-5">
+                            <ul className="list-disc mb-3 mx-8">
+                                <li>Songs must respect the original lyrics (minor adjustments allowed for flow or
+                                    grammar).
                                 </li>
-                                <li>Each Act can only enter a single Song into the Contest.</li>
-                                <li>All Songs entered must feature vocals from and be the work of the associated Act.
-                                </li>
+                                <li>Songs must feature vocals by the associated Act.</li>
+                                <li>Each Act may submit <b className="text-muted-foreground">one</b> Song.</li>
                             </ul>
                         </CollapsibleContent>
                     </Collapsible>
@@ -82,52 +97,49 @@ export default function RulesPage() {
                     <Collapsible className="border-b" open={isOpen('knockout-stage')}
                                  onOpenChange={() => toggleHandler('knockout-stage')}>
                         <CollapsibleTrigger
-                            className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">Stage
-                            1: Knockout
-                            Stage
+                            className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
+                            Stage 1: Knockout Stage
                             {isOpen('knockout-stage') ? <ChevronUp/> : <ChevronDown/>}
                         </CollapsibleTrigger>
                         <CollapsibleContent className="py-3 px-5">
                             <HeadingSmall title="Submissions"/>
-                            <p className="mb-3">Each of the 32 Acts in this Stage must submit a Song based on the
-                                provided lyrics.</p>
                             <ul className="list-disc my-3 mx-8">
-                                <li>The maximum duration of each Song is two minutes and ten seconds (2:10).</li>
-                                <li>Each Song must include the provided lyrics, allowing for minor adjustments to match
-                                    the style of the Song.
+                                <li>Each Act submits a Song using the provided lyrics.</li>
+                                <li><b className="text-muted-foreground">Song length</b> must not exceed <b
+                                    className="text-muted-foreground">2
+                                    minutes and 10 seconds</b> (2:10).
+                                </li>
+                                <li>Minor adjustments to lyrics are allowed, but the essence must remain intact.</li>
+                                <li>Songs are randomly assigned into <b className="text-muted-foreground">8 Rounds</b>,
+                                    with <b className="text-muted-foreground">4 Songs</b> per Round.
                                 </li>
                             </ul>
-                            <p className="mb-3">The Songs will be divided into 8 rounds, with 4 Songs in each round. The
-                                allocation and
-                                order of the Songs will be randomised.</p>
 
                             <HeadingSmall title="Voting"/>
                             <ul className="list-disc my-3 mx-8">
-                                <li>Voting for each Round is open to all Visitors, excluding:
+                                <li><b className="text-muted-foreground">Voting is open to all Visitors</b>, except:
                                     <ul className="list-disc my-3 mx-8">
-                                        <li>members of the F.O.L.D;</li>
-                                        <li>those related to or affiliated with any of the competing Acts;</li>
-                                        <li>those involved with the administration of the Contest;</li>
-                                        <li>employees of CATAWOL Records.</li>
+                                        <li>Members of the F.O.L.D.</li>
+                                        <li>Relatives or affiliates of competing Acts.</li>
+                                        <li>Contest administrators.</li>
+                                        <li>Employees of CATAWOL Records.</li>
                                     </ul>
                                 </li>
-                                <li>Visitors will be asked to vote for their top three Songs in each Round.</li>
-                                <li>Votes for each Round will only be counted while the respective Round is open.</li>
+                                <li>In each Round, Visitors can vote for their <b className="text-muted-foreground">top
+                                    3 favourite Songs.</b></li>
+                                <li>Votes are only counted while a Round is open.</li>
                             </ul>
 
                             <HeadingSmall title="Advancement"/>
-                            <p className="mb-3">A total of ten Songs will advance to the second and final Stage:</p>
-                            <ul className="list-disc mb-3 mx-8">
-                                <li>the top Song from each Round (8 winners total);</li>
-                                <li>The two highest-scoring runner-up Songs across all Rounds.</li>
+                            <p className="mb-3">A total of 10 Songs will advance to Stage 2:</p>
+                            <ul className="list-disc my-3 mx-8">
+                                <li>8 Round Winners (one from each Round).</li>
+                                <li>2 highest-scoring runners-up across all Rounds.</li>
                             </ul>
-                            <p className="mb-3">The Acts associated with the winning Songs in this Stage will be further
-                                developed
-                                with:</p>
-                            <ul className="list-disc mb-3 mx-8">
-                                <li>a backstory;</li>
-                                <li>an updated profile picture.</li>
-                            </ul>
+
+                            <HeadingSmall title="Bonus for advancing Acts"/>
+                            <p className="mb-3">Each Act will receive a newly crafted profile and an updated
+                                picture!</p>
                         </CollapsibleContent>
                     </Collapsible>
 
@@ -140,36 +152,45 @@ export default function RulesPage() {
                         </CollapsibleTrigger>
                         <CollapsibleContent className="py-3 px-5">
                             <HeadingSmall title="Resubmission"/>
-                            <p className="mb-3">Each of the ten Acts in this Stage must submit
-                                an <em>updated</em> version of their Song.</p>
-                            <ul className="list-disc mb-3 mx-8">
-                                <li>As well as the originally provided lyrics, each Song must also include a <em>previously
-                                    undisclosed</em> second verse.
+                            <ul className="list-disc my-3 mx-8">
+                                <li>Acts must submit an <b className="text-muted-foreground">updated version</b> of
+                                    their Song.
                                 </li>
-                                <li>The style and essence of the updated Song should <em>not significantly
-                                    differ</em> from the previous Song.
+                                <li>Songs must now include a <b className="text-muted-foreground">previously undisclosed
+                                    second verse.</b></li>
+                                <li>The updated Song must <b className="text-muted-foreground">retain the original style
+                                    and essence</b> while allowing for creative reinterpretation.
                                 </li>
-                                <li>With the aforementioned exceptions, Acts have the freedom to reinterpret, remix, or
-                                    creatively evolve their original submission while maintaining its core essence.
+                                <li><b className="text-muted-foreground">No maximum duration</b> for the updated Song.
                                 </li>
-                                <li>There is <em>no maximum duration</em> for the updated Song.</li>
                             </ul>
 
-                            <HeadingSmall title="Voting"/>
-                            <p className="mb-3">The conditions are the same as with the Knockout Stage, except:</p>
+                            <HeadingSmall title="Final Voting"/>
+                            <p className="mb-3">Voting conditions are the same as Stage 1, except:</p>
                             <ul className="list-disc my-3 mx-8">
-                                <li>Visitors will be asked to choose their top three Songs among all entries.</li>
+                                <li>Visitors will vote for their <b className="text-muted-foreground">top 3
+                                    favourites</b> from <b className="text-muted-foreground">all</b> entries
+                                    combined.
+                                </li>
                             </ul>
 
                             <HeadingSmall title="Winning Songs"/>
-                            <p className="mb-3">One overall winning Song and the three highest-scoring
-                                runner-up Songs will be chosen.</p>
-
                             <ul className="list-disc my-3 mx-8">
-                                <li>All winning Acts will be immortalised as 3D-printed figures.</li>
-                                <li>The winning Song will be recognised as the <em>official anthem of
-                                    the Contest</em>, and the Act associated
-                                    with the winning Song will be immortalised as a <em>custom LEGO minifigure</em>.
+                                <li>One <b className="text-muted-foreground">Grand Winner</b> and three <b
+                                    className="text-muted-foreground">Runners-up</b> will be crowned.
+                                </li>
+                            </ul>
+
+                            <HeadingSmall title="Prizes"/>
+                            <ul className="list-disc my-3 mx-8">
+                                <li>All winning Acts will be recreated as <b className="text-muted-foreground">3D-printed
+                                    figures</b>.
+                                </li>
+                                <li>The Act behind the Grand Winning Song will also be honoured with a <b
+                                    className="text-muted-foreground">custom
+                                    LEGO minifigure.</b></li>
+                                <li>The Winning Song becomes the <b className="text-muted-foreground">official
+                                    anthem</b> of the Contest!
                                 </li>
                             </ul>
                         </CollapsibleContent>
@@ -179,30 +200,32 @@ export default function RulesPage() {
                                  onOpenChange={() => toggleHandler('golden-buzzer')}>
                         <CollapsibleTrigger
                             className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
-                            Golden Buzzer
+                            The Golden Buzzer
                             {isOpen('golden-buzzer') ? <ChevronUp/> : <ChevronDown/>}
                         </CollapsibleTrigger>
                         <CollapsibleContent className="py-3 px-5">
-                            <p className="mb-3">At any point during the Contest, Visitors can choose to support their
-                                favourite Song by awarding a <b>Golden Buzzer</b>.</p>
-                            <p className="mb-3">Golden Buzzers can be awarded to Songs through making a donation. The
-                                simplest way to donate is through the respective PayPal button, or by contacting us
-                                through this site for alternative methods.</p>
-                            <p className="mb-3">A Song that receives a Golden Buzzer will receive the same treatment as
-                                a <em>runner-up</em> of the respective Stage, but will not affect the Song's total
-                                score.</p>
-
-                            <HeadingSmall title="Golden Buzzer outcomes"/>
-                            <ul className="list-disc mx-8 my-3">
-                                <li>
-                                    <b>During the Knockout Stage:</b> the associated Act will receive an updated
-                                    profile and picture, along with an extended version of the Song.
+                            <p className="mb-3">Want to give a Song an extra boost? Hit the <b>Golden Buzzer</b>!</p>
+                            <ul className="list-disc my-3 mx-8">
+                                <li>Visitors can award a Golden Buzzer to their favourite Song by donating.</li>
+                                <li>Donations can be made through the provided PayPal button or by contacting us for
+                                    alternative methods.
                                 </li>
-                                <li>
-                                    <b>During the Final:</b> the associated Act will be immortalised as a 3D-printed
-                                    figure.
+                                <li>A Golden Buzzer means:
+                                    <ul className="list-disc my-3 mx-8">
+                                        <li><b className="text-muted-foreground">Knockout Stage:</b> The Act gets a
+                                            backstory, an updated picture, and an
+                                            extended version of their Song.
+                                        </li>
+                                        <li><b className="text-muted-foreground">Final Stage:</b> The Act is
+                                            immortalised as
+                                            a <b className="text-muted-foreground">3D-printed figure</b>.
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
+                            <p className="mb-3"><b className="text-muted-foreground">Important:</b> Golden Buzzers <b
+                                className="text-muted-foreground">do
+                                not</b> affect voting scores - they’re a bonus honour!</p>
                         </CollapsibleContent>
                     </Collapsible>
 
@@ -210,42 +233,50 @@ export default function RulesPage() {
                                  onOpenChange={() => toggleHandler('calculation')}>
                         <CollapsibleTrigger
                             className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
-                            How Winning Songs are Calculated
+                            How Votes Are Calculated
                             {isOpen('calculation') ? <ChevronUp/> : <ChevronDown/>}
                         </CollapsibleTrigger>
                         <CollapsibleContent className="py-3 px-5">
-                            <p className="mb-3">Scores for each Song are calculated from a total of the following:</p>
                             <ul className="list-disc mb-3 mx-8">
-                                <li>4 points for each first choice vote;</li>
-                                <li>2 points for each second choice vote;</li>
-                                <li>1 point for each third choice vote.</li>
+                                <li>1st choice vote = <b className="text-muted-foreground">4 points</b></li>
+                                <li>2nd choice vote = <b className="text-muted-foreground">2 points</b></li>
+                                <li>3rd choice vote = <b className="text-muted-foreground">1 point</b></li>
                             </ul>
-                            <p className="mb-3">The winning Song in each Round is determined by the highest overall
-                                score.</p>
-                            <p className="text-sm italic mb-3">NOTE: Golden Buzzers do not count toward overall
+
+                            <p className="mb-3">Songs are ranked based on:</p>
+                            <ol className="list-decimal mb-3 mx-8">
+                                <li>Total score</li>
+                                <li>Number of 1st choice votes</li>
+                                <li>Number of 2nd choice votes</li>
+                                <li>Number of 3rd choice votes</li>
+                            </ol>
+
+                            <p className="italic mb-3">Note: Golden Buzzers are honorary and do not influence
                                 scores.</p>
+                        </CollapsibleContent>
+                    </Collapsible>
+
+                    <Collapsible className="border-b" open={isOpen('situations')}
+                                 onOpenChange={() => toggleHandler('situations')}>
+                        <CollapsibleTrigger
+                            className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
+                            Special Situations
+                            {isOpen('situations') ? <ChevronUp/> : <ChevronDown/>}
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="py-3 px-5">
 
                             <HeadingSmall title="Tied votes"/>
-                            <p className="mb-3">Songs in each Round are ranked in descending order of:</p>
-                            <ul className="list-disc mb-3 mx-8">
-                                <li>total score;</li>
-                                <li>number of first choice votes;</li>
-                                <li>number of second choice votes;</li>
-                                <li>number of third choice votes.</li>
-                            </ul>
-                            <p className="mb-3">In the <em>very unlikely</em> event of a tie, the tied Songs will share
-                                the rank. Therefore, it would be possible to have:</p>
-                            <ul className="list-disc mb-3 mx-8">
-                                <li>more than ten entries in the Final Stage;</li>
-                                <li>more than one overall Winning Song;</li>
-                                <li>more than three overall runner-up Songs.</li>
+                            <p className="mb-3">In the rare event of a tie:</p>
+                            <ul className="list-disc my-3 mx-8">
+                                <li>More than 10 Acts may advance to the Finals.</li>
+                                <li>More than one Grand Winner or additional Runners-up may be declared.</li>
                             </ul>
 
                             <HeadingSmall title="No votes"/>
-                            <p className="mb-3">In the event of <em>no votes</em> being cast for a specific Round, the
-                                deciding
-                                vote will be
-                                determined by an independent panel.</p>
+                            <p className="mb-3">If no votes are cast in a Round:</p>
+                            <ul className="list-disc my-3 mx-8">
+                                <li>Winners will be decided by an independent panel.</li>
+                            </ul>
                         </CollapsibleContent>
                     </Collapsible>
 
@@ -258,16 +289,17 @@ export default function RulesPage() {
                         </CollapsibleTrigger>
                         <CollapsibleContent className="py-3 px-5">
                             <ul className="list-disc mb-3 mx-8">
-                                <li>We strongly encourage Visitors to vote for <em>the Songs they like the most</em>,
-                                    and not <em>who they think is going to win</em>.
+                                <li><b className="text-muted-foreground">Vote for the Songs you love the most</b>, not
+                                    just the ones you think will win..
                                 </li>
-                                <li>Definitely consider supporting your most favourite Songs and the Contest, by
-                                    awarding a <b>Golden Buzzer</b>.
+                                <li><b className="text-muted-foreground">Support your favourites with a Golden
+                                    Buzzer</b> or by donating to help the Contest grow.
                                 </li>
-                                <li>Help increase the excitement surrounding the Contest by sharing links to your
-                                    favourite Songs, and <em>encourage others to vote</em> in the Contest!
+                                <li><b className="text-muted-foreground">Spread the word!</b> Share your favourite Songs
+                                    and encourage friends to vote.
                                 </li>
                             </ul>
+                            <p className="my-3">Let's make music history together!</p>
                         </CollapsibleContent>
                     </Collapsible>
                 </FrontContent>
