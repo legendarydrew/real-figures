@@ -13,8 +13,16 @@ use App\Http\Controllers\API\VoteController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// ----------------------------------------------------------------------------
+// Front-facing pages.
+// ----------------------------------------------------------------------------
 Route::get('/', fn() => Inertia::render('welcome'))->name('home');
+Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
 
+
+// ----------------------------------------------------------------------------
+// Our famous Kitchen Sink page.
+// ----------------------------------------------------------------------------
 if (app()->hasDebugModeEnabled())
 {
     Route::get('kitchen-sink', fn() => Inertia::render('kitchen-sink', [
