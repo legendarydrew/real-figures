@@ -4,7 +4,17 @@ import { FrontContent } from '@/components/front/front-content';
 import Heading from '@/components/heading';
 import HeadingSmall from '@/components/heading-small';
 import { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import {
+    Calculator,
+    CheckCircle,
+    ChevronDown,
+    ChevronUp,
+    GitFork,
+    ListChecks,
+    Notebook,
+    ShieldQuestion,
+    Star
+} from 'lucide-react';
 import FrontLayout from '@/layouts/front-layout';
 
 export default function RulesPage() {
@@ -41,8 +51,9 @@ export default function RulesPage() {
                 <Collapsible className="border-b" open={isOpen('brief')}
                              onOpenChange={() => toggleHandler('brief')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
-                        Contest Brief
+                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        <Notebook/>
+                        <span className="flex-grow text-left">Contest Brief</span>
                         {isOpen('brief') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="py-3 px-5">
@@ -57,8 +68,9 @@ export default function RulesPage() {
                 <Collapsible className="border-b" open={isOpen('eligibility')}
                              onOpenChange={() => toggleHandler('eligibility')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
-                        Eligibility
+                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        <CheckCircle/>
+                        <span className="flex-grow text-left">Eligibility</span>
                         {isOpen('eligibility') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="py-3 px-5">
@@ -75,8 +87,9 @@ export default function RulesPage() {
                 <Collapsible className="border-b" open={isOpen('criteria')}
                              onOpenChange={() => toggleHandler('criteria')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
-                        Song Criteria
+                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        <ListChecks/>
+                        <span className="flex-grow text-left">Song Criteria</span>
                         {isOpen('criteria') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="py-3 px-5">
@@ -93,8 +106,9 @@ export default function RulesPage() {
                 <Collapsible className="border-b" open={isOpen('knockout-stage')}
                              onOpenChange={() => toggleHandler('knockout-stage')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
-                        Stage 1: Knockout Stage
+                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        <GitFork/>
+                        <span className="flex-grow text-left">Stage 1: Knockout Stage</span>
                         {isOpen('knockout-stage') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="py-3 px-5">
@@ -142,8 +156,9 @@ export default function RulesPage() {
                 <Collapsible className="border-b" open={isOpen('final-stage')}
                              onOpenChange={() => toggleHandler('final-stage')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
-                        Stage 2: Finals
+                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        <GitFork/>
+                        <span className="flex-grow text-left">Stage 2: Finals</span>
                         {isOpen('final-stage') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="py-3 px-5">
@@ -195,12 +210,14 @@ export default function RulesPage() {
                 <Collapsible className="border-b" open={isOpen('golden-buzzer')}
                              onOpenChange={() => toggleHandler('golden-buzzer')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
-                        The Golden Buzzer
+                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        <Star className="text-yellow-500"/>
+                        <span className="flex-grow text-left">The Golden Buzzer</span>
                         {isOpen('golden-buzzer') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="py-3 px-5">
-                        <p className="mb-3">Want to give a Song an extra boost? Hit the <b>Golden Buzzer</b>!</p>
+                        <p className="mb-3">Want to give a Song an extra boost? Hit the <b className="text-yellow-500">Golden
+                            Buzzer</b>!</p>
                         <ul className="list-disc my-3 mx-8">
                             <li>Visitors can award a Golden Buzzer to their favourite Song by donating.</li>
                             <li>Donations can be made through the provided PayPal button or by contacting us for
@@ -228,8 +245,9 @@ export default function RulesPage() {
                 <Collapsible className="border-b" open={isOpen('calculation')}
                              onOpenChange={() => toggleHandler('calculation')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
-                        How Votes Are Calculated
+                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        <Calculator/>
+                        <span className="flex-grow text-left">How Votes Are Calculated</span>
                         {isOpen('calculation') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="py-3 px-5">
@@ -255,8 +273,9 @@ export default function RulesPage() {
                 <Collapsible className="border-b" open={isOpen('situations')}
                              onOpenChange={() => toggleHandler('situations')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
-                        Special Situations
+                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        <ShieldQuestion/>
+                        <span className="flex-grow text-left">Special Situations</span>
                         {isOpen('situations') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="py-3 px-5">
