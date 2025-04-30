@@ -40,7 +40,6 @@ class RoundAllocate
             throw new DataException('Stage has already started.');
         }
 
-
         if ($songs_per_round > 1)
         {
             $songs->shuffle();

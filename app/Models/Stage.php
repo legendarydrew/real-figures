@@ -58,6 +58,36 @@ class Stage extends Model
     }
 
     /**
+     * Returns TRUE if this Stage has no Rounds.
+     *
+     * @return bool
+     */
+    public function isInactive(): bool
+    {
+        return $this->rounds->isEmpty();
+    }
+
+    /**
+     * Returns TRUE if this Stage has Rounds, but none of them have started.
+     *
+     * @return bool
+     */
+    public function isReady(): bool
+    {
+        return $this->rounds->isNotEmpty() && !$this->isActive();
+    }
+
+    /**
+     * Returns TRUE if at least one Round in this Stage is currently running.
+     *
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return !$this->hasEnded() && $this->rounds->some(fn(Round $round) => $round->isActive());
+    }
+
+    /**
      * Returns TRUE if all Rounds in this Stage have ended.
      * (Or as the code suggests, every fn Round.)
      *

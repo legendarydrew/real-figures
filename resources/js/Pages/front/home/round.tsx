@@ -5,13 +5,20 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import HeadingSmall from '@/components/heading-small';
 
-export default function Home() {
+export default function HomeRound({ stage, currentRound }) {
 
     return (
         <FrontLayout>
             <Head>
                 {/* Any tags to go in the <head> section to here. */}
             </Head>
+
+            <div className="bg-indigo-200 py-10 px-5">
+                <div className="max-w-5xl mx-auto flex items-center gap-4">
+                    <Heading title={stage.title} description={stage.description}/>
+                    {JSON.stringify(currentRound)}
+                </div>
+            </div>
 
             <div className="bg-indigo-200 py-10 px-5">
                 <div className="max-w-5xl mx-auto flex items-center gap-4">
@@ -23,7 +30,8 @@ export default function Home() {
                             32 Acts.<br/>1 Anthem.
                         </h1>
                         <p className="text-base w-3/4">
-                            We're raising awareness about bullying through music - and <b>you</b> help pick the winner!
+                            We're raising awareness about bullying through music - and <b>you</b> help pick the
+                            winner!
                         </p>
                     </div>
 
