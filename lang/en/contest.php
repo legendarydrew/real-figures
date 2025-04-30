@@ -10,6 +10,12 @@ return [
             'ended'     => 'Ended',
         ]
     ],
+    'round' => [
+        'title' => [
+            'only_round'  => ':stage_title',
+            'many_rounds' => ':stage_title: :round_title',
+        ]
+    ],
     'song'  => [
         'accolade' => [
             'winner'    => 'Winner of :stage: :round',

@@ -17,7 +17,7 @@ export default function HomeRound({ stage, currentRound }) {
                 <div className="max-w-5xl mx-auto">
                     {currentRound && (
                         <>
-                            <Heading title={stage.title} description={stage.description}/>
+                            <Heading title={currentRound.title} description={stage.description}/>
                             <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                                 {currentRound.songs.map((song) => (
                                     <li className="bg-secondary/30 rounded-md leading-none p-5" key={song.id}>
