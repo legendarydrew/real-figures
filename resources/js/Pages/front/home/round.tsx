@@ -14,9 +14,20 @@ export default function HomeRound({ stage, currentRound }) {
             </Head>
 
             <div className="bg-indigo-200 py-10 px-5">
-                <div className="max-w-5xl mx-auto flex items-center gap-4">
-                    <Heading title={stage.title} description={stage.description}/>
-                    {JSON.stringify(currentRound)}
+                <div className="max-w-5xl mx-auto">
+                    {currentRound && (
+                        <>
+                            <Heading title={stage.title} description={stage.description}/>
+                            <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                                {currentRound.songs.map((song) => (
+                                    <li className="bg-secondary/30 rounded-md leading-none p-5" key={song.id}>
+                                        <div className="text-lg font-semibold">{song.act.name}</div>
+                                        <div className="text-base font-semibold">{song.title}</div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
                 </div>
             </div>
 
