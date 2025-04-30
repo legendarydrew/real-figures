@@ -43,7 +43,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
     const minStartTime = useRef<string>(new Date().toISOString().slice(0, -8));
 
     useEffect(() => {
-        reset('song_ids', 'per_round', 'start_at', 'duration');
+        reset('song_ids', 'per_round', 'duration');
         if (open) {
             if (!(songs && songs.length > minSongs.current)) {
                 toast.error(`No Songs specified (minimum of ${minSongs.current} required).`);
@@ -52,6 +52,10 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                 maxSongs.current = Math.min(songs.length, maxSongs.current, props.roundConfig.maxSongs);
             }
         }
+        const startTime = new Date();
+        startTime.setHours(startTime.getHours() + 2, 0, 0);
+        setData('start_at', startTime.toISOString().slice(0, -8));
+
     }, [open]);
 
     const changeStartsAtHandler = (e: ChangeEvent): void => {
