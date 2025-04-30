@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Database\Factories\RoundFactory;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -66,7 +65,7 @@ class Round extends Model
      */
     public function hasStarted(): bool
     {
-        return $this->starts_at->isPast();
+        return $this->starts_at < now();
     }
 
     /**
@@ -76,7 +75,8 @@ class Round extends Model
      */
     public function isActive(): bool
     {
-        return $this->starts_at->isPast() && $this->ends_at->isFuture();
+        $now = now();
+        return $this->starts_at < $now && $this->ends_at > $now;
     }
 
     /**
@@ -86,7 +86,7 @@ class Round extends Model
      */
     public function hasEnded(): bool
     {
-        return $this->ends_at->isPast();
+        return $this->ends_at < now();
     }
 
     /**
@@ -98,5 +98,15 @@ class Round extends Model
     public function requiresManualVote(): bool
     {
         return $this->hasEnded() && $this->songs()->count() > 0 && $this->outcomes->every('score', '=', 0);
+    }
+
+    public function getFullTitleAttribute(): string
+    {
+        $stage_round_count = $this->stage->rounds()->count();
+        $key               = $stage_round_count === 1 ? 'contest.round.title.only_round' : 'contest.round.title.many_rounds';
+        return trans($key, [
+            'stage_title' => $this->stage->title,
+            'round_title' => $this->title
+        ]);
     }
 }

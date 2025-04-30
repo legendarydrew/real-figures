@@ -1,5 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import type { SharedData } from '@/types';
+import CatawolLogo from '@/components/catawol-logo';
 
 export const FrontHeader: React.FC = () => {
     const { auth } = usePage<SharedData>().props;
@@ -9,7 +10,7 @@ export const FrontHeader: React.FC = () => {
             <div className="max-w-5xl mx-auto flex items-center justify-between gap-2">
 
                 <Link href={route('home')} className="font-bold">
-                    CATAWOL Records
+                    <CatawolLogo className="w-auto h-10"/>
                 </Link>
 
                 <nav className="flex items-center justify-end gap-4">

@@ -28,7 +28,8 @@ class EndOfRound implements ShouldQueue
     {
         // Check that the Round has both started and ended.
         // This should also catch an edge case where the start time is after the end time.
-        if (!($this->round->starts_at->isPast() && $this->round->ends_at->isPast()))
+        $now = now();
+        if (!($this->round->starts_at < $now && $this->round->ends_at < $now))
         {
             $this->delete();
             return;

@@ -14,6 +14,7 @@ class StageTransformer extends TransformerAbstract
             'id'          => (int)$stage->id,
             'title'       => $stage->title,
             'description' => $stage->description,
+            'status' => $stage->status,
         ];
     }
 }

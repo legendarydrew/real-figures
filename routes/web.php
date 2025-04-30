@@ -16,7 +16,7 @@ use Inertia\Inertia;
 // ----------------------------------------------------------------------------
 // Front-facing pages.
 // ----------------------------------------------------------------------------
-Route::get('/', fn() => Inertia::render('welcome'))->name('home');
+Route::get('/', [\App\Http\Controllers\Front\HomeController::class, 'index'])->name('home');
 Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
 
 
