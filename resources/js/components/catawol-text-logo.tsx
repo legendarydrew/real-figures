@@ -1,6 +1,6 @@
 import { SVGAttributes } from 'react';
 
-export default function CatawolLogo(props: Readonly<SVGAttributes<SVGElement>>) {
+export default function CatawolTextLogo(props: Readonly<SVGAttributes<SVGElement>>) {
     return (
         <svg aria-label="CATAWOL Records" {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 382.677 70.866"
              width="382.677px"
