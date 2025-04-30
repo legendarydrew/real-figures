@@ -5,8 +5,9 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import HeadingSmall from '@/components/heading-small';
 import { ActImage } from '@/components/ui/act-image';
+import { CountdownTimer } from '@/components/ui/countdown-timer';
 
-export default function HomeRound({ stage, currentRound, previousRounds }) {
+export default function HomeRound({ stage, currentRound, previousRounds, countdown }) {
 
     const moreInfoHander = () => {
         router.visit('about');
@@ -23,6 +24,7 @@ export default function HomeRound({ stage, currentRound, previousRounds }) {
                     {currentRound && (
                         <>
                             <Heading title={currentRound.title} description={stage.description}/>
+                            <CountdownTimer timestamp={countdown}/>
                             <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                                 {currentRound.songs.map((song) => (
                                     <li className="bg-secondary/30 rounded-md leading-none relative" key={song.id}>
