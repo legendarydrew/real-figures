@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\ActController;
 use App\Http\Controllers\API\BuzzerController;
+use App\Http\Controllers\API\ContactMessagesController;
 use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\SongController;
 use App\Http\Controllers\API\StageAllocateController;
@@ -10,6 +11,22 @@ use App\Http\Controllers\API\StageManualVoteController;
 use App\Http\Controllers\API\StageRoundsController;
 use App\Http\Controllers\API\StageWinnersController;
 use App\Http\Controllers\API\VoteController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Back\ActsController;
+use App\Http\Controllers\Back\ContactMessageController;
+use App\Http\Controllers\Back\DashboardController;
+use App\Http\Controllers\Back\SongsController;
+use App\Http\Controllers\Back\StagesController;
+use App\Http\Controllers\Settings\PasswordController;
+use App\Http\Controllers\Settings\ProfileController;
+use App\Models\Round;
+use App\Transformers\RoundTransformer;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,12 +38,12 @@ Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules
 
 
 // ----------------------------------------------------------------------------
-// Our famous Kitchen Sink page.
+// Our famous Kitchen Sink page (only available in debug mode).
 // ----------------------------------------------------------------------------
 if (app()->hasDebugModeEnabled())
 {
     Route::get('kitchen-sink', fn() => Inertia::render('kitchen-sink', [
-        'round' => fractal(\App\Models\Round::active()->first(), \App\Transformers\RoundTransformer::class)->toArray()
+        'round' => fractal(Round::active()->first(), RoundTransformer::class)->toArray()
     ]))->name('kitchen-sink');
 }
 
@@ -49,8 +66,8 @@ Route::prefix('/api')->group(function ()
         Route::patch('acts/{id}', [ActController::class, 'update'])->name('acts.update');
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
-        Route::put('messages/{id}', [\App\Http\Controllers\API\ContactMessagesController::class, 'update'])->name('messages.update');
-        Route::delete('messages', [\App\Http\Controllers\API\ContactMessagesController::class, 'destroy'])->name('messages.destroy');
+        Route::put('messages/{id}', [ContactMessagesController::class, 'update'])->name('messages.update');
+        Route::delete('messages', [ContactMessagesController::class, 'destroy'])->name('messages.destroy');
 
         Route::post('songs', [SongController::class, 'store'])->name('songs.store');
         Route::patch('songs/{id}', [SongController::class, 'update'])->name('songs.update');
@@ -70,17 +87,64 @@ Route::prefix('/api')->group(function ()
 
 });
 
+// ----------------------------------------------------------------------------
 // Back office pages.
+// ----------------------------------------------------------------------------
 Route::middleware(['auth', 'verified'])->group(function ()
 {
-    Route::get('admin', [\App\Http\Controllers\Back\DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('admin', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-    Route::get('/admin/acts', [\App\Http\Controllers\Back\ActsController::class, 'index'])->name('admin.acts');
-    Route::get('/admin/contact', [\App\Http\Controllers\Back\ContactMessageController::class, 'index'])->name('admin.contact');
-    Route::get('/admin/songs', [\App\Http\Controllers\Back\SongsController::class, 'index'])->name('admin.songs');
-    Route::get('/admin/stages', [\App\Http\Controllers\Back\StagesController::class, 'index'])->name('admin.stages');
+    Route::get('/admin/acts', [ActsController::class, 'index'])->name('admin.acts');
+    Route::get('/admin/contact', [ContactMessageController::class, 'index'])->name('admin.contact');
+    Route::get('/admin/songs', [SongsController::class, 'index'])->name('admin.songs');
+    Route::get('/admin/stages', [StagesController::class, 'index'])->name('admin.stages');
 });
 
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';
 
+// ----------------------------------------------------------------------------
+// Authentication pages.
+// ----------------------------------------------------------------------------
+Route::middleware('guest')->group(function ()
+{
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
+});
+
+Route::middleware('auth')->group(function ()
+{
+    Route::get('verify-email', EmailVerificationPromptController::class)->name('verification.notice');
+
+    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+         ->middleware(['signed', 'throttle:6,1'])
+         ->name('verification.verify');
+
+    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+         ->middleware('throttle:6,1')
+         ->name('verification.send');
+
+    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])->name('password.confirm');
+    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
+
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+});
+
+// ----------------------------------------------------------------------------
+// Settings pages.
+// ----------------------------------------------------------------------------
+Route::middleware('auth')->group(function ()
+{
+    Route::redirect('settings', 'settings/profile');
+
+    Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('settings/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('settings/password', [PasswordController::class, 'edit'])->name('password.edit');
+    Route::put('settings/password', [PasswordController::class, 'update'])->name('password.update');
+
+    Route::get('settings/appearance', fn() => Inertia::render('settings/appearance'))->name('appearance');
+});
