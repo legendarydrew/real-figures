@@ -305,7 +305,7 @@ export default function RulesPage() {
                     <CollapsibleContent className="py-3 px-5">
                         <ul className="list-disc mb-3 mx-8">
                             <li><b className="text-muted-foreground">Vote for the Songs you love the most</b>, not
-                                just the ones you think will win..
+                                just the ones you think will win.
                             </li>
                             <li><b className="text-muted-foreground">Support your favourites with a Golden
                                 Buzzer</b> or by donating to help the Contest grow.

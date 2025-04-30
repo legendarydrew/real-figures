@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import FrontLayout from '@/layouts/front-layout';
 import Heading from '@/components/heading';
@@ -7,6 +7,10 @@ import HeadingSmall from '@/components/heading-small';
 import { ActImage } from '@/components/ui/act-image';
 
 export default function HomeRound({ stage, currentRound, previousRounds }) {
+
+    const moreInfoHander = () => {
+        router.visit('about');
+    };
 
     return (
         <FrontLayout>
@@ -132,7 +136,8 @@ export default function HomeRound({ stage, currentRound, previousRounds }) {
                             fugit illo in neque non perferendis, possimus quasi repellendus repudiandae soluta
                             sunt,
                             suscipit, vel velit veritatis voluptatum?</p>
-                        <Button type="button">More information</Button>
+                        <Button type="button" className="cursor-pointer" onClick={moreInfoHander}>More
+                            information</Button>
                     </div>
 
                     <div className="grid gap-2 md:grid-cols-2 md:grid-rows-2">

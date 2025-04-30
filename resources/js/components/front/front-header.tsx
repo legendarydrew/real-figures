@@ -1,9 +1,12 @@
 import { Link, usePage } from '@inertiajs/react';
 import type { SharedData } from '@/types';
 import CatawolTextLogo from '@/components/catawol-text-logo';
+import { cn } from '@/lib/utils';
 
 export const FrontHeader: React.FC = () => {
     const { auth } = usePage<SharedData>().props;
+
+    const linkStyle: string = 'text-sm font-semibold leading-normal px-3 py-1.5 hover:underline text-[#1b1b18] dark:text-[#EDEDEC]';
 
     return (
         <header className="border-b-1 py-2 w-full shadow-sm">
@@ -14,23 +17,19 @@ export const FrontHeader: React.FC = () => {
                 </Link>
 
                 <nav className="flex items-center justify-end gap-4">
-                    <Link
-                        href={route('rules')}
-                        className="text-sm font-semibold leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                    >
-                        Rules
-                    </Link>
+                    <Link href={route('rules')} className={linkStyle}>Rules</Link>
+                    <Link href={route('about')} className={linkStyle}>About</Link>
                     {auth.user ? (
                         <Link
                             href={route('admin.dashboard')}
-                            className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                            className={cn(linkStyle, "inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:no-underline hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]")}
                         >
                             Dashboard
                         </Link>
                     ) : (
                         <Link
                             href={route('login')}
-                            className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                            className={cn(linkStyle, "inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:no-underline hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]")}
                         >
                             Log in
                         </Link>

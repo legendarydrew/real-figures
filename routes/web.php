@@ -23,6 +23,7 @@ use App\Http\Controllers\Back\ContactMessageController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
+use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Models\Round;
@@ -33,8 +34,9 @@ use Inertia\Inertia;
 // ----------------------------------------------------------------------------
 // Front-facing pages.
 // ----------------------------------------------------------------------------
-Route::get('/', [\App\Http\Controllers\Front\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
+Route::get('about', fn() => Inertia::render('front/about'))->name('about');
 
 
 // ----------------------------------------------------------------------------
