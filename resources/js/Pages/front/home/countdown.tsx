@@ -4,10 +4,9 @@ import FrontLayout from '@/layouts/front-layout';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import HeadingSmall from '@/components/heading-small';
-import { ActImage } from '@/components/ui/act-image';
 import { CountdownTimer } from '@/components/ui/countdown-timer';
 
-export default function HomeRound({ stage, currentRound, previousRounds, countdown }) {
+export default function HomeRound({ stage, countdown }) {
 
     const moreInfoHandler = () => {
         router.visit('about');
@@ -25,50 +24,13 @@ export default function HomeRound({ stage, currentRound, previousRounds, countdo
 
             <div className="bg-blue-100 py-10 px-5">
                 <div className="max-w-5xl mx-auto">
-                    {currentRound && (
-                        <>
-                            <div className="flex justify-between items-start">
-                                <Heading title={currentRound.title} description={stage.description}/>
-                                <div className="flex gap-1 items-center">
-                                    <span className="text-sm">Voting ends in</span>
-                                    <CountdownTimer timestamp={countdown} onEnd={countdownEndHandler}/>
-                                </div>
-                            </div>
-                            <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                                {currentRound.songs.map((song) => (
-                                    <li className="bg-secondary/30 rounded-md leading-none relative" key={song.id}>
-                                        <ActImage act={song.act} size="full"/>
-                                        <div className="p-5 absolute bottom-0">
-                                            <div className="text-lg font-semibold">{song.act.name}</div>
-                                            <div className="text-base font-semibold">{song.title}</div>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-                        </>
-                    )}
-                    {previousRounds.length ? (
-                        <>
-                            <Heading title="Previous Rounds"/>
-                            {previousRounds.map((round) => (
-                                <div key={round.id} className="mb-2">
-                                    <HeadingSmall title={round.title}/>
-                                    <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                                        {round.songs.map((song) => (
-                                            <li className="bg-secondary/15 rounded-md leading-none relative"
-                                                key={song.id}>
-                                                <ActImage act={song.act} size="full"/>
-                                                <div className="p-5 absolute bottom-0">
-                                                    <div className="text-base font-semibold">{song.act.name}</div>
-                                                    <div className="text-sm font-semibold">{song.title}</div>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ))}
-                        </>
-                    ) : ''}
+
+                    <Heading title={stage.title} description={stage.description}/>
+                    <div className="flex flex-col gap-1 items-center">
+                        <CountdownTimer size="large" timestamp={countdown} onEnd={countdownEndHandler}/>
+                        <span className="text-sm font-semibold">before voting begins!</span>
+                    </div>
+
                 </div>
             </div>
 
