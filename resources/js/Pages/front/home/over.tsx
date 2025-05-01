@@ -2,10 +2,10 @@ import { Head } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import FrontLayout from '@/layouts/front-layout';
 
-export default function HomeContestOver() {
+const HomeContestOverPage: React.FC = () => {
 
     return (
-        <FrontLayout>
+        <>
             <Head title="The Contest Is Over.">
                 {/* Any tags to go in the <head> section to here. */}
             </Head>
@@ -23,6 +23,11 @@ export default function HomeContestOver() {
 
                 </div>
             </div>
-        </FrontLayout>
+        </>
     );
 }
+
+
+HomeContestOverPage.layout = (page) => <FrontLayout>{page}</FrontLayout>;
+
+export default HomeContestOverPage;

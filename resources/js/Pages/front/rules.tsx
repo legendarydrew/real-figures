@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import FrontLayout from '@/layouts/front-layout';
 
-export default function RulesPage() {
+const RulesPage: React.FC = () => {
 
     const [panelState, setPanelState] = useState({});
 
@@ -30,7 +30,7 @@ export default function RulesPage() {
     }
 
     return (
-        <FrontLayout>
+        <>
             <Head title="Contest Rules"/>
 
             <FrontContent>
@@ -318,6 +318,10 @@ export default function RulesPage() {
                     </CollapsibleContent>
                 </Collapsible>
             </FrontContent>
-        </FrontLayout>
+        </>
     )
 }
+
+RulesPage.layout = (page) => <FrontLayout>{page}</FrontLayout>;
+
+export default RulesPage;
