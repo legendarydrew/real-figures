@@ -8,7 +8,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import FrontLayout from '@/layouts/front-layout';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 
-export default function AboutPage() {
+const AboutPage: React.FC = () => {
 
     const [panelState, setPanelState] = useState({});
 
@@ -21,7 +21,7 @@ export default function AboutPage() {
     }
 
     return (
-        <FrontLayout>
+        <>
             <Head title="About the Contest"/>
 
             <FrontContent>
@@ -173,6 +173,10 @@ export default function AboutPage() {
                     </CollapsibleContent>
                 </Collapsible>
             </FrontContent>
-        </FrontLayout>
+        </>
     )
-}
+};
+
+AboutPage.layout = (page) => <FrontLayout>{page}</FrontLayout>;
+
+export default AboutPage;

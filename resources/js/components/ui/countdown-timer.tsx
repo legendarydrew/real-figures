@@ -37,6 +37,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
         setWarning(seconds <= warnSeconds);
 
         if (seconds <= 0) {
+            clearInterval(countdownInterval.current);
             onEnd();
         }
     };
@@ -69,7 +70,6 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
 
         // this function runs when the component is unmounted.
         return () => {
-            // Your code here
             clearInterval(countdownInterval.current);
         }
     }, []); // empty array = execute on mount.
