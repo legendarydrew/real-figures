@@ -17,6 +17,7 @@ export const FrontHeader: React.FC = () => {
                 </Link>
 
                 <nav className="flex items-center justify-end gap-4">
+                    <Link href={route('home')} className={linkStyle}>Contest</Link>
                     <Link href={route('rules')} className={linkStyle}>Rules</Link>
                     <Link href={route('about')} className={linkStyle}>About</Link>
                     {auth.user ? (
