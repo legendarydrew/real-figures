@@ -9,9 +9,13 @@ import { CountdownTimer } from '@/components/ui/countdown-timer';
 
 export default function HomeRound({ stage, currentRound, previousRounds, countdown }) {
 
-    const moreInfoHander = () => {
+    const moreInfoHandler = () => {
         router.visit('about');
     };
+
+    const countdownEndHandler = () => {
+        router.reload();
+    }
 
     return (
         <FrontLayout>
@@ -26,7 +30,7 @@ export default function HomeRound({ stage, currentRound, previousRounds, countdo
                             <div className="flex justify-between">
                                 <Heading title={currentRound.title} description={stage.description}/>
                                 <div>
-                                    Voting ends in <CountdownTimer timestamp={countdown}/>
+                                    Voting ends in <CountdownTimer timestamp={countdown} onEnd={countdownEndHandler}/>
                                 </div>
                             </div>
                             <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -142,7 +146,7 @@ export default function HomeRound({ stage, currentRound, previousRounds, countdo
                             fugit illo in neque non perferendis, possimus quasi repellendus repudiandae soluta
                             sunt,
                             suscipit, vel velit veritatis voluptatum?</p>
-                        <Button type="button" className="cursor-pointer" onClick={moreInfoHander}>More
+                        <Button type="button" className="cursor-pointer" onClick={moreInfoHandler}>More
                             information</Button>
                     </div>
 

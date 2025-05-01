@@ -2,9 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 
 interface CountdownTimerProps {
     timestamp: string;
+    onEnd: () => void;
 }
 
-export const CountdownTimer: React.FC<CountdownTimerProps> = ({ timestamp }) => {
+export const CountdownTimer: React.FC<CountdownTimerProps> = ({
+                                                                  timestamp, onEnd = () => {
+    }
+                                                              }) => {
 
     const [counter, setCounter] = useState({ days: 0, hours: 0, mins: 0, secs: 0 });
 
@@ -23,6 +27,10 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ timestamp }) => 
             mins: Math.floor(seconds / 60) % 60,
             secs: seconds % 60
         });
+
+        if (seconds <= 0) {
+            onEnd();
+        }
     };
 
     const formatDigits = (value: number): string => {
