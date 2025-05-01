@@ -16,6 +16,7 @@ class RoundAllocate
 
     /**
      * Create one or more Rounds for a Stage, allocating the specified Songs to each Round.
+     * This will also remove any existing Rounds.
      *
      * @param Stage       $stage
      * @param Collection  $songs
@@ -54,6 +55,9 @@ class RoundAllocate
 
         DB::transaction(function () use ($stage, $song_chunks, $round_start, $round_duration)
         {
+            // Remove all existing Rounds.
+            Round::whereStageId($stage->id)->delete();
+
             $interval = \DateInterval::createFromDateString($round_duration);
             foreach ($song_chunks as $index => $song_chunk)
             {
