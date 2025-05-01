@@ -65,9 +65,20 @@ class HomeController extends Controller
                 // Display information about the current Round and any previous (ended) Rounds.
                 // If there is no current Round, add a timestamp for counting down to the start of the first Round.
                 $current_round   = $current_stage->rounds->first(fn(Round $round) => $round->isActive());
-                $previous_rounds = $current_round ? $current_stage->rounds->filter(fn(Round $round) => $round->id < $current_round->id) : [];
-                $countdown       = $current_round ? null : $current_stage->rounds->first()->starts_at->toISOString();
-                return Inertia::render('front/home/round', [
+                $previous_rounds = null;
+                if ($current_round)
+                {
+                    $component       = 'front/home/round';
+                    $previous_rounds = $current_stage->rounds->filter(fn(Round $round) => $round->id < $current_round->id);
+                    $countdown       = $current_round->ends_at->toISOString();
+                }
+                else
+                {
+                    $component = 'front/home/countdown';
+                    $countdown = $current_stage->rounds->first()->starts_at->toISOString();
+                }
+
+                return Inertia::render($component, [
                     'stage'          => fn() => fractal($current_stage, StageTransformer::class)->toArray(),
                     'currentRound'   => fn() => fractal($current_round, RoundTransformer::class, '')->toArray(),
                     'previousRounds' => fn() => fractal($previous_rounds, RoundTransformer::class, '')->toArray(),

@@ -128,6 +128,9 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                                        value={data.start_at}
                                        min={minStartTime.current} onChange={changeStartsAtHandler}/>
                                 <InputError className="mt-2" message={errors.start_at}/>
+                                <p className="text-xs my-3 italic text-muted-foreground">NOTE: the first Round will be
+                                    set to start an hour after
+                                    the specified time.</p>
                             </div>
 
                             <div className="flex gap-2 justify-between">
