@@ -23,8 +23,12 @@ export default function HomeRound({ stage, currentRound, previousRounds, countdo
                 <div className="max-w-5xl mx-auto">
                     {currentRound && (
                         <>
-                            <Heading title={currentRound.title} description={stage.description}/>
-                            <CountdownTimer timestamp={countdown}/>
+                            <div className="flex justify-between">
+                                <Heading title={currentRound.title} description={stage.description}/>
+                                <div>
+                                    Voting ends in <CountdownTimer timestamp={countdown}/>
+                                </div>
+                            </div>
                             <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                                 {currentRound.songs.map((song) => (
                                     <li className="bg-secondary/30 rounded-md leading-none relative" key={song.id}>

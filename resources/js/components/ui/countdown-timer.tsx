@@ -41,8 +41,11 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ timestamp }) => 
     }, []); // empty array = execute on mount.
 
     return (
-        <div className="flex justify-center">
-            <span>{formatDigits(counter.days)}:{formatDigits(counter.hours)}:{formatDigits(counter.mins)}:{formatDigits(counter.secs)}</span>
+        <div className="flex justify-center font-semibold text-center leading-none">
+            <span className="w-6">{formatDigits(counter.days)}</span>:
+            <span className="w-6">{formatDigits(counter.hours)}</span>:
+            <span className="w-6">{formatDigits(counter.mins)}</span>:
+            <span className="w-6">{formatDigits(counter.secs)}</span>
         </div>
     )
 };
