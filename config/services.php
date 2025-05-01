@@ -35,10 +35,16 @@ return [
         ],
     ],
 
+    'adsense' => [
+        'testing'   => config('app.debug'),
+        'client_id' => env('ADSENSE_CLIENT_ID'),
+        'slot_id'   => env('ADSENSE_SLOT_ID'),
+    ],
+
     'paypal' => [
         'client_id' => env('PAYPAL_CLIENT_ID'),
         'secret' => env('PAYPAL_SECRET'),
-        'mode' => env('PAYPAL_MODE', 'sandbox'),
+        'mode'   => env('PAYPAL_MODE', 'sandbox'),
     ],
 
 ];

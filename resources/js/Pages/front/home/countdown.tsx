@@ -5,6 +5,7 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import HeadingSmall from '@/components/heading-small';
 import { CountdownTimer } from '@/components/ui/countdown-timer';
+import { Advert } from '@/components/advert';
 
 export default function HomeRound({ stage, countdown }) {
 
@@ -51,6 +52,8 @@ export default function HomeRound({ stage, countdown }) {
 
                 </div>
             </div>
+
+            <Advert className="mx-auto max-h-[12rem]"/>
 
             <div className="bg-gray-500 text-white py-10 px-5">
                 <div className="max-w-5xl mx-auto grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -118,8 +121,8 @@ export default function HomeRound({ stage, countdown }) {
                             className="w-full md:col-span-1 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
                         <PlaceholderPattern
                             className="w-full md:col-span-1 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
-                        <PlaceholderPattern
-                            className="w-full col-span-2 stroke-neutral-600/20 dark:stroke-neutral-100/20"/>
+
+                        <Advert className="w-full h-[12rem] col-span-2"/>
                     </div>
 
                 </div>

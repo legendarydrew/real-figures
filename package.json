@@ -23,6 +23,7 @@
         "typescript-eslint": "^8.23.0"
     },
     "dependencies": {
+        "@ctrl/react-adsense": "^1.8.0",
         "@headlessui/react": "^2.2.0",
         "@inertiajs/react": "^2.0.0",
         "@paypal/react-paypal-js": "^8.8.3",
