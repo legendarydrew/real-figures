@@ -40,14 +40,14 @@ class DonationController extends Controller
             // Success!
             $name                = $this->transaction['payer']['name'];
             $amount              = $this->transaction['purchase_units'][0]['payments']['captures'][0]['amount'];
-            $is_anonymous = filter_var($this->request_data['is_anonymous'], FILTER_VALIDATE_BOOLEAN) ?? false;
+            $is_anonymous = isset($this->request_data['is_anonymous']) && $this->request_data['is_anonymous'];
             $transaction_details = [
                 'transaction_id' => $this->transaction['id'],
-                'name'         => $is_anonymous ? "Anonymous" : "{$name['given_name']} {$name['surname']}",
+                'name'         => $is_anonymous ? trans('contest.anonymous') : "{$name['given_name']} {$name['surname']}",
                 'email'          => $this->transaction['payer']['email_address'],
                 'amount'         => $amount['value'],
                 'currency'       => $amount['currency_code'],
-                'is_anonymous' => $is_anonymous,
+                'is_anonymous' => (bool)$is_anonymous,
                 'message'      => $this->request_data['message'] ?? null,
             ];
             // To support refunds later, store capture_id as well — available in:
