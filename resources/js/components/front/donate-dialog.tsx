@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -23,6 +23,14 @@ export const DonateDialog: FC<DonateDialogProps> = ({ open, onOpenChange }) => {
     const [isAnonymous, setIsAnonymous] = useState<boolean>(false);
     const [wasSuccessful, setWasSuccessful] = useState<boolean>(false);
     const [failed, setFailed] = useState<boolean>(false);
+
+    const messageHandler = (e: ChangeEvent): void => {
+        setMessage(e.target.value);
+    };
+
+    const anonymousHandler = (state: boolean): void => {
+        setIsAnonymous(state);
+    };
 
     const processingHandler = () => {
         setWasSuccessful(false);
@@ -59,14 +67,11 @@ export const DonateDialog: FC<DonateDialogProps> = ({ open, onOpenChange }) => {
                     London-based charity with a focus on anti-bullying and child safety.
                 </DialogDescription>
 
-                {wasSuccessful ? (<>
+                {wasSuccessful ? (
                     <div className="h-1/3 p-10 flex items-center justify-center text-green-600 font-semibold">
                         Thank you for your donation!
                     </div>
-                    <DialogFooter className="items-center md:justify-between md:flex-row-reverse">
-                        <Button variant="ghost" type="button" onClick={onOpenChange}>Close</Button>
-                    </DialogFooter>
-                </>) : (
+                ) : (
                     <>
                         <div className="flex gap-3 justify-between items-center py-2 px-5 bg-green-200 rounded-sm">
                             <Label htmlFor="donationAmount">I would like to donate</Label>
@@ -90,12 +95,12 @@ export const DonateDialog: FC<DonateDialogProps> = ({ open, onOpenChange }) => {
                         <div className="flex-grow">
                             <Label className="mb-2" htmlFor="donationMessage">A message for SilentMode <small
                                 className="font-normal">(optional)</small></Label>
-                            <Textarea id="donationMessage" value={message} onChange={setMessage} rows={2}/>
+                            <Textarea id="donationMessage" value={message} onChange={messageHandler} rows={2}/>
                         </div>
 
                         <div className="flex gap-2 items-center">
                             <Checkbox id="donationAnonymous" className="bg-white" checked={isAnonymous}
-                                      onChange={setIsAnonymous}/>
+                                      onCheckedChange={anonymousHandler}/>
                             <Label htmlFor="donationAnonymous">I would like to remain anonymous.</Label>
                         </div>
 
@@ -106,6 +111,7 @@ export const DonateDialog: FC<DonateDialogProps> = ({ open, onOpenChange }) => {
 
                         <DialogFooter className="items-center md:justify-between md:flex-row-reverse">
                             <PaypalButton amount={amount} currency={donation.currency}
+                                          additionalData={{ is_anonymous: isAnonymous, message }}
                                           description="Real Figures Don't F.O.L.D donation"
                                           onProcessing={processingHandler}
                                           onSuccess={successHandler}
