@@ -2,9 +2,14 @@ import { Link, usePage } from '@inertiajs/react';
 import type { SharedData } from '@/types';
 import CatawolTextLogo from '@/components/catawol-text-logo';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { DonateDialog } from '@/components/front/donate-dialog';
+import { useState } from 'react';
 
 export const FrontHeader: React.FC = () => {
     const { auth } = usePage<SharedData>().props;
+
+    const [isDonateDialogOpen, setIsDonateDialogOpen] = useState<boolean>(false);
 
     const linkStyle: string = 'text-sm font-semibold leading-normal px-3 py-1.5 hover:underline text-[#1b1b18] dark:text-[#EDEDEC]';
 
@@ -20,6 +25,8 @@ export const FrontHeader: React.FC = () => {
                     <Link href={route('home')} className={linkStyle}>Contest</Link>
                     <Link href={route('rules')} className={linkStyle}>Rules</Link>
                     <Link href={route('about')} className={linkStyle}>About</Link>
+                    <Button type="button" variant="outline" className="text-green-600 font-semibold cursor-pointer"
+                            onClick={() => setIsDonateDialogOpen(true)}>Donate!</Button>
                     {auth.user ? (
                         <Link
                             href={route('admin.dashboard')}
@@ -38,6 +45,8 @@ export const FrontHeader: React.FC = () => {
                 </nav>
 
             </div>
+
+            <DonateDialog open={isDonateDialogOpen} onOpenChange={() => setIsDonateDialogOpen(false)}/>
         </header>
     );
 

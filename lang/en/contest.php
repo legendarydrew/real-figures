@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'anonymous' => 'Anonymous',
     'stage' => [
         'status' => [
             'inactive'  => 'Inactive',

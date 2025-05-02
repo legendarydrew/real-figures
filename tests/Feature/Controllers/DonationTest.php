@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
-use function PHPUnit\Framework\assertEquals;
 
 class DonationTest extends TestCase
 {
@@ -25,8 +24,7 @@ class DonationTest extends TestCase
         Mail::fake();
 
         $this->payload = [
-            'transaction_id' => fake()->uuid,
-            'message'        => fake()->text,
+            'transaction_id' => fake()->uuid
         ];
     }
 
@@ -45,10 +43,43 @@ class DonationTest extends TestCase
         $donation = Donation::whereTransactionId($this->payload['transaction_id'])->first();
         self::assertInstanceOf(Donation::class, $donation);
 
-        assertEquals('John Doe', $donation->name);
-        assertEquals(100.00, $donation->amount);
-        assertEquals('USD', $donation->currency);
-        assertEquals($this->payload['message'], $donation->message);
+        self::assertEquals('John Doe', $donation->name);
+        self::assertEquals(100.00, $donation->amount);
+        self::assertEquals('USD', $donation->currency);
+        self::assertFalse((bool)$donation->is_anonymous);
+    }
+
+    #[Depends('test_as_guest')]
+    public function test_success_creates_donation_with_message()
+    {
+        $this->payload['message'] = fake()->text;
+
+        $this->mockSuccessfulCapture();
+        $this->postJson(self::ENDPOINT, $this->payload);
+        $donation = Donation::whereTransactionId($this->payload['transaction_id'])->first();
+        self::assertInstanceOf(Donation::class, $donation);
+
+        self::assertEquals('John Doe', $donation->name);
+        self::assertEquals(100.00, $donation->amount);
+        self::assertEquals('USD', $donation->currency);
+        self::assertEquals($this->payload['message'], $donation->message);
+        self::assertFalse((bool)$donation->is_anonymous);
+    }
+
+    #[Depends('test_as_guest')]
+    public function test_success_creates_donation_as_anonymous()
+    {
+        $this->payload['is_anonymous'] = true;
+
+        $this->mockSuccessfulCapture();
+        $this->postJson(self::ENDPOINT, $this->payload);
+        $donation = Donation::whereTransactionId($this->payload['transaction_id'])->first();
+        self::assertInstanceOf(Donation::class, $donation);
+
+        self::assertEquals(trans('contest.anonymous'), $donation->name);
+        self::assertEquals(100.00, $donation->amount);
+        self::assertEquals('USD', $donation->currency);
+        self::assertTrue((bool)$donation->is_anonymous);
     }
 
     #[Depends('test_as_guest')]

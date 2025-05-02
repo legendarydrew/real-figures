@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->decimal('amount');
             $table->string('currency', 3)->index();
             $table->string('transaction_id')->unique();
+            $table->boolean('is_anonymous')->default(false);
             $table->text('message')->nullable();
             $table->timestamps();
         });
@@ -37,6 +38,7 @@ return new class extends Migration {
             $table->decimal('amount');
             $table->string('currency', 3)->index();
             $table->string('transaction_id')->unique();
+            $table->boolean('is_anonymous')->default(false);
             $table->text('message')->nullable();
             $table->timestamps();
         });

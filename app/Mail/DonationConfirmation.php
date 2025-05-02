@@ -5,9 +5,17 @@ namespace App\Mail;
 use App\Models\Donation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 
+/**
+ * DonationConfirmation
+ * A thank-you email for making a donation.
+ *
+ * @package App\Mail
+ */
 class DonationConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
@@ -17,12 +25,30 @@ class DonationConfirmation extends Mailable
     public function __construct(Donation $donation)
     {
         $this->$donation = $donation;
+
+        $this->viewData = [
+            'donation' => $donation
+        ];
     }
 
-    public function build(): DonationConfirmation
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
     {
-        return $this->subject('Thank you for your donation!')
-                    ->view('emails.donation-confirmation')
-                    ->with(['donation' => $this->donation]);
+        return new Envelope(
+            subject: 'Thank you for your donation!',
+        );
     }
+
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'email.donation-confirmation',
+        );
+    }
+
 }
