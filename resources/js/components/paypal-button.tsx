@@ -18,6 +18,7 @@ interface DonationButtonProps {
     approveEndpoint?: string;
     currency?: string;
     description?: string; // what the donation is for.
+    onProcessing?: () => void;
     onFailure?: () => void;
     onSuccess?: () => void;
 }
@@ -27,6 +28,7 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({
                                                                 description,
                                                                 amount = 10,
                                                                 currency = 'USD',
+                                                                onProcessing,
                                                                 onSuccess,
                                                                 onFailure
                                                             }) => {
@@ -51,6 +53,10 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({
      * If successful, the order information is returned.
      */
     const createOrderHandler: PayPalButtonsComponentProps['createOrder'] = async (_, actions) => {
+        if (onProcessing) {
+            onProcessing();
+        }
+
         return actions.order.create({
             intent: 'CAPTURE',
             application_context: {

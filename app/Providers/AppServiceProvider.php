@@ -22,7 +22,8 @@ class AppServiceProvider extends ServiceProvider
     {
         // Make certain configured values available to our app. (Thanks once again, ChatGPT.)
         Inertia::share([
-            'adsense' => config('services.adsense'),
+            'adsense'  => config('services.adsense'),
+            'donation' => config('contest.donation'),
             'paypalClientId' => config('services.paypal.client_id'),
         ]);
     }
