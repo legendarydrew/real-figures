@@ -25,8 +25,9 @@ export const FrontHeader: React.FC = () => {
                     <Link href={route('home')} className={linkStyle}>Contest</Link>
                     <Link href={route('rules')} className={linkStyle}>Rules</Link>
                     <Link href={route('about')} className={linkStyle}>About</Link>
-                    <Button type="button" variant="outline" className="text-green-600 font-semibold cursor-pointer"
+                    <Button type="button" variant="link" className="text-green-600 font-semibold cursor-pointer"
                             onClick={() => setIsDonateDialogOpen(true)}>Donate!</Button>
+                    <Link href={route('contact')} className={linkStyle}>Contact</Link>
                     {auth.user ? (
                         <Link
                             href={route('admin.dashboard')}

@@ -35,9 +35,9 @@ use Inertia\Inertia;
 // Front-facing pages.
 // ----------------------------------------------------------------------------
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
 Route::get('about', fn() => Inertia::render('front/about'))->name('about');
-
+Route::get('contact', fn() => Inertia::render('front/contact'))->name('contact');
+Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
 
 // ----------------------------------------------------------------------------
 // Our famous Kitchen Sink page (only available in debug mode).
