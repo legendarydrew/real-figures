@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
             'adsense'  => config('services.adsense'),
             'donation' => config('contest.donation'),
             'paypalClientId' => config('services.paypal.client_id'),
+            'turnstileSiteKey' => config('services.turnstile.site_key'),
         ]);
     }
 }

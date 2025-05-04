@@ -1,9 +1,57 @@
-import { Head } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { FrontContent } from '@/components/front/front-content';
 import Heading from '@/components/heading';
 import FrontLayout from '@/layouts/front-layout';
+import InputError from '@/components/input-error';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { LoadingButton } from '@/components/ui/loading-button';
+import { Advert } from '@/components/advert';
+import { ChangeEvent } from 'react';
+import { TurnstileWidget } from '@/components/turnstile-widget';
 
-const ContactPage: React.FC = () => {
+interface ContactPageProps {
+    success: boolean;
+}
+
+const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
+
+    const { data, setData, errors, setError, post, processing } = useForm({
+        name: '',
+        email: '',
+        body: '',
+        token: ''
+    });
+
+    const nameChangeHandler = (e: ChangeEvent): void => {
+        setData('name', e.target.value);
+        setError('name', '');
+    };
+
+    const emailChangeHandler = (e: ChangeEvent): void => {
+        setData('email', e.target.value);
+        setError('email', '');
+    };
+
+    const bodyChangeHandler = (e: ChangeEvent): void => {
+        setData('body', e.target.value);
+        setError('body', '');
+    };
+    const verifyHandler = (token: string): void => {
+        setData('token', token);
+    };
+
+    const submitHandler = (e: SubmitEvent): void => {
+        e.preventDefault();
+
+        if (data.token) {
+            post('/api/messages', {
+                only: ['success'],
+                preserveUrl: true
+            });
+        }
+    };
 
     return (
         <>
@@ -11,7 +59,63 @@ const ContactPage: React.FC = () => {
 
             <FrontContent>
                 <Heading title="Contact Us"/>
-                <p>Lakers in 🖐!</p>
+
+                <div className="flex flex-col lg:flex-row gap-5">
+
+                    <div className="lg:w-2/5">
+                        <p>Lakers in 🖐!</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur consequuntur distinctio
+                            possimus quis rem, sequi suscipit totam vel! Cum distinctio earum id itaque iusto laborum
+                            non
+                            reprehenderit sunt ut voluptatum!</p>
+
+                        <Advert className="max-h-[12rem]"/>
+                    </div>
+
+                    <div className="lg:w-3/5">
+                        {success ? (
+                            <div className="bg-green-200 p-5 rounded-md">
+                                Your message has been sent.
+                            </div>
+                        ) : (
+                            <form onSubmit={submitHandler} className="flex flex-col gap-3">
+
+                                <div>
+                                    <Label className="sr-only" htmlFor="contactName">Your name</Label>
+                                    <Input id="contactName" placeholder="Your name" data={data.name}
+                                           onChange={nameChangeHandler} disabled={processing}/>
+                                    <InputError message={errors.name}/>
+                                </div>
+
+                                <div>
+                                    <Label className="sr-only" htmlFor="contactName">Your email address</Label>
+                                    <Input id="contactName" type="email" placeholder="Your email address"
+                                           value={data.email}
+                                           onChange={emailChangeHandler} disabled={processing}/>
+                                    <InputError message={errors.email}/>
+                                </div>
+
+                                <div>
+                                    <Label className="sr-only" htmlFor="contactName">Your message</Label>
+                                    <Textarea id="contactName" rows={8} placeholder="Your message" value={data.body}
+                                              onChange={bodyChangeHandler} disabled={processing}/>
+                                    <InputError message={errors.body}/>
+                                </div>
+
+                                <TurnstileWidget onVerify={verifyHandler}/>
+
+                                <div className="flex justify-between">
+                                    <p className="text-sm">Your details will not be shared with anyone.</p>
+                                    <LoadingButton size="lg" type="submit" disabled={!data.token}
+                                                   isLoading={processing}>Send
+                                        Message</LoadingButton>
+                                </div>
+                            </form>
+                        )}
+                    </div>
+
+                </div>
+
             </FrontContent>
         </>
     )
