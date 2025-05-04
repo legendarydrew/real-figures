@@ -57,6 +57,7 @@ Route::prefix('/api')->group(function ()
     // Routes accessible without authentication.
     Route::post('donation', [DonationController::class, 'store']);
     Route::post('golden-buzzer', [BuzzerController::class, 'store']);
+    Route::post('messages', [ContactMessagesController::class, 'store']);
     Route::post('vote', [VoteController::class, 'store'])->name('vote');
 
     // Routes accessible with authentication.

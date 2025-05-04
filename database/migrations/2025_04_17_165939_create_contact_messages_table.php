@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('email');
             $table->text('body'); // message is reserved in Blade templates.
             $table->ipAddress()->nullable();
-            $table->decimal('captcha_score', 3, 1);
+            $table->boolean('is_spam')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
