@@ -23,6 +23,7 @@ use App\Http\Controllers\Back\ContactMessageController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
+use App\Http\Controllers\Back\SubscribersController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
@@ -101,6 +102,7 @@ Route::middleware(['auth', 'verified'])->group(function ()
     Route::get('/admin/contact', [ContactMessageController::class, 'index'])->name('admin.contact');
     Route::get('/admin/songs', [SongsController::class, 'index'])->name('admin.songs');
     Route::get('/admin/stages', [StagesController::class, 'index'])->name('admin.stages');
+    Route::get('/admin/subscribers', [SubscribersController::class, 'index'])->name('admin.subscribers');
 });
 
 
