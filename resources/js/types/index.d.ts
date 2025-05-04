@@ -113,7 +113,7 @@ export interface ContactMessage {
     ip?: string;
     body: string;
     sent_at: string;
-    is_considered_spam: boolean;
+    is_spam: boolean;
 }
 
 export interface ManualVoteRoundChoice {

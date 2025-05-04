@@ -123,16 +123,16 @@ export default function ContactMessagesPage({
                                 <span className="text-sm">&lt;{message.email}&gt;</span>
                             </span>
                                     <span className="text-destructive-foreground"
-                                          title="Message is considered to be spam.">{message.is_considered_spam ?
+                                          title="Message is considered to be spam.">{message.is_spam ?
                                         <MessageCircleWarning/> : ''}</span>
                                     <time className="text-sm">{message.sent_at}</time>
                                     <ChevronDown className="flex-shrink-0 h-6 w-6"/>
                                 </CollapsibleTrigger>
                             </div>
                             <CollapsibleContent className="py-3 px-8 bg-teal-100/50">
-                                <blockquote className="mb-2">{message.body}</blockquote>
-                                <p className="text-xs">This message was sent from IP address {message.ip}.</p>
-
+                                <blockquote className="mb-2 whitespace-pre">{message.body}</blockquote>
+                                {message.ip &&
+                                    <p className="text-xs">This message was sent from IP address {message.ip}.</p>}
                                 <ContactMessageRespond message={message}/>
                             </CollapsibleContent>
                         </Collapsible>
