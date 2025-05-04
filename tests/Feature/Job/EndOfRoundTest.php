@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Job;
 
 use App\Jobs\EndOfRound;
 use App\Models\Round;
@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class EndOfRoundJobTest extends TestCase
+class EndOfRoundTest extends TestCase
 {
     use DatabaseMigrations;
 
