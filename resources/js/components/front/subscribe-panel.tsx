@@ -4,6 +4,7 @@ import { LoadingButton } from '@/components/ui/loading-button';
 import { ChangeEvent, useState } from 'react';
 import axios from 'axios';
 import { MailCheck } from 'lucide-react';
+import { Alert } from '@/components/alert';
 
 export const SubscribePanel: React.FC = ({ ...props }) => {
 
@@ -32,7 +33,7 @@ export const SubscribePanel: React.FC = ({ ...props }) => {
             })
             .catch((error) => {
                 console.log(error);
-                setHasError(error.response.data.message);
+                setHasError(error.response.data);
             })
             .finally(() => {
                 setIsProcessing(false);
@@ -60,7 +61,7 @@ export const SubscribePanel: React.FC = ({ ...props }) => {
                         in!</LoadingButton>
                 </div>
             )}
-            {hasError && <p className="px-3 mt-1 text-sm text-destructive">{hasError}</p>}
+            {hasError && <Alert type="error" message={hasError}/>}
         </form>
     )
 }

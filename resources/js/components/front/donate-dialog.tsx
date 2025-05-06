@@ -7,6 +7,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { PaypalButton } from '@/components/paypal-button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
+import { Alert } from '@/components/alert';
 
 interface DonateDialogProps {
     // Dialog properties.
@@ -105,8 +106,8 @@ export const DonateDialog: FC<DonateDialogProps> = ({ open, onOpenChange }) => {
                         </div>
 
                         {failed && (
-                            <p className="p-2 font-semibold rounded-md bg-destructive/10 text-destructive text-sm">Something
-                                went wrong with processing your donation, please try again.</p>
+                            <Alert type="error"
+                                   message="Something went wrong with processing your donation, please try again."/>
                         )}
 
                         <DialogFooter className="items-center md:justify-between md:flex-row-reverse">
