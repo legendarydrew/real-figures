@@ -23,7 +23,9 @@ use App\Http\Controllers\Back\ContactMessageController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
+use App\Http\Controllers\Back\SubscribersController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\SubscriberConfirmController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Models\Round;
@@ -38,6 +40,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('about', fn() => Inertia::render('front/about'))->name('about');
 Route::get('contact', fn() => Inertia::render('front/contact'))->name('contact');
 Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
+Route::get('subscriber/confirm/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
 
 // ----------------------------------------------------------------------------
 // Our famous Kitchen Sink page (only available in debug mode).
@@ -58,6 +61,7 @@ Route::prefix('/api')->group(function ()
     Route::post('donation', [DonationController::class, 'store']);
     Route::post('golden-buzzer', [BuzzerController::class, 'store']);
     Route::post('messages', [ContactMessagesController::class, 'store']);
+    Route::post('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'store'])->name('subscribe');
     Route::post('vote', [VoteController::class, 'store'])->name('vote');
 
     // Routes accessible with authentication.
@@ -86,8 +90,9 @@ Route::prefix('/api')->group(function ()
         Route::post('stages/{id}/manual-vote', [StageManualVoteController::class, 'store'])->name('stages.manual-vote.store');
         Route::get('stages/{id}/rounds', [StageRoundsController::class, 'show'])->name('stages.rounds');
         Route::post('stages/{id}/winners', [StageWinnersController::class, 'store'])->name('stages.winners');
-    });
 
+        Route::delete('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'destroy'])->name('subscribers.destroy');
+    });
 });
 
 // ----------------------------------------------------------------------------
@@ -101,6 +106,7 @@ Route::middleware(['auth', 'verified'])->group(function ()
     Route::get('/admin/contact', [ContactMessageController::class, 'index'])->name('admin.contact');
     Route::get('/admin/songs', [SongsController::class, 'index'])->name('admin.songs');
     Route::get('/admin/stages', [StagesController::class, 'index'])->name('admin.stages');
+    Route::get('/admin/subscribers', [SubscribersController::class, 'index'])->name('admin.subscribers');
 });
 
 

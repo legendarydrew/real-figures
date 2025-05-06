@@ -15,7 +15,6 @@ class ContactMessageController extends Controller
     {
         // https://dev.to/deondazy/how-to-combine-filters-sorting-and-infinite-scrolling-in-laravel-inertiajs-v2-and-vue-3-24a7
         // This provides the ability to add more results to the list of messages, infinite scrolling style.
-        // TODO for some reason, merging pagination results isn't happening.
         $messages         = ContactMessage::orderByDesc('id')->paginate();
         $is_first_page    = $messages->currentPage() === 1;
         $transformed_data = fractal($messages->items(), new ContactMessageTransformer())->toArray();

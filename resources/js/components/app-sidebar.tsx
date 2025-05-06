@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, Mail, Music, Network, User } from 'lucide-react';
+import { LayoutGrid, Mail, Music, Network, User, User2 } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -37,6 +37,11 @@ const mainNavItems: NavItem[] = [
         icon: Music
     },
     {
+        title: 'Subscribers',
+        href: '/admin/subscribers',
+        icon: User2
+    },
+    {
         title: 'Messages',
         href: '/admin/contact',
         icon: Mail  // TODO if there are unread messages, display the icon differently.
@@ -52,7 +57,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/dashboard" prefetch>
+                            <Link href="/" prefetch>
                                 <AppLogo/>
                             </Link>
                         </SidebarMenuButton>
