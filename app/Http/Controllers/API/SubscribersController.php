@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SubscriberRequest;
+use App\Mail\SubscriberConfirm;
 use App\Models\Subscriber;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 
 class SubscribersController extends Controller
 {
@@ -30,7 +32,8 @@ class SubscribersController extends Controller
             ]);
         }
 
-        // TODO send the Subscriber a confirmation email.
+        // Send the [potential] Subscriber a confirmation email.
+        Mail::to($subscriber->email)->send(new SubscriberConfirm($subscriber));
 
         return response()->json(null, 201);
     }
