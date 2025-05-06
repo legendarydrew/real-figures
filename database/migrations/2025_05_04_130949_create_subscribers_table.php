@@ -14,7 +14,7 @@ return new class extends Migration {
         {
             $table->id();
             $table->string('email')->unique();
-            $table->string('confirmation_code', 24);
+            $table->string('confirmation_code', 23);
             $table->boolean('confirmed')->default(false);
             $table->timestamps();
         });

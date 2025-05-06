@@ -18,7 +18,7 @@ class SubscriberFactory extends Factory
     {
         return [
             'email'             => fake()->unique()->email(),
-            'confirmation_code' => substr(fake()->uuid(), 0, 24),
+            'confirmation_code' => substr(fake()->uuid(), 0, 23),
             'confirmed'         => true
         ];
     }

@@ -23,7 +23,8 @@ class SubscriberConfirmController extends Controller
             $subscriber->update([
                 'confirmed' => true
             ]);
-            return to_route('home')->with(['confirmed_subscribe' => true]);
+            return to_route('home')->with(['flash' => ['message' => "{$subscriber->email} has been confirmed!"]]);
+            // https://inertiajs.com/shared-data#flash-messages
         }
 
         abort(404);
