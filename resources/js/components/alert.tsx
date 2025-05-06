@@ -7,7 +7,7 @@ interface AlertProps {
     message: string;
 }
 
-export const Alert: React.FC<AlertProps> = ({ type, message, ...props }) => {
+export const Alert: React.FC<AlertProps> = ({ type, message, className, children, ...props }) => {
 
     const alertIcon = () => {
         switch (type) {
@@ -40,10 +40,11 @@ export const Alert: React.FC<AlertProps> = ({ type, message, ...props }) => {
     }
     return message && (
         <div
-            className={cn("flex gap-3 justify-between items-center px-3 py-2 bg-green-100 rounded-sm my-3 text-sm font-semibold", alertClasses())}
+            className={cn("flex gap-3 justify-between items-center px-3 py-2 bg-green-100 rounded-sm my-3 text-sm font-semibold", alertClasses(), className)}
             {...props}>
             <Icon className="text-lg" iconNode={alertIcon()}/>
             <div className="flex-grow">{message}</div>
+            {children}
         </div>
     )
 }
