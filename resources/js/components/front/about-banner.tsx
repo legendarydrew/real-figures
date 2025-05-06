@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { Advert } from '@/components/advert';
 import { router } from '@inertiajs/react';
+import { SubscribePanel } from '@/components/front/subscribe-panel';
 
 export default function AboutBanner() {
 
@@ -27,6 +28,7 @@ export default function AboutBanner() {
                 </div>
 
                 <div className="grid gap-2 md:grid-cols-2 md:grid-rows-2">
+                    <SubscribePanel className="w-full col-span-2"/>
                     <PlaceholderPattern
                         className="w-full md:col-span-1 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
                     <PlaceholderPattern
