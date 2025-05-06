@@ -82,7 +82,7 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
             {acts.meta.pagination.total ? (
                 <div className="grid auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
                     {acts.data.map((act) => (
-                        <ActItem key={act.id} act={act} onEdit={() => editHandler(act)}
+                        <ActItem key={act.id} act={act} editable={true} onEdit={() => editHandler(act)}
                                  onDelete={() => deleteHandler(act)}/>
                     ))}
                 </div>

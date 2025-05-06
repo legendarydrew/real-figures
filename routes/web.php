@@ -38,6 +38,7 @@ use Inertia\Inertia;
 // ----------------------------------------------------------------------------
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('about', fn() => Inertia::render('front/about'))->name('about');
+Route::get('acts', [\App\Http\Controllers\Front\ActsController::class, 'index'])->name('acts');
 Route::get('contact', fn() => Inertia::render('front/contact'))->name('contact');
 Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
 Route::get('subscriber/confirm/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
