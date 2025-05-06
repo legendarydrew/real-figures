@@ -10,6 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
 import toast from 'react-hot-toast';
+import { Label } from '@/components/ui/label';
 
 interface SubscribersPageProps {
     subscriberCount: number;
@@ -18,7 +19,7 @@ interface SubscribersPageProps {
     hasMorePages: boolean;
 }
 
-export const SubscribersPage: React.FC<SubscribersPageProps> = ({
+const SubscribersPage: React.FC<SubscribersPageProps> = ({
                                                                     subscriberCount,
                                                                     subscribers,
                                                                     currentPage,
@@ -113,13 +114,13 @@ export const SubscribersPage: React.FC<SubscribersPageProps> = ({
                 ) : ''}
             </div>
 
-            <div className="mb-3">
+            <div className="mb-3 px-4">
                 <Input type="search" value={filter.email} onChange={filterEmailHandler}
                        placeholder="Filter by email"/>
             </div>
 
             {subscriberCount ? (
-                <div className="overflow-y-auto max-h-[15rem] mx-3 relative">
+                <div className="overflow-y-auto max-h-[15rem] px-4 relative">
                     <div className="p-2 text-xs flex gap-2 font-semibold sticky top-0 bg-white">
                         <div className="flex-grow">Email</div>
                         <div className="w-30 text-right">Created at</div>
@@ -128,10 +129,12 @@ export const SubscribersPage: React.FC<SubscribersPageProps> = ({
                     <ul className="text-sm">
                         {subscribers.map((subscriber) => (
                             <li key={subscriber.id}
-                                className="flex gap-2 py-1 px-2 hover:bg-gray-200 dark:bg-gray-800">
-                                <Checkbox className="bg-white" checked={selectedIds.includes(subscriber.id)}
+                                className="flex items-center gap-2 py-1 px-2 hover:bg-gray-200 dark:bg-gray-800">
+                                <Checkbox id={'subscriber-' + subscriber.id} className="bg-white"
+                                          checked={selectedIds.includes(subscriber.id)}
                                           onCheckedChange={(state) => state ? selectSubscriberHandler(subscriber) : deselectSubscriberHandler(subscriber)}/>
-                                <div className="flex-grow truncate font-semibold">{subscriber.email}</div>
+                                <Label htmlFor={'subscriber-' + subscriber.id}
+                                       className="flex-grow truncate font-semibold">{subscriber.email}</Label>
                                 <div className="w-30 text-right">{subscriber.created_at}</div>
                                 <div className="w-30 text-right">{subscriber.updated_at}</div>
                             </li>
@@ -161,3 +164,5 @@ export const SubscribersPage: React.FC<SubscribersPageProps> = ({
         </AppLayout>
     );
 }
+
+export default SubscribersPage;

@@ -87,8 +87,9 @@ Route::prefix('/api')->group(function ()
         Route::post('stages/{id}/manual-vote', [StageManualVoteController::class, 'store'])->name('stages.manual-vote.store');
         Route::get('stages/{id}/rounds', [StageRoundsController::class, 'show'])->name('stages.rounds');
         Route::post('stages/{id}/winners', [StageWinnersController::class, 'store'])->name('stages.winners');
-    });
 
+        Route::delete('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'destroy'])->name('subscribers.destroy');
+    });
 });
 
 // ----------------------------------------------------------------------------

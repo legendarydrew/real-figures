@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\Subscriber;
 use App\Transformers\SubscriberTransformer;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -33,4 +34,5 @@ class SubscribersController extends Controller
             'hasMorePages'    => fn() => $confirmed_subscribers->hasMorePages(),
         ]);
     }
+
 }
