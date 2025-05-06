@@ -12,8 +12,14 @@ class SubscribersController extends Controller
 {
     public function index(): Response
     {
-        $subscriber_count      = Subscriber::confirmed()->count();
-        $confirmed_subscribers = Subscriber::orderByDesc('id')->paginate();
+        $subscriber_count = Subscriber::confirmed()->count();
+
+        $query = Subscriber::select();
+        if ($filter = request()->query('filter'))
+        {
+            $query->whereLike('email', "%{$filter['email']}%");
+        }
+        $confirmed_subscribers = $query->orderByDesc('id')->paginate();
         $is_first_page         = $confirmed_subscribers->currentPage() === 1;
         $transformed_data      = fractal($confirmed_subscribers->items(), new SubscriberTransformer())->toArray();
 
