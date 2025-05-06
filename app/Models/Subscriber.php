@@ -11,6 +11,8 @@ class Subscriber extends Model
     /** @use HasFactory<\Database\Factories\SubscriberFactory> */
     use HasFactory;
 
+    protected $fillable = ['email', 'confirmed'];
+
     public function scopeConfirmed(Builder $query): Builder
     {
         return $query->where('confirmed', '=', true);

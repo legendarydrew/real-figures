@@ -25,7 +25,9 @@ class SubscribersController extends Controller
         }
         else
         {
-            $subscriber = Subscriber::factory()->unconfirmed()->createOne($request->validated());
+            $subscriber = Subscriber::factory()->unconfirmed()->createOne([
+                'email' => $request->input('email')
+            ]);
         }
 
         // TODO send the Subscriber a confirmation email.

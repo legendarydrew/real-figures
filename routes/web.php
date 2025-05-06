@@ -25,6 +25,7 @@ use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
 use App\Http\Controllers\Back\SubscribersController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\SubscriberConfirmController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Models\Round;
@@ -39,6 +40,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('about', fn() => Inertia::render('front/about'))->name('about');
 Route::get('contact', fn() => Inertia::render('front/contact'))->name('contact');
 Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
+Route::get('subscriber/confirm/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
 
 // ----------------------------------------------------------------------------
 // Our famous Kitchen Sink page (only available in debug mode).
