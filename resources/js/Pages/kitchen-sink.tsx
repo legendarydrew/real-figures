@@ -4,9 +4,9 @@ import { Label } from '@/components/ui/label';
 import { Head } from '@inertiajs/react';
 import { ChangeEvent, useState } from 'react';
 import { LoadingButton } from '@/components/ui/loading-button';
-import { RoundVoteItem } from '@/components/round-vote-item';
+import { FlashMessage } from '@/components/flash-message';
 
-export default function KitchenSinkPage({ round }) {
+export default function KitchenSinkPage() {
     const [donationAmount, setDonationAmount] = useState(10);
     const [success, setSuccess] = useState<boolean>(false);
     const [failure, setFailure] = useState<boolean>(false);
@@ -37,6 +37,9 @@ export default function KitchenSinkPage({ round }) {
                     <h1 className="text-2xl font-bold">Welcome to the Kitchen Sink!</h1>
                 </header>
                 <main className="w-full flex-grow lg:max-w-[120em]">
+
+                    <FlashMessage message="This is a flash message."/>
+
                     <section className="my-3">
                         <h2 className="mb-1 text-base font-bold">Donate button</h2>
                         <Label htmlFor="donationAmount">Amount to donate (USD)</Label>
@@ -54,17 +57,6 @@ export default function KitchenSinkPage({ round }) {
                         <LoadingButton variant="outline" isLoading={true}>Hello</LoadingButton>
                     </section>
 
-                    <section className="my-3">
-                        <h2 className="mb-1 text-base font-bold">Voting</h2>
-
-                        {/* Create a form for voting on Songs in a Round. */}
-                        {round ? (
-                            <div>
-                                <h3>{round.title}</h3>
-                                <RoundVoteItem round={round}/>
-                            </div>
-                        ) : ''}
-                    </section>
                 </main>
                 <footer className="text-center text-xs">Copyright &copy; Drew Maughan (SilentMode).</footer>
             </div>
