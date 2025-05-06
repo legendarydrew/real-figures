@@ -5,6 +5,7 @@ import { Head } from '@inertiajs/react';
 import { ChangeEvent, useState } from 'react';
 import { LoadingButton } from '@/components/ui/loading-button';
 import { FlashMessage } from '@/components/flash-message';
+import { Alert } from '@/components/alert';
 
 export default function KitchenSinkPage() {
     const [donationAmount, setDonationAmount] = useState(10);
@@ -39,6 +40,16 @@ export default function KitchenSinkPage() {
                 <main className="w-full flex-grow lg:max-w-[120em]">
 
                     <FlashMessage message="This is a flash message."/>
+
+                    <section className="my-3">
+                        <h2 className="mb-1 text-base font-bold">Alerts</h2>
+
+                        <Alert message="Default alert"/>
+                        <Alert type="warning" message="Warning alert"/>
+                        <Alert type="info" message="Info alert"/>
+                        <Alert type="success" message="Success alert"/>
+                        <Alert type="error" message="Error alert"/>
+                    </section>
 
                     <section className="my-3">
                         <h2 className="mb-1 text-base font-bold">Donate button</h2>
