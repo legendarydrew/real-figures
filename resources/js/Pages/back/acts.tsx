@@ -6,7 +6,7 @@ import { Act, PaginatedResponse } from '@/types';
 import axios from 'axios';
 import { ActDialog } from '@/components/admin/act-dialog';
 import { Pagination } from '@/components/admin/pagination';
-import { ActItem } from '@/components/admin/act-item';
+import { ActItem } from '@/components/act-item';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { Toaster } from '@/components/ui/toast-message';
 import { DialogTitle } from '@/components/ui/dialog';
@@ -82,7 +82,7 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
             {acts.meta.pagination.total ? (
                 <div className="grid auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
                     {acts.data.map((act) => (
-                        <ActItem key={act.id} act={act} onEdit={() => editHandler(act)}
+                        <ActItem key={act.id} act={act} editable={true} onEdit={() => editHandler(act)}
                                  onDelete={() => deleteHandler(act)}/>
                     ))}
                 </div>

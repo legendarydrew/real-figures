@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Subscribers;
+namespace Tests\Feature\Controllers\Subscribers;
 
 use App\Models\ContactMessage;
 use App\Models\Subscriber;

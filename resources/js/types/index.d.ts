@@ -67,6 +67,9 @@ export interface Act {
     profile?: {
         description: string;
     };
+    profileContent?: {
+        description: string;
+    };
     image?: string;
 }
 

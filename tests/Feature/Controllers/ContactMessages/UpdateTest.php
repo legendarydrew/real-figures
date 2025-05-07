@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\ContactMessages;
+namespace Tests\Feature\Controllers\ContactMessages;
 
 use App\Mail\ContactMessageResponse;
 use App\Models\ContactMessage;
