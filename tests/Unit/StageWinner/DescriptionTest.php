@@ -1,6 +1,6 @@
 <?php
 
-namespace StageWinner;
+namespace Tests\Unit\StageWinner;
 
 use App\Models\Round;
 use App\Models\Song;

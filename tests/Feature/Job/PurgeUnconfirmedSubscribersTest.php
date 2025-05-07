@@ -1,6 +1,6 @@
 <?php
 
-namespace Job;
+namespace Tests\Feature\Job;
 
 use App\Jobs\PurgeUnconfirmedSubscribers;
 use App\Models\Subscriber;

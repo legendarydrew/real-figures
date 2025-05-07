@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Subscribers;
+namespace Tests\Feature\Controllers\Subscribers;
 
 use App\Mail\SubscriberConfirm;
 use App\Models\Subscriber;

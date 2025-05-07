@@ -1,6 +1,6 @@
 <?php
 
-namespace Stage;
+namespace Tests\Unit\Stage;
 
 use App\Models\Round;
 use App\Models\RoundOutcome;
