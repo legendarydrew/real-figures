@@ -8,6 +8,7 @@ import { PaypalButton } from '@/components/paypal-button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert } from '@/components/alert';
+import { useDialog } from '@/context/dialog-context';
 
 interface DonateDialogProps {
     // Dialog properties.
@@ -15,7 +16,12 @@ interface DonateDialogProps {
     onOpenChange: () => void;
 }
 
-export const DonateDialog: FC<DonateDialogProps> = ({ open, onOpenChange }) => {
+export const DONATE_DIALOG_NAME = 'donate';
+
+export const DonateDialog: FC<DonateDialogProps> = () => {
+
+    const { openDialogName, closeDialog } = useDialog();
+    const isOpen = openDialogName === DONATE_DIALOG_NAME;
 
     const { donation } = usePage().props;
 
@@ -56,7 +62,7 @@ export const DonateDialog: FC<DonateDialogProps> = ({ open, onOpenChange }) => {
     }, [open]);
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
+        <Dialog open={isOpen} onOpenChange={closeDialog}>
             <DialogContent className="lg:max-w-3xl">
                 <DialogTitle>Make a Donation</DialogTitle>
                 <DialogDescription>
@@ -117,7 +123,7 @@ export const DonateDialog: FC<DonateDialogProps> = ({ open, onOpenChange }) => {
                                           onProcessing={processingHandler}
                                           onSuccess={successHandler}
                                           onFailure={failureHandler}/>
-                            <Button variant="ghost" type="button" onClick={onOpenChange}>Cancel</Button>
+                            <Button variant="ghost" type="button" onClick={closeDialog}>Cancel</Button>
                         </DialogFooter>
                     </>)}
             </DialogContent>
