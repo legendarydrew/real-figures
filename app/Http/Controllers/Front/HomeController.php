@@ -22,26 +22,27 @@ class HomeController extends Controller
 {
 
     /*
-     *  * BEFORE THE CONTEST
- * - display a generic home page with information about the contest.
- * - IF STAGES AND ROUNDS HAVE BEEN CREATED
- *   - display a countdown timer for the first Round.
- *
- * CONTEST HAS BEGUN
- * - AND A ROUND IS UNDERWAY
- *   - display the current Round for voting on.
- *   - display the previous Rounds (in the current Stage) for viewing.
- * - AND ALL ROUNDS IN THE CURRENT STAGE ARE OVER
- *   - BUT WINNERS HAVE NOT BEEN DECIDED
- *     - display a message saying that votes are being calculated.
- *     - (should we display a video announcing the winners?)
- *   - AND WINNERS HAVE BEEN DECIDED (for Stages except the Final)
- *     - display the winners and runners-up, along with votes.
- * END OF CONTEST
- * - display a thank-you message, along with the outcome of the contest.
- *
- * For convenience, we're assuming that all created Stages are part of the same contest.
- */
+     *
+     * * BEFORE THE CONTEST
+     * - display a generic home page with information about the contest.
+     * - IF STAGES AND ROUNDS HAVE BEEN CREATED
+     *   - display a countdown timer for the first Round.
+     *
+     * CONTEST HAS BEGUN
+     * - AND A ROUND IS UNDERWAY
+     *   - display the current Round for voting on.
+     *   - display the previous Rounds (in the current Stage) for viewing.
+     * - AND ALL ROUNDS IN THE CURRENT STAGE ARE OVER
+     *   - BUT WINNERS HAVE NOT BEEN DECIDED
+     *     - display a message saying that votes are being calculated.
+     *     - (should we display a video announcing the winners?)
+     *   - AND WINNERS HAVE BEEN DECIDED (for Stages except the Final)
+     *     - display the winners and runners-up, along with votes.
+     * END OF CONTEST
+     * - display a thank-you message, along with the outcome of the contest.
+     *
+     * For convenience, we're assuming that all created Stages are part of the same contest.
+     */
 
     public function index(): Response
     {
@@ -79,7 +80,7 @@ class HomeController extends Controller
                 }
 
                 return Inertia::render($component, [
-                    'stage'          => fn() => fractal($current_stage, StageTransformer::class)->toArray(),
+                    'stage' => fn() => fractal($current_stage, StageTransformer::class)->parseIncludes(['description'])->toArray(),
                     'currentRound'   => fn() => fractal($current_round, RoundTransformer::class, '')->toArray(),
                     'previousRounds' => fn() => fractal($previous_rounds, RoundTransformer::class, '')->toArray(),
                     'countdown'      => fn() => $countdown,

@@ -25,7 +25,11 @@ const HomeRound: React.FC = ({ stage, countdown }) => {
             <div className="bg-blue-100 py-10 px-5">
                 <div className="max-w-5xl mx-auto">
 
-                    <Heading title={stage.title} description={stage.description}/>
+                    <Heading title={stage.title}/>
+                    {stage.description && (
+                        <div className="content my-3 text-sm text-muted-foreground"
+                             dangerouslySetInnerHTML={{ __html: stage.description }}/>
+                    )}
                     <div className="flex flex-col gap-1 items-center">
                         <CountdownTimer size="large" timestamp={countdown} onEnd={countdownEndHandler}/>
                         <span className="text-sm font-semibold">before voting begins!</span>

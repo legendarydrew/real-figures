@@ -27,7 +27,11 @@ const HomeCurrentRoundPage: React.FC = ({ stage, currentRound, previousRounds, c
                     {currentRound && (
                         <>
                             <div className="flex justify-between items-start">
-                                <Heading title={currentRound.title} description={stage.description}/>
+                                <Heading title={currentRound.title}/>
+                                {stage.description && (
+                                    <div className="content my-3 text-sm text-muted-foreground"
+                                         dangerouslySetInnerHTML={{ __html: stage.description }}/>
+                                )}
                                 <div className="flex gap-1 items-center">
                                     <span className="text-sm">Voting ends in</span>
                                     <CountdownTimer timestamp={countdown} onEnd={countdownEndHandler}/>
