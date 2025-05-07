@@ -39,14 +39,14 @@ const RulesPage: React.FC = () => {
 
                 <div className="flex mb-5 gap-10">
                     <div className="w-3/5 content">
-                        <p className="text-lg my-3">
+                        <p className="text-lg">
                             Welcome to the first-ever CATAWOL Records Song Contest!
                         </p>
-                        <p className="my-3">
+                        <p>
                             We’re bringing together 32 of our biggest Acts to showcase incredible creativity and raise
                             awareness of bullying in adult spaces.
                         </p>
-                        <p className="my-3">
+                        <p>
                             And we need <b>your votes</b> to help decide which song becomes the <b>official anthem!</b>
                         </p>
                     </div>
