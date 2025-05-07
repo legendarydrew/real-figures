@@ -5,13 +5,15 @@ import FrontLayout from '@/layouts/front-layout';
 import { Nothing } from '@/components/nothing';
 import HeadingSmall from '@/components/heading-small';
 import { Donation } from '@/types';
+import { cn } from '@/lib/utils';
+import { Advert } from '@/components/advert';
 
 interface DonationPageProps {
     donations: Donation[];
     buzzers: Donation[];
 }
 
-const ContactPage: React.FC<DonationPageProps> = ({ donations, buzzers }) => {
+const DonationsPage: React.FC<DonationPageProps> = ({ donations, buzzers }) => {
 
     return (
         <>
@@ -20,15 +22,27 @@ const ContactPage: React.FC<DonationPageProps> = ({ donations, buzzers }) => {
             <FrontContent>
                 <Heading title="Donation Wall"/>
 
-                <p>Thank you!</p>
+                <div className="content mb-8">
+                    <p className="text-lg">
+                        <b>A huge thank you</b> to these generous people for making a donation to SilentMode and/or this
+                        project.
+                    </p>
+                </div>
 
                 <div className="flex gap-5">
-                    <div className="w-1/2">
-                        <HeadingSmall title="Generous Donations"/>
+
+                    <div className="lg:w-2/3 rounded-md bg-green-100">
+                        <h2 className="bg-green-300 text-xl font-semibold px-3 py-1.5 rounded-t-md">Generous
+                            Donations</h2>
                         {donations.length ? (
-                            <ul>
+                            <ul className="text-sm flex flex-wrap overflow-y-auto max-h-[30dvh] px-3 py-2">
                                 {donations.map((donation) => (
-                                    <li key={donation.id}>{donation.email}</li>
+                                    <li key={donation.id}
+                                        className="lg:w-1/2 flex justify-between items-center gap-3 rounded-sm hover:bg-green-200 px-2 py-0.5 select-none">
+                                    <span
+                                        className={cn("flex-grow", donation.is_anonymous ? "italic" : "font-semibold")}>{donation.name}</span>
+                                        <span className="text-xs text-right">{donation.created_at}</span>
+                                    </li>
                                 ))}
                             </ul>
                         ) : (
@@ -36,25 +50,33 @@ const ContactPage: React.FC<DonationPageProps> = ({ donations, buzzers }) => {
                         )}
                     </div>
 
-                    <div className="w-1/2">
-                        <HeadingSmall title="Golden Buzzers"/>
+                    <div className="lg:w-1/3 rounded-md bg-yellow-100">
+                        <h2 className="bg-yellow-300 text-xl font-semibold px-3 py-1.5 rounded-t-md">Golden Buzzers</h2>
                         {buzzers.length ? (
-                            <ul>
+                            <ul className="text-sm flex flex-wrap overflow-y-auto max-h-[30dvh] px-3 py-2">
                                 {buzzers.map((donation) => (
-                                    <li key={donation.id}>{donation.email}</li>
+                                    <li key={donation.id}
+                                        className="w-full flex justify-between items-center gap-3 rounded-sm hover:bg-yellow-200 px-2 py-0.5 select-none">
+                                        <span
+                                            className={cn("flex-grow", donation.is_anonymous ? "italic" : "font-semibold")}>{donation.name}</span>
+                                        <span className="text-xs text-right">{donation.created_at}</span>
+                                    </li>
                                 ))}
                             </ul>
                         ) : (
                             <Nothing>Will you be the first to hit a Golden Buzzer?</Nothing>
                         )}
                     </div>
+
                 </div>
+
+                <Advert/>
 
             </FrontContent>
         </>
     )
 }
 
-ContactPage.layout = (page) => <FrontLayout>{page}</FrontLayout>;
+DonationsPage.layout = (page) => <FrontLayout>{page}</FrontLayout>;
 
-export default ContactPage;
+export default DonationsPage;

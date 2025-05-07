@@ -19,23 +19,9 @@ class DonorWallController extends Controller
 {
     public function index(): Response
     {
-        $donations             = Donation::orderByDesc('id')->paginate();
-        $transformed_donations = fractal($donations->items(), new DonationTransformer())->toArray();
-
-        $buzzers             = GoldenBuzzer::orderByDesc('id')->paginate();
-        $transformed_buzzers = fractal($buzzers->items(), new DonationTransformer())->toArray();
-
         return Inertia::render('front/donations', [
-            'donations' => fn() => [
-                'currentPage'  => $donations->currentPage(),
-                'hasMorePages' => $donations->hasMorePages(),
-                'rows'         => $donations->currentPage() === 1 ? $transformed_donations : Inertia::merge($transformed_donations)
-            ],
-            'buzzers'   => fn() => [
-                'currentPage'  => $buzzers->currentPage(),
-                'hasMorePages' => $buzzers->hasMorePages(),
-                'rows'         => $buzzers->currentPage() === 1 ? $transformed_buzzers : Inertia::merge($transformed_buzzers)
-            ],
+            'donations' => fn() => fractal(Donation::orderByDesc('id')->get(), new DonationTransformer())->toArray(),
+            'buzzers'   => fn() => fractal(GoldenBuzzer::orderByDesc('id')->get(), new DonationTransformer())->toArray(),
         ]);
     }
 

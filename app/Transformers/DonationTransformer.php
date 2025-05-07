@@ -13,9 +13,9 @@ class DonationTransformer extends TransformerAbstract
     {
         return [
             'id'         => (int)$donation->id,
-            'email'      => $donation->email,
-            'amount'     => "$donation->currency $donation->amount",
-            'donated_at' => $donation->created_at->format(config('contest.date_format'))
+            'name'         => $donation->is_anonymous ? trans('anonymous') : $donation->name,
+            'created_at'   => $donation->created_at->format(config('contest.date_format')),
+            'is_anonymous' => $donation->is_anonymous,
         ];
     }
 }

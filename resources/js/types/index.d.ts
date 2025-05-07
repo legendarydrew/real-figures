@@ -143,7 +143,7 @@ export interface Subscriber {
 
 export interface Donation {
     id: number;
-    email: string;
-    amount: string; // currency and amount.
+    name: string;
     created_at: string;
+    is_anonymous: boolean;
 }
