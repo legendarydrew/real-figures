@@ -1,18 +1,37 @@
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { FrontContent } from '@/components/front/front-content';
 import Heading from '@/components/heading';
 import FrontLayout from '@/layouts/front-layout';
 import { Act } from '@/types';
 import { ActItem } from '@/components/act-item';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { useEffect, useState } from 'react';
 
 interface ActsPageProps {
     acts?: Act[];
+    currentAct?: Act;
 }
 
-const ActsPage: React.FC<ActsPageProps> = ({ acts }) => {
+const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
 
-    const showActHandler = (act) => {
-        console.log('show me', act.name);
+    const [showCurrentAct, setShowCurrentAct] = useState<boolean>(false);
+
+    useEffect(() => {
+        setShowCurrentAct(!!currentAct);
+    }, [currentAct]);
+
+    const showActHandler = (act): void => {
+        router.visit(route('act', { slug: act.slug }), {
+            only: ['currentAct'],
+            preserveUrl: true,
+            onSuccess: () => {
+                setShowCurrentAct(true);
+            },
+            onError: () => {
+                setShowCurrentAct(false);
+            }
+        });
     };
 
     return (
@@ -33,6 +52,21 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts }) => {
                     <Nothing>No Acts have entered the contest!</Nothing>
                 )
                 }
+
+                <Dialog aria-describedby={undefined} open={showCurrentAct}
+                        onOpenChange={() => setShowCurrentAct(false)}>
+                    <DialogContent className="lg:max-w-3xl">
+                        <div className="flex gap-5">
+                            <PlaceholderPattern
+                                className="w-1/3 aspect-square stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
+                            <div className="w-2/3">
+                                <DialogTitle className="text-2xl font-semibold">Profile
+                                    for {currentAct?.name}</DialogTitle>
+                                <div>{currentAct?.profile?.description}</div>
+                            </div>
+                        </div>
+                    </DialogContent>
+                </Dialog>
             </FrontContent>
         </>
     );

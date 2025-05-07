@@ -25,6 +25,11 @@ class ActsController extends Controller
 
     public function show(string $slug): Response
     {
-        return Inertia::render('front/acts');
+        $act = Act::whereSlug($slug)->first();
+
+        return Inertia::render('front/acts', [
+            'acts'       => fn() => fractal(Act::whereHas('songs')->orderBy('name')->get(), new ActTransformer(), '')->toArray(),
+            'currentAct' => fn() => fractal($act, new ActTransformer(), '')->parseIncludes(['profile'])->toArray()
+        ]);
     }
 }
