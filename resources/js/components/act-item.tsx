@@ -43,7 +43,8 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
                 </div>
             )}
 
-            <div className="absolute bottom w-full py-2 px-3 flex justify-between items-center gap-1">
+            <div
+                className={cn("absolute bottom w-full flex justify-between items-center gap-1", editable ? 'px-3 py-2' : 'p-5')}>
                 <span className={textClasses()}>{act.name}</span>
                 {act.has_profile && (
                     <span className="bg-green-700 text-white rounded-lg p-1.5 text-sm text-gray-500 text-shadow-lg"

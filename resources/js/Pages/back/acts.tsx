@@ -6,7 +6,7 @@ import { Act, PaginatedResponse } from '@/types';
 import axios from 'axios';
 import { ActDialog } from '@/components/admin/act-dialog';
 import { Pagination } from '@/components/admin/pagination';
-import { ActItem } from '@/components/admin/act-item';
+import { ActItem } from '@/components/act-item';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { Toaster } from '@/components/ui/toast-message';
 import { DialogTitle } from '@/components/ui/dialog';
