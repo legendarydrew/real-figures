@@ -63,6 +63,8 @@ class HomeController extends Controller
             // Is there an active Stage?
             if ($current_stage)
             {
+                // TODO if all Rounds have ended, display a different page (we're calculating the results).
+
                 // Display information about the current Round and any previous (ended) Rounds.
                 // If there is no current Round, add a timestamp for counting down to the start of the first Round.
                 $current_round   = $current_stage->rounds->first(fn(Round $round) => $round->isActive());

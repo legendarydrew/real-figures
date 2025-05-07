@@ -140,3 +140,10 @@ export interface Subscriber {
     created_at: string;
     updated_at: string;
 }
+
+export interface Donation {
+    id: number;
+    email: string;
+    amount: string; // currency and amount.
+    created_at: string;
+}

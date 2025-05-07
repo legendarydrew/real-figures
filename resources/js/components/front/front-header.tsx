@@ -21,7 +21,7 @@ export const FrontHeader: React.FC = () => {
                     <CatawolTextLogo className="w-auto h-10"/>
                 </Link>
 
-                <nav className="flex items-center justify-end gap-4">
+                <nav className="flex items-center justify-end gap-2">
                     <Link href={route('home')} className={linkStyle}>Contest</Link>
                     <Link href={route('acts')} className={linkStyle}>Acts</Link>
                     <Link href={route('rules')} className={linkStyle}>Rules</Link>
