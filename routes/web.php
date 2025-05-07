@@ -24,6 +24,7 @@ use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
 use App\Http\Controllers\Back\SubscribersController;
+use App\Http\Controllers\Front\DonorWallController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\SubscriberConfirmController;
 use App\Http\Controllers\Settings\PasswordController;
@@ -42,6 +43,7 @@ Route::get('acts', [\App\Http\Controllers\Front\ActsController::class, 'index'])
 Route::get('acts/{slug}', [\App\Http\Controllers\Front\ActsController::class, 'show'])->name('act');
 Route::get('contact', fn() => Inertia::render('front/contact'))->name('contact');
 Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
+Route::get('donations', [DonorWallController::class, 'index'])->name('donations');
 Route::get('subscriber/confirm/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
 
 // ----------------------------------------------------------------------------

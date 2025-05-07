@@ -2,7 +2,7 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { Advert } from '@/components/advert';
-import { router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { SubscribePanel } from '@/components/front/subscribe-panel';
 
 export default function AboutBanner() {
@@ -23,14 +23,17 @@ export default function AboutBanner() {
                         fugit illo in neque non perferendis, possimus quasi repellendus repudiandae soluta
                         sunt,
                         suscipit, vel velit veritatis voluptatum?</p>
-                    <Button type="button" className="cursor-pointer" onClick={moreInfoHandler}>More
+                    <Button type="button" size="lg" className="cursor-pointer" onClick={moreInfoHandler}>More
                         information</Button>
                 </div>
 
                 <div className="grid gap-2 md:grid-cols-2 md:grid-rows-2">
                     <SubscribePanel className="w-full col-span-2"/>
-                    <PlaceholderPattern
-                        className="w-full md:col-span-1 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
+
+                    <div className="bg-green-500 p-3 rounded-sm">
+                        <Link href={route('donations')}>Donor Wall</Link>
+                    </div>
+
                     <PlaceholderPattern
                         className="w-full md:col-span-1 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
 

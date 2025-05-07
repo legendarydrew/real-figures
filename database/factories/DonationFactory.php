@@ -23,6 +23,7 @@ class DonationFactory extends Factory
             'amount'         => $this->faker->randomFloat(2, 1, 999),
             'currency'       => $this->faker->boolean(80) ? 'USD' : $this->faker->currencyCode(),
             'message'        => $this->faker->boolean(20) ? $this->faker->realText() : null,
+            'is_anonymous' => $this->faker->boolean(20),
         ];
     }
 }
