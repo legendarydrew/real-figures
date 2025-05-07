@@ -22,16 +22,19 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
     }, [currentAct]);
 
     const showActHandler = (act): void => {
-        router.visit(route('act', { slug: act.slug }), {
-            only: ['currentAct'],
-            preserveUrl: true,
-            onSuccess: () => {
-                setShowCurrentAct(true);
-            },
-            onError: () => {
-                setShowCurrentAct(false);
-            }
-        });
+        // Only display information about Acts that have a profile.
+        if (act.has_profile) {
+            router.visit(route('act', { slug: act.slug }), {
+                only: ['currentAct'],
+                preserveUrl: true,
+                onSuccess: () => {
+                    setShowCurrentAct(true);
+                },
+                onError: () => {
+                    setShowCurrentAct(false);
+                }
+            });
+        }
     };
 
     return (
@@ -63,7 +66,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
                             </div>
                             <div className="w-2/3">
                                 <DialogTitle className="text-2xl font-semibold mb-2">{currentAct?.name}</DialogTitle>
-                                <div className="h-[50dvh] overflow-y-auto text-sm leading-normal"
+                                <div className="content h-[50dvh] overflow-y-auto text-sm leading-normal"
                                      dangerouslySetInnerHTML={{ __html: currentAct?.profileContent?.description }}/>
                                 {/* https://react.dev/reference/react-dom/components/common#dangerously-setting-the-inner-html */}
                             </div>
