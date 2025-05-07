@@ -4,9 +4,9 @@ import Heading from '@/components/heading';
 import FrontLayout from '@/layouts/front-layout';
 import { Act } from '@/types';
 import { ActItem } from '@/components/act-item';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { useEffect, useState } from 'react';
+import { ActImage } from '@/components/ui/act-image';
 
 interface ActsPageProps {
     acts?: Act[];
@@ -53,16 +53,19 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
                 )
                 }
 
-                <Dialog aria-describedby={undefined} open={showCurrentAct}
+                <Dialog open={showCurrentAct}
                         onOpenChange={() => setShowCurrentAct(false)}>
                     <DialogContent className="lg:max-w-3xl">
+                        <DialogDescription className="sr-only">Information about {currentAct?.name}.</DialogDescription>
                         <div className="flex gap-5">
-                            <PlaceholderPattern
-                                className="w-1/3 aspect-square stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
+                            <div className="w-1/3">
+                                <ActImage act={currentAct} size="full"/>
+                            </div>
                             <div className="w-2/3">
-                                <DialogTitle className="text-2xl font-semibold">Profile
-                                    for {currentAct?.name}</DialogTitle>
-                                <div>{currentAct?.profile?.description}</div>
+                                <DialogTitle className="text-2xl font-semibold mb-2">{currentAct?.name}</DialogTitle>
+                                <div className="h-[50dvh] overflow-y-auto text-sm leading-normal"
+                                     dangerouslySetInnerHTML={{ __html: currentAct?.profileContent?.description }}/>
+                                {/* https://react.dev/reference/react-dom/components/common#dangerously-setting-the-inner-html */}
                             </div>
                         </div>
                     </DialogContent>

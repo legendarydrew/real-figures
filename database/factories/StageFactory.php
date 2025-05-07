@@ -22,9 +22,11 @@ class StageFactory extends Factory
      */
     public function definition(): array
     {
+        $this->faker->addProvider(new \DavidBadura\FakerMarkdownGenerator\FakerProvider($this->faker));
+
         return [
             'title' => $this->faker->unique()->sentence(),
-            'description' => $this->faker->paragraph(),
+            'description' => $this->faker->markdown(),
         ];
     }
 

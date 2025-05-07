@@ -30,6 +30,7 @@
     "require-dev": {
         "aalaap/faker-youtube": "^2.0",
         "barryvdh/laravel-ide-helper": "^3.5",
+        "davidbadura/faker-markdown-generator": "*",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.18",
