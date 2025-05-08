@@ -65,7 +65,7 @@ export default function ManualVotePage({ stage, rounds }: Readonly<ManualVotePag
             <Head title="Manual Vote"/>
 
             <div className="flex mb-3 p-4">
-                <h1 className="flex-grow font-bold text-2xl">Manual Voting for "{stage.title}"</h1>
+                <h1 className="display-text flex-grow text-2xl">Manual Voting for "{stage.title}"</h1>
             </div>
 
             <form className="my-3 mx-4" onSubmit={submitHandler}>

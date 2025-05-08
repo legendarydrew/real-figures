@@ -71,7 +71,7 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
             <Head title="Acts"/>
 
             <div className="flex mb-3 p-4">
-                <h1 className="flex-grow font-bold text-2xl">Acts</h1>
+                <h1 className="display-text flex-grow text-2xl">Acts</h1>
                 <div className="flex gap-1">
                     <Button onClick={() => editHandler()}>Create Act</Button>
                 </div>
