@@ -5,46 +5,121 @@ from there.
 
 This battleplan document is for outline some of the steps we want to take to get this project going.
 
+# LAUNCH (May 20th 2025)
+
+These are the minimum requirements for launching the site (the introduction to the concept)
+for the self-defined goal of May 20.
+
+## Analytics
+
+- [ ] Record page visits.
+- [ ] Record donations made.
+- [ ] Record contact messages sent.
+- [ ] Record subscription submissions.
+- [ ] Record subscription confirmations.
+- [ ] Record unsubscribes.
+
 ## Front-facing site
 
-- CATAWOL Records brand guidelines for the overall design.
-- *Home page*
-    - BEFORE the contest begins
-        - a landing page describing the contest.
-    - When the current Stage is running
-        - display the current round for voting on.
-        - display previous rounds for listening to the songs.
-    - When the current Stage is over
-        - announce that results are being calculated.
-        - display previous rounds for listening to the songs.
-    - When the contest is over
-        - thank everybody for taking part.
-        - display the winning Songs.
-- The ability to make a donation.
-- Rules of the contest
-- *About the project*
-    - the song
-    - CATAWOL Records
-    - the project itself
-    - SilentMode.
-- Act profiles (if available).
-- *Playing Songs*
-    - detecting Song plays.
-    - ability to vote for Songs (if in the running).
-    - use of the "Golden Buzzer" to support a specific Song.
-- *Contact page*
-    - include some kind of CAPTCHA, or anti-spam detection.
-- Social media links!
-    - including to SilentMode.tv
+### Home
+
+- [ ] Add "coming soon" text.
+- [ ] Graphic for the introduction banner (a microphone?).
+- [ ] Graphic for Golden Buzzer banner.
+- [ ] [optional] Graphics for the contest outline columns.
+- [ ] Graphic for the about the contest banner.
+- [ ] Text content for the about the contest banner.
+- [ ] What else should go in the about the contest banner (the placeholder)?
+- [ ] Update the appearance of the Donor Wall section.
+
+### Credits dialog
+
+- [ ] Graphic to replace the placeholder.
+- [ ] Update the credits to include all AI services used and their contexts.
+- [ ] Add the disclaimer about LEGO not being part of the project.
+
+### About
+
+- [ ] Graphics for About CATAWOL Records.
+- [ ] Graphic for About the Song.
+- [ ] Graphic for What is the F.O.L.D?
+- [ ] Graphic for About SilentMode.
+- [ ] Add social media links!
+
+### Rules
+
+- [ ] Graphic or advert to replace the placeholder.
+- [ ] Consider placing an advert at the bottom of the page.
+
+### Donate dialog
+
+- [ ] Reposition the PayPal button to the right of the anonymity checkbox.
+- [ ] Either remove the Cancel button or the close button.
+
+### Contact page
+
+- [ ] Text content.
+- [ ] Add an advert.
+
+### Donations/Donor Wall page
+
+- [ ] Decide what to call it! (Donations or Donor Wall)
+- [ ] Talk about what the donations will be used for.
+- [ ] Talk about how people can contribute non-financially.
 
 ## Back office
 
-- Design of email templates.
-- Add a page for "Golden Buzzers".
-- Add a Donations page.
-- Finishing touches to the interface.
-- Remove the ability for laypeople to register!
+### Dashboard
+
+- [ ] Add a box displaying how many messages are present.
+
+### Subscribers
+
+- [ ] Hide the filter field if there are no Subscribers.
+- [ ] Ability to send subscribers messages.
+- [ ] Ability for subscribers to unsubscribe.
 
 ## Miscellaneous
 
-- update README.md.
+- [ ] Add a favicon!
+- [ ] Add meta tags.
+- [ ] Do not display the Acts page if the contest has not started.
+- [ ] Ideally the MISMI video would be released beforehand (some text on the About page would make more sense).
+- [ ] Don't forget to check the site on mobile devices.
+- [ ] Use the Cal Sans fount for headings.
+- [ ] Update the theme to use the CATAWOL Records branding guidelines.
+- [ ] Design of email templates.
+- [ ] Add a "toolbar style" (gaps between buttons).
+
+# REMAINING TASKS
+
+For when we are ready to get things going: we have the Songs ready and we've gotten people excited.
+
+## Analytics
+
+- [ ] Record song plays.
+- [ ] Record Golden Buzzers.
+
+## Front-facing site
+
+### Home page
+
+- [ ] When the current Stage is running
+    - [ ] display the current round for voting on.
+    - [ ] display previous rounds for listening to the songs.
+- [ ] When the current Stage is over
+    - [ ] announce that results are being calculated.
+    - [ ] display previous rounds for listening to the songs.
+- [ ] When the contest is over
+    - [ ] thank everybody for taking part.
+    - [ ] display the winning Songs.
+- [ ] Ability to play a Song.
+- [ ] Ability to vote for Songs (if in the running).
+
+## Back office
+
+- [ ] Add a page for "Golden Buzzers" (which Songs received them).
+- [ ] Add a Donations page.
+- [ ] [Dashboard] Add a box displaying how much was made in donations.
+
+## Miscellaneous
