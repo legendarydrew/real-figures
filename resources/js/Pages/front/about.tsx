@@ -57,8 +57,8 @@ const AboutPage: React.FC = () => {
                 <Collapsible className="border-b" open={isOpen('about-label')}
                              onOpenChange={() => toggleHandler('about-label')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
-                        <span className="flex-grow text-left">About CATAWOL Records</span>
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
+                        <span className="display-text flex-grow text-left">About CATAWOL Records</span>
                         {isOpen('about-label') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pt-3 pb-10 px-5 flex gap-10">
@@ -132,8 +132,8 @@ const AboutPage: React.FC = () => {
                 <Collapsible className="border-b" open={isOpen('about-song')}
                              onOpenChange={() => toggleHandler('about-song')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
-                        <span className="flex-grow text-left">About the Song</span>
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
+                        <span className="display-text flex-grow text-left">About the Song</span>
                         {isOpen('about-song') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pt-3 pb-10 px-5 flex gap-10">
@@ -168,8 +168,8 @@ const AboutPage: React.FC = () => {
                 <Collapsible className="border-b" open={isOpen('about-fold')}
                              onOpenChange={() => toggleHandler('about-fold')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
-                        <span className="flex-grow text-left">What is the F.O.L.D?</span>
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
+                        <span className="display-text flex-grow text-left">What is the F.O.L.D?</span>
                         {isOpen('about-fold') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pt-3 pb-10 px-5 flex gap-10">
@@ -193,8 +193,8 @@ const AboutPage: React.FC = () => {
                 <Collapsible open={isOpen('about-silentmode')}
                              onOpenChange={() => toggleHandler('about-silentmode')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
-                        <span className="flex-grow text-left">About SilentMode</span>
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
+                        <span className="display-text flex-grow text-left">About SilentMode</span>
                         {isOpen('about-silentmode') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pt-3 pb-10 px-5 flex gap-10">
