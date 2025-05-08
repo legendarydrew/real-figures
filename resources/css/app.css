@@ -169,15 +169,15 @@ has the theme configured here.)
 
     /* Used for converted markdown content. */
     .content h1 {
-        @apply font-display text-xl font-semibold;
+        @apply text-xl font-semibold leading-none;
     }
 
     .content h2 {
-        @apply font-display text-lg font-semibold;
+        @apply text-lg font-semibold leading-none;
     }
 
     .content h3 {
-        @apply font-display text-base font-semibold;
+        @apply text-base font-semibold leading-none;
     }
 
     .content b {
