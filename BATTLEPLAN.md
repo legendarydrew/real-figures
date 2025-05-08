@@ -86,7 +86,7 @@ for the self-defined goal of May 20.
 - [ ] Do not display the Acts page if the contest has not started.
 - [ ] Ideally the MISMI video would be released beforehand (some text on the About page would make more sense).
 - [ ] Don't forget to check the site on mobile devices.
-- [ ] Use the Cal Sans fount for headings.
+- [x] Use the Cal Sans fount for headings.
 - [ ] Update the theme to use the CATAWOL Records branding guidelines.
 - [ ] Design of email templates.
 - [ ] Add a "toolbar style" (gaps between buttons).

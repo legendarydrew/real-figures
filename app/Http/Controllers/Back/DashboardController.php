@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
+use App\Models\ContactMessage;
 use App\Models\RoundVote;
 use App\Models\SongPlay;
 use Illuminate\Support\Facades\DB;
@@ -15,8 +16,9 @@ class DashboardController extends Controller
     public function index(): Response
     {
         return Inertia::render('dashboard', [
-            'song_plays' => fn() => $this->getPlaysThisWeek(),
-            'votes'      => fn() => $this->getVotesThisWeek()
+            'message_count' => fn() => ContactMessage::count(),
+            'song_plays'    => fn() => $this->getPlaysThisWeek(),
+            'votes'         => fn() => $this->getVotesThisWeek()
         ]);
     }
 
