@@ -28,7 +28,7 @@ export const ContactMessageRespond: React.FC<ContactMessageRespondProps> = ({ me
 
     const submitHandler = (e): void => {
         e.preventDefault();
-        put(route('messages.update', { id: message.id }), {
+        put(route('messages.respond', { id: message.id }), {
             preserveUrl: true,
             preserveScroll: true,
             onSuccess: () => {

@@ -57,14 +57,6 @@ class ContactMessagesController extends Controller
         return false;
     }
 
-    public function update(ContactMessageResponseRequest $request, int $message_id): void
-    {
-        $message = ContactMessage::findOrFail($message_id);
-        $data    = $request->validated();
-
-        Mail::to($message->email)->send(new ContactMessageResponse($message, $data['response']));
-    }
-
     public function destroy(): RedirectResponse
     {
         $message_ids = request('message_ids');

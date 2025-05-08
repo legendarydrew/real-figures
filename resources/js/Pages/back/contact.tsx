@@ -118,10 +118,10 @@ export default function ContactMessagesPage({
                                 <Checkbox className="bg-white" checked={selectedIds.includes(message.id)}
                                           onCheckedChange={(state) => state ? selectMessageHandler(message) : deselectMessageHandler(message)}/>
                                 <CollapsibleTrigger className="flex gap-3 w-full items-center">
-                            <span className="flex-grow text-left">
-                                <span className="font-bold mr-2">{message.name}</span>
-                                <span className="text-sm">&lt;{message.email}&gt;</span>
-                            </span>
+                                    <span className="flex-grow text-left">
+                                        <span className="font-bold mr-2">{message.name}</span>
+                                        <span className="text-sm">&lt;{message.email}&gt;</span>
+                                    </span>
                                     <span className="text-destructive-foreground"
                                           title="Message is considered to be spam.">{message.is_spam ?
                                         <MessageCircleWarning/> : ''}</span>

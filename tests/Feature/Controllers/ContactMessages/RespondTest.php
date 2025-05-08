@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class UpdateTest extends TestCase
+class RespondTest extends TestCase
 {
     use DatabaseMigrations;
 
-    private const string ENDPOINT = 'api/messages/%u';
+    private const string ENDPOINT = 'api/messages/%u/respond';
 
     private ContactMessage $message;
 
