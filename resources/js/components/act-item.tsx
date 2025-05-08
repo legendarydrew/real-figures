@@ -26,7 +26,7 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
     }
 
     const textClasses = (): string => {
-        return `display-text flex-grow text-lg leading-none text-left ${act.image ? 'text-white text-shadow-md' : ''}`;
+        return `display-text flex-grow text-lg leading-none text-left ${act.image ? 'text-white text-shadow-md' : ''} ${editable && 'truncate'}`;
     }
 
     return (

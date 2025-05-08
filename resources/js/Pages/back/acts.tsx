@@ -80,7 +80,7 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
             <Pagination results={acts} onPageChange={pageHandler}/>
 
             {acts.meta.pagination.total ? (
-                <div className="grid auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
+                <div className="grid p-4 auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
                     {acts.data.map((act) => (
                         <ActItem key={act.id} act={act} editable={true} onEdit={() => editHandler(act)}
                                  onDelete={() => deleteHandler(act)}/>
@@ -91,6 +91,8 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
                     No Acts defined.
                 </Nothing>
             )}
+
+            <Pagination results={acts} onPageChange={pageHandler}/>
 
             <ActDialog act={currentAct} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
             <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
