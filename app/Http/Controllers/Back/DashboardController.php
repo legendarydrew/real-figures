@@ -16,7 +16,7 @@ class DashboardController extends Controller
     public function index(): Response
     {
         return Inertia::render('dashboard', [
-            'message_count' => fn() => ContactMessage::count(),
+            'message_count' => fn() => ContactMessage::whereNull('read_at')->count(),
             'song_plays'    => fn() => $this->getPlaysThisWeek(),
             'votes'         => fn() => $this->getVotesThisWeek()
         ]);

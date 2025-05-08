@@ -13,4 +13,8 @@ class ContactMessage extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    public function wasRead(): bool
+    {
+        return !is_null($this->read_at);
+    }
 }
