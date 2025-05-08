@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->text('body'); // message is reserved in Blade templates.
             $table->ipAddress()->nullable();
             $table->boolean('is_spam')->default(false);
+            $table->dateTime('read_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
