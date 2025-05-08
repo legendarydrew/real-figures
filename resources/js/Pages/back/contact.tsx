@@ -95,7 +95,7 @@ export default function ContactMessagesPage({
             <Head title="Contact Messages"/>
 
             <div className="flex mb-3 p-4 items-center sticky-top">
-                <h1 className="flex-grow font-bold text-2xl mr-auto">Contact Messages</h1>
+                <h1 className="display-text flex-grow text-2xl mr-auto">Contact Messages</h1>
 
                 <div className="flex gap-1">
                     <Button variant="outline" type="button" onClick={selectAllHandler}>

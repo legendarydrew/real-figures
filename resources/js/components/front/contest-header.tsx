@@ -8,7 +8,7 @@ export default function ContestHeader() {
                 <PlaceholderPattern className="stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
 
                 <div className="w-1/2 ml-10">
-                    <h1 className="mb-3 text-4xl font-medium text-shadow-md">
+                    <h1 className="display-text text-4xl text-shadow-md mb-3">
                         32 Acts.<br/>1 Anthem.
                     </h1>
                     <p className="text-base w-3/4">

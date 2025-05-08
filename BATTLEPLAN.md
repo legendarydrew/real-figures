@@ -90,6 +90,7 @@ for the self-defined goal of May 20.
 - [ ] Update the theme to use the CATAWOL Records branding guidelines.
 - [ ] Design of email templates.
 - [ ] Add a "toolbar style" (gaps between buttons).
+- [ ] Check the site against the dark theme.
 
 # REMAINING TASKS
 

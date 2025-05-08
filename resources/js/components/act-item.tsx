@@ -1,6 +1,6 @@
 import { Act } from '@/types';
 import { Button } from '@/components/ui/button';
-import { Edit, PersonStanding, Trash, UserPen } from 'lucide-react';
+import { Edit, Info, PersonStanding, Trash } from 'lucide-react';
 import React from 'react';
 import { cn } from '@/lib/utils';
 
@@ -26,7 +26,7 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
     }
 
     const textClasses = (): string => {
-        return `flex-grow text-lg leading-none font-bold text-left ${act.image ? 'text-white text-shadow-lg' : ''}`;
+        return `display-text flex-grow text-lg leading-none text-left ${act.image ? 'text-white text-shadow-md' : ''}`;
     }
 
     return (
@@ -47,9 +47,9 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
                 className={cn("absolute bottom w-full flex justify-between items-center gap-1", editable ? 'px-3 py-2' : 'p-5')}>
                 <span className={textClasses()}>{act.name}</span>
                 {act.has_profile && (
-                    <span className="bg-green-700 text-white rounded-lg p-1.5 text-sm text-gray-500 text-shadow-lg"
+                    <span className="bg-blue-700 text-white rounded-sm p-1.5 text-sm text-shadow-lg"
                           title="Has a profile.">
-                        <UserPen className="h-3 w-3"/>
+                        <Info className="h-4 w-4"/>
                     </span>
                 )}
                 {editable && (

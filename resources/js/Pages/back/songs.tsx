@@ -99,7 +99,7 @@ export default function Songs({ acts, songs }: Readonly<{ songs: PaginatedRespon
             <Head title="Songs"/>
 
             <div className="flex mb-3 p-4">
-                <h1 className="flex-grow font-bold text-2xl">Songs</h1>
+                <h1 className="display-text flex-grow text-2xl">Songs</h1>
                 <div className="flex gap-1">
                     <Button onClick={() => editHandler()}>Add Song</Button>
                 </div>

@@ -81,7 +81,7 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
             <Head title="Stages"/>
 
             <div className="flex mb-3 p-4">
-                <h1 className="flex-grow font-bold text-2xl">Stages</h1>
+                <h1 className="display-text flex-grow text-2xl">Stages</h1>
                 <div className="flex gap-1">
                     <Button onClick={editHandler}>Create Stage</Button>
                 </div>

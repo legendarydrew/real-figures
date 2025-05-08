@@ -14,7 +14,7 @@ export const FrontHeader: React.FC = () => {
 
     const showDonateDialog = () => openDialog(DONATE_DIALOG_NAME);
 
-    const linkStyle: string = 'text-sm font-semibold leading-normal px-3 py-1.5 hover:underline text-[#1b1b18] dark:text-[#EDEDEC]';
+    const linkStyle: string = 'display-text text-sm leading-normal px-3 py-1.5 hover:underline text-[#1b1b18] dark:text-[#EDEDEC]';
 
     return (
         <header className="border-b-1 py-2 w-full shadow-sm">
@@ -29,7 +29,7 @@ export const FrontHeader: React.FC = () => {
                     <Link href={route('acts')} className={linkStyle}>Acts</Link>
                     <Link href={route('rules')} className={linkStyle}>Rules</Link>
                     <Link href={route('about')} className={linkStyle}>About</Link>
-                    <Button type="button" variant="link" className="text-green-600 font-semibold cursor-pointer"
+                    <Button type="button" variant="link" className={cn(linkStyle, "text-green-600 dark:text-green-200")}
                             onClick={showDonateDialog}>Donate!</Button>
                     <Link href={route('contact')} className={linkStyle}>Contact</Link>
                     {auth.user ? (

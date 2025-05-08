@@ -65,7 +65,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
                                 <ActImage act={currentAct} size="full"/>
                             </div>
                             <div className="w-2/3">
-                                <DialogTitle className="text-2xl font-semibold mb-2">{currentAct?.name}</DialogTitle>
+                                <DialogTitle className="text-2xl mb-2">{currentAct?.name}</DialogTitle>
                                 <div className="content h-[50dvh] overflow-y-auto text-sm leading-normal"
                                      dangerouslySetInnerHTML={{ __html: currentAct?.profileContent?.description }}/>
                                 {/* https://react.dev/reference/react-dom/components/common#dangerously-setting-the-inner-html */}
