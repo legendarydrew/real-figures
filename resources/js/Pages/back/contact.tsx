@@ -113,7 +113,7 @@ export default function ContactMessagesPage({
             {messages?.length ? (
                 <>
                     {messages.map((message) => (
-                        <Collapsible className="my-1 mx-2" key={message.id}>
+                        <Collapsible className="my-1 mx-4" key={message.id}>
                             <div className="flex gap-2 items-center p-2 w-full bg-teal-200 hover:bg-teal-300">
                                 <Checkbox className="bg-white" checked={selectedIds.includes(message.id)}
                                           onCheckedChange={(state) => state ? selectMessageHandler(message) : deselectMessageHandler(message)}/>
