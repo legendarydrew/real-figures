@@ -22,8 +22,7 @@ class HomeController extends Controller
 {
 
     /*
-     *
-     * * BEFORE THE CONTEST
+     * BEFORE THE CONTEST
      * - display a generic home page with information about the contest.
      * - IF STAGES AND ROUNDS HAVE BEEN CREATED
      *   - display a countdown timer for the first Round.
@@ -63,13 +62,20 @@ class HomeController extends Controller
             // Is there an active Stage?
             if ($current_stage)
             {
-                // TODO if all Rounds have ended, display a different page (we're calculating the results).
-
                 // Display information about the current Round and any previous (ended) Rounds.
                 // If there is no current Round, add a timestamp for counting down to the start of the first Round.
                 $current_round   = $current_stage->rounds->first(fn(Round $round) => $round->isActive());
                 $previous_rounds = null;
-                if ($current_round)
+
+                if ($current_stage->hasEnded())
+                {
+                    // Display a message about results for the current Stage being tallied.
+                    // We will also display all previous rounds.
+                    $component       = 'front/home/stage-end';
+                    $previous_rounds = $current_stage->rounds;
+                    $countdown       = null;
+                }
+                elseif ($current_round)
                 {
                     $component       = 'front/home/round';
                     $previous_rounds = $current_stage->rounds->filter(fn(Round $round) => $round->id < $current_round->id);

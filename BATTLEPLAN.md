@@ -71,11 +71,11 @@ for the self-defined goal of May 20.
 
 ### Dashboard
 
-- [ ] Add a box displaying how many messages are present.
+- [x] Add a box displaying how many messages are present.
 
 ### Subscribers
 
-- [ ] Hide the filter field if there are no Subscribers.
+- [x] Hide the filter field if there are no Subscribers.
 - [ ] Ability to send subscribers messages.
 - [ ] Ability for subscribers to unsubscribe.
 
