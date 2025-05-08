@@ -13,4 +13,13 @@ class ContactMessage extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    public function getDates(): array
+    {
+        return ['created_at', 'updated_at', 'read_at'];
+    }
+
+    public function getWasReadAttribute(): bool
+    {
+        return !is_null($this->read_at);
+    }
 }

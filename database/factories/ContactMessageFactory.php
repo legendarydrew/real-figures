@@ -22,6 +22,7 @@ class ContactMessageFactory extends Factory
             'body'    => $this->faker->realText(),
             'ip_address' => $this->faker->ipv4(),
             'is_spam' => $this->faker->boolean(10),
+            'read_at' => null,
         ];
     }
 }
