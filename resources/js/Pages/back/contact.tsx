@@ -12,6 +12,8 @@ import { Button } from '@/components/ui/button';
 import { LoadingButton } from '@/components/ui/loading-button';
 import { ContactMessageRespond } from '@/components/admin/contact-message-respond';
 import { Nothing } from '@/components/nothing';
+import axios from 'axios';
+import { cn } from '@/lib/utils';
 
 interface ContactMessagesPageProps {
     messages: ContactMessage[];
@@ -69,6 +71,15 @@ export default function ContactMessagesPage({
         });
     }
 
+    const markReadHandler = (message: ContactMessage): void => {
+        if (!message.was_read) {
+            axios.put(route('messages.read', { id: message.id }))
+                .then(() => {
+                    message.was_read = true;
+                });
+        }
+    };
+
     const deleteHandler = () => {
         setProcessing(true);
         router.delete(route('messages.destroy'), {
@@ -113,8 +124,10 @@ export default function ContactMessagesPage({
             {messages?.length ? (
                 <>
                     {messages.map((message) => (
-                        <Collapsible className="my-1 mx-4" key={message.id}>
-                            <div className="flex gap-2 items-center p-2 w-full bg-teal-200 hover:bg-teal-300">
+                        <Collapsible className="my-1 mx-4" key={message.id}
+                                     onOpenChange={() => markReadHandler(message)}>
+                            <div
+                                className={cn("flex gap-2 items-center p-2 w-full", message.was_read ? "bg-gray-200 hover:bg-gray-300" : "bg-teal-200 hover:bg-teal-300")}>
                                 <Checkbox className="bg-white" checked={selectedIds.includes(message.id)}
                                           onCheckedChange={(state) => state ? selectMessageHandler(message) : deselectMessageHandler(message)}/>
                                 <CollapsibleTrigger className="flex gap-3 w-full items-center">
@@ -129,8 +142,9 @@ export default function ContactMessagesPage({
                                     <ChevronDown className="flex-shrink-0 h-6 w-6"/>
                                 </CollapsibleTrigger>
                             </div>
-                            <CollapsibleContent className="py-3 px-8 bg-teal-100/50">
-                                <blockquote className="mb-2 whitespace-pre">{message.body}</blockquote>
+                            <CollapsibleContent
+                                className={cn("py-3 px-8", message.was_read ? "bg-gray-100/50" : "bg-teal-100/50")}>
+                                <blockquote className="mb-2">{message.body}</blockquote>
                                 {message.ip &&
                                     <p className="text-xs">This message was sent from IP address {message.ip}.</p>}
                                 <ContactMessageRespond message={message}/>

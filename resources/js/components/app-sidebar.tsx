@@ -44,7 +44,7 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Messages',
         href: '/admin/contact',
-        icon: Mail  // TODO if there are unread messages, display the icon differently.
+        icon: Mail
     }
 ];
 

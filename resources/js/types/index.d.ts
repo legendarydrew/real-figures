@@ -117,6 +117,7 @@ export interface ContactMessage {
     body: string;
     sent_at: string;
     is_spam: boolean;
+    was_read: boolean;
 }
 
 export interface ManualVoteRoundChoice {
