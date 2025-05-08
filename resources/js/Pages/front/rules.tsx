@@ -58,9 +58,9 @@ const RulesPage: React.FC = () => {
                 <Collapsible className="border-b" open={isOpen('brief')}
                              onOpenChange={() => toggleHandler('brief')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
                         <Notebook/>
-                        <span className="flex-grow text-left">Contest Brief</span>
+                        <span className="display-text flex-grow text-left">Contest Brief</span>
                         {isOpen('brief') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-5">
@@ -72,9 +72,9 @@ const RulesPage: React.FC = () => {
                 <Collapsible className="border-b" open={isOpen('eligibility')}
                              onOpenChange={() => toggleHandler('eligibility')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
                         <CheckCircle/>
-                        <span className="flex-grow text-left">Eligibility</span>
+                        <span className="display-text flex-grow text-left">Eligibility</span>
                         {isOpen('eligibility') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-5">
@@ -89,9 +89,9 @@ const RulesPage: React.FC = () => {
                 <Collapsible className="border-b" open={isOpen('criteria')}
                              onOpenChange={() => toggleHandler('criteria')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
                         <ListChecks/>
-                        <span className="flex-grow text-left">Song Criteria</span>
+                        <span className="display-text flex-grow text-left">Song Criteria</span>
                         {isOpen('criteria') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-5">
@@ -108,9 +108,9 @@ const RulesPage: React.FC = () => {
                 <Collapsible className="border-b" open={isOpen('knockout-stage')}
                              onOpenChange={() => toggleHandler('knockout-stage')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
                         <GitFork/>
-                        <span className="flex-grow text-left">Stage 1: Knockout Stage</span>
+                        <span className="display-text flex-grow text-left">Stage 1: Knockout Stage</span>
                         {isOpen('knockout-stage') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-5">
@@ -152,9 +152,9 @@ const RulesPage: React.FC = () => {
                 <Collapsible className="border-b" open={isOpen('final-stage')}
                              onOpenChange={() => toggleHandler('final-stage')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
                         <GitFork/>
-                        <span className="flex-grow text-left">Stage 2: Finals</span>
+                        <span className="display-text flex-grow text-left">Stage 2: Finals</span>
                         {isOpen('final-stage') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-5">
@@ -193,9 +193,9 @@ const RulesPage: React.FC = () => {
                 <Collapsible className="border-b" open={isOpen('golden-buzzer')}
                              onOpenChange={() => toggleHandler('golden-buzzer')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
                         <Star className="text-yellow-500"/>
-                        <span className="flex-grow text-left">The Golden Buzzer</span>
+                        <span className="display-text flex-grow text-left">The Golden Buzzer</span>
                         {isOpen('golden-buzzer') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-5">
@@ -223,9 +223,9 @@ const RulesPage: React.FC = () => {
                 <Collapsible className="border-b" open={isOpen('calculation')}
                              onOpenChange={() => toggleHandler('calculation')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
                         <Calculator/>
-                        <span className="flex-grow text-left">How Votes Are Calculated</span>
+                        <span className="display-text flex-grow text-left">How Votes Are Calculated</span>
                         {isOpen('calculation') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-5">
@@ -250,9 +250,9 @@ const RulesPage: React.FC = () => {
                 <Collapsible className="border-b" open={isOpen('situations')}
                              onOpenChange={() => toggleHandler('situations')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center gap-3 text-lg font-semibold p-3 cursor-pointer">
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
                         <ShieldQuestion/>
-                        <span className="flex-grow text-left">Special Situations</span>
+                        <span className="display-text flex-grow text-left">Special Situations</span>
                         {isOpen('situations') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-5">
@@ -275,8 +275,8 @@ const RulesPage: React.FC = () => {
                 <Collapsible open={isOpen('advice')}
                              onOpenChange={() => toggleHandler('advice')}>
                     <CollapsibleTrigger
-                        className="w-full flex justify-between items-center text-lg font-semibold p-3 cursor-pointer">
-                        Advice for Visitors
+                        className="w-full flex justify-between items-center text-lg p-3 cursor-pointer">
+                        <span className="display-text">Advice for Visitors</span>
                         {isOpen('advice') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-5">
