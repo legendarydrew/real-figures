@@ -14,7 +14,7 @@ export const FrontHeader: React.FC = () => {
 
     const showDonateDialog = () => openDialog(DONATE_DIALOG_NAME);
 
-    const linkStyle: string = 'font-display tracking-wide text-sm font-normal leading-normal px-3 py-1.5 hover:underline text-[#1b1b18] dark:text-[#EDEDEC]';
+    const linkStyle: string = 'display-text text-sm leading-normal px-3 py-1.5 hover:underline text-[#1b1b18] dark:text-[#EDEDEC]';
 
     return (
         <header className="border-b-1 py-2 w-full shadow-sm">

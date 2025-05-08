@@ -163,6 +163,10 @@ has the theme configured here.)
         @apply bg-background text-foreground;
     }
 
+    .display-text {
+        @apply font-display font-medium tracking-wide;
+    }
+
     /* Used for converted markdown content. */
     .content h1 {
         @apply font-display text-xl font-semibold;
