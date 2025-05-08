@@ -4,12 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactMessageRequest;
-use App\Http\Requests\ContactMessageResponseRequest;
-use App\Mail\ContactMessageResponse;
 use App\Models\ContactMessage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -55,6 +52,15 @@ class ContactMessagesController extends Controller
             return (bool)$response->json('success');
         }
         return false;
+    }
+
+    public function update(int $message_id): void
+    {
+        // This endpoint is used to mark the specified message as read.
+        $message = ContactMessage::findOrFail($message_id);
+        $message->update([
+            'read_at' => now()
+        ]);
     }
 
     public function destroy(): RedirectResponse
