@@ -7,6 +7,7 @@ import { ActItem } from '@/components/act-item';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { useEffect, useState } from 'react';
 import { ActImage } from '@/components/ui/act-image';
+import { useAnalytics } from '@/hooks/use-analytics';
 
 interface ActsPageProps {
     acts?: Act[];
@@ -16,6 +17,8 @@ interface ActsPageProps {
 const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
 
     const [showCurrentAct, setShowCurrentAct] = useState<boolean>(false);
+
+    const { trackEvent } = useAnalytics();
 
     useEffect(() => {
         setShowCurrentAct(!!currentAct);
@@ -29,6 +32,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
                 preserveUrl: true,
                 onSuccess: () => {
                     setShowCurrentAct(true);
+                    trackEvent({ category: 'Act', action: 'View Profile', label: act.name, nonInteraction: false });
                 },
                 onError: () => {
                     setShowCurrentAct(false);

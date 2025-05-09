@@ -10,7 +10,9 @@ const DialogContext = createContext();
 export function DialogProvider({ children }) {
     const [openDialogName, setOpenDialogName] = useState(null);
 
-    const openDialog = (name) => setOpenDialogName(name);
+    const openDialog = (name) => {
+        setOpenDialogName(name);
+    };
     const closeDialog = () => setOpenDialogName(null);
 
     // SonarLint suggests using useMemo() for context values, to avoid unnecessary rendering.
