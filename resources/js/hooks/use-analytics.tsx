@@ -14,7 +14,15 @@ export function useAnalytics() {
         if (!wasInitialised.current) {
             ReactGA.initialize(analytics.measurement_id, { testMode: analytics.testMode });
             wasInitialised.current = true;
-            console.log('Analytics initialised.');
+        }
+    };
+
+    // Track page views.
+    const trackPageView = (path?: string): void => {
+        path = path ?? window.location.pathname;
+        ReactGA.send({ hitType: "pageview", page: path });
+        if (analytics.testMode) {
+            console.log('track page view', path);
         }
     };
 
@@ -29,5 +37,5 @@ export function useAnalytics() {
         }
     }
 
-    return { initialise, trackEvent } as const;
+    return { initialise, trackEvent, trackPageView } as const;
 }

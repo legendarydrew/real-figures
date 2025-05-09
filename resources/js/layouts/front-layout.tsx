@@ -1,6 +1,6 @@
 import { FrontHeader } from '@/components/front/front-header';
 import { FrontFooter } from '@/components/front/front-footer';
-import { ComponentProps } from 'react';
+import { ComponentProps, useEffect } from 'react';
 import { usePage } from '@inertiajs/react';
 import { DonateDialog } from '@/components/front/donate-dialog';
 import { DialogProvider } from '@/context/dialog-context';
@@ -11,7 +11,14 @@ import { useAnalytics } from '@/hooks/use-analytics';
 export default function FrontLayout({ children }: ComponentProps<never>) {
     const { flash } = usePage().props;
 
-    useAnalytics().initialise();
+    const { initialise, trackPageView } = useAnalytics();
+
+    // Track a page view for the current page.
+    // We can listen for changes to the URL (which feels hacky).
+    useEffect(() => {
+        initialise();
+        trackPageView();
+    }, [window.location.pathname]);
 
     return (
         <DialogProvider>
