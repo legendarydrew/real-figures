@@ -41,6 +41,11 @@ return [
         'slot_id'   => env('ADSENSE_SLOT_ID'),
     ],
 
+    'analytics' => [
+        'measurement_id' => env('ANALYTICS_MEASUREMENT_ID'),
+        'testMode'       => config('app.debug'),
+    ],
+
     'paypal' => [
         'client_id' => env('PAYPAL_CLIENT_ID'),
         'secret' => env('PAYPAL_SECRET'),
