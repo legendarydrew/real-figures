@@ -9,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert } from '@/components/alert';
 import { useDialog } from '@/context/dialog-context';
+import { useAnalytics } from '@/hooks/use-analytics';
 
 interface DonateDialogProps {
     // Dialog properties.
@@ -24,6 +25,7 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
     const isOpen = openDialogName === DONATE_DIALOG_NAME;
 
     const { donation } = usePage().props;
+    const { trackEvent } = useAnalytics();
 
     const [amount, setAmount] = useState<number>(donation.default.general);
     const [message, setMessage] = useState<string>('');
@@ -46,6 +48,7 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
 
     const successHandler = () => {
         setWasSuccessful(true);
+        trackEvent({ category: 'Action', action: 'Donation', value: amount, nonInteraction: false });
     };
 
     const failureHandler = () => {

@@ -23,7 +23,6 @@ const DonationsPage: React.FC<DonationPageProps> = ({ donations, buzzers }) => {
         openDialog(DONATE_DIALOG_NAME);
     };
 
-
     return (
         <>
             <Head title="Donation Wall"/>

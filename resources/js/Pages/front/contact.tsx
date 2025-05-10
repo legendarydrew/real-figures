@@ -10,6 +10,7 @@ import { LoadingButton } from '@/components/ui/loading-button';
 import { Advert } from '@/components/advert';
 import { ChangeEvent } from 'react';
 import { TurnstileWidget } from '@/components/turnstile-widget';
+import { useAnalytics } from '@/hooks/use-analytics';
 
 interface ContactPageProps {
     success: boolean;
@@ -23,6 +24,8 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
         body: '',
         token: ''
     });
+
+    const { trackEvent } = useAnalytics();
 
     const nameChangeHandler = (e: ChangeEvent): void => {
         setData('name', e.target.value);
@@ -48,7 +51,10 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
         if (data.token) {
             post('/api/messages', {
                 only: ['success'],
-                preserveUrl: true
+                preserveUrl: true,
+                onSuccess: () => {
+                    trackEvent({ category: 'Action', action: 'Contact', nonInteraction: false });
+                }
             });
         }
     };

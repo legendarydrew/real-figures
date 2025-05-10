@@ -5,6 +5,7 @@ import { ChangeEvent, useState } from 'react';
 import axios from 'axios';
 import { MailCheck } from 'lucide-react';
 import { Alert } from '@/components/alert';
+import { useAnalytics } from '@/hooks/use-analytics';
 
 export const SubscribePanel: React.FC = ({ ...props }) => {
 
@@ -12,6 +13,8 @@ export const SubscribePanel: React.FC = ({ ...props }) => {
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
     const [hasError, setHasError] = useState<string>('');
     const [wasSuccessful, setWasSuccessful] = useState<boolean>(false);
+
+    const { trackEvent } = useAnalytics();
 
     const emailChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.currentTarget.value);
@@ -30,6 +33,7 @@ export const SubscribePanel: React.FC = ({ ...props }) => {
         axios.post(route('subscribe'), { email })
             .then(() => {
                 setWasSuccessful(true);
+                trackEvent({ category: 'Action', action: 'Subscribe', nonInteraction: false });
             })
             .catch((error) => {
                 console.log(error);

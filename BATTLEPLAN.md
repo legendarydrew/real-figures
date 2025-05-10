@@ -12,10 +12,10 @@ for the self-defined goal of May 20.
 
 ## Analytics
 
-- [ ] Record page visits.
-- [ ] Record donations made.
-- [ ] Record contact messages sent.
-- [ ] Record subscription submissions.
+- [x] Record page visits.
+- [x] Record donations made.
+- [x] Record contact messages sent.
+- [x] Record subscription submissions.
 - [ ] Record subscription confirmations.
 - [ ] Record unsubscribes.
 
