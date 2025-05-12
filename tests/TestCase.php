@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+    protected const string ENDPOINT = '';
     protected User $user;
 
     protected function setUp(): void
