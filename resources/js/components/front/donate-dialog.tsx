@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Alert } from '@/components/alert';
 import { useDialog } from '@/context/dialog-context';
 import { useAnalytics } from '@/hooks/use-analytics';
+import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion';
 
 interface DonateDialogProps {
     // Dialog properties.
@@ -33,9 +34,24 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
     const [wasSuccessful, setWasSuccessful] = useState<boolean>(false);
     const [failed, setFailed] = useState<boolean>(false);
 
+    const confettiSettings: ConfettiProps = {
+        force: 0.9,
+        duration: 3000,
+        particleCount: 250,
+        width: window.innerWidth,
+        colors: [
+            '#0B6623',
+            '#29AB87',
+            '#50C878',
+            '#B2EC5D'
+        ],
+        zIndex: 100
+    };
+
     const amountHandler = (e: ChangeEvent): void => {
         setAmount(parseFloat(e.target.value));
     };
+
     const messageHandler = (e: ChangeEvent): void => {
         setMessage(e.target.value);
     };
@@ -81,7 +97,10 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
                 </DialogDescription>
 
                 {wasSuccessful ? (
-                    <div className="h-1/3 p-10 flex items-center justify-center text-green-600 font-semibold">
+                    <div className="h-1/3 p-10 flex flex-col items-center justify-center text-green-600 font-semibold">
+                        <div className="mx-auto relative">
+                            <ConfettiExplosion {...confettiSettings} />
+                        </div>
                         Thank you for your donation!
                     </div>
                 ) : (
