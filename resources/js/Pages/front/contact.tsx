@@ -61,6 +61,14 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
                 preserveUrl: true,
                 onSuccess: () => {
                     trackEvent({ category: 'Action', action: 'Contact', nonInteraction: false });
+                    if (data.subscribe) {
+                        trackEvent({
+                            category: 'Action',
+                            action: 'Subscribe',
+                            label: 'Contact form',
+                            nonInteraction: false
+                        });
+                    }
                 }
             });
         }
