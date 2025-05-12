@@ -53,8 +53,8 @@ for the self-defined goal of May 20.
 
 ### Donate dialog
 
-- [ ] Reposition the PayPal button to the right of the anonymity checkbox.
-- [ ] Either remove the Cancel button or the close button.
+- [x] Reposition the PayPal button to the right of the anonymity checkbox.
+- [x] Either remove the Cancel button or the close button.
 
 ### Contact page
 
