@@ -47,7 +47,8 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({
         shape: 'rect',
         label: 'paypal',
         layout: 'horizontal',
-        tagline: false
+        tagline: false,
+        disableMaxWidth: true
     };
 
     /**

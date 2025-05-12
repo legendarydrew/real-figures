@@ -108,25 +108,24 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
                             <Textarea id="donationMessage" value={message} onChange={messageHandler} rows={2}/>
                         </div>
 
-                        <div className="flex gap-2 items-center">
-                            <Checkbox id="donationAnonymous" className="bg-white" checked={isAnonymous}
-                                      onCheckedChange={anonymousHandler}/>
-                            <Label htmlFor="donationAnonymous">I would like to remain anonymous.</Label>
-                        </div>
-
                         {failed && (
                             <Alert type="error"
                                    message="Something went wrong with processing your donation, please try again."/>
                         )}
 
-                        <DialogFooter className="items-center md:justify-between md:flex-row-reverse">
+                        <DialogFooter className="mt-0 items-center md:justify-between">
+                            <div className="flex gap-2 items-center">
+                                <Checkbox id="donationAnonymous" className="bg-white" checked={isAnonymous}
+                                          onCheckedChange={anonymousHandler}/>
+                                <Label htmlFor="donationAnonymous">I would like to remain anonymous.</Label>
+                            </div>
+
                             <PaypalButton amount={amount} currency={donation.currency}
                                           additionalData={{ is_anonymous: isAnonymous, message }}
                                           description="Real Figures Don't F.O.L.D donation"
                                           onProcessing={processingHandler}
                                           onSuccess={successHandler}
                                           onFailure={failureHandler}/>
-                            <Button variant="ghost" type="button" onClick={closeDialog}>Cancel</Button>
                         </DialogFooter>
                     </>)}
             </DialogContent>
