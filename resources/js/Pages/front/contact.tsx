@@ -64,16 +64,16 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
             <Head title="Contact"/>
 
             <FrontContent>
-                <Heading title="Contact Us"/>
+                <Heading title="Get in touch!"/>
 
                 <div className="flex flex-col lg:flex-row gap-5">
 
-                    <div className="lg:w-2/5">
-                        <p>Lakers in 🖐!</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur consequuntur distinctio
-                            possimus quis rem, sequi suscipit totam vel! Cum distinctio earum id itaque iusto laborum
-                            non
-                            reprehenderit sunt ut voluptatum!</p>
+                    <div className="lg:w-2/5 content">
+                        <p>Have a question about the contest? Want to know more about the voting process, submissions,
+                            or Golden Buzzer? We’d love to hear from you!</p>
+                        <p>Fill out the form and we'll get back to you as soon as we can.</p>
+                        <p>Whether you're an artist, a voter, a supporter, or just curious &ndash; we’re all ears.</p>
+                        <p className="italic">Music connects us... so don't be shy!</p>
 
                         <Advert className="max-h-[12rem]"/>
                     </div>
