@@ -11,6 +11,7 @@ import { Advert } from '@/components/advert';
 import { ChangeEvent } from 'react';
 import { TurnstileWidget } from '@/components/turnstile-widget';
 import { useAnalytics } from '@/hooks/use-analytics';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface ContactPageProps {
     success: boolean;
@@ -22,6 +23,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
         name: '',
         email: '',
         body: '',
+        subscribe: false,
         token: ''
     });
 
@@ -41,6 +43,11 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
         setData('body', e.target.value);
         setError('body', '');
     };
+
+    const subscribeChangeHandler = (value: boolean): void => {
+        setData('subscribe', value);
+    };
+
     const verifyHandler = (token: string): void => {
         setData('token', token);
     };
@@ -106,6 +113,11 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
                                     <Textarea id="contactName" rows={8} placeholder="Your message" value={data.body}
                                               onChange={bodyChangeHandler} disabled={processing}/>
                                     <InputError message={errors.body}/>
+                                </div>
+
+                                <div className="flex gap-2 items-center">
+                                    <Checkbox id="contactSubscribe" onCheckedChange={subscribeChangeHandler}/>
+                                    <Label htmlFor="contactSubscribe">I'd like updates about the contest.</Label>
                                 </div>
 
                                 <TurnstileWidget onVerify={verifyHandler}/>
