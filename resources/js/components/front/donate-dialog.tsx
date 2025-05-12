@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Alert } from '@/components/alert';
 import { useDialog } from '@/context/dialog-context';
 import { useAnalytics } from '@/hooks/use-analytics';
+import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion';
 
 interface DonateDialogProps {
     // Dialog properties.
@@ -32,6 +33,24 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
     const [isAnonymous, setIsAnonymous] = useState<boolean>(false);
     const [wasSuccessful, setWasSuccessful] = useState<boolean>(false);
     const [failed, setFailed] = useState<boolean>(false);
+
+    const confettiSettings: ConfettiProps = {
+        force: 0.9,
+        duration: 3000,
+        particleCount: 250,
+        width: window.innerWidth,
+        colors: [
+            '#0B6623',
+            '#29AB87',
+            '#50C878',
+            '#B2EC5D'
+        ],
+        zIndex: 100
+    };
+
+    const amountHandler = (e: ChangeEvent): void => {
+        setAmount(parseFloat(e.target.value));
+    };
 
     const messageHandler = (e: ChangeEvent): void => {
         setMessage(e.target.value);
@@ -78,7 +97,10 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
                 </DialogDescription>
 
                 {wasSuccessful ? (
-                    <div className="h-1/3 p-10 flex items-center justify-center text-green-600 font-semibold">
+                    <div className="h-1/3 p-10 flex flex-col items-center justify-center text-green-600 font-semibold">
+                        <div className="mx-auto relative">
+                            <ConfettiExplosion {...confettiSettings} />
+                        </div>
                         Thank you for your donation!
                     </div>
                 ) : (
@@ -94,8 +116,8 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
                                 <div className="ml-2 flex items-center">
                                     <Input
                                         className="bg-white w-[5rem] border-green-500 text-green-800 font-semibold text-right text-lg"
-                                        id="donationAmount" type="number" value={amount}
-                                        onChange={setAmount}/>
+                                        id="donationAmount" type="number" value={amount} min="1"
+                                        onChange={amountHandler}/>
                                     <span
                                         className="p-1 font-semibold text-base">{donation.currency}</span>
                                 </div>
@@ -108,25 +130,24 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
                             <Textarea id="donationMessage" value={message} onChange={messageHandler} rows={2}/>
                         </div>
 
-                        <div className="flex gap-2 items-center">
-                            <Checkbox id="donationAnonymous" className="bg-white" checked={isAnonymous}
-                                      onCheckedChange={anonymousHandler}/>
-                            <Label htmlFor="donationAnonymous">I would like to remain anonymous.</Label>
-                        </div>
-
                         {failed && (
                             <Alert type="error"
                                    message="Something went wrong with processing your donation, please try again."/>
                         )}
 
-                        <DialogFooter className="items-center md:justify-between md:flex-row-reverse">
+                        <DialogFooter className="mt-0 items-center md:justify-between">
+                            <div className="flex gap-2 items-center">
+                                <Checkbox id="donationAnonymous" className="bg-white" checked={isAnonymous}
+                                          onCheckedChange={anonymousHandler}/>
+                                <Label htmlFor="donationAnonymous">I would like to remain anonymous.</Label>
+                            </div>
+
                             <PaypalButton amount={amount} currency={donation.currency}
                                           additionalData={{ is_anonymous: isAnonymous, message }}
                                           description="Real Figures Don't F.O.L.D donation"
                                           onProcessing={processingHandler}
                                           onSuccess={successHandler}
                                           onFailure={failureHandler}/>
-                            <Button variant="ghost" type="button" onClick={closeDialog}>Cancel</Button>
                         </DialogFooter>
                     </>)}
             </DialogContent>

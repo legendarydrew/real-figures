@@ -47,7 +47,8 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({
         shape: 'rect',
         label: 'paypal',
         layout: 'horizontal',
-        tagline: false
+        tagline: false,
+        disableMaxWidth: true
     };
 
     /**
@@ -55,6 +56,11 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({
      * If successful, the order information is returned.
      */
     const createOrderHandler: PayPalButtonsComponentProps['createOrder'] = async (_, actions) => {
+        // Don't do anything if we have an invalid amount.
+        if (isNaN(amount) || amount <= 0) {
+            return;
+        }
+
         if (onProcessing) {
             onProcessing();
         }
