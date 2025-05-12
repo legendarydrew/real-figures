@@ -110,7 +110,8 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
 
                                 <div>
                                     <Label className="sr-only" htmlFor="contactName">Your message</Label>
-                                    <Textarea id="contactName" rows={8} placeholder="Your message" value={data.body}
+                                    <Textarea id="contactName" rows={8} placeholder="Your message (min. 20 characters)"
+                                              value={data.body}
                                               onChange={bodyChangeHandler} disabled={processing}/>
                                     <InputError message={errors.body}/>
                                 </div>
