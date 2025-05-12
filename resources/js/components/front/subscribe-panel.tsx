@@ -33,7 +33,7 @@ export const SubscribePanel: React.FC = ({ ...props }) => {
         axios.post(route('subscribe'), { email })
             .then(() => {
                 setWasSuccessful(true);
-                trackEvent({ category: 'Action', action: 'Subscribe', nonInteraction: false });
+                trackEvent({ category: 'Action', action: 'Subscribe', label: 'Panel', nonInteraction: false });
             })
             .catch((error) => {
                 console.log(error);

@@ -58,8 +58,8 @@ for the self-defined goal of May 20.
 
 ### Contact page
 
-- [ ] Text content.
-- [ ] Add an advert.
+- [x] Text content.
+- [x] Add an advert.
 
 ### Donations/Donor Wall page
 

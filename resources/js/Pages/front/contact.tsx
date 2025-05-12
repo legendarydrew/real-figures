@@ -11,6 +11,7 @@ import { Advert } from '@/components/advert';
 import { ChangeEvent } from 'react';
 import { TurnstileWidget } from '@/components/turnstile-widget';
 import { useAnalytics } from '@/hooks/use-analytics';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface ContactPageProps {
     success: boolean;
@@ -22,6 +23,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
         name: '',
         email: '',
         body: '',
+        subscribe: false,
         token: ''
     });
 
@@ -41,6 +43,11 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
         setData('body', e.target.value);
         setError('body', '');
     };
+
+    const subscribeChangeHandler = (value: boolean): void => {
+        setData('subscribe', value);
+    };
+
     const verifyHandler = (token: string): void => {
         setData('token', token);
     };
@@ -54,6 +61,14 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
                 preserveUrl: true,
                 onSuccess: () => {
                     trackEvent({ category: 'Action', action: 'Contact', nonInteraction: false });
+                    if (data.subscribe) {
+                        trackEvent({
+                            category: 'Action',
+                            action: 'Subscribe',
+                            label: 'Contact form',
+                            nonInteraction: false
+                        });
+                    }
                 }
             });
         }
@@ -64,16 +79,16 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
             <Head title="Contact"/>
 
             <FrontContent>
-                <Heading title="Contact Us"/>
+                <Heading title="Get in touch!"/>
 
                 <div className="flex flex-col lg:flex-row gap-5">
 
-                    <div className="lg:w-2/5">
-                        <p>Lakers in 🖐!</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur consequuntur distinctio
-                            possimus quis rem, sequi suscipit totam vel! Cum distinctio earum id itaque iusto laborum
-                            non
-                            reprehenderit sunt ut voluptatum!</p>
+                    <div className="lg:w-2/5 content">
+                        <p>Have a question about the contest? Want to know more about the voting process, submissions,
+                            or Golden Buzzer? We’d love to hear from you!</p>
+                        <p>Fill out the form and we'll get back to you as soon as we can.</p>
+                        <p>Whether you're an artist, a voter, a supporter, or just curious &ndash; we’re all ears.</p>
+                        <p className="italic">Music connects us... so don't be shy!</p>
 
                         <Advert className="max-h-[12rem]"/>
                     </div>
@@ -103,9 +118,15 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
 
                                 <div>
                                     <Label className="sr-only" htmlFor="contactName">Your message</Label>
-                                    <Textarea id="contactName" rows={8} placeholder="Your message" value={data.body}
+                                    <Textarea id="contactName" rows={8} placeholder="Your message (min. 20 characters)"
+                                              value={data.body}
                                               onChange={bodyChangeHandler} disabled={processing}/>
                                     <InputError message={errors.body}/>
+                                </div>
+
+                                <div className="flex gap-2 items-center">
+                                    <Checkbox id="contactSubscribe" onCheckedChange={subscribeChangeHandler}/>
+                                    <Label htmlFor="contactSubscribe">I'd like updates about the contest.</Label>
                                 </div>
 
                                 <TurnstileWidget onVerify={verifyHandler}/>

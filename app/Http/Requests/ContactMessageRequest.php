@@ -15,10 +15,11 @@ class ContactMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'  => ['required', 'string'],
-            'email' => ['required', 'string', 'email'],
-            'body'  => ['required', 'string', 'min:20'],
-            'token' => ['required', 'string', 'max:2048'],
+            'name'      => ['required', 'string'],
+            'email'     => ['required', 'string', 'email'],
+            'body'      => ['required', 'string', 'min:20'],
+            'subscribe' => ['boolean'],
+            'token'     => ['required', 'string', 'max:2048'],
         ];
     }
 }

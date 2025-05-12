@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers\ContactMessages;
 
 use App\Models\ContactMessage;
+use App\Models\Subscriber;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Http;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -14,7 +15,7 @@ class StoreTest extends TestCase
     use DatabaseMigrations;
     use HasInertia;
 
-    private const string ENDPOINT = 'api/messages';
+    protected const string ENDPOINT = 'api/messages';
 
     private array $payload;
 
@@ -36,7 +37,7 @@ class StoreTest extends TestCase
         // https://stackoverflow.com/a/72342214/4073160
         // https://laravel.com/docs/9.x/http-client#faking-specific-urls
         Http::fake([
-            '*' => Http::response(['success' => true])
+            'https://challenges.cloudflare.com/*' => Http::response(['success' => true])
         ]);
 
         $response = $this->postJson(self::ENDPOINT, $this->payload);
@@ -53,7 +54,7 @@ class StoreTest extends TestCase
     public function test_failed_verify()
     {
         Http::fake([
-            '*' => Http::response(['success' => false])
+            'https://challenges.cloudflare.com/*' => Http::response(['success' => false])
         ]);
 
         $response = $this->postJson(self::ENDPOINT, $this->payload);
@@ -67,4 +68,54 @@ class StoreTest extends TestCase
         self::assertTrue((bool)$message->is_spam);
     }
 
+    public function test_subscribe_false()
+    {
+        Http::fake([
+            'https://challenges.cloudflare.com/*' => Http::response(['success' => true])
+        ]);
+
+        $response = $this->postJson(self::ENDPOINT, $this->payload);
+        $response->assertSuccessful();
+
+        $subscription = Subscriber::whereEmail($this->payload['email'])->first();
+        self::assertNull($subscription);
+
+        $this->payload['subscribe'] = false;
+        $response                   = $this->postJson(self::ENDPOINT, $this->payload);
+        $response->assertSuccessful();
+
+        $subscription = Subscriber::whereEmail($this->payload['email'])->first();
+        self::assertNull($subscription);
+    }
+
+    public function test_subscribe_true()
+    {
+        Http::fake([
+            'https://challenges.cloudflare.com/*' => Http::response(['success' => true])
+        ]);
+
+        $this->payload['subscribe'] = true;
+        $response                   = $this->postJson(self::ENDPOINT, $this->payload);
+        $response->assertSuccessful();
+
+        $subscription = Subscriber::whereEmail($this->payload['email'])->first();
+
+        self::assertInstanceOf(Subscriber::class, $subscription);
+        self::assertFalse((bool)$subscription->confirmed);
+    }
+
+    public function test_already_subscribed()
+    {
+        Http::fake([
+            'https://challenges.cloudflare.com/*' => Http::response(['success' => true])
+        ]);
+
+        $this->payload['subscribe'] = true;
+        $response                   = $this->postJson(self::ENDPOINT, $this->payload);
+        $response->assertSuccessful();
+
+        $subscription = Subscriber::whereEmail($this->payload['email'])->first();
+
+        self::assertInstanceOf(Subscriber::class, $subscription);
+    }
 }

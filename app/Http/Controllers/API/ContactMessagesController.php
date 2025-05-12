@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactMessageRequest;
+use App\Http\Requests\SubscriberRequest;
 use App\Models\ContactMessage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
@@ -13,6 +14,12 @@ use Inertia\Response;
 class ContactMessagesController extends Controller
 {
 
+    /**
+     * Create a new Contact Message.
+     *
+     * @param ContactMessageRequest $request
+     * @return Response
+     */
     public function store(ContactMessageRequest $request): Response
     {
         $data = $request->validated();
@@ -24,6 +31,13 @@ class ContactMessagesController extends Controller
             'is_spam' => !$this->validateResponse($data['token']),
             'ip'      => request()->ip(),
         ]);
+
+        if ($data['subscribe'] ?? false)
+        {
+            // Use the subscribe endpoint to subscribe the email address.
+            // (This is one way of doing this, but a more practical way would be to use a service.)
+            (new SubscribersController())->store(new SubscriberRequest(['email' => $data['email']]));
+        }
 
         return Inertia::render('front/contact', [
             'success' => true,
