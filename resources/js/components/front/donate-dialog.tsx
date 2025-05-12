@@ -33,6 +33,9 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
     const [wasSuccessful, setWasSuccessful] = useState<boolean>(false);
     const [failed, setFailed] = useState<boolean>(false);
 
+    const amountHandler = (e: ChangeEvent): void => {
+        setAmount(parseFloat(e.target.value));
+    };
     const messageHandler = (e: ChangeEvent): void => {
         setMessage(e.target.value);
     };
@@ -94,8 +97,8 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
                                 <div className="ml-2 flex items-center">
                                     <Input
                                         className="bg-white w-[5rem] border-green-500 text-green-800 font-semibold text-right text-lg"
-                                        id="donationAmount" type="number" value={amount}
-                                        onChange={setAmount}/>
+                                        id="donationAmount" type="number" value={amount} min="1"
+                                        onChange={amountHandler}/>
                                     <span
                                         className="p-1 font-semibold text-base">{donation.currency}</span>
                                 </div>
