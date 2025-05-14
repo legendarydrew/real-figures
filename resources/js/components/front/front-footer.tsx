@@ -92,6 +92,8 @@ export const FrontFooter: React.FC = () => {
                             Records logo, "Real Figures Don't F.O.L.D", "F.O.L.D", act names and character
                             designs are &copy; Drew Maughan (SilentMode).
                         </p>
+                        <p>LEGO is a registered trademark of The LEGO Group, which has no involvement with ths
+                            project.</p>
                         <p>
                             Designed and developed by Perfect Zero Labs. <Link className="font-semibold hover:underline"
                                                                                href="https://www.youtube.com/watch?v=4paaA69PFPk"

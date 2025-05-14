@@ -35,8 +35,8 @@ for the self-defined goal of May 20.
 ### Credits dialog
 
 - [ ] Graphic to replace the placeholder.
-- [ ] Update the credits to include all AI services used and their contexts.
-- [ ] Add the disclaimer about LEGO not being part of the project.
+- [x] Update the credits to include all AI services used and their contexts.
+- [x] Add the disclaimer about LEGO not being part of the project.
 
 ### About
 
