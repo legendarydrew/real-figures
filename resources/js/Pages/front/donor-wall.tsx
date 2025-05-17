@@ -11,12 +11,12 @@ import { DONATE_DIALOG_NAME } from '@/components/front/donate-dialog';
 import { Button } from '@/components/ui/button';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 
-interface DonationPageProps {
+interface DonorWallPageProps {
     donations: Donation[];
     buzzers: Donation[];
 }
 
-const DonationsPage: React.FC<DonationPageProps> = ({ donations, buzzers }) => {
+const DonorWallPage: React.FC<DonorWallPageProps> = ({ donations, buzzers }) => {
 
     const { openDialog } = useDialog();
 
@@ -104,6 +104,6 @@ const DonationsPage: React.FC<DonationPageProps> = ({ donations, buzzers }) => {
     )
 }
 
-DonationsPage.layout = (page) => <FrontLayout>{page}</FrontLayout>;
+DonorWallPage.layout = (page) => <FrontLayout>{page}</FrontLayout>;
 
-export default DonationsPage;
+export default DonorWallPage;
