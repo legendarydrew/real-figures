@@ -13,10 +13,11 @@ export const FrontFooter: React.FC = () => {
     const closeDialog = () => setIsOpen(false);
 
     return (
-        <footer className="py-1 px-5 text-xs text-center">
+        <footer className="py-2 md:py-1 px-5 text-xs text-center">
             <div className="max-w-5xl mx-auto">
                 Copyright &copy; Drew Maughan (SilentMode), all rights reserved.
-                <Button variant="link" className="text-xs py-0" onClick={() => setIsOpen(true)}>Full credits</Button>
+                <Button variant="link" className="text-xs py-0 lh-none h-auto" onClick={() => setIsOpen(true)}>Full
+                    credits</Button>
             </div>
 
             <Dialog open={isOpen} onOpenChange={closeDialog}>
