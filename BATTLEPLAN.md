@@ -28,8 +28,8 @@ for the self-defined goal of May 20.
 - [ ] Graphic for Golden Buzzer banner.
 - [ ] [optional] Graphics for the contest outline columns.
 - [ ] Graphic for the about the contest banner.
-- [ ] Text content for the about the contest banner.
-- [ ] What else should go in the about the contest banner (the placeholder)?
+- [x] Text content for the about the contest banner.
+- [x] What else should go in the about the contest banner (the placeholder)?
 - [ ] Update the appearance of the Donor Wall section.
 
 ### Credits dialog
