@@ -37,8 +37,8 @@ const RulesPage: React.FC = () => {
             <FrontContent>
                 <Heading title="Real Figures Don't F.O.L.D &ndash; Contest Rules"/>
 
-                <div className="flex mb-5 gap-10">
-                    <div className="w-3/5 content">
+                <div className="flex flex-col-reverse md:flex-row mb-5 gap-5 mb:gap-10">
+                    <div className="md:w-3/5 content">
                         <p className="text-lg">
                             Welcome to the first-ever CATAWOL Records Song Contest!
                         </p>
@@ -50,7 +50,7 @@ const RulesPage: React.FC = () => {
                             And we need <b>your votes</b> to help decide which song becomes the <b>official anthem!</b>
                         </p>
                     </div>
-                    <div className="w-2/5">
+                    <div className="md:w-2/5">
                         <PlaceholderPattern className="w-full stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
                     </div>
                 </div>
@@ -63,7 +63,7 @@ const RulesPage: React.FC = () => {
                         <span className="display-text flex-grow text-left">Contest Brief</span>
                         {isOpen('brief') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pb-5 px-5">
+                    <CollapsibleContent className="content pb-5 px-2 md:px-5">
                         <p>Create an original song using lyrics written by the MODE Family’s <b>Sigfig</b>.</p>
                         <p>The goal: <b>raising awareness of bullying in adult environments</b> through music.</p>
                     </CollapsibleContent>
@@ -77,7 +77,7 @@ const RulesPage: React.FC = () => {
                         <span className="display-text flex-grow text-left">Eligibility</span>
                         {isOpen('eligibility') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pb-5 px-5">
+                    <CollapsibleContent className="content pb-5 px-2 md:px-5">
                         <ul>
                             <li>Entry is open to all Acts currently signed with <b>CATAWOL Records</b>.</li>
                             <li>Acts must remain signed with CATAWOL Records throughout the Contest.</li>
@@ -94,7 +94,7 @@ const RulesPage: React.FC = () => {
                         <span className="display-text flex-grow text-left">Song Criteria</span>
                         {isOpen('criteria') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pb-5 px-5">
+                    <CollapsibleContent className="content pb-5 px-2 md:px-5">
                         <ul>
                             <li>Songs must respect the original lyrics (minor adjustments allowed for flow or
                                 grammar).
@@ -113,7 +113,7 @@ const RulesPage: React.FC = () => {
                         <span className="display-text flex-grow text-left">Stage 1: Knockout Stage</span>
                         {isOpen('knockout-stage') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pb-5 px-5">
+                    <CollapsibleContent className="content pb-5 px-2 md:px-5">
                         <HeadingSmall title="Submissions"/>
                         <ul>
                             <li>Each Act submits a Song using the provided lyrics.</li>
@@ -157,7 +157,7 @@ const RulesPage: React.FC = () => {
                         <span className="display-text flex-grow text-left">Stage 2: Finals</span>
                         {isOpen('final-stage') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pb-5 px-5">
+                    <CollapsibleContent className="content pb-5 px-2 md:px-5">
                         <HeadingSmall title="Resubmission"/>
                         <ul>
                             <li>Acts must submit an <b>updated version</b> of their Song.</li>
@@ -198,7 +198,7 @@ const RulesPage: React.FC = () => {
                         <span className="display-text flex-grow text-left">The Golden Buzzer</span>
                         {isOpen('golden-buzzer') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pb-5 px-5">
+                    <CollapsibleContent className="content pb-5 px-2 md:px-5">
                         <p>Want to give a Song an extra boost? Hit the <b className="text-yellow-500">Golden
                             Buzzer</b>!</p>
                         <ul>
@@ -228,7 +228,7 @@ const RulesPage: React.FC = () => {
                         <span className="display-text flex-grow text-left">How Votes Are Calculated</span>
                         {isOpen('calculation') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pb-5 px-5">
+                    <CollapsibleContent className="content pb-5 px-2 md:px-5">
                         <ul>
                             <li>1st choice vote = <b>4 points</b></li>
                             <li>2nd choice vote = <b>2 points</b></li>
@@ -255,7 +255,7 @@ const RulesPage: React.FC = () => {
                         <span className="display-text flex-grow text-left">Special Situations</span>
                         {isOpen('situations') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pb-5 px-5">
+                    <CollapsibleContent className="content pb-5 px-2 md:px-5">
 
                         <HeadingSmall title="Tied votes"/>
                         <p>In the rare event of a tie:</p>
@@ -279,7 +279,7 @@ const RulesPage: React.FC = () => {
                         <span className="display-text">Advice for Visitors</span>
                         {isOpen('advice') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pb-5 px-5">
+                    <CollapsibleContent className="content pb-5 px-2 md:px-5">
                         <ul>
                             <li><b>Vote for the Songs you love the most</b>, not just the ones you think will win.</li>
                             <li><b>Support your favourites with a Golden Buzzer</b> or by donating to help the Contest
