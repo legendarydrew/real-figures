@@ -7,9 +7,7 @@ import { SubscribePanel } from '@/components/front/subscribe-panel';
 export default function AboutBanner() {
 
     const moreInfoHandler = () => {
-        router.visit('about', {
-            preserveScroll: false
-        });
+        router.visit('about');
     };
 
     return (

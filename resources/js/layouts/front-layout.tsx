@@ -25,7 +25,7 @@ export default function FrontLayout({ children }: ComponentProps<never>) {
             <div
                 className="flex h-screen flex-col items-center bg-[#FDFDFC] text-[#1b1b18] lg:justify-center dark:bg-[#0a0a0a]">
                 <FrontHeader/>
-                <main className="flex-grow w-full overflow-y-auto">
+                <main className="flex-grow w-full overflow-y-auto" scroll-region="">
                     {flash?.message && (
                         <div className="alert">{flash.message}</div>
                     )}
