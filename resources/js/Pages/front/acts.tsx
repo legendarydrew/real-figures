@@ -62,15 +62,16 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
 
                 <Dialog open={showCurrentAct}
                         onOpenChange={() => setShowCurrentAct(false)}>
-                    <DialogContent className="lg:max-w-3xl">
+                    <DialogContent className="md:max-w-2xl lg:max-w-3xl">
                         <DialogDescription className="sr-only">Information about {currentAct?.name}.</DialogDescription>
-                        <div className="flex gap-5">
-                            <div className="w-1/3">
+                        <div
+                            className="flex flex-col overflow-y-auto max-h-[80dvh] md:flex-row md:overflow-visible md:max-h-none gap-5">
+                            <div className="md:w-1/3">
                                 <ActImage act={currentAct} size="full"/>
                             </div>
-                            <div className="w-2/3">
+                            <div className="md:w-2/3">
                                 <DialogTitle className="text-2xl mb-2">{currentAct?.name}</DialogTitle>
-                                <div className="content h-[50dvh] overflow-y-auto text-sm leading-normal"
+                                <div className="content md:h-[50dvh] md:overflow-y-auto text-sm leading-normal"
                                      dangerouslySetInnerHTML={{ __html: currentAct?.profileContent?.description }}/>
                                 {/* https://react.dev/reference/react-dom/components/common#dangerously-setting-the-inner-html */}
                             </div>
