@@ -63,9 +63,9 @@ for the self-defined goal of May 20.
 
 ### Donations/Donor Wall page
 
-- [ ] Decide what to call it! (Donations or Donor Wall)
-- [ ] Talk about what the donations will be used for.
-- [ ] Talk about how people can contribute non-financially.
+- [x] Decide what to call it! (Donations or Donor Wall)
+- [x] Talk about what the donations will be used for.
+- [x] Talk about how people can contribute non-financially.
 
 ## Back office
 
