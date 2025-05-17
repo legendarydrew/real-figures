@@ -41,18 +41,18 @@ const DonationsPage: React.FC<DonationPageProps> = ({ donations, buzzers }) => {
                     </Button>
                 </div>
 
-                <div className="flex gap-5">
+                <div className="flex flex-col lg:flex-row gap-5">
 
-                    <div className="lg:w-2/3 rounded-md bg-green-100">
+                    <div className="w-full lg:w-2/3 rounded-md bg-green-100">
                         <h2 className="bg-green-300 text-xl font-semibold px-3 py-1.5 rounded-t-md">Generous
                             Donations</h2>
                         {donations.length ? (
                             <ul className="text-sm flex flex-wrap overflow-y-auto max-h-[50dvh] px-3 py-2">
                                 {donations.map((donation) => (
                                     <li key={donation.id}
-                                        className="lg:w-1/2 flex justify-between items-center gap-3 rounded-sm hover:bg-green-200 px-2 py-0.5 select-none">
+                                        className="w-full lg:w-1/2 flex justify-between items-center gap-3 rounded-sm hover:bg-green-200 px-2 py-0.5 select-none">
                                     <span
-                                        className={cn("flex-grow", donation.is_anonymous ? "italic" : "font-semibold")}>{donation.name}</span>
+                                        className={cn("flex-grow truncate", donation.is_anonymous ? "italic" : "font-semibold")}>{donation.name}</span>
                                         <span className="text-xs text-right">{donation.created_at}</span>
                                     </li>
                                 ))}
@@ -62,13 +62,13 @@ const DonationsPage: React.FC<DonationPageProps> = ({ donations, buzzers }) => {
                         )}
                     </div>
 
-                    <div className="lg:w-1/3 rounded-md bg-yellow-100">
-                        <h2 className="bg-yellow-300 text-xl font-semibold px-3 py-1.5 rounded-t-md">Golden Buzzers</h2>
+                    <div className="w-full lg:w-1/3 rounded-md bg-amber-100">
+                        <h2 className="bg-amber-300 text-xl font-semibold px-3 py-1.5 rounded-t-md">Golden Buzzers</h2>
                         {buzzers.length ? (
                             <ul className="text-sm flex flex-wrap overflow-y-auto max-h-[50dvh] px-3 py-2">
                                 {buzzers.map((donation) => (
                                     <li key={donation.id}
-                                        className="w-full flex justify-between items-center gap-3 rounded-sm hover:bg-yellow-200 px-2 py-0.5 select-none">
+                                        className="w-full flex justify-between items-center gap-3 rounded-sm hover:bg-amber-200 px-2 py-0.5 select-none">
                                         <span
                                             className={cn("flex-grow", donation.is_anonymous ? "italic" : "font-semibold")}>{donation.name}</span>
                                         <span className="text-xs text-right">{donation.created_at}</span>
@@ -76,7 +76,7 @@ const DonationsPage: React.FC<DonationPageProps> = ({ donations, buzzers }) => {
                                 ))}
                             </ul>
                         ) : (
-                            <Nothing>Will you be the first to hit a Golden Buzzer?</Nothing>
+                            <Nothing className="text-amber-900">Will you be the first to hit a Golden Buzzer?</Nothing>
                         )}
                     </div>
 
