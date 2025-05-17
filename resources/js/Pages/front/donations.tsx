@@ -9,6 +9,7 @@ import { Advert } from '@/components/advert';
 import { useDialog } from '@/context/dialog-context';
 import { DONATE_DIALOG_NAME } from '@/components/front/donate-dialog';
 import { Button } from '@/components/ui/button';
+import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 
 interface DonationPageProps {
     donations: Donation[];
@@ -30,15 +31,24 @@ const DonationsPage: React.FC<DonationPageProps> = ({ donations, buzzers }) => {
             <FrontContent>
                 <Heading title="Donation Wall"/>
 
-                <div className="content mb-8">
-                    <p className="text-lg">
-                        <b>A huge thank you</b> to these generous people for making a donation to SilentMode and/or this
-                        project.
-                    </p>
+                <div className="flex flex-col-reverse md:flex-row gap-5 mb-8">
+                    <div className="content md:w-3/5">
+                        <p>
+                            <b>Consider supporting the contest by making a donation.</b>
+                        </p>
+                        <p>All the money raised will go toward:</p>
+                        <ul className="list-disc">
+                            <li>the costs associated with building and maintaining the site;</li>
+                            <li>supporting our Acts by helping them make music;</li>
+                            <li>supporting the MODE Family in their time of need.</li>
+                        </ul>
+                        <Button size="lg" className="bg-green-600 hover:bg-green-700 w-full lg:w-1/2" type="button"
+                                onClick={showDonateDialog}>
+                            Make a donation
+                        </Button>
+                    </div>
 
-                    <Button size="lg" className="bg-green-700" type="button" onClick={showDonateDialog}>
-                        Make a donation
-                    </Button>
+                    <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20"/>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-5">
@@ -47,16 +57,21 @@ const DonationsPage: React.FC<DonationPageProps> = ({ donations, buzzers }) => {
                         <h2 className="bg-green-300 text-xl font-semibold px-3 py-1.5 rounded-t-md">Generous
                             Donations</h2>
                         {donations.length ? (
-                            <ul className="text-sm flex flex-wrap overflow-y-auto max-h-[50dvh] px-3 py-2">
-                                {donations.map((donation) => (
-                                    <li key={donation.id}
-                                        className="w-full lg:w-1/2 flex justify-between items-center gap-3 rounded-sm hover:bg-green-200 px-2 py-0.5 select-none">
+                            <>
+                                <p className="px-3 py-1">
+                                    <b>A huge thank you</b> to these generous people for donating to the project:
+                                </p>
+                                <ul className="text-sm flex flex-wrap overflow-y-auto max-h-[50dvh] px-3 py-2">
+                                    {donations.map((donation) => (
+                                        <li key={donation.id}
+                                            className="w-full md:w-1/2 flex justify-between items-center gap-3 rounded-sm hover:bg-green-200 px-2 py-0.5 select-none">
                                     <span
                                         className={cn("flex-grow truncate", donation.is_anonymous ? "italic" : "font-semibold")}>{donation.name}</span>
-                                        <span className="text-xs text-right">{donation.created_at}</span>
-                                    </li>
-                                ))}
-                            </ul>
+                                            <span className="text-xs text-right">{donation.created_at}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </>
                         ) : (
                             <Nothing>Be the first to make a donation!</Nothing>
                         )}
