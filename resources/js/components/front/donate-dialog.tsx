@@ -36,7 +36,7 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
 
     const confettiSettings: ConfettiProps = {
         force: 0.9,
-        duration: 3000,
+        duration: 5000,
         particleCount: 250,
         width: window.innerWidth,
         colors: [
@@ -97,7 +97,8 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
                 </DialogDescription>
 
                 {wasSuccessful ? (
-                    <div className="h-1/3 p-10 flex flex-col items-center justify-center text-green-600 font-semibold">
+                    <div
+                        className="h-1/3 p-10 flex flex-col text-center items-center justify-center text-green-600 font-semibold">
                         <div className="mx-auto relative">
                             <ConfettiExplosion {...confettiSettings} />
                         </div>
@@ -105,12 +106,13 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
                     </div>
                 ) : (
                     <>
-                        <div className="flex gap-3 justify-between items-center py-2 px-5 bg-green-200 rounded-sm">
+                        <div
+                            className="flex flex-col lg:flex-row gap-3 justify-between items-center py-2 px-5 bg-green-200 rounded-sm">
                             <Label htmlFor="donationAmount">I would like to donate</Label>
 
                             <div className="flex gap-1 items-center">
                                 {donation.options.map((value) => (
-                                    <Button key={value} variant="secondary" type="button"
+                                    <Button className="max-sm:hidden" key={value} variant="secondary" type="button"
                                             onClick={() => setAmount(value)}>{value}</Button>
                                 ))}
                                 <div className="ml-2 flex items-center">
@@ -124,7 +126,7 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
                             </div>
                         </div>
 
-                        <div className="flex-grow">
+                        <div className="flex-grow max-sm:hidden">
                             <Label className="mb-2" htmlFor="donationMessage">A message for SilentMode <small
                                 className="font-normal">(optional)</small></Label>
                             <Textarea id="donationMessage" value={message} onChange={messageHandler} rows={2}/>

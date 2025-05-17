@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 
 export const Nothing: React.FC = ({ children, className, ...props }) => {
 
-    const nothingClasses = 'px-10 py-4 flex items-center justify-center italic text-base text-muted-foreground';
+    const nothingClasses = 'px-10 py-4 flex text-center items-center justify-center italic text-base text-muted-foreground';
 
     return (
         <div className={cn(nothingClasses, className)} {...props}>

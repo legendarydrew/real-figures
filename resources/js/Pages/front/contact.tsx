@@ -131,8 +131,9 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
 
                                 <TurnstileWidget onVerify={verifyHandler}/>
 
-                                <div className="flex justify-between">
-                                    <p className="text-sm">Your details will not be shared with anyone.</p>
+                                <div className="flex flex-col gap-3 lg:flex-row justify-between lg:items-center">
+                                    <p className="text-sm text-center lg:text-left">Your details will not be shared with
+                                        anyone.</p>
                                     <LoadingButton size="lg" type="submit" disabled={!data.token}
                                                    isLoading={processing}>Send
                                         Message</LoadingButton>

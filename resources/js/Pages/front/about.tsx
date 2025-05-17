@@ -28,9 +28,8 @@ const AboutPage: React.FC = () => {
             <FrontContent>
                 <Heading title="Real Figures Don't F.O.L.D &ndash; About the Project"/>
 
-
-                <div className="flex mb-5 gap-10">
-                    <div className="w-3/5 content">
+                <div className="flex flex-col lg:flex-row mb-5 gap-10">
+                    <div className="lg:w-3/5 content">
                         <h2 className="text-base font-semibold">
                             The motivations behind creating this site were:
                         </h2>
@@ -49,7 +48,7 @@ const AboutPage: React.FC = () => {
                             </li>
                         </ul>
                     </div>
-                    <div className="w-2/5 max-h-[20rem]">
+                    <div className="lg:w-2/5 max-h-[20rem]">
                         <Advert/>
                     </div>
                 </div>
@@ -61,9 +60,10 @@ const AboutPage: React.FC = () => {
                         <span className="display-text flex-grow text-left">About CATAWOL Records</span>
                         {isOpen('about-label') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pt-3 pb-10 px-5 flex gap-10">
-                        <PlaceholderPattern className="w-2/5 stroke-neutral-900/20"/>
-                        <div className="w-3/5">
+                    <CollapsibleContent
+                        className="content pt-3 pb-5 lg:pb-10 px-2 lg:px-5 flex flex-col md:flex-row gap-5 lg:gap-10">
+                        <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20"/>
+                        <div className="md:w-3/5">
                             <p>
                                 <b className="text-current">CATAWOL Records is a fictitious music label,</b> created as
                                 the subject of
@@ -136,9 +136,10 @@ const AboutPage: React.FC = () => {
                         <span className="display-text flex-grow text-left">About the Song</span>
                         {isOpen('about-song') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pt-3 pb-10 px-5 flex gap-10">
-                        <PlaceholderPattern className="w-2/5 stroke-neutral-900/20"/>
-                        <div className="w-3/5">
+                    <CollapsibleContent
+                        className="content pt-3 pb-5 lg:pb-10 px-2 lg:px-5 flex flex-col md:flex-row gap-5 lg:gap-10">
+                        <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20"/>
+                        <div className="md:w-3/5">
                             <p>
                                 <b className="text-current">Real Figures Don't F.O.L.D</b> is a song <b
                                 className="text-current">to those who have experienced
@@ -172,9 +173,10 @@ const AboutPage: React.FC = () => {
                         <span className="display-text flex-grow text-left">What is the F.O.L.D?</span>
                         {isOpen('about-fold') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pt-3 pb-10 px-5 flex gap-10">
-                        <PlaceholderPattern className="w-2/5 stroke-neutral-900/20"/>
-                        <div className="w-3/5">
+                    <CollapsibleContent
+                        className="content pt-3 pb-5 lg:pb-10 px-2 lg:px-5 flex flex-col md:flex-row gap-5 lg:gap-10">
+                        <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20"/>
+                        <div className="md:w-3/5">
                             <p>The F.O.L.D is a nebulous, highly-connected network of fans and
                                 employees operating within the LEGO space, often referring to itself as a
                                 "community".</p>
@@ -197,9 +199,10 @@ const AboutPage: React.FC = () => {
                         <span className="display-text flex-grow text-left">About SilentMode</span>
                         {isOpen('about-silentmode') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="content pt-3 pb-10 px-5 flex gap-10">
-                        <PlaceholderPattern className="w-2/5 stroke-neutral-900/20"/>
-                        <div className="w-3/5">
+                    <CollapsibleContent
+                        className="content pt-3 pb-5 lg:pb-10 px-2 lg:px-5 flex flex-col md:flex-row gap-5 lg:gap-10">
+                        <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20"/>
+                        <div className="md:w-3/5">
                             <p>SilentMode is a Maker, Artist and LEGO Enthusiast based in London,
                                 UK. He has been active within the LEGO space since 2010.</p>
                             <div className="text-sm">
