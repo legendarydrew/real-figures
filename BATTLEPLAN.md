@@ -94,7 +94,7 @@ for the self-defined goal of May 20.
 
 # REMAINING TASKS
 
-For when we are ready to get things going: we have the Songs ready and we've gotten people excited.
+For when we are ready to get things going: we have the Songs ready, and we've gotten people excited.
 
 ## Analytics
 
