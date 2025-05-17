@@ -19,7 +19,7 @@ class DonorWallController extends Controller
 {
     public function index(): Response
     {
-        return Inertia::render('front/donations', [
+        return Inertia::render('front/donor-wall', [
             'donations' => fn() => fractal(Donation::orderByDesc('id')->get(), new DonationTransformer())->toArray(),
             'buzzers'   => fn() => fractal(GoldenBuzzer::orderByDesc('id')->get(), new DonationTransformer())->toArray(),
         ]);
