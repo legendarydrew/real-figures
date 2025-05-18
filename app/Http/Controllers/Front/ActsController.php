@@ -18,9 +18,14 @@ class ActsController extends Controller
 {
     public function index(): Response
     {
-        return Inertia::render('front/acts', [
-            'acts' => fn() => fractal(Act::whereHas('songs')->orderBy('name')->get(), new ActTransformer(), '')->toArray()
-        ]);
+        $acts = Act::whereHas('songs')->get();
+        if ($acts->isNotEmpty())
+        {
+            return Inertia::render('front/acts', [
+                'acts' => fn() => fractal($acts->sortBy('name'), new ActTransformer(), '')->toArray()
+            ]);
+        }
+        abort(404);
     }
 
     public function show(string $slug): Response
