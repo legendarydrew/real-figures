@@ -5,7 +5,7 @@ import { usePage } from '@inertiajs/react';
 import { DonateDialog } from '@/components/front/donate-dialog';
 import { DialogProvider } from '@/context/dialog-context';
 import { useAnalytics } from '@/hooks/use-analytics';
-import { Alert } from '@/components/alert';
+import { FlashMessage } from '@/components/flash-message';
 
 // see https://inertiajs.com/pages#persistent-layouts
 
@@ -34,9 +34,7 @@ export default function FrontLayout({ children }: ComponentProps<never>) {
                 <FrontHeader/>
                 <main className="flex-grow w-full overflow-y-auto" scroll-region="">
                     {flash?.message && (
-                        <Alert
-                            className="fixed top-4 left-1/2 -translate-x-1/2 max-w-1/2 px-5 py-3 m-0 text-base shadow-md"
-                            message={flash.message}/>
+                        <FlashMessage message={flash.message}/>
                     )}
                     {children}
                 </main>
