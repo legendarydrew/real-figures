@@ -16,7 +16,7 @@ import {
     Star
 } from 'lucide-react';
 import FrontLayout from '@/layouts/front-layout';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { Advert } from '@/components/advert';
 
 const RulesPage: React.FC = () => {
 
@@ -37,7 +37,7 @@ const RulesPage: React.FC = () => {
             <FrontContent>
                 <Heading title="Real Figures Don't F.O.L.D &ndash; Contest Rules"/>
 
-                <div className="flex flex-col-reverse md:flex-row mb-5 gap-5 mb:gap-10">
+                <div className="flex flex-col md:flex-row mb-5 gap-5 mb:gap-10">
                     <div className="md:w-3/5 content">
                         <p className="text-lg">
                             Welcome to the first-ever CATAWOL Records Song Contest!
@@ -51,7 +51,7 @@ const RulesPage: React.FC = () => {
                         </p>
                     </div>
                     <div className="md:w-2/5">
-                        <PlaceholderPattern className="w-full stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
+                        <Advert className="max-h-[10rem] my-3 overflow-hidden"/>
                     </div>
                 </div>
 

@@ -16,7 +16,7 @@ for the self-defined goal of May 20.
 - [x] Record donations made.
 - [x] Record contact messages sent.
 - [x] Record subscription submissions.
-- [ ] Record subscription confirmations.
+- [x] Record subscription confirmations.
 - [ ] Record unsubscribes.
 
 ## Front-facing site
@@ -49,7 +49,7 @@ for the self-defined goal of May 20.
 ### Rules
 
 - [ ] Graphic or advert to replace the placeholder.
-- [ ] Consider placing an advert at the bottom of the page.
+- [x] Consider placing an advert at the bottom of the page.
 
 ### Donate dialog
 
@@ -81,7 +81,7 @@ for the self-defined goal of May 20.
 
 ## Miscellaneous
 
-- [ ] Add a favicon!
+- [x] Add a favicon!
 - [ ] Add meta tags.
 - [ ] Do not display the Acts page if the contest has not started.
 - [ ] Ideally the MISMI video would be released beforehand (some text on the About page would make more sense).
