@@ -38,7 +38,7 @@ const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
                 {...props}
             >
                 {isLoading && (
-                    <Loader2 className="absolute h-5 w-5 animate-spin text-muted-foreground"/>
+                    <Loader2 className="absolute h-5 w-5 animate-spin"/>
                 )}
                 <Slottable>
                     <span className={isLoading ? 'invisible px-1' : ''}>{children}</span>

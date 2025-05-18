@@ -5,19 +5,26 @@ import { usePage } from '@inertiajs/react';
 import { DonateDialog } from '@/components/front/donate-dialog';
 import { DialogProvider } from '@/context/dialog-context';
 import { useAnalytics } from '@/hooks/use-analytics';
+import { FlashMessage } from '@/components/flash-message';
 
 // see https://inertiajs.com/pages#persistent-layouts
 
 export default function FrontLayout({ children }: ComponentProps<never>) {
     const { flash } = usePage().props;
 
-    const { initialise, trackPageView } = useAnalytics();
+    const { initialise, trackPageView, trackEvent } = useAnalytics();
 
     // Track a page view for the current page.
-    // We can listen for changes to the URL (which feels hacky).
+    // We can listen for changes to the URL to do so (which feels hacky).
+    // We will also use track a non-interaction event if details were passed from the back end.
     useEffect(() => {
         initialise();
         trackPageView();
+
+        if (flash?.track) {
+            trackEvent({ nonInteraction: true, ...flash.track });
+        }
+
     }, [window.location.pathname]);
 
     return (
@@ -27,7 +34,7 @@ export default function FrontLayout({ children }: ComponentProps<never>) {
                 <FrontHeader/>
                 <main className="flex-grow w-full overflow-y-auto" scroll-region="">
                     {flash?.message && (
-                        <div className="alert">{flash.message}</div>
+                        <FlashMessage message={flash.message}/>
                     )}
                     {children}
                 </main>
