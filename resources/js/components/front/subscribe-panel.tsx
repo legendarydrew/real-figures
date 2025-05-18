@@ -51,7 +51,7 @@ export const SubscribePanel: React.FC = ({ ...props }) => {
                 to cast your votes! Your
                 details will not be used for anything else.</p>
             {wasSuccessful ? (
-                <div className="flex gap-3 p-3 text-sm">
+                <div className="flex items-center gap-3 p-3 text-sm">
                     <MailCheck/>
                     <p>
                         <b>Thank you!</b> A confirmation email has been sent.
