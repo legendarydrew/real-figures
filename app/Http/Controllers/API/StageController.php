@@ -13,7 +13,7 @@ class StageController extends Controller
 {
     public function index(): JsonResponse
     {
-        return fractal(Stage::paginate(), new StageTransformer())->respond();
+        return fractal(Stage::paginate(), new StageTransformer())->withResourceName('data')->respond();
     }
 
     public function show(int $stage_id): JsonResponse
