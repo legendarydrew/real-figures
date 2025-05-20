@@ -33,6 +33,11 @@ class RequiresManualVoteTest extends TestCase
             $this->createRoundOutcomes($round, no_votes: false);
         }
 
+        $scores = $this->stage->outcomes->map(fn($outcome) => $outcome->score);
+        self::assertNotContains(0, $scores);
+
+        self::assertTrue($this->stage->hasEnded());
+        self::assertTrue($this->stage->outcomes->isNotEmpty());
         self::assertFalse($this->stage->requiresManualVote());
     }
 
@@ -41,9 +46,15 @@ class RequiresManualVoteTest extends TestCase
         $rounds = Round::factory(4)->ended()->for($this->stage)->create();
         foreach ($rounds as $index => $round)
         {
-            $this->createRoundOutcomes($round, no_votes: $index % 2);
+            $this->createRoundOutcomes($round, no_votes: (bool)($index % 2));
         }
 
+        self::assertTrue($this->stage->hasEnded());
+
+        $scores = $this->stage->outcomes->map(fn($outcome) => $outcome->score);
+        self::assertContains(0, $scores);
+
+        self::assertTrue($this->stage->outcomes->isNotEmpty());
         self::assertTrue($this->stage->requiresManualVote());
     }
 
@@ -55,6 +66,11 @@ class RequiresManualVoteTest extends TestCase
             $this->createRoundOutcomes($round, no_votes: false);
         }
 
+        $scores = $this->stage->outcomes->map(fn($outcome) => $outcome->score);
+        self::assertTrue($scores->every(fn($score) => $score > 0));
+
+        self::assertFalse($this->stage->hasEnded());
+        self::assertTrue($this->stage->outcomes->isNotEmpty());
         self::assertFalse($this->stage->requiresManualVote());
     }
 
@@ -66,6 +82,8 @@ class RequiresManualVoteTest extends TestCase
             $this->createRoundOutcomes($round, no_votes: $index % 2);
         }
 
+        self::assertFalse($this->stage->hasEnded());
+        self::assertTrue($this->stage->outcomes->isNotEmpty());
         self::assertFalse($this->stage->requiresManualVote());
     }
 
