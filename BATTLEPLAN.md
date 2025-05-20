@@ -30,7 +30,7 @@ for the self-defined goal of May 20.
 - [ ] Graphic for the about the contest banner.
 - [x] Text content for the about the contest banner.
 - [x] What else should go in the about the contest banner (the placeholder)?
-- [ ] Update the appearance of the Donor Wall section.
+- [x] Update the appearance of the Donor Wall section.
 
 ### Credits dialog
 
@@ -83,9 +83,9 @@ for the self-defined goal of May 20.
 
 - [x] Add a favicon!
 - [ ] Add meta tags.
-- [ ] Do not display the Acts page if the contest has not started.
+- [x] Do not display the Acts page if the contest has not started.
 - [ ] Ideally the MISMI video would be released beforehand (some text on the About page would make more sense).
-- [ ] Don't forget to check the site on mobile devices.
+- [x] Don't forget to check the site on mobile devices.
 - [x] Use the Cal Sans fount for headings.
 - [ ] Update the theme to use the CATAWOL Records branding guidelines.
 - [ ] Design of email templates.
