@@ -27,8 +27,16 @@ export interface SharedData {
     quote: { message: string; author: string };
     auth: Auth;
     ziggy: Config & { location: string };
+    showActs: boolean;
     sidebarOpen: boolean;
-
+    flash: {
+        message: string;
+        track: {
+            category: string;
+            label: string;
+            action?: string;
+        };
+    };
     [key: string]: unknown;
 }
 

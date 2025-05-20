@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 export const FrontHeader: React.FC = () => {
 
-    const { auth } = usePage<SharedData>().props;
+    const { auth, showActs } = usePage<SharedData>().props;
 
     const { openDialog } = useDialog();
 
@@ -56,7 +56,9 @@ export const FrontHeader: React.FC = () => {
                     </Button>
 
                     <Link href={route('home')} onClick={closeMenuHandler} className={linkStyle}>Contest</Link>
-                    <Link href={route('acts')} onClick={closeMenuHandler} className={linkStyle}>Acts</Link>
+                    {showActs && (
+                        <Link href={route('acts')} onClick={closeMenuHandler} className={linkStyle}>Acts</Link>
+                    )}
                     <Link href={route('rules')} onClick={closeMenuHandler} className={linkStyle}>Rules</Link>
                     <Link href={route('about')} onClick={closeMenuHandler} className={linkStyle}>About</Link>
                     <Button type="button" variant="link"
