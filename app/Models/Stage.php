@@ -90,22 +90,26 @@ class Stage extends Model
     /**
      * Returns TRUE if all Rounds in this Stage have ended.
      * (Or as the code suggests, every fn Round.)
+     * This should return FALSE if there are no Rounds.
      *
      * @return bool
      */
     public function hasEnded(): bool
     {
-        return $this->rounds->every(fn(Round $round) => $round->hasEnded());
+        return $this->rounds->isNotEmpty() && $this->rounds->every(fn(Round $round) => $round->hasEnded());
     }
 
     /**
      * Returns TRUE if the Stage has ended, and any of the Rounds for this Stage require a "manual vote".
+     * A Stage requires a manual vote when at least one of its Rounds has no votes.
      *
      * @return bool
      */
     public function requiresManualVote(): bool
     {
-        return $this->hasEnded() && !$this->winners()->count() && $this->rounds->some(fn(Round $round) => $round->requiresManualVote());
+        return $this->hasEnded() &&
+            !$this->winners()->count() &&
+            $this->rounds->some(fn(Round $round) => $round->requiresManualVote());
     }
 
     public function outcomes(): HasManyThrough

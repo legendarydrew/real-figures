@@ -28,6 +28,8 @@ class HomeController extends Controller
      *   - display a countdown timer for the first Round.
      *
      * CONTEST HAS BEGUN
+     * - AND NO ROUNDS HAVE STARTED
+     *   - display a countdown timer for the first Round.
      * - AND A ROUND IS UNDERWAY
      *   - display the current Round for voting on.
      *   - display the previous Rounds (in the current Stage) for viewing.

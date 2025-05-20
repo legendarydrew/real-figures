@@ -16,7 +16,7 @@ class ActController extends Controller
 {
     public function index(): JsonResponse
     {
-        return fractal(Act::paginate(), new ActTransformer())->respond();
+        return fractal(Act::paginate(), new ActTransformer())->withResourceName('data')->respond();
     }
 
     public function show(int $act_id): JsonResponse

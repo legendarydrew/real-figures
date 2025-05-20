@@ -116,7 +116,7 @@ class CalculateTest extends TestCase
                     ]);
 
         $results = RoundResultsFacade::calculate($this->round, 1);
-        self::assertCount(0, $results['runners_up']);
+        self::assertCount(1, $results['runners_up']);
     }
 
     public function test_multiple_runners_up()
@@ -133,5 +133,25 @@ class CalculateTest extends TestCase
         $runner_up_count = ceil($this->number_of_songs / 2);
         $results         = RoundResultsFacade::calculate($this->round, $runner_up_count);
         self::assertLessThanOrEqual($runner_up_count, $results['runners_up']->count());
+    }
+
+    public function test_no_duplicates()
+    {
+        RoundOutcome::factory($this->number_of_songs)
+                    ->for($this->round)
+                    ->create([
+                        'song_id'      => new Sequence(...$this->song_ids),
+                        'first_votes'  => new Sequence(...range(1, $this->number_of_songs)),
+                        'second_votes' => new Sequence(...range(1, $this->number_of_songs)),
+                        'third_votes'  => new Sequence(...range(1, $this->number_of_songs)),
+                    ]);
+
+        $runner_up_count = $this->number_of_songs - 1;
+        $results         = RoundResultsFacade::calculate($this->round, $runner_up_count);
+
+        foreach ($results['runners_up'] as $runner_up)
+        {
+            self::assertNotEquals($results['winners']->first()->id, $runner_up->id);
+        }
     }
 }

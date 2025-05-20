@@ -26,7 +26,10 @@ class HomeTest extends TestCase
 
     public function test_only_inactive_stages()
     {
-        Stage::factory(3)->create();
+        // A Stage is inactive if it has no Rounds.
+        $stages = Stage::factory(3)->create();
+        self::assertTrue($stages->every(fn(Stage $stage) => $stage->isInactive()));
+
         $response = $this->get(route('home'));
 
         $response->assertOk();
@@ -35,25 +38,31 @@ class HomeTest extends TestCase
 
     public function test_ready_stage()
     {
-        $stages = Stage::factory(3)->create();
-        Round::factory()->for($stages[0])->create([
-            'starts_at' => now()->addDay()
-        ]);
-        self::assertTrue($stages[0]->isReady());
+        // A Stage is "ready" when it has Rounds, but none of them have started yet.
 
+        $first_stage = Stage::factory()->createOne();
+        Round::factory()->for($first_stage)->ready()->create();
+        self::assertTrue($first_stage->isReady());
+
+        // With no other Stages.
         $response = $this->get(route('home'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/home/round'));
+        $response->assertInertia(fn(Assert $page) => $page->component('front/home/countdown'));
+
+        // With other (inactive) Stages.
+        Stage::factory(3)->create();
+        $response = $this->get(route('home'));
+
+        $response->assertOk();
+        $response->assertInertia(fn(Assert $page) => $page->component('front/home/countdown'));
     }
 
     public function test_active_stage()
     {
+        // A Stage is "active" when it has at least one Round currently active.
         $stages = Stage::factory(3)->create();
-        Round::factory()->for($stages[0])->create([
-            'starts_at' => now()->subHour(),
-            'ends_at'   => now()->addDay()
-        ]);
+        Round::factory()->for($stages[0])->started()->create();
         self::assertTrue($stages[0]->isActive());
 
         $response = $this->get(route('home'));
@@ -65,16 +74,13 @@ class HomeTest extends TestCase
     public function test_ended_stage()
     {
         $stages = Stage::factory(3)->create();
-        Round::factory()->for($stages[0])->create([
-            'starts_at' => now()->subDay(),
-            'ends_at'   => now()
-        ]);
+        Round::factory()->for($stages[0])->ended()->create();
         self::assertTrue($stages[0]->hasEnded());
 
         $response = $this->get(route('home'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/home/round'));
+        $response->assertInertia(fn(Assert $page) => $page->component('front/home/stage-end'));
     }
 
     public function test_scored_first_stage_with_other_stages()
@@ -82,10 +88,29 @@ class HomeTest extends TestCase
         $scored_stage = Stage::factory()->withResults()->create();
         self::assertFalse($scored_stage->isOver());
 
+        // With no other Stages...
         $response = $this->get(route('home'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/home/round'));
+        $response->assertInertia(fn(Assert $page) => $page->component('front/home/stage-end'));
+
+        // With another (inactive) Stage.
+        $inactive_stage = Stage::factory()->create();
+        $response       = $this->get(route('home'));
+
+        $response->assertOk();
+        $response->assertInertia(fn(Assert $page) => $page->component('front/home/stage-end'));
+        $inactive_stage->delete();
+
+        // With another (ready) Stage.
+        $ready_stage = Stage::factory()->create();
+        Round::factory()->for($ready_stage)->ready()->create();
+
+        $response = $this->get(route('home'));
+
+        $response->assertOk();
+        $response->assertInertia(fn(Assert $page) => $page->component('front/home/stage-end'));
+
     }
 
     public function test_over_first_stage_with_other_stages()
@@ -96,7 +121,7 @@ class HomeTest extends TestCase
         $response = $this->get(route('home'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/home/round'));
+        $response->assertInertia(fn(Assert $page) => $page->component('front/home/stage-end'));
     }
 
     public function test_over_multiple_stages_with_other_stages()
@@ -111,7 +136,7 @@ class HomeTest extends TestCase
         $response = $this->get(route('home'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/home/round'));
+        $response->assertInertia(fn(Assert $page) => $page->component('front/home/stage-end'));
     }
 
     public function test_all_over_stages()

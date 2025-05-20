@@ -97,7 +97,8 @@ class Round extends Model
      */
     public function requiresManualVote(): bool
     {
-        return $this->hasEnded() && $this->songs()->count() > 0 && $this->outcomes->every('score', '=', 0);
+        return $this->hasEnded() && $this->songs->isNotEmpty() &&
+            ($this->votes->isEmpty() || $this->outcomes->every(fn(RoundOutcome $outcome) => $outcome->score === 0));
     }
 
     public function getFullTitleAttribute(): string
