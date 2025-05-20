@@ -5,14 +5,16 @@ namespace Database\Factories;
 use App\Models\Round;
 use App\Models\RoundSongs;
 use App\Models\Song;
-use Carbon\Carbon;
+use DateInterval;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Round>
  */
 class RoundFactory extends Factory
 {
+
     /**
      * Define the model's default state.
      *
@@ -20,13 +22,21 @@ class RoundFactory extends Factory
      */
     public function definition(): array
     {
-        $start_date = $this->faker->dateTimeThisMonth();
-        $end_date = Carbon::parse($start_date)->addWeek();
+        $start_date = Carbon::parse($this->faker->dateTimeThisMonth());
+        $end_date   = $start_date->clone()->addWeek();
+
         return [
             'title'     => $this->faker->sentence(2),
             'starts_at' => $start_date,
             'ends_at'   => $end_date,
         ];
+    }
+
+    public function ready(): RoundFactory|Factory
+    {
+        return $this->state(fn(array $attributes) => ['starts_at' => now()->addDay(),
+                                                      'ends_at'   => now()->addWeek()]
+        );
     }
 
     public function started(): RoundFactory|Factory
