@@ -101,6 +101,7 @@ class Stage extends Model
 
     /**
      * Returns TRUE if the Stage has ended, and any of the Rounds for this Stage require a "manual vote".
+     * A Stage requires a manual vote when at least one of its Rounds has no votes.
      *
      * @return bool
      */
@@ -108,7 +109,7 @@ class Stage extends Model
     {
         return $this->hasEnded() &&
             !$this->winners()->count() &&
-            $this->outcomes->some(fn(RoundOutcome $outcome) => $outcome->score === 0);
+            $this->rounds->some(fn(Round $round) => $round->requiresManualVote());
     }
 
     public function outcomes(): HasManyThrough

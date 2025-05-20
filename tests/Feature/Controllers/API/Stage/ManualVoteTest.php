@@ -5,6 +5,7 @@ namespace Tests\Feature\Controllers\API\Stage;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\RoundSongs;
+use App\Models\RoundVote;
 use App\Models\Song;
 use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -74,6 +75,14 @@ class ManualVoteTest extends TestCase
     {
         $song_id = fake()->randomElement($this->song_ids);
 
+        // a fake vote.
+        RoundVote::create([
+            'round_id'         => $this->round->id,
+            'first_choice_id'  => $song_id,
+            'second_choice_id' => $song_id,
+            'third_choice_id'  => $song_id
+        ]);
+
         // a fake outcome.
         $outcome = RoundOutcome::factory()->for($this->round)->create([
             'round_id'     => $this->round->id,
@@ -139,6 +148,8 @@ class ManualVoteTest extends TestCase
         self::assertTrue($this->round->outcomes->every(fn($outcome) => $outcome->was_manual));
 
         $outcome = $this->round->outcomes->first(fn($outcome) => $outcome->song_id === $this->payload['votes'][0]['song_ids']['first']);
+        self::assertInstanceOf(RoundOutcome::class, $outcome);
+
         self::assertEquals(1, $outcome->first_votes);
         self::assertEquals(0, $outcome->second_votes);
         self::assertEquals(0, $outcome->third_votes);
