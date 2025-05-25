@@ -14,6 +14,7 @@
 # https://github.com/marketplace/actions/deploy-with-envoy
 # https://github.com/marketplace/actions/github-action-for-yarn
 # https://github.com/dasundev/envoy-action
+# https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables#default-environment-variables
 
 name: Build project
 
@@ -65,8 +66,8 @@ jobs:
         # We're only interested in non-dev dependencies, but we will also add Laravel Envoy
         # for deploying the site.
         run: |
-          composer install --no-dev --no-ansi --no-autoloader --no-interaction --prefer-dist --ignore-platform-reqs
-          composer require laravel/envoy --no-dev
+          # composer install --no-dev --no-ansi --no-interaction --prefer-dist --ignore-platform-reqs
+          composer require laravel/envoy --dev --no-ansi --no-interaction
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -100,6 +101,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: project-artifact
+          path: .
 
       - uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
         with:
@@ -111,4 +113,8 @@ jobs:
       - name: Run Laravel Envoy
         uses: dasundev/envoy-action@beta
         with:
-          story: deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ GITHUB_WORKSPACE }}" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
+          story: deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ github.WORKSPACE }}" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
+
+#      - name: Run Laravel Envoy
+#        run:
+#          php ./vendor/bin/envoy run deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ github.WORKSPACE }}" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
