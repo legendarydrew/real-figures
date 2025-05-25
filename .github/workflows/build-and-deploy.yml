@@ -102,6 +102,13 @@ jobs:
         with:
           name: project-artifact
           path: .
+
+      - uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
+        with:
+          ORIGIN: ${{ secrets.DEPLOY_HOST }}
+          SSHKEY: ${{ secrets.DEPLOY_SSH }}
+          # PORT: ${{ secrets.DEPLOY_PORT }}
+          USER: ${{ secrets.DEPLOY_USER }}
       
       - name: Run Laravel Envoy
         run:
