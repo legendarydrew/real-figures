@@ -111,5 +111,10 @@ jobs:
           USER: ${{ secrets.DEPLOY_USER }}
 
       - name: Run Laravel Envoy
-        run:
-          php ./vendor/bin/envoy run deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ github.WORKSPACE }}" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
+        uses: dasundev/envoy-action@beta
+        with:
+          story: deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ github.WORKSPACE }}" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
+
+#      - name: Run Laravel Envoy
+#        run:
+#          php ./vendor/bin/envoy run deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ github.WORKSPACE }}" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
