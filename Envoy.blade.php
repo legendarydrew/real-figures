@@ -54,7 +54,7 @@ cleanup
 
 @task('create_project_folder', ['on' => 'web'])
 echo "=> Creating project folder..."
-mkdir -p {{ $project_dir }}
+mkdir -p {{ $releases_dir }}
 @endtask
 
 @task('rsync', ['on' => 'localhost'])
