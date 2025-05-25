@@ -71,6 +71,7 @@ echo "=> Verifying install ({{ $new_release_dir }})..."
 cd {{ $new_release_dir }}
 {{ $php }} artisan --version
 [[ -f {{ $new_release_dir }}/\.env ]] && echo ".env file is present." || echo ".env file is MISSING!"
+{{ $php }} artisan key:generate -q
 @endtask
 
 @task('set_permissions', ['on' => 'web'])
@@ -106,7 +107,7 @@ cd {{ $new_release_dir }}
 @task('content_update', ['on' => 'web'])
 cd {{ $new_release_dir }}
 
-{{ $php }} artisan rt:superuser "{{ $supusername }}" "{{ $supemail }}" "{{ $suppassword }}"
+{{ $php }} artisan rt:superuser "{{ $su_username }}" "{{ $su_email }}" "{{ $su_password }}"
 @endtask
 
 @task('cleanup', ['on' => 'web'])

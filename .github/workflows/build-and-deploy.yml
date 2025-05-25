@@ -10,6 +10,11 @@
 # site's folder (which itself is a symlink for the public_html folder).
 # =============================================================================
 
+# Thanks to:
+# https://github.com/marketplace/actions/deploy-with-envoy
+# https://github.com/marketplace/actions/github-action-for-yarn
+# https://github.com/dasundev/envoy-action
+
 name: Build project
 
 on:
@@ -25,11 +30,17 @@ env:
 
 jobs:
   build:
-    runs-on: lbausch/laravel-ci@php83
-    #    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          tools: composer:v2
+          cache: 'php'
 
       - name: Create .env file
         run: cp .env.production .env
@@ -65,7 +76,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      # https://github.com/marketplace/actions/github-action-for-yarn
       - name: Install yarn dependencies
         uses: borales/actions-yarn@v4
         with:
@@ -94,5 +104,14 @@ jobs:
         with:
           name: project-artifact
 
-      - name: Deploy project
-        run: php vendor/bin/envoy run deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --password="${{ secrets.DEPLOY_PASSWORD }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${BITBUCKET_CLONE_DIR}" --supusername="${SUPER_USERNAME}" --supemail="${SUPER_EMAIL}" --suppassword="${SUPER_PASSWORD}"
+      - uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
+        with:
+          ORIGIN: ${{ secrets.DEPLOY_HOST }}
+          SSHKEY: ${{ secrets.DEPLOY_SSH }}
+          # PORT: ${{ secrets.DEPLOY_PORT }}
+          USER: ${{ secrets.DEPLOY_USER }}
+
+      - name: Run Laravel Envoy
+        uses: dasundev/envoy-action@beta
+        with:
+          story: deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${GITHUB_WORKSPACE}" --su_username="${SUPER_USERNAME}" --su_email="${SUPER_EMAIL}" --su_password="${ }"
