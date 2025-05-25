@@ -27,9 +27,11 @@ if (!(preg_match("/(\/home\/|\/var\/www\/)/i", $path) === 1)) {
 exit('ERROR: the provided $path doesn\'t look like a web directory.');
 }
 
-$current_release_dir = $path . '/current';
-$releases_dir        = $path . '/releases';
-$new_release_dir     = $releases_dir . '/' . $run . '-' . now()->format('YmdHis');
+$project_dir         = $path . '/minisites/real-figures';
+
+$current_release_dir = $project_dir . '/current';
+$releases_dir        = $project_dir . '/releases';
+$new_release_dir     = $releases_dir . '/' . $run . '-' . now()->format('YmdHi');
 $keep_versions       = 3;
 
 $remote              = sprintf('%s@%s:%s', $user, $host, $new_release_dir);
@@ -51,6 +53,10 @@ cleanup
 
 @task('rsync', ['on' => 'localhost'])
 echo "=> Deploying code from {{ $dir }} to {{ $remote }}..."
+
+{{-- Create the path. --}}
+mkdir -p {{ $project_dir }}
+
 {{--
   https://explainshell.com/explain?cmd=rsync+-zrSlh+--exclude-from%3Ddeployment-exclude-list.txt+.%2F.+%7B%7B+%24remote+%7D%7D
   The "-a" flag was added due to the storage folder structure not being uploaded.
