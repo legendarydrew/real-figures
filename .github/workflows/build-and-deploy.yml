@@ -40,13 +40,10 @@ jobs:
         with:
           php-version: 8.3
           tools: composer:v2
-          cache: 'php'
 
       - name: Create .env file
-        run: cp .env.production .env
-
-      - name: Set .env values
         run: |
+          cp .env.production .env
           php -r "file_put_contents('.env', str_replace(\"[ENV_DB_HOST]\", \"${{ secrets.ENV_DB_HOST }}\", file_get_contents('.env')));"
           php -r "file_put_contents('.env', str_replace(\"[ENV_DB_PORT]\", \"${{ secrets.ENV_DB_PORT }}\", file_get_contents('.env')));"
           php -r "file_put_contents('.env', str_replace(\"[ENV_DB_DATABASE]\", \"${{ secrets.ENV_DB_DATABASE }}\", file_get_contents('.env')));"
@@ -68,8 +65,8 @@ jobs:
         # We're only interested in non-dev dependencies, but we will also add Laravel Envoy
         # for deploying the site.
         run: |
-          composer install --no-dev --no-ansi --no-interaction --prefer-dist --ignore-platform-reqs
-          composer require laravel/envoy --dev
+          composer install --no-dev --no-ansi --no-autoloader --no-interaction --prefer-dist --ignore-platform-reqs
+          composer require laravel/envoy --no-dev
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -114,4 +111,4 @@ jobs:
       - name: Run Laravel Envoy
         uses: dasundev/envoy-action@beta
         with:
-          story: deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${GITHUB_WORKSPACE}" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
+          story: deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ GITHUB_WORKSPACE }}" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
