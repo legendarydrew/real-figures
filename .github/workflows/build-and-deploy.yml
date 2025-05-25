@@ -100,6 +100,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: project-artifact
+          path: .
 
       - uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
         with:
@@ -111,4 +112,4 @@ jobs:
       - name: Run Laravel Envoy
         uses: dasundev/envoy-action@beta
         with:
-          story: deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="$GITHUB_WORKSPACE" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
+          story: deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ $GITHUB_WORKSPACE }}" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
