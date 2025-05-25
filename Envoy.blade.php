@@ -27,7 +27,7 @@ if (!(preg_match("/(\/home\/|\/var\/www\/)/i", $path) === 1)) {
 exit('ERROR: the provided $path doesn\'t look like a web directory.');
 }
 
-$project_dir         = '/minisites/real-figures';
+$project_dir         = $path . '/minisites/real-figures';
 
 $current_release_dir = $project_dir . '/current';
 $releases_dir        = $project_dir . '/releases';
@@ -41,6 +41,7 @@ $php = $php ?: 'php';
 @endsetup
 
 @story('deploy')
+create_project_folder
 rsync
 verify_install
 set_permissions
@@ -51,12 +52,13 @@ content_update
 cleanup
 @endstory
 
+@task('create_project_folder', ['on' => 'web'])
+echo "=> Creating project folder..."
+mkdir -p {{ $project_dir }}
+@endtask
+
 @task('rsync', ['on' => 'localhost'])
 echo "=> Deploying code from {{ $dir }} to {{ $remote }}..."
-
-{{-- Create the path. --}}
-cd {{ $path }}
-mkdir -p {{ $project_dir }}
 
 {{--
   https://explainshell.com/explain?cmd=rsync+-zrSlh+--exclude-from%3Ddeployment-exclude-list.txt+.%2F.+%7B%7B+%24remote+%7D%7D
