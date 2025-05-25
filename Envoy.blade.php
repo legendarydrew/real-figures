@@ -10,7 +10,7 @@ We want to upload it to a folder outside of public_html, then create a symlink
 
 @setup
 // Sanity checks for information.
-$check_vars = ['host', 'user', 'path'];
+$check_vars = ['host', 'user', 'path', 'run'];
 foreach ($check_vars as $var) {
 if (empty($$var)) {
 exit("ERROR: \$$var parameter is empty or undefined.\n");
@@ -29,7 +29,7 @@ exit('ERROR: the provided $path doesn\'t look like a web directory.');
 
 $current_release_dir = $path . '/current';
 $releases_dir        = $path . '/releases';
-$new_release_dir     = $releases_dir . '/' . now()->toISOString();
+$new_release_dir     = $releases_dir . '/' . $run . '-' . now()->format('YmdHis');
 $keep_versions       = 3;
 
 $remote              = sprintf('%s@%s:%s', $user, $host, $new_release_dir);
