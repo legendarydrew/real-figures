@@ -112,5 +112,5 @@ jobs:
 
       - name: Run Laravel Envoy
         run: |
-          ll ./vendor/bin/envoy
+          ls ./vendor/bin/envoy
           php ./vendor/bin/envoy run deploy --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ github.WORKSPACE }}" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
