@@ -103,13 +103,10 @@ jobs:
           name: project-artifact
           path: .
 
-      - uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
+      - uses: webfactory/ssh-agent@v0.9.0
         with:
-          ORIGIN: ${{ secrets.DEPLOY_HOST }}
-          SSHKEY: ${{ secrets.DEPLOY_SSH }}  # private key
-          # PORT: ${{ secrets.DEPLOY_PORT }}
-          USER: ${{ secrets.DEPLOY_USER }}
+          ssh-private-key: ${{ secrets.DEPLOY_SSH }}  # private key
 
       - name: Run Laravel Envoy
         run:
-          php ./vendor/bin/envoy run deploy --run=${{ github.RUN_NUMBER }}  --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ github.WORKSPACE }}" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
+          php ./vendor/bin/envoy run deploy --run=${{ github.RUN_NUMBER }} --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ github.WORKSPACE }}" --su_username="${{ secrets.SUPER_USERNAME }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
