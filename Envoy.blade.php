@@ -27,7 +27,7 @@ if (!(preg_match("/(\/home\/|\/var\/www\/)/i", $path) === 1)) {
 exit('ERROR: the provided $path doesn\'t look like a web directory.');
 }
 
-$project_dir         = $path . '/minisites/real-figures';
+$project_dir         = '/minisites/real-figures';
 
 $current_release_dir = $project_dir . '/current';
 $releases_dir        = $project_dir . '/releases';
@@ -55,6 +55,7 @@ cleanup
 echo "=> Deploying code from {{ $dir }} to {{ $remote }}..."
 
 {{-- Create the path. --}}
+cd {{ $path }}
 mkdir -p {{ $project_dir }}
 
 {{--
