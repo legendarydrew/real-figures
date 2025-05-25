@@ -66,7 +66,7 @@ jobs:
         # for deploying the site.
         run: |
           composer install --no-dev --no-ansi --no-autoloader --no-interaction --prefer-dist --ignore-platform-reqs
-          composer require laravel/envoy --no-dev
+          composer require laravel/envoy
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
