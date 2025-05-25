@@ -29,7 +29,7 @@ exit('ERROR: the provided $path doesn\'t look like a web directory.');
 
 $current_release_dir = $path . '/current';
 $releases_dir        = $path . '/releases';
-$new_release_dir     = $releases_dir . '/' . now()->toISOFormat();
+$new_release_dir     = $releases_dir . '/' . now()->toISOString();
 $keep_versions       = 3;
 
 $remote              = sprintf('%s@%s:%s', $user, $host, $new_release_dir);
