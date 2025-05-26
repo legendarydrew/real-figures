@@ -39,7 +39,7 @@ const HomeRound: React.FC = ({ stage, countdown }) => {
             </div>
 
             <ContestHeader/>
-            <Advert className="mx-auto max-h-[12rem]"/>
+            <Advert className="mx-auto max-h-[280px] md:max-h-[240px] text-center"/>
             <ContestOutline/>
             <GoldenBuzzerBanner/>
             <AboutBanner/>

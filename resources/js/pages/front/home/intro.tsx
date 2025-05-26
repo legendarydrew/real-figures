@@ -15,7 +15,7 @@ const IntroPage: React.FC = () => {
             </Head>
 
             <ContestHeader/>
-            <Advert className="mx-auto max-h-[12rem]"/>
+            <Advert className="mx-auto h-[60px] md:h-[90px] text-center"/>
             <ContestOutline/>
             <GoldenBuzzerBanner/>
             <AboutBanner/>
