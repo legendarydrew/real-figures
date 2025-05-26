@@ -65,7 +65,7 @@ export const FrontHeader: React.FC = () => {
                             className={cn(linkStyle, "text-green-600 dark:text-green-200")}
                             onClick={showDonateDialog}>Donate!</Button>
                     <Link href={route('contact')} onClick={closeMenuHandler} className={linkStyle}>Contact</Link>
-                    {auth.user && (
+                    {auth?.user && (
                         <Link
                             href={route('admin.dashboard')}
                             className={cn(linkStyle, "inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:no-underline hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]")}
