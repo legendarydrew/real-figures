@@ -66,21 +66,20 @@ echo "=> Deploying code from {{ $dir }} to {{ $remote }}..."
   We make sure to include the trailing forward slash, to copy the contents of the folder instead of the folder itself.
 --}}
 rsync -zrSlha --stats --exclude-from=deployment-exclude-list.txt {{ $dir }}/ {{ $remote }}
-
-{{--
-  The .env file has to be uploaded separately, as the above rsync excludes files (and folders?) beginning with ".".
-  Note that the dot character is escaped.
---}}
-rsync -za --verbose {{ $dir }}/\.env {{ $remote }}/\.env
 @endtask
 
 @task('verify_install', ['on' => 'web'])
 echo "=> Verifying install ({{ $new_release_dir }})..."
-{{-- This checks that we can run artisan, and I've added a check for the presence of the .env file. --}}
 cd {{ $new_release_dir }}
+
+{{-- Rename the generated env file. --}}
 mv env .env
+
+{{-- Check that we can run artisan, and the presence of the .env file. --}}
 {{ $php }} artisan --version
 [[ -f {{ $new_release_dir }}/\.env ]] && echo ".env file is present." || echo ".env file is MISSING!"
+
+{{-- Generate a new app key. --}}
 {{ $php }} artisan key:generate -q
 @endtask
 
