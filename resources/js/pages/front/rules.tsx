@@ -17,12 +17,17 @@ import {
 } from 'lucide-react';
 import FrontLayout from '@/layouts/front-layout';
 import { Advert } from '@/components/advert';
+import { useAnalytics } from '@/hooks/use-analytics';
 
 const RulesPage: React.FC = () => {
 
+    const { trackEvent } = useAnalytics();
     const [panelState, setPanelState] = useState({});
 
     const toggleHandler = (section: string): void => {
+        if (!panelState[section]) {
+            trackEvent({ category: 'Rules', action: 'Panel open', label: section });
+        }
         setPanelState({ ...panelState, [section]: !panelState[section] });
     };
 
