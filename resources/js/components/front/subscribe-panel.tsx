@@ -36,7 +36,6 @@ export const SubscribePanel: React.FC = ({ ...props }) => {
                 trackEvent({ category: 'Action', action: 'Subscribe', label: 'Panel', nonInteraction: false });
             })
             .catch((error) => {
-                console.log(error);
                 setHasError(error.response.data);
             })
             .finally(() => {

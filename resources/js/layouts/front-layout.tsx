@@ -30,7 +30,7 @@ export default function FrontLayout({ children }: ComponentProps<never>) {
     return (
         <DialogProvider>
             <div
-                className="flex h-screen flex-col items-center bg-[#FDFDFC] text-[#1b1b18] lg:justify-center dark:bg-[#0a0a0a]">
+                className="overflow-hidden h-full flex h-screen flex-col items-center bg-[#FDFDFC] text-[#1b1b18] lg:justify-center dark:bg-[#0a0a0a]">
                 <FrontHeader/>
                 <main className="flex-grow w-full overflow-y-auto" scroll-region="">
                     {flash?.message && (
