@@ -35,10 +35,9 @@ const RulesPage: React.FC = () => {
             <Head title="Contest Rules"/>
 
             <FrontContent>
-                <Heading title="Real Figures Don't F.O.L.D &ndash; Contest Rules"/>
-
                 <div className="flex flex-col md:flex-row mb-5 gap-5 mb:gap-10">
                     <div className="md:w-3/5 content">
+                        <Heading title="Real Figures Don't F.O.L.D &ndash; Contest Rules"/>
                         <p className="text-lg">
                             Welcome to the first-ever CATAWOL Records Song Contest!
                         </p>
@@ -51,7 +50,7 @@ const RulesPage: React.FC = () => {
                         </p>
                     </div>
                     <div className="md:w-2/5">
-                        <Advert className="max-h-[10rem] my-3 overflow-hidden"/>
+                        <Advert className="h-[160px] md:h-[240px] my-3"/>
                     </div>
                 </div>
 
@@ -290,6 +289,9 @@ const RulesPage: React.FC = () => {
                         <p>Let's make music history together!</p>
                     </CollapsibleContent>
                 </Collapsible>
+
+                <Advert className="mx-auto h-[60px] md:h-[90px] text-center"/>
+
             </FrontContent>
         </>
     )

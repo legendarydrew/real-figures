@@ -68,9 +68,7 @@ const AboutPage: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="mx-auto">
-                    <Advert/>
-                </div>
+                <Advert className="mx-auto h-[60px] md:h-[90px] text-center"/>
 
                 <Collapsible className="border-b" open={isOpen('about-label')}
                              onOpenChange={() => toggleHandler('about-label')}>
@@ -233,6 +231,8 @@ const AboutPage: React.FC = () => {
                         </div>
                     </CollapsibleContent>
                 </Collapsible>
+
+                <Advert className="mx-auto h-[60px] md:h-[90px] text-center"/>
             </FrontContent>
         </>
     )
