@@ -3,12 +3,19 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { useState } from 'react';
 
-export const AboutSongPanel: React.FC = () => {
+export const AboutSongPanel: React.FC = ({ opened }) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
+    const toggleHandler = (): void => {
+        if (!isOpen && opened) {
+            opened();
+        }
+        setIsOpen(!isOpen);
+    }
+
     return (
-        <Collapsible className="border-b" open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+        <Collapsible className="border-b" open={isOpen} onOpenChange={toggleHandler}>
             <CollapsibleTrigger
                 className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
                 <span className="display-text flex-grow text-left">About the Song</span>

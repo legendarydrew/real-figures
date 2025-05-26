@@ -9,8 +9,15 @@ import { AboutSongPanel } from '@/pages/front/about/about-song';
 import { AboutFoldPanel } from '@/pages/front/about/about-fold';
 import { AboutSilentmodePanel } from '@/pages/front/about/about-silentmode';
 import { AboutCatawolPanel } from '@/pages/front/about/about-catawol';
+import { useAnalytics } from '@/hooks/use-analytics';
 
 const AboutPage: React.FC = () => {
+
+    const { trackEvent } = useAnalytics();
+
+    const trackOpenPanelHandler = (identifier: string): void => {
+        trackEvent({ category: 'About', action: 'Panel open', label: identifier, nonInteraction: false });
+    };
 
     return (
         <>
@@ -61,15 +68,15 @@ const AboutPage: React.FC = () => {
 
                 <Advert className="mx-auto my-3 h-[60px] md:h-[90px] text-center"/>
 
-                <AboutCatawolPanel/>
-                <AboutSongPanel/>
-                <AboutFoldPanel/>
-                <AboutSilentmodePanel/>
+                <AboutCatawolPanel opened={() => trackOpenPanelHandler('About CATAWOL')}/>
+                <AboutSongPanel opened={() => trackOpenPanelHandler('About the Song')}/>
+                <AboutFoldPanel opened={() => trackOpenPanelHandler('About the F.O.L.D')}/>
+                <AboutSilentmodePanel opened={() => trackOpenPanelHandler('About SilentMode')}/>
 
                 <Advert className="mx-auto my-3 h-[60px] md:h-[90px] text-center"/>
             </FrontContent>
         </>
-    )
+    );
 };
 
 AboutPage.layout = (page) => <FrontLayout>{page}</FrontLayout>;
