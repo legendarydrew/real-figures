@@ -78,6 +78,7 @@ rsync -za --verbose {{ $dir }}/\.env {{ $remote }}/\.env
 echo "=> Verifying install ({{ $new_release_dir }})..."
 {{-- This checks that we can run artisan, and I've added a check for the presence of the .env file. --}}
 cd {{ $new_release_dir }}
+mv env .env
 {{ $php }} artisan --version
 [[ -f {{ $new_release_dir }}/\.env ]] && echo ".env file is present." || echo ".env file is MISSING!"
 {{ $php }} artisan key:generate -q
