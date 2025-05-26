@@ -123,7 +123,7 @@ cd {{ $new_release_dir }}
 @task('content_update', ['on' => 'web'])
 cd {{ $new_release_dir }}
 
-{{ $php }} artisan rt:superuser "{{ $su_username }}" "{{ $su_email }}" "{{ $su_password }}"
+{{ $php }} artisan rt:superuser "{{ $su_email }}" "{{ $su_password }}"
 @endtask
 
 @task('cleanup', ['on' => 'web'])
