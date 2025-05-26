@@ -88,8 +88,12 @@ echo "=> Setting file and folder permissions in ({{ $new_release_dir }})"
 cd {{ $new_release_dir }}
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
-mkdir -p ./storage/app
-mkdir -p ./storage/framework
+mkdir -p ./storage/app/private
+mkdir -p ./storage/app/public
+mkdir -p ./storage/framework/cache
+mkdir -p ./storage/framework/sessions
+mkdir -p ./storage/framework/testing
+mkdir -p ./storage/framework/views
 mkdir -p ./storage/logs
 chmod -R 777 ./storage
 chmod -R 777 ./bootstrap/cache/
