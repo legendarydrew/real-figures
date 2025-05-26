@@ -16,7 +16,7 @@ class CreateSuperuser extends Command
      *
      * @var string
      */
-    protected $signature = 'rt:superuser {username} {email} {password}';
+    protected $signature = 'rt:superuser {email} {password}';
 
     /**
      * The console command description.
@@ -30,22 +30,20 @@ class CreateSuperuser extends Command
      */
     public function handle(): int
     {
-        $username = $this->argument('username');
+        $email = $this->argument('email');
         $password = $this->argument('password');
-        $email    = $this->argument('email');
 
-        if (User::whereUsername($username)->exists())
+        if (User::whereEmail($email)->exists())
         {
-            $this->info("User {$username} already exists.");
+            $this->info("User for {$email} already exists.");
         }
         else
         {
-            User::create([
-                'username' => $username,
+            User::factory()->create([
+                'email' => $email,
                 'password' => Hash::make($password),
-                'email'    => $email,
             ]);
-            $this->info("Created superuser {$username}.");
+            $this->info("Created superuser for {$email}.");
         }
 
         return 0;
