@@ -99,6 +99,9 @@ jobs:
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
+        with:
+          name: project-artifact
+          path: .
 
       - uses: webfactory/ssh-agent@v0.9.0
         with:
