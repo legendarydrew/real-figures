@@ -2,6 +2,7 @@ import { Head } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import FrontLayout from '@/layouts/front-layout';
 import AboutBanner from '@/components/front/about-banner';
+import { Advert } from '@/components/advert';
 
 const HomeContestOverPage: React.FC = () => {
 
@@ -24,6 +25,7 @@ const HomeContestOverPage: React.FC = () => {
 
                 </div>
             </div>
+            <Advert className="mx-auto max-h-[280px] md:max-h-[240px] text-center"/>
             <AboutBanner/>
         </>
     );

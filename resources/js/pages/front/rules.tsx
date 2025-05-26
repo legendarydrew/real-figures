@@ -17,12 +17,17 @@ import {
 } from 'lucide-react';
 import FrontLayout from '@/layouts/front-layout';
 import { Advert } from '@/components/advert';
+import { useAnalytics } from '@/hooks/use-analytics';
 
 const RulesPage: React.FC = () => {
 
+    const { trackEvent } = useAnalytics();
     const [panelState, setPanelState] = useState({});
 
     const toggleHandler = (section: string): void => {
+        if (!panelState[section]) {
+            trackEvent({ category: 'Rules', action: 'Panel open', label: section });
+        }
         setPanelState({ ...panelState, [section]: !panelState[section] });
     };
 
@@ -35,23 +40,25 @@ const RulesPage: React.FC = () => {
             <Head title="Contest Rules"/>
 
             <FrontContent>
-                <Heading title="Real Figures Don't F.O.L.D &ndash; Contest Rules"/>
-
                 <div className="flex flex-col md:flex-row mb-5 gap-5 mb:gap-10">
-                    <div className="md:w-3/5 content">
-                        <p className="text-lg">
-                            Welcome to the first-ever CATAWOL Records Song Contest!
-                        </p>
-                        <p>
-                            We’re bringing together 32 of our biggest Acts to showcase incredible creativity and raise
-                            awareness of bullying in adult spaces.
-                        </p>
-                        <p>
-                            And we need <b>your votes</b> to help decide which song becomes the <b>official anthem!</b>
-                        </p>
+                    <div className="md:w-3/5">
+                        <Heading title="Real Figures Don't F.O.L.D &ndash; Contest Rules"/>
+                        <div className="content">
+                            <p className="text-lg">
+                                Welcome to the first-ever CATAWOL Records Song Contest!
+                            </p>
+                            <p>
+                                We’re bringing together 32 of our biggest Acts to showcase incredible
+                                creativity and raise awareness of bullying in adult spaces.
+                            </p>
+                            <p>
+                                And we need <b>your votes</b> to help decide which song becomes
+                                the <b>official anthem!</b>
+                            </p>
+                        </div>
                     </div>
                     <div className="md:w-2/5">
-                        <Advert className="max-h-[10rem] my-3 overflow-hidden"/>
+                        <Advert className="h-[160px] md:h-[240px] my-3"/>
                     </div>
                 </div>
 
@@ -140,8 +147,8 @@ const RulesPage: React.FC = () => {
                         <HeadingSmall title="Advancement"/>
                         <p>A total of 10 Songs will advance to Stage 2:</p>
                         <ul>
-                            <li>8 Round Winners (one from each Round).</li>
-                            <li>2 highest-scoring runners-up across all Rounds.</li>
+                            <li><b>8 Round Winners</b> (one from each Round);</li>
+                            <li>The <b>2 highest-scoring runners-up</b> across all Rounds.</li>
                         </ul>
 
                         <HeadingSmall title="Bonus for advancing Acts"/>
@@ -182,8 +189,8 @@ const RulesPage: React.FC = () => {
 
                         <HeadingSmall title="Prizes"/>
                         <ul>
-                            <li>All winning Acts will be recreated as <b>3D-printed figures</b>.</li>
-                            <li>The Act behind the Grand Winning Song will also be honoured with a <b>custom LEGO
+                            <li>All winning Acts will be recreated as <b>3D-printed figures</b> in SilentMode's style.</li>
+                            <li>The Act behind the Grand Winning Song will also be honoured as a <b>custom LEGO
                                 minifigure.</b></li>
                             <li>The Winning Song becomes the <b>official anthem</b> of the Contest!</li>
                         </ul>
@@ -208,10 +215,10 @@ const RulesPage: React.FC = () => {
                             </li>
                             <li>A Golden Buzzer means:
                                 <ul>
-                                    <li><b>Knockout Stage:</b> The Act gets a backstory, an updated picture, and an
+                                    <li><b>During the Knockout Stage:</b> The Act gets a backstory, an updated picture, and an
                                         extended version of their Song.
                                     </li>
-                                    <li><b>Final Stage:</b> The Act is immortalised as a <b>3D-printed figure</b>.</li>
+                                    <li><b>During the Final Stage:</b> The Act is immortalised as a <b>3D-printed figure</b>.</li>
                                 </ul>
                             </li>
                         </ul>
@@ -229,19 +236,30 @@ const RulesPage: React.FC = () => {
                         {isOpen('calculation') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-2 md:px-5">
-                        <ul>
-                            <li>1st choice vote = <b>4 points</b></li>
-                            <li>2nd choice vote = <b>2 points</b></li>
-                            <li>3rd choice vote = <b>1 point</b></li>
-                        </ul>
+                        <table className="my-3">
+                            <tbody>
+                            <tr>
+                                <th scope="row" className="text-left pr-4">1st choice vote</th>
+                                <td className="font-semibold text-muted-foreground">4 points</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" className="text-left pr-4">2nd choice vote</th>
+                                <td className="font-semibold text-muted-foreground">2 points</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" className="text-left pr-4">3rd choice vote</th>
+                                <td className="font-semibold text-muted-foreground">1 point</td>
+                            </tr>
+                            </tbody>
+                        </table>
 
                         <p>Songs are ranked based on:</p>
-                        <ol>
-                            <li>Total score</li>
-                            <li>Number of 1st choice votes</li>
-                            <li>Number of 2nd choice votes</li>
-                            <li>Number of 3rd choice votes</li>
-                        </ol>
+                        <ull>
+                            <li><b>Total score</b></li>
+                            <li><b>Number</b> of 1st choice votes</li>
+                            <li><b>Number</b> of 2nd choice votes</li>
+                            <li><b>Number</b> of 3rd choice votes</li>
+                        </ull>
 
                         <p className="italic">Note: Golden Buzzers are honorary and do not influence scores.</p>
                     </CollapsibleContent>
@@ -290,6 +308,9 @@ const RulesPage: React.FC = () => {
                         <p>Let's make music history together!</p>
                     </CollapsibleContent>
                 </Collapsible>
+
+                <Advert className="mx-auto my-3 h-[60px] md:h-[90px] text-center"/>
+
             </FrontContent>
         </>
     )
