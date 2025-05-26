@@ -147,8 +147,8 @@ const RulesPage: React.FC = () => {
                         <HeadingSmall title="Advancement"/>
                         <p>A total of 10 Songs will advance to Stage 2:</p>
                         <ul>
-                            <li>8 Round Winners (one from each Round).</li>
-                            <li>2 highest-scoring runners-up across all Rounds.</li>
+                            <li><b>8 Round Winners</b> (one from each Round);</li>
+                            <li>The <b>2 highest-scoring runners-up</b> across all Rounds.</li>
                         </ul>
 
                         <HeadingSmall title="Bonus for advancing Acts"/>
@@ -189,8 +189,8 @@ const RulesPage: React.FC = () => {
 
                         <HeadingSmall title="Prizes"/>
                         <ul>
-                            <li>All winning Acts will be recreated as <b>3D-printed figures</b>.</li>
-                            <li>The Act behind the Grand Winning Song will also be honoured with a <b>custom LEGO
+                            <li>All winning Acts will be recreated as <b>3D-printed figures</b> in SilentMode's style.</li>
+                            <li>The Act behind the Grand Winning Song will also be honoured as a <b>custom LEGO
                                 minifigure.</b></li>
                             <li>The Winning Song becomes the <b>official anthem</b> of the Contest!</li>
                         </ul>
@@ -215,10 +215,10 @@ const RulesPage: React.FC = () => {
                             </li>
                             <li>A Golden Buzzer means:
                                 <ul>
-                                    <li><b>Knockout Stage:</b> The Act gets a backstory, an updated picture, and an
+                                    <li><b>During the Knockout Stage:</b> The Act gets a backstory, an updated picture, and an
                                         extended version of their Song.
                                     </li>
-                                    <li><b>Final Stage:</b> The Act is immortalised as a <b>3D-printed figure</b>.</li>
+                                    <li><b>During the Final Stage:</b> The Act is immortalised as a <b>3D-printed figure</b>.</li>
                                 </ul>
                             </li>
                         </ul>
@@ -236,19 +236,30 @@ const RulesPage: React.FC = () => {
                         {isOpen('calculation') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-2 md:px-5">
-                        <ul>
-                            <li>1st choice vote = <b>4 points</b></li>
-                            <li>2nd choice vote = <b>2 points</b></li>
-                            <li>3rd choice vote = <b>1 point</b></li>
-                        </ul>
+                        <table className="my-3">
+                            <tbody>
+                            <tr>
+                                <th scope="row" className="text-left pr-4">1st choice vote</th>
+                                <td className="font-semibold text-muted-foreground">4 points</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" className="text-left pr-4">2nd choice vote</th>
+                                <td className="font-semibold text-muted-foreground">2 points</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" className="text-left pr-4">3rd choice vote</th>
+                                <td className="font-semibold text-muted-foreground">1 point</td>
+                            </tr>
+                            </tbody>
+                        </table>
 
                         <p>Songs are ranked based on:</p>
-                        <ol>
-                            <li>Total score</li>
-                            <li>Number of 1st choice votes</li>
-                            <li>Number of 2nd choice votes</li>
-                            <li>Number of 3rd choice votes</li>
-                        </ol>
+                        <ull>
+                            <li><b>Total score</b></li>
+                            <li><b>Number</b> of 1st choice votes</li>
+                            <li><b>Number</b> of 2nd choice votes</li>
+                            <li><b>Number</b> of 3rd choice votes</li>
+                        </ull>
 
                         <p className="italic">Note: Golden Buzzers are honorary and do not influence scores.</p>
                     </CollapsibleContent>
