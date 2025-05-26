@@ -290,7 +290,7 @@ const RulesPage: React.FC = () => {
                     </CollapsibleContent>
                 </Collapsible>
 
-                <Advert className="mx-auto h-[60px] md:h-[90px] text-center"/>
+                <Advert className="mx-auto my-3 h-[60px] md:h-[90px] text-center"/>
 
             </FrontContent>
         </>
