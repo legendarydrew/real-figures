@@ -89,6 +89,7 @@ jobs:
         with:
           name: project-artifact
           path: .
+          include-hidden-files: true
 
   deploy:
     permissions:
