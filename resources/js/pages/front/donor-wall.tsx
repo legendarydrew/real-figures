@@ -99,7 +99,7 @@ const DonorWallPage: React.FC<DonorWallPageProps> = ({ donations, buzzers }) => 
 
                 </div>
 
-                <Advert/>
+                <Advert className="mx-auto my-3 h-[60px] md:h-[90px] text-center"/>
 
             </FrontContent>
         </>

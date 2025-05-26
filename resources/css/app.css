@@ -193,7 +193,7 @@ has the theme configured here.)
     }
 
     .content p {
-        @apply my-2;
+        @apply leading-normal my-2;
     }
 
     .content ol {

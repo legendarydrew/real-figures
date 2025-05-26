@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/compone
 import { useEffect, useState } from 'react';
 import { ActImage } from '@/components/ui/act-image';
 import { useAnalytics } from '@/hooks/use-analytics';
+import { Advert } from '@/components/advert';
 
 interface ActsPageProps {
     acts?: Act[];
@@ -48,17 +49,25 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
             <FrontContent>
                 <Heading title="Competing Acts"/>
 
-                {acts?.length ? (
-                    <div className="grid auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
-                        {acts.map((act: Act) => (
-                            <ActItem key={act.id} act={act} className={act.has_profile ? 'cursor-pointer' : ''}
-                                     onClick={() => showActHandler(act)}/>
-                        ))}
+                <div className="lg:flex gap-3">
+                    <div className="lg:w-3/4">
+
+                        {acts?.length ? (
+                            <div className="grid auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
+                                {acts.map((act: Act) => (
+                                    <ActItem key={act.id} act={act} className={act.has_profile ? 'cursor-pointer' : ''}
+                                             onClick={() => showActHandler(act)}/>
+                                ))}
+                            </div>
+                        ) : (
+                            <Nothing>No Acts have entered the contest - yet!</Nothing>
+                        )
+                        }
                     </div>
-                ) : (
-                    <Nothing>No Acts have entered the contest - yet!</Nothing>
-                )
-                }
+                    <div className="lg:w-1/4">
+                        <Advert className="mx-auto h-[280px] md:h-[240px] text-center"/>
+                    </div>
+                </div>
 
                 <Dialog open={showCurrentAct}
                         onOpenChange={() => setShowCurrentAct(false)}>

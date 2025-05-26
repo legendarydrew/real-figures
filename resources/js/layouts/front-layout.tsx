@@ -10,7 +10,7 @@ import { FlashMessage } from '@/components/flash-message';
 // see https://inertiajs.com/pages#persistent-layouts
 
 export default function FrontLayout({ children }: ComponentProps<never>) {
-    const { flash } = usePage().props;
+    const { flash, status } = usePage().props;
 
     const { initialise, trackPageView, trackEvent } = useAnalytics();
 
@@ -19,7 +19,11 @@ export default function FrontLayout({ children }: ComponentProps<never>) {
     // We will also use track a non-interaction event if details were passed from the back end.
     useEffect(() => {
         initialise();
-        trackPageView();
+
+        if (!status) {
+            // We don't want to track invalid pages, indicated by a defined status in the page props.
+            trackPageView();
+        }
 
         if (flash?.track) {
             trackEvent({ nonInteraction: true, ...flash.track });
@@ -30,7 +34,7 @@ export default function FrontLayout({ children }: ComponentProps<never>) {
     return (
         <DialogProvider>
             <div
-                className="flex h-screen flex-col items-center bg-[#FDFDFC] text-[#1b1b18] lg:justify-center dark:bg-[#0a0a0a]">
+                className="overflow-hidden h-full flex h-screen flex-col items-center bg-[#FDFDFC] text-[#1b1b18] lg:justify-center dark:bg-[#0a0a0a]">
                 <FrontHeader/>
                 <main className="flex-grow w-full overflow-y-auto" scroll-region="">
                     {flash?.message && (
