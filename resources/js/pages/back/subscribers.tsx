@@ -20,11 +20,11 @@ interface SubscribersPageProps {
 }
 
 const SubscribersPage: React.FC<SubscribersPageProps> = ({
-                                                             subscriberCount,
-                                                             subscribers,
-                                                             currentPage,
-                                                             hasMorePages
-                                                         }: Readonly<SubscribersPageProps>) => {
+                                                                    subscriberCount,
+                                                                    subscribers,
+                                                                    currentPage,
+                                                                    hasMorePages
+                                                                }: Readonly<SubscribersPageProps>) => {
 
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [isConfirmingDelete, setIsConfirmingDelete] = useState<boolean>(false);
