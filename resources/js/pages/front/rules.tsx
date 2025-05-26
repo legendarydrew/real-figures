@@ -36,18 +36,21 @@ const RulesPage: React.FC = () => {
 
             <FrontContent>
                 <div className="flex flex-col md:flex-row mb-5 gap-5 mb:gap-10">
-                    <div className="md:w-3/5 content">
+                    <div className="md:w-3/5">
                         <Heading title="Real Figures Don't F.O.L.D &ndash; Contest Rules"/>
-                        <p className="text-lg">
-                            Welcome to the first-ever CATAWOL Records Song Contest!
-                        </p>
-                        <p>
-                            We’re bringing together 32 of our biggest Acts to showcase incredible creativity and raise
-                            awareness of bullying in adult spaces.
-                        </p>
-                        <p>
-                            And we need <b>your votes</b> to help decide which song becomes the <b>official anthem!</b>
-                        </p>
+                        <div className="content">
+                            <p className="text-lg">
+                                Welcome to the first-ever CATAWOL Records Song Contest!
+                            </p>
+                            <p>
+                                We’re bringing together 32 of our biggest Acts to showcase incredible
+                                creativity and raise awareness of bullying in adult spaces.
+                            </p>
+                            <p>
+                                And we need <b>your votes</b> to help decide which song becomes
+                                the <b>official anthem!</b>
+                            </p>
+                        </div>
                     </div>
                     <div className="md:w-2/5">
                         <Advert className="h-[160px] md:h-[240px] my-3"/>
