@@ -67,7 +67,11 @@ echo "=> Deploying code from {{ $dir }} to {{ $remote }}..."
 --}}
 rsync -zrSlha --stats --exclude-from=deployment-exclude-list.txt {{ $dir }}/ {{ $remote }}
 
-mv env .env
+{{--
+  The .env file has to be uploaded separately, as the above rsync excludes files (and folders?) beginning with ".".
+  Note that the dot character is escaped.
+--}}
+rsync -za --verbose {{ $dir }}/\.env {{ $remote }}/\.env
 @endtask
 
 @task('verify_install', ['on' => 'web'])
