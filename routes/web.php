@@ -107,7 +107,6 @@ Route::prefix('/api')->group(function ()
 Route::middleware(['auth', 'verified'])->group(function ()
 {
     Route::get('admin', [DashboardController::class, 'index'])->name('admin.dashboard');
-
     Route::get('/admin/acts', [ActsController::class, 'index'])->name('admin.acts');
     Route::get('/admin/contact', [ContactMessageController::class, 'index'])->name('admin.contact');
     Route::get('/admin/songs', [SongsController::class, 'index'])->name('admin.songs');
