@@ -113,3 +113,13 @@ jobs:
         run: |
           ssh-keyscan -t rsa ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
           php ./vendor/bin/envoy run deploy --run=${{ github.RUN_NUMBER }} --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ github.WORKSPACE }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v3
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
+        # NOTE: the author did not mention where to put this action, so assumed it goes last.
