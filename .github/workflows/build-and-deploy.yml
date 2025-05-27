@@ -46,22 +46,23 @@ jobs:
       - name: Create .env file
         run: |
           cp .env.production env
-          php -r "file_put_contents('env', str_replace(\"[ENV_DB_HOST]\", \"${{ secrets.ENV_DB_HOST }}\", file_get_contents('env')));"
-          php -r "file_put_contents('env', str_replace(\"[ENV_DB_PORT]\", \"${{ secrets.ENV_DB_PORT }}\", file_get_contents('env')));"
-          php -r "file_put_contents('env', str_replace(\"[ENV_DB_DATABASE]\", \"${{ secrets.ENV_DB_DATABASE }}\", file_get_contents('env')));"
-          php -r "file_put_contents('env', str_replace(\"[ENV_DB_USERNAME]\", \"${{ secrets.ENV_DB_USERNAME }}\", file_get_contents('env')));"
-          php -r "file_put_contents('env', str_replace(\"[ENV_DB_PASSWORD]\", \"${{ secrets.ENV_DB_PASSWORD }}\", file_get_contents('env')));"
-          php -r "file_put_contents('env', str_replace(\"[ENV_MAIL_HOST]\", \"${{ secrets.ENV_MAIL_HOST }}\", file_get_contents('env')));"
-          php -r "file_put_contents('env', str_replace(\"[ENV_MAIL_PORT]\", \"${{ secrets.ENV_MAIL_PORT }}\", file_get_contents('env')));"
-          php -r "file_put_contents('env', str_replace(\"[ENV_MAIL_USERNAME]\", \"${{ secrets.ENV_MAIL_USERNAME }}\", file_get_contents('env')));"
-          php -r "file_put_contents('env', str_replace(\"[ENV_MAIL_PASSWORD]\", \"${{ secrets.ENV_MAIL_PASSWORD }}\", file_get_contents('env')));"
-          php -r "file_put_contents('env', str_replace(\"[ENV_PAYPAL_CLIENT_ID]\", \"${{ secrets.ENV_PAYPAL_CLIENT_ID }}\", file_get_contents('env')));"
-          php -r "file_put_contents('env', str_replace(\"[ENV_PAYPAL_SECRET]\", \"${{ secrets.ENV_PAYPAL_SECRET }}\", file_get_contents('env')));"
           php -r "file_put_contents('env', str_replace(\"[ENV_ADSENSE_CLIENT_ID]\", \"${{ secrets.ENV_ADSENSE_CLIENT_ID }}\", file_get_contents('env')));"
           php -r "file_put_contents('env', str_replace(\"[ENV_ADSENSE_SLOT_ID]\", \"${{ secrets.ENV_ADSENSE_SLOT_ID }}\", file_get_contents('env')));"
           php -r "file_put_contents('env', str_replace(\"[ENV_ANALYTICS_MEASUREMENT_ID]\", \"${{ secrets.ENV_ANALYTICS_MEASUREMENT_ID }}\", file_get_contents('env')));"
-          php -r "file_put_contents('env', str_replace(\"[ENV_TURNSTILE_SITE_KEY]\", \"${{ secrets.ENV_TURNSTILE_SITE_KEY }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_DB_DATABASE]\", \"${{ secrets.ENV_DB_DATABASE }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_DB_HOST]\", \"${{ secrets.ENV_DB_HOST }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_DB_PASSWORD]\", \"${{ secrets.ENV_DB_PASSWORD }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_DB_PORT]\", \"${{ secrets.ENV_DB_PORT }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_DB_USERNAME]\", \"${{ secrets.ENV_DB_USERNAME }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_MAIL_HOST]\", \"${{ secrets.ENV_MAIL_HOST }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_MAIL_PASSWORD]\", \"${{ secrets.ENV_MAIL_PASSWORD }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_MAIL_PORT]\", \"${{ secrets.ENV_MAIL_PORT }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_MAIL_USERNAME]\", \"${{ secrets.ENV_MAIL_USERNAME }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_PAYPAL_CLIENT_ID]\", \"${{ secrets.ENV_PAYPAL_CLIENT_ID }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_PAYPAL_SECRET]\", \"${{ secrets.ENV_PAYPAL_SECRET }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_SENTRY_LARAVEL_DSN]\", \"${{ secrets.ENV_SENTRY_LARAVEL_DSN }}\", file_get_contents('env')));"
           php -r "file_put_contents('env', str_replace(\"[ENV_TURNSTILE_SECRET_KEY]\", \"${{ secrets.ENV_TURNSTILE_SECRET_KEY }}\", file_get_contents('env')));"
+          php -r "file_put_contents('env', str_replace(\"[ENV_TURNSTILE_SITE_KEY]\", \"${{ secrets.ENV_TURNSTILE_SITE_KEY }}\", file_get_contents('env')));"
 
       - name: Install Composer dependencies
         # We're only interested in non-dev dependencies, but we will also add Laravel Envoy
@@ -112,3 +113,13 @@ jobs:
         run: |
           ssh-keyscan -t rsa ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
           php ./vendor/bin/envoy run deploy --run=${{ github.RUN_NUMBER }} --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ github.WORKSPACE }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v3
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
+        # NOTE: the author did not mention where to put this action, so assumed it goes last.

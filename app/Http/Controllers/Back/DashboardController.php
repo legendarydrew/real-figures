@@ -15,7 +15,7 @@ class DashboardController extends Controller
 
     public function index(): Response
     {
-        return Inertia::render('dashboard', [
+        return Inertia::render('back/dashboard', [
             'message_count' => fn() => ContactMessage::whereNull('read_at')->count(),
             'song_plays'    => fn() => $this->getPlaysThisWeek(),
             'votes'         => fn() => $this->getVotesThisWeek()
@@ -41,7 +41,7 @@ class DashboardController extends Controller
         $song_plays = SongPlay::where('played_on', '>', now()->subDay())
                               ->select(['song_id', 'played_on', DB::raw('SUM(play_count) as play_count')])
                               ->orderByDesc('play_count')
-                              ->groupBy('song_id')
+                              ->groupBy('song_id', 'played_on', 'play_count')
                               ->take(6)
                               ->get();
 

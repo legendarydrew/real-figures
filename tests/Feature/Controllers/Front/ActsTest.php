@@ -35,4 +35,14 @@ class ActsTest extends TestCase
         $response->assertInertia(fn(Assert $page) => $page->component('front/acts'));
     }
 
+    public function test_specific_act()
+    {
+        $acts = Act::factory(2)->withSong('Test')->create();
+
+        $response = $this->get(route('act', ['slug' => $acts->first()->slug]));
+
+        $response->assertOk();
+        $response->assertInertia(fn(Assert $page) => $page->component('front/acts')->has('currentAct'));
+    }
+
 }
