@@ -8,7 +8,8 @@ import {
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
-    SidebarMenuItem
+    SidebarMenuItem,
+    SidebarTrigger
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
@@ -61,6 +62,9 @@ export function AppSidebar() {
                                 <AppLogo/>
                             </Link>
                         </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarTrigger className="w-auto px-2 h-8"/>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
