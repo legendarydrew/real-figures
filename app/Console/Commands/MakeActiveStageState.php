@@ -31,11 +31,11 @@ class MakeActiveStageState extends Command
 
         $this->info("\nCreating active Stage state...");
 
+        $this->comment('- removing existing Rounds');
+        Round::truncate();
+
         $this->comment('- removing existing Stages');
-        Stage::all()->each(function (Stage $stage)
-        {
-            $stage->delete();
-        });
+        Stage::truncate();
 
         $this->comment('- creating a new Stage');
         $stage              = Stage::factory()->createOne();
