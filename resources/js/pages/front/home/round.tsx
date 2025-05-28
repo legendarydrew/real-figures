@@ -28,7 +28,7 @@ const HomeCurrentRoundPage: React.FC = ({ stage, currentRound, previousRounds, c
                     )}
                     {previousRounds.length ? (
                         <div className="mt-5">
-                            <HeadingSmall title="Previous Rounds"/>
+                            <HeadingSmall title={`Previous ${previousRounds.count === 1 ? 'Round' : 'Rounds'}`}/>
                             {previousRounds.map((round) => <PreviousRound key={round.id} round={round}/>)}
                         </div>
                     ) : ''}
