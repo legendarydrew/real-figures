@@ -16,13 +16,13 @@ export const CurrentRound: React.FC<CurrentRoundProps> = ({ round }) => {
         round ? (
             <>
                 {/* The Acts and their songs. */}
-                <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <ul className="grid gap-4 grid-cols-2 md:grid-cols-4">
                     {round.songs.map((song) => (
                         <li className="bg-secondary/30 rounded-md leading-none relative" key={song.id}>
                             <ActImage act={song.act} size="full"/>
-                            <div className="p-5 absolute bottom-0">
-                                <div className="text-lg font-semibold">{song.act.name}</div>
-                                <div className="text-base font-semibold">
+                            <div className="p-3 lg:p-5 absolute bottom-0">
+                                <div className="text-lg font-semibold leading-tight">{song.act.name}</div>
+                                <div className="text-base font-semibold leading-tight">
                                     <LanguageFlag language={song.language}/>
                                     {song.title}
                                 </div>

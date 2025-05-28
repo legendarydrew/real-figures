@@ -23,7 +23,7 @@ export const CurrentStage: React.FC<CurrentStageProps> = ({ stage, round, countd
                 <div className="content my-3 text-sm text-white/95 col-span-1 md:col-span-3 col-start-1 text-center md:text-left md:row-start-2"
                      dangerouslySetInnerHTML={{ __html: stage.description }}/>
             )}
-            <div className="col-span-1 text-center col-start-1 md:col-start-4 row-start-2 md:row-start-1">
+            <div className="col-span-1 text-center col-start-1 md:col-start-4 row-start-2 md:row-start-1 md:row-span-2">
                 <span className="text-sm">Voting ends in</span>
                 <CountdownTimer timestamp={countdown} onEnd={countdownEndHandler}/>
             </div>
