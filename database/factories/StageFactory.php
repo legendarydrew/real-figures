@@ -22,11 +22,9 @@ class StageFactory extends Factory
      */
     public function definition(): array
     {
-        $this->faker->addProvider(new \DavidBadura\FakerMarkdownGenerator\FakerProvider($this->faker));
-
         return [
-            'title' => $this->faker->unique()->sentence(),
-            'description' => $this->faker->markdown(),
+            'title'       => $this->faker->unique()->words(3, true),
+            'description' => $this->faker->paragraph,
         ];
     }
 
@@ -34,7 +32,7 @@ class StageFactory extends Factory
     {
         return $this->afterCreating(function (Stage $stage)
         {
-            Round::factory($this->faker->numberBetween(1, 3))->for($stage)->create();
+            Round::factory($this->faker->numberBetween(1, 3))->withSongs()->for($stage)->create();
         });
     }
 
