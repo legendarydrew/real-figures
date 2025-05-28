@@ -1,8 +1,6 @@
 import { Head } from '@inertiajs/react';
 import FrontLayout from '@/layouts/front-layout';
-import Heading from '@/components/heading';
 import HeadingSmall from '@/components/heading-small';
-import { ActImage } from '@/components/ui/act-image';
 import ContestHeader from '@/components/front/contest-header';
 import { Advert } from '@/components/advert';
 import ContestOutline from '@/components/front/contest-outline';
@@ -10,6 +8,7 @@ import GoldenBuzzerBanner from '@/components/front/golden-buzzer-banner';
 import AboutBanner from '@/components/front/about-banner';
 import { CurrentRound } from '@/components/current-round';
 import { CurrentStage } from '@/components/current-stage';
+import { PreviousRound } from '@/components/previous-round';
 
 const HomeCurrentRoundPage: React.FC = ({ stage, currentRound, previousRounds, countdown }) => {
 
@@ -28,26 +27,10 @@ const HomeCurrentRoundPage: React.FC = ({ stage, currentRound, previousRounds, c
                         </>
                     )}
                     {previousRounds.length ? (
-                        <>
-                            <Heading title="Previous Rounds"/>
-                            {previousRounds.map((round) => (
-                                <div key={round.id} className="mb-2">
-                                    <HeadingSmall title={round.title}/>
-                                    <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                                        {round.songs.map((song) => (
-                                            <li className="bg-secondary/15 rounded-md leading-none relative"
-                                                key={song.id}>
-                                                <ActImage act={song.act} size="full"/>
-                                                <div className="p-5 absolute bottom-0">
-                                                    <div className="text-base font-semibold">{song.act.name}</div>
-                                                    <div className="text-sm font-semibold">{song.title}</div>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ))}
-                        </>
+                        <div className="mt-5">
+                            <HeadingSmall title="Previous Rounds"/>
+                            {previousRounds.map((round) => <PreviousRound key={round.id} round={round}/>)}
+                        </div>
                     ) : ''}
                 </div>
             </div>

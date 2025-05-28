@@ -17,7 +17,7 @@ export const CurrentStage: React.FC<CurrentStageProps> = ({ stage, round, countd
     return stage && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-y-0">
             <div className="col-span-1 md:col-span-3 col-start-1 row-start-1 text-center md:text-left">
-                <Heading title={round.title}/>
+                <Heading title={round.full_title}/>
             </div>
             {stage.description && (
                 <div className="content my-3 text-sm text-white/95 col-span-1 md:col-span-3 col-start-1 text-center md:text-left md:row-start-2"

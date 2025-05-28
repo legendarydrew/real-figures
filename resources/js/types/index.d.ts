@@ -97,6 +97,7 @@ export interface Song {
 export interface Round {
     id: number;
     title: string;
+    full_title: string;
     starts_at: string;
     ends_at: string;
     songs?: Song[];
