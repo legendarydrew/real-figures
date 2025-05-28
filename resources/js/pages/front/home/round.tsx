@@ -26,6 +26,11 @@ const HomeCurrentRoundPage: React.FC = ({ stage, currentRound, previousRounds, c
                             <CurrentRound round={currentRound}/>
                         </>
                     )}
+
+                    { (currentRound && previousRounds.length) && (
+                        <Advert className="mx-auto max-h-[280px] md:max-h-[240px] text-center"/>
+                    )}
+
                     {previousRounds.length ? (
                         <div className="mt-5">
                             <HeadingSmall title={`Previous ${previousRounds.count === 1 ? 'Round' : 'Rounds'}`}/>
