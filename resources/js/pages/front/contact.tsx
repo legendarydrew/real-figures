@@ -12,6 +12,7 @@ import { ChangeEvent } from 'react';
 import { TurnstileWidget } from '@/components/turnstile-widget';
 import { useAnalytics } from '@/hooks/use-analytics';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Alert } from '@/components/alert';
 
 interface ContactPageProps {
     success: boolean;
@@ -95,9 +96,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
 
                     <div className="lg:w-3/5">
                         {success ? (
-                            <div className="bg-green-200 p-5 rounded-md">
-                                Your message has been sent.
-                            </div>
+                            <Alert type="success" message="Your message has been sent." />
                         ) : (
                             <form onSubmit={submitHandler} className="flex flex-col gap-3">
 

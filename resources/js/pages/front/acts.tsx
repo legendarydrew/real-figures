@@ -47,7 +47,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
             <Head title="Acts"/>
 
             <FrontContent>
-                <Heading title="Competing Acts"/>
+                <Heading className="mb-3" title="Competing Acts"/>
 
                 <div className="lg:flex gap-3">
                     <div className="lg:w-3/4">

@@ -39,27 +39,25 @@ const AboutPage: React.FC = () => {
                             <li>
                                 <HeadingSmall title="Revisiting one of SilentMode's earliest Creations."/>
                                 <p className="mb-3">CATAWOL Records began life as a modular building, designed and built
-                                    near the beginning of SilentMode's time in the LEGO hobby. The model was designed
-                                    without ever having owned or built an official modular building set.</p>
+                                    near the beginning of SilentMode's time in the LEGO hobby.</p>
                             </li>
                             <li>
                                 <HeadingSmall title="Embarking on an ambitious LEGO project."/>
                                 <p className="mb-3">Expanding on his existing skills as a Maker, Artist and LEGO
-                                    Enthusiast, this is SilentMode's first project to fully incorporate music, as well
-                                    as AI/computer-generated content.</p>
+                                    Enthusiast, this is SilentMode's first project to fully incorporate music and
+                                    AI/computer-generated content.</p>
                             </li>
                             <li>
                                 <HeadingSmall
                                     title="Creating the first ever anti-bullying campaign (that we know of) within the LEGO space."/>
-                                <p className="mb-3">An opportunity for SilentMode to highlight an important issue,
-                                    which affects <em>both children and adults</em>, that has never been
+                                <p className="mb-3">An opportunity to highlight an important issue,
+                                    affecting <b>both children and adults</b>, that has never been
                                     addressed before in the context of LEGO.</p>
                             </li>
                             <li>
                                 <HeadingSmall title="A live demonstration of coding ability."/>
-                                <p className="mb-3">This site was designed and built by SilentMode himself, using
-                                    Laravel and Inertia for the back end, and React with Tailwind for the front end.
-                                    Hopefully it will help him land his next role.</p>
+                                <p className="mb-3">Designed and built by SilentMode himself, the site uses
+                                    Laravel with Inertia for the back end, and React with Tailwind for the front end.</p>
                             </li>
                         </ul>
 

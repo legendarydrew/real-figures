@@ -22,7 +22,7 @@ export const CurrentRound: React.FC<CurrentRoundProps> = ({ round }) => {
                             <ActImage act={song.act} size="full"/>
                             <div className="p-3 lg:p-5 absolute bottom-0 w-full">
                                 <div className="text-lg font-semibold leading-tight">{song.act.name}</div>
-                                <div className="flex items-center truncate gap-2 text-base font-semibold leading-tight">
+                                <div className="flex items-center truncate gap-2 text-sm font-semibold leading-tight">
                                     <LanguageFlag languageCode={song.language}/>
                                     {song.title}
                                 </div>
