@@ -65,7 +65,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
                         }
                     </div>
                     <div className="lg:w-1/4">
-                        <Advert className="mx-auto h-[280px] md:h-[240px] text-center"/>
+                        <Advert className="mx-auto text-center" height={240}/>
                     </div>
                 </div>
 

@@ -91,7 +91,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
                         <p>Whether you're an artist, a voter, a supporter, or just curious &ndash; we’re all ears.</p>
                         <p className="italic">Music connects us... so don't be shy!</p>
 
-                        <Advert className="mt-3 h-[90px] lg:h-[160px]"/>
+                        <Advert className="mt-3" height={160}/>
                     </div>
 
                     <div className="lg:w-3/5">

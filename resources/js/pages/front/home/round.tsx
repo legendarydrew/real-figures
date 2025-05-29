@@ -28,7 +28,7 @@ const HomeCurrentRoundPage: React.FC = ({ stage, currentRound, previousRounds, c
                     )}
 
                     { (currentRound && previousRounds.length) && (
-                        <Advert className="mx-auto max-h-[280px] md:max-h-[240px] text-center"/>
+                        <Advert className="mx-auto text-center" height={240}/>
                     )}
 
                     {previousRounds.length ? (
@@ -41,7 +41,7 @@ const HomeCurrentRoundPage: React.FC = ({ stage, currentRound, previousRounds, c
             </div>
 
             <ContestHeader/>
-            <Advert className="mx-auto max-h-[280px] md:max-h-[240px] text-center"/>
+            <Advert className="mx-auto text-center" height={240}/>
             <ContestOutline/>
             <GoldenBuzzerBanner/>
             <AboutBanner/>

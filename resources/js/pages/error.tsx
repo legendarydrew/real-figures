@@ -22,7 +22,7 @@ export default function ErrorPage({ status }) {
             <div className="h-full flex flex-col items-center justify-center text-center">
                 <Heading title={title} description={description}/>
 
-                <Advert className="h-[160px] mx-auto" />
+                <Advert className="mx-auto" height={160} />
             </div>
         </FrontLayout>
     )

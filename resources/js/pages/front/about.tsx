@@ -64,14 +64,14 @@ const AboutPage: React.FC = () => {
                     </div>
                 </div>
 
-                <Advert className="mx-auto my-3 h-[60px] md:h-[90px] text-center"/>
+                <Advert className="mx-auto my-3 text-center" height={90}/>
 
                 <AboutCatawolPanel opened={() => trackOpenPanelHandler('About CATAWOL')}/>
                 <AboutSongPanel opened={() => trackOpenPanelHandler('About the Song')}/>
                 <AboutFoldPanel opened={() => trackOpenPanelHandler('About the F.O.L.D')}/>
                 <AboutSilentmodePanel opened={() => trackOpenPanelHandler('About SilentMode')}/>
 
-                <Advert className="mx-auto my-3 h-[60px] md:h-[90px] text-center"/>
+                <Advert className="mx-auto my-3 text-center" height={90}/>
             </FrontContent>
         </>
     );

@@ -10,7 +10,12 @@
 import { usePage } from '@inertiajs/react';
 import { Adsense } from '@ctrl/react-adsense';
 
-export const Advert: React.FC = ({ className }) => {
+interface AdvertProps {
+    className?: string;
+    height?: number;
+}
+
+export const Advert: React.FC<AdvertProps> = ({ className, height }) => {
 
     // see AppServiceProvider.php.
     const { adsense } = usePage().props;
@@ -18,7 +23,7 @@ export const Advert: React.FC = ({ className }) => {
     return (
         <div className={className}>
             <Adsense adTest={adsense.testing} client={adsense.client_id} slot={adsense.slot_id}
-                     responsive={true} layout="in-article" format="fluid" style={{ display: 'block' }}/>
+                     responsive={true} format="fluid" style={{ display: 'block', height: height }}/>
         </div>
     )
 }

@@ -58,7 +58,7 @@ const RulesPage: React.FC = () => {
                         </div>
                     </div>
                     <div className="md:w-2/5">
-                        <Advert className="h-[160px] md:h-[240px] my-3"/>
+                        <Advert className="my-3" height={240}/>
                     </div>
                 </div>
 
@@ -309,7 +309,7 @@ const RulesPage: React.FC = () => {
                     </CollapsibleContent>
                 </Collapsible>
 
-                <Advert className="mx-auto my-3 h-[60px] md:h-[90px] text-center"/>
+                <Advert className="mx-auto my-3 text-center" height={90}/>
 
             </FrontContent>
         </>

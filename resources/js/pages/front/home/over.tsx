@@ -25,7 +25,7 @@ const HomeContestOverPage: React.FC = () => {
 
                 </div>
             </div>
-            <Advert className="mx-auto max-h-[280px] md:max-h-[240px] text-center"/>
+            <Advert className="mx-auto text-center" height={240}/>
             <AboutBanner/>
         </>
     );
