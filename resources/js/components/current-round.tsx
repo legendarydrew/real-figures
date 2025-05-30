@@ -4,6 +4,7 @@ import { LanguageFlag } from '@/components/language-flag';
 import { ROUND_VOTE_DIALOG_NAME, RoundVoteDialog } from '@/components/front/round-vote-dialog';
 import { Button } from '@/components/ui/button';
 import { useDialog } from '@/context/dialog-context';
+import { StarIcon } from 'lucide-react';
 
 interface CurrentRoundProps {
     round?: Round;
@@ -28,21 +29,26 @@ export const CurrentRound: React.FC<CurrentRoundProps> = ({ round }) => {
                 {/* The Acts and their songs. */}
                 <ul className="grid gap-4 grid-cols-2 md:grid-cols-4 select-none">
                     {round.songs.map((song) => (
-                        <li className="bg-secondary/30 rounded-md leading-none relative" key={song.id}>
-                            <ActImage act={song.act} size="full"/>
-                            <div className="p-3 lg:p-5 absolute bottom-0 w-full">
-                                <div className="text-lg font-semibold leading-tight">{song.act.name}</div>
-                                <div className="flex items-center truncate gap-2 text-sm font-semibold leading-tight">
-                                    <LanguageFlag languageCode={song.language}/>
-                                    {song.title}
+                        <li key={song.id}>
+                            <div className="bg-secondary/30 rounded-t-md leading-none relative">
+                                <ActImage act={song.act} size="full"/>
+                                <div className="p-3 lg:p-5 absolute bottom-0 w-full">
+                                    <div className="text-lg font-semibold leading-tight">{song.act.name}</div>
+                                    <div className="flex items-center truncate gap-2 text-sm font-semibold leading-tight">
+                                        <LanguageFlag languageCode={song.language}/>
+                                        {song.title}
+                                    </div>
                                 </div>
                             </div>
+                            <Button className="w-full rounded-t-none uppercase" variant="gold" size="lg" type="button">
+                                <StarIcon /> Golden Buzzer <StarIcon />
+                            </Button>
                         </li>
                     ))}
                 </ul>
 
                 {/* A big button for casting a vote. */}
-                <Button size="lg" className="w-full my-3 text-base" type="button" onClick={beginVoteHandler}>Vote for your favourite Song...</Button>
+                <Button size="lg" className="w-full my-3 text-base" type="button" onClick={beginVoteHandler}>Cast your Vote...</Button>
                 <RoundVoteDialog round={round}/>
             </>
         ) : ''
