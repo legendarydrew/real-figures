@@ -8,6 +8,7 @@ import { VoteIcon } from 'lucide-react';
 import { ActImage } from '@/components/ui/act-image';
 import { Button } from '@/components/ui/button';
 import { LanguageFlag } from '@/components/language-flag';
+import axios from 'axios';
 
 interface RoundVoteDialogProps {
     round: Round;
@@ -35,17 +36,29 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
     ];
 
     const [userVotes, setUserVotes] = useState({});
-    const [failed, setFailed] = useState<boolean>(false);
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [isVoting, setIsVoting] = useState<boolean>(false);
+    const [successful, setSuccessful] = useState<boolean>(false);
 
     useEffect(() => {
         if (isOpen) {
             // Reset the votes.
             setUserVotes({});
+            setSuccessful(false);
+            setErrors({});
         }
     }, [isOpen]);
 
     const isChecked = (song: Song, position: string): boolean => {
         return userVotes[position] === song.id;
+    };
+
+    const hasErrors = (): boolean => {
+        return Object.entries(errors).length > 0;
+    };
+
+    const hasError = (position: string): boolean => {
+        return Object.hasOwn(errors, `${position}_choice_id`);
     };
 
     const setVoteHandler = (song: Song, position: string): void => {
@@ -57,10 +70,38 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
             }
         });
         setUserVotes(newUserVotes);
+
+        const updatedErrors = {...errors};
+        delete updatedErrors[`${position}_choice_id`];
+        setErrors(updatedErrors);
     };
 
     const castVoteHandler = (): void => {
-        setFailed(false);
+        if (isVoting) {
+            return;
+        }
+
+        setErrors({});
+
+        const payload = {
+            round_id: round.id
+        };
+        votePositions.forEach((vp) => {
+            payload[`${vp.key}_choice_id`] = userVotes[vp.key];
+        });
+
+        setIsVoting(true);
+        axios.post(route('vote'), payload)
+            .then(() => {
+                setSuccessful(true);
+            })
+            .catch((error: AxiosError) => {
+                console.log(error.response.data.errors);
+                setErrors(error.response.data.errors);
+            })
+            .finally(() => {
+                setIsVoting(false);
+            });
     };
 
     return (
@@ -89,8 +130,9 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
                             {votePositions.map((position) => (
                                 <Button key={`${song.id}-${position.key}`}
                                         variant={isChecked(song, position.key) ? 'checked' : 'outline'}
-                                        className="w-20 text-center p-2"
+                                        className={`w-20 text-center p-2 ${hasError(position.key) ? ' border-red-500' : ''}`}
                                         aria-label={`${position.key} place`}
+                                        disabled={successful}
                                         onClick={() => setVoteHandler(song, position.key)}>
                                     {position.ordinal}
                                 </Button>
@@ -98,16 +140,21 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
                         </div>
                     ))}
                 </div>
-                {failed && (
-                    <Alert type="error"
+                {hasErrors() ? (
+                    <Alert type="error" className="my-0"
                            message="Something went wrong with casting your vote, please try again."/>
-                )}
+                ) : ''}
 
-                <DialogFooter>
-                    <LoadingButton size="lg" type="button" className="w-full text-base" onClick={castVoteHandler}>
-                        <VoteIcon/> Cast Vote
-                    </LoadingButton>
-                </DialogFooter>
+                {successful ? (
+                    <Alert type="success" message="Your vote has been cast! Thank you!"/>
+                ) : (
+                    <DialogFooter>
+                        <LoadingButton size="lg" type="button" className="w-full text-base" isLoading={isVoting}
+                                       onClick={castVoteHandler}>
+                            <VoteIcon/> Cast Vote
+                        </LoadingButton>
+                    </DialogFooter>
+                )}
 
             </DialogContent>
         </Dialog>
