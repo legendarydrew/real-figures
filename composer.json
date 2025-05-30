@@ -15,7 +15,12 @@
         "anti-bullying",
         "silentmode",
         "catawol-records",
-        "lego-community"
+        "lego-community",
+        "lego-space",
+        "bullying",
+        "portfolio",
+        "i-can-code",
+        "mode-can-code"
     ],
     "license": "MIT",
     "require": {
