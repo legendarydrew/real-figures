@@ -24,10 +24,10 @@ const AboutPage: React.FC = () => {
             <Head title="About the Contest"/>
 
             <FrontContent>
-                <Heading title="Real Figures Don't F.O.L.D &ndash; About the Project"/>
+                <Heading title="Real Figures Don't F.O.L.D &ndash; About the Project" className="mb-5"/>
 
                 <div className="content pt-3 pb-5 lg:pb-10 lg:px-2 flex flex-col md:flex-row gap-5 lg:gap-10">
-                    <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20"/>
+                    <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
                     <div className="content md:w-3/5">
                         <p className="text-lg">
                             <b>Real Figures Don't F.O.L.D combines SilentMode's interest in LEGO</b> with music,

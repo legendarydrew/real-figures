@@ -25,7 +25,7 @@ export const AboutSilentmodePanel: React.FC = ({ opened }) => {
             </CollapsibleTrigger>
             <CollapsibleContent
                 className="content pt-3 pb-5 lg:pb-10 px-2 lg:px-5 flex flex-col md:flex-row gap-5 lg:gap-10">
-                <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20"/>
+                <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
                 <div className="md:w-3/5">
                     <p><b className="text-current">SilentMode is a Maker, Artist and LEGO Enthusiast</b> based in
                         London,
