@@ -92,7 +92,7 @@ class HomeController extends Controller
                 return Inertia::render($component, [
                     'stage'          => fn() => fractal($current_stage, StageTransformer::class)->parseIncludes(['description'])->toArray(),
                     'currentRound'   => fn() => fractal($current_round, RoundTransformer::class, '')->parseIncludes(['full_title'])->toArray(),
-                    'previousRounds' => fn() => fractal($previous_rounds->sortByDesc('id'), RoundTransformer::class, '')->toArray(),
+                    'previousRounds' => fn() => fractal($previous_rounds?->sortByDesc('id'), RoundTransformer::class, '')->toArray(),
                     'countdown'      => fn() => $countdown,
                 ]);
             }
