@@ -127,7 +127,7 @@ export default function ContactMessagesPage({
                         <Collapsible className="my-1 mx-4" key={message.id}
                                      onOpenChange={() => markReadHandler(message)}>
                             <div
-                                className={cn("flex gap-2 items-center p-2 w-full", message.was_read ? "bg-gray-200 hover:bg-gray-300" : "bg-teal-200 hover:bg-teal-300")}>
+                                className={cn("flex gap-2 items-center p-2 w-full", message.was_read ? "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800" : "bg-teal-200 hover:bg-teal-300 dark:bg-teal-700 dark:hover:bg-teal-800")}>
                                 <Checkbox className="bg-white" checked={selectedIds.includes(message.id)}
                                           onCheckedChange={(state) => state ? selectMessageHandler(message) : deselectMessageHandler(message)}/>
                                 <CollapsibleTrigger className="flex gap-3 w-full items-center">

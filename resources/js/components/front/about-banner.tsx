@@ -11,12 +11,12 @@ export default function AboutBanner() {
     };
 
     return (
-        <div className="bg-gray-200 p-5 md:py-10">
+        <div className="bg-gray-200 dark:bg-gray-700 p-5 md:py-10">
             <div className="max-w-5xl mx-auto grid gap-4 grid-cols-1 md:grid-cols-2">
 
                 <div className="pr-10">
                     <PlaceholderPattern
-                        className="w-full h-[10rem] mb-5 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
+                        className="w-full h-[10rem] mb-5 stroke-neutral-900/20 dark:stroke-neutral-100/40"/>
 
                     <Heading title="About the Contest"/>
                     <p className="mb-3">

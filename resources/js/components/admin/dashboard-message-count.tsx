@@ -15,7 +15,7 @@ export const DashboardMessageCount: React.FC<DashboardMessageCountProps> = ({ me
     };
 
     return message_count && (
-        <div className="bg-amber-100 border border-amber-500 rounded-sm p-3 flex items-center gap-2">
+        <div className="bg-amber-100 border border-amber-500 rounded-sm p-3 flex items-center gap-2 dark:bg-amber-800 dark:border-amber-900">
             <Mail className="h-5"/>
             <div className="flex-grow">
                 {message_count === 1 ? 'There is an unread message.' : <>There are <b>{message_count}</b> unread

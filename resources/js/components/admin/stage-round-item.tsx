@@ -13,7 +13,7 @@ export const StageRoundItem: React.FC<StageItemProps> = ({ round }) => {
     return round && (
         <Collapsible className="mb-0.5">
             <CollapsibleTrigger
-                className="flex gap-1 px-3 b-2 w-full bg-blue-100 hover:bg-blue-200 items-center justify-between">
+                className="flex gap-1 px-3 b-2 w-full bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 items-center justify-between">
                 <span className="flex-grow font-bold text-left py-2">{round.title}</span>
                 <div className="inline-flex gap-0.5">
                     {round.songs?.map((song) => (
@@ -30,7 +30,7 @@ export const StageRoundItem: React.FC<StageItemProps> = ({ round }) => {
                 <ul>
                     {round.songs?.map((song) => (
                         <li key={song.id}
-                            className="my-0.5 flex gap-1 justify-between items-center text-sm hover:bg-indigo-100">
+                            className="my-0.5 flex gap-1 justify-between items-center text-sm hover:bg-indigo-100 dark:hover:bg-indigo-800">
                             <ActImage className="w-10 h-10" act={song.act}/>
                             <span className="w-[20em] font-bold">{song.act.name}</span>
                             <span className="mr-auto flex gap-1 items-center">
@@ -39,7 +39,7 @@ export const StageRoundItem: React.FC<StageItemProps> = ({ round }) => {
                             </span>
                             <span className="pr-2 text-right">
                                 {song.play_count.toLocaleString()}
-                                <span className="text-xs ml-1">play(s)</span>
+                                <span className="text-xs ml-1">{ song.play_count === 1 ? 'play' : 'plays'}</span>
                             </span>
                         </li>
                     ))}
