@@ -107,7 +107,7 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
                 ) : (
                     <>
                         <div
-                            className="flex flex-col lg:flex-row gap-3 justify-between items-center py-2 px-5 bg-green-200 rounded-sm">
+                            className="flex flex-col lg:flex-row gap-3 justify-between items-center py-2 px-5 bg-green-200 dark:bg-green-700 rounded-sm">
                             <Label htmlFor="donationAmount">I would like to donate</Label>
 
                             <div className="flex gap-1 items-center">
