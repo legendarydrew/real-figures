@@ -31,7 +31,7 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
 
     return (
         <div
-            className={cn("relative flex rounded-md b-2 aspect-square w-full bg-gray-200 hover:bg-gray-300 items-center flex-col justify-end overflow-hidden select-none", className)}
+            className={cn("relative flex rounded-md b-2 aspect-square w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 items-center flex-col justify-end overflow-hidden select-none", className)}
             {...props}>
 
             {act.image ? (
