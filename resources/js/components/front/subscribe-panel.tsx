@@ -58,7 +58,7 @@ export const SubscribePanel: React.FC = ({ ...props }) => {
                 </div>
             ) : (
                 <div className="flex items-center">
-                    <Input className="bg-white rounded-r-none" type="email" value={email} onChange={emailChangeHandler}
+                    <Input className="bg-white dark:bg-white/20 dark:border-none rounded-r-none" type="email" value={email} onChange={emailChangeHandler}
                            placeholder="Enter your email address..."/>
                     <LoadingButton type="submit" className="rounded-l-none" isLoading={isProcessing}>I'm
                         in!</LoadingButton>
