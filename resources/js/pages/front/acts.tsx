@@ -47,7 +47,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
             <Head title="Acts"/>
 
             <FrontContent>
-                <Heading title="Competing Acts"/>
+                <Heading className="mb-3" title="Competing Acts"/>
 
                 <div className="lg:flex gap-3">
                     <div className="lg:w-3/4">
@@ -65,7 +65,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
                         }
                     </div>
                     <div className="lg:w-1/4">
-                        <Advert className="mx-auto h-[280px] md:h-[240px] text-center"/>
+                        <Advert className="mx-auto text-center" height={240}/>
                     </div>
                 </div>
 

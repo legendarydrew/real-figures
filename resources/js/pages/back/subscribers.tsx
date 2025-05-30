@@ -122,7 +122,7 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
                     </div>
 
                     <div className="overflow-y-auto max-h-[15rem] px-4 relative">
-                        <div className="p-2 text-xs flex gap-2 font-semibold sticky top-0 bg-white">
+                        <div className="p-2 text-xs flex gap-2 font-semibold sticky top-0 bg-white dark:bg-gray-800">
                             <div className="flex-grow">Email</div>
                             <div className="w-30 text-right">Created at</div>
                             <div className="w-30 text-right">Confirmed at</div>
@@ -130,7 +130,7 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
                         <ul className="text-sm">
                             {subscribers.map((subscriber) => (
                                 <li key={subscriber.id}
-                                    className="flex items-center gap-2 py-1 px-2 hover:bg-gray-200 dark:bg-gray-800">
+                                    className="flex items-center gap-2 py-1 px-2 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 select-none">
                                     <Checkbox id={'subscriber-' + subscriber.id} className="bg-white"
                                               checked={selectedIds.includes(subscriber.id)}
                                               onCheckedChange={(state) => state ? selectSubscriberHandler(subscriber) : deselectSubscriberHandler(subscriber)}/>
