@@ -9,6 +9,7 @@ import { ActImage } from '@/components/ui/act-image';
 import { Button } from '@/components/ui/button';
 import { LanguageFlag } from '@/components/language-flag';
 import axios from 'axios';
+import { useAnalytics } from '@/hooks/use-analytics';
 
 interface RoundVoteDialogProps {
     round: Round;
@@ -27,6 +28,8 @@ export const ROUND_VOTE_DIALOG_NAME = 'round-vote';
 export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
 
     const { openDialogName, closeDialog } = useDialog();
+    const { trackEvent } = useAnalytics();
+
     const isOpen = openDialogName === ROUND_VOTE_DIALOG_NAME;
 
     const votePositions = [
@@ -71,7 +74,7 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
         });
         setUserVotes(newUserVotes);
 
-        const updatedErrors = {...errors};
+        const updatedErrors = { ...errors };
         delete updatedErrors[`${position}_choice_id`];
         setErrors(updatedErrors);
     };
@@ -94,9 +97,9 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
         axios.post(route('vote'), payload)
             .then(() => {
                 setSuccessful(true);
+                trackEvent({ category: 'Round', action: 'Vote', label: round.full_title, nonInteraction: false });
             })
             .catch((error: AxiosError) => {
-                console.log(error.response.data.errors);
                 setErrors(error.response.data.errors);
             })
             .finally(() => {
