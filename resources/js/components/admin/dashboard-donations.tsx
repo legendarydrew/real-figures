@@ -14,10 +14,10 @@ interface DashboardDonationsProps {
 export const DashboardDonations: React.FC<DashboardDonationsProps> = ({ data }) => {
     return (
         <div>
-            <h2 className="display-text mb-2 text-green-600 dark:text-green-300">Donations received <small>last
+            <h2 className="display-text mb-2 text-green-800 dark:text-green-200">Donations received <small>last
                 ten</small></h2>
             {data.rows.length ? (
-                <table className="table w-full text-sm border-1 border-green-600 dark:border-green-300">
+                <table className="dashboard-table">
                     <tfoot>
                     <tr className="border-t-2 border-green-600 dark:border-green-300 text-base pt-2">
                         <th scope="row" colSpan="2" className="px-1 py-0.5 text-left">Total raised</th>
