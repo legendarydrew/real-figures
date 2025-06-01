@@ -203,4 +203,28 @@ has the theme configured here.)
     .content ul {
         @apply list-disc mt-3 mb-5 ml-5;
     }
+
+    /* Dashboard tables.
+     (adapted from https://tw-elements.com/docs/standard/data/tables/#small) */
+    table.dashboard-table {
+        @apply min-w-full text-center text-sm font-light text-current;
+    }
+
+    table.dashboard-table thead {
+        @apply border-b border-neutral-200 font-medium dark:border-white/10;
+    }
+
+    table.dashboard-table tfoot {
+        @apply border-t border-neutral-200 font-medium dark:border-white/10;
+    }
+
+    table.dashboard-table th,
+    table.dashboard-table td {
+        @apply whitespace-nowrap px-6 py-2;
+    }
+
+    table.dashboard-table tr {
+        @apply border-b border-neutral-100 dark:border-white/10;
+    }
+
 }
