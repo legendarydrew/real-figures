@@ -5,7 +5,8 @@ namespace Tests\Feature\Controllers\API;
 use App\Facades\PaypalServiceFacade;
 use App\Mail\GoldenBuzzerConfirmation;
 use App\Models\GoldenBuzzer;
-use App\Models\Song;
+use App\Models\Round;
+use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Depends;
@@ -24,8 +25,13 @@ class GoldenBuzzerTest extends TestCase
         parent::setUp();
         Mail::fake();
 
-        $song          = Song::factory()->withAct()->createOne();
+        $stage         = Stage::factory()->createOne();
+        $round         = Round::factory()->withSongs()->createOne([
+            'stage_id' => $stage->id,
+        ]);
+        $song          = fake()->randomElement($round->songs);
         $this->payload = [
+            'round_id'       => $round->id,
             'song_id'        => $song->id,
             'transaction_id' => fake()->uuid,
             'message'        => fake()->text,
