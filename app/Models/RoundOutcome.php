@@ -7,38 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
-/**
- *
- *
- * @property int                             $id
- * @property int                             $round_id
- * @property int                             $song_id
- * @property int                             $first_votes
- * @property int                             $second_votes
- * @property int                             $third_votes
- * @property int                             $was_random
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read int                        $score
- * @property-read int                        $vote_count
- * @property-read \App\Models\Round          $round
- * @property-read \App\Models\Song           $song
- * @property-read \App\Models\Stage|null     $stage
- * @method static \Database\Factories\RoundOutcomeFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RoundOutcome newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RoundOutcome newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RoundOutcome query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RoundOutcome whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RoundOutcome whereFirstVotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RoundOutcome whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RoundOutcome whereRoundId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RoundOutcome whereSecondVotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RoundOutcome whereSongId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RoundOutcome whereThirdVotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RoundOutcome whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RoundOutcome whereWasRandom($value)
- * @mixin \Eloquent
- */
 class RoundOutcome extends Model
 {
     /** @use HasFactory<\Database\Factories\RoundOutcomeFactory> */
