@@ -24,7 +24,11 @@ export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePag
 
             <div className="flex lg:justify-between lg:items-end mb-3 p-4">
                 <h1 className="display-text flex-grow text-2xl">Golden Buzzers</h1>
-                {count ? <p className="text-sm">{count.toLocaleString()} Golden Buzzer(s) were hit.</p> : ''}
+                {count ?
+                    <p className="text-sm">
+                        <b>{count.toLocaleString()} Golden {count === 1 ? 'Buzzer' : 'Buzzers'}</b> {count === 1 ? 'was' : 'were'} hit.
+                    </p> :
+                    ''}
             </div>
 
             {count ? (
@@ -35,7 +39,8 @@ export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePag
                                 className="flex gap-2 items-center px-2 py-1 w-full bg-amber-400 hover:bg-amber-500 dark:bg-amber-800">
                                 <CollapsibleTrigger
                                     className="flex gap-3 w-full items-center cursor-pointer select-none">
-                                    <NotepadText className={cn('text-sm', row.message ? 'text-current' : 'text-muted-foreground/20')}/>
+                                    <NotepadText
+                                        className={cn('text-sm', row.message ? 'text-current' : 'text-muted-foreground/20')}/>
                                     <span
                                         className={cn('flex-grow text-left', row.is_anonymous ? 'italic' : 'font-semibold')}>
                                         {row.name}

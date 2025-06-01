@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Models\Donation;
+use App\Models\GoldenBuzzer;
 use App\Models\RoundVote;
 use App\Models\SongPlay;
 use App\Transformers\DonationTransformer;
@@ -19,8 +20,9 @@ class DashboardController extends Controller
     {
         return Inertia::render('back/dashboard', [
             'donations'     => fn() => [
-                'rows'  => fractal(Donation::orderByDesc('id')->take(10)->get(), new DonationTransformer())->parseIncludes('amount')->toArray(),
-                'total' => sprintf("%s %s", config('contest.donation.currency'), number_format(Donation::sum('amount'), 2)),
+                'golden_buzzers' => GoldenBuzzer::count(),
+                'rows'           => fractal(Donation::orderByDesc('id')->take(10)->get(), new DonationTransformer())->parseIncludes('amount')->toArray(),
+                'total'          => sprintf("%s %s", config('contest.donation.currency'), number_format(Donation::sum('amount'), 2)),
                 // making a dangerous assumption that the donations are all in the same currency.
             ],
             'message_count' => fn() => ContactMessage::whereNull('read_at')->count(),
