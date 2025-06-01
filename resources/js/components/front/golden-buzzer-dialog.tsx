@@ -101,13 +101,13 @@ export const GoldenBuzzerDialog: FC = () => {
 
     return (
         <Dialog open={isOpen} onOpenChange={closeDialog}>
-            <DialogContent className="lg:max-w-3xl bg-amber-300 dark:bg-yellow-800" aria-describedby={undefined}>
+            <DialogContent className="lg:max-w-3xl bg-yellow-100 dark:bg-yellow-800" aria-describedby={undefined}>
                 <DialogTitle>Award a <span
                     className="text-amber-700 dark:text-amber-300">Golden Buzzer</span>!</DialogTitle>
 
                 {wasSuccessful ? (
                     <div
-                        className="h-1/3 p-10 text-yellow-500 dark:text-yellow-300 gap-3 relative">
+                        className="h-1/3 p-10 text-yellow-700 dark:text-yellow-300 gap-3 relative">
                         <div className="flex flex-col text-center items-center justify-center">
                             <ConfettiExplosion {...confettiSettings} />
                             <h2 className="display-text text-xl mb-2">Thank you very much!</h2>
@@ -127,7 +127,7 @@ export const GoldenBuzzerDialog: FC = () => {
                                     <span className="text-lg">{song?.act.name}</span>
                                     <span className="text-sm flex gap-2 items-center">
                                         <LanguageFlag languageCode={song?.language}/>
-                                        {song.title}
+                                        {song?.title}
                                     </span>
                                 </div>
                             </div>
@@ -141,7 +141,7 @@ export const GoldenBuzzerDialog: FC = () => {
                         </div>
 
                         <div
-                            className="flex flex-col lg:flex-row gap-3 justify-between items-center py-2 px-5 bg-amber-200 dark:bg-yellow-600 dark:text-amber-100 shadow rounded-sm">
+                            className="flex flex-col lg:flex-row gap-3 justify-between items-center py-2 px-5 bg-amber-300 dark:bg-yellow-600 dark:text-amber-100 shadow rounded-sm">
                             <Label htmlFor="donationAmount">I would like to donate</Label>
 
                             <div className="flex gap-1 items-center">
@@ -151,7 +151,7 @@ export const GoldenBuzzerDialog: FC = () => {
                                 ))}
                                 <div className="ml-2 flex items-center">
                                     <Input
-                                        className="bg-white w-[5rem] border-amber-500 dark:border-amber-800 text-amber-800 dark:text-amber-900 font-semibold text-right text-lg"
+                                        className="bg-white w-[6rem] border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-900 font-semibold text-right text-lg"
                                         id="donationAmount" type="number" value={amount} min="1"
                                         onChange={amountHandler}/>
                                     <span

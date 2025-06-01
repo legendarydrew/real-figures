@@ -20,7 +20,7 @@ const buttonVariants = cva(
                 gold:
                 "display-text bg-amber-500 text-amber-800 shadow-xs hover:bg-amber-300",
                 checked:
-                    "display-text bg-indigo-700 text-current shadow-xs hover:bg-indigo-500/80",
+                    "display-text bg-indigo-700 text-white shadow-xs hover:bg-indigo-500/80",
                 ghost: "display-text hover:bg-accent hover:text-accent-foreground",
                 link: "text-primary underline-offset-4 hover:underline"
             },
