@@ -5,6 +5,8 @@ import { GoldenBuzzer } from '@/types';
 import { Nothing } from '@/components/nothing';
 import { cn } from '@/lib/utils';
 import { SongBanner } from '@/components/song-banner';
+import { NotepadText } from 'lucide-react';
+import React from 'react';
 
 interface GoldenBuzzerPageProps {
     count: number;
@@ -33,6 +35,7 @@ export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePag
                                 className="flex gap-2 items-center px-2 py-1 w-full bg-amber-400 hover:bg-amber-500 dark:bg-amber-800">
                                 <CollapsibleTrigger
                                     className="flex gap-3 w-full items-center cursor-pointer select-none">
+                                    <NotepadText className={cn('text-sm', row.message ? 'text-current' : 'text-muted-foreground/20')}/>
                                     <span
                                         className={cn('flex-grow text-left', row.is_anonymous ? 'italic' : 'font-semibold')}>
                                         {row.name}
