@@ -106,69 +106,78 @@ export default function Songs({ acts, songs }: Readonly<{ songs: PaginatedRespon
             </div>
 
             {songs.meta.pagination.total ? (
-                <table className="mx-4 mb-8">
-                    <thead className="text-sm">
-                    <tr className="border-b-2">
-                        <th className="text-left text-xs px-2 select-none cursor-pointer w-[6em]"
-                            onClick={() => sortHandler('language')}>
-                            Lang.
-                            {currentSort.current.column === 'language' ? (
-                                <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
-                        </th>
-                        <th scope="col" className="text-left px-2 select-none cursor-pointer"
-                            onClick={() => sortHandler('title')}>
-                            Title
-                            {currentSort.current.column === 'title' ? (
-                                <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
-                        </th>
-                        <th scope="col" className="text-left px-2 select-none cursor-pointer"
-                            onClick={() => sortHandler('act_name')}>
-                            Act
-                            {currentSort.current.column === 'act_name' ? (
-                                <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
-                        </th>
-                        <th scope="col" className="text-right px-2 select-none cursor-pointer"
-                            onClick={() => sortHandler('play_count')}>
-                            Play count
-                            {currentSort.current.column === 'play_count' ? (
-                                <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
-                        </th>
-                        <th/>
-                        <th/>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {songs.data.map((song) => (
-                        <tr className="hover:bg-accent/50 select-none" key={song.id}>
-                            <th className="text-center">
-                                <LanguageFlag languageCode={song.language}/>
+                <div className="overflow-x-auto">
+                    <table className="dashboard-table">
+                        <colgroup>
+                            <col style={{ width: '4em' }}/>
+                            <col/>
+                            <col/>
+                            <col style={{ width: '6em' }}/>
+                            <col style={{ width: '10em' }}/>
+                        </colgroup>
+                        <thead className="text-sm">
+                        <tr className="border-b-2">
+                            <th className="text-left text-xs select-none cursor-pointer"
+                                onClick={() => sortHandler('language')}>
+                                Lang.
+                                {currentSort.current.column === 'language' ? (
+                                    <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
                             </th>
-                            <th scope="row" className="font-bold text-left px-2 py-1">{song.title}</th>
-                            <td className="text-left px-2 py-1">{song.act.name}</td>
-                            <td className="text-sm text-right px-2 py-1">{song.play_count.toLocaleString()}</td>
-                            <td className="text-sm text-center px-2 py-1">
-                                {song.url && <a href={song.url} target="_blank">
-                                    <Music/>
-                                </a>}
-                            </td>
-                            <td className="px-2 py-1">
-                                <div className="flex justify-end gap-1">
-                                    <Button variant="secondary" className="p-3 cursor-pointer"
-                                            onClick={() => editHandler(song)}
-                                            title="Edit Song">
-                                        <Edit className="h-3 w-3"/>
-                                    </Button>
-                                    <Button variant="destructive" className="p-3 cursor-pointer"
-                                            onClick={() => deleteHandler(song)}
-                                            title="Delete Song">
-                                        <Trash className="h-3 w-3"/>
-                                    </Button>
-                                </div>
-                            </td>
+                            <th scope="col" className="text-left select-none cursor-pointer"
+                                onClick={() => sortHandler('title')}>
+                                Title
+                                {currentSort.current.column === 'title' ? (
+                                    <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
+                            </th>
+                            <th scope="col" className="text-left select-none cursor-pointer"
+                                onClick={() => sortHandler('act_name')}>
+                                Act
+                                {currentSort.current.column === 'act_name' ? (
+                                    <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
+                            </th>
+                            <th scope="col" className="text-right select-none cursor-pointer"
+                                onClick={() => sortHandler('play_count')}>
+                                Play count
+                                {currentSort.current.column === 'play_count' ? (
+                                    <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
+                            </th>
+                            <th/>
+                            <th/>
                         </tr>
-                    ))}
-                    </tbody>
-                </table>) : (
+                        </thead>
+                        <tbody>
+                        {songs.data.map((song) => (
+                            <tr className="hover:bg-accent/50 select-none" key={song.id}>
+                                <th scope="row" className="text-center">
+                                    <LanguageFlag languageCode={song.language}/>
+                                </th>
+                                <th scope="row" className="font-bold text-left">{song.title}</th>
+                                <td className="text-left">{song.act.name}</td>
+                                <td className="text-sm text-right">{song.play_count.toLocaleString()}</td>
+                                <td className="text-sm text-center">
+                                    {song.url && <a href={song.url} target="_blank">
+                                        <Music/>
+                                    </a>}
+                                </td>
+                                <td>
+                                    <div className="toolbar">
+                                        <Button variant="secondary" className="p-3 cursor-pointer"
+                                                onClick={() => editHandler(song)}
+                                                title="Edit Song">
+                                            <Edit className="h-3 w-3"/>
+                                        </Button>
+                                        <Button variant="destructive" className="p-3 cursor-pointer"
+                                                onClick={() => deleteHandler(song)}
+                                                title="Delete Song">
+                                            <Trash className="h-3 w-3"/>
+                                        </Button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>) : (
                 <Nothing>
                     No Songs defined.
                 </Nothing>

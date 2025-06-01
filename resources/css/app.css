@@ -211,7 +211,7 @@ has the theme configured here.)
     }
 
     table.dashboard-table thead {
-        @apply border-b border-neutral-200 font-medium dark:border-white/10;
+        @apply border-b border-neutral-200 font-medium dark:border-white/10 select-none;
     }
 
     table.dashboard-table tfoot {
@@ -227,4 +227,8 @@ has the theme configured here.)
         @apply border-b border-neutral-100 dark:border-white/10;
     }
 
+    /* Toolbar style for convenience. */
+    .toolbar {
+        @apply flex justify-end gap-1;
+    }
 }
