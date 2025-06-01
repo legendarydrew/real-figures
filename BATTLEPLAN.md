@@ -89,7 +89,7 @@ for the self-defined goal of May 20.
 - [x] Use the Cal Sans fount for headings.
 - [ ] Update the theme to use the CATAWOL Records branding guidelines.
 - [ ] Design of email templates.
-- [ ] Add a "toolbar style" (gaps between buttons).
+- [x] Add a "toolbar style" (gaps between buttons).
 - [x] Check the site against the dark theme.
 
 # REMAINING TASKS
@@ -119,8 +119,8 @@ For when we are ready to get things going: we have the Songs ready, and we've go
 
 ## Back office
 
-- [ ] Add a page for "Golden Buzzers" (which Songs received them).
-- [ ] Add a Donations page.
+- [x] Add a page for "Golden Buzzers" (which Songs received them).
+- [x] Add a Donations page.
 - [x] [Dashboard] Add a box displaying how much was made in donations.
 
 ## Miscellaneous
