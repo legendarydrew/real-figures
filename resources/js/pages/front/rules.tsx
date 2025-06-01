@@ -12,7 +12,7 @@ import {
     GitFork,
     ListChecks,
     Notebook,
-    ShieldQuestion,
+    ShieldQuestion, SpeechIcon,
     Star
 } from 'lucide-react';
 import FrontLayout from '@/layouts/front-layout';
@@ -62,6 +62,47 @@ const RulesPage: React.FC = () => {
                     </div>
                 </div>
 
+                <Collapsible className="border-b" open={isOpen('terminology')}
+                             onOpenChange={() => toggleHandler('terminology')}>
+                    <CollapsibleTrigger
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
+                        <SpeechIcon />
+                        <span className="display-text flex-grow text-left">Terminology</span>
+                        {isOpen('terminology') ? <ChevronUp/> : <ChevronDown/>}
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="content pb-5 px-2 md:px-5">
+                        <dl className="md:flex flex-wrap">
+                            <dt className="font-semibold md:w-1/8">Act</dt>
+                            <dd className="md:w-7/8 mb-2">A musical artist or group officially signed with CATAWOL Records
+                                who is participating in the Contest.
+                            </dd>
+                            <dt className="font-semibold md:w-1/8">Contest</dt>
+                            <dd className="md:w-7/8 mb-2">The overall event organized by CATAWOL Records, where selected Acts
+                                compete by submitting and evolving Songs to raise awareness of bullying in adult spaces.
+                            </dd>
+                            <dt className="font-semibold md:w-1/8">Song</dt>
+                            <dd className="md:w-7/8 mb-2">A musical submission created by an Act. Each Act submits one Song
+                                in Stage 1, with updated versions submitted in Stage 2.
+                            </dd>
+                            <dt className="font-semibold md:w-1/8">Stage</dt>
+                            <dd className="md:w-7/8 mb-2">
+                                A major phase of the Contest:
+                                <ul className="my-2">
+                                    <li><b>Knockout Stage</b> &ndash; the initial round-based competition.</li>
+                                    <li><b>Finals</b> &ndash; the creative reinterpretation phase for the top 10 Songs.
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dt className="font-semibold md:w-1/8">Round</dt>
+                            <dd className="md:w-7/8 mb-2">
+                                A voting bracket within Stages.<br/>
+                                The Knockout Stage has 8 Rounds in total, each featuring 4 Songs. The Final has one Round with ten Songs.<br/>
+                                Visitors vote for their top 3 Songs in each Round.
+                            </dd>
+                        </dl>
+                    </CollapsibleContent>
+                </Collapsible>
+
                 <Collapsible className="border-b" open={isOpen('brief')}
                              onOpenChange={() => toggleHandler('brief')}>
                     <CollapsibleTrigger
@@ -71,7 +112,7 @@ const RulesPage: React.FC = () => {
                         {isOpen('brief') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-2 md:px-5">
-                        <p>Create an original song using lyrics written by the MODE Family’s <b>Sigfig</b>.</p>
+                        <p>Create an original song using lyrics written by <b>SilentMode</b>.</p>
                         <p>The goal: <b>raising awareness of bullying in adult environments</b> through music.</p>
                     </CollapsibleContent>
                 </Collapsible>
