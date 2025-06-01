@@ -25,7 +25,7 @@ export const CurrentRound: React.FC<CurrentRoundProps> = ({ round }) => {
     };
 
     const beginBuzzerHandler = (song: Song): void => {
-        openDialog(GOLDEN_BUZZER_DIALOG_NAME, { stage: round?.id, song });
+        openDialog(GOLDEN_BUZZER_DIALOG_NAME, { round, song });
     };
 
     return (

@@ -9,7 +9,8 @@ class GoldenBuzzerRequest extends DonationRequest
     {
         return [
             ...parent::rules(),
-            'song_id' => ['required', 'exists:songs,id'],
+            'round_id' => ['required', 'exists:rounds,id'],
+            'song_id'  => ['required', 'exists:songs,id'],
         ];
     }
 }
