@@ -37,6 +37,7 @@ export interface SharedData {
             action?: string;
         };
     };
+
     [key: string]: unknown;
 }
 
@@ -157,4 +158,22 @@ export interface Donation {
     amount?: string;
     created_at: string;
     is_anonymous: boolean;
+}
+
+export interface GoldenBuzzer {
+    id: number;
+    name: string;
+    created_at: string;
+    is_anonymous: boolean;
+    amount: string;
+    round: string;
+    song: {
+        title: string;
+        language: string;
+        act_id: number;
+        act: {
+            name: string;
+            image: string;
+        }
+    };
 }
