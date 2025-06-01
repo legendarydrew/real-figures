@@ -20,6 +20,7 @@ class GoldenBuzzersController extends Controller
         $transformed_data = fractal($rows->items(), new GoldenBuzzerTransformer())->toArray();
 
         return Inertia::render('back/golden-buzzer', [
+            'count' => fn() => GoldenBuzzer::count(),
             'rows'     => $is_first_page
                 ? $transformed_data
                 : Inertia::merge(fn() => $transformed_data),
