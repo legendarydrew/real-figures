@@ -6,6 +6,7 @@ import { DashboardSongsPlayed } from '@/components/admin/dashboard-songs-played'
 import { DashboardVotesCast } from '@/components/admin/dashboard-votes-cast';
 import { DashboardMessageCount } from '@/components/admin/dashboard-message-count';
 import Heading from '@/components/heading';
+import { DashboardDonations } from '@/components/admin/dashboard-donations';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,7 +15,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     }
 ];
 
-export default function Dashboard({ message_count, song_plays, votes }) {
+export default function Dashboard({ donations, message_count, song_plays, votes }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard"/>
@@ -35,6 +36,7 @@ export default function Dashboard({ message_count, song_plays, votes }) {
                     <div>
                         <DashboardSongsPlayed data={song_plays}/>
                     </div>
+                    <DashboardDonations data={donations}/>
                 </div>
             </div>
         </AppLayout>
