@@ -146,7 +146,7 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
 
                             <PaypalButton amount={amount} currency={donation.currency}
                                           additionalData={{ is_anonymous: isAnonymous, message }}
-                                          description="Real Figures Don't F.O.L.D donation"
+                                          description="Real Figures Don't F.O.L.D: donation"
                                           onProcessing={processingHandler}
                                           onSuccess={successHandler}
                                           onFailure={failureHandler}/>

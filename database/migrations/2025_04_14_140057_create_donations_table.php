@@ -22,17 +22,10 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('golden_buzzer_songs', function (Blueprint $table)
-        {
-            $table->id();
-            $table->comment('Eligibility for the Golden Buzzer.');
-            $table->foreignId('song_id')->constrained('songs')->cascadeOnDelete();
-            $table->timestamps();
-        });
-
         Schema::create('golden_buzzers', function (Blueprint $table)
         {
             $table->id();
+            $table->foreignId('round_id')->constrained('rounds')->cascadeOnDelete();
             $table->foreignId('song_id')->constrained('songs')->cascadeOnDelete();
             $table->string('name');
             $table->decimal('amount');
@@ -50,7 +43,6 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::dropIfExists('golden_buzzers');
-        Schema::dropIfExists('golden_buzzer_songs');
         Schema::dropIfExists('donations');
     }
 };

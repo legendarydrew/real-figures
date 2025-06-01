@@ -29,7 +29,8 @@ class BuzzerController extends DonationController
     {
         $donation = GoldenBuzzer::create([
             ...$transaction_details,
-            'song_id' => $this->request_data['song_id']
+            'round_id' => $this->request_data['round_id'],
+            'song_id'  => $this->request_data['song_id']
         ]);
 
         if ($transaction_details['email'])

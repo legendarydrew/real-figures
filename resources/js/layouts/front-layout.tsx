@@ -6,6 +6,7 @@ import { DonateDialog } from '@/components/front/donate-dialog';
 import { DialogProvider } from '@/context/dialog-context';
 import { useAnalytics } from '@/hooks/use-analytics';
 import { FlashMessage } from '@/components/flash-message';
+import { GoldenBuzzerDialog } from '@/components/front/golden-buzzer-dialog';
 
 // see https://inertiajs.com/pages#persistent-layouts
 
@@ -45,6 +46,7 @@ export default function FrontLayout({ children }: ComponentProps<never>) {
                 <FrontFooter/>
 
                 <DonateDialog/>
+            <GoldenBuzzerDialog/>
             </div>
         </DialogProvider>
     );
