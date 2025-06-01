@@ -25,7 +25,7 @@ class GoldenBuzzerTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.golden-buzzers'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/golden-buzzer'));
+        $response->assertInertia(fn(Assert $page) => $page->component('back/golden-buzzers'));
     }
 
     #[Depends('test_as_user')]

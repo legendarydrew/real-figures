@@ -1,9 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head, router } from '@inertiajs/react';
+import { Head, WhenVisible } from '@inertiajs/react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { GoldenBuzzer } from '@/types';
-import { useState } from 'react';
-import { LoadingButton } from '@/components/ui/loading-button';
 import { Nothing } from '@/components/nothing';
 import { cn } from '@/lib/utils';
 import { SongBanner } from '@/components/song-banner';
@@ -18,32 +16,13 @@ interface GoldenBuzzerPageProps {
 
 export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePages }: Readonly<GoldenBuzzerPageProps>) {
 
-    const [isLoading, setIsLoading] = useState(false);
-
-    const nextPageHandler = (): void => {
-        router.reload({
-            data: {
-                page: currentPage + 1
-            },
-            preserveUrl: true,
-            only: ['rows'],
-            reset: ['currentPage', 'hasMorePages'],
-            onStart: () => {
-                setIsLoading(true);
-            },
-            onFinish: () => {
-                setIsLoading(false);
-            }
-        });
-    }
-
     return (
         <AppLayout>
             <Head title="Golden Buzzers"/>
 
             <div className="flex lg:justify-between lg:items-end mb-3 p-4">
                 <h1 className="display-text flex-grow text-2xl">Golden Buzzers</h1>
-                { count ? <p className="text-sm">{count.toLocaleString()} Golden Buzzer(s) were hit.</p> : '' }
+                {count ? <p className="text-sm">{count.toLocaleString()} Golden Buzzer(s) were hit.</p> : ''}
             </div>
 
             {count ? (
@@ -80,9 +59,12 @@ export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePag
                         </Collapsible>
                     ))}
                     {hasMorePages ? (
-                        <LoadingButton variant="secondary" className="mx-auto my-2" isLoading={isLoading}
-                                       onClick={nextPageHandler}>More Golden Buzzers</LoadingButton>
-                    ) : ''}
+                        <WhenVisible always params={{
+                            data: { page: currentPage + 1 },
+                            only: ['rows'],
+                            reset: ['currentPage', 'hasMorePages'],
+                            preserveUrl: true
+                        }}/>) : ''}
                 </>
             ) : (
                 <Nothing>

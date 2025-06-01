@@ -22,6 +22,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Back\ActsController;
 use App\Http\Controllers\Back\ContactMessageController;
 use App\Http\Controllers\Back\DashboardController;
+use App\Http\Controllers\Back\DonationsController;
 use App\Http\Controllers\Back\GoldenBuzzersController;
 use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
@@ -110,6 +111,7 @@ Route::middleware(['auth', 'verified'])->group(function ()
     Route::get('admin', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/acts', [ActsController::class, 'index'])->name('admin.acts');
     Route::get('/admin/contact', [ContactMessageController::class, 'index'])->name('admin.contact');
+    Route::get('/admin/donations', [DonationsController::class, 'index'])->name('admin.donations');
     Route::get('/admin/golden-buzzers', [GoldenBuzzersController::class, 'index'])->name('admin.golden-buzzers');
     Route::get('/admin/songs', [SongsController::class, 'index'])->name('admin.songs');
     Route::get('/admin/stages', [StagesController::class, 'index'])->name('admin.stages');
