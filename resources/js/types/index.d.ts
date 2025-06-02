@@ -177,3 +177,16 @@ export interface GoldenBuzzer {
         }
     };
 }
+
+export interface GoldenBuzzerBreakdown {
+    rounds: {
+        round_id: number;
+        round_title: string;
+        amount_raised: string;
+    }[];
+    songs: {
+        song: Song,
+        buzzer_count: number;
+        amount_raised: string;
+    }[];
+}

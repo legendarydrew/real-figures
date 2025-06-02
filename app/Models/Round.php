@@ -22,6 +22,11 @@ class Round extends Model
         return ['starts_at', 'ends_at', 'created_at', 'updated_at'];
     }
 
+    public function goldenBuzzers(): HasMany
+    {
+        return $this->hasMany(GoldenBuzzer::class);
+    }
+
     public function stage(): BelongsTo
     {
         return $this->belongsTo(Stage::class);
