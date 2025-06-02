@@ -5,6 +5,7 @@ import { Advert } from '@/components/advert';
 import ContestOutline from '@/components/front/contest-outline';
 import GoldenBuzzerBanner from '@/components/front/golden-buzzer-banner';
 import AboutBanner from '@/components/front/about-banner';
+import { SubscribeForm } from '@/components/front/subscribe-form';
 
 const IntroPage: React.FC = () => {
 
@@ -14,7 +15,12 @@ const IntroPage: React.FC = () => {
                 {/* Any tags to go in the <head> section to here. */}
             </Head>
 
-            <ContestHeader/>
+            <ContestHeader>
+                <p><b>Be the first to hear when voting opens, songs drop and surprises land.</b> Subscribe below to get
+                    updates straight to your inbox.
+                </p>
+                <SubscribeForm className="mt-3"/>
+            </ContestHeader>
             <Advert className="mx-auto text-center" height={90}/>
             <ContestOutline/>
             <GoldenBuzzerBanner/>

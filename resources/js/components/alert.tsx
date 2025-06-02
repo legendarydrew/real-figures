@@ -38,13 +38,12 @@ export const Alert: React.FC<AlertProps> = ({ type, message, className, children
                 return 'bg-indigo-100 text-indigo-800';
         }
     }
-    return message && (
+    return (message || children) ? (
         <div
-            className={cn("flex gap-3 justify-between items-center px-3 py-2 bg-green-100 rounded-sm my-3 text-sm font-semibold", alertClasses(), className)}
+            className={cn("flex gap-3 justify-between items-center px-3 py-2 bg-green-100 rounded-sm my-3 text-sm", alertClasses(), message ? 'font-semibold' : '', className)}
             {...props}>
             <Icon className="text-lg" iconNode={alertIcon()}/>
-            <div className="flex-grow">{message}</div>
-            {children}
+            <div className="flex-grow">{message ?? children}</div>
         </div>
-    )
+    ) : '';
 }
