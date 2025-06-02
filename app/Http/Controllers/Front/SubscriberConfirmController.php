@@ -23,11 +23,15 @@ class SubscriberConfirmController extends Controller
 
         if ($subscriber)
         {
+            $previously_confirmed = $subscriber->confirmed;
             $subscriber->update([
                 'confirmed' => true
             ]);
 
-            Mail::to($subscriber->email)->send(new SubscriberConfirmation());
+            if (!$previously_confirmed)
+            {
+                Mail::to($subscriber->email)->send(new SubscriberConfirmation());
+            }
 
             Session::flash('message', "{$subscriber->email} has been confirmed for subscription!");
             Session::flash('track', [
