@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SubscriberConfirmation;
 use App\Models\Subscriber;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 /**
@@ -21,9 +23,15 @@ class SubscriberConfirmController extends Controller
 
         if ($subscriber)
         {
+            $previously_confirmed = $subscriber->confirmed;
             $subscriber->update([
                 'confirmed' => true
             ]);
+
+            if (!$previously_confirmed)
+            {
+                Mail::to($subscriber->email)->send(new SubscriberConfirmation());
+            }
 
             Session::flash('message', "{$subscriber->email} has been confirmed for subscription!");
             Session::flash('track', [
