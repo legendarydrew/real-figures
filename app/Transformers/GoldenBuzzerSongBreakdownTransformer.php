@@ -12,8 +12,8 @@ class GoldenBuzzerSongBreakdownTransformer extends TransformerAbstract
     {
         return [
             'song'          => fractal($row, new SongAdminTransformer())->toArray(),
-            'buzzer_count' => $row->goldenBuzzers->count(),
-            'amount_raised' => $row->goldenBuzzers->sum('amount')
+            'buzzer_count'  => $row->goldenBuzzers->count(),
+            'amount_raised' => sprintf("%s %0.2d", config('contest.donation.currency'), $row->goldenBuzzers->sum('amount'))
         ];
     }
 }

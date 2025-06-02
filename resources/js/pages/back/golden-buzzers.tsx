@@ -1,14 +1,15 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head, WhenVisible } from '@inertiajs/react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { GoldenBuzzer } from '@/types';
+import { GoldenBuzzer, GoldenBuzzerBreakdown } from '@/types';
 import { Nothing } from '@/components/nothing';
 import { cn } from '@/lib/utils';
 import { SongBanner } from '@/components/song-banner';
 import { NotepadText } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { LoadingButton } from '@/components/ui/loading-button';
+import { BuzzerBreakdownDialog } from '@/components/admin/buzzer-breakdown-dialog';
 
 interface GoldenBuzzerPageProps {
     count: number;
@@ -21,6 +22,9 @@ interface GoldenBuzzerPageProps {
 export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePages }: Readonly<GoldenBuzzerPageProps>) {
 
     const [isLoadingBreakdown, setIsLoadingBreakdown] = useState<boolean>(false);
+    const [showBreakdown, setShowBreakdown] = useState<boolean>(false);
+
+    const breakdownData = useRef<GoldenBuzzerBreakdown>();
 
     const breakdownHandler = (): void => {
         if (isLoadingBreakdown) {
@@ -30,11 +34,17 @@ export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePag
         setIsLoadingBreakdown(true);
         axios.get('/api/golden-buzzers/breakdown')
             .then((response) => {
-                console.log(response.data);
+                breakdownData.current = response.data;
+                setShowBreakdown(true);
             })
             .finally(() => {
                 setIsLoadingBreakdown(false);
             });
+    };
+
+    const closeBreakdownHandler = (): void => {
+        setShowBreakdown(false);
+        breakdownData.current = undefined;
     };
 
     return (
@@ -96,6 +106,8 @@ export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePag
                             reset: ['currentPage', 'hasMorePages'],
                             preserveUrl: true
                         }}/>) : ''}
+
+                    <BuzzerBreakdownDialog open={showBreakdown} onOpenChange={closeBreakdownHandler} data={breakdownData.current} />
                 </>
             ) : (
                 <Nothing>
