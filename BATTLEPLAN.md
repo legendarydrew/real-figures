@@ -88,7 +88,7 @@ for the self-defined goal of May 20.
 - [x] Don't forget to check the site on mobile devices.
 - [x] Use the Cal Sans fount for headings.
 - [ ] Update the theme to use the CATAWOL Records branding guidelines.
-- [ ] Design of email templates.
+- [x] Design of email templates.
 - [x] Add a "toolbar style" (gaps between buttons).
 - [x] Check the site against the dark theme.
 
