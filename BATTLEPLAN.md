@@ -23,7 +23,7 @@ for the self-defined goal of May 20.
 
 ### Home
 
-- [ ] Add "coming soon" text.
+- [x] Add "coming soon" text.
 - [ ] Graphic for the introduction banner (a microphone?).
 - [ ] Graphic for Golden Buzzer banner.
 - [ ] [optional] Graphics for the contest outline columns.
