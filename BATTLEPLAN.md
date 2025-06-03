@@ -124,3 +124,4 @@ For when we are ready to get things going: we have the Songs ready, and we've go
 - [x] [Dashboard] Add a box displaying how much was made in donations.
 
 ## Miscellaneous
+- [ ] Add a description (based on the Stage) of what will happen with a Golden Buzzer.
