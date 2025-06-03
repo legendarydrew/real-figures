@@ -23,7 +23,7 @@ for the self-defined goal of May 20.
 
 ### Home
 
-- [ ] Add "coming soon" text.
+- [x] Add "coming soon" text.
 - [ ] Graphic for the introduction banner (a microphone?).
 - [ ] Graphic for Golden Buzzer banner.
 - [ ] [optional] Graphics for the contest outline columns.
@@ -44,11 +44,11 @@ for the self-defined goal of May 20.
 - [ ] Graphic for About the Song.
 - [ ] Graphic for What is the F.O.L.D?
 - [ ] Graphic for About SilentMode.
-- [ ] Add social media links!
+- [x] Add social media links!
 
 ### Rules
 
-- [ ] Graphic or advert to replace the placeholder.
+- [x] Graphic or advert to replace the placeholder.
 - [x] Consider placing an advert at the bottom of the page.
 
 ### Donate dialog
@@ -88,9 +88,9 @@ for the self-defined goal of May 20.
 - [x] Don't forget to check the site on mobile devices.
 - [x] Use the Cal Sans fount for headings.
 - [ ] Update the theme to use the CATAWOL Records branding guidelines.
-- [ ] Design of email templates.
-- [ ] Add a "toolbar style" (gaps between buttons).
-- [ ] Check the site against the dark theme.
+- [x] Design of email templates.
+- [x] Add a "toolbar style" (gaps between buttons).
+- [x] Check the site against the dark theme.
 
 # REMAINING TASKS
 
@@ -99,15 +99,15 @@ For when we are ready to get things going: we have the Songs ready, and we've go
 ## Analytics
 
 - [ ] Record song plays.
-- [ ] Record Golden Buzzers.
+- [x] Record Golden Buzzers.
 
 ## Front-facing site
 
 ### Home page
 
 - [ ] When the current Stage is running
-    - [ ] display the current round for voting on.
-    - [ ] display previous rounds for listening to the songs.
+    - [x] display the current round for voting on.
+    - [x] display previous rounds for listening to the songs.
 - [ ] When the current Stage is over
     - [ ] announce that results are being calculated.
     - [ ] display previous rounds for listening to the songs.
@@ -115,12 +115,13 @@ For when we are ready to get things going: we have the Songs ready, and we've go
     - [ ] thank everybody for taking part.
     - [ ] display the winning Songs.
 - [ ] Ability to play a Song.
-- [ ] Ability to vote for Songs (if in the running).
+- [x] Ability to vote for Songs (if in the running).
 
 ## Back office
 
-- [ ] Add a page for "Golden Buzzers" (which Songs received them).
-- [ ] Add a Donations page.
-- [ ] [Dashboard] Add a box displaying how much was made in donations.
+- [x] Add a page for "Golden Buzzers" (which Songs received them).
+- [x] Add a Donations page.
+- [x] [Dashboard] Add a box displaying how much was made in donations.
 
 ## Miscellaneous
+- [ ] Add a description (based on the Stage) of what will happen with a Golden Buzzer.

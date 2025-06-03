@@ -1,9 +1,9 @@
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 
-export default function ContestHeader() {
+export default function ContestHeader({ children }) {
     return (
         <div className="bg-indigo-200 dark:bg-indigo-800/60 md:py-10 md:px-5">
-            <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-4">
+            <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-start gap-4">
 
                 <PlaceholderPattern className="stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
 
@@ -15,6 +15,8 @@ export default function ContestHeader() {
                         We're raising awareness about bullying through music - and <b>you</b> help pick the
                         winner!
                     </p>
+
+                    { children }
                 </div>
 
             </div>

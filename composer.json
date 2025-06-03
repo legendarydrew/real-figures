@@ -1,6 +1,7 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
     "name": "legendarydrew/real-figures",
+    "version": "2025.06.03",
     "type": "project",
     "description": "A Laravel + Inertia (React) web app that lets users vote on AI-generated songs.",
     "keywords": [
@@ -15,7 +16,12 @@
         "anti-bullying",
         "silentmode",
         "catawol-records",
-        "lego-community"
+        "lego-community",
+        "lego-space",
+        "bullying",
+        "portfolio",
+        "i-can-code",
+        "mode-can-code"
     ],
     "license": "MIT",
     "require": {

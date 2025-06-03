@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
+use App\Models\Donation;
+use App\Models\GoldenBuzzer;
 use App\Models\RoundVote;
 use App\Models\SongPlay;
+use App\Transformers\DonationTransformer;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,6 +19,12 @@ class DashboardController extends Controller
     public function index(): Response
     {
         return Inertia::render('back/dashboard', [
+            'donations'     => fn() => [
+                'golden_buzzers' => GoldenBuzzer::count(),
+                'rows'           => fractal(Donation::orderByDesc('id')->take(10)->get(), new DonationTransformer())->parseIncludes('amount')->toArray(),
+                'total'          => sprintf("%s %s", config('contest.donation.currency'), number_format(Donation::sum('amount'), 2)),
+                // making a dangerous assumption that the donations are all in the same currency.
+            ],
             'message_count' => fn() => ContactMessage::whereNull('read_at')->count(),
             'song_plays'    => fn() => $this->getPlaysThisWeek(),
             'votes'         => fn() => $this->getVotesThisWeek()
@@ -31,11 +40,11 @@ class DashboardController extends Controller
     {
         // Total Song plays for each day.
         $total_plays = SongPlay::where('played_on', '>', now()->subWeek())
-            ->select([DB::raw('DATE(played_on) as date'), DB::raw('SUM(play_count) as play_count')])
-            ->orderBy('date')
-            ->groupBy('date')
-            ->get()
-            ->toArray();
+                               ->select([DB::raw('DATE(played_on) as date'), DB::raw('SUM(play_count) as play_count')])
+                               ->orderBy('date')
+                               ->groupBy('date')
+                               ->get()
+                               ->toArray();
 
         // Songs played in the last day.
         $song_plays = SongPlay::where('played_on', '>', now()->subDay())
@@ -57,7 +66,7 @@ class DashboardController extends Controller
         }
 
         return [
-            'days' => $total_play_results,
+            'days'  => $total_play_results,
             'songs' => $song_plays->map(fn($play) => [
                 'title'      => $play->song->full_title,
                 'play_count' => $play->play_count
@@ -79,7 +88,7 @@ class DashboardController extends Controller
                                 ->toArray();
 
         // Fill in the blanks!
-        $dates = $this->getDatesForLastWeek();
+        $dates  = $this->getDatesForLastWeek();
         $output = [];
         foreach ($dates as $day_date)
         {
@@ -102,6 +111,6 @@ class DashboardController extends Controller
             $date    = $date->addDay();
         }
         return $dates;
-
     }
+
 }

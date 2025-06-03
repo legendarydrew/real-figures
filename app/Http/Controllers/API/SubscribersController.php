@@ -22,7 +22,7 @@ class SubscribersController extends Controller
         {
             if ($subscriber->confirmed)
             {
-                return response()->json('The email address is already subscribed.', 422);
+                return response()->json([ 'message' => 'The email address is already subscribed.'], 422);
             }
         }
         else

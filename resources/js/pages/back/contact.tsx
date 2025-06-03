@@ -1,15 +1,14 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, WhenVisible } from '@inertiajs/react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { CheckSquare, ChevronDown, MessageCircleWarning, Square } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ContactMessage } from '@/types';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import toast from 'react-hot-toast';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { LoadingButton } from '@/components/ui/loading-button';
 import { ContactMessageRespond } from '@/components/admin/contact-message-respond';
 import { Nothing } from '@/components/nothing';
 import axios from 'axios';
@@ -32,8 +31,6 @@ export default function ContactMessagesPage({
     const [isConfirmingDelete, setIsConfirmingDelete] = useState<boolean>(false);
     const [processing, setProcessing] = useState<boolean>(false);
 
-    const [isLoading, setIsLoading] = useState(false);
-
     const selectMessageHandler = (message: ContactMessage): void => {
         setSelectedIds([...new Set([...selectedIds, message.id])]);
     }
@@ -53,23 +50,6 @@ export default function ContactMessagesPage({
     const confirmDeleteHandler = (): void => {
         setIsConfirmingDelete(true);
     };
-
-    const nextPageHandler = (): void => {
-        router.reload({
-            data: {
-                page: currentPage + 1
-            },
-            preserveUrl: true,
-            only: ['messages'],
-            reset: ['currentPage', 'hasMorePages'],
-            onStart: () => {
-                setIsLoading(true);
-            },
-            onFinish: () => {
-                setIsLoading(false);
-            }
-        });
-    }
 
     const markReadHandler = (message: ContactMessage): void => {
         if (!message.was_read) {
@@ -152,10 +132,12 @@ export default function ContactMessagesPage({
                         </Collapsible>
                     ))}
                     {hasMorePages ? (
-                        <LoadingButton variant="secondary" className="mx-auto my-2" isLoading={isLoading}
-                                       onClick={nextPageHandler}>More
-                            messages</LoadingButton>
-                    ) : ''}
+                        <WhenVisible always params={{
+                            data: { page: currentPage + 1 },
+                            only: ['messages'],
+                            reset: ['currentPage', 'hasMorePages'],
+                            preserveUrl: true
+                        }}/>) : ''}
                 </>
             ) : (
                 <Nothing>

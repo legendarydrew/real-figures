@@ -5,6 +5,7 @@ use App\Http\Controllers\API\BuzzerController;
 use App\Http\Controllers\API\ContactMessagesController;
 use App\Http\Controllers\API\ContactMessagesRespondController;
 use App\Http\Controllers\API\DonationController;
+use App\Http\Controllers\API\GoldenBuzzerBreakdownController;
 use App\Http\Controllers\API\SongController;
 use App\Http\Controllers\API\StageAllocateController;
 use App\Http\Controllers\API\StageController;
@@ -22,6 +23,8 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Back\ActsController;
 use App\Http\Controllers\Back\ContactMessageController;
 use App\Http\Controllers\Back\DashboardController;
+use App\Http\Controllers\Back\DonationsController;
+use App\Http\Controllers\Back\GoldenBuzzersController;
 use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
 use App\Http\Controllers\Back\SubscribersController;
@@ -78,6 +81,8 @@ Route::prefix('/api')->group(function ()
         Route::patch('acts/{id}', [ActController::class, 'update'])->name('acts.update');
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
+        Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
+
         Route::put('messages/{id}', [ContactMessagesController::class, 'update'])->name('messages.read');
         Route::put('messages/{id}/respond', [ContactMessagesRespondController::class, 'update'])->name('messages.respond');
         Route::delete('messages', [ContactMessagesController::class, 'destroy'])->name('messages.destroy');
@@ -109,6 +114,8 @@ Route::middleware(['auth', 'verified'])->group(function ()
     Route::get('admin', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/acts', [ActsController::class, 'index'])->name('admin.acts');
     Route::get('/admin/contact', [ContactMessageController::class, 'index'])->name('admin.contact');
+    Route::get('/admin/donations', [DonationsController::class, 'index'])->name('admin.donations');
+    Route::get('/admin/golden-buzzers', [GoldenBuzzersController::class, 'index'])->name('admin.golden-buzzers');
     Route::get('/admin/songs', [SongsController::class, 'index'])->name('admin.songs');
     Route::get('/admin/stages', [StagesController::class, 'index'])->name('admin.stages');
     Route::get('/admin/subscribers', [SubscribersController::class, 'index'])->name('admin.subscribers');

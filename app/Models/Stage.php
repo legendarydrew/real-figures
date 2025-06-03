@@ -10,27 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Carbon;
 
-/**
- * STAGE model
- *
- * @property int                         $id
- * @property string                      $title
- * @property string                      $description
- * @property Carbon|null                 $created_at
- * @property Carbon|null                 $updated_at
- * @property-read Collection<int, Round> $rounds
- * @property-read int|null               $rounds_count
- * @method static \Database\Factories\StageFactory factory($count = null, $state = [])
- * @method static Builder<static>|Stage newModelQuery()
- * @method static Builder<static>|Stage newQuery()
- * @method static Builder<static>|Stage query()
- * @method static Builder<static>|Stage whereCreatedAt($value)
- * @method static Builder<static>|Stage whereDescription($value)
- * @method static Builder<static>|Stage whereId($value)
- * @method static Builder<static>|Stage whereTitle($value)
- * @method static Builder<static>|Stage whereUpdatedAt($value)
- * @mixin \Eloquent
- */
 class Stage extends Model
 {
     use HasFactory;

@@ -37,6 +37,7 @@ export interface SharedData {
             action?: string;
         };
     };
+
     [key: string]: unknown;
 }
 
@@ -154,6 +155,38 @@ export interface Subscriber {
 export interface Donation {
     id: number;
     name: string;
+    amount?: string;
     created_at: string;
     is_anonymous: boolean;
+}
+
+export interface GoldenBuzzer {
+    id: number;
+    name: string;
+    created_at: string;
+    is_anonymous: boolean;
+    amount: string;
+    round: string;
+    song: {
+        title: string;
+        language: string;
+        act_id: number;
+        act: {
+            name: string;
+            image: string;
+        }
+    };
+}
+
+export interface GoldenBuzzerBreakdown {
+    rounds: {
+        round_id: number;
+        round_title: string;
+        amount_raised: string;
+    }[];
+    songs: {
+        song: Song,
+        buzzer_count: number;
+        amount_raised: string;
+    }[];
 }

@@ -13,6 +13,7 @@ import {
     ListChecks,
     Notebook,
     ShieldQuestion,
+    SpeechIcon,
     Star
 } from 'lucide-react';
 import FrontLayout from '@/layouts/front-layout';
@@ -62,6 +63,51 @@ const RulesPage: React.FC = () => {
                     </div>
                 </div>
 
+                <Collapsible className="border-b" open={isOpen('terminology')}
+                             onOpenChange={() => toggleHandler('terminology')}>
+                    <CollapsibleTrigger
+                        className="w-full flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
+                        <SpeechIcon/>
+                        <span className="display-text flex-grow text-left">Terminology</span>
+                        {isOpen('terminology') ? <ChevronUp/> : <ChevronDown/>}
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="content pb-5 px-2 md:px-5">
+                        <dl className="md:flex flex-wrap">
+                            <dt className="font-semibold md:w-1/8">Act</dt>
+                            <dd className="md:w-7/8 mb-2">A musical artist or group officially signed with CATAWOL
+                                Records
+                                who is participating in the Contest.
+                            </dd>
+                            <dt className="font-semibold md:w-1/8">Contest</dt>
+                            <dd className="md:w-7/8 mb-2">The overall event organized by CATAWOL Records, where selected
+                                Acts
+                                compete by submitting and evolving Songs to raise awareness of bullying in adult spaces.
+                            </dd>
+                            <dt className="font-semibold md:w-1/8">Song</dt>
+                            <dd className="md:w-7/8 mb-2">A musical submission created by an Act. Each Act submits one
+                                Song
+                                in Stage 1, with updated versions submitted in Stage 2.
+                            </dd>
+                            <dt className="font-semibold md:w-1/8">Stage</dt>
+                            <dd className="md:w-7/8 mb-2">
+                                A major phase of the Contest:
+                                <ul className="my-2">
+                                    <li><b>Knockout Stage</b> &ndash; the initial round-based competition.</li>
+                                    <li><b>Finals</b> &ndash; the creative reinterpretation phase for the top 10 Songs.
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dt className="font-semibold md:w-1/8">Round</dt>
+                            <dd className="md:w-7/8 mb-2">
+                                A voting bracket within Stages.<br/>
+                                The Knockout Stage has 8 Rounds in total, each featuring 4 Songs. The Final has one
+                                Round with ten Songs.<br/>
+                                Visitors vote for their top 3 Songs in each Round.
+                            </dd>
+                        </dl>
+                    </CollapsibleContent>
+                </Collapsible>
+
                 <Collapsible className="border-b" open={isOpen('brief')}
                              onOpenChange={() => toggleHandler('brief')}>
                     <CollapsibleTrigger
@@ -71,7 +117,7 @@ const RulesPage: React.FC = () => {
                         {isOpen('brief') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-2 md:px-5">
-                        <p>Create an original song using lyrics written by the MODE Family’s <b>Sigfig</b>.</p>
+                        <p>Create an original song using lyrics written by <b>SilentMode</b>.</p>
                         <p>The goal: <b>raising awareness of bullying in adult environments</b> through music.</p>
                     </CollapsibleContent>
                 </Collapsible>
@@ -189,7 +235,8 @@ const RulesPage: React.FC = () => {
 
                         <HeadingSmall title="Prizes"/>
                         <ul>
-                            <li>All winning Acts will be recreated as <b>3D-printed figures</b> in SilentMode's style.</li>
+                            <li>All winning Acts will be recreated as <b>3D-printed figures</b> in SilentMode's style.
+                            </li>
                             <li>The Act behind the Grand Winning Song will also be honoured as a <b>custom LEGO
                                 minifigure.</b></li>
                             <li>The Winning Song becomes the <b>official anthem</b> of the Contest!</li>
@@ -215,10 +262,13 @@ const RulesPage: React.FC = () => {
                             </li>
                             <li>A Golden Buzzer means:
                                 <ul>
-                                    <li><b>During the Knockout Stage:</b> The Act gets a backstory, an updated picture, and an
+                                    <li><b>During the Knockout Stage:</b> The Act gets a backstory, an updated picture,
+                                        and an
                                         extended version of their Song.
                                     </li>
-                                    <li><b>During the Final Stage:</b> The Act is immortalised as a <b>3D-printed figure</b>.</li>
+                                    <li><b>During the Final Stage:</b> The Act is immortalised as a <b>3D-printed
+                                        figure</b>.
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -236,32 +286,40 @@ const RulesPage: React.FC = () => {
                         {isOpen('calculation') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-2 md:px-5">
-                        <table className="my-3">
-                            <tbody>
-                            <tr>
-                                <th scope="row" className="text-left pr-4">1st choice vote</th>
-                                <td className="font-semibold text-muted-foreground">4 points</td>
-                            </tr>
-                            <tr>
-                                <th scope="row" className="text-left pr-4">2nd choice vote</th>
-                                <td className="font-semibold text-muted-foreground">2 points</td>
-                            </tr>
-                            <tr>
-                                <th scope="row" className="text-left pr-4">3rd choice vote</th>
-                                <td className="font-semibold text-muted-foreground">1 point</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div className="flex flex-col md:flex-row gap-3 justify-between items-start mb-3">
+                            <div className="w-full md:w-1/3">
+                                <p>Each Song is awarded:</p>
+                                <table className="w-full border-spacing-1 border-separate">
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row" className="text-left pr-4">1st choice vote</th>
+                                        <td className="font-semibold text-right text-muted-foreground">4 points</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" className="text-left pr-4">2nd choice vote</th>
+                                        <td className="font-semibold text-right text-muted-foreground">2 points</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" className="text-left pr-4">3rd choice vote</th>
+                                        <td className="font-semibold text-right text-muted-foreground">1 point</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                        <p>Songs are ranked based on:</p>
-                        <ull>
-                            <li><b>Total score</b></li>
-                            <li><b>Number</b> of 1st choice votes</li>
-                            <li><b>Number</b> of 2nd choice votes</li>
-                            <li><b>Number</b> of 3rd choice votes</li>
-                        </ull>
+                            <div className="md:flex-grow md:pl-10">
+                                <p>Songs are ranked based on:</p>
+                                <ol className="my-0">
+                                    <li><b>Total score</b></li>
+                                    <li><b>Number</b> of 1st choice votes</li>
+                                    <li><b>Number</b> of 2nd choice votes</li>
+                                    <li><b>Number</b> of 3rd choice votes</li>
+                                </ol>
 
-                        <p className="italic">Note: Golden Buzzers are honorary and do not influence scores.</p>
+                            </div>
+                        </div>
+
+                        <p className="italic text-sm">Note: Golden Buzzers are honorary and do not influence scores.</p>
                     </CollapsibleContent>
                 </Collapsible>
 

@@ -27,9 +27,9 @@ const HomeCurrentRoundPage: React.FC = ({ stage, currentRound, previousRounds, c
                         </>
                     )}
 
-                    { (currentRound && previousRounds.length) && (
+                    {(currentRound && previousRounds.length) ? (
                         <Advert className="mx-auto text-center" height={240}/>
-                    )}
+                    ) : ''}
 
                     {previousRounds.length ? (
                         <div className="mt-5">
