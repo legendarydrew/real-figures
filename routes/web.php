@@ -13,6 +13,7 @@ use App\Http\Controllers\API\StageController;
 use App\Http\Controllers\API\StageManualVoteController;
 use App\Http\Controllers\API\StageRoundsController;
 use App\Http\Controllers\API\StageWinnersController;
+use App\Http\Controllers\API\SubscriberPostController;
 use App\Http\Controllers\API\VoteController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\Back\SubscribersController;
 use App\Http\Controllers\Front\DonorWallController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\SubscriberConfirmController;
+use App\Http\Controllers\Front\SubscriberRemoveController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Models\Round;
@@ -50,6 +52,7 @@ Route::get('contact', fn() => Inertia::render('front/contact'))->name('contact')
 Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
 Route::get('donor-wall', [DonorWallController::class, 'index'])->name('donations');
 Route::get('subscriber/confirm/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
+Route::get('subscriber/remove/{id}/{code}', [SubscriberRemoveController::class, 'show'])->name('subscriber.remove');
 
 // ----------------------------------------------------------------------------
 // Our famous Kitchen Sink page (only available in debug mode).
@@ -105,6 +108,7 @@ Route::prefix('/api')->group(function ()
         Route::post('stages/{id}/winners', [StageWinnersController::class, 'store'])->name('stages.winners');
 
         Route::delete('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'destroy'])->name('subscribers.destroy');
+        Route::post('subscribers/post', [SubscriberPostController::class, 'store'])->name('subscribers.post');
     });
 });
 
