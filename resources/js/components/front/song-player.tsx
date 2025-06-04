@@ -26,15 +26,17 @@ export const SongPlayer: React.FC = () => {
     }, [isPlayerOpen]);
 
     return (isPlayerOpen && currentSong) ? (
-        <aside className="w-full max-w-[400px]">
-            <Button variant="ghost" type="button" title="Close the player" onClick={closeSongPlayer}>
-                <XIcon/>
-            </Button>
-            <div className="flex">
-                <SongBanner song={currentSong}/>
-                <Button variant="gold" type="button" title="Award a Golden Buzzer!">
-                    <StarIcon/>
-                </Button>
+        <aside className="z-10 fixed bottom-10 rounded-sm bg-gray-200 dark:bg-gray-700 border-1 shadow-lg w-full max-w-[400px]">
+            <div className="flex items-center">
+                <SongBanner className="flex-grow" song={currentSong}/>
+                <div className="toolbar gap-1">
+                    <Button variant="gold" type="button" title="Award a Golden Buzzer!">
+                        <StarIcon/>
+                    </Button>
+                    <Button variant="ghost" type="button" title="Close the player" onClick={closeSongPlayer}>
+                        <XIcon/>
+                    </Button>
+                </div>
             </div>
         </aside>
     ) : '';
