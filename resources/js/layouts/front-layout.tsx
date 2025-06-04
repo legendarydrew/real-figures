@@ -46,9 +46,8 @@ export default function FrontLayout({ children }: ComponentProps<never>) {
                         )}
                         {children}
                     </main>
-                    <FrontFooter/>
-
                     <SongPlayer/>
+                    <FrontFooter/>
                 </SongPlayerProvider>
                 <DonateDialog/>
                 <GoldenBuzzerDialog/>
