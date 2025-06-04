@@ -15,7 +15,7 @@ class SubscribersController extends Controller
     {
         $subscriber_count = Subscriber::confirmed()->count();
 
-        $query = Subscriber::select();
+        $query = Subscriber::confirmed();
         if ($filter = request()->query('filter'))
         {
             $query->whereLike('email', "%{$filter['email']}%");

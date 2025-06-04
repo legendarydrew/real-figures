@@ -4,7 +4,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Nothing } from '@/components/nothing';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { CheckSquare, MailIcon, Square } from 'lucide-react';
+import { CheckSquare, ChevronDown, ChevronUp, MailIcon, Square } from 'lucide-react';
 import { Subscriber } from '@/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
@@ -33,8 +33,17 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [isConfirmingDelete, setIsConfirmingDelete] = useState<boolean>(false);
     const [processing, setProcessing] = useState<boolean>(false);
+    const [panelState, setPanelState] = useState<{[key: string]: boolean}>({})
 
     const [filter, setFilter] = useState({ email: '' });
+
+    const toggleHandler = (section: string): void => {
+        setPanelState({ ...panelState, [section]: !panelState[section] });
+    };
+
+    const isPanelOpen = (section: string): boolean => {
+        return panelState[section] ?? false;
+    }
 
     const beginPostHandler = (): void => {
         console.log('post!');
@@ -119,12 +128,14 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
             </div>
 
             {subscriberCount ? (
-                <Collapsible>
+                <Collapsible className="mx-4 my-3" onOpenChange={() => toggleHandler('subscribers')}>
                     <CollapsibleTrigger
-                        className="block text-left p-2 mb-3 mx-4 cursor-pointer hover:bg-gray-100/10">Subscribers</CollapsibleTrigger>
-                    <CollapsibleContent>
-                        <>
-                            <div className="flex mb-3 px-4 gap-3">
+                        className="w-full display-text flex justify-between items-center gap-3 text-lg p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-100/10">
+                        Subscribed email addresses ({ subscriberCount.toLocaleString() })
+                        {isPanelOpen('subscribers') ? <ChevronUp/> : <ChevronDown/>}
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="py-3 px-1">
+                            <div className="flex mb-3 gap-3">
                                 <Input type="search" className="flex-grow" value={filter.email}
                                        onChange={filterEmailHandler} placeholder="Filter by email"/>
                                 <div className="toolbar">
@@ -139,7 +150,7 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
                                 </div>
                             </div>
 
-                            <div className="overflow-y-auto max-h-[15rem] px-4 relative">
+                            <div className="overflow-y-auto max-h-[15rem] relative">
                                 <div
                                     className="p-2 text-xs flex gap-2 font-semibold sticky top-0 bg-white dark:bg-gray-800">
                                     <div className="flex-grow">Email</div>
@@ -168,7 +179,6 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
                                         }}/>) : ''}
                                 </ul>
                             </div>
-                        </>
 
                     </CollapsibleContent>
                 </Collapsible>
