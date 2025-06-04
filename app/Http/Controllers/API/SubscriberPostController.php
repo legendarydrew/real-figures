@@ -29,20 +29,16 @@ class SubscriberPostController extends Controller
             ...$request->validated()
         ]);
 
-        // Only send email if we have Subscribers.
-        $subscribers = Subscriber::all();
+        // Only send email if we have [confirmed!] Subscribers.
+        $subscribers = Subscriber::whereConfirmed(true)->get();
         if ($subscribers->isNotEmpty())
         {
             foreach ($subscribers as $subscriber)
             {
                 Mail::to($subscriber)->send(new SubscriberPostMessage($subscriber, $post));
             }
+        }
 
-            return to_route('admin.subscribers')->with(['sent' => "Update was sent to {$subscribers->count()} subscribers."]);
-        }
-        else
-        {
-            return to_route('admin.subscribers')->with(['sent' => 'There are no Subscribers to send this message to.'], 204);
-        }
+        return to_route('admin.subscribers')->with('subscribers',  $subscribers->count());
     }
 }

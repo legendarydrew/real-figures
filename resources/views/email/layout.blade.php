@@ -140,7 +140,7 @@
                             style="font-family:-apple-system, 'Cal Sans', 'Instrument Sans', BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;font-size:10px;line-height:16px;color:#212529;padding-left:24px;padding-right:24px">
                             If you don't (or no longer) want to receive updates about the {{ config('app.name') }}
                             project, you can
-                            <a href="{{ route('subscriber.remove', ['id' => $subscriber->id, 'code' => $subscriber->code]) }}">unsubscribe</a>
+                            <a href="{{ route('subscriber.remove', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]) }}">unsubscribe</a>
                             by following this link.
                         </td>
                     </tr>

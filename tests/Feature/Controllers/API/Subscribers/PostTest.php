@@ -42,7 +42,7 @@ class PostTest extends TestCase
     public function test_as_user()
     {
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
-        $response->assertSuccessful();
+        $response->assertRedirectToRoute('admin.subscribers');
     }
 
     #[Depends('test_as_user')]
@@ -62,14 +62,14 @@ class PostTest extends TestCase
     {
         self::assertEquals(0, Subscriber::count());
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
-        $response->assertNoContent();
+        $response->assertUnauthorized();
         Mail::assertNothingOutgoing();
     }
 
     #[Depends('test_as_user')]
     public function test_with_subscribers()
     {
-        Subscriber::factory()->count(10)->create();
+        Subscriber::factory()->count(10)->confirmed()->create();
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertCreated();
         Mail::assertQueued(SubscriberPostMessage::class);

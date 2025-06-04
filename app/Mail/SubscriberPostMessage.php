@@ -15,16 +15,10 @@ class SubscriberPostMessage extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
     public function __construct(private Subscriber $subscriber, private SubscriberPost $post)
     {
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -32,13 +26,10 @@ class SubscriberPostMessage extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
-            view: 'emails.subscriber-post',
+            view: 'email.subscriber-post',
             with: ['subscriber' => $this->subscriber, 'post' => $this->post],
         );
     }
