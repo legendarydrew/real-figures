@@ -18,4 +18,31 @@ class SongUrl extends Model
     {
         return $this->belongsTo(Song::class);
     }
+
+    /**
+     * Returns the video ID from the URL, if possible.
+     *
+     * @return string|null
+     */
+    public function getVideoIdAttribute(): ?string
+    {
+        $urls = [
+            'tiny'   => '/^https:\/\/youtu\.be\/(\w+)\S*/',
+            'shorts' => '/^https?:\/\/(?:www.)?youtube\.com\/shorts\/(\w+)\S*/',
+            'normal' => '/^https?:\/\/(?:www.)?youtube\.com\/watch\?v=(\w+)\S*/',
+        ];
+        // NOTE: the (?:www.)? part of the regex denotes a non-capturing group.
+
+        $matches = [];
+        foreach ($urls as $regex)
+        {
+            $outcome = preg_match($regex, $this->url, $matches);
+            if ($outcome === 1)
+            {
+                return $matches[1];
+            }
+        }
+
+        return null;
+    }
 }

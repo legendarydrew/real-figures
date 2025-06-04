@@ -21,6 +21,7 @@ class SongAdminTransformer extends TransformerAbstract
             ],
             'play_count' => (int)$song->play_count,
             'url'        => $song->url ? $song->url->url : null,
+            'video_id'   => $song->url ? $song->url->video_id : null,
         ];
     }
 }

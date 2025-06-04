@@ -11,22 +11,41 @@
 import { SongBanner } from '@/components/song-banner';
 import { StarIcon, XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useEffect } from 'react';
 import { useSongPlayer } from '@/context/song-player-context';
+import YouTube from 'react-youtube';
 
 export const SongPlayer: React.FC = () => {
 
     const { isPlayerOpen, currentSong, closeSongPlayer } = useSongPlayer();
 
-    useEffect(() => {
-        if (isPlayerOpen) {
-            // Called when the song player is opened.
-            console.log('opened song player', currentSong?.title);
+    const playerOptions = {
+        // height: '390',
+        // width: '640',
+        playerVars: {
+            // https://developers.google.com/youtube/player_parameters
+            autoplay: 1,
+            color: 'white',
+            rel: 0,  // only show related videos from the same channel.
+            widget_referrer: import.meta.env.VITE_APP_URL
         }
-    }, [isPlayerOpen]);
+    };
+
+    const songPlayHandler = () => {
+        // Called when the YouTube video is played.
+        console.log('video played.');
+    }
 
     return (isPlayerOpen && currentSong) ? (
-        <aside className="z-10 fixed bottom-10 rounded-sm bg-gray-200 dark:bg-gray-700 border-1 shadow-lg w-full max-w-[400px]">
+        <aside
+            className="z-10 fixed bottom-10 rounded-sm bg-gray-200 dark:bg-gray-700 border-1 shadow-lg w-full max-w-[400px]">
+            {currentSong.video_id &&
+                <YouTube
+                    videoId={currentSong.video_id}
+                    iframeClassName="w-full max-h-360 h-[40dvh]"
+                    title={`YouTube video player: ${currentSong.title} by ${currentSong.act.name}`}
+                    opts={playerOptions}
+                    onPlay={songPlayHandler}
+                />}
             <div className="flex items-center">
                 <SongBanner className="flex-grow" song={currentSong}/>
                 <div className="toolbar gap-1 mr-1">
