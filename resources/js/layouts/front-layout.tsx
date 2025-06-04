@@ -7,6 +7,8 @@ import { DialogProvider } from '@/context/dialog-context';
 import { useAnalytics } from '@/hooks/use-analytics';
 import { FlashMessage } from '@/components/flash-message';
 import { GoldenBuzzerDialog } from '@/components/front/golden-buzzer-dialog';
+import { SongPlayer } from '@/components/front/song-player';
+import { SongPlayerProvider } from '@/context/song-player-context';
 
 // see https://inertiajs.com/pages#persistent-layouts
 
@@ -35,18 +37,21 @@ export default function FrontLayout({ children }: ComponentProps<never>) {
     return (
         <DialogProvider>
             <div
-                className="overflow-hidden h-full flex h-screen flex-col items-center bg-[#FDFDFC] text-[#1b1b18] lg:justify-center dark:bg-[#0a0a0a] dark:text-gray-100">
+                className="overflow-hidden h-full flex flex-col items-center bg-light text-dark lg:justify-center dark:bg-dark dark:text-dark-foreground">
                 <FrontHeader/>
-                <main className="flex-grow w-full overflow-y-auto" scroll-region="">
-                    {flash?.message && (
-                        <FlashMessage message={flash.message}/>
-                    )}
-                    {children}
-                </main>
-                <FrontFooter/>
+                <SongPlayerProvider>
+                    <main className="flex-grow w-full overflow-y-auto" scroll-region="">
+                        {flash?.message && (
+                            <FlashMessage message={flash.message}/>
+                        )}
+                        {children}
+                    </main>
+                    <FrontFooter/>
 
+                    <SongPlayer/>
+                </SongPlayerProvider>
                 <DonateDialog/>
-            <GoldenBuzzerDialog/>
+                <GoldenBuzzerDialog/>
             </div>
         </DialogProvider>
     );

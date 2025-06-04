@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useDialog } from '@/context/dialog-context';
 import { StarIcon } from 'lucide-react';
 import { GOLDEN_BUZZER_DIALOG_NAME } from '@/components/front/golden-buzzer-dialog';
+import { useSongPlayer } from '@/context/song-player-context';
 
 interface CurrentRoundProps {
     round?: Round;
@@ -19,6 +20,7 @@ interface CurrentRoundProps {
 export const CurrentRound: React.FC<CurrentRoundProps> = ({ round }) => {
 
     const { openDialog } = useDialog();
+    const { openSongPlayer } = useSongPlayer();
 
     const beginVoteHandler = (): void => {
         openDialog(ROUND_VOTE_DIALOG_NAME);
@@ -35,7 +37,9 @@ export const CurrentRound: React.FC<CurrentRoundProps> = ({ round }) => {
                 <ul className="grid gap-4 grid-cols-2 md:grid-cols-4 select-none">
                     {round.songs.map((song) => (
                         <li key={song.id}>
-                            <div className="bg-secondary/30 rounded-t-md leading-none relative">
+                            <button
+                                className="aspect-square w-full text-left bg-secondary/30 rounded-t-md leading-none relative hover:bg-secondary/50 cursor-pointer"
+                                onClick={() => openSongPlayer(song)}>
                                 <ActImage act={song.act} size="full"/>
                                 <div className="p-3 lg:p-5 absolute bottom-0 w-full">
                                     <div className="text-lg font-semibold leading-tight">{song.act.name}</div>
@@ -45,7 +49,7 @@ export const CurrentRound: React.FC<CurrentRoundProps> = ({ round }) => {
                                         {song.title}
                                     </div>
                                 </div>
-                            </div>
+                            </button>
                             <Button className="w-full rounded-t-none uppercase" variant="gold" size="lg" type="button"
                                     onClick={() => beginBuzzerHandler(song)}>
                                 <StarIcon/> Golden Buzzer <StarIcon/>
