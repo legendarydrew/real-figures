@@ -13,6 +13,7 @@ use App\Http\Controllers\API\StageController;
 use App\Http\Controllers\API\StageManualVoteController;
 use App\Http\Controllers\API\StageRoundsController;
 use App\Http\Controllers\API\StageWinnersController;
+use App\Http\Controllers\API\SubscriberMessageController;
 use App\Http\Controllers\API\VoteController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\Back\SubscribersController;
 use App\Http\Controllers\Front\DonorWallController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\SubscriberConfirmController;
+use App\Http\Controllers\Front\SubscriberRemoveController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Models\Round;
@@ -50,6 +52,7 @@ Route::get('contact', fn() => Inertia::render('front/contact'))->name('contact')
 Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
 Route::get('donor-wall', [DonorWallController::class, 'index'])->name('donations');
 Route::get('subscriber/confirm/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
+Route::get('subscriber/remove/{id}/{code}', [SubscriberRemoveController::class, 'show'])->name('subscriber.remove');
 
 // ----------------------------------------------------------------------------
 // Our famous Kitchen Sink page (only available in debug mode).
@@ -72,6 +75,7 @@ Route::prefix('/api')->group(function ()
     Route::post('messages', [ContactMessagesController::class, 'store']);
     Route::put('songs/{id}/play', [SongPlayController::class, 'update'])->name('play');
     Route::post('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'store'])->name('subscribe');
+    Route::post('subscribers/message', [SubscriberMessageController::class, 'store'])->name('subscribers.message');
     Route::post('vote', [VoteController::class, 'store'])->name('vote');
 
     // Routes accessible with authentication.
