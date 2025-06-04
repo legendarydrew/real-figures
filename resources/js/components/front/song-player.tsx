@@ -13,6 +13,7 @@ import { StarIcon, XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSongPlayer } from '@/context/song-player-context';
 import YouTube from 'react-youtube';
+import axios from 'axios';
 
 export const SongPlayer: React.FC = () => {
 
@@ -32,12 +33,12 @@ export const SongPlayer: React.FC = () => {
 
     const songPlayHandler = () => {
         // Called when the YouTube video is played.
-        console.log('video played.');
-    }
+        axios.put(route('play', { id: currentSong.id })).then();
+    };
 
     return (isPlayerOpen && currentSong) ? (
         <aside
-            className="z-10 fixed bottom-10 rounded-sm bg-gray-200 dark:bg-gray-700 border-1 shadow-lg w-full max-w-[400px]">
+            className="z-10 fixed bottom-10 rounded-sm bg-gray-200 dark:bg-gray-700 border-1 shadow-lg w-full max-w-[400px] overflow-hidden">
             {currentSong.video_id &&
                 <YouTube
                     videoId={currentSong.video_id}
