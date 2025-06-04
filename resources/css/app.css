@@ -6,6 +6,7 @@ has the theme configured here.)
 */
 
 @import 'tailwindcss';
+
 @plugin 'tailwindcss-animate';
 
 @source '../views';
@@ -44,6 +45,13 @@ has the theme configured here.)
 
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-light: #FDFDFC;
+    --color-light-foreground: #1B1B18;
+
+    --color-dark: #0A0A0A;
+    --color-dark-foreground: var(--color-gray-100);
+
 
     --color-border: var(--border);
     --color-input: var(--input);

@@ -7,6 +7,7 @@ use App\Http\Controllers\API\ContactMessagesRespondController;
 use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\GoldenBuzzerBreakdownController;
 use App\Http\Controllers\API\SongController;
+use App\Http\Controllers\API\SongPlayController;
 use App\Http\Controllers\API\StageAllocateController;
 use App\Http\Controllers\API\StageController;
 use App\Http\Controllers\API\StageManualVoteController;
@@ -69,6 +70,7 @@ Route::prefix('/api')->group(function ()
     Route::post('donation', [DonationController::class, 'store']);
     Route::post('golden-buzzer', [BuzzerController::class, 'store']);
     Route::post('messages', [ContactMessagesController::class, 'store']);
+    Route::put('songs/{id}/play', [SongPlayController::class, 'update'])->name('play');
     Route::post('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'store'])->name('subscribe');
     Route::post('vote', [VoteController::class, 'store'])->name('vote');
 

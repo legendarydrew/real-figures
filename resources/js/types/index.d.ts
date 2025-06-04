@@ -93,6 +93,7 @@ export interface Song {
         image?: string;
     };
     url: string;
+    video_id?: string;
 }
 
 export interface Round {
