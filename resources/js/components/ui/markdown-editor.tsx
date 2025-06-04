@@ -25,11 +25,15 @@ import { Toggle } from '@/components/ui/toggle';
 
 interface MarkdownEditorProps {
     value: string;
+    disabled?: boolean;
+    placeholder?: string;
     onChange: (value: string) => void;
 }
 
 export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                                                                   value,
+    disabled,
+                                                                  placeholder,
                                                                   onChange
                                                               }) => {
     const [markdown, setMarkdown] = useState(value);
@@ -160,6 +164,8 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
             ) : (
                 <Textarea
                     id="markdown-textarea"
+                    placeholder={placeholder}
+                    disabled={disabled}
                     value={markdown}
                     onChange={changeHandler}
                     className="min-h-[8rem] font-mono"

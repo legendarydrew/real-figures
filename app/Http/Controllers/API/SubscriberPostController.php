@@ -7,7 +7,6 @@ use App\Http\Requests\SubscriberPostRequest;
 use App\Mail\SubscriberPostMessage;
 use App\Models\Subscriber;
 use App\Models\SubscriberPost;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
 
 /**
@@ -20,7 +19,7 @@ use Illuminate\Support\Facades\Mail;
 class SubscriberPostController extends Controller
 {
 
-    public function store(SubscriberPostRequest $request): JsonResponse
+    public function store(SubscriberPostRequest $request): \Illuminate\Http\RedirectResponse
     {
         // Create a SubscriberPost, regardless of whether we have Subscribers.
         // Why? Because we might want to add a site section where past posts can be shown.
@@ -34,15 +33,16 @@ class SubscriberPostController extends Controller
         $subscribers = Subscriber::all();
         if ($subscribers->isNotEmpty())
         {
-            foreach ($subscribers as $subscriber) {
-                Mail::to($subscriber)->queue(new SubscriberPostMessage($subscriber, $post));
+            foreach ($subscribers as $subscriber)
+            {
+                Mail::to($subscriber)->send(new SubscriberPostMessage($subscriber, $post));
             }
 
-            return response()->json(null, 201);
+            return to_route('admin.subscribers')->with(['sent' => "Update was sent to {$subscribers->count()} subscribers."]);
         }
         else
         {
-            return response()->json(['message' => 'There are no Subscribers to send this message to.'], 204);
+            return to_route('admin.subscribers')->with(['sent' => 'There are no Subscribers to send this message to.'], 204);
         }
     }
 }
