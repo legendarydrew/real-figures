@@ -7,6 +7,7 @@ use App\Http\Requests\SubscriberPostRequest;
 use App\Mail\SubscriberPostMessage;
 use App\Models\Subscriber;
 use App\Models\SubscriberPost;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
 
 /**
@@ -19,7 +20,14 @@ use Illuminate\Support\Facades\Mail;
 class SubscriberPostController extends Controller
 {
 
-    public function store(SubscriberPostRequest $request): \Illuminate\Http\RedirectResponse
+    /**
+     * Create a new SubscriberPost and email it to confirmed Subscribers.
+     * We want to return the number of Subscribers the post was sent to.
+     *
+     * @param SubscriberPostRequest $request
+     * @return JsonResponse
+     */
+    public function store(SubscriberPostRequest $request): JsonResponse
     {
         // Create a SubscriberPost, regardless of whether we have Subscribers.
         // Why? Because we might want to add a site section where past posts can be shown.
@@ -39,6 +47,6 @@ class SubscriberPostController extends Controller
             }
         }
 
-        return to_route('admin.subscribers')->with('subscribers',  $subscribers->count());
+        return response()->json(['subscribers' => $subscribers->count()], 201);
     }
 }

@@ -102,6 +102,10 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         return () => document.removeEventListener("keydown", handleKeyDown);
     }, [markdown]);
 
+    useEffect(() => {
+        setMarkdown(value);
+    }, [value]);
+
     const changeHandler = (e: ChangeEvent) => {
         setMarkdown(e.target.value);
         onChange(e.target.value);

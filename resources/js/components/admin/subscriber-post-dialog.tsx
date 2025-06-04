@@ -1,14 +1,15 @@
-import { ChangeEvent, FC, useEffect } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogFooter, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { useForm } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { MarkdownEditor } from '@/components/ui/markdown-editor';
 import { LoadingButton } from '@/components/ui/loading-button';
 import { useDialog } from '@/context/dialog-context';
 import { cn } from '@/lib/utils';
+import axios from 'axios';
+import { Toaster } from '@/components/ui/toast-message';
 
 type SubscriberPostForm = {
     title: string;
@@ -16,51 +17,57 @@ type SubscriberPostForm = {
 }
 export const SUBSCRIBER_POST_DIALOG_NAME = 'subscriber-post';
 
-export const SubscriberPostDialog: FC<SubscriberPostDialogProps> = () => {
+export const SubscriberPostDialog: FC = () => {
 
     const { openDialogName, closeDialog } = useDialog();
 
-    const {
-        data,
-        setData,
-        reset,
-        errors,
-        setError,
-        post,
-        processing
-    } = useForm<Required<SubscriberPostForm>>({
-        title: '',
-        body: ''
-    });
+    const [data, setData] = useState<SubscriberPostForm>({ title: '', body: ''});
+    const [errors, setErrors] = useState<{ [key: string]: string } | null>(null);
+    const [processing, setProcessing] = useState<boolean>(false);
+
 
     const isOpen = openDialogName === SUBSCRIBER_POST_DIALOG_NAME;
 
     useEffect(() => {
-        reset();
+        if (isOpen) {
+            setErrors({ });
+        };
     }, [isOpen]);
 
     const changeTitleHandler = (e: ChangeEvent) => {
-        setData('title', e.target.value);
-        setError('title', '');
+        setData((prev) => ({ ...prev, title: e.target.value }));
+        setErrors((prev) => ({ ...prev, title: '' }));
     };
 
-    const changeBodyHandler = (value: string) => {
-        setData('body', value);
-        setError('body', '');
+    const changeBodyHandler = (body: string) => {
+        setData((prev) => ({ ...prev, body }));
+        setErrors((prev) => ({ ...prev, body: '' }));
     };
 
     const saveHandler = (e: SubmitEvent) => {
         e.preventDefault();
 
-        post(route('subscribers.post'), {
-            showProgress: true,
+        if (!processing) {
+            setProcessing(true);
+            axios.post(route('subscribers.post'), data)
+                .then((response) => {
+                    Toaster.success(response.data.subscribers ?
+                        `Post has been sent to ${response.data.subscribers} subscriber(s).` :
+                        "Post has been saved."
+                    );
+                    setData({ title: '', body: '' });
+                    closeDialog();
+                })
+                .catch((error) => {
+                    if (error?.status === 422) {
+                        setErrors(error.response.data.errors);
+                    }
+                })
+                .finally(() => {
+                    setProcessing(false);
+                });
 
-            onSuccess: (page) => {
-                console.log(page);
-                closeDialog();
-            },
-            preserveScroll: true
-        });
+        }
     };
 
 
@@ -74,7 +81,7 @@ export const SubscriberPostDialog: FC<SubscriberPostDialogProps> = () => {
                         <Input id="postTitle" type="text" className="font-bold" value={data.title}
                                disabled={processing}
                                onChange={changeTitleHandler}/>
-                        <InputError className="mt-2" message={errors.title}/>
+                        <InputError className="mt-2" message={errors?.title}/>
                     </div>
 
                     <div>
@@ -83,12 +90,12 @@ export const SubscriberPostDialog: FC<SubscriberPostDialogProps> = () => {
                                         placeholder="Tell your Subscribers what's going on! (100 characters minimum.)"
                                         disabled={processing}
                                         onChange={changeBodyHandler}/>
-                        <InputError className="mt-2" message={errors['body']}/>
+                        <InputError className="mt-2" message={errors?.body}/>
                     </div>
 
                     <DialogFooter>
-                        <div className={cn('flex-grow text-sm', data['body'].length < 100 ? 'font-semibold' : '')}>
-                            {data['body'].length.toLocaleString()} / 100
+                        <div className={cn('flex-grow text-sm', data['body']?.length < 100 ? 'font-semibold' : '')}>
+                            {data['body']?.length.toLocaleString()} / 100
                         </div>
                         <LoadingButton variant="default" type="submit" onClick={saveHandler}
                                        isLoading={processing}>Send Update</LoadingButton>
