@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\Subscriber;
+use App\Models\SubscriberPost;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,16 +11,15 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriberMessage extends Mailable
+class SubscriberPostMessage extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(private Subscriber $subscriber, private SubscriberPost $post)
     {
-        //
     }
 
     /**
@@ -27,7 +28,7 @@ class SubscriberMessage extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Subscriber Message',
+            subject: trans('contest.subscriber.subject', ['title' => $this->post->title]),
         );
     }
 
@@ -37,17 +38,9 @@ class SubscriberMessage extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.subscriber-post',
+            with: ['subscriber' => $this->subscriber, 'post' => $this->post],
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
-    }
 }

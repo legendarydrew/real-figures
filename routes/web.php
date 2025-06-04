@@ -13,7 +13,7 @@ use App\Http\Controllers\API\StageController;
 use App\Http\Controllers\API\StageManualVoteController;
 use App\Http\Controllers\API\StageRoundsController;
 use App\Http\Controllers\API\StageWinnersController;
-use App\Http\Controllers\API\SubscriberMessageController;
+use App\Http\Controllers\API\SubscriberPostController;
 use App\Http\Controllers\API\VoteController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -75,7 +75,6 @@ Route::prefix('/api')->group(function ()
     Route::post('messages', [ContactMessagesController::class, 'store']);
     Route::put('songs/{id}/play', [SongPlayController::class, 'update'])->name('play');
     Route::post('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'store'])->name('subscribe');
-    Route::post('subscribers/message', [SubscriberMessageController::class, 'store'])->name('subscribers.message');
     Route::post('vote', [VoteController::class, 'store'])->name('vote');
 
     // Routes accessible with authentication.
@@ -109,6 +108,7 @@ Route::prefix('/api')->group(function ()
         Route::post('stages/{id}/winners', [StageWinnersController::class, 'store'])->name('stages.winners');
 
         Route::delete('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'destroy'])->name('subscribers.destroy');
+        Route::post('subscribers/post', [SubscriberPostController::class, 'store'])->name('subscribers.post');
     });
 });
 

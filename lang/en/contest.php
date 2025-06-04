@@ -22,5 +22,8 @@ return [
             'winner'    => 'Winner of :stage: :round',
             'runner_up' => 'High-scoring runner up in :stage',
         ]
+    ],
+    'subscriber' => [
+        'subject' => 'Real Figures Don\'t F.O.L.D: :title'
     ]
 ];
