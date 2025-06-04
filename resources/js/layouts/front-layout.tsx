@@ -48,9 +48,9 @@ export default function FrontLayout({ children }: ComponentProps<never>) {
                     </main>
                     <SongPlayer/>
                     <FrontFooter/>
+                    <GoldenBuzzerDialog/>
                 </SongPlayerProvider>
                 <DonateDialog/>
-                <GoldenBuzzerDialog/>
             </div>
         </DialogProvider>
     );

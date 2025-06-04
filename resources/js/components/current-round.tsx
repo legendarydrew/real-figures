@@ -39,7 +39,7 @@ export const CurrentRound: React.FC<CurrentRoundProps> = ({ round }) => {
                         <li key={song.id}>
                             <button
                                 className="aspect-square w-full text-left bg-secondary/30 rounded-t-md leading-none relative hover:bg-secondary/50 cursor-pointer"
-                                onClick={() => openSongPlayer(song)}>
+                                onClick={() => openSongPlayer(round, song)}>
                                 <ActImage act={song.act} size="full"/>
                                 <div className="p-3 lg:p-5 absolute bottom-0 w-full">
                                     <div className="text-lg font-semibold leading-tight">{song.act.name}</div>

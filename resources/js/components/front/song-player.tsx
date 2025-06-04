@@ -14,14 +14,15 @@ import { Button } from '@/components/ui/button';
 import { useSongPlayer } from '@/context/song-player-context';
 import YouTube from 'react-youtube';
 import axios from 'axios';
+import { GOLDEN_BUZZER_DIALOG_NAME } from '@/components/front/golden-buzzer-dialog';
+import { useDialog } from '@/context/dialog-context';
 
 export const SongPlayer: React.FC = () => {
 
-    const { isPlayerOpen, currentSong, closeSongPlayer } = useSongPlayer();
+    const { openDialog } = useDialog();
+    const { isPlayerOpen, currentRound, currentSong, closeSongPlayer } = useSongPlayer();
 
     const playerOptions = {
-        // height: '390',
-        // width: '640',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 1,
@@ -34,6 +35,10 @@ export const SongPlayer: React.FC = () => {
     const songPlayHandler = () => {
         // Called when the YouTube video is played.
         axios.put(route('play', { id: currentSong.id })).then();
+    };
+
+    const beginBuzzerHandler = (): void => {
+        openDialog(GOLDEN_BUZZER_DIALOG_NAME, { round: currentRound, song: currentSong });
     };
 
     return (isPlayerOpen && currentSong) ? (
@@ -50,7 +55,7 @@ export const SongPlayer: React.FC = () => {
             <div className="flex items-center">
                 <SongBanner className="flex-grow" song={currentSong}/>
                 <div className="toolbar gap-1 mr-1">
-                    <Button variant="gold" type="button" title="Award a Golden Buzzer!">
+                    <Button variant="gold" type="button" title="Award a Golden Buzzer!" onClick={beginBuzzerHandler}>
                         <StarIcon/>
                     </Button>
                     <Button variant="ghost" type="button" title="Close the player" onClick={closeSongPlayer}>
