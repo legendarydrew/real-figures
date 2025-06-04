@@ -1,10 +1,10 @@
-import { ActImage } from '@/components/ui/act-image';
 import { Round, Song } from '@/types';
-import { LanguageFlag } from '@/components/language-flag';
 import { Button } from '@/components/ui/button';
 import { StarIcon } from 'lucide-react';
 import { GOLDEN_BUZZER_DIALOG_NAME } from '@/components/front/golden-buzzer-dialog';
 import { useDialog } from '@/context/dialog-context';
+import { useSongPlayer } from '@/context/song-player-context';
+import { SongBanner } from '@/components/song-banner';
 
 interface PreviousRoundProps {
     round: Round;
@@ -13,6 +13,7 @@ interface PreviousRoundProps {
 export const PreviousRound: React.FC<PreviousRoundProps> = ({ round }) => {
 
     const { openDialog } = useDialog();
+    const { openSongPlayer } = useSongPlayer();
 
     const beginBuzzerHandler = (song: Song): void => {
         openDialog(GOLDEN_BUZZER_DIALOG_NAME, { round, song });
@@ -23,18 +24,12 @@ export const PreviousRound: React.FC<PreviousRoundProps> = ({ round }) => {
             <p className="font-semibold">{round.title}</p>
             <ul className="grid gap-1 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 select-none">
                 {round.songs.map((song) => (
-                    <li className="flex items-center gap-2 col-span-1 row-span-1 hover:bg-white/10 pr-2 rounded-md"
-                        key={song.id}>
-                        <div className="bg-secondary/15 rounded-md leading-none">
-                            <ActImage act={song.act}/>
-                        </div>
-                        <div className="p-3 flex-grow">
-                            <div className="text-sm font-semibold truncate">{song.act.name}</div>
-                            <div className="flex gap-2 text-xs items-center font-semibold truncate">
-                                <LanguageFlag languageCode={song.language}/>
-                                {song.title}
-                            </div>
-                        </div>
+                    <li key={song.id}
+                        className="flex items-center gap-2 col-span-1 row-span-1 hover:bg-white/10 rounded-md">
+                        <button type="button" className="flex-grow cursor-pointer"
+                                onClick={() => openSongPlayer(round, song)}>
+                            <SongBanner className="text-left" song={song}/>
+                        </button>
                         <Button variant="gold" size="lg" type="button" title="Golden Buzzer"
                                 onClick={() => beginBuzzerHandler(song)}>
                             <StarIcon/>
