@@ -33,7 +33,8 @@ class SubscriberPostController extends Controller
         // Why? Because we might want to add a site section where past posts can be shown.
 
         $post = SubscriberPost::create([
-            'user_id' => auth()->id(),
+            'user_id'    => auth()->id(),
+            'sent_count' => 0,
             ...$request->validated()
         ]);
 
@@ -45,6 +46,7 @@ class SubscriberPostController extends Controller
             {
                 Mail::to($subscriber)->send(new SubscriberPostMessage($subscriber, $post));
             }
+            $post->update(['sent_count' => $subscribers->count()]);
         }
 
         return response()->json(['subscribers' => $subscribers->count()], 201);

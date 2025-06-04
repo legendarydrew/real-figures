@@ -17,7 +17,10 @@ type SubscriberPostForm = {
 }
 export const SUBSCRIBER_POST_DIALOG_NAME = 'subscriber-post';
 
-export const SubscriberPostDialog: FC = () => {
+interface SubscriberPostDialogProps {
+    onCreated: () => {};
+}
+export const SubscriberPostDialog: FC<SubscriberPostDialogProps> = ({ onCreated }) => {
 
     const { openDialogName, closeDialog } = useDialog();
 
@@ -57,6 +60,9 @@ export const SubscriberPostDialog: FC = () => {
                     );
                     setData({ title: '', body: '' });
                     closeDialog();
+                    if (onCreated) {
+                        onCreated();
+                    }
                 })
                 .catch((error) => {
                     if (error?.status === 422) {

@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('title');
             $table->text('body')->comment('Markdown content.');
+            $table->unsignedInteger('sent_count')->comment('Number of Subscribers sent to.');
             $table->timestamps();
         });
     }

@@ -153,6 +153,14 @@ export interface Subscriber {
     updated_at: string;
 }
 
+export interface SubscriberPost {
+    id: number;
+    title: string;
+    sent_count: number;
+    body?: string;
+    created_at: string;
+}
+
 export interface Donation {
     id: number;
     name: string;
