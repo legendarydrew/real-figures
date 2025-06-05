@@ -80,35 +80,35 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
             {size.toLowerCase() === 'large' ? (
                 <>
                     <div
-                        className={`flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 ${largeWarningClasses} rounded-sm text-center`}>
+                        className={`flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 ${largeWarningClasses()} rounded-sm text-center`}>
                         <span className="text-3xl">{formatDigits(counter.days)}</span>
                         <span className="text-xs">days</span>
                     </div>
                     <div
-                        className={`flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 ${largeWarningClasses} rounded-sm text-center`}>
+                        className={`flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 ${largeWarningClasses()} rounded-sm text-center`}>
                         <span className="text-3xl">{formatDigits(counter.hours)}</span>
                         <span className="text-xs">hours</span>
                     </div>
                     <div
-                        className={`flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 ${largeWarningClasses} rounded-sm text-center`}>
+                        className={`flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 ${largeWarningClasses()} rounded-sm text-center`}>
                         <span className="text-3xl">{formatDigits(counter.mins)}</span>
                         <span className="text-xs">minutes</span>
                     </div>
                     <div
-                        className={`flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 ${largeWarningClasses} rounded-sm text-center`}>
+                        className={`flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 ${largeWarningClasses()} rounded-sm text-center`}>
                         <span className="text-3xl">{formatDigits(counter.secs)}</span>
                         <span className="text-xs">seconds</span>
                     </div>
                 </>
             ) : (
                 <>
-                    <span className={`w-6 ${smallWarningClasses}`}>{formatDigits(counter.days)}</span>
+                    <span className={`w-6 ${smallWarningClasses()}`}>{formatDigits(counter.days)}</span>
                     <span>:</span>
-                    <span className={`w-6 ${smallWarningClasses}`}>{formatDigits(counter.hours)}</span>
+                    <span className={`w-6 ${smallWarningClasses()}`}>{formatDigits(counter.hours)}</span>
                     <span>:</span>
-                    <span className={`w-6 ${smallWarningClasses}`}>{formatDigits(counter.mins)}</span>
+                    <span className={`w-6 ${smallWarningClasses()}`}>{formatDigits(counter.mins)}</span>
                     <span>:</span>
-                    <span className={`w-6 ${smallWarningClasses}`}>{formatDigits(counter.secs)}</span>
+                    <span className={`w-6 ${smallWarningClasses()}`}>{formatDigits(counter.secs)}</span>
                 </>
             )}
         </div>
