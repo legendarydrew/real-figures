@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Facades\ContestFacade;
+use App\Transformers\CurrentStageTransformer;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 
@@ -22,10 +24,11 @@ class AppServiceProvider extends ServiceProvider
     {
         // Make certain configured values available to our app. (Thanks once again, ChatGPT.)
         Inertia::share([
-            'adsense'  => config('services.adsense'),
-            'analytics' => config('services.analytics'),
-            'donation' => config('contest.donation'),
-            'paypalClientId' => config('services.paypal.client_id'),
+            'adsense'          => config('services.adsense'),
+            'analytics'        => config('services.analytics'),
+            'currentStage'     => fractal(ContestFacade::getCurrentStage(), new CurrentStageTransformer())->toArray(),
+            'donation'         => config('contest.donation'),
+            'paypalClientId'   => config('services.paypal.client_id'),
             'turnstileSiteKey' => config('services.turnstile.site_key'),
         ]);
     }

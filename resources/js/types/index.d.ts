@@ -58,6 +58,7 @@ export interface Stage {
     id?: number;
     title: string;
     description: string;
+    golden_buzzer_perks?: string;
     status?: {
         text: string;
         choose_winners: boolean;

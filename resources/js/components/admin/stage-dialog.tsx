@@ -29,20 +29,23 @@ type StageForm = {
     // The structure of the form data.
     title: string;
     description: string;
+    golden_buzzer_perks?: string;
 }
 
 export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage }) => {
     // useForm() provides some very useful methods.
     const { data, setData, post, patch, errors, setError, processing } = useForm<Required<StageForm>>({
         title: '',
-        description: ''
+        description: '',
+        golden_buzzer_perks: ''
     });
 
     useEffect(() => {
         // We're editing a Stage, so populate the form.
         setData({
             title: isEditing() ? stage?.title : '',
-            description: isEditing() ? stage?.description : ''
+            description: isEditing() ? stage?.description : '',
+            golden_buzzer_perks: isEditing() ? stage?.golden_buzzer_perks : ''
         });
     }, [stage]);
 
@@ -59,6 +62,11 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
     const changeDescriptionHandler = (value: string) => {
         setData('description', value);
         setError('description', '');
+    };
+
+    const changeGoldenBuzzerPerksHandler = (value: string) => {
+        setData('golden_buzzer_perks', value);
+        setError('golden_buzzer_perks', '');
     };
 
     const saveHandler = (e: SubmitEvent) => {
@@ -92,7 +100,7 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent aria-describedby={undefined}>
+            <DialogContent aria-describedby={undefined} className="lg:max-w-4xl">
                 <DialogTitle>{isEditing() ? 'Update' : 'Create'} Stage</DialogTitle>
                 <form onSubmit={saveHandler}>
                     <div className="mb-2">
@@ -102,10 +110,19 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
                         <InputError className="mt-2" message={errors.title}/>
                     </div>
 
-                    <div>
-                        <Label htmlFor="stageDescription">Description</Label>
-                        <MarkdownEditor value={data.description} onChange={changeDescriptionHandler}/>
-                        <InputError className="mt-2" message={errors.description}/>
+                    <div className="flex flex-col lg:flex-row gap-5">
+                        <div className="lg:w-1/2 lg:max-w-1/2">
+                            <Label htmlFor="stageDescription">Description</Label>
+                            <MarkdownEditor value={data.description} onChange={changeDescriptionHandler}/>
+                            <InputError className="mt-2" message={errors.description}/>
+                        </div>
+
+                        <div className="lg:w-1/2 lg:max-w-1/2">
+                            <Label htmlFor="stageGoldenBuzzerPerks">Golden Buzzer Perks</Label>
+                            <MarkdownEditor value={data.golden_buzzer_perks} onChange={changeGoldenBuzzerPerksHandler}
+                                            placeholder="optional"/>
+                            <InputError className="mt-2" message={errors.golden_buzzer_perks}/>
+                        </div>
                     </div>
 
                     <DialogFooter>
