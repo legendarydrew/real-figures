@@ -23,8 +23,9 @@ class StageFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'       => $this->faker->unique()->words(3, true),
-            'description' => $this->faker->paragraph,
+            'title'               => $this->faker->unique()->words(3, true),
+            'description'         => $this->faker->paragraph,
+            'golden_buzzer_perks' => $this->faker->boolean(20) ? null : $this->faker->paragraph,
         ];
     }
 
