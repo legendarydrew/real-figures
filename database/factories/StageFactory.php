@@ -8,6 +8,7 @@ use App\Models\RoundSongs;
 use App\Models\RoundVote;
 use App\Models\Song;
 use App\Models\Stage;
+use App\Models\StageWinner;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -29,11 +30,20 @@ class StageFactory extends Factory
         ];
     }
 
-    public function withRounds(): StageFactory
+    public function withRounds(int $started_count = 2, int $ended_count = 0): StageFactory
     {
-        return $this->afterCreating(function (Stage $stage)
+        return $this->afterCreating(function (Stage $stage) use ($started_count, $ended_count)
         {
-            Round::factory($this->faker->numberBetween(1, 3))->withSongs()->for($stage)->create();
+            if ($started_count + $ended_count > 0)
+            {
+                Round::factory($ended_count)->ended()->withSongs()->for($stage)->create();
+                Round::factory($started_count)->started()->withSongs()->for($stage)->create();
+            }
+            else
+            {
+                $round_count = $this->faker->numberBetween(1, 4);
+                Round::factory($round_count)->withSongs()->for($stage)->create();
+            }
         });
     }
 
@@ -67,6 +77,34 @@ class StageFactory extends Factory
             }
         });
 
+    }
+
+    /**
+     * Create a Stage that is considered over.
+     * A Stage is over when all Rounds have ended and winners have been chosen.
+     *
+     * @return StageFactory
+     */
+    public function over(): StageFactory
+    {
+        return $this->afterCreating(function (Stage $stage)
+        {
+            // Create ended Rounds.
+            $round_count = $this->faker->numberBetween(1, 4);
+            $rounds      = Round::factory($round_count)->ended()->withSongs()->for($stage)->create();
+
+            // Create Stage winners.
+            foreach ($rounds as $round)
+            {
+                $song_id = $round->songs->random()->pluck('id')->first();
+                StageWinner::create([
+                    'stage_id'  => $stage->id,
+                    'round_id'  => $round->id,
+                    'song_id'   => $song_id,
+                    'is_winner' => true,
+                ]);
+            }
+        });
     }
 
     protected function ensureRoundsForStage(Stage $stage): void

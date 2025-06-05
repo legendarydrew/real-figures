@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Facades\ContestFacade;
 use App\Http\Controllers\Controller;
 use App\Models\Round;
 use App\Models\Stage;
@@ -59,7 +60,7 @@ class HomeController extends Controller
             }
 
             // Go through each Stage, checking its status.
-            $current_stage = $this->getCurrentStage();
+            $current_stage = ContestFacade::getCurrentStage();
 
             // Is there an active Stage?
             if ($current_stage)
@@ -103,28 +104,4 @@ class HomeController extends Controller
         return Inertia::render('front/home/intro');
     }
 
-    protected function getCurrentStage(): Stage|null
-    {
-        $stages         = Stage::all();
-        $previous_stage = null;
-        foreach ($stages as $stage)
-        {
-            if ($stage->isInactive())
-            {
-                // The Stage has no Rounds - go no further.
-                return $previous_stage;
-            }
-            elseif ($stage->isOver())
-            {
-                // The current Stage will be the last "over" Stage.
-                // This would occur if we want to display the winners of the last Stage.
-                $previous_stage = $stage;
-            }
-            else
-            {
-                // Any of the other states.
-                return $stage;
-            }
-        }
-    }
 }
