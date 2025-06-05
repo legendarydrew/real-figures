@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Facades\ContestFacade;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Models\Donation;
@@ -19,6 +20,7 @@ class DashboardController extends Controller
 
     public function index(): Response
     {
+        $current_stage = ContestFacade::getCurrentStage();
         return Inertia::render('back/dashboard', [
             'donations'     => fn() => [
                 'golden_buzzers' => GoldenBuzzer::count(),
@@ -29,7 +31,8 @@ class DashboardController extends Controller
             'message_count' => fn() => ContactMessage::whereNull('read_at')->count(),
             'song_plays'    => fn() => $this->getPlaysThisWeek(),
             'subscriber_count'   => fn() => Subscriber::confirmed()->count(),
-            'votes'         => fn() => $this->getVotesThisWeek()
+            'votes'         => fn() => $this->getVotesThisWeek(),
+            'vote_count'         => fn() => $current_stage ? $current_stage->rounds()->sum('votes') : 0
         ]);
     }
 
