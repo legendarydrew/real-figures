@@ -8,6 +8,7 @@ use App\Models\Donation;
 use App\Models\GoldenBuzzer;
 use App\Models\RoundVote;
 use App\Models\SongPlay;
+use App\Models\Subscriber;
 use App\Transformers\DonationTransformer;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -27,6 +28,7 @@ class DashboardController extends Controller
             ],
             'message_count' => fn() => ContactMessage::whereNull('read_at')->count(),
             'song_plays'    => fn() => $this->getPlaysThisWeek(),
+            'subscriber_count'   => fn() => Subscriber::confirmed()->count(),
             'votes'         => fn() => $this->getVotesThisWeek()
         ]);
     }
