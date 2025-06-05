@@ -8,6 +8,18 @@ class Contest
 {
 
     /**
+     * Returns TRUE if the contest is over.
+     * The contest is considered over if all Stages are over.
+     *
+     * @return bool
+     */
+    public function isOver(): bool
+    {
+        $stages = Stage::all();
+        return $stages->isNotEmpty() && $stages->every(fn(Stage $stage) => $stage->isOver());
+    }
+
+    /**
      * Returns the currently active Stage, if one is available.
      *
      * @return Stage|null

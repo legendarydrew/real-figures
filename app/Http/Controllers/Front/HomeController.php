@@ -48,55 +48,50 @@ class HomeController extends Controller
 
     public function index(): Response
     {
-        // Check that there are Stages defined.
-        $stages = Stage::all();
-
-        if ($stages->isNotEmpty())
+        // Check whether the contest is over (i.e. all Stages are "over").
+        // In this case, we want to display the winners.
+        if (ContestFacade::isOver())
         {
-            // Check whether the contest is over (i.e. all Stages are "over").
-            if ($stages->every(fn(Stage $stage) => $stage->isOver()))
+            return Inertia::render('front/home/over');
+        }
+
+        // Go through each Stage, checking its status.
+        $current_stage = ContestFacade::getCurrentStage();
+
+        // Is there an active Stage?
+        if ($current_stage)
+        {
+            // Display information about the current Round and any previous (ended) Rounds.
+            // If there is no current Round, add a timestamp for counting down to the start of the first Round.
+            $current_round   = $current_stage->rounds->first(fn(Round $round) => $round->isActive());
+            $previous_rounds = null;
+
+            if ($current_stage->hasEnded())
             {
-                return Inertia::render('front/home/over');
+                // Display a message about results for the current Stage being tallied.
+                // We will also display all previous rounds.
+                $component       = 'front/home/stage-end';
+                $previous_rounds = $current_stage->rounds;
+                $countdown       = null;
+            }
+            elseif ($current_round)
+            {
+                $component       = 'front/home/round';
+                $previous_rounds = $current_stage->rounds->filter(fn(Round $round) => $round->id < $current_round->id);
+                $countdown       = $current_round->ends_at->toISOString();
+            }
+            else
+            {
+                $component = 'front/home/countdown';
+                $countdown = $current_stage->rounds->first()->starts_at->toISOString();
             }
 
-            // Go through each Stage, checking its status.
-            $current_stage = ContestFacade::getCurrentStage();
-
-            // Is there an active Stage?
-            if ($current_stage)
-            {
-                // Display information about the current Round and any previous (ended) Rounds.
-                // If there is no current Round, add a timestamp for counting down to the start of the first Round.
-                $current_round   = $current_stage->rounds->first(fn(Round $round) => $round->isActive());
-                $previous_rounds = null;
-
-                if ($current_stage->hasEnded())
-                {
-                    // Display a message about results for the current Stage being tallied.
-                    // We will also display all previous rounds.
-                    $component       = 'front/home/stage-end';
-                    $previous_rounds = $current_stage->rounds;
-                    $countdown       = null;
-                }
-                elseif ($current_round)
-                {
-                    $component       = 'front/home/round';
-                    $previous_rounds = $current_stage->rounds->filter(fn(Round $round) => $round->id < $current_round->id);
-                    $countdown       = $current_round->ends_at->toISOString();
-                }
-                else
-                {
-                    $component = 'front/home/countdown';
-                    $countdown = $current_stage->rounds->first()->starts_at->toISOString();
-                }
-
-                return Inertia::render($component, [
-                    'stage'          => fn() => fractal($current_stage, StageTransformer::class)->parseIncludes(['description'])->toArray(),
-                    'currentRound'   => fn() => fractal($current_round, RoundTransformer::class, '')->parseIncludes(['full_title'])->toArray(),
-                    'previousRounds' => fn() => fractal($previous_rounds?->sortByDesc('id'), RoundTransformer::class, '')->toArray(),
-                    'countdown'      => fn() => $countdown,
-                ]);
-            }
+            return Inertia::render($component, [
+                'stage'          => fn() => fractal($current_stage, StageTransformer::class)->parseIncludes(['description'])->toArray(),
+                'currentRound'   => fn() => fractal($current_round, RoundTransformer::class, '')->parseIncludes(['full_title'])->toArray(),
+                'previousRounds' => fn() => fractal($previous_rounds?->sortByDesc('id'), RoundTransformer::class, '')->toArray(),
+                'countdown'      => fn() => $countdown,
+            ]);
         }
 
         // The default page version, introducing the contest.
