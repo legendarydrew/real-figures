@@ -108,9 +108,9 @@ For when we are ready to get things going: we have the Songs ready, and we've go
 - [x] When the current Stage is running
     - [x] display the current round for voting on.
     - [x] display previous rounds for listening to the songs.
-- [ ] When the current Stage is over
-    - [ ] announce that results are being calculated.
-    - [ ] display previous rounds for listening to the songs.
+- [x] When the current Stage is over
+    - [x] announce that results are being calculated.
+    - [x] display previous rounds for listening to the songs.
 - [ ] When the contest is over
     - [ ] thank everybody for taking part.
     - [ ] display the winning Songs.
