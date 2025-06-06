@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Front;
 use App\Facades\ContestFacade;
 use App\Http\Controllers\Controller;
 use App\Models\Round;
-use App\Models\Stage;
 use App\Transformers\RoundTransformer;
 use App\Transformers\StageTransformer;
 use Inertia\Inertia;
@@ -91,6 +90,7 @@ class HomeController extends Controller
                 'currentRound'   => fn() => fractal($current_round, RoundTransformer::class, '')->parseIncludes(['full_title'])->toArray(),
                 'previousRounds' => fn() => fractal($previous_rounds?->sortByDesc('id'), RoundTransformer::class, '')->toArray(),
                 'countdown'      => fn() => $countdown,
+                'isLastStage'    => fn() => ContestFacade::isOnLastStage()
             ]);
         }
 

@@ -8,7 +8,7 @@ import GoldenBuzzerBanner from '@/components/front/golden-buzzer-banner';
 import AboutBanner from '@/components/front/about-banner';
 import { PreviousRound } from '@/components/previous-round';
 
-const HomeStageEndPage: React.FC = ({ stage, previousRounds }) => {
+const HomeStageEndPage: React.FC = ({ stage, previousRounds, isLastStage }) => {
 
     return (
         <>
@@ -22,15 +22,36 @@ const HomeStageEndPage: React.FC = ({ stage, previousRounds }) => {
                     <div className="flex flex-col lg:flex-row gap-5">
 
                         <div className="lg:w-2/3 text-center">
-                            <h1 className="display-text text-2xl">The Votes Are In...</h1>
-                            <p className="my-3 text-lg">
-                                <b>{stage.title} has ended, and the votes are being counted.</b> Thank you to everybody
-                                who took part in the voting!
-                            </p>
-                            <p className="my-3">
-                                <b>Who will make it to the next round? Who will just miss the cut?</b>
-                            </p>
-                            <p className="my-3">All will be revealed soon, so stay tuned.</p>
+                            {isLastStage ? (
+                                <>
+                                    <h1 className="display-text text-2xl">The Finals Have Ended...</h1>
+                                    <p className="my-3 text-lg">
+                                        The stage has gone quiet. The last notes have been sung.
+                                    </p>
+                                    <p className="my-3">
+                                        Now, it’s up to the numbers &mdash; and the anticipation is <i>electric</i>.
+                                    </p>
+                                    <p className="my-3">All our finalists are legends in their own right.</p>
+                                    <p className="my-3 font-semibold">Only one will be immortalised as the official
+                                        anthem.</p>
+                                    <p className="my-3">
+                                        We're counting the final votes. <b>The winner is coming.</b>
+                                    </p>
+                                </>
+                            ) : (
+                                <>
+                                    <h1 className="display-text text-2xl">The Votes Are In...</h1>
+                                    <p className="my-3 text-lg">
+                                        <b>{stage.title} has ended, and the votes are being counted.</b> Thank you to
+                                        everybody
+                                        who took part in the voting!
+                                    </p>
+                                    <p className="my-3">
+                                        <b>Who will make it to the next round? Who will just miss the cut?</b>
+                                    </p>
+                                    <p className="my-3">All will be revealed soon, so stay tuned.</p>
+                                </>
+                            )}
                         </div>
 
                         <div className="lg:w-1/3">
@@ -39,11 +60,15 @@ const HomeStageEndPage: React.FC = ({ stage, previousRounds }) => {
                     </div>
 
                     <div className="mt-5">
-                        <HeadingSmall title={`Previous ${previousRounds.count === 1 ? 'Round' : 'Rounds'}`}/>
-                        {stage.description && (
-                            <div className="content my-3 text-sm text-gray-200"
-                                 dangerouslySetInnerHTML={{ __html: stage.description }}/>
-                        )}
+                        { !isLastStage ? (
+                            <>
+                                <HeadingSmall title={`Previous ${previousRounds.count === 1 ? 'Round' : 'Rounds'}`}/>
+                                {stage.description && (
+                                    <div className="content my-3 text-sm text-gray-200"
+                                         dangerouslySetInnerHTML={{ __html: stage.description }}/>
+                                )}
+                            </>
+                        ) : ''}
                         {previousRounds.map((round) => <PreviousRound key={round.id} round={round}/>)}
                     </div>
 
