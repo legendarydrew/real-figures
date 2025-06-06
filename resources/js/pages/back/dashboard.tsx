@@ -9,6 +9,8 @@ import Heading from '@/components/heading';
 import { DashboardDonations } from '@/components/admin/dashboard-donations';
 import { DashboardSubscriberCount } from '@/components/admin/dashboard-subscriber-count';
 import { DashboardVoteCount } from '@/components/admin/dashboard-vote-count';
+import { DashboardDonationCount } from '@/components/admin/dashboard-donation-count';
+import { DashboardGoldenBuzzerCount } from '@/components/admin/dashboard-golden-buzzer-count';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,7 +19,15 @@ const breadcrumbs: BreadcrumbItem[] = [
     }
 ];
 
-export default function Dashboard({ donations, message_count, subscriber_count, song_plays, votes, vote_count }) {
+export default function Dashboard({
+                                      donations,
+                                      buzzer_count,
+                                      message_count,
+                                      subscriber_count,
+                                      song_plays,
+                                      votes,
+                                      vote_count
+                                  }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard"/>
@@ -25,17 +35,26 @@ export default function Dashboard({ donations, message_count, subscriber_count, 
 
                 <Heading title="Dashboard"/>
 
-                <div className="grid auto-rows-min gap-x-5 gap-y-10  md:grid-cols-2 lg:grid-cols-5">
-                    <DashboardMessageCount className="lg:col-start-1 lg:row-start-1 lg:col-span-1 lg:row-span-1" message_count={message_count}/>
-                    <DashboardSubscriberCount className="lg:col-start-2 lg:row-start-1 lg:col-span-1 lg:row-span-1" subscriber_count={subscriber_count}/>
-                    <DashboardVoteCount className="lg:col-start-3 lg:row-start-1 lg:col-span-3 lg:row-span-1" vote_count={vote_count}/>
+                <div className="grid auto-rows-min gap-2 md:grid-cols-2 lg:grid-cols-5">
+                    <DashboardMessageCount className="lg:col-start-1 lg:row-start-1 lg:col-span-1 lg:row-span-1"
+                                           message_count={message_count}/>
+                    <DashboardSubscriberCount className="lg:col-start-2 lg:row-start-1 lg:col-span-1 lg:row-span-1"
+                                              subscriber_count={subscriber_count}/>
+                    <DashboardVoteCount className="lg:col-start-3 lg:row-start-1 lg:col-span-3 lg:row-span-1"
+                                        vote_count={vote_count}/>
+                    <DashboardDonationCount className="lg:col-start-1 lg:row-start-2 lg:col-span-1 lg:row-span-1"
+                                            donation_count={donations.count}/>
+                    <DashboardGoldenBuzzerCount className="lg:col-start-2 lg:row-start-2 lg:col-span-1 lg:row-span-1"
+                                                buzzer_count={buzzer_count}/>
 
-                    <DashboardSongTotalPlays className="lg:col-start-1 lg:row-start-2 lg:col-span-2 lg:row-span-2" data={song_plays}/>
-                    <DashboardSongsPlayed className="lg:col-start-1 lg:row-start-4 lg:col-span-2 lg:row-span-2" data={song_plays}/>
-
-                    <DashboardVotesCast className="lg:col-start-3 lg:row-start-2 lg:col-span-3 lg:row-span-2" data={votes}/>
-
-                    <DashboardDonations className="lg:col-start-3 lg:row-start-4 lg:col-span-3 lg:row-span-3" data={donations}/>
+                    <DashboardSongTotalPlays className="p-3 lg:col-start-1 lg:row-start-3 lg:col-span-2 lg:row-span-2"
+                                             data={song_plays}/>
+                    <DashboardSongsPlayed className="p-3 lg:col-start-1 lg:row-start-5 lg:col-span-2 lg:row-span-2"
+                                          data={song_plays}/>
+                    <DashboardVotesCast className="p-3 lg:col-start-3 lg:row-start-3 lg:col-span-3 lg:row-span-2"
+                                        data={votes}/>
+                    <DashboardDonations className="p-3 lg:col-start-3 lg:row-start-5 lg:col-span-3 lg:row-span-3"
+                                        data={donations}/>
                 </div>
             </div>
         </AppLayout>
