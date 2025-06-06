@@ -2,14 +2,12 @@ import { User2Icon } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 import { cn } from '@/lib/utils';
 
-// https://www.geeksforgeeks.org/create-a-line-chart-using-recharts-in-reactjs/
-
-interface DashboardMessageCountProps {
+interface DashboardSubscriberCountProps {
     subscriber_count: number;
     className?: string;
 }
 
-export const DashboardSubscriberCount: React.FC<DashboardMessageCountProps> = ({ subscriber_count, className }) => {
+export const DashboardSubscriberCount: React.FC<DashboardSubscriberCountProps> = ({ subscriber_count, className }) => {
 
     return (
         <Link href={route('admin.subscribers')}

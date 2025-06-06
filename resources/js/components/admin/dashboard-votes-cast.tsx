@@ -39,7 +39,7 @@ export const DashboardVotesCast: React.FC<DashboardVotesCastProps> = ({ data, cl
             {data.length ? (
                 <>
                     <h2 className="font-bold mb-2">Votes cast <small>within the last week</small></h2>
-                    <ResponsiveContainer className="w-full h-[12rem]" aspect={2.5}>
+                    <ResponsiveContainer className="w-full h-[12rem]" aspect={3.75}>
                         <BarChart data={data} margin={2}>
                             <CartesianGrid strokeDasharray="3 3"/>
                             <XAxis dataKey="date"
