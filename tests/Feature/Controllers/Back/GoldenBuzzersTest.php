@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Back;
+namespace Tests\Feature\Controllers\Back;
 
 use App\Models\GoldenBuzzer;
 use App\Models\Stage;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Front\Subscriber;
+namespace Tests\Feature\Controllers\Front\Subscriber;
 
 use App\Models\Subscriber;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

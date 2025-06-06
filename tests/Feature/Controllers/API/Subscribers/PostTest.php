@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\API\Subscribers;
+namespace Tests\Feature\Controllers\API\Subscribers;
 
 use App\Mail\SubscriberPostMessage;
 use App\Models\Subscriber;
