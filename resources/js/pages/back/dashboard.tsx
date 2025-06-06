@@ -25,7 +25,7 @@ export default function Dashboard({ donations, message_count, subscriber_count, 
 
                 <Heading title="Dashboard"/>
 
-                <div className="grid auto-rows-min gap-x-5 gap-y-10 md:grid-cols-2 lg:grid-cols-5">
+                <div className="grid auto-rows-min gap-x-5 gap-y-10  md:grid-cols-2 lg:grid-cols-5">
                     <DashboardMessageCount className="lg:col-start-1 lg:row-start-1 lg:col-span-1 lg:row-span-1" message_count={message_count}/>
                     <DashboardSubscriberCount className="lg:col-start-2 lg:row-start-1 lg:col-span-1 lg:row-span-1" subscriber_count={subscriber_count}/>
                     <DashboardVoteCount className="lg:col-start-3 lg:row-start-1 lg:col-span-3 lg:row-span-1" vote_count={vote_count}/>

@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
             'analytics'        => config('services.analytics'),
             'currentStage'     => fractal(ContestFacade::getCurrentStage(), new CurrentStageTransformer())->toArray(),
             'donation'         => config('contest.donation'),
+            'locale'           => config('app.locale'),
             'paypalClientId'   => config('services.paypal.client_id'),
             'turnstileSiteKey' => config('services.turnstile.site_key'),
         ]);
