@@ -30,7 +30,7 @@ export const PreviousRound: React.FC<PreviousRoundProps> = ({ round }) => {
                                 onClick={() => openSongPlayer(round, song)}>
                             <SongBanner className="text-left" song={song}/>
                         </button>
-                        <Button variant="gold" size="lg" type="button" title="Golden Buzzer"
+                        <Button className="hidden md:block" variant="gold" size="lg" type="button" title="Golden Buzzer"
                                 onClick={() => beginBuzzerHandler(song)}>
                             <StarIcon/>
                         </Button>
