@@ -19,6 +19,7 @@ interface DashboardSongPlaysProps {
 export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ data, className }) => {
 
     const { locale } = usePage().props;
+
     const formatDate = (timestamp: string): string => {
         return new Date(timestamp).toLocaleDateString(locale);
     };
@@ -46,8 +47,7 @@ export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ dat
                             <CartesianGrid strokeDasharray="3 3"/>
                             <XAxis dataKey="date" type="category" tickCount={7}
                                    tickFormatter={formatDate}
-                                   className="display-text font-normal text-xs"
-                                   padding={{ top: 8 }}/>
+                                   className="display-text font-normal text-xs"/>
                             <YAxis className="display-text font-normal text-xs"/>
                             <Tooltip content={tooltipContent} isAnimationActive={false}/>
                             <Bar dataKey="play_count" label="Total song plays"
