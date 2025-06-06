@@ -25,6 +25,7 @@ class DashboardController extends Controller
             'donations'     => fn() => [
                 'golden_buzzers' => GoldenBuzzer::count(),
                 'rows'           => fractal(Donation::orderByDesc('id')->take(10)->get(), new DonationTransformer())->parseIncludes('amount')->toArray(),
+                'count' => Donation::count(),
                 'total'          => sprintf("%s %s", config('contest.donation.currency'), number_format(Donation::sum('amount'), 2)),
                 // making a dangerous assumption that the donations are all in the same currency.
             ],
