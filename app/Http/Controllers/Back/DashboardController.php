@@ -22,19 +22,19 @@ class DashboardController extends Controller
     {
         $current_stage = ContestFacade::getCurrentStage();
         return Inertia::render('back/dashboard', [
-            'donations'     => fn() => [
+            'donations'        => fn() => [
                 'golden_buzzers' => GoldenBuzzer::count(),
                 'rows'           => fractal(Donation::orderByDesc('id')->take(10)->get(), new DonationTransformer())->parseIncludes('amount')->toArray(),
-                'count' => Donation::count(),
+                'count'          => Donation::count(),
                 'total'          => sprintf("%s %s", config('contest.donation.currency'), number_format(Donation::sum('amount'), 2)),
                 // making a dangerous assumption that the donations are all in the same currency.
             ],
-            'buzzer_count' => fn() => GoldenBuzzer::count(),
-            'message_count' => fn() => ContactMessage::whereNull('read_at')->count(),
-            'song_plays'    => fn() => $this->getPlaysThisWeek(),
-            'subscriber_count'   => fn() => Subscriber::confirmed()->count(),
-            'votes'         => fn() => $this->getVotesThisWeek(),
-            'vote_count'         => fn() => $current_stage ? $current_stage->rounds()->sum('votes') : 0
+            'buzzer_count'     => fn() => GoldenBuzzer::count(),
+            'message_count'    => fn() => ContactMessage::whereNull('read_at')->count(),
+            'song_plays'       => fn() => $this->getPlaysThisWeek(),
+            'subscriber_count' => fn() => Subscriber::confirmed()->count(),
+            'votes'            => fn() => $this->getVotesThisWeek(),
+            'vote_count'       => fn() => $current_stage ? $current_stage->vote_count : 0
         ]);
     }
 
