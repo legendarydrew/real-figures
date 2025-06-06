@@ -69,7 +69,7 @@ export const StageItem: React.FC<StageItemProps> = ({
         <Collapsible className="mb-2">
             <div
                 className="flex gap-2 py-0 pl-3 b-2 w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 items-center justify-between">
-                <span className="flex-grow font-bold text-left">{stage.title}</span>
+                <span className="display-text flex-grow text-left">{stage.title}</span>
                 <StageStatusTag stage={stage}/>
                 <div className="toolbar">
                     {!stage.status.has_started && (<Button type="button" className="p-3 cursor-pointer"
