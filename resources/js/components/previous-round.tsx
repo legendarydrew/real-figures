@@ -22,7 +22,7 @@ export const PreviousRound: React.FC<PreviousRoundProps> = ({ round }) => {
     return (
         <div className="mb-2 bg-black/50 p-3 rounded-sm">
             <p className="font-semibold">{round.title}</p>
-            <ul className="grid gap-1 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 select-none">
+            <ul className="grid gap-x-3 gap-y-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 select-none">
                 {round.songs.map((song) => (
                     <li key={song.id}
                         className="flex items-center gap-2 col-span-1 row-span-1 hover:bg-white/10 rounded-md">
@@ -30,7 +30,7 @@ export const PreviousRound: React.FC<PreviousRoundProps> = ({ round }) => {
                                 onClick={() => openSongPlayer(round, song)}>
                             <SongBanner className="text-left" song={song}/>
                         </button>
-                        <Button variant="gold" size="lg" type="button" title="Golden Buzzer"
+                        <Button className="hidden md:block" variant="gold" size="lg" type="button" title="Golden Buzzer"
                                 onClick={() => beginBuzzerHandler(song)}>
                             <StarIcon/>
                         </Button>

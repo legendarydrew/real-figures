@@ -51,4 +51,18 @@ class Contest
         return $previous_stage;
     }
 
+    /**
+     * Returns TRUE if the current Stage is also the last Stage.
+     * Used for identifying the final.
+     *
+     * @return bool
+     */
+    public function isOnLastStage(): bool
+    {
+        $current_stage = $this->getCurrentStage();
+        $last_stage    = Stage::orderByDesc('id')->first();
+
+        return $current_stage->id === $last_stage->id;
+    }
+
 }

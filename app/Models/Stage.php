@@ -144,4 +144,15 @@ class Stage extends Model
         return trans('contest.stage.status')[$status_key];
     }
 
+    /**
+     * Returns the total number of votes cast in this Stage.
+     *
+     * @return int
+     */
+    public function getVoteCountAttribute(): int
+    {
+        return RoundVote::whereHas('round', function ($q) {
+            $q->whereStageId($this->id);
+        })->count();
+    }
 }
