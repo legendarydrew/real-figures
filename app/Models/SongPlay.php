@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SongPlay extends Model
 {
-    protected $guarded = ['song_id', 'play_count'];
+    protected $guarded = ['id'];
 
     public function getDates(): array
     {
