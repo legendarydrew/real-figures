@@ -14,7 +14,7 @@ const HomeCurrentRoundPage: React.FC = ({ stage, currentRound, previousRounds, c
 
     return (
         <>
-            <Head>
+            <Head title={currentRound ? currentRound.full_title : stage.title}>
                 {/* Any tags to go in the <head> section to here. */}
             </Head>
 
