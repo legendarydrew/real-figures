@@ -29,12 +29,12 @@ class StageTransformer extends TransformerAbstract
      */
     public function includeDescription(Stage $stage): Primitive
     {
-        return $this->primitive(Str::markdown($stage->description));
+        return $this->primitive($stage->description ? Str::markdown($stage->description) : null);
     }
 
     public function includeGoldenBuzzerPerks(Stage $stage): Primitive
     {
-        return $this->primitive(Str::markdown($stage->golden_buzzer_perks));
+        return $this->primitive($stage->golden_buzzer_perks ? Str::markdown($stage->golden_buzzer_perks) : null);
     }
 
 }

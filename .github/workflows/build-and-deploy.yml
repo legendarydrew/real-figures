@@ -120,6 +120,12 @@ jobs:
       contents: none
     needs: deploy
     steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: project-artifact
+          path: .
+
       - name: Create Sentry release
         uses: getsentry/action-release@v3
         env:
