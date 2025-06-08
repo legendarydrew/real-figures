@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Round;
 use App\Models\RoundSongs;
 use App\Models\Song;
-use DateInterval;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
@@ -39,23 +38,35 @@ class RoundFactory extends Factory
         );
     }
 
+    public function future(): RoundFactory|Factory
+    {
+        $start_at = now()->addDays(fake()->numberBetween(1, 6));
+        return $this->state(fn(array $attributes) => [
+            'starts_at' => $start_at,
+            'ends_at'   => $start_at->clone()->addDays(fake()->numberBetween(1, 6))
+        ]);
+    }
+
     public function started(): RoundFactory|Factory
     {
-        return $this->state(fn(array $attributes) => ['starts_at' => now(),
-                                                      'ends_at'   => fake()->dateTimeBetween('1 day', '1 week')]
-        );
+        return $this->state(fn(array $attributes) => [
+            'starts_at' => now(),
+            'ends_at'   => fake()->dateTimeBetween('1 day', '1 week')
+        ]);
     }
 
     public function ended(): RoundFactory|Factory
     {
-        return $this->state(fn(array $attributes) => ['starts_at' => fake()->dateTimeBetween('-1 week'),
-                                                      'ends_at'   => now()->subSecond()]
-        );
+        return $this->state(fn(array $attributes) => [
+            'starts_at' => fake()->dateTimeBetween('-1 week'),
+            'ends_at'   => now()->subSecond()
+        ]);
     }
 
     public function withSongs(int $count = null): RoundFactory|Factory
     {
-        if (!$count) {
+        if (!$count)
+        {
             $count = fake()->numberBetween(config('contest.rounds.minSongs'), config('contest.round.maxSongs'));
         }
         $count = max(config('contest.rounds.minSongs'), $count);
