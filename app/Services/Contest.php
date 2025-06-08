@@ -62,7 +62,11 @@ class Contest
         $current_stage = $this->getCurrentStage();
         $last_stage    = Stage::orderByDesc('id')->first();
 
-        return $current_stage->id === $last_stage->id;
+        if ($current_stage && $last_stage) {
+            return $current_stage->id === $last_stage->id;
+        }
+
+        return false;
     }
 
 }
