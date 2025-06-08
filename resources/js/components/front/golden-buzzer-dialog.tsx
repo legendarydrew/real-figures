@@ -29,7 +29,7 @@ export const GoldenBuzzerDialog: FC = () => {
     const { openDialogName, closeDialog, dialogProps } = useDialog();
     const isOpen = openDialogName === GOLDEN_BUZZER_DIALOG_NAME;
 
-    const { currentStage, donation } = usePage().props;
+    const { donation, stage } = usePage().props;
     const { trackEvent } = useAnalytics();
 
     const [round, setRound] = useState<Round>();
@@ -123,8 +123,10 @@ export const GoldenBuzzerDialog: FC = () => {
                         <div className="flex flex-col gap-2">
                             <div className="bg-yellow-500/20 rounded-sm flex flex-col gap-2 p-3">
                                 <SongBanner song={song}/>
-                                <p className="text-left text-amber-700 dark:text-amber-200 text-sm"
-                                   dangerouslySetInnerHTML={{ __html: currentStage.golden_buzzer_perks }}/>
+                                {stage?.goldenBuzzerPerks ? (
+                                    <p className="text-left text-amber-700 dark:text-amber-200 text-sm"
+                                       dangerouslySetInnerHTML={{ __html: stage.goldenBuzzerPerks }}/>
+                                ) : ''}
                             </div>
                             <p className="text-xs text-center">
                                 <b>IMPORTANT:</b> Golden Buzzers are honours toward your favourite Acts and
