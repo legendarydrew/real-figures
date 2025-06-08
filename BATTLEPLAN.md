@@ -124,4 +124,9 @@ For when we are ready to get things going: we have the Songs ready, and we've go
 - [x] [Dashboard] Add a box displaying how much was made in donations.
 
 ## Miscellaneous
-- [ ] Add a description (based on the Stage) of what will happen with a Golden Buzzer.
+- [x] Add a description (based on the Stage) of what will happen with a Golden Buzzer.
+- [ ] Add a News section.
+  - [ ] Generate News posts with the help of OpenAI/ChatGPT. ($$)
+  - [ ] optionally generate a News post based on a Stage or Round.
+  - [ ] Add meta data to Acts to help with generating News posts.
+- [ ] Display Stage rankings once a Stage is over.
