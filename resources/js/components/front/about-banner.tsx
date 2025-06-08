@@ -14,7 +14,7 @@ export default function AboutBanner() {
         <div className="bg-gray-200 dark:bg-gray-700 p-5 md:py-10">
             <div className="max-w-5xl mx-auto grid gap-4 grid-cols-1 md:grid-cols-2">
 
-                <div className="pr-10">
+                <div className="md:pr-10">
                     <PlaceholderPattern
                         className="w-full h-[10rem] mb-5 stroke-neutral-900/20 dark:stroke-neutral-100/40"/>
 
@@ -31,13 +31,13 @@ export default function AboutBanner() {
                     <SubscribePanel className="w-full col-span-1 md:col-span-2"/>
 
                     <Link
-                        className="flex flex-col justify-end bg-green-700 hover:bg-green-800 text-white font-semibold p-3 col-span-1 h-10 md:h-auto rounded-sm leading-none"
+                        className="flex flex-col justify-end bg-green-700 hover:bg-green-800 text-white font-semibold p-3 col-span-1 h-10 min-h-[6rem] md:h-auto rounded-sm leading-none"
                         href={route('donations')}>
                         Donor Wall
                     </Link>
 
                     <Link
-                        className="flex flex-col justify-end bg-red-500 hover:bg-red-600 text-white font-semibold p-3 col-span-1 h-10 md:h-auto rounded-sm leading-none"
+                        className="flex flex-col justify-end bg-red-500 hover:bg-red-600 text-white font-semibold p-3 col-span-1 h-10 min-h-[6rem] md:h-auto rounded-sm leading-none"
                         href="https://youtube.com/@silentmodetv" target="_blank">
                         SilentMode
                         <br/>

@@ -110,7 +110,8 @@
 
                 <tr>
                     <td align="center">
-                        <img src="{{ asset('logo/catawol-logo.png') }}" width="260" height="48" alt="{{ config('app.name') }} banner">
+                        <img src="{{ asset('logo/catawol-logo.png') }}" width="260" height="48"
+                             alt="{{ config('app.name') }} banner">
                     </td>
                 </tr>
 
@@ -132,11 +133,23 @@
                         </div>
                     </td>
                 </tr>
+                @if (isset($subscriber))
+                    <tr>
+                        <td class="container-padding footer-text" align="center" bgcolor="#DDD"
+                            style="font-family:-apple-system, 'Cal Sans', 'Instrument Sans', BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;font-size:10px;line-height:16px;color:#212529;padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;">
+                            If you don't (or no longer) want to receive updates about the {{ config('app.name') }}
+                            project, you can
+                            <a href="{{ route('subscriber.remove', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]) }}">unsubscribe</a>
+                            by following this link.
+                        </td>
+                    </tr>
+                @endif
                 <tr>
                     <td class="container-padding footer-text" align="center"
                         style="font-family:-apple-system, 'Cal Sans', 'Instrument Sans', BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;font-size:12px;line-height:16px;color:#aaaaaa;padding-left:24px;padding-right:24px">
                         <br>
-                        {{ config('app.name') }} &ndash; <a href="{{ config('app.url') }}" style="color:#aaaaaa">{{ config('app.url') }}</a>
+                        {{ config('app.name') }} &ndash; <a href="{{ config('app.url') }}"
+                                                            style="color:#aaaaaa">{{ config('app.url') }}</a>
                         <br>
                         © Drew Maughan (SilentMode).
                     </td>

@@ -17,7 +17,7 @@ for the self-defined goal of May 20.
 - [x] Record contact messages sent.
 - [x] Record subscription submissions.
 - [x] Record subscription confirmations.
-- [ ] Record unsubscribes.
+- [x] Record unsubscribes.
 
 ## Front-facing site
 
@@ -76,8 +76,8 @@ for the self-defined goal of May 20.
 ### Subscribers
 
 - [x] Hide the filter field if there are no Subscribers.
-- [ ] Ability to send subscribers messages.
-- [ ] Ability for subscribers to unsubscribe.
+- [x] Ability to send subscribers messages.
+- [x] Ability for subscribers to unsubscribe.
 
 ## Miscellaneous
 
@@ -98,23 +98,23 @@ For when we are ready to get things going: we have the Songs ready, and we've go
 
 ## Analytics
 
-- [ ] Record song plays.
+- [x] Record song plays.
 - [x] Record Golden Buzzers.
 
 ## Front-facing site
 
 ### Home page
 
-- [ ] When the current Stage is running
+- [x] When the current Stage is running
     - [x] display the current round for voting on.
     - [x] display previous rounds for listening to the songs.
-- [ ] When the current Stage is over
-    - [ ] announce that results are being calculated.
-    - [ ] display previous rounds for listening to the songs.
+- [x] When the current Stage is over
+    - [x] announce that results are being calculated.
+    - [x] display previous rounds for listening to the songs.
 - [ ] When the contest is over
     - [ ] thank everybody for taking part.
     - [ ] display the winning Songs.
-- [ ] Ability to play a Song.
+- [x] Ability to play a Song.
 - [x] Ability to vote for Songs (if in the running).
 
 ## Back office
@@ -124,4 +124,9 @@ For when we are ready to get things going: we have the Songs ready, and we've go
 - [x] [Dashboard] Add a box displaying how much was made in donations.
 
 ## Miscellaneous
-- [ ] Add a description (based on the Stage) of what will happen with a Golden Buzzer.
+- [x] Add a description (based on the Stage) of what will happen with a Golden Buzzer.
+- [ ] Add a News section.
+  - [ ] Generate News posts with the help of OpenAI/ChatGPT. ($$)
+  - [ ] optionally generate a News post based on a Stage or Round.
+  - [ ] Add meta data to Acts to help with generating News posts.
+- [ ] Display Stage rankings once a Stage is over.

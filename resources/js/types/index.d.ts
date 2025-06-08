@@ -58,6 +58,7 @@ export interface Stage {
     id?: number;
     title: string;
     description: string;
+    golden_buzzer_perks?: string;
     status?: {
         text: string;
         choose_winners: boolean;
@@ -93,6 +94,7 @@ export interface Song {
         image?: string;
     };
     url: string;
+    video_id?: string;
 }
 
 export interface Round {
@@ -150,6 +152,14 @@ export interface Subscriber {
     email: string;
     created_at: string;
     updated_at: string;
+}
+
+export interface SubscriberPost {
+    id: number;
+    title: string;
+    sent_count: number;
+    body?: string;
+    created_at: string;
 }
 
 export interface Donation {

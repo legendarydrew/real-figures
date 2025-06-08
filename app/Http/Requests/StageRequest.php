@@ -24,10 +24,11 @@ class StageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string',
+            'title'               => ['required', 'string',
                 Rule::unique('stages', 'title')->ignore($this->id)
             ],
-            'description' => ['required', 'string'],
+            'description'         => ['required', 'string'],
+            'golden_buzzer_perks' => ['nullable', 'string'],
         ];
     }
 }

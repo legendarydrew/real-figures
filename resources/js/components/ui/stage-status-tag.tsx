@@ -19,11 +19,11 @@ export const StageStatusTag: React.FC<StageStatusTagProps> = ({ stage }) => {
     }
 
     const hasStarted = (): boolean => {
-        return !!stage.status?.has_started;
+        return !!stage.status?.has_started || stage.status.text;
     }
 
     const tagClasses = (): string => {
-        let baseClasses = "text-xs rounded-lg py-1 px-2"
+        let baseClasses = "display-text text-xs rounded-lg py-1 px-2 shadow-sm"
         if (isActive()) {
             if (hasEnded()) {
                 baseClasses += ` ${stage.winners.length ? 'bg-blue-500' : 'bg-orange-500'} text-white`;

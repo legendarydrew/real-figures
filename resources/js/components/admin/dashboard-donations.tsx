@@ -9,11 +9,12 @@ interface DashboardDonationsProps {
         rows: Donation[];
         total: string; // amount with currency.
     }[];
+    className?: string;
 }
 
-export const DashboardDonations: React.FC<DashboardDonationsProps> = ({ data }) => {
+export const DashboardDonations: React.FC<DashboardDonationsProps> = ({ data, className }) => {
     return (
-        <div>
+        <div className={className}>
             <h2 className="display-text mb-2 text-green-800 dark:text-green-200">Donations received <small>last
                 ten</small></h2>
             {data.rows.length ? (
@@ -29,7 +30,7 @@ export const DashboardDonations: React.FC<DashboardDonationsProps> = ({ data }) 
                         <tr key={row.id} className="hover:bg-green-200/50">
                             <th scope="row"
                                 className={cn('px-1 py-0.5 text-left', row.is_anonymous ? 'italic font-normal' : 'font-bold')}>{row.name}</th>
-                            <td className="px-1 py-0.5 text-right">{row.created_at}</td>
+                            <td className="px-1 py-0.5 text-right text-xs">{row.created_at}</td>
                             <td className="px-1 py-0.5 text-right">{row.amount}</td>
                         </tr>
                     ))}

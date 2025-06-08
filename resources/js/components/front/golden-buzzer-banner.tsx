@@ -2,7 +2,7 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 
 export default function GoldenBuzzerBanner() {
     return (
-        <div className="bg-yellow-700 text-white md:py-10 md:px-5">
+        <div className="bg-yellow-700 text-white p-5 md:py-10 md:px-5">
             <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-3 md:gap-4">
 
                 <PlaceholderPattern className="stroke-neutral-900/20 dark:stroke-neutral-100/20"/>

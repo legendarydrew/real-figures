@@ -1,6 +1,5 @@
 import { Head, router } from '@inertiajs/react';
 import FrontLayout from '@/layouts/front-layout';
-import Heading from '@/components/heading';
 import { CountdownTimer } from '@/components/ui/countdown-timer';
 import { Advert } from '@/components/advert';
 import ContestOutline from '@/components/front/contest-outline';
@@ -18,21 +17,21 @@ const HomeRound: React.FC = ({ stage, countdown }) => {
 
     return (
         <>
-            <Head>
+            <Head title={`Countdown to ${stage.title}`}>
                 {/* Any tags to go in the <head> section to here. */}
             </Head>
 
             <div className="bg-blue-100 py-10 px-5">
-                <div className="max-w-5xl mx-auto">
+                <div className="max-w-5xl mx-auto text-center">
 
-                    <Heading title={stage.title}/>
+                    <h1 className="text-3xl display-text">Get Ready For {stage.title}!</h1>
                     {stage.description && (
-                        <div className="content my-3 text-sm text-muted-foreground"
+                        <div className="content mt-3 mb-5 text-base text-muted-foreground"
                              dangerouslySetInnerHTML={{ __html: stage.description }}/>
                     )}
                     <div className="flex flex-col gap-1 items-center">
                         <CountdownTimer size="large" timestamp={countdown} onEnd={countdownEndHandler}/>
-                        <span className="text-sm font-semibold">before voting begins!</span>
+                        <span className="text-sm display-text">before voting begins!</span>
                     </div>
 
                 </div>

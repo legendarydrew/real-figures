@@ -12,8 +12,7 @@ import { useDialog } from '@/context/dialog-context';
 import { useAnalytics } from '@/hooks/use-analytics';
 import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion';
 import { Round, Song } from '@/types';
-import { ActImage } from '@/components/ui/act-image';
-import { LanguageFlag } from '@/components/language-flag';
+import { SongBanner } from '@/components/song-banner';
 
 export const GOLDEN_BUZZER_DIALOG_NAME = 'golden-buzzer';
 
@@ -30,7 +29,7 @@ export const GoldenBuzzerDialog: FC = () => {
     const { openDialogName, closeDialog, dialogProps } = useDialog();
     const isOpen = openDialogName === GOLDEN_BUZZER_DIALOG_NAME;
 
-    const { donation } = usePage().props;
+    const { donation, stage } = usePage().props;
     const { trackEvent } = useAnalytics();
 
     const [round, setRound] = useState<Round>();
@@ -115,28 +114,23 @@ export const GoldenBuzzerDialog: FC = () => {
                                 to <b className="font-semibold">{song?.act.name}</b> in <b
                                     className="font-semibold">{round?.full_title}</b>.
                             </p>
-                            <p className="font-semibold">Remember to cast your vote for your favourite Acts in this Round!</p>
+                            <p className="font-semibold">Remember to cast your vote for your favourite Acts in this
+                                Round!</p>
                         </div>
                     </div>
                 ) : (
                     <div className="flex flex-col gap-3 overflow-y-auto max-h-[80dvh]">
                         <div className="flex flex-col gap-2">
-                            <div className="bg-yellow-500/20 rounded-sm flex gap-2 items-center">
-                                <ActImage act={song?.act} size="20"/>
-                                <div className="flex flex-col display-text leading-none">
-                                    <span className="text-lg">{song?.act.name}</span>
-                                    <span className="text-sm flex gap-2 items-center">
-                                        <LanguageFlag languageCode={song?.language}/>
-                                        {song?.title}
-                                    </span>
-                                </div>
+                            <div className="bg-yellow-500/20 rounded-sm flex flex-col gap-2 p-3">
+                                <SongBanner song={song}/>
+                                {stage?.goldenBuzzerPerks ? (
+                                    <p className="text-left text-amber-700 dark:text-amber-200 text-sm"
+                                       dangerouslySetInnerHTML={{ __html: stage.goldenBuzzerPerks }}/>
+                                ) : ''}
                             </div>
-                            <p className="text-center">The Song will receive the same perks as a runner-up in this
-                                Stage.</p>
                             <p className="text-xs text-center">
                                 <b>IMPORTANT:</b> Golden Buzzers are honours toward your favourite Acts and
-                                Songs &ndash;
-                                they <b>do not count toward scoring</b>.
+                                Songs &ndash; they <b>do not count toward scoring</b>.
                             </p>
                         </div>
 
