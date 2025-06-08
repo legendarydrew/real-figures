@@ -5,11 +5,10 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } f
 import { Alert } from '@/components/alert';
 import { LoadingButton } from '@/components/ui/loading-button';
 import { VoteIcon } from 'lucide-react';
-import { ActImage } from '@/components/ui/act-image';
 import { Button } from '@/components/ui/button';
-import { LanguageFlag } from '@/components/language-flag';
 import axios from 'axios';
 import { useAnalytics } from '@/hooks/use-analytics';
+import { SongBanner } from '@/components/song-banner';
 
 interface RoundVoteDialogProps {
     round: Round;
@@ -119,17 +118,8 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
                 <div className="my-1 max-h-[60dvh] overflow-y-auto">
                     {round.songs.map((song) => (
                         <div key={song.id}
-                             className="flex items-center hover:bg-gray-100/5 select-none hover:bg-gray-100 pr-2">
-                            <div className="flex-grow flex gap-2 items-center">
-                                <ActImage act={song.act} size="12"/>
-                                <p className="leading-tight">
-                                    {song.act.name}<br/>
-                                    <span className="text-xs flex gap-2 items-center">
-                                        <LanguageFlag languageCode={song.language}/>
-                                        {song.title}
-                                    </span>
-                                </p>
-                            </div>
+                             className="flex items-center hover:bg-zinc-200 select-none pr-2">
+                            <SongBanner className="flex-grow" song={song}/>
                             {votePositions.map((position) => (
                                 <Button key={`${song.id}-${position.key}`}
                                         variant={isChecked(song, position.key) ? 'checked' : 'outline'}
