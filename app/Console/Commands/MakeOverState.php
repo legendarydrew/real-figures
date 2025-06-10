@@ -63,7 +63,7 @@ class MakeOverState extends Command
 
         $this->comment('- creating Rounds');
         $round_count = fake()->numberBetween(1, 5);
-        Round::factory($round_count)->for($stage)->ended()->withSongs()->create([
+        Round::factory($round_count)->for($stage)->ended()->withSongs()->withVotes()->create([
             'title' => new Sequence(...array_map(fn($index) => "Round $index", range(1, $round_count)))
         ]);
 
@@ -77,23 +77,6 @@ class MakeOverState extends Command
                     'played_on'  => now()->subDays(abs($i))->startOfDay(),
                     'song_id'    => $song_id,
                     'play_count' => fake()->numberBetween(1, 5000)
-                ]);
-            }
-        }
-
-        $this->comment('- creating votes');
-        foreach ($stage->rounds as $round)
-        {
-            $song_ids   = $round->songs()->pluck('songs.id')->toArray();
-            $vote_count = fake()->numberBetween(1, 300);
-            foreach (range(1, $vote_count) as $_)
-            {
-                $voted_for_songs = fake()->randomElements($song_ids, 3);
-                RoundVote::create([
-                    'round_id'         => $round->id,
-                    'first_choice_id'  => $voted_for_songs[0],
-                    'second_choice_id' => $voted_for_songs[1],
-                    'third_choice_id'  => $voted_for_songs[2]
                 ]);
             }
         }
