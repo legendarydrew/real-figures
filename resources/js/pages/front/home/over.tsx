@@ -2,9 +2,8 @@ import { Head, usePage } from '@inertiajs/react';
 import FrontLayout from '@/layouts/front-layout';
 import AboutBanner from '@/components/front/about-banner';
 import { Advert } from '@/components/advert';
-import Heading from '@/components/heading';
 import { ActImage } from '@/components/ui/act-image';
-import { LanguageFlag } from '@/components/language-flag';
+import { SongBanner } from '@/components/song-banner';
 
 const HomeContestOverPage: React.FC = () => {
 
@@ -20,9 +19,13 @@ const HomeContestOverPage: React.FC = () => {
 
                 <div className="max-w-4xl mx-auto flex flex-col gap-5">
                     <div className="text-center">
-                        <Heading title="Thank you for your support!"/>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Ab, aspernatur corporis cumque cupiditate expedita explicabo iure labore molestiae non
+                        <h1 className="display-text text-4xl text-shadow-md mb-3">
+                            Thank you for your support!
+                        </h1>
+                        <p className="text-base mb-3 md:w-3/4 mx-auto">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Ab, aspernatur corporis cumque cupiditate expedita explicabo iure labore molestiae
+                            non
                             odio
                             officia pariatur quam quidem rerum saepe sapiente similique veritatis, voluptates.</p>
                     </div>
@@ -31,10 +34,12 @@ const HomeContestOverPage: React.FC = () => {
                         {/* Winner(s)! */}
                         {results.winners.map((song) => (
                             <li key={song.id} className="display-text text-shadow-md col-span-2 row-span-2">
-                                <div className="w-full text-left bg-secondary/30 rounded-md leading-none relative cursor-pointer">
+                                <div
+                                    className="w-full text-left bg-secondary/30 rounded-md leading-none relative">
                                     <ActImage act={song.act} size="full"/>
                                     <p className="absolute top-0 uppercase p-5 text-xl text-yellow-300">Winner</p>
-                                    <div className="p-3 lg:p-5 absolute bottom-0 w-full text-xl leading-tight">{song.act.name}</div>
+                                    <div
+                                        className="p-3 lg:p-5 absolute bottom-0 w-full text-xl leading-tight">{song.act.name}</div>
                                 </div>
                             </li>
                         ))}
@@ -43,7 +48,7 @@ const HomeContestOverPage: React.FC = () => {
                         {results.runners_up.map((song) => (
                             <li key={song.id} className="display-text text-shadow-md col-span-1 row-span-1">
                                 <div
-                                    className="w-full text-left bg-secondary/30 rounded-md leading-none relative cursor-pointer">
+                                    className="w-full text-left bg-secondary/30 rounded-md leading-none relative">
                                     <ActImage act={song.act} size="full"/>
                                     <div className="p-3 absolute bottom-0 w-full text-base leading-tight">
                                         {song.act.name}
@@ -53,9 +58,16 @@ const HomeContestOverPage: React.FC = () => {
                             </li>
                         ))}
                     </ul>
-                    <div>
-                        {/* Display other entries here */}
-                    </div>
+
+                    {/* Other entered entries. */}
+                    {results.others.length ? (
+                        <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                            {results.others.map((song) => (
+                                <SongBanner key={song.id} song={song}/>
+                            ))}
+                        </div>
+                    ) : ''}
+
                     <div className="text-center">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum labore mollitia nam nihil saepe
                             suscipit voluptas. Cum cumque dignissimos dolor dolorum eum, exercitationem laudantium,

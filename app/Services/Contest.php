@@ -168,14 +168,21 @@ class Contest
     {
         if (self::isOver())
         {
-            $last_stage    = Round::orderByDesc('id')->first()->stage;
+            $last_stage = Round::orderByDesc('id')->first()->stage;
             // Determine the final Stage by the last Round.
-            $winners    = $last_stage->winners()->whereIsWinner(true)->get();
-            $runners_up = $last_stage->winners()->whereIsWinner(false)->get();
+
+            $all_winners = $last_stage->winners;
+
+            $winners    = $all_winners->filter(fn(StageWinner $winner) => $winner->is_winner);
+            $runners_up = $all_winners->filter(fn(StageWinner $winner) => !$winner->is_winner);
+            $others     = Song::whereHas('rounds')
+                              ->whereNotIn('id', $all_winners->pluck('song_id'))
+                              ->get();
 
             return [
                 'winners'    => fractal($winners->map(fn(StageWinner $winner) => $winner->song), new SongTransformer())->toArray(),
                 'runners_up' => fractal($runners_up->map(fn(StageWinner $winner) => $winner->song), new SongTransformer())->toArray(),
+                'others'     => fractal($others, new SongTransformer())->toArray(),
             ];
         }
 

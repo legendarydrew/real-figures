@@ -33,6 +33,7 @@ class OverallWinnersTest extends TestCase
         self::assertIsArray($results);
         self::assertArrayHasKey('winners', $results);
         self::assertArrayHasKey('runners_up', $results);
+        self::assertArrayHasKey('others', $results);
     }
 
 }
