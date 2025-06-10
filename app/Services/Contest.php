@@ -5,7 +5,10 @@ namespace App\Services;
 use App\Facades\RoundResultsFacade;
 use App\Models\Round;
 use App\Models\RoundOutcome;
+use App\Models\Song;
 use App\Models\Stage;
+use App\Models\StageWinner;
+use App\Transformers\SongTransformer;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -149,6 +152,31 @@ class Contest
                                      ->slice(0, $runner_up_count);
 
             return [$winners, $runners_up];
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns a breakdown of the winner(s), runners-up and other Songs in the Contest.
+     * This corresponds to the outcome of the last Stage.
+     * If the Contest is not over, null is returned.
+     *
+     * @return array|null
+     */
+    public function overallWinners(): array|null
+    {
+        if (self::isOver())
+        {
+            $last_stage    = Round::orderByDesc('id')->first()->stage;
+            // Determine the final Stage by the last Round.
+            $winners    = $last_stage->winners()->whereIsWinner(true)->get();
+            $runners_up = $last_stage->winners()->whereIsWinner(false)->get();
+
+            return [
+                'winners'    => fractal($winners->map(fn(StageWinner $winner) => $winner->song), new SongTransformer())->toArray(),
+                'runners_up' => fractal($runners_up->map(fn(StageWinner $winner) => $winner->song), new SongTransformer())->toArray(),
+            ];
         }
 
         return null;
