@@ -116,41 +116,42 @@ class Contest
 
     /**
      * Determine and return the winning Song(s) in the specified Stage.
+     * If the Stage has not yet ended, null is returned.
      *
      * @param Stage    $stage
      * @param int|null $runner_up_count the number of runner-up Songs to include.
-     * @return array a two-dimensional array including the winning and runner-up Songs.
+     * @return array|null a two-dimensional array including the winning and runner-up Songs.
      */
-    public function determineStageWinners(Stage $stage, ?int $runner_up_count = null): array
+    public function determineStageWinners(Stage $stage, ?int $runner_up_count = null): ?array
     {
-        if (!($stage->hasEnded() && $stage->outcomes()))
+        if ($stage->hasEnded() && $stage->outcomes()->count())
         {
-            abort(400, 'The Stage has not ended.');
-        }
+            // The RoundResults service will return the rankings for individual Rounds.
+            // We also want to obtain the scores for each runner-up, to determine which Songs
+            // are the highest scoring.
 
-        // The RoundResults service will return the rankings for individual Rounds.
-        // We also want to obtain the scores for each runner-up, to determine which Songs
-        // are the highest scoring.
+            $winners    = new Collection();
+            $runners_up = new Collection();
 
-        $winners    = new Collection();
-        $runners_up = new Collection();
-
-        foreach ($stage->rounds as $round)
-        {
-            $results = RoundResultsFacade::calculate($round, $runner_up_count);
-            if ($results)
+            foreach ($stage->rounds as $round)
             {
-                $winners    = $winners->merge($results['winners']);
-                $runners_up = $runners_up->merge($results['runners_up']);
+                $results = RoundResultsFacade::calculate($round, $runner_up_count);
+                if ($results)
+                {
+                    $winners    = $winners->merge($results['winners']);
+                    $runners_up = $runners_up->merge($results['runners_up']);
+                }
             }
+
+            // Find out which Songs were the highest-scoring runners-up.
+            $runners_up = $runners_up->sortByDesc(fn(RoundOutcome $outcome) => $outcome->score)
+                                     ->unique('song_id')
+                                     ->slice(0, $runner_up_count);
+
+            return [$winners, $runners_up];
         }
 
-        // Find out which Songs were the highest-scoring runners-up.
-        $runners_up = $runners_up->sortByDesc(fn(RoundOutcome $outcome) => $outcome->score)
-                                 ->unique('song_id')
-                                 ->slice(0, $runner_up_count);
-
-        return [$winners, $runners_up];
+        return null;
     }
 
 }
