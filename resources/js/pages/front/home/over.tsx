@@ -20,14 +20,11 @@ const HomeContestOverPage: React.FC = () => {
                 <div className="max-w-4xl mx-auto flex flex-col gap-5">
                     <div className="text-center">
                         <h1 className="display-text text-4xl text-shadow-md mb-3">
-                            Thank you for your support!
+                            The Results Are In &mdash; And We Couldn't Have Done It Without You.
                         </h1>
                         <p className="text-base mb-3 md:w-3/4 mx-auto">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Ab, aspernatur corporis cumque cupiditate expedita explicabo iure labore molestiae
-                            non
-                            odio
-                            officia pariatur quam quidem rerum saepe sapiente similique veritatis, voluptates.</p>
+                            The votes are counted. The winners are announced. <b>The anthem has been chosen.</b>
+                        </p>
                     </div>
 
                     <ul className="grid gap-5 grid-cols-2 lg:grid-cols-5">
@@ -35,7 +32,7 @@ const HomeContestOverPage: React.FC = () => {
                         {results.winners.map((song) => (
                             <li key={song.id} className="display-text text-shadow-md col-span-2 row-span-2">
                                 <div
-                                    className="w-full text-left bg-secondary/30 rounded-md leading-none relative">
+                                    className="w-full text-left bg-yellow-200/30 rounded-md leading-none relative">
                                     <ActImage act={song.act} size="full"/>
                                     <p className="absolute top-0 uppercase p-5 text-xl text-yellow-300">Winner</p>
                                     <div
@@ -68,11 +65,18 @@ const HomeContestOverPage: React.FC = () => {
                         </div>
                     ) : ''}
 
-                    <div className="text-center">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum labore mollitia nam nihil saepe
-                            suscipit voluptas. Cum cumque dignissimos dolor dolorum eum, exercitationem laudantium,
-                            magnam
-                            optio sequi sit sunt, velit?</p>
+                    <div className="flex flex-col gap-1 text-center">
+                        <p>
+                            Whether your favourite song made it to the top or not, <b>you helped make this contest
+                            unforgettable.</b>
+                        </p>
+                        <p>
+                            Your support amplified voices, celebrated creativity, and helped shine a light on an
+                            important cause.
+                        </p>
+                        <p>
+                            From all of us at CATAWOL Records &mdash; <b>thank you.</b>
+                        </p>
                     </div>
 
                 </div>
