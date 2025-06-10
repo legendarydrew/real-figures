@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Facades\RoundResultsFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StageWinnerRequest;
-use App\Models\RoundOutcome;
 use App\Models\Stage;
 use App\Models\StageWinner;
+use App\Services\Contest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class StageWinnersController extends Controller
@@ -29,27 +27,8 @@ class StageWinnersController extends Controller
         $runner_up_count = $request->get('runners_up', 0);
         $stage           = Stage::findOrFail($stage_id);
 
-        // The RoundResults service will return the rankings for individual Rounds.
-        // We also want to obtain the scores for each runner-up, to determine which Songs
-        // are the highest scoring.
+        [$winners, $runners_up] = Contest::determineStageWinners($stage, $runner_up_count);
 
-        $winners    = new Collection();
-        $runners_up = new Collection();
-
-        foreach ($stage->rounds as $round)
-        {
-            $results = RoundResultsFacade::calculate($round, $runner_up_count);
-            if ($results)
-            {
-                $winners    = $winners->merge($results['winners']);
-                $runners_up = $runners_up->merge($results['runners_up']);
-            }
-        }
-
-        // Find out which Songs were the highest-scoring runners-up.
-        $runners_up = $runners_up->sortByDesc(fn(RoundOutcome $outcome) => $outcome->score)
-                                 ->unique('song_id')
-                                 ->slice(0, $runner_up_count);
 
         DB::transaction(function () use ($stage, $winners, $runners_up)
         {

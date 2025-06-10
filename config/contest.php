@@ -18,5 +18,10 @@ return [
         'maxDuration' => 31,
         'maxSongs'    => 20,
         'minSongs'    => 3,
+    ],
+    'judgement'   => [
+        'winners'    => 1,
+        'runners-up' => 3,
+        'allow-ties' => true
     ]
 ];
