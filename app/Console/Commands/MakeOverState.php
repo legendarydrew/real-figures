@@ -63,7 +63,7 @@ class MakeOverState extends Command
 
         $this->comment('- creating Rounds');
         $round_count = fake()->numberBetween(1, 5);
-        Round::factory($round_count)->for($stage)->ended()->withSongs()->withVotes()->create([
+        Round::factory($round_count)->for($stage)->ended()->withSongs(12)->withVotes()->create([
             'title' => new Sequence(...array_map(fn($index) => "Round $index", range(1, $round_count)))
         ]);
 

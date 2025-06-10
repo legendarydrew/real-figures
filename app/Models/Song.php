@@ -33,7 +33,7 @@ class Song extends Model
 
     public function rounds(): HasManyThrough
     {
-        return $this->hasManyThrough(Round::class, RoundSongs::class, 'round_id', 'id');
+        return $this->hasManyThrough(Round::class, RoundSongs::class, 'song_id', 'id', 'id', 'round_id');
     }
 
     /**
