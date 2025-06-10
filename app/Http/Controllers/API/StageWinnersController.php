@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Facades\ContestFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StageWinnerRequest;
 use App\Models\Stage;
 use App\Models\StageWinner;
-use App\Services\Contest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +27,7 @@ class StageWinnersController extends Controller
         $runner_up_count = $request->get('runners_up', 0);
         $stage           = Stage::findOrFail($stage_id);
 
-        [$winners, $runners_up] = Contest::determineStageWinners($stage, $runner_up_count);
+        [$winners, $runners_up] = ContestFacade::determineStageWinners($stage, $runner_up_count);
 
 
         DB::transaction(function () use ($stage, $winners, $runners_up)

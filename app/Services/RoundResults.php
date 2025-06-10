@@ -43,7 +43,7 @@ class RoundResults
      * @param int|null $runner_up_count
      * @return Collection[]|null
      */
-    public function calculate(Round $round, ?int $runner_up_count): ?array
+    public function calculate(Round $round, ?int $runner_up_count = null): ?array
     {
         if (is_null($runner_up_count)) {
             $runner_up_count = config('contest.judgement.runners-up');
