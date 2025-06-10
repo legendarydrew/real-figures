@@ -112,8 +112,8 @@ For when we are ready to get things going: we have the Songs ready, and we've go
     - [x] announce that results are being calculated.
     - [x] display previous rounds for listening to the songs.
 - [ ] When the contest is over
-    - [ ] thank everybody for taking part.
-    - [ ] display the winning Songs.
+    - [x] thank everybody for taking part.
+    - [x] display the winning Songs.
 - [x] Ability to play a Song.
 - [x] Ability to vote for Songs (if in the running).
 

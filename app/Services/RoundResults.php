@@ -39,12 +39,16 @@ class RoundResults
      * If the Round has not yet ended, or there are no associated outcomes, nothing is returned.
      * At present, we are allowing for ties.
      *
-     * @param Round $round
-     * @param int   $runner_up_count
+     * @param Round    $round
+     * @param int|null $runner_up_count
      * @return Collection[]|null
      */
-    public function calculate(Round $round, int $runner_up_count = 1): ?array
+    public function calculate(Round $round, ?int $runner_up_count = null): ?array
     {
+        if (is_null($runner_up_count)) {
+            $runner_up_count = config('contest.judgement.runners-up');
+        }
+
         if ($this->isRoundEligible($round))
         {
             $results     = $this->ranked($round);

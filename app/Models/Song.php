@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
@@ -28,6 +29,11 @@ class Song extends Model
     public function plays(): HasMany
     {
         return $this->hasMany(SongPlay::class);
+    }
+
+    public function rounds(): HasManyThrough
+    {
+        return $this->hasManyThrough(Round::class, RoundSongs::class, 'song_id', 'id', 'id', 'round_id');
     }
 
     /**
@@ -84,7 +90,7 @@ class Song extends Model
         if ($state)
         {
             DB::table('golden_buzzer_songs')
-                ->updateOrInsert(['song_id' => $this->id]);
+              ->updateOrInsert(['song_id' => $this->id]);
         }
         else
         {

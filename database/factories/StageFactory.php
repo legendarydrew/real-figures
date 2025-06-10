@@ -91,7 +91,7 @@ class StageFactory extends Factory
         {
             // Create ended Rounds.
             $round_count = $this->faker->numberBetween(1, 4);
-            $rounds      = Round::factory($round_count)->ended()->withSongs()->for($stage)->create();
+            $rounds      = Round::factory($round_count)->ended()->withSongs(16)->for($stage)->create();
 
             // Create Stage winners.
             foreach ($rounds as $round)
