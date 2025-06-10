@@ -51,7 +51,9 @@ class HomeController extends Controller
         // In this case, we want to display the winners.
         if (ContestFacade::isOver())
         {
-            return Inertia::render('front/home/over');
+            return Inertia::render('front/home/over', [
+                'results' => fn() => ContestFacade::overallWinners()
+            ]);
         }
 
         // Go through each Stage, checking its status.

@@ -45,7 +45,9 @@ class RoundResults
      */
     public function calculate(Round $round, ?int $runner_up_count): ?array
     {
-        $runner_up_count = $runner_up_count ?? config('contest.judgement.runners-up');
+        if (is_null($runner_up_count)) {
+            $runner_up_count = config('contest.judgement.runners-up');
+        }
 
         if ($this->isRoundEligible($round))
         {
