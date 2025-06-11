@@ -127,6 +127,7 @@ class Contest
      */
     public function determineStageWinners(Stage $stage, ?int $runner_up_count = null): ?array
     {
+        $runner_up_count = $runner_up_count ?? config('contest.judgement.runners-up');
         if ($stage->hasEnded() && $stage->outcomes()->count())
         {
             // The RoundResults service will return the rankings for individual Rounds.

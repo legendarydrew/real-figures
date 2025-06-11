@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Round;
 use App\Models\RoundOutcome;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class RoundResults
 {
@@ -37,7 +37,8 @@ class RoundResults
     /**
      * Returns a list of winning and runner-up RoundOutcomes for the specified Round.
      * If the Round has not yet ended, or there are no associated outcomes, nothing is returned.
-     * At present, we are allowing for ties.
+     * If ties are allowed, there may be more than one winner and more than the requested number
+     * of runners-up.
      *
      * @param Round    $round
      * @param int|null $runner_up_count
@@ -45,49 +46,84 @@ class RoundResults
      */
     public function calculate(Round $round, ?int $runner_up_count = null): ?array
     {
-        if (is_null($runner_up_count)) {
-            $runner_up_count = config('contest.judgement.runners-up');
+        $runner_up_count = $runner_up_count ?? config('contest.judgement.runners-up');
+        $allow_ties = config('contest.judgement.allow-ties');
+
+        if (!$this->isRoundEligible($round))
+        {
+            return null;
         }
 
-        if ($this->isRoundEligible($round))
+        $results     = $this->ranked($round);
+        $output      = [
+            'winners'    => new Collection()
+        ];
+        $last_result = null;
+
+        // First, let's determine which Songs have the highest score (as there might be a tie).
+        foreach ($results as $index => $result)
         {
-            $results     = $this->ranked($round);
-            $output      = [
-                'winners'    => new Collection(),
-                'runners_up' => new Collection(),
-            ];
-            $last_result = null;
-
-            // Build a list of winning entries.
-            // There may be more than one, based on the scores and votes.
-            foreach ($results as $index => $result)
+            if ($last_result && !$this->hasSameResult($result, $last_result))
             {
-                if ($last_result && !$this->hasSameResult($result, $last_result))
-                {
-                    break;
-                }
-                $output['winners']->push($result);
-                $last_result = $result;
+                break;
             }
+            $output['winners']->push($result);
+            $last_result = $result;
+        }
 
-            // Build a list of runners-up, up to the number requested.
-            $results     = $results->slice($index);
-            $last_result = null;
+        if ($allow_ties)
+        {
+            $results = isset($index) ? $results->slice($index) : new Collection();
+        }
+        else
+        {
+            // If there are tied results for the winners, the outright winner is determined at random.
+            // The other entries will be first in line as runners-up.
+            $winner            = $output['winners']->shuffle()->take(1);
+            $output['winners'] = $winner;
+            $results           = $results->filter(fn($result) => $result->song_id !== $winner->first()->song_id);
+        }
+
+        // Build a list of runners-up, up to the number requested.
+        $output['runners_up'] = $this->pickRunnersUp($results, $runner_up_count);
+
+        return $output;
+    }
+
+    protected function pickRunnersUp(Collection $results, int $count): Collection
+    {
+        $allow_ties = config('contest.judgement.allow-ties');
+
+        $runners_up = new Collection();
+
+        while ($runners_up->count() < $count && $results->isNotEmpty())
+        {
+            $entries = new Collection();
             foreach ($results as $result)
             {
-                if ($output['runners_up']->count() === $runner_up_count ||
-                    ($last_result && !$this->hasSameResult($result, $last_result)))
+                if ($entries->isEmpty() || $this->hasSameResult($entries->first(), $result))
+                {
+                    $entries->add($result);
+                }
+                else
                 {
                     break;
                 }
-                $output['runners_up']->push($result);
-                $last_result = $result;
             }
-
-            return $output;
+            if ($allow_ties)
+            {
+                $runners_up = $runners_up->merge($entries);
+            }
+            else
+            {
+                // Similar to the winners: if there are tied runners-up, and ties aren't allowed,
+                // the chosen ones are randomly selected.
+                $runners_up = $runners_up->merge($entries->shuffle()->slice(0, $count - $runners_up->count()));
+            }
+            $results = $results->slice($entries->count());
         }
 
-        return null;
+        return $runners_up;
     }
 
     /**
@@ -106,7 +142,8 @@ class RoundResults
         $values = array_filter([
             $this->intCompare($a->score, $b->score),
             $this->intCompare($a->first_votes, $b->first_votes),
-            $this->intCompare($a->second_votes, $b->second_votes)
+            $this->intCompare($a->second_votes, $b->second_votes),
+            $this->intCompare($a->third_votes, $b->third_votes)
         ]);
 
         return count($values) ? array_values($values)[0] : 0;
