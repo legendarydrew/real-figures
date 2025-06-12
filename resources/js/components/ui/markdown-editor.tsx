@@ -15,6 +15,7 @@ import {
     ViewIcon
 } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
+import { cn } from '@/lib/utils';
 
 /**
  * Markdown editor component
@@ -25,6 +26,7 @@ import { Toggle } from '@/components/ui/toggle';
 
 interface MarkdownEditorProps {
     value: string;
+    className?: string;
     disabled?: boolean;
     placeholder?: string;
     onChange: (value: string) => void;
@@ -32,7 +34,8 @@ interface MarkdownEditorProps {
 
 export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                                                                   value,
-    disabled,
+                                                                  className,
+                                                                  disabled,
                                                                   placeholder,
                                                                   onChange
                                                               }) => {
@@ -172,7 +175,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                     disabled={disabled}
                     value={markdown}
                     onChange={changeHandler}
-                    className="min-h-[8rem] font-mono"
+                    className={cn("min-h-[8rem] font-mono", className)}
                 />
             )}
         </>

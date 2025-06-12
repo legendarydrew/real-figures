@@ -166,7 +166,7 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
                         </label>
                         <div>
                             <Label htmlFor="actDescription">Description</Label>
-                            <MarkdownEditor value={data.profile?.description}
+                            <MarkdownEditor className="h-[12rem]" value={data.profile?.description}
                                             onChange={changeProfileDescriptionHandler}/>
                             <InputError className="mt-2" message={errors['profile.description']}/>
                         </div>
