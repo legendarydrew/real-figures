@@ -10,6 +10,9 @@ import InputError from '@/components/input-error';
 import { MarkdownEditor } from '@/components/ui/markdown-editor';
 import { Toaster } from '@/components/ui/toast-message';
 import { Checkbox } from '@/components/ui/checkbox';
+import HeadingSmall from '@/components/heading-small';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ChevronDown } from 'lucide-react';
 
 export default function ActEdit({ act }: Readonly<{ act: Act }>) {
 
@@ -157,13 +160,9 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
                     </div>
 
                     {/* Right side */}
-                    <div className="flex-shrink-0 flex-grow flex flex-col gap-3">
-                        <span className="flex-grow font-semibold">Profile <small>[optional]</small></span>
+                    <div className="flex-shrink-0 flex-grow">
+                        <HeadingSmall title="Profile (optional)" />
 
-                        <label className="flex gap-2 items-center text-sm font-semibold">
-                            <Checkbox checked={data.is_fan_favourite} onCheckedChange={(checked) => setData('is_fan_favourite', checked)} />
-                            Is fan favourite
-                        </label>
                         <div>
                             <Label htmlFor="actDescription">Description</Label>
                             <MarkdownEditor className="h-[12rem]" value={data.profile?.description}
@@ -174,7 +173,32 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
 
                 </div>
 
-                <div className="flex justify-between sticky bottom-0 pb-3">
+                {/* Optional Meta information. */}
+                <div>
+                    <HeadingSmall title="Additional information (optional)"/>
+
+                    <div className="my-3">
+                        <label className="flex gap-2 items-center text-sm font-semibold">
+                            <Checkbox checked={data.is_fan_favourite}
+                                      onCheckedChange={(checked) => setData('is_fan_favourite', checked)}/>
+                            Is fan favourite
+                        </label>
+                        <p className="pl-6 text-sm text-muted-foreground">A fan favourite is a popular Act that is expected to win the Contest.</p>
+                    </div>
+
+                    <Collapsible>
+                        <CollapsibleTrigger className="display-text text-sm w-full flex justify-between items-center cursor-pointer px-3 py-2 hover:bg-gray-300/10">
+                            Something
+                            <ChevronDown />
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="p-3">
+                            Something else...
+                        </CollapsibleContent>
+                    </Collapsible>
+                </div>
+
+
+                <div className="bg-white border-t-1 flex justify-between sticky bottom-0 py-3">
                     <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
                     <LoadingButton size="lg" isLoading={isSaving}>Save Act</LoadingButton>
                 </div>
