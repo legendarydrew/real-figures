@@ -119,6 +119,8 @@ Route::middleware(['auth', 'verified'])->group(function ()
 {
     Route::get('admin', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/acts', [ActsController::class, 'index'])->name('admin.acts');
+    Route::get('/admin/acts/new', [ActsController::class, 'create'])->name('admin.acts.new');
+    Route::get('/admin/acts/{id}', [ActsController::class, 'edit'])->name('admin.acts.edit');
     Route::get('/admin/contact', [ContactMessageController::class, 'index'])->name('admin.contact');
     Route::get('/admin/donations', [DonationsController::class, 'index'])->name('admin.donations');
     Route::get('/admin/golden-buzzers', [GoldenBuzzersController::class, 'index'])->name('admin.golden-buzzers');

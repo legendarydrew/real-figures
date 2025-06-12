@@ -21,4 +21,17 @@ class ActsController extends Controller
             // "lazy loading" of data by using a callback.
         ]);
     }
+
+    public function create(): Response
+    {
+        return Inertia::render('back/act-edit');
+    }
+
+    public function edit(int $id): Response
+    {
+        $act = Act::findOrFail($id);
+        return Inertia::render('back/act-edit', [
+            'act' => fn() => fractal($act, new ActTransformer())
+        ]);
+    }
 }
