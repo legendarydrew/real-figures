@@ -31,4 +31,9 @@
     - [ ] Generate News posts with the help of OpenAI/ChatGPT. ($$)
     - [ ] optionally generate a News post based on a Stage or Round.
     - [ ] Add meta data to Acts to help with generating News posts.
+      - [ ] Act genre(s)
+      - [ ] Act's members
+      - [ ] Notes about the Act (for aiding ChatGPT)
+      - [ ] Act traits (personality)
+      - [ ] Act's (spoken) languages.
 - [ ] Display Stage rankings once a Stage is over.
