@@ -13,7 +13,7 @@ use League\Fractal\TransformerAbstract;
 
 class ActTransformer extends TransformerAbstract
 {
-    protected array $availableIncludes = ['profile', 'profileContent'];
+    protected array $availableIncludes = ['meta', 'profile', 'profileContent'];
 
     public function transform(Act $act): array
     {

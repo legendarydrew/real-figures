@@ -31,7 +31,7 @@ class ActsController extends Controller
     {
         $act = Act::findOrFail($id);
         return Inertia::render('back/act-edit', [
-            'act' => fn() => fractal($act, new ActTransformer())
+            'act' => fn() => fractal($act, new ActTransformer())->parseIncludes(['meta', 'profile', 'picture']),
         ]);
     }
 }

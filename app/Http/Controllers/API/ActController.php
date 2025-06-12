@@ -30,7 +30,8 @@ class ActController extends Controller
         DB::transaction(function () use ($data)
         {
             $act = Act::factory()->create([
-                'name' => $data['name']
+                'name'             => $data['name'],
+                'is_fan_favourite' => $data['is_fan_favourite'],
             ]);
             if (isset($data['profile']))
             {
@@ -48,7 +49,10 @@ class ActController extends Controller
             }
         });
 
-        return to_route('admin.acts');
+        if (isset($act))
+        {
+            return to_route('admin.acts.edit', ['id' => $act->id]);
+        }
     }
 
     public function update(ActRequest $request, int $act_id): RedirectResponse
@@ -59,7 +63,8 @@ class ActController extends Controller
         DB::transaction(function () use ($act, $data)
         {
             $act->update([
-                'name' => $data['name']
+                'name'             => $data['name'],
+                'is_fan_favourite' => $data['is_fan_favourite'],
             ]);
             if (isset($data['profile']))
             {
@@ -80,7 +85,7 @@ class ActController extends Controller
             }
         });
 
-        return to_route('admin.acts');
+        return to_route('admin.acts.edit', ['id' => $act->id]);
     }
 
     public function destroy(int $act_id): RedirectResponse

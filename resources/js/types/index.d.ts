@@ -81,6 +81,9 @@ export interface Act {
         description: string;
     };
     image?: string;
+    meta: {
+        is_fan_favourite: boolean;
+    };
 }
 
 export interface Song {

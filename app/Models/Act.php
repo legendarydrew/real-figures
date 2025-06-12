@@ -50,7 +50,7 @@ class Act extends Model
 
     public function notes(): HasMany
     {
-        return $this->hasMany(ActMetaNotes::class);
+        return $this->hasMany(ActMetaNote::class);
     }
 
 

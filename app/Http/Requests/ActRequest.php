@@ -29,6 +29,7 @@ class ActRequest extends FormRequest
             'profile'             => ['sometimes', 'array'],
             'profile.description' => ['nullable', 'string'],
             'image'               => ['nullable', new IsBase64Image()],
+            'is_fan_favourite'    => ['sometimes', 'boolean'],
         ];
     }
 }
