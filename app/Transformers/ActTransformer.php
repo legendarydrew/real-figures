@@ -3,6 +3,9 @@
 namespace App\Transformers;
 
 use App\Models\Act;
+use App\Models\ActMetaMember;
+use App\Models\ActMetaNote;
+use App\Models\ActMetaTrait;
 use Illuminate\Support\Str;
 use League\Fractal\Resource\Item;
 use League\Fractal\Resource\Primitive;
@@ -43,5 +46,27 @@ class ActTransformer extends TransformerAbstract
             ]);
         }
         return null;
+    }
+
+    public function includeMeta(Act $act): Primitive
+    {
+        return $this->primitive([
+            'is_fan_favourite' => $act->is_fan_favourite,
+            'genres'           => $act->genres()->pluck('genre')->toArray(),
+            'languages'        => $act->languages()->pluck('language')->toArray(),
+            'members'          => $act->members->map(fn(ActMetaMember $member) => [
+                'id'   => $member->id,
+                'name' => $member->name,
+                'role' => $member->role,
+            ]),
+            'traits'           => $act->traits->map(fn(ActMetaTrait $trait) => [
+                'id'   => $trait->id,
+                'note' => $trait->trait,
+            ]),
+            'notes'            => $act->notes->map(fn(ActMetaNote $note) => [
+                'id'   => $note->id,
+                'note' => $note->note,
+            ])
+        ]);
     }
 }

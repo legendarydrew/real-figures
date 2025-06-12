@@ -27,4 +27,31 @@ class Act extends Model
     {
         return $this->hasOne(ActPicture::class);
     }
+
+    public function members(): HasMany
+    {
+        return $this->hasMany(ActMetaMember::class);
+    }
+
+    public function genres(): HasMany
+    {
+        return $this->hasMany(ActMetaGenre::class);
+    }
+
+    public function languages(): HasMany
+    {
+        return $this->hasMany(ActMetaLanguage::class);
+    }
+
+    public function traits(): HasMany
+    {
+        return $this->hasMany(ActMetaTrait::class);
+    }
+
+    public function notes(): HasMany
+    {
+        return $this->hasMany(ActMetaNotes::class);
+    }
+
+
 }

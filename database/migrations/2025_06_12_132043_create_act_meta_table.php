@@ -55,7 +55,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::table('act_profiles', function (Blueprint $table)
+        Schema::table('acts', function (Blueprint $table)
         {
             $table->boolean('is_fan_favourite')->default(false)->after('description');
         });
@@ -66,6 +66,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
+        Schema::dropColumns('acts', 'is_fan_favourite');
+
         Schema::dropIfExists('act_meta_notes');
         Schema::dropIfExists('act_meta_languages');
         Schema::dropIfExists('act_meta_traits');
