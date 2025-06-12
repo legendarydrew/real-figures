@@ -32,9 +32,12 @@ export const SongPlayer: React.FC = () => {
         }
     };
 
-    const songPlayHandler = () => {
+    const songPlayHandler = (e) => {
         // Called when the YouTube video is played.
-        axios.put(route('play', { id: currentSong.id })).then();
+        // We will only record a play if the video is at (or near) the beginning.
+        if (e.target.getCurrentTime() <= 0.5) {
+            axios.put(route('play', { id: currentSong.id })).then();
+        }
     };
 
     const beginBuzzerHandler = (): void => {
