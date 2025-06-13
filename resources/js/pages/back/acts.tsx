@@ -3,7 +3,6 @@ import { Head, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { Act, PaginatedResponse } from '@/types';
-import axios from 'axios';
 import { ActDialog } from '@/components/admin/act-dialog';
 import { Pagination } from '@/components/admin/pagination';
 import { ActItem } from '@/components/act-item';
@@ -26,17 +25,9 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
 
     const editHandler = (act?: Act): void => {
         if (act) {
-            // Until I figure out how I can do this with Inertia, use axios to fetch the existing
-            // act information for editing in the dialog (because we want to obtain the associated
-            // profile, if present).
-            axios.get(route('acts.show', { id: act.id }))
-                .then((response) => {
-                    setCurrentAct(response.data);
-                    setIsEditDialogOpen(true);
-                });
+            router.visit(route('admin.acts.edit', { id: act.id }));
         } else {
-            setCurrentAct(null);
-            setIsEditDialogOpen(true);
+            router.visit(route('admin.acts.new'));
         }
     }
 

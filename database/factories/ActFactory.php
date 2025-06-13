@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Models\Act;
 use App\Models\ActMetaLanguage;
 use App\Models\ActMetaMember;
-use App\Models\ActMetaNotes;
+use App\Models\ActMetaNote;
 use App\Models\ActMetaTrait;
 use App\Models\ActPicture;
 use App\Models\ActProfile;
@@ -81,7 +81,7 @@ class ActFactory extends Factory
             if ($this->faker->boolean())
             {
                 $note_count = $this->faker->numberBetween(1, 4);
-                ActMetaNotes::factory($note_count)->for($act)->create();
+                ActMetaNote::factory($note_count)->for($act)->create();
             }
 
             // Add genre.
