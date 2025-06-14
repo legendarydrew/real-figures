@@ -30,6 +30,10 @@ class ActRequest extends FormRequest
             'profile.description' => ['nullable', 'string'],
             'image'               => ['nullable', new IsBase64Image()],
             'is_fan_favourite'    => ['sometimes', 'boolean'],
+            'meta'                => ['sometimes', 'array'],
+            'meta.members'        => ['array'],
+            'meta.members.*.name' => ['required', 'string'],
+            'meta.members.*.role' => ['required', 'string'],
         ];
     }
 }

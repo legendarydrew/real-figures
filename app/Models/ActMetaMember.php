@@ -11,6 +11,8 @@ class ActMetaMember extends Model
     /** @use HasFactory<\Database\Factories\ActMetaMemberFactory> */
     use HasFactory;
 
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
     public function act(): BelongsTo
     {
         return $this->belongsTo(Act::class);
