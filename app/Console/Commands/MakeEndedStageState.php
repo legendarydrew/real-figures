@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Facades\ContestFacade;
 use App\Models\Round;
 use App\Models\RoundSongs;
 use App\Models\RoundVote;
@@ -48,11 +49,12 @@ class MakeEndedStageState extends Command
         Stage::truncate();
 
         $this->comment('- creating a new Stage');
-        $stage       = Stage::factory()->createOne();
+        $stage = Stage::factory()->createOne();
 
         $this->comment('- creating Rounds');
         $round_count = max(0, (int)$this->argument('rounds'));
-        if (!$round_count) {
+        if (!$round_count)
+        {
             $round_count = fake()->numberBetween(1, 5);
         }
         Round::factory($round_count)->for($stage)->ended()->withSongs()->create([
@@ -66,8 +68,8 @@ class MakeEndedStageState extends Command
             foreach ($song_ids as $song_id)
             {
                 SongPlay::create([
-                    'played_on' => now()->subDays(abs($i))->startOfDay(),
-                    'song_id'   => $song_id,
+                    'played_on'  => now()->subDays(abs($i))->startOfDay(),
+                    'song_id'    => $song_id,
                     'play_count' => fake()->numberBetween(1, 5000)
                 ]);
             }
@@ -91,6 +93,12 @@ class MakeEndedStageState extends Command
                     ]);
                 }
             }
+        }
+
+        $this->comment('- determining outcomes');
+        foreach ($stage->rounds as $round)
+        {
+            ContestFacade::buildRoundOutcome($round);
         }
 
         $this->info("\nCompleted.");

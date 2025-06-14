@@ -53,5 +53,4 @@ class Act extends Model
         return $this->hasMany(ActMetaNote::class);
     }
 
-
 }
