@@ -5,8 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ActRequest;
 use App\Models\Act;
-use App\Models\ActPicture;
-use App\Models\ActProfile;
 use App\Transformers\ActTransformer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -33,20 +31,9 @@ class ActController extends Controller
                 'name'             => $data['name'],
                 'is_fan_favourite' => $data['is_fan_favourite'],
             ]);
-            if (isset($data['profile']))
-            {
-                ActProfile::factory()->for($act)->create($data['profile']);
-            }
-            if (!empty($data['image']))
-            {
-                ActPicture::updateOrCreate(['act_id' => $act->id], [
-                    'image' => $data['image']
-                ]);
-            }
-            else
-            {
-                $act->picture()->delete();
-            }
+            $this->updateActImage($act, $data);
+            $this->updateActProfile($act, $data);
+            $this->updateActMeta($act, $data);
         });
 
         if (isset($act))
@@ -64,28 +51,56 @@ class ActController extends Controller
         {
             $act->update([
                 'name'             => $data['name'],
-                'is_fan_favourite' => $data['is_fan_favourite'],
+                'is_fan_favourite' => $data['is_fan_favourite'] ?? false,
             ]);
-            if (isset($data['profile']))
-            {
-                $act->profile()->updateOrCreate(['act_id' => $act->id], $data['profile']);
-                // https://stackoverflow.com/a/62489173/4073160
-            }
-            else
-            {
-                $act->profile()->delete();
-            }
-            if (!empty($data['image']))
-            {
-                $act->picture()->updateOrCreate(['act_id' => $act->id], ['image' => $data['image']]);
-            }
-            else
-            {
-                $act->picture()->delete();
-            }
+            $this->updateActImage($act, $data);
+            $this->updateActProfile($act, $data);
+            $this->updateActMeta($act, $data);
         });
 
         return to_route('admin.acts.edit', ['id' => $act->id]);
+    }
+
+    protected function updateActImage(Act $act, array $data): void
+    {
+        if (!empty($data['image']))
+        {
+            $act->picture()->updateOrCreate(['act_id' => $act->id], ['image' => $data['image']]);
+        }
+        else
+        {
+            $act->picture()->delete();
+        }
+    }
+
+    protected function updateActProfile(Act $act, array $data): void
+    {
+        if (isset($data['profile']))
+        {
+            $act->profile()->updateOrCreate(['act_id' => $act->id], $data['profile']);
+            // https://stackoverflow.com/a/62489173/4073160
+        }
+        else
+        {
+            $act->profile()->delete();
+        }
+    }
+
+    protected function updateActMeta(Act $act, array $data): void
+    {
+        if (isset($data['meta']['members'])) {
+            // Act members.
+            $existing_ids = array_filter(array_map(fn ($member) => $member['id'] ?? null, $data['meta']['members']));
+            if (count($existing_ids)) {
+                $act->members()->whereNotIn('id', $existing_ids)->delete();
+            } else {
+                $act->members()->delete();
+            }
+
+            foreach ($data['meta']['members'] as $member) {
+                $act->members()->updateOrCreate($member);
+            }
+        }
     }
 
     public function destroy(int $act_id): RedirectResponse

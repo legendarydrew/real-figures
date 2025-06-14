@@ -163,7 +163,6 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
 
                     </div>
 
-
                     <DialogFooter>
                         <LoadingButton variant="default" type="submit" onClick={saveHandler}
                                        isLoading={processing}>Save</LoadingButton>
