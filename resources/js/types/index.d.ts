@@ -203,3 +203,16 @@ export interface GoldenBuzzerBreakdown {
         amount_raised: string;
     }[];
 }
+
+export interface RoundVoteBreakdown {
+    id: number;
+    title: string;  // The Round's full title.
+    vote_count: number;
+    songs: {
+        song: Song,
+        score: number;
+        first_choice_votes: number;
+        second_choice_votes: number;
+        third_choice_votes: number;
+    }[];
+}

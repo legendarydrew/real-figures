@@ -15,6 +15,7 @@ interface StageItemProps {
     onDelete?: (stage: Stage) => void;
     onEdit?: (stage: Stage) => void;
     onShowResults?: (stage: Stage) => void;
+    onShowVotes?: (stage: Stage) => void;
 }
 
 export const StageItem: React.FC<StageItemProps> = ({
@@ -23,7 +24,8 @@ export const StageItem: React.FC<StageItemProps> = ({
                                                         onChooseWinner,
                                                         onEdit,
                                                         onDelete,
-                                                        onShowResults
+                                                        onShowResults,
+                                                        onShowVotes
                                                     }) => {
 
     const allocateHandler = (): void => {
@@ -64,6 +66,12 @@ export const StageItem: React.FC<StageItemProps> = ({
         }
     }
 
+    const showVotesHandler = (): void => {
+        if (onShowVotes) {
+            onShowVotes(stage);
+        }
+    }
+
 
     return (
         <Collapsible className="mb-2">
@@ -84,6 +92,11 @@ export const StageItem: React.FC<StageItemProps> = ({
                         <Button type="button" variant="default" className="p-3 cursor-pointer"
                                 onClick={chooseWinnerHandler} title="Choose Winning Songs">
                             <FileBadge/>
+                        </Button>}
+                    {(stage.status?.has_ended && !stage.status.manual_vote) &&
+                        <Button type="button" variant="default" className="p-3 cursor-pointer"
+                                onClick={showVotesHandler} title="Vote Breakdown">
+                            <Vote/>
                         </Button>}
                     {stage.winners.length ? (
                         <Button type="button" variant="default" className="p-3 cursor-pointer"

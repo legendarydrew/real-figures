@@ -11,6 +11,7 @@ import { DialogTitle } from '@/components/ui/dialog';
 import { Toaster } from '@/components/ui/toast-message';
 import { StageWinnersDialog } from '@/components/admin/stage-winners-dialog';
 import { StageResultsDialog } from '@/components/admin/stage-results-dialog';
+import { StageVotesDialog } from '@/components/admin/stage-votes-dialog';
 import { Nothing } from '@/components/nothing';
 
 export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], songs }>) {
@@ -21,6 +22,7 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
     const [isDeleting, setIsDeleting] = useState<boolean>(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isStageResultsDialogOpen, setIsStageResultsDialogOpen] = useState<boolean>(false);
+    const [isStageVotesDialogOpen, setIsStageVotesDialogOpen] = useState<boolean>(false);
     const [isWinnerDialogOpen, setIsWinnerDialogOpen] = useState<boolean>(false);
 
     const allocateHandler = (stage: Stage): void => {
@@ -44,6 +46,11 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
     const showResultsHandler = (stage: Stage) => {
         setCurrentStage(stage);
         setIsStageResultsDialogOpen(true);
+    }
+
+    const showVotesHandler = (stage: Stage) => {
+        setCurrentStage(stage);
+        setIsStageVotesDialogOpen(true);
     }
 
     const editHandler = (stage: Stage) => {
@@ -92,6 +99,7 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
                     <StageItem key={stage.id} onAllocate={allocateHandler} onEdit={editHandler}
                                onDelete={deleteHandler} onChooseWinner={chooseWinnerHandler}
                                onShowResults={showResultsHandler}
+                               onShowVotes={showVotesHandler}
                                stage={stage}/>
                 )) : (
                     <Nothing>
@@ -107,6 +115,8 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
                                 onOpenChange={() => setIsWinnerDialogOpen(false)}/>
             <StageResultsDialog stage={currentStage} open={isStageResultsDialogOpen}
                                 onOpenChange={() => setIsStageResultsDialogOpen(false)}/>
+            <StageVotesDialog stage={currentStage} open={isStageVotesDialogOpen}
+                              onOpenChange={() => setIsStageVotesDialogOpen(false)}/>
             <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
                                onConfirm={confirmDeleteHandler} processing={isDeleting}>
                 <DialogTitle>{`Delete Stage "${currentStage?.title}"`}</DialogTitle>

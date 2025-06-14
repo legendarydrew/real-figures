@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 /**
  * StageVotesController
  * This endpoint provides a breakdown of votes for each Round.
- * Results will only be provided when the Stage has ended.
+ * Results will only be provided when the Stage has ended, and there are existing RoundOutcomes.
  *
  * @package App\Http\Controllers\API
  */
@@ -20,7 +20,7 @@ class StageVotesController extends Controller
     public function show(int $stage_id): JsonResponse
     {
         $stage = Stage::findOrFail($stage_id);
-        if ($stage->hasEnded())
+        if ($stage->hasEnded() && $stage->outcomes()->count())
         {
             return response()->json(
                 $stage->rounds->map(fn($round) => VoteBreakdownFacade::forRound($round))
