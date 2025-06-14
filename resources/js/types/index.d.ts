@@ -87,6 +87,9 @@ export interface Act {
             name: string;
             role: string;
         }[];
+        notes: {
+            text: string;
+        }[];
     };
 }
 
