@@ -3,10 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Round;
+use App\Models\RoundOutcome;
 use App\Models\RoundSongs;
 use App\Models\RoundVote;
 use App\Models\Song;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Carbon;
 
 /**
@@ -107,6 +109,15 @@ class RoundFactory extends Factory
                 ]);
             }
 
+        });
+    }
+
+    public function withOutcomes(): RoundFactory|Factory
+    {
+        return $this->afterCreating(function (Round $round) {
+           RoundOutcome::factory($round->songs()->count())->for($round)->create([
+               'song_id' => new Sequence(...$round->songs->pluck('id'))
+           ]);
         });
     }
 }

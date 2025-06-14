@@ -12,6 +12,7 @@ use App\Http\Controllers\API\StageAllocateController;
 use App\Http\Controllers\API\StageController;
 use App\Http\Controllers\API\StageManualVoteController;
 use App\Http\Controllers\API\StageRoundsController;
+use App\Http\Controllers\API\StageVotesController;
 use App\Http\Controllers\API\StageWinnersController;
 use App\Http\Controllers\API\SubscriberPostController;
 use App\Http\Controllers\API\VoteController;
@@ -105,6 +106,7 @@ Route::prefix('/api')->group(function ()
         Route::get('stages/{id}/manual-vote', [StageManualVoteController::class, 'show'])->name('stages.manual-vote.show');
         Route::post('stages/{id}/manual-vote', [StageManualVoteController::class, 'store'])->name('stages.manual-vote.store');
         Route::get('stages/{id}/rounds', [StageRoundsController::class, 'show'])->name('stages.rounds');
+        Route::get('stages/{id}/votes', [StageVotesController::class, 'show'])->name('stages.votes');
         Route::post('stages/{id}/winners', [StageWinnersController::class, 'store'])->name('stages.winners');
 
         Route::delete('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'destroy'])->name('subscribers.destroy');
