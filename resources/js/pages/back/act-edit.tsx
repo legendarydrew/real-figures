@@ -13,6 +13,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import HeadingSmall from '@/components/heading-small';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown } from 'lucide-react';
+import { ActMetaMembers } from '@/components/admin/act-meta-members';
 
 export default function ActEdit({ act }: Readonly<{ act: Act }>) {
 
@@ -22,7 +23,10 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
             description: ''
         },
         is_fan_favourite: false,
-        image: ''
+        image: '',
+        meta: {
+            members: []
+        }
     });
 
     useEffect(() => {
@@ -32,7 +36,10 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
                 description: act?.profile?.description ?? ''
             },
             is_fan_favourite: act?.meta.is_fan_favourite ?? 0,
-            image: act?.image
+            image: act?.image,
+            meta: {
+                members: act?.meta.members ?? []
+            }
         });
     }, [act]);
 
@@ -56,7 +63,7 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
         const file: File = e.target.files[0];
         // Convert the file to a base64 encoded string.
         // https://stackoverflow.com/a/53129416/4073160
-        const reader = new FileReader();
+        const reader: FileReader = new FileReader();
         reader.onload = function () {
             setData('image', reader.result?.toString());
             setError('image', '');
@@ -68,6 +75,10 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
     const removeImageHandler = () => {
         setData('image', '');
         setError('image', '');
+    };
+
+    const updateMetaHandler = (column: string, e: any): void => {
+        setData(`meta.${column}`, e);
     };
 
     const cancelHandler = (): void => {
@@ -161,7 +172,7 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
 
                     {/* Right side */}
                     <div className="flex-shrink-0 flex-grow">
-                        <HeadingSmall title="Profile (optional)" />
+                        <HeadingSmall title="Profile (optional)"/>
 
                         <div>
                             <Label htmlFor="actDescription">Description</Label>
@@ -174,28 +185,28 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
                 </div>
 
                 {/* Optional Meta information. */}
-                <div>
-                    <HeadingSmall title="Additional information (optional)"/>
+                <Collapsible>
+                    <CollapsibleTrigger
+                        className="display-text text-sm w-full flex justify-between items-center cursor-pointer px-3 py-2 hover:bg-gray-300/10">
+                        Additional information (optional)
+                        <ChevronDown/>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="py-2 px-3 flex flex-col gap-3">
 
-                    <div className="my-3">
-                        <label className="flex gap-2 items-center text-sm font-semibold">
-                            <Checkbox checked={data.is_fan_favourite}
-                                      onCheckedChange={(checked) => setData('is_fan_favourite', checked)}/>
-                            Is fan favourite
-                        </label>
-                        <p className="pl-6 text-sm text-muted-foreground">A fan favourite is a popular Act that is expected to win the Contest.</p>
-                    </div>
+                        <div>
+                            <label className="flex gap-2 items-center text-sm font-semibold">
+                                <Checkbox checked={data.is_fan_favourite}
+                                          onCheckedChange={(checked) => setData('is_fan_favourite', checked)}/>
+                                Is fan favourite
+                            </label>
+                            <p className="pl-6 text-sm text-muted-foreground">A fan favourite is a popular Act that is
+                                expected to win the Contest.</p>
+                        </div>
 
-                    <Collapsible>
-                        <CollapsibleTrigger className="display-text text-sm w-full flex justify-between items-center cursor-pointer px-3 py-2 hover:bg-gray-300/10">
-                            Something
-                            <ChevronDown />
-                        </CollapsibleTrigger>
-                        <CollapsibleContent className="p-3">
-                            Something else...
-                        </CollapsibleContent>
-                    </Collapsible>
-                </div>
+                        <ActMetaMembers members={data.meta.members} onChange={(e) => updateMetaHandler('members', e)}/>
+
+                    </CollapsibleContent>
+                </Collapsible>
 
 
                 <div className="bg-white border-t-1 flex justify-between sticky bottom-0 py-3">

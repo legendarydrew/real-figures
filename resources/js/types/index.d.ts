@@ -83,6 +83,10 @@ export interface Act {
     image?: string;
     meta: {
         is_fan_favourite: boolean;
+        members: {
+            name: string;
+            role: string;
+        }[];
     };
 }
 
