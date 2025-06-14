@@ -14,6 +14,7 @@ import HeadingSmall from '@/components/heading-small';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown } from 'lucide-react';
 import { ActMetaMembers } from '@/components/admin/act-meta-members';
+import { ActMetaNotes } from '@/components/admin/act-meta-notes';
 
 export default function ActEdit({ act }: Readonly<{ act: Act }>) {
 
@@ -25,7 +26,8 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
         is_fan_favourite: false,
         image: '',
         meta: {
-            members: []
+            members: [],
+            notes: []
         }
     });
 
@@ -38,7 +40,8 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
             is_fan_favourite: act?.meta.is_fan_favourite ?? 0,
             image: act?.image,
             meta: {
-                members: act?.meta.members ?? []
+                members: act?.meta.members ?? [],
+                notes: act?.meta.notes ?? [],
             }
         });
     }, [act]);
@@ -100,6 +103,7 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
 
         // Remove empty meta information.
         setData('meta.members', (prev) => prev.filter((row) => row.name && row.role));
+        setData('meta.notes', (prev) => prev.filter((row) => row.note));
 
         setIsSaving(true);
         if (isEditing()) {
@@ -207,6 +211,7 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
                         </div>
 
                         <ActMetaMembers members={data.meta.members} onChange={(e) => updateMetaHandler('members', e)}/>
+                        <ActMetaNotes notes={data.meta.notes} onChange={(e) => updateMetaHandler('notes', e)}/>
 
                     </CollapsibleContent>
                 </Collapsible>
