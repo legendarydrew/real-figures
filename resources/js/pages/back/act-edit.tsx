@@ -98,6 +98,9 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
             delete formData.profile;
         }
 
+        // Remove empty meta information.
+        setData('meta.members', (prev) => prev.filter((row) => row.name && row.role));
+
         setIsSaving(true);
         if (isEditing()) {
             router.patch(route('acts.update', { id: act.id }), formData, {

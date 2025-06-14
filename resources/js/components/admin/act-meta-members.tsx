@@ -47,10 +47,12 @@ export const ActMetaMembers: React.FC<ActMetaMembersProps> = ({ members, onChang
             <HeadingSmall title="Act Members"/>
             <ul className="my-2">
                 {rows.map((row, index) => (
-                    <li key={row} className="flex gap-2 my-1">
+                    <li key={index} className="flex gap-2 my-1">
                         <Input className="flex-grow font-semibold text-xs" placeholder="Name"
+                               value={row.name}
                                onChange={(e) => updateRowHandler(index, 'name', e)}/>
                         <Input className="flex-grow text-xs" placeholder="Role"
+                               value={row.role}
                                onChange={(e) => updateRowHandler(index, 'role', e)}/>
                         <Button className="flex-shrink-0" size="icon" type="button" title="Remove"
                                 onClick={() => removeRowHandler(row)}>
