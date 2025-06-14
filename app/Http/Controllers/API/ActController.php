@@ -88,17 +88,30 @@ class ActController extends Controller
 
     protected function updateActMeta(Act $act, array $data): void
     {
-        if (isset($data['meta']['members'])) {
-            // Act members.
-            $existing_ids = array_filter(array_map(fn ($member) => $member['id'] ?? null, $data['meta']['members']));
-            if (count($existing_ids)) {
-                $act->members()->whereNotIn('id', $existing_ids)->delete();
-            } else {
-                $act->members()->delete();
+        $meta = ['members', 'notes'];
+        foreach ($meta as $meta_column)
+        {
+            $this->updateActMetaRelation($act, $meta_column, $data);
+        }
+    }
+
+    protected function updateActMetaRelation(Act $act, string $relation, array $data): void
+    {
+        if (isset($data['meta'][$relation]))
+        {
+            $existing_ids = array_filter(array_map(fn($row) => $row['id'] ?? null, $data['meta'][$relation]));
+            if (count($existing_ids))
+            {
+                $act->$relation()->whereNotIn('id', $existing_ids)->delete();
+            }
+            else
+            {
+                $act->$relation()->delete();
             }
 
-            foreach ($data['meta']['members'] as $member) {
-                $act->members()->updateOrCreate($member);
+            foreach ($data['meta'][$relation] as $row)
+            {
+                $act->$relation()->updateOrCreate($row);
             }
         }
     }
