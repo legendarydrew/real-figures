@@ -3,8 +3,8 @@
 
 ## Analytics
 
-- [ ] Record Act views.
-- [ ] Record Song plays (only when started from the beginning).
+- [x] Record Act views.
+- [x] Record Song plays (only when started from the beginning).
 
 ## Graphics
 
@@ -32,8 +32,8 @@
     - [ ] optionally generate a News post based on a Stage or Round.
     - [ ] Add meta data to Acts to help with generating News posts.
       - [ ] Act genre(s)
-      - [ ] Act's members
-      - [ ] Notes about the Act (for aiding ChatGPT)
+      - [x] Act's members
+      - [x] Notes about the Act (for aiding ChatGPT)
       - [ ] Act traits (personality)
       - [ ] Act's (spoken) languages.
-- [ ] Display Stage rankings once a Stage is over.
+- [x] Display Stage rankings once a Stage is over.
