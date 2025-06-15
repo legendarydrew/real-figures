@@ -25,15 +25,17 @@ class ActController extends Controller
     public function store(ActRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        DB::transaction(function () use ($data)
+        $act = DB::transaction(function () use ($data)
         {
             $act = Act::factory()->create([
                 'name'             => $data['name'],
-                'is_fan_favourite' => $data['is_fan_favourite'],
+                'is_fan_favourite' => $data['is_fan_favourite'] ?? false,
             ]);
             $this->updateActImage($act, $data);
             $this->updateActProfile($act, $data);
             $this->updateActMeta($act, $data);
+
+            return $act;
         });
 
         if (isset($act))

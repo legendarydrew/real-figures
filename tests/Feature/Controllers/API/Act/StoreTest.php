@@ -37,7 +37,7 @@ class StoreTest extends TestCase
     public function test_as_user()
     {
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
-        $response->assertRedirectToRoute('admin.acts');
+        $response->assertRedirectToRoute('admin.acts.edit', ['id' => 1]);
     }
 
     #[Depends('test_as_user')]
