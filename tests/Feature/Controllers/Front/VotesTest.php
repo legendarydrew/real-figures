@@ -38,7 +38,15 @@ class VotesTest extends TestCase
         $response->assertNotFound();
     }
 
-    public function test_access_with_over_stages()
+    public function test_access_with_some_over_stages()
+    {
+        Stage::factory()->create();
+        Stage::factory()->over()->create();
+        $response = $this->get(route('votes'));
+        $response->assertNotFound();
+    }
+
+    public function test_access_with_only_over_stages()
     {
         Stage::factory()->over()->create();
         $response = $this->get(route('votes'));
@@ -49,13 +57,10 @@ class VotesTest extends TestCase
     public function test_only_over_stages()
     {
         $over_stages = Stage::factory(2)->over()->create();
-        Stage::factory(3)->create();
-        $response = $this->get(route('votes'));
+        $response    = $this->get(route('votes'));
         $response->assertOk();
         $response->assertInertia(fn(Assert $page) => $page->component('front/votes')
                                                           ->has('stages', $over_stages->count())
-                                                          ->where('stages.0.id', $over_stages[0]->id)
-                                                          ->where('stages.1.id', $over_stages[1]->id)
                                                           ->etc());
     }
 
