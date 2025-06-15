@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Facades\ContestFacade;
 use App\Facades\VoteBreakdownFacade;
 use App\Http\Controllers\Controller;
 use App\Models\Round;
@@ -21,16 +22,19 @@ class VotesController extends Controller
 {
     public function index(): Response
     {
-        $stages = Stage::orderByDesc('id')->get()->filter(fn(Stage $stage) => $stage->isOver());
-        if ($stages->isNotEmpty())
+        if (ContestFacade::isOver())
         {
-            return Inertia::render('front/votes', [
-                'stages' => fn() => $stages->map(fn(Stage $stage) => [
-                    'id'         => $stage->id, // for testing purposes.
-                    'title'      => $stage->title,
-                    'breakdowns' => $stage->rounds->map(fn(Round $round) => VoteBreakdownFacade::forRound($round))
-                ]),
-            ]);
+            $stages = Stage::whereHas('outcomes')->orderByDesc('id')->get()->filter(fn(Stage $stage) => $stage->isOver());
+            if ($stages->isNotEmpty())
+            {
+                return Inertia::render('front/votes', [
+                    'stages' => fn() => $stages->map(fn(Stage $stage) => [
+                        'id'         => $stage->id, // for testing purposes.
+                        'title'      => $stage->title,
+                        'breakdowns' => $stage->rounds->map(fn(Round $round) => VoteBreakdownFacade::forRound($round))
+                    ]),
+                ]);
+            }
         }
 
         abort(404);

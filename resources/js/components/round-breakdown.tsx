@@ -16,7 +16,7 @@ export const RoundBreakdown: React.FC<RoundBreakdownProps> = ({ breakdown, class
     return (
         <div className={className}>
             <div className="flex bg-zinc-600 py-2 text-sm font-semibold items-end leading-none sticky-top">
-                <div className="flex-grow flex gap-3">
+                <div className="flex-grow flex gap-3 items-end">
                     <h3 className="display-text pl-3 text-base">{breakdown.title}</h3>
                     {wasManualOutcome() && <Badge variant="secondary" title="Votes cast by an independent panel.">Judged</Badge>}
                 </div>

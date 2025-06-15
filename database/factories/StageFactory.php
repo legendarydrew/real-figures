@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Facades\ContestFacade;
 use App\Jobs\EndOfRound;
 use App\Models\Round;
 use App\Models\RoundSongs;
@@ -91,17 +92,31 @@ class StageFactory extends Factory
         {
             // Create ended Rounds.
             $round_count = $this->faker->numberBetween(1, 4);
-            $rounds      = Round::factory($round_count)->ended()->withSongs(16)->for($stage)->create();
+            $rounds      = Round::factory($round_count)->ended()->withSongs(5)->withVotes()->for($stage)->create();
+
+            $rounds->each(function (Round $round)
+            {
+                ContestFacade::buildRoundOutcome($round);
+            });
 
             // Create Stage winners.
-            foreach ($rounds as $round)
+            [$winners, $runners_up] = ContestFacade::determineStageWinners($stage);
+            foreach ($winners as $winner)
             {
-                $song_id = $round->songs->random()->pluck('id')->first();
                 StageWinner::create([
                     'stage_id'  => $stage->id,
-                    'round_id'  => $round->id,
-                    'song_id'   => $song_id,
-                    'is_winner' => true,
+                    'round_id'  => $winner->round_id,
+                    'song_id'   => $winner->song_id,
+                    'is_winner' => true
+                ]);
+            }
+            foreach ($runners_up as $runner_up)
+            {
+                StageWinner::create([
+                    'stage_id'  => $stage->id,
+                    'round_id'  => $runner_up->round_id,
+                    'song_id'   => $runner_up->song_id,
+                    'is_winner' => false
                 ]);
             }
         });
