@@ -58,14 +58,9 @@ class MakeOverState extends Command
         $this->comment('- removing existing Stages');
         Stage::truncate();
 
-        $this->comment('- creating a new Stage');
-        $stage = Stage::factory()->createOne();
-
-        $this->comment('- creating Rounds');
-        $round_count = fake()->numberBetween(1, 5);
-        Round::factory($round_count)->for($stage)->ended()->withSongs(12)->withVotes()->create([
-            'title' => new Sequence(...array_map(fn($index) => "Round $index", range(1, $round_count)))
-        ]);
+        $this->comment('- creating over Stages');
+        $stage_count = fake()->numberBetween(1, 4);
+        Stage::factory($stage_count)->over()->create();
 
         $this->comment('- creating Song plays');
         $song_ids = array_unique(RoundSongs::pluck('song_id')->toArray());
@@ -80,34 +75,6 @@ class MakeOverState extends Command
                 ]);
             }
         }
-
-        $this->comment('- determining winners');
-        foreach ($stage->rounds as $round)
-        {
-            ContestFacade::buildRoundOutcome($round);
-        }
-        [$winners, $runners_up] = ContestFacade::determineStageWinners($stage);
-        DB::transaction(function () use ($stage, $winners, $runners_up)
-        {
-            foreach ($winners as $winner)
-            {
-                StageWinner::create([
-                    'stage_id'  => $stage->id,
-                    'round_id'  => $winner->round_id,
-                    'song_id'   => $winner->song_id,
-                    'is_winner' => true
-                ]);
-            }
-            foreach ($runners_up as $runner_up)
-            {
-                StageWinner::create([
-                    'stage_id'  => $stage->id,
-                    'round_id'  => $runner_up->round_id,
-                    'song_id'   => $runner_up->song_id,
-                    'is_winner' => false
-                ]);
-            }
-        });
 
         $this->info("\nCompleted.");
 

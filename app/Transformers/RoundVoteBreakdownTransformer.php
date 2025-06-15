@@ -20,8 +20,9 @@ class RoundVoteBreakdownTransformer extends TransformerAbstract
                 'score'               => $outcome->score,
                 'first_choice_votes'  => $outcome->first_votes,
                 'second_choice_votes' => $outcome->second_votes,
-                'third_choice_votes'  => $outcome->third_votes
-            ])
+                'third_choice_votes'  => $outcome->third_votes,
+                'was_manual'          => $outcome->was_manual
+            ]),
         ];
     }
 

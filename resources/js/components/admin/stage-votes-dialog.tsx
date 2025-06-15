@@ -53,7 +53,7 @@ export const StageVotesDialog: FC<StageVotesDialogProps> = ({ open, onOpenChange
                 {isLoading ? (<LoaderCircleIcon className="w-[3rem] h-[3rem] mx-auto my-3 animate-spin"/>) : (
                     <>
                         {error && <Alert type="error">{error}</Alert>}
-                        <div className="overflow-y-hidden max-y-[50dvh]">
+                        <div className="overflow-y-auto max-h-[50dvh]">
                             {breakdown?.map((row) => (
                                 <div key={row.id} className="my-2">
                                     <div className="flex text-sm font-semibold items-center">
