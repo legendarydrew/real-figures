@@ -1,4 +1,5 @@
 import { Nothing } from '@/components/nothing';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 
 type DashboardSongsPlayedData = {
     songs: {
@@ -15,26 +16,26 @@ interface DashboardSongsPlayedProps {
 export const DashboardSongsPlayed: React.FC<DashboardSongsPlayedProps> = ({ data, className }) => {
 
     return (
-        <div className={className}>
-            {data.songs.length ? (
-                <>
-                    <h2 className="font-bold mb-2">Most played Songs <small>within the last day</small></h2>
+        <Card className={className}>
+            <CardTitle className="display-text font-normal">Most played Songs <small>within the last day</small></CardTitle>
+            <CardContent>
+                {data.songs.length ? (
                     <table className="table w-full text-sm">
                         <tbody>
                         {data.songs.map((row) => (
                             <tr key={row.title}>
                                 <th scope="row" className="font-bold text-left py-0.5">{row.title}</th>
-                                <td className="text-right py-0.5">{row.play_count.toLocaleString()} play(s)</td>
+                                <td className="text-right py-0.5 pl-2">{row.play_count.toLocaleString()}</td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
-                </>
-            ) : (
-                <Nothing className="border-2 w-full h-full">
-                    No information about Songs played.
-                </Nothing>
-            )}
-        </div>
+                ) : (
+                    <Nothing className="w-full h-full">
+                        No information about Songs played.
+                    </Nothing>
+                )}
+            </CardContent>
+        </Card>
     );
 };

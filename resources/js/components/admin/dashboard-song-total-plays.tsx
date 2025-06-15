@@ -1,6 +1,7 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Nothing } from '@/components/nothing';
 import { usePage } from '@inertiajs/react';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 
 // https://www.geeksforgeeks.org/create-a-line-chart-using-recharts-in-reactjs/
 
@@ -29,7 +30,8 @@ export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ dat
             return (
                 <div className="bg-white shadow-md leading-tight rounded-sm p-3">
                     <span className="display-text">{formatDate(label)}</span><br/>
-                    <span className=" text-sm">{payload[0].value ? payload[0].value.toLocaleString() : 'No'} Song {payload[0].value === 1 ? 'play' : 'plays'}</span>
+                    <span
+                        className=" text-sm">{payload[0].value ? payload[0].value.toLocaleString() : 'No'} Song {payload[0].value === 1 ? 'play' : 'plays'}</span>
                 </div>
             );
         }
@@ -38,10 +40,10 @@ export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ dat
     };
 
     return (
-        <div className={className}>
-            {data.days.length ? (
-                <>
-                    <h2 className="font-bold mb-2">Song Plays <small>within the last week</small></h2>
+        <Card className={className}>
+            <CardTitle className="display-text font-normal">Song plays <small>within the last week</small></CardTitle>
+            <CardContent>
+                {data.days.length ? (
                     <ResponsiveContainer className="w-full h-[12rem]" aspect={2.5}>
                         <BarChart data={data.days} margin={0}>
                             <CartesianGrid strokeDasharray="3 3"/>
@@ -55,11 +57,11 @@ export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ dat
                                  className="fill-indigo-500"/>
                         </BarChart>
                     </ResponsiveContainer>
-                </>
-            ) : (
-                <Nothing className="border-2 w-full h-full">
-                    No information about Songs played.
-                </Nothing>
-            )}
-        </div>);
+                ) : (
+                    <Nothing className="border-2 w-full h-full">
+                        No information about Songs played.
+                    </Nothing>
+                )}
+            </CardContent>
+        </Card>);
 };

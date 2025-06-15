@@ -11,7 +11,7 @@ interface DashboardMessageCountProps {
 
 export const DashboardMessageCount: React.FC<DashboardMessageCountProps> = ({ message_count, className }) => {
 
-    return message_count ? (
+    return (
         <Link href={route('admin.contact')}
               className={cn('bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-sm p-3 flex items-center gap-5 select-none', className)}>
             <Mail className="w-10 h-10"/>
@@ -20,5 +20,5 @@ export const DashboardMessageCount: React.FC<DashboardMessageCountProps> = ({ me
                 <span className="text-sm">unread {message_count === 1 ? 'message' : 'messages'}</span>
             </div>
         </Link>
-    ) : '';
+    );
 };
