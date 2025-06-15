@@ -1,4 +1,4 @@
-import { Head, usePage } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import FrontLayout from '@/layouts/front-layout';
 import AboutBanner from '@/components/front/about-banner';
 import { Advert } from '@/components/advert';
@@ -77,6 +77,9 @@ const HomeContestOverPage: React.FC = () => {
                         <p>
                             From all of us at CATAWOL Records &mdash; <b>thank you.</b>
                         </p>
+
+                        <Link className="display-text py-3 px-5 rounded-md bg-indigo-200 hover:bg-indigo-300 text-indigo-900 mt-3 mx-auto" href={route('votes')}>Voting
+                            Breakdown</Link>
                     </div>
 
                 </div>
