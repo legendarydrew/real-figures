@@ -35,6 +35,7 @@ use App\Http\Controllers\Front\DonorWallController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\SubscriberConfirmController;
 use App\Http\Controllers\Front\SubscriberRemoveController;
+use App\Http\Controllers\Front\VotesController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Models\Round;
@@ -54,6 +55,7 @@ Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules
 Route::get('donor-wall', [DonorWallController::class, 'index'])->name('donations');
 Route::get('subscriber/confirm/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
 Route::get('subscriber/remove/{id}/{code}', [SubscriberRemoveController::class, 'show'])->name('subscriber.remove');
+Route::get('votes', [VotesController::class, 'index'])->name('votes');
 
 // ----------------------------------------------------------------------------
 // Our famous Kitchen Sink page (only available in debug mode).
