@@ -21,7 +21,7 @@ class VotesController extends Controller
 {
     public function index(): Response
     {
-        $stages = Stage::all()->filter(fn(Stage $stage) => $stage->isOver());
+        $stages = Stage::orderByDesc('id')->get()->filter(fn(Stage $stage) => $stage->isOver());
         if ($stages->isNotEmpty())
         {
             return Inertia::render('front/votes', [

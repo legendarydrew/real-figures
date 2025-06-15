@@ -221,5 +221,6 @@ export interface RoundVoteBreakdown {
         first_choice_votes: number;
         second_choice_votes: number;
         third_choice_votes: number;
+        was_manual: boolean;
     }[];
 }

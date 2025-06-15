@@ -1,35 +1,46 @@
 import { Head } from '@inertiajs/react';
 import { FrontContent } from '@/components/front/front-content';
-import Heading from '@/components/heading';
 import FrontLayout from '@/layouts/front-layout';
 import { Advert } from '@/components/advert';
-import { AboutSilentmodePanel } from '@/pages/front/about/about-silentmode';
+import AboutBanner from '@/components/front/about-banner';
+import { RoundBreakdown } from '@/components/round-breakdown';
 
-const VotesPage: React.FC = () => {
+const VotesPage: React.FC = ({ stages }) => {
 
     return (
         <>
             <Head title="Breakdown of votes"/>
 
-            <FrontContent>
-                <Heading title="Breakdown of votes" className="mb-5"/>
+            <div className="bg-zinc-500 text-white">
+                <FrontContent>
+                    <h1 className="display-text text-2xl mb-5 text-center">Breakdown of votes</h1>
 
-                <div className="grid gap-5 lg:grid-cols-4">
+                    <div className="grid gap-5 lg:grid-cols-4">
 
-                    <div className="col-span-3">
-                        ...
+                        <div className="col-span-3 flex flex-col gap-3">
+
+                            {stages.map((stage) => (
+                                <section key={stage.id}>
+                                    <header className="bg-zinc-700 text-center p-2">
+                                        <h2 className="display-text text-lg">{stage.title}</h2>
+                                    </header>
+                                    {stage.breakdowns.map((breakdown) => (
+                                        <RoundBreakdown key={breakdown.id} className="mb-3" breakdown={breakdown}/>))}
+                                </section>
+                            ))}
+                        </div>
+                        <Advert className="col-span-1"/>
                     </div>
-                    <Advert className="col-span-1"/>
-                </div>
 
-                <AboutSilentmodePanel opened={() => trackOpenPanelHandler('About SilentMode')}/>
+                </FrontContent>
+            </div>
 
-                <Advert className="mx-auto my-3 text-center" height={90}/>
-            </FrontContent>
+            <AboutBanner/>
+            <Advert className="mx-auto my-3 text-center" height={90}/>
         </>
     );
 };
 
-AboutPage.layout = (page) => <FrontLayout>{page}</FrontLayout>;
+VotesPage.layout = (page) => <FrontLayout>{page}</FrontLayout>;
 
-export default AboutPage;
+export default VotesPage;
