@@ -26,6 +26,11 @@ class Song extends Model
         return $this->belongsTo(Act::class);
     }
 
+    public function language(): HasOne
+    {
+        return $this->hasOne(Language::class);
+    }
+
     public function plays(): HasMany
     {
         return $this->hasMany(SongPlay::class);

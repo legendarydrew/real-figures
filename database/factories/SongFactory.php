@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Act;
+use App\Models\Language;
 use App\Models\Song;
 use App\Models\SongPlay;
 use App\Models\SongUrl;
@@ -20,9 +21,18 @@ class SongFactory extends Factory
      */
     public function definition(): array
     {
+        if (fake()->boolean(80))
+        {
+            $language = Language::whereCode('en')->first();
+        }
+        else
+        {
+            $language = Language::inRandomOrder()->first();
+        }
+
         return [
-            'title'    => config('contest.song.default-title'),
-            'language' => fake()->boolean(80) ? 'en' : fake()->languageCode()
+            'title'       => config('contest.song.default-title'),
+            'language_id' => $language->id
         ];
     }
 
@@ -62,7 +72,7 @@ class SongFactory extends Factory
             {
                 SongPlay::create([
                     'song_id'    => $song->id,
-                    'played_on' => $date->format('Y-m-d'),
+                    'played_on'  => $date->format('Y-m-d'),
                     'play_count' => $this->faker->numberBetween(1, 100),
                 ]);
                 $date->addDay();

@@ -73,9 +73,9 @@ class ActFactory extends Factory
         return $this->afterCreating(function (Act $act)
         {
             // Add languages based on any existing Songs.
-            $song_languages = $act->songs()->pluck('language')->toArray();
+            $song_languages = $act->songs()->pluck('language_id')->unique()->toArray();
             ActMetaLanguage::factory(count($song_languages))->for($act)->create([
-                'language' => new Sequence(...$song_languages)
+                'language_id' => new Sequence(...$song_languages)
             ]);
 
             // Add notes.

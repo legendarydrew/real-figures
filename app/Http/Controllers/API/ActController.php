@@ -25,7 +25,7 @@ class ActController extends Controller
     public function store(ActRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $act = DB::transaction(function () use ($data)
+        $act  = DB::transaction(function () use ($data)
         {
             $act = Act::factory()->create([
                 'name'             => $data['name'],
@@ -90,11 +90,16 @@ class ActController extends Controller
 
     protected function updateActMeta(Act $act, array $data): void
     {
-        $meta = ['members', 'notes'];
+        $meta = ['genres', 'members', 'notes', 'traits'];
         foreach ($meta as $meta_column)
         {
             $this->updateActMetaRelation($act, $meta_column, $data);
         }
+
+        // Languages are passed as a list of language codes.
+//        if (isset($data['languages'])) {
+//            $language_ids =
+//        }
     }
 
     protected function updateActMetaRelation(Act $act, string $relation, array $data): void
