@@ -50,7 +50,7 @@ export const CurrentRound: React.FC<CurrentRoundProps> = ({ round }) => {
                                     </div>
                                 </div>
                             </button>
-                            <Button className="w-full rounded-t-none uppercase" variant="gold" size="lg" type="button"
+                            <Button variant="gold" className="w-full rounded-t-none uppercase" size="lg" type="button"
                                     onClick={() => beginBuzzerHandler(song)}>
                                 <StarIcon/> Golden Buzzer <StarIcon/>
                             </Button>
