@@ -15,7 +15,8 @@ has the theme configured here.)
 @custom-variant dark (&:is(.dark *), [data-mode="dark"]);
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans:
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     --font-display: 'Cal Sans', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
 
     --radius-lg: var(--radius);
@@ -46,12 +47,11 @@ has the theme configured here.)
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
 
-    --color-light: #FDFDFC;
-    --color-light-foreground: #1B1B18;
+    --color-light: #fdfdfc;
+    --color-light-foreground: #1b1b18;
 
-    --color-dark: #0A0A0A;
+    --color-dark: #0a0a0a;
     --color-dark-foreground: var(--color-gray-100);
-
 
     --color-border: var(--border);
     --color-input: var(--input);
@@ -177,19 +177,19 @@ has the theme configured here.)
 
     /* Used for converted markdown content. */
     .content h1 {
-        @apply font-sans tracking-normal text-xl font-semibold leading-none;
+        @apply font-sans text-xl leading-none font-semibold tracking-normal;
     }
 
     .content h2 {
-        @apply font-sans tracking-normal text-lg font-semibold leading-none;
+        @apply font-sans text-lg leading-none font-semibold tracking-normal;
     }
 
     .content h3 {
-        @apply font-sans tracking-normal text-base font-semibold leading-none;
+        @apply font-sans text-base leading-none font-semibold tracking-normal;
     }
 
     .content b {
-        @apply font-semibold text-muted-foreground;
+        @apply text-muted-foreground font-semibold;
     }
 
     .content i {
@@ -201,15 +201,15 @@ has the theme configured here.)
     }
 
     .content p {
-        @apply leading-normal my-2;
+        @apply my-2 leading-normal;
     }
 
     .content ol {
-        @apply list-decimal mt-3 mb-5 ml-5;
+        @apply mt-3 mb-5 ml-5 list-decimal;
     }
 
     .content ul {
-        @apply list-disc mt-3 mb-5 ml-5;
+        @apply mt-3 mb-5 ml-5 list-disc;
     }
 
     /* Dashboard tables.
@@ -219,7 +219,7 @@ has the theme configured here.)
     }
 
     table.dashboard-table thead {
-        @apply border-b border-neutral-200 font-medium dark:border-white/10 select-none;
+        @apply border-b border-neutral-200 font-medium select-none dark:border-white/10;
     }
 
     table.dashboard-table tfoot {
@@ -228,7 +228,7 @@ has the theme configured here.)
 
     table.dashboard-table th,
     table.dashboard-table td {
-        @apply whitespace-nowrap px-6 py-2;
+        @apply px-6 py-2 whitespace-nowrap;
     }
 
     table.dashboard-table tr {
@@ -239,4 +239,5 @@ has the theme configured here.)
     .toolbar {
         @apply flex justify-end gap-1;
     }
+
 }
