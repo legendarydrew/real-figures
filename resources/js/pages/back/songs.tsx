@@ -147,7 +147,7 @@ export default function Songs({ acts, songs }: Readonly<{ songs: PaginatedRespon
                         </thead>
                         <tbody>
                         {songs.data.map((song) => (
-                            <tr className="hover:bg-accent/50 select-none" key={song.id}>
+                            <tr className="hover-bg select-none" key={song.id}>
                                 <th scope="row" className="text-center">
                                     <LanguageFlag languageCode={song.language}/>
                                 </th>
@@ -161,12 +161,12 @@ export default function Songs({ acts, songs }: Readonly<{ songs: PaginatedRespon
                                 </td>
                                 <td>
                                     <div className="toolbar">
-                                        <Button variant="secondary" className="p-3 cursor-pointer"
+                                        <Button variant="secondary"
                                                 onClick={() => editHandler(song)}
                                                 title="Edit Song">
                                             <Edit className="h-3 w-3"/>
                                         </Button>
-                                        <Button variant="destructive" className="p-3 cursor-pointer"
+                                        <Button variant="destructive"
                                                 onClick={() => deleteHandler(song)}
                                                 title="Delete Song">
                                             <Trash className="h-3 w-3"/>

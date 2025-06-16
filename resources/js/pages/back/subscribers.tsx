@@ -137,7 +137,7 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
             {posts?.length ? (
                 <Collapsible className="mx-4 my-1" onOpenChange={() => toggleHandler('posts')}>
                     <CollapsibleTrigger
-                        className="w-full display-text flex justify-between items-center gap-3 text-lg p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-100/10">
+                        className="hover-bg w-full display-text flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
                         Subscriber posts ({posts.length.toLocaleString()})
                         {isPanelOpen('posts') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
@@ -167,7 +167,7 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
             {subscriberCount ? (
                 <Collapsible className="mx-4 my-1" onOpenChange={() => toggleHandler('subscribers')}>
                     <CollapsibleTrigger
-                        className="w-full display-text flex justify-between items-center gap-3 text-lg p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-100/10">
+                        className="hover-bg w-full display-text flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
                         Subscribed email addresses ({subscriberCount.toLocaleString()})
                         {isPanelOpen('subscribers') ? <ChevronUp/> : <ChevronDown/>}
                     </CollapsibleTrigger>
@@ -197,7 +197,7 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
                             <ul className="text-sm">
                                 {subscribers.map((subscriber) => (
                                     <li key={subscriber.id}
-                                        className="flex items-center gap-2 py-1 px-2 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 select-none">
+                                        className="hover-bg flex items-center gap-2 py-1 px-2 select-none">
                                         <Checkbox id={'subscriber-' + subscriber.id} className="bg-white"
                                                   checked={selectedIds.includes(subscriber.id)}
                                                   onCheckedChange={(state) => state ? selectSubscriberHandler(subscriber) : deselectSubscriberHandler(subscriber)}/>
