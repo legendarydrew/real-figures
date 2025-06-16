@@ -240,4 +240,7 @@ has the theme configured here.)
         @apply flex justify-end gap-1;
     }
 
+    .hover-bg {
+        @apply hover:bg-indigo-200/20;
+    }
 }

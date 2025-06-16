@@ -49,7 +49,7 @@ export const FrontHeader: React.FC = () => {
                 </Link>
 
                 <nav className={menuClasses()}>
-                    <Button className="md:hidden z-90 fixed top-4 right-6" type="button" variant="icon"
+                    <Button className="md:hidden z-90 fixed top-4 right-6" type="button" size="icon"
                             onClick={closeMenuHandler}
                             title="Close Menu">
                         <XIcon/>
@@ -76,7 +76,7 @@ export const FrontHeader: React.FC = () => {
                 </nav>
 
                 {/* "Hamburger" icon for mobile devices. */}
-                <Button className="md:hidden" type="button" variant="icon" onClick={openMenuHandler} title="Menu">
+                <Button className="md:hidden" type="button" variant="ghost" size="icon" onClick={openMenuHandler} title="Menu">
                     <MenuIcon/>
                 </Button>
 
