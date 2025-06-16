@@ -15,7 +15,7 @@ export const DashboardGoldenBuzzerCount: React.FC<DashboardGoldenBuzzerCountProp
             <StarIcon className="w-10 h-10"/>
             <div className="flex-grow flex flex-col gap-0 display-text">
                 <span className="text-3xl leading-none">{buzzer_count.toLocaleString()}</span>
-                <span className="text-sm">{buzzer_count === 1 ? 'Golden Buzzer' : 'Golden Buzzers'}</span>
+                <span className="text-sm leading-none">{buzzer_count === 1 ? 'Golden Buzzer' : 'Golden Buzzers'}</span>
             </div>
         </Link>
     );

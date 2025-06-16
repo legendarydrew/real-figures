@@ -15,7 +15,7 @@ export const DashboardSubscriberCount: React.FC<DashboardSubscriberCountProps> =
             <User2Icon className="w-10 h-10"/>
             <div className="flex-grow flex flex-col gap-0 display-text">
                 <span className="text-3xl leading-none">{subscriber_count.toLocaleString()}</span>
-                <span className="text-sm">{subscriber_count === 1 ? 'Subscriber' : 'Subscribers'}</span>
+                <span className="text-sm leading-none">{subscriber_count === 1 ? 'Subscriber' : 'Subscribers'}</span>
             </div>
         </Link>
     );
