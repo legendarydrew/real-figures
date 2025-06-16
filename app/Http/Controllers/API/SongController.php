@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SongRequest;
+use App\Models\Language;
 use App\Models\Song;
 use App\Models\SongUrl;
 use Illuminate\Http\RedirectResponse;
@@ -15,9 +16,9 @@ class SongController extends Controller
     {
         $data = $request->validated();
         $song = Song::factory()->create([
-            'title'    => $data['title'],
-            'act_id'   => $data['act_id'],
-            'language' => $data['language']
+            'title'       => $data['title'],
+            'act_id'      => $data['act_id'],
+            'language_id' => Language::whereCode($data['language'])->first()->id,
         ]);
 
         if (!empty($data['url']))
@@ -30,7 +31,8 @@ class SongController extends Controller
 
     public function update(SongRequest $request, int $song_id): RedirectResponse
     {
-        $data = $request->validated();
+        $data                = $request->validated();
+        $data['language_id'] = Language::whereCode($data['language'])->first()->id;
         Song::findOrFail($song_id)->update($data);
 
         if (!empty($data['url']))

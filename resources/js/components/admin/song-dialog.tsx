@@ -8,9 +8,9 @@ import InputError from '@/components/input-error';
 import { Song } from '@/types';
 import { Toaster } from '@/components/ui/toast-message';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
-import { LanguageCodes } from '@/lib/language-codes';
 import { LanguageFlag } from '@/components/language-flag';
 import { LoadingButton } from '@/components/ui/loading-button';
+import { useLanguages } from '@/context/language-context';
 
 interface SongDialogProps {
     // Dialog properties.
@@ -33,6 +33,8 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
         language: 'en',
         url: ''
     });
+
+    const { languageList, matchingLanguage } = useLanguages();
 
     useEffect(() => {
         setData({
@@ -132,14 +134,14 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
                             <SelectTrigger>
                                 {data.language && (<LanguageFlag languageCode={data.language}/>)}
                                 <span className="flex-grow text-left px-2">
-                                {data.language ? LanguageCodes[data.language] : 'Select a language'}
+                                {data.language ? matchingLanguage(data.language)?.name : 'Select a language'}
                                 </span>
                             </SelectTrigger>
                             <SelectContent>
-                                {Object.keys(LanguageCodes).map((languageCode) => (
-                                    <SelectItem key={languageCode} value={languageCode}>
-                                        <LanguageFlag languageCode={languageCode}/>
-                                        {LanguageCodes[languageCode]}
+                                {languageList.current.map((language) => (
+                                    <SelectItem key={language.code} value={language.code}>
+                                        <LanguageFlag languageCode={language.code}/>
+                                        {language.name}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
