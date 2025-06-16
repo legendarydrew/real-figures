@@ -53,7 +53,7 @@ class ActTransformer extends TransformerAbstract
         return $this->primitive([
             'is_fan_favourite' => $act->is_fan_favourite,
             'genres'           => $act->genres()->pluck('genre')->toArray(),
-            'languages'        => $act->languages()->pluck('language')->toArray(),
+            'languages'        => $act->languages()->pluck('code')->toArray(),
             'members'          => $act->members->map(fn(ActMetaMember $member) => [
                 'id'   => $member->id,
                 'name' => $member->name,

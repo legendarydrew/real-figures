@@ -41,7 +41,7 @@ class Act extends Model
 
     public function languages(): HasManyThrough
     {
-        return $this->hasManyThrough(Language::class, ActMetaLanguage::class);
+        return $this->hasManyThrough(Language::class, ActMetaLanguage::class, 'act_id', 'id', 'id', 'language_id');
     }
 
     public function traits(): HasMany

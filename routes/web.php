@@ -6,6 +6,7 @@ use App\Http\Controllers\API\ContactMessagesController;
 use App\Http\Controllers\API\ContactMessagesRespondController;
 use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\GoldenBuzzerBreakdownController;
+use App\Http\Controllers\API\LanguagesController;
 use App\Http\Controllers\API\SongController;
 use App\Http\Controllers\API\SongPlayController;
 use App\Http\Controllers\API\StageAllocateController;
@@ -90,6 +91,8 @@ Route::prefix('/api')->group(function ()
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
+
+        Route::get('languages', [LanguagesController::class, 'index'])->name('languages');
 
         Route::put('messages/{id}', [ContactMessagesController::class, 'update'])->name('messages.read');
         Route::put('messages/{id}/respond', [ContactMessagesRespondController::class, 'update'])->name('messages.respond');
