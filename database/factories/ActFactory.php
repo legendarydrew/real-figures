@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Act;
+use App\Models\ActMetaGenre;
 use App\Models\ActMetaLanguage;
 use App\Models\ActMetaMember;
 use App\Models\ActMetaNote;
@@ -87,7 +88,7 @@ class ActFactory extends Factory
             // Add genre.
             if ($this->faker->boolean())
             {
-                ActMetaGenreFactory::factory()->for($act)->createOne();
+                ActMetaGenre::factory()->for($act)->createOne();
             }
 
             // Add member(s).
@@ -98,9 +99,10 @@ class ActFactory extends Factory
             }
 
             // Add traits (personality, etc.)
-            if ($member_count && $this->faker->boolean())
+            if ($this->faker->boolean())
             {
-                ActMetaTrait::factory($member_count)->for($act)->create();
+                $trait_count = $this->faker->biasedNumberBetween(1, 3);
+                ActMetaTrait::factory($trait_count)->for($act)->create();
             }
         });
 
