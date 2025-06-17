@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Act extends Model
@@ -38,9 +39,9 @@ class Act extends Model
         return $this->hasMany(ActMetaGenre::class);
     }
 
-    public function languages(): HasMany
+    public function languages(): HasManyThrough
     {
-        return $this->hasMany(ActMetaLanguage::class);
+        return $this->hasManyThrough(Language::class, ActMetaLanguage::class, 'act_id', 'id', 'id', 'language_id');
     }
 
     public function traits(): HasMany

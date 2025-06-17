@@ -31,6 +31,8 @@ class ActRequest extends FormRequest
             'image'               => ['nullable', new IsBase64Image()],
             'is_fan_favourite'    => ['sometimes', 'boolean'],
             'meta'                => ['sometimes', 'array'],
+            'meta.languages'      => ['array'],
+            'meta.languages.*'    => ['required', 'string', 'min:2', 'max:2', 'exists:languages,code'],
             'meta.members'        => ['array'],
             'meta.members.*.name' => ['required', 'string'],
             'meta.members.*.role' => ['required', 'string'],

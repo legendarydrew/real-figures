@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers\API\Song;
 
 use App\Models\Act;
+use App\Models\Language;
 use App\Models\Song;
 use App\Models\SongUrl;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -22,11 +23,12 @@ class UpdateTest extends TestCase
     {
         parent::setUp();
 
+        $language = Language::inRandomOrder()->first();
         $this->song    = Song::factory()->withAct()->withUrl()->createOne();
         $this->payload = [
             'title'    => fake()->sentence(),
             'act_id'   => Act::factory()->createOne()->id,
-            'language' => fake()->languageCode,
+            'language' => $language->code,
         ];
     }
 
@@ -50,7 +52,7 @@ class UpdateTest extends TestCase
         $this->song->refresh();
         self::assertEquals($this->payload['title'], $this->song->title);
         self::assertEquals($this->payload['act_id'], $this->song->act_id);
-        self::assertEquals($this->payload['language'], $this->song->language);
+        self::assertEquals($this->payload['language'], $this->song->language->code);
     }
 
     #[Depends('test_updates_song')]

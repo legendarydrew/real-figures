@@ -15,6 +15,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ChevronDown } from 'lucide-react';
 import { ActMetaMembers } from '@/components/admin/act-meta-members';
 import { ActMetaNotes } from '@/components/admin/act-meta-notes';
+import { ActMetaLanguages } from '@/components/admin/act-meta-languages';
 
 export default function ActEdit({ act }: Readonly<{ act: Act }>) {
 
@@ -40,6 +41,7 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
             is_fan_favourite: act?.meta.is_fan_favourite ?? 0,
             image: act?.image,
             meta: {
+                languages: act?.meta.languages ?? [],
                 members: act?.meta.members ?? [],
                 notes: act?.meta.notes ?? [],
             }
@@ -102,6 +104,7 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
         }
 
         // Remove empty meta information.
+        setData('meta.languages', (prev) => prev.filter((row) => row?.length));
         setData('meta.members', (prev) => prev.filter((row) => row.name && row.role));
         setData('meta.notes', (prev) => prev.filter((row) => row.note));
 
@@ -212,6 +215,7 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
 
                         <ActMetaMembers members={data.meta.members} onChange={(e) => updateMetaHandler('members', e)}/>
                         <ActMetaNotes notes={data.meta.notes} onChange={(e) => updateMetaHandler('notes', e)}/>
+                        <ActMetaLanguages languages={data.meta.languages} onChange={(e) => updateMetaHandler('languages', e)}/>
 
                     </CollapsibleContent>
                 </Collapsible>

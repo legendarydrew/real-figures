@@ -43,28 +43,29 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
                 </div>
             )}
 
+            {editable && (
+                <div className="absolute top-2 right-2 toolbar">
+                    <Button variant="secondary" size="icon" className="cursor-pointer"
+                            onClick={editHandler}
+                            title="Edit Act">
+                        <Edit/>
+                    </Button>
+                    <Button variant="destructive" size="icon" className="cursor-pointer"
+                            onClick={deleteHandler}
+                            title="Delete Act">
+                        <Trash/>
+                    </Button>
+                </div>
+            )}
+
             <div
-                className={cn("absolute bottom w-full flex justify-between items-center gap-1", editable ? 'px-3 py-2' : 'p-5')}>
+                className={cn("absolute bottom w-full flex justify-between items-center", editable ? 'px-3 py-2' : 'p-5')}>
                 <span className={textClasses()}>{act.name}</span>
                 {act.has_profile && (
-                    <span className="bg-blue-700 text-white rounded-sm p-1.5 text-sm text-shadow-lg"
+                    <span className="bg-blue-700 text-white rounded-full text-shadow-lg"
                           title="Has a profile.">
-                        <Info className="h-4 w-4"/>
+                        <Info className="h-5 w-5"/>
                     </span>
-                )}
-                {editable && (
-                    <>
-                        <Button variant="secondary" size="icon" className="cursor-pointer"
-                                onClick={editHandler}
-                                title="Edit Act">
-                            <Edit className="h-3 w-3"/>
-                        </Button>
-                        <Button variant="destructive" size="icon" className="cursor-pointer"
-                                onClick={deleteHandler}
-                                title="Delete Act">
-                            <Trash className="h-3 w-3"/>
-                        </Button>
-                    </>
                 )}
             </div>
         </div>

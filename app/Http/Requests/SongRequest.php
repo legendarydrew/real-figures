@@ -25,8 +25,8 @@ class SongRequest extends FormRequest
         return [
             'act_id'   => ['required', 'exists:acts,id'],
             'title'    => ['required', 'string'],
-            'language' => ['required', 'string', 'min:2', 'max:2'],
-            'url' => ['nullable', 'string', 'url'],
+            'language' => ['required', 'string', 'min:2', 'max:2', 'exists:languages,code'],
+            'url'      => ['nullable', 'string', 'url'],
         ];
     }
 }

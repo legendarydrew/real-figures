@@ -83,6 +83,7 @@ export interface Act {
     image?: string;
     meta: {
         is_fan_favourite: boolean;
+        languages: string[];
         members: {
             name: string;
             role: string;
@@ -223,4 +224,9 @@ export interface RoundVoteBreakdown {
         third_choice_votes: number;
         was_manual: boolean;
     }[];
+}
+
+export interface LanguageRow {
+    code: string;
+    name: string;
 }
