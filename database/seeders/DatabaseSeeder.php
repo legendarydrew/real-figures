@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('temp'),
         ]);
 
+        $this->call(LanguagesSeeder::class);
+
         Act::factory(4)->withPicture(50)->withProfile()->withMeta()->withSong()->create();
         Act::factory(4)->withPicture(50)->withProfile()->withSong()->create();
         Act::factory(4)->withPicture(50)->withProfile()->create();
