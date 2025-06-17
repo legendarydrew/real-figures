@@ -40,13 +40,19 @@ return new class extends Migration {
     {
         Schema::table('act_meta_languages', function (Blueprint $table)
         {
+            $table->dropUnique(['act_id', 'language_id']);
+            if ('sqlite' !== config('database.default')) {
+                $table->dropColumn('language_id');
+            }
             $table->string('language', 2)->after('act_id');
-            $table->dropColumn('language_id');
+            $table->unique(['act_id', 'language']);
         });
         Schema::table('songs', function (Blueprint $table)
         {
+            if ('sqlite' !== config('database.default')) {
+                $table->dropColumn('language_id');
+            }
             $table->string('language', 2)->after('title');
-            $table->dropColumn('language_id');
         });
         Schema::dropIfExists('languages');
     }

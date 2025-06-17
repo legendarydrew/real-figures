@@ -92,7 +92,7 @@ Route::prefix('/api')->group(function ()
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
 
-        Route::get('languages', [LanguagesController::class, 'index'])->name('languages');
+        Route   ::get('languages', [LanguagesController::class, 'index'])->name('languages');
 
         Route::put('messages/{id}', [ContactMessagesController::class, 'update'])->name('messages.read');
         Route::put('messages/{id}/respond', [ContactMessagesRespondController::class, 'update'])->name('messages.respond');
