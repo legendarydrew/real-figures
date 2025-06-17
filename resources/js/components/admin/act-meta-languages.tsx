@@ -3,8 +3,9 @@ import { XIcon } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import HeadingSmall from '@/components/heading-small';
 import { LanguageFlag } from '@/components/language-flag';
-import { LanguageCodes } from '@/lib/language-codes';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
+import { useLanguages } from '@/context/language-context';
+import { LanguageRow } from '@/types';
 
 interface ActMetaLanguagesProps {
     languages: string[];
@@ -13,14 +14,15 @@ interface ActMetaLanguagesProps {
 
 export const ActMetaLanguages: React.FC<ActMetaLanguagesProps> = ({ languages, onChange }) => {
 
-    const [rows, setRows] = useState([]);
+    const { languageList, matchingLanguage } = useLanguages();
+    const [rows, setRows] = useState<string[]>([]);
 
     useEffect((): void => {
         setRows(languages ?? []);
     }, [languages]);
 
-    const availableLanguages = useMemo((): string[] => {
-        return Object.keys(LanguageCodes).filter((languageCode) => !rows.includes(languageCode));
+    const availableLanguages: LanguageRow[] = useMemo((): { code: string, name: string }[] => {
+        return languageList.current.filter((languageCode) => !rows.includes(languageCode));
     }, [rows]); /* we're learning! */
 
     const addLanguageHandler = (languageCode: string): void => {
@@ -49,7 +51,7 @@ export const ActMetaLanguages: React.FC<ActMetaLanguagesProps> = ({ languages, o
                             title="Remove"
                             onClick={() => removeRowHandler(languageCode)}>
                         <LanguageFlag languageCode={languageCode}/>
-                        {LanguageCodes[languageCode]}
+                        {matchingLanguage(languageCode)?.name}
                         <XIcon/>
                     </Button>
                 ))}
@@ -58,10 +60,10 @@ export const ActMetaLanguages: React.FC<ActMetaLanguagesProps> = ({ languages, o
                     <Select id="songLanguage" onValueChange={addLanguageHandler}>
                         <SelectTrigger className="w-auto">Add language</SelectTrigger>
                         <SelectContent>
-                            {availableLanguages.map((languageCode) => (
-                                <SelectItem key={languageCode} value={languageCode}>
-                                    <LanguageFlag languageCode={languageCode}/>
-                                    {LanguageCodes[languageCode]}
+                            {availableLanguages.map((language) => (
+                                <SelectItem key={language.code} value={language.code}>
+                                    <LanguageFlag languageCode={language.code}/>
+                                    {matchingLanguage(language.code)?.name}
                                 </SelectItem>
                             ))}
                         </SelectContent>

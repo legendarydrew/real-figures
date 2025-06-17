@@ -225,3 +225,8 @@ export interface RoundVoteBreakdown {
         was_manual: boolean;
     }[];
 }
+
+export interface LanguageRow {
+    code: string;
+    name: string;
+}

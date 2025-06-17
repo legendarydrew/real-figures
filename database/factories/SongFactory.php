@@ -29,6 +29,7 @@ class SongFactory extends Factory
         {
             $language = Language::inRandomOrder()->first();
         }
+        $language = $language ?? Language::factory()->createOne();
 
         return [
             'title'       => config('contest.song.default-title'),

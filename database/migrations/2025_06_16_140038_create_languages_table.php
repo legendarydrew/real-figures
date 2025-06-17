@@ -21,12 +21,12 @@ return new class extends Migration {
         // Update tables that use language codes.
         Schema::table('songs', function (Blueprint $table)
         {
-            $table->foreignId('language_id')->after('title')->constrained('languages')->cascadeOnDelete();
+            $table->foreignId('language_id')->nullable()->after('title')->constrained('languages')->cascadeOnDelete();
             $table->dropColumn('language');
         });
         Schema::table('act_meta_languages', function (Blueprint $table)
         {
-            $table->foreignId('language_id')->after('act_id')->constrained('languages')->cascadeOnDelete();
+            $table->foreignId('language_id')->nullable()->after('act_id')->constrained('languages')->cascadeOnDelete();
             $table->unique(['act_id', 'language_id']);
             $table->dropUnique(['act_id', 'language']);
             $table->dropColumn('language');
@@ -44,7 +44,7 @@ return new class extends Migration {
             if ('sqlite' !== config('database.default')) {
                 $table->dropColumn('language_id');
             }
-            $table->string('language', 2)->after('act_id');
+            $table->string('language', 2)->nullable()->after('act_id');
             $table->unique(['act_id', 'language']);
         });
         Schema::table('songs', function (Blueprint $table)
@@ -52,7 +52,7 @@ return new class extends Migration {
             if ('sqlite' !== config('database.default')) {
                 $table->dropColumn('language_id');
             }
-            $table->string('language', 2)->after('title');
+            $table->string('language', 2)->nullable()->after('title');
         });
         Schema::dropIfExists('languages');
     }

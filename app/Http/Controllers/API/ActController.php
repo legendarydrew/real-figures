@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ActRequest;
 use App\Models\Act;
+use App\Models\ActMetaLanguage;
+use App\Models\Language;
 use App\Transformers\ActTransformer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -97,9 +99,16 @@ class ActController extends Controller
         }
 
         // Languages are passed as a list of language codes.
-//        if (isset($data['languages'])) {
-//            $language_ids =
-//        }
+        if (isset($data['meta']['languages'])) {
+            $language_ids = Language::whereIn('code', $data['meta']['languages'])->pluck('id')->toArray();
+            foreach ($language_ids as $language_id) {
+                ActMetaLanguage::updateOrCreate([
+                    'act_id' => $act->id,
+                    'language_id' => $language_id
+                ]);
+            }
+            $act->languages()->whereNotIn('language_id', $language_ids)->delete();
+        }
     }
 
     protected function updateActMetaRelation(Act $act, string $relation, array $data): void
