@@ -1,9 +1,9 @@
 import { Head } from '@inertiajs/react';
 import { FrontContent } from '@/components/front/front-content';
 import FrontLayout from '@/layouts/front-layout';
-import { Advert } from '@/components/advert';
+import { Advert } from '@/components/mode/advert';
 import AboutBanner from '@/components/front/about-banner';
-import { RoundBreakdown } from '@/components/round-breakdown';
+import { RoundBreakdown } from '@/components/mode/round-breakdown';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';

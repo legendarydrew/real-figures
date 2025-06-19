@@ -17,7 +17,7 @@ import {
     Star
 } from 'lucide-react';
 import FrontLayout from '@/layouts/front-layout';
-import { Advert } from '@/components/advert';
+import { Advert } from '@/components/mode/advert';
 import { useAnalytics } from '@/hooks/use-analytics';
 
 const RulesPage: React.FC = () => {

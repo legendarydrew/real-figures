@@ -3,9 +3,9 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { RoundVoteBreakdown, Stage } from '@/types';
 import axios from 'axios';
 import { LoaderCircleIcon } from 'lucide-react';
-import { Alert } from '@/components/alert';
+import { Alert } from '@/components/mode/alert';
 import HeadingSmall from '@/components/heading-small';
-import { SongBanner } from '@/components/song-banner';
+import { SongBanner } from '@/components/mode/song-banner';
 
 interface StageVotesDialogProps {
     // Dialog properties.

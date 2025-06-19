@@ -1,4 +1,4 @@
-import { SongBanner } from '@/components/song-banner';
+import { SongBanner } from '@/components/mode/song-banner';
 import { RoundVoteBreakdown } from '@/types';
 import { Badge } from '@/components/ui/badge';
 

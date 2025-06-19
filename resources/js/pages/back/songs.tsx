@@ -5,13 +5,13 @@ import React, { RefObject, useMemo, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp, Edit, Music, Trash } from 'lucide-react';
 import { PaginatedResponse, Song } from '@/types';
 import { SongDialog } from '@/components/admin/song-dialog';
-import { LanguageFlag } from '@/components/language-flag';
+import { LanguageFlag } from '@/components/mode/language-flag';
 import { Pagination } from '@/components/admin/pagination';
 import { Icon } from '@/components/icon';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
-import { Toaster } from '@/components/ui/toast-message';
-import { Nothing } from '@/components/nothing';
+import { Toaster } from '@/components/mode/toast-message';
+import { Nothing } from '@/components/mode/nothing';
 
 interface TableSort {
     column: string;

@@ -1,5 +1,5 @@
 import { Round } from '@/types';
-import { ActImage } from '@/components/ui/act-image';
+import { ActImage } from '@/components/mode/act-image';
 import React from 'react';
 
 interface ManualVoteProps {

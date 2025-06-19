@@ -8,11 +8,11 @@ import { StageItem } from '@/components/admin/stage-item';
 import { RoundAllocateDialog } from '@/components/admin/round-allocate-dialog';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
-import { Toaster } from '@/components/ui/toast-message';
+import { Toaster } from '@/components/mode/toast-message';
 import { StageWinnersDialog } from '@/components/admin/stage-winners-dialog';
 import { StageResultsDialog } from '@/components/admin/stage-results-dialog';
 import { StageVotesDialog } from '@/components/admin/stage-votes-dialog';
-import { Nothing } from '@/components/nothing';
+import { Nothing } from '@/components/mode/nothing';
 
 export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], songs }>) {
 

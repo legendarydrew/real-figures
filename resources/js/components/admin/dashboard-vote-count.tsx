@@ -1,7 +1,7 @@
 import { VoteIcon } from 'lucide-react';
 import { Link, usePage } from '@inertiajs/react';
 import { cn } from '@/lib/utils';
-import { StageStatusTag } from '@/components/ui/stage-status-tag';
+import { StageStatusTag } from '@/components/mode/stage-status-tag';
 
 // https://www.geeksforgeeks.org/create-a-line-chart-using-recharts-in-reactjs/
 

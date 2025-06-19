@@ -1,6 +1,6 @@
 import { Song } from '@/types';
-import { ActImage } from '@/components/ui/act-image';
-import { LanguageFlag } from '@/components/language-flag';
+import { ActImage } from '@/components/mode/act-image';
+import { LanguageFlag } from '@/components/mode/language-flag';
 import { cn } from '@/lib/utils';
 
 interface SongBannerProps {

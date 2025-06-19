@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Award, Boxes, ChevronDown, Edit, FileBadge, Trash, Vote } from 'lucide-react';
 import React from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { StageStatusTag } from '@/components/ui/stage-status-tag';
+import { StageStatusTag } from '@/components/mode/stage-status-tag';
 import { StageRoundItem } from '@/components/admin/stage-round-item';
 import { router } from '@inertiajs/react';
 import toast from 'react-hot-toast';

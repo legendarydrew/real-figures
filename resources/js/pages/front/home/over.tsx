@@ -1,7 +1,7 @@
-import { Advert } from '@/components/advert';
+import { Advert } from '@/components/mode/advert';
 import AboutBanner from '@/components/front/about-banner';
-import { SongBanner } from '@/components/song-banner';
-import { ActImage } from '@/components/ui/act-image';
+import { SongBanner } from '@/components/mode/song-banner';
+import { ActImage } from '@/components/mode/act-image';
 import { Button } from '@/components/ui/button';
 import FrontLayout from '@/layouts/front-layout';
 import { Head, Link, usePage } from '@inertiajs/react';

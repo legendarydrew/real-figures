@@ -6,10 +6,10 @@ import { Input } from '@/components/ui/input';
 import { useForm } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Song } from '@/types';
-import { Toaster } from '@/components/ui/toast-message';
+import { Toaster } from '@/components/mode/toast-message';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
-import { LanguageFlag } from '@/components/language-flag';
-import { LoadingButton } from '@/components/ui/loading-button';
+import { LanguageFlag } from '@/components/mode/language-flag';
+import { LoadingButton } from '@/components/mode/loading-button';
 import { useLanguages } from '@/context/language-context';
 
 interface SongDialogProps {

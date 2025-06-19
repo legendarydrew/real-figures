@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Alert } from '@/components/alert';
+import { Alert } from '@/components/mode/alert';
 
 export const FlashMessage: React.FC<{ message: string }> = ({ message }) => {
 

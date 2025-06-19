@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Stage, StageWinner } from '@/types';
-import { ActImage } from '@/components/ui/act-image';
+import { ActImage } from '@/components/mode/act-image';
 import toast from 'react-hot-toast';
 
 interface StageResultsDialogProps {

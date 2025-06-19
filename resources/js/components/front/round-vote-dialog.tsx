@@ -2,13 +2,13 @@ import { Round, Song } from '@/types';
 import { useDialog } from '@/context/dialog-context';
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from '@/components/ui/dialog';
-import { Alert } from '@/components/alert';
-import { LoadingButton } from '@/components/ui/loading-button';
+import { Alert } from '@/components/mode/alert';
+import { LoadingButton } from '@/components/mode/loading-button';
 import { VoteIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { useAnalytics } from '@/hooks/use-analytics';
-import { SongBanner } from '@/components/song-banner';
+import { SongBanner } from '@/components/mode/song-banner';
 
 interface RoundVoteDialogProps {
     round: Round;

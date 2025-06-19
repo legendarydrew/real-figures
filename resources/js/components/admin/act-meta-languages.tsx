@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { XIcon } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import HeadingSmall from '@/components/heading-small';
-import { LanguageFlag } from '@/components/language-flag';
+import { LanguageFlag } from '@/components/mode/language-flag';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import { useLanguages } from '@/context/language-context';
 import { LanguageRow } from '@/types';

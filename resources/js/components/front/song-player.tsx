@@ -8,7 +8,7 @@
  * the SongPlayerProvider (as in, functionality is PROVIDED to the children).
  * https://ankurraina.medium.com/reactjs-pass-functions-through-context-typeerror-cannot-destructure-property-of-450a8edd55b6
  */
-import { SongBanner } from '@/components/song-banner';
+import { SongBanner } from '@/components/mode/song-banner';
 import { StarIcon, XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSongPlayer } from '@/context/song-player-context';

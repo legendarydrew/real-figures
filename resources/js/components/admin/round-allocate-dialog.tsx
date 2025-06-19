@@ -9,7 +9,7 @@ import { Song, Stage } from '@/types';
 import toast from 'react-hot-toast';
 import { RangeInput } from '@/components/ui/range-input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { LoadingButton } from '@/components/ui/loading-button';
+import { LoadingButton } from '@/components/mode/loading-button';
 
 interface RoundAllocateDialogProps {
     // Dialog properties.

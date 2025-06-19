@@ -4,7 +4,7 @@ import { StarIcon } from 'lucide-react';
 import { GOLDEN_BUZZER_DIALOG_NAME } from '@/components/front/golden-buzzer-dialog';
 import { useDialog } from '@/context/dialog-context';
 import { useSongPlayer } from '@/context/song-player-context';
-import { SongBanner } from '@/components/song-banner';
+import { SongBanner } from '@/components/mode/song-banner';
 
 interface PreviousRoundProps {
     round: Round;

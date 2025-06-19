@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ContactMessageRespond } from '@/components/admin/contact-message-respond';
-import { Nothing } from '@/components/nothing';
+import { Nothing } from '@/components/mode/nothing';
 import axios from 'axios';
 import { cn } from '@/lib/utils';
 

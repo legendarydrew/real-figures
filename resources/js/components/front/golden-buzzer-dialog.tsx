@@ -4,15 +4,15 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { usePage } from '@inertiajs/react';
-import { PaypalButton } from '@/components/paypal-button';
+import { PaypalButton } from '@/components/mode/paypal-button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
-import { Alert } from '@/components/alert';
+import { Alert } from '@/components/mode/alert';
 import { useDialog } from '@/context/dialog-context';
 import { useAnalytics } from '@/hooks/use-analytics';
 import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion';
 import { Round, Song } from '@/types';
-import { SongBanner } from '@/components/song-banner';
+import { SongBanner } from '@/components/mode/song-banner';
 
 export const GOLDEN_BUZZER_DIALOG_NAME = 'golden-buzzer';
 

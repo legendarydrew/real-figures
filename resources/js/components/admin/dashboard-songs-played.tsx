@@ -1,4 +1,4 @@
-import { Nothing } from '@/components/nothing';
+import { Nothing } from '@/components/mode/nothing';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 
 type DashboardSongsPlayedData = {

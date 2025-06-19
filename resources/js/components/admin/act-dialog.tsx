@@ -6,9 +6,9 @@ import { Input } from '@/components/ui/input';
 import { router, useForm, usePage } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Act } from '@/types';
-import { Toaster } from '@/components/ui/toast-message';
-import { MarkdownEditor } from '@/components/ui/markdown-editor';
-import { LoadingButton } from '@/components/ui/loading-button';
+import { Toaster } from '@/components/mode/toast-message';
+import { MarkdownEditor } from '@/components/mode/markdown-editor';
+import { LoadingButton } from '@/components/mode/loading-button';
 
 interface ActDialogProps {
     open: boolean;

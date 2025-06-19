@@ -1,6 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import type { SharedData } from '@/types';
-import CatawolTextLogo from '@/components/catawol-text-logo';
+import CatawolTextLogo from '@/components/mode/catawol-text-logo';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { DONATE_DIALOG_NAME } from '@/components/front/donate-dialog';

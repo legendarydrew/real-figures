@@ -1,4 +1,4 @@
-import { Nothing } from '@/components/nothing';
+import { Nothing } from '@/components/mode/nothing';
 import { Donation } from '@/types';
 import { cn } from '@/lib/utils';
 import { Link } from '@inertiajs/react';

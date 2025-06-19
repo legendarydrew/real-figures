@@ -1,7 +1,7 @@
 import { type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
-import CatawolIconLogo from '@/components/catawol-icon-logo';
+import CatawolIconLogo from '@/components/mode/catawol-icon-logo';
 
 interface AuthLayoutProps {
     title?: string;

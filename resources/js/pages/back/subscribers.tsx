@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head, router, WhenVisible } from '@inertiajs/react';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Nothing } from '@/components/nothing';
+import { Nothing } from '@/components/mode/nothing';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { CheckSquare, ChevronDown, ChevronUp, MailIcon, Square } from 'lucide-react';

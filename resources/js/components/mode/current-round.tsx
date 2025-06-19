@@ -1,6 +1,6 @@
-import { ActImage } from '@/components/ui/act-image';
+import { ActImage } from '@/components/mode/act-image';
 import { Round, Song } from '@/types';
-import { LanguageFlag } from '@/components/language-flag';
+import { LanguageFlag } from '@/components/mode/language-flag';
 import { ROUND_VOTE_DIALOG_NAME, RoundVoteDialog } from '@/components/front/round-vote-dialog';
 import { Button } from '@/components/ui/button';
 import { useDialog } from '@/context/dialog-context';
