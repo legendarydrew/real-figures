@@ -7,7 +7,12 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import axios from 'axios';
 import { LanguageRow } from '@/types';
 
-const LanguageContext = createContext();
+interface LanguageContextValue {
+    languageList: React.RefObject<LanguageRow[]>;
+    matchingLanguage: (code: string) => LanguageRow | undefined;
+}
+
+const LanguageContext = createContext<LanguageContextValue|undefined>(undefined);
 
 export function LanguageProvider({ children }) {
 
@@ -20,7 +25,7 @@ export function LanguageProvider({ children }) {
     // The result will always be the same, hence the use of useCallback().
     const matchingLanguage = useCallback((code: string): LanguageRow | undefined => languageList.current.find((l) => l.code === code), [languageList]);
 
-    const providerValues = useMemo(() => ({ languageList, matchingLanguage }), [languageList, matchingLanguage]);
+    const providerValues: LanguageContextValue = useMemo(() => ({ languageList, matchingLanguage }), [languageList, matchingLanguage]);
 
     useEffect(() => {
         // Fetch the list of languages from the API endpoint.
@@ -45,5 +50,10 @@ export function LanguageProvider({ children }) {
 
 export function useLanguages() {
     // A custom hook for accessing the context.
-    return useContext(LanguageContext);
+    const context = useContext(LanguageContext);
+    if (!context) {
+        throw new Error("useLanguages must be used within a LanguageProvider.");
+        // Thank you ChatGPT!
+    }
+    return context;
 }

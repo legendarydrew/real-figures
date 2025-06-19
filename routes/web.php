@@ -76,6 +76,7 @@ Route::prefix('/api')->group(function ()
     // Routes accessible without authentication.
     Route::post('donation', [DonationController::class, 'store']);
     Route::post('golden-buzzer', [BuzzerController::class, 'store']);
+    Route::get('languages', [LanguagesController::class, 'index'])->name('languages');
     Route::post('messages', [ContactMessagesController::class, 'store']);
     Route::put('songs/{id}/play', [SongPlayController::class, 'update'])->name('play');
     Route::post('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'store'])->name('subscribe');
@@ -91,8 +92,6 @@ Route::prefix('/api')->group(function ()
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
-
-        Route   ::get('languages', [LanguagesController::class, 'index'])->name('languages');
 
         Route::put('messages/{id}', [ContactMessagesController::class, 'update'])->name('messages.read');
         Route::put('messages/{id}/respond', [ContactMessagesRespondController::class, 'update'])->name('messages.respond');
