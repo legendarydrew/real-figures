@@ -243,4 +243,11 @@ has the theme configured here.)
     .hover-bg {
         @apply hover:bg-indigo-200/20;
     }
+
+    .outlined-text {
+        @apply text-shadow-md;
+
+        /* multiple text-shadow method - https://stackoverflow.com/a/4919231/4073160 */
+        text-shadow: -1px -1px 0 var(--foreground), 1px -1px 0 var(--foreground), -1px 1px 0 var(--foreground), 1px 1px 0 var(--foreground);
+    }
 }

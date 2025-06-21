@@ -173,8 +173,11 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
                                 <p className="mt-1 text-xs" id="file_input_help">JPEG or PNG recommended.</p>
                             </div>
                             {data.image && (
-                                <div className="bg-gray-200 w-[12em] h-[10em] rounded-sm bg-cover"
-                                     style={{ backgroundImage: `url(${data.image})` }}/>
+                                <div
+                                    className="w-[12em] h-[10em] rounded-sm overflow-hidden bg-linear-to-bl from-indigo-300 to-indigo-700">
+                                    <div className="w-full h-full rounded-sm bg-cover"
+                                         style={{ backgroundImage: `url(${data.image})` }}/>
+                                </div>
                             )}
                         </div>
                         <InputError className="mt-2" message={errors.image}/>

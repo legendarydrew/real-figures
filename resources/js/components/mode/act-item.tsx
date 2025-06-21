@@ -26,7 +26,7 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
     }
 
     const textClasses = (): string => {
-        return `display-text flex-grow text-lg leading-none text-left ${act.image ? 'text-white text-shadow-md' : ''} ${editable && 'truncate'}`;
+        return `display-text flex-grow text-lg leading-none text-left ${act.image ? 'text-white outlined-text' : ''} ${editable && 'truncate'}`;
     }
 
     return (
@@ -35,8 +35,9 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
             {...props}>
 
             {act.image ? (
-                <div className="w-full h-full bg-cover z-0"
-                     style={{ backgroundImage: `url("${act.image}")` }}/>
+                <div className="w-full h-full bg-linear-to-bl from-indigo-300 to-indigo-700 z-0">
+                    <div className="bg-cover w-full h-full" style={{ backgroundImage: `url(${act.image}`}}></div>
+                </div>
             ) : (
                 <div className="w-full h-full z-0 flex items-center justify-center text-gray-500 select-none">
                     <PersonStanding className="h-1/2 w-1/2"/>
@@ -59,7 +60,7 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
             )}
 
             <div
-                className={cn("absolute bottom w-full flex justify-between items-center", editable ? 'px-3 py-2' : 'p-5')}>
+                className={cn("absolute bottom w-full flex justify-between items-center px-3 py-2")}>
                 <span className={textClasses()}>{act.name}</span>
                 {act.has_profile && (
                     <span className="bg-blue-700 text-white rounded-full text-shadow-lg"
