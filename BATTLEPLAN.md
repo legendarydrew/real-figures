@@ -25,8 +25,8 @@
   - [ ] page descriptions
   - [ ] card images
   - [ ] other meta tags.
-- [ ] Update the theme to use the CATAWOL Records branding guidelines.
-- [ ] Standardised button variants.
+- [x] Update the theme to use the CATAWOL Records branding guidelines.
+- [x] Standardised button variants.
 - [ ] Add a News section.
     - [ ] Generate News posts with the help of OpenAI/ChatGPT. ($$)
     - [ ] optionally generate a News post based on a Stage or Round.
@@ -35,5 +35,5 @@
       - [x] Act's members
       - [x] Notes about the Act (for aiding ChatGPT)
       - [ ] Act traits (personality)
-      - [ ] Act's (spoken) languages.
+      - [x] Act's (spoken) languages.
 - [x] Display Stage rankings once a Stage is over.
