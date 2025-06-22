@@ -13,6 +13,7 @@ const IntroPage: React.FC = () => {
         <>
             <Head>
                 {/* Any tags to go in the <head> section to here. */}
+                <meta name="description" content="32 Acts. 1 anthem. Vote for your favourite AI-generated song, in the world's first ever LEGO-related anti-bullying campaign."/>
             </Head>
 
             <ContestHeader>
