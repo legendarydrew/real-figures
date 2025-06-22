@@ -57,7 +57,7 @@ return new class extends Migration {
 
         Schema::table('acts', function (Blueprint $table)
         {
-            $table->boolean('is_fan_favourite')->default(false)->after('description');
+            $table->boolean('is_fan_favourite')->default(false)->after('slug');
         });
     }
 
