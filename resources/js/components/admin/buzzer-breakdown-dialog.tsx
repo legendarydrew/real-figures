@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { GoldenBuzzerBreakdown } from '@/types';
-import { SongBanner } from '@/components/song-banner';
+import { SongBanner } from '@/components/mode/song-banner';
 
 interface BuzzerBreakdownDialogProps {
     open: boolean;

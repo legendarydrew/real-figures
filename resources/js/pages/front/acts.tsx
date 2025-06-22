@@ -3,12 +3,12 @@ import { FrontContent } from '@/components/front/front-content';
 import Heading from '@/components/heading';
 import FrontLayout from '@/layouts/front-layout';
 import { Act } from '@/types';
-import { ActItem } from '@/components/act-item';
+import { ActItem } from '@/components/mode/act-item';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { useEffect, useState } from 'react';
-import { ActImage } from '@/components/ui/act-image';
+import { ActImage } from '@/components/mode/act-image';
 import { useAnalytics } from '@/hooks/use-analytics';
-import { Advert } from '@/components/advert';
+import { Advert } from '@/components/mode/advert';
 
 interface ActsPageProps {
     acts?: Act[];

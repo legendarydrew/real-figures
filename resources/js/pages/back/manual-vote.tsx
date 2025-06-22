@@ -3,7 +3,7 @@ import { Head, router, useForm } from '@inertiajs/react';
 import React from 'react';
 import { ManualVoteRoundChoice, Round } from '@/types';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import { LoadingButton } from '@/components/ui/loading-button';
+import { LoadingButton } from '@/components/mode/loading-button';
 import { Button } from '@/components/ui/button';
 import { CircleAlert } from 'lucide-react';
 import { ManualVoteItem } from '@/components/admin/manual-vote-item';

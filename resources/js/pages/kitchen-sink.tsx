@@ -1,11 +1,11 @@
-import { PaypalButton } from '@/components/paypal-button';
+import { PaypalButton } from '@/components/mode/paypal-button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Head } from '@inertiajs/react';
 import { ChangeEvent, useState } from 'react';
-import { LoadingButton } from '@/components/ui/loading-button';
-import { FlashMessage } from '@/components/flash-message';
-import { Alert } from '@/components/alert';
+import { LoadingButton } from '@/components/mode/loading-button';
+import { FlashMessage } from '@/components/mode/flash-message';
+import { Alert } from '@/components/mode/alert';
 
 export default function KitchenSinkPage() {
     const [donationAmount, setDonationAmount] = useState(10);

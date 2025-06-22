@@ -1,6 +1,6 @@
-import { ActImage } from '@/components/ui/act-image';
+import { ActImage } from '@/components/mode/act-image';
 import { Round, Song } from '@/types';
-import { LanguageFlag } from '@/components/language-flag';
+import { LanguageFlag } from '@/components/mode/language-flag';
 import { ROUND_VOTE_DIALOG_NAME, RoundVoteDialog } from '@/components/front/round-vote-dialog';
 import { Button } from '@/components/ui/button';
 import { useDialog } from '@/context/dialog-context';
@@ -50,7 +50,7 @@ export const CurrentRound: React.FC<CurrentRoundProps> = ({ round }) => {
                                     </div>
                                 </div>
                             </button>
-                            <Button className="w-full rounded-t-none uppercase" variant="gold" size="lg" type="button"
+                            <Button variant="gold" className="w-full rounded-t-none uppercase" size="lg" type="button"
                                     onClick={() => beginBuzzerHandler(song)}>
                                 <StarIcon/> Golden Buzzer <StarIcon/>
                             </Button>

@@ -5,8 +5,6 @@ namespace Tests\Feature\RoundResults;
 use App\Facades\RoundResultsFacade;
 use App\Models\Round;
 use App\Models\RoundOutcome;
-use App\Models\RoundSongs;
-use App\Models\Song;
 use App\Models\Stage;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -24,23 +22,12 @@ class CalculateTest extends TestCase
     {
         parent::setUp();
 
-        $songs          = Song::factory($this->number_of_songs)->withAct()->create();
-        $this->song_ids = $songs->pluck('id')->toArray();
-
-        $this->round = Round::factory()
-                            ->for(Stage::factory())
-                            ->create([
-                                'starts_at' => now()->subDay(),
-                                'ends_at'   => now()->subDay(),
-                            ]);
-        foreach ($this->song_ids as $song_id)
-        {
-            RoundSongs::create([
-                'round_id' => $this->round->id,
-                'song_id'  => $song_id,
-            ]);
-        }
-
+        $this->round    = Round::factory()
+                               ->for(Stage::factory())
+                               ->withSongs($this->number_of_songs)
+                               ->ended()
+                               ->create();
+        $this->song_ids = $this->round->songs->pluck('id')->toArray();
     }
 
     public function test_no_outcomes()
@@ -60,6 +47,13 @@ class CalculateTest extends TestCase
                         'third_votes'  => new Sequence(...range(1, $this->number_of_songs)),
                     ]);
 
+        config()->set('contest.judgement.allow-ties', true);
+        $results = RoundResultsFacade::calculate($this->round);
+
+        self::assertNotNull($results);
+        self::assertCount(1, $results['winners']);
+
+        config()->set('contest.judgement.allow-ties', false);
         $results = RoundResultsFacade::calculate($this->round);
 
         self::assertNotNull($results);
@@ -83,10 +77,17 @@ class CalculateTest extends TestCase
                         'song_id' => new Sequence(...array_slice($this->song_ids, $tied_winner_count)),
                     ]);
 
+        config()->set('contest.judgement.allow-ties', true);
         $results = RoundResultsFacade::calculate($this->round);
 
         self::assertNotNull($results);
         self::assertCount($tied_winner_count, $results['winners']);
+
+        config()->set('contest.judgement.allow-ties', false);
+        $results = RoundResultsFacade::calculate($this->round);
+
+        self::assertNotNull($results);
+        self::assertCount(1, $results['winners']);
     }
 
     public function test_no_runners_up()

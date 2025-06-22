@@ -1,8 +1,8 @@
 import { Round } from '@/types';
 import React from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { LanguageFlag } from '@/components/language-flag';
-import { ActImage } from '@/components/ui/act-image';
+import { LanguageFlag } from '@/components/mode/language-flag';
+import { ActImage } from '@/components/mode/act-image';
 
 interface StageItemProps {
     round: Round;

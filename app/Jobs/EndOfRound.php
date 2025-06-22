@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Facades\ContestFacade;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -42,29 +43,6 @@ class EndOfRound implements ShouldQueue
             return;
         }
 
-        // Check that the Round has Votes for the round. If it has, create RoundOutcomes.
-        // Bear in mind that it's possible for a Song not to have received any votes!
-        if ($this->round->votes()->count())
-        {
-            DB::transaction(function ()
-            {
-                $votes          = $this->round->votes;
-                $first_choices  = array_count_values($votes->pluck('first_choice_id')->toArray());
-                $second_choices = array_count_values($votes->pluck('second_choice_id')->toArray());
-                $third_choices  = array_count_values($votes->pluck('third_choice_id')->toArray());
-
-                foreach ($this->round->songs as $song)
-                {
-                    RoundOutcome::factory()
-                                ->for($this->round)
-                                ->for($song)
-                                ->create([
-                                    'first_votes'  => $first_choices[$song->id] ?? 0,
-                                    'second_votes' => $second_choices[$song->id] ?? 0,
-                                    'third_votes'  => $third_choices[$song->id] ?? 0,
-                                ]);
-                }
-            });
-        }
+        ContestFacade::buildRoundOutcome($this->round);
     }
 }

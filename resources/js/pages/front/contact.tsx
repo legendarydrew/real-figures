@@ -6,13 +6,13 @@ import InputError from '@/components/input-error';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { LoadingButton } from '@/components/ui/loading-button';
-import { Advert } from '@/components/advert';
+import { LoadingButton } from '@/components/mode/loading-button';
+import { Advert } from '@/components/mode/advert';
 import { ChangeEvent } from 'react';
-import { TurnstileWidget } from '@/components/turnstile-widget';
+import { TurnstileWidget } from '@/components/mode/turnstile-widget';
 import { useAnalytics } from '@/hooks/use-analytics';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Alert } from '@/components/alert';
+import { Alert } from '@/components/mode/alert';
 
 interface ContactPageProps {
     success: boolean;

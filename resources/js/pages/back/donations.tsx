@@ -3,7 +3,7 @@ import { Head, WhenVisible } from '@inertiajs/react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Donation } from '@/types';
 import React from 'react';
-import { Nothing } from '@/components/nothing';
+import { Nothing } from '@/components/mode/nothing';
 import { cn } from '@/lib/utils';
 import { NotepadText } from 'lucide-react';
 

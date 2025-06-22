@@ -1,6 +1,6 @@
 import Heading from '@/components/heading';
 import FrontLayout from '@/layouts/front-layout';
-import { Advert } from '@/components/advert';
+import { Advert } from '@/components/mode/advert';
 
 export default function ErrorPage({ status }) {
     const title = {

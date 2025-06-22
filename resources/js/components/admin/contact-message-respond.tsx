@@ -1,5 +1,5 @@
 import { ContactMessage } from '@/types';
-import { LoadingButton } from '@/components/ui/loading-button';
+import { LoadingButton } from '@/components/mode/loading-button';
 import { Textarea } from '@/components/ui/textarea';
 import { ChangeEvent, useState } from 'react';
 import { Button } from '@/components/ui/button';

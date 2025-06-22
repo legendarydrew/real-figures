@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
-import { MarkdownEditor } from '@/components/ui/markdown-editor';
-import { LoadingButton } from '@/components/ui/loading-button';
+import { MarkdownEditor } from '@/components/mode/markdown-editor';
+import { LoadingButton } from '@/components/mode/loading-button';
 import { useDialog } from '@/context/dialog-context';
 import { cn } from '@/lib/utils';
 import axios from 'axios';
-import { Toaster } from '@/components/ui/toast-message';
+import { Toaster } from '@/components/mode/toast-message';
 
 type SubscriberPostForm = {
     title: string;

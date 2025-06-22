@@ -1,6 +1,6 @@
 import { Song } from '@/types';
-import { ActImage } from '@/components/ui/act-image';
-import { LanguageFlag } from '@/components/language-flag';
+import { ActImage } from '@/components/mode/act-image';
+import { LanguageFlag } from '@/components/mode/language-flag';
 import { cn } from '@/lib/utils';
 
 interface SongBannerProps {
@@ -12,7 +12,7 @@ export const SongBanner: React.FC<SongBannerProps> = ({ song, className, ...prop
 
     return (
         <div className={cn("flex items-center gap-2", className)} {...props}>
-            <div className="bg-secondary/15 rounded-md leading-none">
+            <div className="bg-secondary/15 rounded-md leading-none overflow-hidden">
                 <ActImage act={song.act}/>
             </div>
             <div className="px-3 py-1 flex-grow text-left display-text">

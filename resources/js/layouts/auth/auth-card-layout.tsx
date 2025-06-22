@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
-import CatawolIconLogo from '@/components/catawol-icon-logo';
+import CatawolIconLogo from '@/components/mode/catawol-icon-logo';
 
 export default function AuthCardLayout({ children, title, description }: PropsWithChildren<{
     name?: string;

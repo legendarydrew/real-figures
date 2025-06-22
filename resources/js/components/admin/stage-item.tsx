@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Award, Boxes, ChevronDown, Edit, FileBadge, Trash, Vote } from 'lucide-react';
 import React from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { StageStatusTag } from '@/components/ui/stage-status-tag';
+import { StageStatusTag } from '@/components/mode/stage-status-tag';
 import { StageRoundItem } from '@/components/admin/stage-round-item';
 import { router } from '@inertiajs/react';
 import toast from 'react-hot-toast';
@@ -15,6 +15,7 @@ interface StageItemProps {
     onDelete?: (stage: Stage) => void;
     onEdit?: (stage: Stage) => void;
     onShowResults?: (stage: Stage) => void;
+    onShowVotes?: (stage: Stage) => void;
 }
 
 export const StageItem: React.FC<StageItemProps> = ({
@@ -23,7 +24,8 @@ export const StageItem: React.FC<StageItemProps> = ({
                                                         onChooseWinner,
                                                         onEdit,
                                                         onDelete,
-                                                        onShowResults
+                                                        onShowResults,
+                                                        onShowVotes
                                                     }) => {
 
     const allocateHandler = (): void => {
@@ -64,6 +66,12 @@ export const StageItem: React.FC<StageItemProps> = ({
         }
     }
 
+    const showVotesHandler = (): void => {
+        if (onShowVotes) {
+            onShowVotes(stage);
+        }
+    }
+
 
     return (
         <Collapsible className="mb-2">
@@ -84,6 +92,11 @@ export const StageItem: React.FC<StageItemProps> = ({
                         <Button type="button" variant="default" className="p-3 cursor-pointer"
                                 onClick={chooseWinnerHandler} title="Choose Winning Songs">
                             <FileBadge/>
+                        </Button>}
+                    {(stage.status?.has_ended && !stage.status.manual_vote) &&
+                        <Button type="button" variant="default" className="p-3 cursor-pointer"
+                                onClick={showVotesHandler} title="Vote Breakdown">
+                            <Vote/>
                         </Button>}
                     {stage.winners.length ? (
                         <Button type="button" variant="default" className="p-3 cursor-pointer"

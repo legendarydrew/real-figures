@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ActRequest;
 use App\Models\Act;
-use App\Models\ActPicture;
-use App\Models\ActProfile;
+use App\Models\ActMetaLanguage;
+use App\Models\Language;
 use App\Transformers\ActTransformer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -27,28 +27,23 @@ class ActController extends Controller
     public function store(ActRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        DB::transaction(function () use ($data)
+        $act  = DB::transaction(function () use ($data)
         {
             $act = Act::factory()->create([
-                'name' => $data['name']
+                'name'             => $data['name'],
+                'is_fan_favourite' => $data['is_fan_favourite'] ?? false,
             ]);
-            if (isset($data['profile']))
-            {
-                ActProfile::factory()->for($act)->create($data['profile']);
-            }
-            if (!empty($data['image']))
-            {
-                ActPicture::updateOrCreate(['act_id' => $act->id], [
-                    'image' => $data['image']
-                ]);
-            }
-            else
-            {
-                $act->picture()->delete();
-            }
+            $this->updateActImage($act, $data);
+            $this->updateActProfile($act, $data);
+            $this->updateActMeta($act, $data);
+
+            return $act;
         });
 
-        return to_route('admin.acts');
+        if (isset($act))
+        {
+            return to_route('admin.acts.edit', ['id' => $act->id]);
+        }
     }
 
     public function update(ActRequest $request, int $act_id): RedirectResponse
@@ -59,28 +54,82 @@ class ActController extends Controller
         DB::transaction(function () use ($act, $data)
         {
             $act->update([
-                'name' => $data['name']
+                'name'             => $data['name'],
+                'is_fan_favourite' => $data['is_fan_favourite'] ?? false,
             ]);
-            if (isset($data['profile']))
-            {
-                $act->profile()->updateOrCreate(['act_id' => $act->id], $data['profile']);
-                // https://stackoverflow.com/a/62489173/4073160
-            }
-            else
-            {
-                $act->profile()->delete();
-            }
-            if (!empty($data['image']))
-            {
-                $act->picture()->updateOrCreate(['act_id' => $act->id], ['image' => $data['image']]);
-            }
-            else
-            {
-                $act->picture()->delete();
-            }
+            $this->updateActImage($act, $data);
+            $this->updateActProfile($act, $data);
+            $this->updateActMeta($act, $data);
         });
 
-        return to_route('admin.acts');
+        return to_route('admin.acts.edit', ['id' => $act->id]);
+    }
+
+    protected function updateActImage(Act $act, array $data): void
+    {
+        if (!empty($data['image']))
+        {
+            $act->picture()->updateOrCreate(['act_id' => $act->id], ['image' => $data['image']]);
+        }
+        else
+        {
+            $act->picture()->delete();
+        }
+    }
+
+    protected function updateActProfile(Act $act, array $data): void
+    {
+        if (isset($data['profile']))
+        {
+            $act->profile()->updateOrCreate(['act_id' => $act->id], $data['profile']);
+            // https://stackoverflow.com/a/62489173/4073160
+        }
+        else
+        {
+            $act->profile()->delete();
+        }
+    }
+
+    protected function updateActMeta(Act $act, array $data): void
+    {
+        $meta = ['genres', 'members', 'notes', 'traits'];
+        foreach ($meta as $meta_column)
+        {
+            $this->updateActMetaRelation($act, $meta_column, $data);
+        }
+
+        // Languages are passed as a list of language codes.
+        if (isset($data['meta']['languages'])) {
+            $language_ids = Language::whereIn('code', $data['meta']['languages'])->pluck('id')->toArray();
+            foreach ($language_ids as $language_id) {
+                ActMetaLanguage::updateOrCreate([
+                    'act_id' => $act->id,
+                    'language_id' => $language_id
+                ]);
+            }
+            $act->languages()->whereNotIn('language_id', $language_ids)->delete();
+        }
+    }
+
+    protected function updateActMetaRelation(Act $act, string $relation, array $data): void
+    {
+        if (isset($data['meta'][$relation]))
+        {
+            $existing_ids = array_filter(array_map(fn($row) => $row['id'] ?? null, $data['meta'][$relation]));
+            if (count($existing_ids))
+            {
+                $act->$relation()->whereNotIn('id', $existing_ids)->delete();
+            }
+            else
+            {
+                $act->$relation()->delete();
+            }
+
+            foreach ($data['meta'][$relation] as $row)
+            {
+                $act->$relation()->updateOrCreate($row);
+            }
+        }
     }
 
     public function destroy(int $act_id): RedirectResponse

@@ -37,7 +37,7 @@ class StoreTest extends TestCase
     public function test_as_user()
     {
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
-        $response->assertRedirectToRoute('admin.acts');
+        $response->assertRedirectToRoute('admin.acts.edit', ['id' => 1]);
     }
 
     #[Depends('test_as_user')]
@@ -82,6 +82,21 @@ class StoreTest extends TestCase
 
         $act = Act::first();
         self::assertNull($act->picture);
+    }
+
+    #[Depends('test_as_user')]
+    public function test_adds_meta_members()
+    {
+        $this->payload['meta'] = [
+            'members' => [
+                [ 'name' => 'Max Power', 'role' => 'Bad Boy' ],
+                [ 'name' => 'Jess Chillin', 'role' => 'Bad Girl' ],
+            ]
+        ];
+        $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+
+        $act = Act::first();
+        self::assertCount(count($this->payload['meta']['members']), $act->members);
     }
 
 }

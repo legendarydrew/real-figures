@@ -29,6 +29,17 @@ class ActRequest extends FormRequest
             'profile'             => ['sometimes', 'array'],
             'profile.description' => ['nullable', 'string'],
             'image'               => ['nullable', new IsBase64Image()],
+            'is_fan_favourite'    => ['sometimes', 'boolean'],
+            'meta'                => ['sometimes', 'array'],
+            'meta.languages'      => ['array'],
+            'meta.languages.*'    => ['required', 'string', 'min:2', 'max:2', 'exists:languages,code'],
+            'meta.members'        => ['array'],
+            'meta.members.*.name' => ['required', 'string'],
+            'meta.members.*.role' => ['required', 'string'],
+            'meta.notes'          => ['array'],
+            'meta.notes.*.note'   => ['required', 'string'],
+            'meta.traits'         => ['array'],
+            'meta.traits.*.trait' => ['required', 'string'],
         ];
     }
 }

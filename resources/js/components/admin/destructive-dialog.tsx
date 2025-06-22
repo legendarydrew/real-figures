@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Dialog, DialogContent, DialogFooter, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { LoadingButton } from '@/components/ui/loading-button';
+import { LoadingButton } from '@/components/mode/loading-button';
 
 interface DestructiveDialogProps {
     // Dialog properties.

@@ -15,7 +15,7 @@ export const DashboardDonationCount: React.FC<DashboardDonationCountProps> = ({ 
             <HeartIcon className="w-10 h-10"/>
             <div className="flex-grow flex flex-col gap-0 display-text">
                 <span className="text-3xl leading-none">{donation_count.toLocaleString()}</span>
-                <span className="text-sm">{donation_count === 1 ? 'Donation' : 'Donations'}</span>
+                <span className="text-sm leading-none">{donation_count === 1 ? 'Donation' : 'Donations'}</span>
             </div>
         </Link>
     );

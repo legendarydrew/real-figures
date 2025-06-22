@@ -1,4 +1,4 @@
-import CatawolIconLogo from '@/components/catawol-icon-logo';
+import CatawolIconLogo from '@/components/mode/catawol-icon-logo';
 
 export default function AppLogo() {
     return (

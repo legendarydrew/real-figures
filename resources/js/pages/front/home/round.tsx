@@ -2,13 +2,13 @@ import { Head } from '@inertiajs/react';
 import FrontLayout from '@/layouts/front-layout';
 import HeadingSmall from '@/components/heading-small';
 import ContestHeader from '@/components/front/contest-header';
-import { Advert } from '@/components/advert';
+import { Advert } from '@/components/mode/advert';
 import ContestOutline from '@/components/front/contest-outline';
 import GoldenBuzzerBanner from '@/components/front/golden-buzzer-banner';
 import AboutBanner from '@/components/front/about-banner';
-import { CurrentRound } from '@/components/current-round';
-import { CurrentStage } from '@/components/current-stage';
-import { PreviousRound } from '@/components/previous-round';
+import { CurrentRound } from '@/components/mode/current-round';
+import { CurrentStage } from '@/components/mode/current-stage';
+import { PreviousRound } from '@/components/mode/previous-round';
 
 const HomeCurrentRoundPage: React.FC = ({ stage, currentRound, previousRounds, countdown }) => {
 

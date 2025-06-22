@@ -26,7 +26,7 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
     }
 
     const textClasses = (): string => {
-        return `display-text flex-grow text-lg leading-none text-left ${act.image ? 'text-white text-shadow-md' : ''} ${editable && 'truncate'}`;
+        return `display-text flex-grow pr-3 text-lg leading-none text-left ${act.image ? 'text-white outlined-text' : ''} ${editable && 'truncate'}`;
     }
 
     return (
@@ -35,36 +35,38 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
             {...props}>
 
             {act.image ? (
-                <div className="w-full h-full bg-cover z-0"
-                     style={{ backgroundImage: `url("${act.image}")` }}/>
+                <div className="w-full h-full bg-act-image z-0">
+                    <div className="bg-cover w-full h-full" style={{ backgroundImage: `url(${act.image}`}}></div>
+                </div>
             ) : (
                 <div className="w-full h-full z-0 flex items-center justify-center text-gray-500 select-none">
                     <PersonStanding className="h-1/2 w-1/2"/>
                 </div>
             )}
 
+            {editable && (
+                <div className="absolute top-2 right-2 toolbar">
+                    <Button variant="secondary" size="icon" className="cursor-pointer"
+                            onClick={editHandler}
+                            title="Edit Act">
+                        <Edit/>
+                    </Button>
+                    <Button variant="destructive" size="icon" className="cursor-pointer"
+                            onClick={deleteHandler}
+                            title="Delete Act">
+                        <Trash/>
+                    </Button>
+                </div>
+            )}
+
             <div
-                className={cn("absolute bottom w-full flex justify-between items-center gap-1", editable ? 'px-3 py-2' : 'p-5')}>
+                className={cn("absolute bottom w-full flex justify-between items-center px-3 py-2")}>
                 <span className={textClasses()}>{act.name}</span>
                 {act.has_profile && (
-                    <span className="bg-blue-700 text-white rounded-sm p-1.5 text-sm text-shadow-lg"
+                    <span className="bg-blue-700 text-white rounded-full text-shadow-lg"
                           title="Has a profile.">
-                        <Info className="h-4 w-4"/>
+                        <Info className="h-5 w-5"/>
                     </span>
-                )}
-                {editable && (
-                    <>
-                        <Button variant="secondary" size="icon" className="cursor-pointer"
-                                onClick={editHandler}
-                                title="Edit Act">
-                            <Edit className="h-3 w-3"/>
-                        </Button>
-                        <Button variant="destructive" size="icon" className="cursor-pointer"
-                                onClick={deleteHandler}
-                                title="Delete Act">
-                            <Trash className="h-3 w-3"/>
-                        </Button>
-                    </>
                 )}
             </div>
         </div>

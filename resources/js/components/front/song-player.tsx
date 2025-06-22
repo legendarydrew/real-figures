@@ -8,7 +8,7 @@
  * the SongPlayerProvider (as in, functionality is PROVIDED to the children).
  * https://ankurraina.medium.com/reactjs-pass-functions-through-context-typeerror-cannot-destructure-property-of-450a8edd55b6
  */
-import { SongBanner } from '@/components/song-banner';
+import { SongBanner } from '@/components/mode/song-banner';
 import { StarIcon, XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSongPlayer } from '@/context/song-player-context';
@@ -32,9 +32,12 @@ export const SongPlayer: React.FC = () => {
         }
     };
 
-    const songPlayHandler = () => {
+    const songPlayHandler = (e) => {
         // Called when the YouTube video is played.
-        axios.put(route('play', { id: currentSong.id })).then();
+        // We will only record a play if the video is at (or near) the beginning.
+        if (e.target.getCurrentTime() <= 0.5) {
+            axios.put(route('play', { id: currentSong.id })).then();
+        }
     };
 
     const beginBuzzerHandler = (): void => {

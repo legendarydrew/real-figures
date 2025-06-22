@@ -1,8 +1,8 @@
-import { ActImage } from '@/components/ui/act-image';
+import { ActImage } from '@/components/mode/act-image';
 import { Round } from '@/types';
 import { Button } from '@/components/ui/button';
 import { useForm } from '@inertiajs/react';
-import { LoadingButton } from '@/components/ui/loading-button';
+import { LoadingButton } from '@/components/mode/loading-button';
 import { FormEvent, useState } from 'react';
 import axios from 'axios';
 

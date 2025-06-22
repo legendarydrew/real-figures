@@ -4,7 +4,7 @@ import Heading from '@/components/heading';
 import HeadingSmall from '@/components/heading-small';
 import FrontLayout from '@/layouts/front-layout';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import { Advert } from '@/components/advert';
+import { Advert } from '@/components/mode/advert';
 import { AboutSongPanel } from '@/pages/front/about/about-song';
 import { AboutFoldPanel } from '@/pages/front/about/about-fold';
 import { AboutSilentmodePanel } from '@/pages/front/about/about-silentmode';

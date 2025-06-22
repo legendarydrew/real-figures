@@ -1,7 +1,7 @@
 import { Head } from '@inertiajs/react';
 import FrontLayout from '@/layouts/front-layout';
 import ContestHeader from '@/components/front/contest-header';
-import { Advert } from '@/components/advert';
+import { Advert } from '@/components/mode/advert';
 import ContestOutline from '@/components/front/contest-outline';
 import GoldenBuzzerBanner from '@/components/front/golden-buzzer-banner';
 import AboutBanner from '@/components/front/about-banner';

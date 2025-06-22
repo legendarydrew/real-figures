@@ -24,7 +24,7 @@ class UpdateTest extends TestCase
     {
         parent::setUp();
 
-        $this->act = Act::factory()->withPicture()->createOne();
+        $this->act     = Act::factory()->withPicture()->createOne();
         $this->payload = [
             'name' => fake()->name
         ];
@@ -39,7 +39,7 @@ class UpdateTest extends TestCase
     public function test_as_user()
     {
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
-        $response->assertRedirectToRoute('admin.acts');
+        $response->assertRedirectToRoute('admin.acts.edit', ['id' => $this->act->id]);
     }
 
     #[Depends('test_as_user')]

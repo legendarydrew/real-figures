@@ -1,8 +1,8 @@
 import { Input } from '@/components/ui/input';
-import { LoadingButton } from '@/components/ui/loading-button';
+import { LoadingButton } from '@/components/mode/loading-button';
 import { ChangeEvent, useState } from 'react';
 import axios from 'axios';
-import { Alert } from '@/components/alert';
+import { Alert } from '@/components/mode/alert';
 import { useAnalytics } from '@/hooks/use-analytics';
 
 export const SubscribeForm: React.FC = ({ className, ...props }) => {

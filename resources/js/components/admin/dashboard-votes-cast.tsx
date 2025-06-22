@@ -1,6 +1,7 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { Nothing } from '@/components/nothing';
+import { Nothing } from '@/components/mode/nothing';
 import { usePage } from '@inertiajs/react';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 
 type DashboardVotesCastData = {
     date: string;
@@ -35,10 +36,10 @@ export const DashboardVotesCast: React.FC<DashboardVotesCastProps> = ({ data, cl
     };
 
     return (
-        <div className={className}>
-            {data.length ? (
-                <>
-                    <h2 className="font-bold mb-2">Votes cast <small>within the last week</small></h2>
+        <Card className={className}>
+            <CardTitle className="display-text font-normal">Votes cast <small>within the last week</small></CardTitle>
+            <CardContent>
+                {data.length ? (
                     <ResponsiveContainer className="w-full h-[12rem]" aspect={3.75}>
                         <BarChart data={data} margin={2}>
                             <CartesianGrid strokeDasharray="3 3"/>
@@ -52,11 +53,12 @@ export const DashboardVotesCast: React.FC<DashboardVotesCastProps> = ({ data, cl
                                  className="fill-zinc-500"/>
                         </BarChart>
                     </ResponsiveContainer>
-                </>) : (
-                <Nothing className="border-2 w-full h-full">
-                    No information about votes cast.
-                </Nothing>
-            )}
-        </div>
+                ) : (
+                    <Nothing className="border-2 w-full h-full">
+                        No information about votes cast.
+                    </Nothing>
+                )}
+            </CardContent>
+        </Card>
     );
 };

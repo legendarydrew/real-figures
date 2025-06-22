@@ -2,13 +2,13 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, WhenVisible } from '@inertiajs/react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { GoldenBuzzer, GoldenBuzzerBreakdown } from '@/types';
-import { Nothing } from '@/components/nothing';
+import { Nothing } from '@/components/mode/nothing';
 import { cn } from '@/lib/utils';
-import { SongBanner } from '@/components/song-banner';
+import { SongBanner } from '@/components/mode/song-banner';
 import { NotepadText } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
-import { LoadingButton } from '@/components/ui/loading-button';
+import { LoadingButton } from '@/components/mode/loading-button';
 import { BuzzerBreakdownDialog } from '@/components/admin/buzzer-breakdown-dialog';
 
 interface GoldenBuzzerPageProps {

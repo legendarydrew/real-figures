@@ -6,12 +6,14 @@ use App\Http\Controllers\API\ContactMessagesController;
 use App\Http\Controllers\API\ContactMessagesRespondController;
 use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\GoldenBuzzerBreakdownController;
+use App\Http\Controllers\API\LanguagesController;
 use App\Http\Controllers\API\SongController;
 use App\Http\Controllers\API\SongPlayController;
 use App\Http\Controllers\API\StageAllocateController;
 use App\Http\Controllers\API\StageController;
 use App\Http\Controllers\API\StageManualVoteController;
 use App\Http\Controllers\API\StageRoundsController;
+use App\Http\Controllers\API\StageVotesController;
 use App\Http\Controllers\API\StageWinnersController;
 use App\Http\Controllers\API\SubscriberPostController;
 use App\Http\Controllers\API\VoteController;
@@ -34,6 +36,7 @@ use App\Http\Controllers\Front\DonorWallController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\SubscriberConfirmController;
 use App\Http\Controllers\Front\SubscriberRemoveController;
+use App\Http\Controllers\Front\VotesController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Models\Round;
@@ -53,6 +56,7 @@ Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules
 Route::get('donor-wall', [DonorWallController::class, 'index'])->name('donations');
 Route::get('subscriber/confirm/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
 Route::get('subscriber/remove/{id}/{code}', [SubscriberRemoveController::class, 'show'])->name('subscriber.remove');
+Route::get('votes', [VotesController::class, 'index'])->name('votes');
 
 // ----------------------------------------------------------------------------
 // Our famous Kitchen Sink page (only available in debug mode).
@@ -72,6 +76,7 @@ Route::prefix('/api')->group(function ()
     // Routes accessible without authentication.
     Route::post('donation', [DonationController::class, 'store']);
     Route::post('golden-buzzer', [BuzzerController::class, 'store']);
+    Route::get('languages', [LanguagesController::class, 'index'])->name('languages');
     Route::post('messages', [ContactMessagesController::class, 'store']);
     Route::put('songs/{id}/play', [SongPlayController::class, 'update'])->name('play');
     Route::post('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'store'])->name('subscribe');
@@ -105,6 +110,7 @@ Route::prefix('/api')->group(function ()
         Route::get('stages/{id}/manual-vote', [StageManualVoteController::class, 'show'])->name('stages.manual-vote.show');
         Route::post('stages/{id}/manual-vote', [StageManualVoteController::class, 'store'])->name('stages.manual-vote.store');
         Route::get('stages/{id}/rounds', [StageRoundsController::class, 'show'])->name('stages.rounds');
+        Route::get('stages/{id}/votes', [StageVotesController::class, 'show'])->name('stages.votes');
         Route::post('stages/{id}/winners', [StageWinnersController::class, 'store'])->name('stages.winners');
 
         Route::delete('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'destroy'])->name('subscribers.destroy');
@@ -119,6 +125,8 @@ Route::middleware(['auth', 'verified'])->group(function ()
 {
     Route::get('admin', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/acts', [ActsController::class, 'index'])->name('admin.acts');
+    Route::get('/admin/acts/new', [ActsController::class, 'create'])->name('admin.acts.new');
+    Route::get('/admin/acts/{id}', [ActsController::class, 'edit'])->name('admin.acts.edit');
     Route::get('/admin/contact', [ContactMessageController::class, 'index'])->name('admin.contact');
     Route::get('/admin/donations', [DonationsController::class, 'index'])->name('admin.donations');
     Route::get('/admin/golden-buzzers', [GoldenBuzzersController::class, 'index'])->name('admin.golden-buzzers');

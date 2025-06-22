@@ -1,7 +1,7 @@
 import { Head, router } from '@inertiajs/react';
 import FrontLayout from '@/layouts/front-layout';
-import { CountdownTimer } from '@/components/ui/countdown-timer';
-import { Advert } from '@/components/advert';
+import { CountdownTimer } from '@/components/mode/countdown-timer';
+import { Advert } from '@/components/mode/advert';
 import ContestOutline from '@/components/front/contest-outline';
 import GoldenBuzzerBanner from '@/components/front/golden-buzzer-banner';
 import AboutBanner from '@/components/front/about-banner';

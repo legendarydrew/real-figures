@@ -1,5 +1,5 @@
 import Heading from '@/components/heading';
-import { CountdownTimer } from '@/components/ui/countdown-timer';
+import { CountdownTimer } from '@/components/mode/countdown-timer';
 import { router } from '@inertiajs/react';
 import { Round, Stage } from '@/types';
 

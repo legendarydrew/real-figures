@@ -35,7 +35,7 @@ export default function Dashboard({
 
                 <Heading title="Dashboard"/>
 
-                <div className="grid auto-rows-min gap-2 md:grid-cols-2 lg:grid-cols-5">
+                <div className="grid auto-rows-min gap-3 md:grid-cols-2 lg:grid-cols-5">
                     <DashboardMessageCount className="lg:col-start-1 lg:row-start-1 lg:col-span-1 lg:row-span-1"
                                            message_count={message_count}/>
                     <DashboardSubscriberCount className="lg:col-start-2 lg:row-start-1 lg:col-span-1 lg:row-span-1"

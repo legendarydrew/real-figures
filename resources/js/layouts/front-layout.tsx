@@ -5,7 +5,7 @@ import { usePage } from '@inertiajs/react';
 import { DonateDialog } from '@/components/front/donate-dialog';
 import { DialogProvider } from '@/context/dialog-context';
 import { useAnalytics } from '@/hooks/use-analytics';
-import { FlashMessage } from '@/components/flash-message';
+import { FlashMessage } from '@/components/mode/flash-message';
 import { GoldenBuzzerDialog } from '@/components/front/golden-buzzer-dialog';
 import { SongPlayer } from '@/components/front/song-player';
 import { SongPlayerProvider } from '@/context/song-player-context';

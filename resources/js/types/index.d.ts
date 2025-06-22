@@ -81,6 +81,20 @@ export interface Act {
         description: string;
     };
     image?: string;
+    meta: {
+        is_fan_favourite: boolean;
+        languages: string[];
+        members: {
+            name: string;
+            role: string;
+        }[];
+        notes: {
+            text: string;
+        }[];
+        traits: {
+            trait: string;
+        }[];
+    };
 }
 
 export interface Song {
@@ -199,4 +213,23 @@ export interface GoldenBuzzerBreakdown {
         buzzer_count: number;
         amount_raised: string;
     }[];
+}
+
+export interface RoundVoteBreakdown {
+    id: number;
+    title: string;  // The Round's full title.
+    vote_count: number;
+    songs: {
+        song: Song,
+        score: number;
+        first_choice_votes: number;
+        second_choice_votes: number;
+        third_choice_votes: number;
+        was_manual: boolean;
+    }[];
+}
+
+export interface LanguageRow {
+    code: string;
+    name: string;
 }

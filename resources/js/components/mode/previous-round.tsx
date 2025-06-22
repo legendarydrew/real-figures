@@ -4,7 +4,7 @@ import { StarIcon } from 'lucide-react';
 import { GOLDEN_BUZZER_DIALOG_NAME } from '@/components/front/golden-buzzer-dialog';
 import { useDialog } from '@/context/dialog-context';
 import { useSongPlayer } from '@/context/song-player-context';
-import { SongBanner } from '@/components/song-banner';
+import { SongBanner } from '@/components/mode/song-banner';
 
 interface PreviousRoundProps {
     round: Round;
@@ -30,7 +30,7 @@ export const PreviousRound: React.FC<PreviousRoundProps> = ({ round }) => {
                                 onClick={() => openSongPlayer(round, song)}>
                             <SongBanner className="text-left" song={song}/>
                         </button>
-                        <Button className="hidden md:block" variant="gold" size="lg" type="button" title="Golden Buzzer"
+                        <Button variant="gold" className="hidden md:block" size="lg" type="button" title="Golden Buzzer"
                                 onClick={() => beginBuzzerHandler(song)}>
                             <StarIcon/>
                         </Button>

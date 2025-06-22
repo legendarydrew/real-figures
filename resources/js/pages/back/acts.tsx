@@ -3,14 +3,13 @@ import { Head, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { Act, PaginatedResponse } from '@/types';
-import axios from 'axios';
 import { ActDialog } from '@/components/admin/act-dialog';
 import { Pagination } from '@/components/admin/pagination';
-import { ActItem } from '@/components/act-item';
+import { ActItem } from '@/components/mode/act-item';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
-import { Toaster } from '@/components/ui/toast-message';
+import { Toaster } from '@/components/mode/toast-message';
 import { DialogTitle } from '@/components/ui/dialog';
-import { Nothing } from '@/components/nothing';
+import { Nothing } from '@/components/mode/nothing';
 
 export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }>) {
 
@@ -26,17 +25,9 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
 
     const editHandler = (act?: Act): void => {
         if (act) {
-            // Until I figure out how I can do this with Inertia, use axios to fetch the existing
-            // act information for editing in the dialog (because we want to obtain the associated
-            // profile, if present).
-            axios.get(route('acts.show', { id: act.id }))
-                .then((response) => {
-                    setCurrentAct(response.data);
-                    setIsEditDialogOpen(true);
-                });
+            router.visit(route('admin.acts.edit', { id: act.id }));
         } else {
-            setCurrentAct(null);
-            setIsEditDialogOpen(true);
+            router.visit(route('admin.acts.new'));
         }
     }
 
@@ -80,7 +71,7 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
             <Pagination results={acts} onPageChange={pageHandler}/>
 
             {acts.meta.pagination.total ? (
-                <div className="grid p-4 auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
+                <div className="grid p-4 auto-rows-min gap-1 md:grid-cols-3 2xl:grid-cols-4">
                     {acts.data.map((act) => (
                         <ActItem key={act.id} act={act} editable={true} onEdit={() => editHandler(act)}
                                  onDelete={() => deleteHandler(act)}/>
