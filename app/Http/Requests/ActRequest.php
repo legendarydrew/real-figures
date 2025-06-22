@@ -38,6 +38,8 @@ class ActRequest extends FormRequest
             'meta.members.*.role' => ['required', 'string'],
             'meta.notes'          => ['array'],
             'meta.notes.*.note'   => ['required', 'string'],
+            'meta.traits'         => ['array'],
+            'meta.traits.*.trait' => ['required', 'string'],
         ];
     }
 }

@@ -34,6 +34,6 @@
       - [ ] Act genre(s)
       - [x] Act's members
       - [x] Notes about the Act (for aiding ChatGPT)
-      - [ ] Act traits (personality)
+      - [x] Act traits (personality)
       - [x] Act's (spoken) languages.
 - [x] Display Stage rankings once a Stage is over.

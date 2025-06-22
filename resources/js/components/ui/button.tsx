@@ -9,13 +9,13 @@ const buttonVariants = cva(
     {
         variants: {
             variant: {
-                default: "display-text bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
-                secondary: "display-text bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
-                confirm: "display-text bg-green-700 text-green-50 shadow-xs hover:bg-green-700/90 focus-visible:ring-gre    en-400/20 dark:focus-visible:ring-green-400/40",
+                default: "display-text bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40",
+                secondary: "display-text bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80 focus-visible:ring-secondary/20 dark:focus-visible:ring-secondary/40",
+                confirm: "display-text bg-green-700 text-green-50 shadow-xs hover:bg-green-700/90 focus-visible:ring-green-700/20 dark:focus-visible:ring-green-700/40",
                 destructive: "display-text bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
                 outline: "display-text border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground",
-                gold: "display-text bg-amber-400 text-amber-900 shadow-xs hover:bg-amber-400/90",
-                checked: "display-text bg-indigo-700 text-white shadow-xs hover:bg-indigo-500/80",
+                gold: "display-text bg-amber-400 text-amber-900 shadow-xs hover:bg-amber-400/90 focus-visible:ring-amber-400/20 dark:focus-visible:ring-amber-900/40",
+                checked: "display-text bg-indigo-700 text-white shadow-xs hover:bg-indigo-500/80 focus-visible:ring-indigo-700/20 dark:focus-visible:ring-indigo-500/40",
                 ghost: "display-text hover:bg-accent hover:text-accent-foreground",
                 link: "text-primary underline-offset-4 hover:underline"
             },

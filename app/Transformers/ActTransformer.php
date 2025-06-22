@@ -61,7 +61,7 @@ class ActTransformer extends TransformerAbstract
             ]),
             'traits'           => $act->traits->map(fn(ActMetaTrait $trait) => [
                 'id'   => $trait->id,
-                'note' => $trait->trait,
+                'trait' => $trait->trait,
             ]),
             'notes'            => $act->notes->map(fn(ActMetaNote $note) => [
                 'id'   => $note->id,

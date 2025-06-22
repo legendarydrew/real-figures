@@ -91,6 +91,9 @@ export interface Act {
         notes: {
             text: string;
         }[];
+        traits: {
+            trait: string;
+        }[];
     };
 }
 
