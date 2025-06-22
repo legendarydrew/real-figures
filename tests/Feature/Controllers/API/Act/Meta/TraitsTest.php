@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\API\Act\Meta;
+namespace Tests\Feature\Controllers\API\Act\Meta;
 
 use App\Models\Act;
 use App\Models\ActMetaTrait;
