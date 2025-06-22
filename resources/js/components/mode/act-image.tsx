@@ -12,9 +12,9 @@ interface ActImageProps {
 export const ActImage: React.FC<ActImageProps> = ({ act, size = '10', className }) => {
 
     return (
-        <div className={cn(`aspect-square w-${size} h-${size}`, className)}>
+        <div className={cn(`aspect-square w-${size} h-${size}`, act.image ? 'bg-act-image' : '', className)}>
             {act?.image ? (
-                <div className="w-full h-full bg-cover z-0"
+                <div className="w-full h-full bg-cover bg-center z-0"
                      style={{ backgroundImage: `url("${act.image}")` }}/>
             ) : (
                 <div className="w-full h-full z-0 flex items-center justify-center text-gray-500 select-none">
