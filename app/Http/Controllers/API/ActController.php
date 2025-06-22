@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ActRequest;
 use App\Models\Act;
+use App\Models\ActMetaGenre;
 use App\Models\ActMetaLanguage;
+use App\Models\Genre;
 use App\Models\Language;
 use App\Transformers\ActTransformer;
 use Illuminate\Http\JsonResponse;
@@ -92,22 +94,46 @@ class ActController extends Controller
 
     protected function updateActMeta(Act $act, array $data): void
     {
-        $meta = ['genres', 'members', 'notes', 'traits'];
+        $meta = ['members', 'notes', 'traits'];
         foreach ($meta as $meta_column)
         {
             $this->updateActMetaRelation($act, $meta_column, $data);
         }
 
         // Languages are passed as a list of language codes.
-        if (isset($data['meta']['languages'])) {
+        if (isset($data['meta']['languages']))
+        {
             $language_ids = Language::whereIn('code', $data['meta']['languages'])->pluck('id')->toArray();
-            foreach ($language_ids as $language_id) {
+            foreach ($language_ids as $language_id)
+            {
                 ActMetaLanguage::updateOrCreate([
-                    'act_id' => $act->id,
+                    'act_id'      => $act->id,
                     'language_id' => $language_id
                 ]);
             }
             $act->languages()->whereNotIn('language_id', $language_ids)->delete();
+        }
+
+        // Genres are passed as a list of names.
+        // These might include newly-created ones.
+        if (isset($data['meta']['genres']))
+        {
+            // Save the list of genres, using title case for the genre name.
+            $genres = array_map(fn($genre) => ucwords($genre), $data['meta']['genres']);
+            Genre::upsert(array_map(fn($genre) => ['name' => $genre], $genres), 'name');
+
+            // Associate the Act with the genres.
+            $genre_ids = Genre::whereIn('name', $genres)->pluck('id')->toArray();
+            foreach ($genre_ids as $genre_id)
+            {
+                ActMetaGenre::updateOrCreate([
+                    'act_id'   => $act->id,
+                    'genre_id' => $genre_id
+                ]);
+            }
+            ActMetaGenre::whereActId($act->id)
+                        ->whereNotIn('genre_id', $genre_ids)
+                        ->delete();
         }
     }
 

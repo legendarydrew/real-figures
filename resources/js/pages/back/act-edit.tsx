@@ -107,6 +107,7 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
         }
 
         // Remove empty meta information.
+        setData('meta.genres', (prev) => prev.filter((row) => row?.length));
         setData('meta.languages', (prev) => prev.filter((row) => row?.length));
         setData('meta.members', (prev) => prev.filter((row) => row.name && row.role));
         setData('meta.notes', (prev) => prev.filter((row) => row.note));

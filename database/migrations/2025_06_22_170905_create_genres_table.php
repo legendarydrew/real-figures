@@ -34,11 +34,17 @@ return new class extends Migration {
         Schema::table('act_meta_genres', function (Blueprint $table)
         {
             $table->dropUnique(['act_id', 'genre_id']);
-            $table->dropForeign('genre_id');
-            $table->string('genre')->after('act_id');
+            if ('sqlite' !== config('database.default'))
+            {
+                $table->dropForeign('genre_id');
+            }
+            $table->string('genre')->after('act_id')->nullable();
             $table->unique(['act_id', 'genre']);
         });
 
-        Schema::dropIfExists('genres');
+        if ('sqlite' !== config('database.default'))
+        {
+            Schema::dropIfExists('genres');
+        }
     }
 };
