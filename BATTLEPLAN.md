@@ -30,7 +30,7 @@
 - [ ] Add a News section.
     - [ ] Generate News posts with the help of OpenAI/ChatGPT. ($$)
     - [ ] optionally generate a News post based on a Stage or Round.
-    - [ ] Add meta data to Acts to help with generating News posts.
+    - [ ] Add metadata to Acts to help with generating News posts.
       - [ ] Act genre(s)
       - [x] Act's members
       - [x] Notes about the Act (for aiding ChatGPT)
