@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { cn } from '@/lib/utils';
 import HeadingSmall from '@/components/heading-small';
@@ -9,13 +9,12 @@ import { XIcon } from 'lucide-react';
 
 interface ActMetaGenresProps {
     genres: string[]; // list of selected genres.
+    genreList: string[]; // list of all available (saved) genres.
     className?: string;
     onChange: (v) => void;
 }
 
-export const ActMetaGenres: React.FC<ActMetaGenresProps> = ({ genres = [], className, onChange }) => {
-    const genreList = useRef<string[]>(['Pop', 'Rock', 'Hip Hop', 'Jazz', 'Latin']);
-
+export const ActMetaGenres: React.FC<ActMetaGenresProps> = ({ genres = [], genreList = [], className, onChange }) => {
     const [rows, setRows] = useState<string[]>([]);
     const [query, setQuery] = useState('');
 
@@ -24,7 +23,7 @@ export const ActMetaGenres: React.FC<ActMetaGenresProps> = ({ genres = [], class
     }, [genres]);
 
     const availableGenres: string[] = useMemo((): string[] => {
-        return genreList.current.filter((genre) => !rows.includes(genre));
+        return genreList.filter((genre) => !rows.includes(genre));
     }, [genreList, rows]);
 
     const filteredGenres = (): string[] => {
@@ -37,7 +36,7 @@ export const ActMetaGenres: React.FC<ActMetaGenresProps> = ({ genres = [], class
         const results: string[] = availableGenres.filter((genre) => {
             return genre.toLowerCase().includes(query.toLowerCase())
         });
-        if (!genreList?.current.map((g) => g.toLowerCase()).includes(query.toLowerCase())) {
+        if (!genreList?.map((g) => g.toLowerCase()).includes(query.toLowerCase())) {
             results.push(query);
         }
         return results;
