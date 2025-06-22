@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\API\Stage;
+namespace Tests\Feature\Controllers\API\Stage;
 
 use App\Models\Round;
 use App\Models\RoundOutcome;
