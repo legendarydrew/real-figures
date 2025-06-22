@@ -26,7 +26,7 @@ class RoundTransformer extends TransformerAbstract
     public function includeSongs(Round $round): Collection
     {
         $round->loadMissing(['songs', 'songs.act']);
-        return $this->collection($round->songs, new SongAdminTransformer(), '');
+        return $this->collection($round->songs, new SongTransformer(), '');
     }
 
     public function includeFullTitle(Round $round): Primitive

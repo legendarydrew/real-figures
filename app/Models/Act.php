@@ -54,4 +54,14 @@ class Act extends Model
         return $this->hasMany(ActMetaNote::class);
     }
 
+    /**
+     * A shortcut attribute for returning the Act's associated picture data.
+     *
+     * @return string|null
+     */
+    public function getImageAttribute(): string|null
+    {
+        return $this->picture?->image ?? null;
+    }
+
 }

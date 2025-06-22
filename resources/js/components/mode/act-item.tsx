@@ -35,7 +35,7 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
             {...props}>
 
             {act.image ? (
-                <div className="w-full h-full bg-linear-to-bl from-indigo-300 to-indigo-700 z-0">
+                <div className="w-full h-full bg-act-image z-0">
                     <div className="bg-cover w-full h-full" style={{ backgroundImage: `url(${act.image}`}}></div>
                 </div>
             ) : (
