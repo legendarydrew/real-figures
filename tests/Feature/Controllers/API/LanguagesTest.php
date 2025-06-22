@@ -15,7 +15,7 @@ class LanguagesTest extends TestCase
     public function test_as_guest()
     {
         $response = $this->getJson(self::ENDPOINT);
-        $response->assertUnauthorized();
+        $response->assertOk();
     }
 
     public function test_as_user()
