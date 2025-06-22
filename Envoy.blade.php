@@ -108,7 +108,7 @@ ln -nfs {{ $new_release_dir }} {{ $current_release_dir }}
 @task('migrate', ['on' => 'web'])
 echo '=> Running migrations'
 cd {{ $new_release_dir }}
-{{ $php }} artisan migrate --force
+{{ $php }} artisan migrate --force --seed
 @endtask
 
 @task('optimise', ['on' => 'web'])
