@@ -17,7 +17,7 @@ const buttonVariants = cva(
                 gold: "display-text bg-amber-400 text-amber-900 shadow-xs hover:bg-amber-400/90 focus-visible:ring-amber-400/20 dark:focus-visible:ring-amber-900/40",
                 checked: "display-text bg-indigo-700 text-white shadow-xs hover:bg-indigo-500/80 focus-visible:ring-indigo-700/20 dark:focus-visible:ring-indigo-500/40",
                 ghost: "display-text hover:bg-accent hover:text-accent-foreground",
-                link: "text-primary underline-offset-4 hover:underline"
+                link: "text-indigo-700 underline-offset-4 hover:underline"
             },
             size: {
                 default: "h-9 px-4 py-2 has-[>svg]:px-3",
