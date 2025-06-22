@@ -22,23 +22,26 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        User::factory()->create([
-            'name'     => 'Test User',
-            'email'    => 'holla@silentmode.tv',
-            'password' => Hash::make('temp'),
-        ]);
-
         $this->call(LanguagesSeeder::class);
 
-        Act::factory(4)->withPicture(50)->withProfile()->withMeta()->withSong()->create();
-        Act::factory(4)->withPicture(50)->withProfile()->withSong()->create();
-        Act::factory(4)->withPicture(50)->withProfile()->create();
-        Act::factory(4)->withPicture(50)->withSong()->create();
-        Act::factory(4)->withPicture(50)->create();
+        if ( app()->environment() !== 'production' ) {
+            // Create test data.
+            User::factory()->create([
+                'name'     => 'Test User',
+                'email'    => 'holla@silentmode.tv',
+                'password' => Hash::make('temp'),
+            ]);
 
-        Stage::factory()->withResults()->create();
-        Donation::factory(fake()->numberBetween(1, 20))->create();
-        Subscriber::factory(fake()->numberBetween(1, 20))->create();
-        ContactMessage::factory(fake()->numberBetween(1, 40))->create();
+            Act::factory(4)->withPicture(50)->withProfile()->withMeta()->withSong()->create();
+            Act::factory(4)->withPicture(50)->withProfile()->withSong()->create();
+            Act::factory(4)->withPicture(50)->withProfile()->create();
+            Act::factory(4)->withPicture(50)->withSong()->create();
+            Act::factory(4)->withPicture(50)->create();
+
+            Stage::factory()->withResults()->create();
+            Donation::factory(fake()->numberBetween(1, 20))->create();
+            Subscriber::factory(fake()->numberBetween(1, 20))->create();
+            ContactMessage::factory(fake()->numberBetween(1, 40))->create();
+        }
     }
 }

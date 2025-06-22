@@ -12,7 +12,7 @@ class LanguagesSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('languages')->insert([
+        DB::table('languages')->upsert([
 
             /**
              * ISO 639-1 Language Codes
@@ -158,6 +158,6 @@ class LanguagesSeeder extends Seeder
             ['code' => 'yo', 'name' => 'Yoruba'],
             ['code' => 'zh', 'name' => 'Chinese'],
             ['code' => 'zu', 'name' => 'Zulu'],
-        ]);
+        ], 'code');
     }
 }
