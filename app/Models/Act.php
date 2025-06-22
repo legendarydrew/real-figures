@@ -34,9 +34,9 @@ class Act extends Model
         return $this->hasMany(ActMetaMember::class);
     }
 
-    public function genres(): HasMany
+    public function genres(): HasManyThrough
     {
-        return $this->hasMany(ActMetaGenre::class);
+        return $this->hasManyThrough(Genre::class, ActMetaGenre::class, 'act_id', 'id', 'id', 'genre_id');
     }
 
     public function languages(): HasManyThrough

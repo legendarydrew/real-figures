@@ -83,6 +83,7 @@ export interface Act {
     image?: string;
     meta: {
         is_fan_favourite: boolean;
+        genres: string[];
         languages: string[];
         members: {
             name: string;
