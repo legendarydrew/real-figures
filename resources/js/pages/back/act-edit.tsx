@@ -15,6 +15,7 @@ import { ActMetaMembers } from '@/components/admin/act-meta-members';
 import { ActMetaNotes } from '@/components/admin/act-meta-notes';
 import { ActMetaLanguages } from '@/components/admin/act-meta-languages';
 import { ActMetaTraits } from '@/components/admin/act-meta-traits';
+import { ActMetaGenres } from '@/components/admin/act-meta-genres';
 
 export default function ActEdit({ act }: Readonly<{ act: Act }>) {
 
@@ -41,6 +42,7 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
             is_fan_favourite: act?.meta.is_fan_favourite ?? 0,
             image: act?.image,
             meta: {
+                genres:act?.meta.genres ?? [],
                 languages: act?.meta.languages ?? [],
                 members: act?.meta.members ?? [],
                 notes: act?.meta.notes ?? [],
@@ -212,9 +214,10 @@ export default function ActEdit({ act }: Readonly<{ act: Act }>) {
                         expected to win the Contest.</p>
                 </div>
 
+                <ActMetaGenres genres={data.meta.genres} onChange={(e) => updateMetaHandler('genres', e)}/>
+                <ActMetaLanguages languages={data.meta.languages} onChange={(e) => updateMetaHandler('languages', e)}/>
                 <ActMetaMembers members={data.meta.members} onChange={(e) => updateMetaHandler('members', e)}/>
                 <ActMetaNotes notes={data.meta.notes} onChange={(e) => updateMetaHandler('notes', e)}/>
-                <ActMetaLanguages languages={data.meta.languages} onChange={(e) => updateMetaHandler('languages', e)}/>
                 <ActMetaTraits traits={data.meta.traits} onChange={(e) => updateMetaHandler('traits', e)}/>
 
                 <div className="bg-white border-t-1 flex justify-between sticky bottom-0 py-3">
