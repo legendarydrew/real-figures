@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Act;
+use App\Models\Genre;
 use App\Transformers\ActTransformer;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -24,14 +25,17 @@ class ActsController extends Controller
 
     public function create(): Response
     {
-        return Inertia::render('back/act-edit');
+        return Inertia::render('back/act-edit', [
+            'genres' => fn() => Genre::pluck('name')->toArray()
+        ]);
     }
 
     public function edit(int $id): Response
     {
         $act = Act::findOrFail($id);
         return Inertia::render('back/act-edit', [
-            'act' => fn() => fractal($act, new ActTransformer())->parseIncludes(['meta', 'profile', 'picture']),
+            'act'    => fn() => fractal($act, new ActTransformer())->parseIncludes(['meta', 'profile', 'picture']),
+            'genres' => fn() => Genre::pluck('name')->toArray()
         ]);
     }
 }

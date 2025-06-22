@@ -73,7 +73,7 @@ class LanguagesTest extends TestCase
         }
 
         $new_language_codes                 = fake()->randomElements(Language::pluck('code')->toArray(), 2);
-        $this->payload['meta']['languages'] += $new_language_codes;
+        $this->payload['meta']['languages'] = array_unique(array_merge($this->payload['meta']['languages'], $new_language_codes));
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
         $this->act->refresh();
