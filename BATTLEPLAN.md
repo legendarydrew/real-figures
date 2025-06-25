@@ -22,7 +22,7 @@
 ## Miscellaneous
 
 - [ ] Add meta tags:
-  - [ ] page descriptions
+    - [x] page descriptions
   - [ ] card images
   - [ ] other meta tags.
 - [x] Update the theme to use the CATAWOL Records branding guidelines.

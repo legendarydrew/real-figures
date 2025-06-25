@@ -11,7 +11,10 @@ const HomeContestOverPage: React.FC = () => {
 
     return (
         <>
-            <Head title="The Contest Is Over.">{/* Any tags to go in the <head> section to here. */}</Head>
+            <Head title="The Contest Is Over.">
+                <meta name="description"
+                      content="Discover the CATAWOL Records Song Contest — 32 Acts, one anthem, and your vote decides the winner. Follow the journey, cast your vote, and support music that makes a difference."/>
+            </Head>
 
             <div className="bg-zinc-600 px-5 py-10 text-white">
                 <div className="mx-auto flex max-w-4xl flex-col gap-5">

@@ -10,15 +10,18 @@ import { useState } from 'react';
 
 const VotesPage: React.FC = ({ stages }) => {
 
-    const [openPanels, setOpenPanels] = useState({0: true});
+    const [openPanels, setOpenPanels] = useState({ 0: true });
 
     const togglePanelHandler = (index): void => {
-        setOpenPanels((prev) => ({...prev, [index]: !prev[index]}))
+        setOpenPanels((prev) => ({ ...prev, [index]: !prev[index] }))
     };
 
     return (
         <>
-            <Head title="Breakdown of votes"/>
+            <Head title="Breakdown of votes">
+                <meta name="description"
+                      content="Explore the full results of the CATAWOL Records Song Contest. See how the votes were counted, which songs advanced, and how the winners were decided."/>
+            </Head>
 
             <div className="bg-zinc-500 text-white">
                 <FrontContent>
@@ -29,14 +32,17 @@ const VotesPage: React.FC = ({ stages }) => {
                         <div className="col-span-3 flex flex-col gap-3">
 
                             {stages.map((stage, index) => (
-                                <Collapsible key={stage.id} open={openPanels[index]} onOpenChange={() => togglePanelHandler(index)}>
-                                    <CollapsibleTrigger className="w-full flex gap-2 items-center justify-center cursor-pointer bg-zinc-700 hover:bg-zinc-600 text-center p-2">
+                                <Collapsible key={stage.id} open={openPanels[index]}
+                                             onOpenChange={() => togglePanelHandler(index)}>
+                                    <CollapsibleTrigger
+                                        className="w-full flex gap-2 items-center justify-center cursor-pointer bg-zinc-700 hover:bg-zinc-600 text-center p-2">
                                         <h2 className="display-text text-lg">{stage.title}</h2>
-                                        { openPanels[index] ? <ChevronUp /> : <ChevronDown />}
+                                        {openPanels[index] ? <ChevronUp/> : <ChevronDown/>}
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
                                         {stage.breakdowns.map((breakdown) => (
-                                            <RoundBreakdown key={breakdown.id} className="mb-3" breakdown={breakdown}/>))}
+                                            <RoundBreakdown key={breakdown.id} className="mb-3"
+                                                            breakdown={breakdown}/>))}
                                     </CollapsibleContent>
                                 </Collapsible>
                             ))}

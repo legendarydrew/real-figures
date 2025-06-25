@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Facades\RoundResultsFacade;
+use App\Models\Act;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\Song;
@@ -188,6 +189,17 @@ class Contest
         }
 
         return null;
+    }
+
+    /**
+     * Returns TRUE if the Acts page should be shown.
+     * This should be the case if there is at least one Act with a Song.
+     *
+     * @return bool
+     */
+    public function shouldShowActs(): bool
+    {
+        return Act::whereHas('songs')->count() > 0;
     }
 
 }

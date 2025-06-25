@@ -26,7 +26,10 @@ const DonorWallPage: React.FC<DonorWallPageProps> = ({ donations, buzzers }) => 
 
     return (
         <>
-            <Head title="Donation Wall"/>
+            <Head title="Donation Wall">
+                <meta name="description"
+                      content="Support the CATAWOL Records Song Contest and help us amplify creativity and raise awareness of bullying. Learn how to donate and make a difference."/>
+            </Head>
 
             <FrontContent>
                 <Heading title="Donation Wall"/>
@@ -80,7 +83,8 @@ const DonorWallPage: React.FC<DonorWallPageProps> = ({ donations, buzzers }) => 
                     </div>
 
                     <div className="w-full lg:w-1/3 rounded-md bg-amber-100 dark:bg-amber-700/50">
-                        <h2 className="bg-amber-300 dark:bg-amber-700/50 text-xl font-semibold px-3 py-1.5 rounded-t-md">Golden Buzzers</h2>
+                        <h2 className="bg-amber-300 dark:bg-amber-700/50 text-xl font-semibold px-3 py-1.5 rounded-t-md">Golden
+                            Buzzers</h2>
                         {buzzers.length ? (
                             <ul className="text-sm flex flex-wrap overflow-y-auto max-h-[50dvh] px-3 py-2">
                                 {buzzers.map((donation) => (
@@ -93,7 +97,8 @@ const DonorWallPage: React.FC<DonorWallPageProps> = ({ donations, buzzers }) => 
                                 ))}
                             </ul>
                         ) : (
-                            <Nothing className="text-amber-900 dark:text-amber-100/80">Will you be the first to hit a Golden Buzzer?</Nothing>
+                            <Nothing className="text-amber-900 dark:text-amber-100/80">Will you be the first to hit
+                                a Golden Buzzer?</Nothing>
                         )}
                     </div>
 

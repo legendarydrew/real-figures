@@ -38,7 +38,10 @@ const RulesPage: React.FC = () => {
 
     return (
         <>
-            <Head title="Contest Rules"/>
+            <Head title="Contest Rules">
+                <meta name="description"
+                      content="Read the official rules for the CATAWOL Records Song Contest. Learn how it works, who can vote, what the stages involve, and how winners are chosen."/>
+            </Head>
 
             <FrontContent>
                 <div className="flex flex-col md:flex-row mb-5 gap-5 mb:gap-10">
@@ -79,12 +82,15 @@ const RulesPage: React.FC = () => {
                                 who is participating in the Contest.
                             </dd>
                             <dt className="font-semibold md:w-1/8">Contest</dt>
-                            <dd className="md:w-7/8 mb-2">The overall event organized by CATAWOL Records, where selected
+                            <dd className="md:w-7/8 mb-2">The overall event organized by CATAWOL Records, where
+                                selected
                                 Acts
-                                compete by submitting and evolving Songs to raise awareness of bullying in adult spaces.
+                                compete by submitting and evolving Songs to raise awareness of bullying in adult
+                                spaces.
                             </dd>
                             <dt className="font-semibold md:w-1/8">Song</dt>
-                            <dd className="md:w-7/8 mb-2">A musical submission created by an Act. Each Act submits one
+                            <dd className="md:w-7/8 mb-2">A musical submission created by an Act. Each Act submits
+                                one
                                 Song
                                 in Stage 1, with updated versions submitted in Stage 2.
                             </dd>
@@ -93,7 +99,8 @@ const RulesPage: React.FC = () => {
                                 A major phase of the Contest:
                                 <ul className="my-2">
                                     <li><b>Knockout Stage</b> &ndash; the initial round-based competition.</li>
-                                    <li><b>Finals</b> &ndash; the creative reinterpretation phase for the top 10 Songs.
+                                    <li><b>Finals</b> &ndash; the creative reinterpretation phase for the top 10
+                                        Songs.
                                     </li>
                                 </ul>
                             </dd>
@@ -172,7 +179,8 @@ const RulesPage: React.FC = () => {
                             <li>Each Act submits a Song using the provided lyrics.</li>
                             <li><b>Song length</b> must not exceed <b>2 minutes and 10 seconds</b> (2:10).</li>
                             <li>Minor adjustments to lyrics are allowed, but the essence must remain intact.</li>
-                            <li>Songs are randomly assigned into <b>8 Rounds</b>, with <b>4 Songs</b> per Round.</li>
+                            <li>Songs are randomly assigned into <b>8 Rounds</b>, with <b>4 Songs</b> per Round.
+                            </li>
                         </ul>
 
                         <HeadingSmall title="Voting"/>
@@ -215,7 +223,8 @@ const RulesPage: React.FC = () => {
                         <ul>
                             <li>Acts must submit an <b>updated version</b> of their Song.</li>
                             <li>Songs must now include a <b>previously undisclosed second verse.</b></li>
-                            <li>The updated Song must <b>retain the original style and essence</b> while allowing for
+                            <li>The updated Song must <b>retain the original style and essence</b> while allowing
+                                for
                                 creative reinterpretation.
                             </li>
                             <li><b>No maximum duration</b> for the updated Song.</li>
@@ -224,7 +233,8 @@ const RulesPage: React.FC = () => {
                         <HeadingSmall title="Final Voting"/>
                         <p>Voting conditions are the same as Stage 1, except:</p>
                         <ul>
-                            <li>Visitors will vote for their <b>top 3 favourites</b> from <b>all</b> entries combined.
+                            <li>Visitors will vote for their <b>top 3 favourites</b> from <b>all</b> entries
+                                combined.
                             </li>
                         </ul>
 
@@ -235,7 +245,8 @@ const RulesPage: React.FC = () => {
 
                         <HeadingSmall title="Prizes"/>
                         <ul>
-                            <li>All winning Acts will be recreated as <b>3D-printed figures</b> in SilentMode's style.
+                            <li>All winning Acts will be recreated as <b>3D-printed figures</b> in SilentMode's
+                                style.
                             </li>
                             <li>The Act behind the Grand Winning Song will also be honoured as a <b>custom LEGO
                                 minifigure.</b></li>
@@ -262,7 +273,8 @@ const RulesPage: React.FC = () => {
                             </li>
                             <li>A Golden Buzzer means:
                                 <ul>
-                                    <li><b>During the Knockout Stage:</b> The Act gets a backstory, an updated picture,
+                                    <li><b>During the Knockout Stage:</b> The Act gets a backstory, an updated
+                                        picture,
                                         and an
                                         extended version of their Song.
                                     </li>
@@ -272,7 +284,8 @@ const RulesPage: React.FC = () => {
                                 </ul>
                             </li>
                         </ul>
-                        <p><b>Important:</b> Golden Buzzers <b>do not</b> affect voting scores - they’re a bonus honour!
+                        <p><b>Important:</b> Golden Buzzers <b>do not</b> affect voting scores - they’re a bonus
+                            honour!
                         </p>
                     </CollapsibleContent>
                 </Collapsible>
@@ -319,7 +332,8 @@ const RulesPage: React.FC = () => {
                             </div>
                         </div>
 
-                        <p className="italic text-sm">Note: Golden Buzzers are honorary and do not influence scores.</p>
+                        <p className="italic text-sm">Note: Golden Buzzers are honorary and do not influence
+                            scores.</p>
                     </CollapsibleContent>
                 </Collapsible>
 
@@ -357,11 +371,14 @@ const RulesPage: React.FC = () => {
                     </CollapsibleTrigger>
                     <CollapsibleContent className="content pb-5 px-2 md:px-5">
                         <ul>
-                            <li><b>Vote for the Songs you love the most</b>, not just the ones you think will win.</li>
-                            <li><b>Support your favourites with a Golden Buzzer</b> or by donating to help the Contest
+                            <li><b>Vote for the Songs you love the most</b>, not just the ones you think will win.
+                            </li>
+                            <li><b>Support your favourites with a Golden Buzzer</b> or by donating to help the
+                                Contest
                                 grow.
                             </li>
-                            <li><b>Spread the word!</b> Share your favourite Songs and encourage friends to vote.</li>
+                            <li><b>Spread the word!</b> Share your favourite Songs and encourage friends to vote.
+                            </li>
                         </ul>
                         <p>Let's make music history together!</p>
                     </CollapsibleContent>

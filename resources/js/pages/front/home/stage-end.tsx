@@ -13,7 +13,8 @@ const HomeStageEndPage: React.FC = ({ stage, previousRounds, isLastStage }) => {
     return (
         <>
             <Head>
-                {/* Any tags to go in the <head> section to here. */}
+                <meta name="description"
+                      content="Discover the CATAWOL Records Song Contest — 32 Acts, one anthem, and your vote decides the winner. Follow the journey, cast your vote, and support music that makes a difference."/>
             </Head>
 
             <div className="bg-zinc-800 text-gray-100 py-10 px-5">
