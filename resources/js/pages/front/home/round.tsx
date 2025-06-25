@@ -15,7 +15,8 @@ const HomeCurrentRoundPage: React.FC = ({ stage, currentRound, previousRounds, c
     return (
         <>
             <Head title={currentRound ? currentRound.full_title : stage.title}>
-                {/* Any tags to go in the <head> section to here. */}
+                <meta name="description"
+                      content="Discover the CATAWOL Records Song Contest — 32 Acts, one anthem, and your vote decides the winner. Follow the journey, cast your vote, and support music that makes a difference."/>
             </Head>
 
             <div className="bg-indigo-950 text-white py-10 px-5">
