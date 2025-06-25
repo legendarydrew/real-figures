@@ -34,6 +34,7 @@ use App\Http\Controllers\Back\StagesController;
 use App\Http\Controllers\Back\SubscribersController;
 use App\Http\Controllers\Front\DonorWallController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\SitemapController;
 use App\Http\Controllers\Front\SubscriberConfirmController;
 use App\Http\Controllers\Front\SubscriberRemoveController;
 use App\Http\Controllers\Front\VotesController;
@@ -57,6 +58,7 @@ Route::get('donor-wall', [DonorWallController::class, 'index'])->name('donations
 Route::get('subscriber/confirm/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
 Route::get('subscriber/remove/{id}/{code}', [SubscriberRemoveController::class, 'show'])->name('subscriber.remove');
 Route::get('votes', [VotesController::class, 'index'])->name('votes');
+Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // ----------------------------------------------------------------------------
 // Our famous Kitchen Sink page (only available in debug mode).

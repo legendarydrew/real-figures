@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Act;
+use App\Facades\ContestFacade;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -37,7 +37,7 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
-            'showActs' => (bool)Act::whereHas('songs')->count(),
+            'showActs' => ContestFacade::shouldShowActs(),
             'sidebarOpen' => $request->cookie('sidebar_state') === 'true',
             'flash'    => [
                 'message' => fn() => $request->session()->get('message'),
