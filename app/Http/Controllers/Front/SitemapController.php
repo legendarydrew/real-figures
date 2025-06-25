@@ -24,7 +24,7 @@ class SitemapController extends Controller
         {
             $sitemap->add(Url::create(route('acts')));
 
-            Act::whereHas('songs')->get()->each(function (Act $act) use (&$sitemap) {
+            Act::whereHas('songs')->whereHas('profile')->get()->each(function (Act $act) use (&$sitemap) {
                 $sitemap->add(Url::create(route('act', ['slug' => $act->slug])));
             });
         }
