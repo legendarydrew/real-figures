@@ -35,12 +35,21 @@ class ActsTest extends TestCase
         $response->assertInertia(fn(Assert $page) => $page->component('front/acts'));
     }
 
-    public function test_specific_act()
+    public function test_specific_act_with_no_profile()
     {
-        $acts = Act::factory(2)->withSong('Test')->create();
+        Act::factory(2)->withSong('Test')->create();
+        $act = Act::factory()->createOne();
 
-        $response = $this->get(route('act', ['slug' => $acts->first()->slug]));
+        $response = $this->get(route('act', ['slug' => $act->slug]));
+        $response->assertRedirectToRoute('acts');
+    }
 
+    public function test_specific_act_with_profile()
+    {
+        Act::factory(2)->withSong('Test')->create();
+        $act = Act::factory()->withSong()->withProfile()->createOne();
+
+        $response = $this->get(route('act', ['slug' => $act->slug]));
         $response->assertOk();
         $response->assertInertia(fn(Assert $page) => $page->component('front/acts')->has('currentAct'));
     }
