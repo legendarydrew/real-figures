@@ -44,7 +44,10 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
 
     return (
         <>
-            <Head title="Acts"/>
+            <Head title="Acts">
+                <meta name="description"
+                      content="Meet the 32 Acts competing in the CATAWOL Records Song Contest. Learn more about the artists, explore their songs, and find your favorites before you vote."/>
+            </Head>
 
             <FrontContent>
                 <Heading className="mb-3" title="Competing Acts"/>
@@ -55,7 +58,8 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
                         {acts?.length ? (
                             <div className="grid auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
                                 {acts.map((act: Act) => (
-                                    <ActItem key={act.id} act={act} className={act.has_profile ? 'cursor-pointer' : ''}
+                                    <ActItem key={act.id} act={act}
+                                             className={act.has_profile ? 'cursor-pointer' : ''}
                                              onClick={() => showActHandler(act)}/>
                                 ))}
                             </div>
@@ -72,7 +76,8 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
                 <Dialog open={showCurrentAct}
                         onOpenChange={() => setShowCurrentAct(false)}>
                     <DialogContent className="md:max-w-2xl lg:max-w-3xl">
-                        <DialogDescription className="sr-only">Information about {currentAct?.name}.</DialogDescription>
+                        <DialogDescription className="sr-only">Information
+                            about {currentAct?.name}.</DialogDescription>
                         <div
                             className="flex flex-col overflow-y-auto max-h-[80dvh] md:flex-row md:overflow-visible md:max-h-none gap-5">
                             <div className="md:w-1/3">

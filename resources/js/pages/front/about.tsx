@@ -21,7 +21,10 @@ const AboutPage: React.FC = () => {
 
     return (
         <>
-            <Head title="About the Contest"/>
+            <Head title="About the Contest">
+                <meta name="description"
+                      content="Learn more about the CATAWOL Records Song Contest — why it was created, the message behind the music, and how it brings artists and audiences together."/>
+            </Head>
 
             <FrontContent>
                 <Heading title="Real Figures Don't F.O.L.D &ndash; About the Project" className="mb-5"/>
