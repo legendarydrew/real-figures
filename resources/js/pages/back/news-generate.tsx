@@ -9,6 +9,7 @@ import { titleCase } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
+import axios from 'axios';
 
 interface NewsGeneratePageProps {
     types: string[];
@@ -61,12 +62,27 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
     const selectSingleReferenceHandler = (value: number): void => {
         console.log('select reference', value);
         setData('references', [value]);
-    }
+    };
 
     const selectPreviousHandler = (value: number): void => {
         console.log('select previous post', value);
         setData('previous', value);
-    }
+    };
+
+    const generateHandler = (e): void => {
+        e.preventDefault();
+
+        if (isSaving) return;
+
+        setIsSaving(true);
+        axios.post(route('news.prompt'), data)
+            .then((response) => {
+                console.log(response.data);
+            })
+            .finally(() => {
+                setIsSaving(false);
+            });
+    };
 
     return (
         <AppLayout>
@@ -76,7 +92,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                 <h1 className="display-text flex-grow text-2xl">Generate a News Post</h1>
             </div>
 
-            <form className="flex flex-col gap-5 px-5">
+            <form className="flex flex-col gap-5 px-5" onSubmit={generateHandler}>
 
                 {/* Select the News Post type. */}
                 <div>
@@ -145,7 +161,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                         <Select id="postPrevious" onValueChange={selectPreviousHandler} disabled={!posts.length}>
                             <SelectTrigger>{data.previous ?? <i>none</i>}</SelectTrigger>
                             <SelectContent>
-                                <SelectItem key="none" value={undefined}>
+                                <SelectItem key={0} value={undefined}>
                                     <i>none</i>
                                 </SelectItem>
                                 {posts.map((post) => (

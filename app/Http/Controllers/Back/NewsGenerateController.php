@@ -27,7 +27,6 @@ class NewsGenerateController extends Controller
          *
          * - CONTEST - a general post about the contest.
          * - STAGE - specifically about a Stage and its Rounds.
-         *  - provide a list of active, in progress and ended Stages.
          * - ROUND - specifically about a Round within a Stage.
          * - ACT - specifically about an Act.
          * - CUSTOM - at the user's discretion.
@@ -61,4 +60,5 @@ class NewsGenerateController extends Controller
                                                      ]))
         ]);
     }
+
 }
