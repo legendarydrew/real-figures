@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back;
 use App\Enums\NewsPostType;
 use App\Http\Controllers\Controller;
 use App\Models\Act;
+use App\Models\NewsPost;
 use App\Models\Round;
 use App\Models\Stage;
 use Inertia\Inertia;
@@ -35,6 +36,12 @@ class NewsGenerateController extends Controller
          */
         return Inertia::render('back/news-generate', [
             'types'  => NewsPostType::cases(),
+            'posts' => Inertia::optional(fn() => NewsPost::published()->orderByDesc('id')->get()
+                                                         ->map(fn(NewsPost $post) => [
+                                                             'id'           => $post->id,
+                                                             'title'        => $post->title,
+                                                             'published_at' => $post->published_at->format(config('contest.date_format')),
+                                                         ])),
             'stages' => Inertia::optional(fn() => Stage::all()
                                                        ->filter(fn(Stage $stage) => !$stage->isInactive())
                                                        ->map(fn(Stage $stage) => [

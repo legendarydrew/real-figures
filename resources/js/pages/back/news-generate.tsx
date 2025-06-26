@@ -8,15 +8,17 @@ import { LoadingButton } from '@/components/mode/loading-button';
 import { titleCase } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Textarea } from '@/components/ui/textarea';
 
 interface NewsGeneratePageProps {
     types: string[];
     acts?: { id: number, name: string; }[];
     rounds?: { id: number; title: string; }[];
     stages?: { id: number; title: string; status: string; }[];
+    posts?: { id: number; title: string; published_at: string; }[];
 }
 
-export default function NewsGeneratePage({ types, acts, rounds, stages }: Readonly<NewsGeneratePageProps>) {
+export default function NewsGeneratePage({ types, acts, rounds, stages, posts }: Readonly<NewsGeneratePageProps>) {
 
     const { data, setData } = useForm({
         type: undefined, // the type of News Post to create.
@@ -34,19 +36,17 @@ export default function NewsGeneratePage({ types, acts, rounds, stages }: Readon
     const selectTypeHandler = (type: string): void => {
         setData('type', type);
 
-        let additionalInfo = [];
+        const additionalInfo = ['posts'];
         switch (type) {
             case 'stage':
-                additionalInfo = ['stages'];
+                additionalInfo.push('stages');
                 break;
             case 'act':
-                additionalInfo = ['acts'];
+                additionalInfo.push('acts');
                 break;
             case 'round':
-                additionalInfo = ['rounds'];
+                additionalInfo.push('rounds');
                 break;
-            default:
-                additionalInfo = [];
         }
 
         router.reload({
@@ -63,6 +63,11 @@ export default function NewsGeneratePage({ types, acts, rounds, stages }: Readon
         setData('references', [value]);
     }
 
+    const selectPreviousHandler = (value: number): void => {
+        console.log('select previous post', value);
+        setData('previous', value);
+    }
+
     return (
         <AppLayout>
             <Head title="Generate News Post"/>
@@ -71,7 +76,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages }: Readon
                 <h1 className="display-text flex-grow text-2xl">Generate a News Post</h1>
             </div>
 
-            <form className="flex flex-col gap-3 px-5">
+            <form className="flex flex-col gap-5 px-5">
 
                 {/* Select the News Post type. */}
                 <div>
@@ -123,7 +128,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages }: Readon
                 {/* A list of Acts (if available). */}
                 {/* We would like to be able to select one or more Acts. */}
                 {(data.type === 'act' && acts) && (
-                    <fieldset>
+                    <fieldset className="grid gap-3 grid-cols-1 md:grid-cols-3 lg:grid-cols-6">
                         <legend className="font-normal text-sm mb-3">Select one or more Acts...</legend>
                         {acts.map((act) => (
                             <Label key={act.id} className="flex items-center gap-2">
@@ -133,9 +138,38 @@ export default function NewsGeneratePage({ types, acts, rounds, stages }: Readon
                     </fieldset>
                 )}
 
-                <div className="bg-white border-t-1 flex justify-between sticky bottom-0 py-3">
+                {/* A list of existing published News Posts. */}
+                {posts && (
+                    <div>
+                        <Label htmlFor="postPrevious">Refer to previous News Post (optional)</Label>
+                        <Select id="postPrevious" onValueChange={selectPreviousHandler} disabled={!posts.length}>
+                            <SelectTrigger>{data.previous ?? <i>none</i>}</SelectTrigger>
+                            <SelectContent>
+                                <SelectItem key="none" value={undefined}>
+                                    <i>none</i>
+                                </SelectItem>
+                                {posts.map((post) => (
+                                    <SelectItem key={post.id} value={post.id}>
+                                        {post.published_at} &mdash; {post.title}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                )}
+
+                {/* Additional prompt. */}
+                {data.type && (
+                    <div>
+                        <Label htmlFor="postPrompt">Additional prompt</Label>
+                        <Textarea id="postPrompt" placeholder="Information that could help the generator." rows={6}
+                                  onChange={(e) => setData('prompt', e.target.value)}/>
+                    </div>
+                )}
+
+                <div className="bg-white border-t-1 flex justify-between sticky bottom-0 py-3 -mx-5 px-5">
                     <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
-                    <LoadingButton size="lg" isLoading={isSaving}>Save Act</LoadingButton>
+                    <LoadingButton size="lg" isLoading={isSaving}>Generate News Post</LoadingButton>
                 </div>
             </form>
 
