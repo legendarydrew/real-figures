@@ -37,3 +37,4 @@
       - [x] Act traits (personality)
       - [x] Act's (spoken) languages.
 - [x] Display Stage rankings once a Stage is over.
+- [ ] Impose a minimum donation amount for Golden Buzzers.
