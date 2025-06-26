@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import React, { RefObject, useRef, useState } from 'react';
 import { Edit, Trash } from 'lucide-react';
@@ -75,6 +75,9 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
                 <h1 className="display-text flex-grow text-2xl">News</h1>
                 <div className="flex gap-1">
                     <Button>Create Post</Button>
+                    <Button asChild>
+                        <Link href={route('admin.news-generate.index')}>Generate</Link>
+                    </Button>
                 </div>
             </div>
 

@@ -30,6 +30,7 @@ use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\DonationsController;
 use App\Http\Controllers\Back\GoldenBuzzersController;
 use App\Http\Controllers\Back\NewsController;
+use App\Http\Controllers\Back\NewsGenerateController;
 use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
 use App\Http\Controllers\Back\SubscribersController;
@@ -134,6 +135,7 @@ Route::middleware(['auth', 'verified'])->group(function ()
     Route::get('/admin/donations', [DonationsController::class, 'index'])->name('admin.donations');
     Route::get('/admin/golden-buzzers', [GoldenBuzzersController::class, 'index'])->name('admin.golden-buzzers');
     Route::get('/admin/news', [NewsController::class, 'index'])->name('admin.news');
+    Route::get('/admin/news/generate', [NewsGenerateController::class, 'index'])->name('admin.news-generate.index');
     Route::get('/admin/songs', [SongsController::class, 'index'])->name('admin.songs');
     Route::get('/admin/stages', [StagesController::class, 'index'])->name('admin.stages');
     Route::get('/admin/subscribers', [SubscribersController::class, 'index'])->name('admin.subscribers');
