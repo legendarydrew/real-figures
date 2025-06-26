@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->id();
             $table->string('title');
             $table->text('content')->comment('Markdown content.');
+            $table->dateTime('published_at')->nullable();
             $table->timestamps();
         });
     }

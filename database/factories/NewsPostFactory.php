@@ -21,4 +21,11 @@ class NewsPostFactory extends Factory
             'content' => $this->faker->paragraphs(4, true)
         ];
     }
+
+    public function published(): NewsPostFactory
+    {
+        return $this->state([
+            'published_at' => fake()->dateTimeThisMonth
+        ]);
+    }
 }

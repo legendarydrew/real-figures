@@ -234,3 +234,13 @@ export interface LanguageRow {
     code: string;
     name: string;
 }
+
+export interface NewsPost {
+    id: number;
+    title: string;
+    excerpt?: string;
+    content: string;
+    created_at: string;
+    published_at?: string;
+    updated_at: string;
+}
