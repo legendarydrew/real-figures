@@ -19,10 +19,10 @@ interface NewsGeneratePageProps {
 export default function NewsGeneratePage({ types, acts, rounds, stages }: Readonly<NewsGeneratePageProps>) {
 
     const { data, setData } = useForm({
-        type: undefined,
-        references: [],
-        title: '',
-        content: ''
+        type: undefined, // the type of News Post to create.
+        references: [], // ID(s) of the Stage/Round/Acts to refer to.
+        previous: undefined,  // [optional] previous News Post to reference.
+        prompt: "" // user-entered information to help OpenAI.
     });
 
     const [isSaving, setIsSaving] = useState<boolean>(false);
