@@ -222,7 +222,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                 </div>
             </form>
 
-            <NewsPromptDialog prompt={prompt} type={titleCase(data.type)} open={isPromptOpen}
+            <NewsPromptDialog type={data.type} reference_ids={data.references} prompt={prompt} open={isPromptOpen}
                               onOpenChange={closePromptHandler}/>
 
         </AppLayout>

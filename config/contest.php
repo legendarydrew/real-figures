@@ -23,5 +23,8 @@ return [
         'winners'    => 1,
         'runners-up' => 3,
         'allow-ties' => true
+    ],
+    'ai'          => [
+        'model' => 'gpt-4o-mini'
     ]
 ];

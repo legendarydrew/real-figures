@@ -260,19 +260,7 @@ class NewsPromptController extends Controller
 
         if ($with_wins)
         {
-            $wins = StageWinner::whereHas('song', function (Builder $q) use ($act)
-            {
-                $q->where('act_id', '=', $act->id);
-            })->get();
-            if ($wins->isNotEmpty())
-            {
-                $output[] = Lang::get("press-release.act.wins");
-                foreach ($wins as $row)
-                {
-                    $rank     = $row->is_winner ? 'Winner' : 'Runner-up';
-                    $output[] = "    $rank in $row->round->full_title";
-                }
-            }
+            $output = $this->generateActWins($act, $output);
         }
 
         return implode("\n", $output);
@@ -358,6 +346,7 @@ class NewsPromptController extends Controller
         if ($current_round)
         {
             $lines[] = Lang::get('press-release.contest.current-round', ['round_title' => $current_round->full_title]);
+            $lines[] = Lang::get('press-release.contest.current-round-competing');
             foreach ($current_round->songs as $song)
             {
                 $lines[] = "- {$song->act->name}";
@@ -471,5 +460,28 @@ class NewsPromptController extends Controller
         $act_information = $acts->map(fn(Act $act) => $this->getActData($act, true));
 
         return [...$lines, ...$act_information];
+    }
+
+    /**
+     * @param Act   $act
+     * @param array $output
+     * @return array
+     */
+    protected function generateActWins(Act $act, array $output): array
+    {
+        $wins = StageWinner::whereHas('song', function (Builder $q) use ($act)
+        {
+            $q->where('act_id', '=', $act->id);
+        })->get();
+        if ($wins->isNotEmpty())
+        {
+            $output[] = Lang::get("press-release.act.wins");
+            foreach ($wins as $row)
+            {
+                $rank     = $row->is_winner ? 'Winner' : 'Runner-up';
+                $output[] = "    $rank in $row->round->full_title";
+            }
+        }
+        return $output;
     }
 }

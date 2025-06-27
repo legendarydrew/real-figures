@@ -29,8 +29,8 @@ return [
         'overall-winners'         => "Overall winner(s):",
         'runners-up'              => "Runner-ups:",
         'previous-stage-winners'  => "Previous stage winners:",
-        'current-round'           => "Current round: :round_title",
-        'current-round-competing' => "Competing in this round",
+        'current-round'           => "The name of the current round is \":round_title\".",
+        'current-round-competing' => "Competing in this round:",
     ],
     'stage'    => [
         'ready'              => [
