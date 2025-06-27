@@ -15,8 +15,11 @@ return [
         // Used when referring to a previous News Post.
         "You are writing a series of press releases covering a song contest hosted by :contest_host, called :contest_name.",
         "The previous press release was as follows:\n",
+        "---",
         "Headline: :previous_title\n",
+        "Content:",
         ":previous_content\n",
+        "---",
         "Using the previous press release, write a follow-up release, consistent in style and tone, including these updates:\n"
     ],
     'output'   => [
