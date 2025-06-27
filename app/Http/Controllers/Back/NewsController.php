@@ -28,4 +28,18 @@ class NewsController extends Controller
                 ->toArray()
         ]);
     }
+
+    public function create(): Response
+    {
+        return Inertia::render('back/news-edit');
+    }
+
+    public function edit(int $id): Response
+    {
+        return Inertia::render('back/news-edit', [
+            'post' => fn() => fractal(NewsPost::findOrFail($id))
+                ->transformWith(NewsPostTransformer::class)
+                ->toArray()
+        ]);
+    }
 }

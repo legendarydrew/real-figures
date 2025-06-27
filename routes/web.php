@@ -139,6 +139,8 @@ Route::middleware(['auth', 'verified'])->group(function ()
     Route::get('/admin/golden-buzzers', [GoldenBuzzersController::class, 'index'])->name('admin.golden-buzzers');
     Route::get('/admin/news', [NewsController::class, 'index'])->name('admin.news');
     Route::get('/admin/news/generate', [NewsGenerateController::class, 'index'])->name('admin.news-generate.index');
+    Route::get('/admin/news/new', [NewsController::class, 'create'])->name('admin.news.create');
+    Route::get('/admin/news/{id}', [NewsController::class, 'edit'])->name('admin.news.edit');
     Route::get('/admin/songs', [SongsController::class, 'index'])->name('admin.songs');
     Route::get('/admin/stages', [StagesController::class, 'index'])->name('admin.stages');
     Route::get('/admin/subscribers', [SubscribersController::class, 'index'])->name('admin.subscribers');

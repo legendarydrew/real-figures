@@ -39,7 +39,7 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
     }
 
     const editHandler = (post: NewsPost): void => {
-
+        router.visit(route('admin.news.edit', { id: post.id }));
     }
 
     const deleteHandler = (post: NewsPost): void => {
@@ -74,7 +74,9 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
             <div className="flex mb-3 p-4">
                 <h1 className="display-text flex-grow text-2xl">News</h1>
                 <div className="flex gap-1">
-                    <Button variant="default">Create Post</Button>
+                    <Button asChild variant="default">
+                        <Link href={route('admin.news.create')}>Create Post</Link>
+                    </Button>
                     <Button asChild variant="secondary">
                         <Link href={route('admin.news-generate.index')}>Generate</Link>
                     </Button>
