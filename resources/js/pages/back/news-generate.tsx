@@ -121,7 +121,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                 <h1 className="display-text flex-grow text-2xl">Generate a News Post</h1>
             </div>
 
-            <form className="flex flex-col gap-5 px-5" onSubmit={generatePromptHandler}>
+            <form className="flex-grow flex flex-col justify-between gap-5 px-5" onSubmit={generatePromptHandler}>
 
                 {/* Select the News Post type. */}
                 <div>
@@ -191,7 +191,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                         <Select id="postPrevious" onValueChange={selectPreviousHandler} disabled={!posts.length}>
                             <SelectTrigger>{data.previous ?? <i>none</i>}</SelectTrigger>
                             <SelectContent>
-                                <SelectItem key={0} value={undefined}>
+                                <SelectItem value={undefined}>
                                     <i>none</i>
                                 </SelectItem>
                                 {posts?.map((post) => (
