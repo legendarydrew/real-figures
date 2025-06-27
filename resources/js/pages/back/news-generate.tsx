@@ -11,6 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import axios from 'axios';
 import { NewsPromptDialog } from '@/components/admin/news-prompt-dialog';
+import { Alert } from '@/components/mode/alert';
 
 interface NewsGeneratePageProps {
     types: string[];
@@ -29,6 +30,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         prompt: "" // user-entered information to help OpenAI.
     });
 
+    const [error, setError] = useState<string>();
     const [isPromptOpen, setIsPromptOpen] = useState<boolean>(false);
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [prompt, setPrompt] = useState<string>();
@@ -82,10 +84,14 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         if (isSaving) return;
 
         setIsSaving(true);
+        setError(undefined);
         axios.post(route('news.prompt'), data)
             .then((response) => {
                 setPrompt(response.data.prompt);
                 setIsPromptOpen(true);
+            })
+            .catch((response) => {
+                setError(response.response.data.message);
             })
             .finally(() => {
                 setIsSaving(false);
@@ -196,9 +202,12 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     </div>
                 )}
 
-                <div className="bg-white border-t-1 flex justify-between sticky bottom-0 py-3 -mx-5 px-5">
+                <div className="bg-white border-t-1 flex flex-wrap justify-between sticky bottom-0 py-3 -mx-5 px-5">
+                    {error && <Alert className="w-full" type="error" message={error}/>}
+
                     <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
-                    <LoadingButton size="lg" isLoading={isSaving}>Generate News Post</LoadingButton>
+                    <LoadingButton size="lg" disabled={!data.type} isLoading={isSaving}>Generate News
+                        Post</LoadingButton>
                 </div>
             </form>
 

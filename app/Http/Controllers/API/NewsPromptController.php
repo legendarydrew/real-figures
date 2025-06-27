@@ -37,6 +37,13 @@ class NewsPromptController extends Controller
 
         switch ($data['type'])
         {
+            case NewsPostType::CUSTOM_POST_TYPE->value:
+                // Nothing to do, except ensure there is actually a prompt.
+                if (!isset($data['prompt']))
+                {
+                    abort(400, 'A prompt is required for a custom post.');
+                }
+                break;
             case NewsPostType::CONTEST_POST_TYPE->value:
                 $prompt_lines = array_merge($prompt_lines, $this->buildContestPrompt($data));
                 break;
