@@ -54,6 +54,11 @@ class Act extends Model
         return $this->hasMany(ActMetaNote::class);
     }
 
+    public function goldenBuzzers(): HasManyThrough
+    {
+        return $this->hasManyThrough(GoldenBuzzer::class, Song::class, 'act_id', 'song_id', 'id', 'id');
+    }
+
     /**
      * A shortcut attribute for returning the Act's associated picture data.
      *

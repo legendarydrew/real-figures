@@ -177,7 +177,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                                 <SelectItem key={0} value={undefined}>
                                     <i>none</i>
                                 </SelectItem>
-                                {posts.map((post) => (
+                                {posts?.map((post) => (
                                     <SelectItem key={post.id} value={post.id}>
                                         {post.published_at} &mdash; {post.title}
                                     </SelectItem>
@@ -203,7 +203,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
             </form>
 
             <NewsPromptDialog prompt={prompt} type={titleCase(data.type)} open={isPromptOpen}
-                              openChange={closePromptHandler}/>
+                              onOpenChange={closePromptHandler}/>
 
         </AppLayout>
     );
