@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 class Stage extends Model
 {
@@ -161,5 +163,17 @@ class Stage extends Model
                     ->where('starts_at', '<=', Carbon::now())
                     ->where('ends_at', '>=', Carbon::now())
                     ->first();
+    }
+
+    public function getActsInvolved(): Collection
+    {
+        $songs = Song::with(['act'])->whereHas('rounds', function (Builder $q)
+        {
+            $q->where('stage_id', '=', $this->id);
+        })->get();
+        return $songs->map(fn($song) => $song->act)
+                     ->unique()
+                     ->sortBy(fn(Act $act) => $act->name);
+
     }
 }

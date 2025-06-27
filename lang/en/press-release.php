@@ -32,6 +32,36 @@ return [
         'current-round'           => "Current round: :round_title",
         'current-round-competing' => "Competing in this round",
     ],
+    'stage'    => [
+        'ready'              => [
+            "Write a press release summarising the anticipation of \":stage_name\" in \":contest_name\": a song contest hosted by :contest_host.",
+            "If there is more than one round in this stage, summarise the random allocation of acts in each round, noting any key highlights, surprises, and fan reactions.",
+            "Consider any information about the acts' performances in previous stages.",
+            "None of the rounds in this stage have started yet.",
+        ],
+        'active'             => [
+            "Write a press release up to 400 words summarising the current stage of \":contest_name\": a song contest hosted by :contest_host.",
+            "Summarise the current round with key highlights, surprises, and fan reactions.",
+            "Consider any information about the acts' performances in previous stages."
+        ],
+        'ended'              => [
+            "Write a press release up to 400 words summarising the current stage of \":contest_name\": a song contest hosted by :contest_host.",
+            "Summarise the current round with key highlights, surprises, and fan reactions.",
+            "Mention whether any of the rounds will have to be judged, which occurs when a round has no votes.",
+            "Consider any information about the acts' performances in previous stages."
+        ],
+        'over'               => [
+            ""
+        ],
+        'stage-acts'         => 'Acts participating in this stage:',
+        'round-breakdown'    => 'The acts have been split into rounds in this stage as follows:',
+        'current-round'      => 'The current round is named :round_title.',
+        'current-round-acts' => 'Acts participating in the current round:',
+        'current-round-ends' => 'This round ends at :round_end.',
+        'round-votes'        => 'Number of votes in each round:',
+        'outcome'            => 'The outcomes of the stage are as follows:',
+        'previous-results'   => 'The outcomes of previous stages were as follows:'
+    ],
     'round'    => [
         'started' => [
             "Write a 300-400 word press release summarising the start of a round called \":round_name\" in \":contest_name\": a song contest hosted by :contest_host.",

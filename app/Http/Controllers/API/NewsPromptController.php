@@ -11,6 +11,7 @@ use App\Models\Donation;
 use App\Models\NewsPost;
 use App\Models\Round;
 use App\Models\RoundOutcome;
+use App\Models\Stage;
 use App\Models\StageWinner;
 use Illuminate\Http\JsonResponse;
 use Lang;
@@ -46,6 +47,10 @@ class NewsPromptController extends Controller
                 break;
             case NewsPostType::CONTEST_POST_TYPE->value:
                 $prompt_lines = array_merge($prompt_lines, $this->buildContestPrompt($data));
+                break;
+            case NewsPostType::STAGE_POST_TYPE->value:
+                $stage        = Stage::findOrFail($data['references'][0]);
+                $prompt_lines = array_merge($prompt_lines, $this->buildStagePrompt($stage, $data));
                 break;
             case NewsPostType::ROUND_POST_TYPE->value:
                 $round = Round::whereHas('songs')->findOrFail($data['references'][0]);
@@ -103,6 +108,63 @@ class NewsPromptController extends Controller
         if ($index = array_search(':acts', $lines))
         {
             array_splice($lines, $index, 1, $competing_acts);
+        }
+
+        return $lines;
+    }
+
+    /**
+     * Build a prompt to use for generating a News Post about the specified Stage.
+     *
+     * @param Stage $stage
+     * @param array $data
+     * @return array
+     */
+    public function buildStagePrompt(Stage $stage, array $data): array
+    {
+        $lines = [];
+
+        if ($stage->isOver())
+        {
+            $lines = $this->getStageOverPrompt($lines, $stage);
+        }
+        elseif ($stage->hasEnded())
+        {
+            $lines = $this->getStageEndedPrompt($lines, $stage);
+        }
+        elseif ($stage->isActive())
+        {
+            $lines = $this->getStageActivePrompt($lines, $stage);
+        }
+        elseif ($stage->isReady())
+        {
+            $lines = $this->getStageReadyPrompt($lines, $stage);
+        }
+        else
+        {
+            abort(400, 'This Stage is inactive.');
+        }
+
+        // In both cases, include:
+        // - a list of Acts participating in this Stage;
+        // - any information about the involved Acts' performance in previous Stages.
+
+        $lines[] = Lang::get('press-release.stage.stage-acts');
+        $acts    = $stage->getActsInvolved();
+        foreach ($acts as $act)
+        {
+            $lines[] = "- $act->name";
+        }
+
+        $previous_wins = StageWinner::where('stage_id', '<', $stage->id)->get();
+        if ($previous_wins->isNotEmpty())
+        {
+            $lines[] = Lang::get('press-release.stage.previous-results');
+            foreach ($previous_wins as $row)
+            {
+                $rank    = $row->is_winner ? 'Winner' : 'Runner-up';
+                $lines[] = "- $row->song->act->name: $rank ($row->round->full_title)";
+            }
         }
 
         return $lines;
@@ -284,6 +346,86 @@ class NewsPromptController extends Controller
             foreach ($stage_winners as $row)
             {
                 $lines[] = "- {$row->song->act->name} ({$row->round->full_title})";
+            }
+        }
+        return $lines;
+    }
+
+    /**
+     * @param array $lines
+     * @param Stage $stage
+     * @return array|string
+     */
+    protected function getStageOverPrompt(array $lines, Stage $stage): string|array
+    {
+        $lines = array_merge($lines, Lang::get('press-release.stage.over'));
+
+        // Include the winners and runners-up of the Stage.
+        $lines[] = Lang::get('press-release.stage.outcome');
+        foreach ($stage->winners as $row)
+        {
+            $rank    = $row->is_winner ? 'Winner' : 'Runner-up';
+            $lines[] = "- {$row->song->act->name}: $rank ({$row->round->title})";
+        }
+        return $lines;
+    }
+
+    /**
+     * @param array $lines
+     * @param Stage $stage
+     * @return array|string
+     */
+    protected function getStageEndedPrompt(array $lines, Stage $stage): string|array
+    {
+        $lines = array_merge($lines, Lang::get('press-release.stage.ended'));
+
+        // Include the number of votes in each Round.
+        $lines[] = Lang::get('press-release.stage.round-votes');
+        foreach ($stage->rounds as $round)
+        {
+            $lines[] = "- {$round->title}: {$round->votes->count()}";
+        }
+        return $lines;
+    }
+
+    /**
+     * @param array $lines
+     * @param Stage $stage
+     * @return array|string
+     */
+    protected function getStageActivePrompt(array $lines, Stage $stage): string|array
+    {
+        $lines = array_merge($lines, Lang::get('press-release.stage.active'));
+
+        // Include information about the current Round in this Stage.
+        $current_round = $stage->getCurrentRound();
+        $lines[]       = Lang::get('press-release.stage.current-round', ['round_title' => $current_round->full_title]);
+        $lines[]       = Lang::get('press-release.stage.current-round-acts');
+        foreach ($current_round->songs as $song)
+        {
+            $lines[] = "- {$song->act->name}";
+        }
+        $lines[] = Lang::get('press-release.stage.current-round-ends', ['round_end' => $current_round->ends_at->toISOString()]);
+        return $lines;
+    }
+
+    /**
+     * @param array $lines
+     * @param Stage $stage
+     * @return array|string
+     */
+    protected function getStageReadyPrompt(array $lines, Stage $stage): string|array
+    {
+        $lines = array_merge($lines, Lang::get('press-release.stage.ready'));
+
+        // In this case, we would want to know which Acts are in each Stage.
+        $lines[] = Lang::get('press-release.stage.round-breakdown');
+        foreach ($stage->rounds as $round)
+        {
+            $lines[] = "- $round->title";
+            foreach ($round->songs as $song)
+            {
+                $lines[] = "  - $song->act->name (performing $song->name)";
             }
         }
         return $lines;
