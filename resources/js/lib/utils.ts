@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function titleCase(str: string) {
-    return str[0].toUpperCase() + str.slice(1);
+    return str?.length ? str[0].toUpperCase() + str.slice(1) : '';
 }

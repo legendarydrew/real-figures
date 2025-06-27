@@ -1,5 +1,5 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import axios from 'axios';
+import { NewsPromptDialog } from '@/components/admin/news-prompt-dialog';
 
 interface NewsGeneratePageProps {
     types: string[];
@@ -28,7 +29,15 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         prompt: "" // user-entered information to help OpenAI.
     });
 
+    const [isPromptOpen, setIsPromptOpen] = useState<boolean>(false);
     const [isSaving, setIsSaving] = useState<boolean>(false);
+    const [prompt, setPrompt] = useState<string>();
+
+    const selectedRound = useMemo((): never => {
+        if (data.references.length) {
+            return rounds?.find((round) => round.id == data.references[0]);
+        }
+    }, [rounds, data.references]);
 
     const cancelHandler = (): void => {
         router.visit(route('admin.news'));
@@ -60,16 +69,14 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
     };
 
     const selectSingleReferenceHandler = (value: number): void => {
-        console.log('select reference', value);
         setData('references', [value]);
     };
 
     const selectPreviousHandler = (value: number): void => {
-        console.log('select previous post', value);
         setData('previous', value);
     };
 
-    const generateHandler = (e): void => {
+    const generatePromptHandler = (e): void => {
         e.preventDefault();
 
         if (isSaving) return;
@@ -77,12 +84,18 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         setIsSaving(true);
         axios.post(route('news.prompt'), data)
             .then((response) => {
-                console.log(response.data);
+                setPrompt(response.data.prompt);
+                setIsPromptOpen(true);
             })
             .finally(() => {
                 setIsSaving(false);
             });
     };
+
+    const closePromptHandler = (): void => {
+        setIsPromptOpen(false);
+        setPrompt(undefined);
+    }
 
     return (
         <AppLayout>
@@ -92,7 +105,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                 <h1 className="display-text flex-grow text-2xl">Generate a News Post</h1>
             </div>
 
-            <form className="flex flex-col gap-5 px-5" onSubmit={generateHandler}>
+            <form className="flex flex-col gap-5 px-5" onSubmit={generatePromptHandler}>
 
                 {/* Select the News Post type. */}
                 <div>
@@ -129,7 +142,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     <div>
                         <Label className="sr-only" htmlFor="postReference">Select a Round</Label>
                         <Select id="postReference" onValueChange={selectSingleReferenceHandler}>
-                            <SelectTrigger>{data.reference_id ?? 'Select a Round...'}</SelectTrigger>
+                            <SelectTrigger>{selectedRound?.title ?? 'Select a Round...'}</SelectTrigger>
                             <SelectContent>
                                 {rounds.map((round) => (
                                     <SelectItem key={round.id} value={round.id}>
@@ -188,6 +201,9 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     <LoadingButton size="lg" isLoading={isSaving}>Generate News Post</LoadingButton>
                 </div>
             </form>
+
+            <NewsPromptDialog prompt={prompt} type={titleCase(data.type)} open={isPromptOpen}
+                              openChange={closePromptHandler}/>
 
         </AppLayout>
     );
