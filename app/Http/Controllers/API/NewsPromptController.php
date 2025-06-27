@@ -20,7 +20,7 @@ class NewsPromptController extends Controller
         $data = $request->validated();
 
         // Here's where things get complicated!
-        $prompt_lines                         = [];
+        $prompt_lines = [];
         $replace_values = [];
 
         // Include a reference to a previous News Post, if specified.
@@ -35,7 +35,7 @@ class NewsPromptController extends Controller
         switch ($data['type'])
         {
             case NewsPostType::ROUND_POST_TYPE->value:
-                $round          = Round::findOrFail($data['references'][0]);
+                $round = Round::whereHas('songs')->findOrFail($data['references'][0]);
                 $prompt_lines                 = array_merge($prompt_lines, $this->buildRoundPrompt($round, $data));
                 $replace_values['round_name'] = $round->full_title;
                 break;
@@ -149,15 +149,20 @@ class NewsPromptController extends Controller
         return implode("\n", $output);
     }
 
+    /**
+     * Returns a series of RoundOutcomes formatted for the prompt.
+     *
+     * @param Round $round
+     * @return string
+     */
     protected function getRoundOutcomeData(Round $round): string
     {
-        $outcomes = $round->outcomes->map(fn(RoundOutcome $outcome) => [
-            "  - Act: $outcome->song->act->name" . PHP_EOL .
+        $outcomes = $round->outcomes->map(fn(RoundOutcome $outcome) => "  - Act: $outcome->song->act->name" . PHP_EOL .
             "    Total score: $outcome->score" . PHP_EOL .
             "    First choice votes: $outcome->first_votes" . PHP_EOL .
             "    Second choice votes: $outcome->second_votes" . PHP_EOL .
             "    Third choice votes: $outcome->third_votes"
-        ]);
+        );
 
         return implode(PHP_EOL, ['- Round outcomes:', ...$outcomes]);
     }

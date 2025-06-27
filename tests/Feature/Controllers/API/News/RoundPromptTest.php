@@ -15,17 +15,16 @@ class RoundPromptTest extends TestCase
 
     protected const string ENDPOINT = 'api/news/prompt';
 
-    private Round $round;
     private array $payload;
 
     protected function setUp(): void
     {
         parent::setUp();
         $stage         = Stage::factory()->createOne();
-        $this->round   = Round::factory()->for($stage)->withSongs()->createOne();
+        $round = Round::factory()->for($stage)->withSongs()->started()->createOne();
         $this->payload = [
             'type'       => NewsPostType::ROUND_POST_TYPE->value,
-            'references' => [$this->round->id]
+            'references' => [$round->id]
         ];
     }
 
@@ -90,5 +89,44 @@ class RoundPromptTest extends TestCase
         $this->payload['previous'] = [404];
         $response                  = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnprocessable();
+    }
+
+    public function test_round_with_no_songs()
+    {
+        $stage                       = Stage::factory()->createOne();
+        $round                       = Round::factory()->for($stage)->createOne();
+        $this->payload['references'] = [$round->id];
+        $response                    = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertNotFound();
+    }
+
+    public function test_round_not_started()
+    {
+        $stage                       = Stage::factory()->createOne();
+        $round                       = Round::factory()->for($stage)->withSongs()->createOne([
+            'starts_at' => now()->addDay(),
+        ]);
+        $this->payload['references'] = [$round->id];
+        $response                    = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertOk();
+        // This should be okay, because we might want to announce a Round before it begins.
+    }
+
+    public function test_ended_round_with_no_outcomes()
+    {
+        $stage                       = Stage::factory()->createOne();
+        $round                       = Round::factory()->for($stage)->withSongs()->ended()->createOne();
+        $this->payload['references'] = [$round->id];
+        $response                    = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertOk();
+    }
+
+    public function test_ended_round_with_outcomes()
+    {
+        $stage                       = Stage::factory()->createOne();
+        $round                       = Round::factory()->for($stage)->withSongs()->ended()->withOutcomes()->createOne();
+        $this->payload['references'] = [$round->id];
+        $response                    = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertOk();
     }
 }
