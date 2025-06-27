@@ -263,7 +263,8 @@ class NewsPromptController extends Controller
      */
     protected function getRoundOutcomeData(Round $round): string
     {
-        $outcomes = $round->outcomes->map(fn(RoundOutcome $outcome) => "  - Act: $outcome->song->act->name" . PHP_EOL .
+        $outcomes = $round->outcomes
+            ->map(fn(RoundOutcome $outcome) => "  - Act: $outcome->song->act->name" . PHP_EOL .
             "    Total score: $outcome->score" . PHP_EOL .
             "    First choice votes: $outcome->first_votes" . PHP_EOL .
             "    Second choice votes: $outcome->second_votes" . PHP_EOL .
@@ -271,7 +272,7 @@ class NewsPromptController extends Controller
             "    Was judged?: " . ($outcome->was_manual ? 'Yes' : 'No')
         );
 
-        return implode(PHP_EOL, ['- Round outcomes:', ...$outcomes]);
+        return implode(PHP_EOL, ['- Round outcomes:', ...$outcomes->toArray()]);
     }
 
     /**

@@ -77,4 +77,15 @@ class CustomPromptTest extends TestCase
         $response                  = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnprocessable();
     }
+
+    public function test_no_prompt()
+    {
+        $this->payload['prompt'] = null;
+        $response                = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertBadRequest();
+
+        $this->payload['prompt'] = '';
+        $response                = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertBadRequest();
+    }
 }

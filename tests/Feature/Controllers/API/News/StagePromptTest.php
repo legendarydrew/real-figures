@@ -101,6 +101,22 @@ class StagePromptTest extends TestCase
         $response->assertBadRequest();
     }
 
+    public function test_ready_stage()
+    {
+        $stage = Stage::factory()->createOne();
+        Round::factory()->for($stage)->withSongs()->createOne([
+            'starts_at' => now()->addDay(),
+            'ends_at'   => now()->addWeek(),
+        ]);
+        self::assertTrue($stage->isReady());
+        self::assertFalse($stage->isActive());
+
+        $this->payload['references'] = [$stage->id];
+
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertOk();
+    }
+
     public function test_ended_stage()
     {
         $stage = Stage::factory()->createOne();
@@ -125,7 +141,7 @@ class StagePromptTest extends TestCase
 
     public function test_previous_stages()
     {
-        Stage::factory(2)->withRounds()->withResults()->create();
+        Stage::factory(2)->over()->create();
         $stage = Stage::factory()->withRounds()->createOne();
         self::assertTrue($stage->isActive());
 

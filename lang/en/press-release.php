@@ -67,7 +67,7 @@ return [
             "Write a 300-400 word press release summarising the start of a round called \":round_name\" in \":contest_name\": a song contest hosted by :contest_host.",
             "Summarise the round with key highlights, surprises, and fan reactions. Mention acts that stood out and any who were tipped to win.",
         ],
-        'over' => [
+        'ended' => [
             "Write a 300-400 word press release summarising the results of a round called \":round_name\" in \":contest_name\": a song contest hosted by :contest_host.",
             "Summarise the round with key highlights, surprises, and fan reactions. Mention acts that stood out and any who were tipped to win.",
             "Unless an act has scored no points, do not disclose any of the scores.",
