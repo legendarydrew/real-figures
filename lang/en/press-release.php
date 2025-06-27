@@ -77,7 +77,7 @@ return [
         "prompt" => [
             "Write a press release about the following musical acts, who are taking part in \":contest_name\": a song contest hosted by :contest_host.",
             "Summarise each act's involvement and current activity within the song contest, based on the information provided.",
-            "Mention any significant details about each act's results, using a little creativity.",
+            "Mention any significant details about each act and their results, using a little creativity.",
         ],
         "wins"   => "  Contest wins:"
     ],

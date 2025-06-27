@@ -74,6 +74,16 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         setData('references', [value]);
     };
 
+    const selectActHandler = (actId: number, state: boolean): void => {
+        let updatedIds = data.references;
+        if (state) {
+            updatedIds.push(actId);
+        } else {
+            updatedIds = updatedIds.filter((id) => id !== actId);
+        }
+        setData('references', [...new Set(updatedIds)]);
+    };
+
     const selectPreviousHandler = (value: number): void => {
         setData('previous', value);
     };
@@ -167,7 +177,8 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                         <legend className="font-normal text-sm mb-3">Select one or more Acts...</legend>
                         {acts.map((act) => (
                             <Label key={act.id} className="flex items-center gap-2">
-                                <Checkbox value={act.id}/> {act.name}
+                                <Checkbox value={act.id}
+                                          onCheckedChange={(state) => selectActHandler(act.id, state)}/> {act.name}
                             </Label>
                         ))}
                     </fieldset>
