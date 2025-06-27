@@ -103,7 +103,7 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
                     <InputError className="mt-2" message={errors.content}/>
                 </div>
 
-                <div className="bg-white border-t-1 flex justify-between sticky bottom-0 py-3">
+                <div className="bg-white border-t-1 flex justify-between sticky bottom-0 -mx-5 px-5 py-3">
                     <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
                     <LoadingButton size="lg" isLoading={isSaving}>Save News Post</LoadingButton>
                 </div>

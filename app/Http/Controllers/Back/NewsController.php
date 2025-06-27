@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NewsPostRequest;
 use App\Models\NewsPost;
 use App\Transformers\NewsPostTransformer;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -41,5 +43,22 @@ class NewsController extends Controller
                 ->transformWith(NewsPostTransformer::class)
                 ->toArray()
         ]);
+    }
+
+    public function store(NewsPostRequest $request): RedirectResponse
+    {
+        $data = $request->validated();
+        $post = NewsPost::factory()->create($data);
+
+        return to_route('admin.news.edit', ['id' => $post->id]);
+    }
+
+    public function update(int $id, NewsPostRequest $request): RedirectResponse
+    {
+        $data = $request->validated();
+        $post = NewsPost::findOrFail($id);
+        $post->update($data);
+
+        return to_route('admin.news.edit', ['id' => $post->id]);
     }
 }

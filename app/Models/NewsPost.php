@@ -12,6 +12,8 @@ class NewsPost extends Model
     /** @use HasFactory<\Database\Factories\NewsPostFactory> */
     use HasFactory;
 
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
     public function scopePublished(Builder $query): Builder
     {
         return $query->whereNotNull('published_at');
