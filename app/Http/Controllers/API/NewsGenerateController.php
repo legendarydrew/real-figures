@@ -5,9 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPromptRequest;
 use App\Models\NewsPost;
+use App\Models\NewsPostReference;
 use DavidBadura\FakerMarkdownGenerator\FakerProvider;
+use Illuminate\Http\RedirectResponse;
 use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse;
+use OpenAI\Testing\Responses\Fixtures\Chat\CreateResponseFixture;
 
 /**
  * NewsGenerateController
@@ -24,9 +27,9 @@ class NewsGenerateController extends Controller
      * If successful, we will create a new News Post and begin editing it.
      *
      * @param NewsPromptRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function store(NewsPromptRequest $request)
+    public function store(NewsPromptRequest $request): RedirectResponse
     {
         $data = $request->validated();
 
@@ -52,9 +55,23 @@ class NewsGenerateController extends Controller
         ]);
 
         $usage = $result->usage;
-        $json  = $result->choices[0]->message->content;
+        $json = json_decode($result->choices[0]->message->content, true);
 
-        $post = NewsPost::factory()->createOne(json_decode($json));
+        $post = NewsPost::factory()->createOne([
+            'type'    => $data['type'],
+            'title'   => $json['title'],
+            'content' => $json['content']
+        ]);
+        if (isset($data['references']))
+        {
+            foreach ($data['references'] as $reference_id)
+            {
+                NewsPostReference::create([
+                    'news_post_id' => $post->id,
+                    'reference_id' => $reference_id
+                ]);
+            }
+        }
         logger()->info(
             "OpenAI token usage for News Post id $post->id:\n" .
             "  prompt:     {$usage->promptTokens}\n" .
@@ -70,15 +87,14 @@ class NewsGenerateController extends Controller
     {
         fake()->addProvider(new FakerProvider(fake()));
 
+        // https://github.com/openai-php/laravel/issues/95
+        $choice                                     = CreateResponseFixture::ATTRIBUTES;
+        $choice['choices'][0]['message']['content'] = json_encode([
+            'title'   => fake()->sentence(),
+            'content' => fake()->markdown(),
+        ]);
         OpenAI::fake([
-            CreateResponse::fake([
-                'choices' => [
-                    [
-                        'title'   => fake()->sentence(),
-                        'content' => fake()->markdown(),
-                    ],
-                ],
-            ]),
+            CreateResponse::fake($choice),
         ]);
     }
 
