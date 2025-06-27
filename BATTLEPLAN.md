@@ -28,12 +28,15 @@
 - [x] Update the theme to use the CATAWOL Records branding guidelines.
 - [x] Standardised button variants.
 - [ ] Add a News section.
-    - [ ] Generate News posts with the help of OpenAI/ChatGPT. ($$)
-    - [ ] optionally generate a News post based on a Stage or Round.
+    - [x] Generate News posts with the help of OpenAI/ChatGPT. ($$)
+    - [x] optionally generate a News post based on a Stage or Round.
     - [x] Add metadata to Acts to help with generating News posts.
       - [x] Act genre(s)
       - [x] Act's members
       - [x] Notes about the Act (for aiding ChatGPT)
       - [x] Act traits (personality)
       - [x] Act's (spoken) languages.
+    - [ ] Ability to publish News posts.
+    - [ ] Display News posts on the front-facing site.
 - [x] Display Stage rankings once a Stage is over.
+- [ ] Impose a minimum donation amount for Golden Buzzers.

@@ -16,8 +16,6 @@ class ActMetaLanguageFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'language' => $this->faker->languageCode(),
-        ];
+        return [];
     }
 }
