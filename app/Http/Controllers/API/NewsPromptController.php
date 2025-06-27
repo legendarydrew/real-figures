@@ -13,6 +13,8 @@ use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\Stage;
 use App\Models\StageWinner;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Lang;
 
@@ -56,6 +58,10 @@ class NewsPromptController extends Controller
                 $round = Round::whereHas('songs')->findOrFail($data['references'][0]);
                 $prompt_lines                 = array_merge($prompt_lines, $this->buildRoundPrompt($round, $data));
                 $replace_values['round_name'] = $round->full_title;
+                break;
+            case NewsPostType::ACT_POST_TYPE->value:
+                $acts         = Act::whereHas('songs')->whereIn('id', $data['references'])->get();
+                $prompt_lines = array_merge($prompt_lines, $this->buildActsPrompt($acts, $data));
                 break;
             default:
                 abort(400, 'Unsupported News Post type.');
@@ -207,7 +213,7 @@ class NewsPromptController extends Controller
      * @param Act $act
      * @return string
      */
-    protected function getActData(Act $act): string
+    protected function getActData(Act $act, bool $with_wins = false): string
     {
         $act->loadMissing(['languages', 'traits', 'genres', 'members', 'notes']);
 
@@ -252,6 +258,23 @@ class NewsPromptController extends Controller
             }
         }
 
+        if ($with_wins)
+        {
+            $wins = StageWinner::whereHas('song', function (Builder $q) use ($act)
+            {
+                $q->where('act_id', '=', $act->id);
+            })->get();
+            if ($wins->isNotEmpty())
+            {
+                $output[] = Lang::get("press-release.act.wins");
+                foreach ($wins as $row)
+                {
+                    $rank     = $row->is_winner ? 'Winner' : 'Runner-up';
+                    $output[] = "    $rank in $row->round->full_title";
+                }
+            }
+        }
+
         return implode("\n", $output);
     }
 
@@ -265,12 +288,12 @@ class NewsPromptController extends Controller
     {
         $outcomes = $round->outcomes
             ->map(fn(RoundOutcome $outcome) => "  - Act: $outcome->song->act->name" . PHP_EOL .
-            "    Total score: $outcome->score" . PHP_EOL .
-            "    First choice votes: $outcome->first_votes" . PHP_EOL .
-            "    Second choice votes: $outcome->second_votes" . PHP_EOL .
-            "    Third choice votes: $outcome->third_votes" . PHP_EOL .
-            "    Was judged?: " . ($outcome->was_manual ? 'Yes' : 'No')
-        );
+                "    Total score: $outcome->score" . PHP_EOL .
+                "    First choice votes: $outcome->first_votes" . PHP_EOL .
+                "    Second choice votes: $outcome->second_votes" . PHP_EOL .
+                "    Third choice votes: $outcome->third_votes" . PHP_EOL .
+                "    Was judged?: " . ($outcome->was_manual ? 'Yes' : 'No')
+            );
 
         return implode(PHP_EOL, ['- Round outcomes:', ...$outcomes->toArray()]);
     }
@@ -430,5 +453,23 @@ class NewsPromptController extends Controller
             }
         }
         return $lines;
+    }
+
+    /**
+     * @param Collection $acts
+     * @param array      $data
+     * @return array
+     */
+    public function buildActsPrompt(Collection $acts, array $data): array
+    {
+        if ($acts->isEmpty())
+        {
+            abort(400, 'No valid Acts specified.');
+        }
+
+        $lines           = Lang::get('press-release.act.prompt');
+        $act_information = $acts->map(fn(Act $act) => $this->getActData($act, true));
+
+        return [...$lines, ...$act_information];
     }
 }

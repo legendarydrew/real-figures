@@ -16,8 +16,6 @@ class ActMetaGenreFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'genre' => $this->faker->randomElement(['Pop', 'Rock', 'R&B', 'Metal', 'Jazz', 'Blues', 'Classical'])
-        ];
+        return [];
     }
 }

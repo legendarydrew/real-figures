@@ -73,6 +73,14 @@ return [
             "Unless an act has scored no points, do not disclose any of the scores.",
         ]
     ],
+    'act' => [
+        "prompt" => [
+            "Write a press release about the following musical acts, who are taking part in \":contest_name\": a song contest hosted by :contest_host.",
+            "Summarise each act's involvement and current activity within the song contest, based on the information provided.",
+            "Mention any significant details about each act's results, using a little creativity.",
+        ],
+        "wins"   => "  Contest wins:"
+    ],
     'previous' => [
         // Used when referring to a previous News Post.
         "You are writing a series of press releases covering a song contest hosted by :contest_host, called :contest_name.",
