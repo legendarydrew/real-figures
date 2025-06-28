@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import React, { RefObject, useRef, useState } from 'react';
-import { Edit, Trash } from 'lucide-react';
+import { Edit, NewspaperIcon, Trash } from 'lucide-react';
 import { NewsPost, PaginatedResponse } from '@/types';
 import { Pagination } from '@/components/admin/pagination';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
@@ -121,6 +121,11 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
                                 <td className="text-center">{post.updated_at}</td>
                                 <td>
                                     <div className="toolbar">
+                                        <Button asChild variant="outline" title="View Post">
+                                            <Link href={post.url}>
+                                                <NewspaperIcon className="h-3 w-3"/>
+                                            </Link>
+                                        </Button>
                                         <Button variant="secondary"
                                                 onClick={() => editHandler(post)}
                                                 title="Edit Post">

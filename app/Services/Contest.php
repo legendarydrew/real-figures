@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Facades\RoundResultsFacade;
 use App\Models\Act;
+use App\Models\NewsPost;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\Song;
@@ -211,6 +212,17 @@ class Contest
     public function shouldShowActs(): bool
     {
         return Act::whereHas('songs')->count() > 0;
+    }
+
+    /**
+     * Returns TRUE if the News pages should be shown.
+     * This should be the case if there is at least one published News Post.
+     *
+     * @return bool
+     */
+    public function shouldShowNews(): bool
+    {
+        return NewsPost::published()->count() > 0;
     }
 
 }

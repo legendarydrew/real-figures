@@ -13,6 +13,7 @@ return new class extends Migration {
         {
             $table->id();
             $table->string('title');
+            $table->string('slug');
             $table->string('type', 8)->index()->default(NewsPostType::CUSTOM_POST_TYPE);
             $table->text('content')->comment('Markdown content.');
             $table->dateTime('published_at')->nullable();

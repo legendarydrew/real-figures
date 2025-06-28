@@ -238,9 +238,24 @@ export interface LanguageRow {
 export interface NewsPost {
     id: number;
     title: string;
+    url: string;
     excerpt?: string;
     content: string;
     created_at: string;
     published_at?: string;
     updated_at: string;
+    pages?: {
+        previous?: {
+            title: string;
+            url: string;
+        };
+        next?: {
+            title: string;
+            url: string;
+        };
+        others?: {
+            title: string;
+            url: string;
+        }[];
+    };
 }

@@ -58,6 +58,8 @@ Route::get('acts/{slug}', [\App\Http\Controllers\Front\ActsController::class, 's
 Route::get('contact', fn() => Inertia::render('front/contact'))->name('contact');
 Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
 Route::get('donor-wall', [DonorWallController::class, 'index'])->name('donations');
+Route::get('news', [\App\Http\Controllers\Front\NewsController::class, 'index'])->name('news');
+Route::get('news/{slug}', [\App\Http\Controllers\Front\NewsController::class, 'show'])->name('news.show');
 Route::get('subscriber/confirm/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
 Route::get('subscriber/remove/{id}/{code}', [SubscriberRemoveController::class, 'show'])->name('subscriber.remove');
 Route::get('votes', [VotesController::class, 'index'])->name('votes');

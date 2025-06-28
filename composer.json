@@ -35,6 +35,7 @@
         "spatie/laravel-analytics": "^5.6",
         "spatie/laravel-fractal": "^6.3",
         "spatie/laravel-sitemap": "^7.3",
+        "spatie/laravel-sluggable": "^3.7",
         "tightenco/ziggy": "^2.4"
     },
     "require-dev": {
