@@ -24,8 +24,9 @@ class DashboardController extends Controller
     {
         $current_stage = ContestFacade::getCurrentStage();
         return Inertia::render('back/dashboard', [
-            'analytics_pages' => fn() => $this->getMostViewedPages(),
-            'analytics_views' => fn() => $this->getPageViews(),
+            'analytics_countries' => fn() => $this->getTopCountries(),
+            'analytics_pages'     => fn() => $this->getMostViewedPages(),
+            'analytics_views'     => fn() => $this->getPageViews(),
             'donations'        => fn() => [
                 'golden_buzzers' => GoldenBuzzer::count(),
                 'rows'           => fractal(Donation::orderByDesc('id')->take(10)->get(), new DonationTransformer())->parseIncludes('amount')->toArray(),
@@ -124,7 +125,7 @@ class DashboardController extends Controller
         return $dates;
     }
 
-    public function getPageViews(): array
+    protected function getPageViews(): array
     {
         $analyticsData = Analytics::fetchTotalVisitorsAndPageViews(Period::days(14));
         $data          = $analyticsData->map(fn($row) => [
@@ -141,7 +142,7 @@ class DashboardController extends Controller
         return $data;
     }
 
-    public function getMostViewedPages(): array
+    protected function getMostViewedPages(): array
     {
         $analyticsData = Analytics::fetchMostVisitedPages(Period::days(7));
         return $analyticsData->map(fn($row, $index) => [
@@ -149,6 +150,16 @@ class DashboardController extends Controller
             'url'   => $row['fullPageUrl'],
             'title' => $row['pageTitle'],
             'views' => $row['screenPageViews'],
+        ])->toArray();
+    }
+
+    protected function getTopCountries(): array
+    {
+        $analyticsData = Analytics::fetchTopCountries(Period::days(7));
+        return $analyticsData->map(fn($row, $index) => [
+            'index'   => $index,
+            'country' => $row['country'],
+            'views'   => $row['screenPageViews'],
         ])->toArray();
     }
 
