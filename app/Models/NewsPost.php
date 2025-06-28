@@ -7,11 +7,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class NewsPost extends Model
 {
     /** @use HasFactory<\Database\Factories\NewsPostFactory> */
     use HasFactory;
+    use HasSlug;
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+                          ->generateSlugsFrom('title')
+                          ->saveSlugsTo('slug');
+    }
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
