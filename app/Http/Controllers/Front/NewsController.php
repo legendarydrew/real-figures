@@ -29,7 +29,7 @@ class NewsController extends Controller
         }
 
         return Inertia::render('front/news-post', [
-            'post' => fractal($post)->transformWith(new NewsPostTransformer())->parseIncludes(['content'])->toArray()
+            'post' => fractal($post)->transformWith(new NewsPostTransformer())->parseIncludes(['content', 'pages'])->toArray()
         ]);
     }
 }

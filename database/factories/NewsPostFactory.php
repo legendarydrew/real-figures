@@ -19,8 +19,9 @@ class NewsPostFactory extends Factory
         $this->faker->addProvider(new \DavidBadura\FakerMarkdownGenerator\FakerProvider($this->faker));
 
         return [
-            'title'   => $this->faker->sentence(),
-            'content' => $this->faker->markdown()
+            'title'        => $this->faker->sentence(),
+            'content'      => $this->faker->markdown(),
+            'published_at' => $this->faker->boolean(30) ? $this->faker->dateTimeThisYear() : null,
         ];
     }
 

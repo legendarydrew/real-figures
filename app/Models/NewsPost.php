@@ -50,4 +50,14 @@ class NewsPost extends Model
     {
         return $this->hasMany(NewsPostReference::class);
     }
+
+    public function previousPost(): NewsPost|null
+    {
+        return NewsPost::published()->where('id', '<', $this->id)->orderByDesc('id')->first();
+    }
+
+    public function nextPost(): NewsPost|null
+    {
+        return NewsPost::published()->where('id', '>', $this->id)->orderBy('id')->first();
+    }
 }

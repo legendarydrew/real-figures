@@ -244,4 +244,14 @@ export interface NewsPost {
     created_at: string;
     published_at?: string;
     updated_at: string;
+    pages?: {
+        previous?: {
+            title: string;
+            url: string;
+        };
+        next?: {
+            title: string;
+            url: string;
+        };
+    };
 }

@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { FrontContent } from '@/components/front/front-content';
 import FrontLayout from '@/layouts/front-layout';
 import { Advert } from '@/components/mode/advert';
@@ -7,6 +7,7 @@ import AboutBanner from '@/components/front/about-banner';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import TextLink from '@/components/mode/text-link';
 import HeadingSmall from '@/components/heading-small';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface NewsPostPageProps {
     post: NewsPost;
@@ -18,6 +19,8 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
         <>
             <Head title={post.title}>
                 <meta name="description" content={post.excerpt}/>
+                {post.pages?.previous && (<link rel="prev" href={post.pages.previous.url}/>)}
+                {post.pages?.next && (<link rel="next" href={post.pages.next.url}/>)}
             </Head>
 
             <FrontContent>
@@ -27,7 +30,7 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
                         <PlaceholderPattern className="w-full stroke-neutral-300 mb-5"/>
 
                         <header className="mb-5">
-                            <h1 className="font-display text-3xl">{post.title}</h1>
+                            <h1 className="font-display text-3xl leading-tight">{post.title}</h1>
                             {post.published_at && (
                                 <p className="text-muted-foreground text-sm">CATAWOL
                                     Records, <time>{post.published_at}</time></p>)}
@@ -35,12 +38,32 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
 
                         <div className="content text-base pr-10" dangerouslySetInnerHTML={{ __html: post.content }}/>
 
-                        <p className="text-muted-foreground text-sm p-3">
+                        <p className="text-muted-foreground text-sm p-3 my-5">
                             You are welcome to get in touch with us through our <TextLink
                             href={route('contact')}>Contact page</TextLink>.<br/>
                         </p>
 
-                        {/* TODO links to previous and next News Posts. */}
+                        {(post.pages?.previous || post.pages?.next) && (<hr className="my-5"/>)}
+
+                        <div className="flex flex-col lg:flex-row gap-3 justify-between">
+                            {post.pages.previous && (
+                                <Link className="lg:w-2/5 hover:bg-muted p-5 mr-auto flex flex-col lg:justify-end gap-1"
+                                      href={post.pages.previous.url} rel="prev">
+                                    <span
+                                        className="font-display text-xl leading-tight">{post.pages.previous.title}</span>
+                                    <b className="text-sm flex items-center"><ChevronLeft className="w-4 h-4"/> Previous
+                                        post</b>
+                                </Link>)}
+                            {post.pages.next && (
+                                <Link
+                                    className="lg:w-2/5 lg:text-right hover:bg-muted p-5 ml-auto flex flex-col lg:justify-end lg:items-end gap-1"
+                                    href={post.pages.next.url}
+                                    rel="next">
+                                    <span className="font-display text-xl leading-tight">{post.pages.next.title}</span>
+                                    <b className="text-sm flex items-center">Next post <ChevronRight
+                                        className="w-4 h-4"/></b>
+                                </Link>)}
+                        </div>
 
                         <Advert className="mt-3" height={240}/>
                     </article>

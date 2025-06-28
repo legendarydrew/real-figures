@@ -10,7 +10,7 @@ use League\Fractal\TransformerAbstract;
 class NewsPostTransformer extends TransformerAbstract
 {
 
-    protected array $availableIncludes = ['content'];
+    protected array $availableIncludes = ['content', 'pages'];
 
     public function transform(NewsPost $post): array
     {
@@ -35,6 +35,29 @@ class NewsPostTransformer extends TransformerAbstract
     public function includeContent(NewsPost $post): ?Primitive
     {
         return $this->primitive(Str::markdown($post->content));
+    }
+
+    /**
+     * Include the News Post's previous and next pages, if available.
+     *
+     * @param NewsPost $post
+     * @return Primitive|null
+     */
+    public function includePages(NewsPost $post): ?Primitive
+    {
+        $previous_post = $post->previousPost();
+        $next_post     = $post->nextPost();
+
+        return $this->primitive([
+            'previous' => $previous_post ? [
+                'title' => $previous_post->title,
+                'url'   => $previous_post->url
+            ] : null,
+            'next'     => $next_post ? [
+                'title' => $next_post->title,
+                'url'   => $next_post->url
+            ] : null,
+        ]);
     }
 
 }
