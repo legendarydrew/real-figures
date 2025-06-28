@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\API\News;
+namespace Tests\Feature\Controllers\API\News;
 
 use App\Enums\NewsPostType;
 use App\Models\NewsPost;
