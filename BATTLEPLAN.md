@@ -39,4 +39,4 @@
     - [ ] Ability to publish News posts.
     - [ ] Display News posts on the front-facing site.
 - [x] Display Stage rankings once a Stage is over.
-- [ ] Impose a minimum donation amount for Golden Buzzers.
+- [x] Impose a minimum donation amount for Golden Buzzers.
