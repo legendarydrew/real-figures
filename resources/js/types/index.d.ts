@@ -253,5 +253,9 @@ export interface NewsPost {
             title: string;
             url: string;
         };
+        others?: {
+            title: string;
+            url: string;
+        }[];
     };
 }

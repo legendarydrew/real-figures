@@ -47,6 +47,7 @@ class NewsPostTransformer extends TransformerAbstract
     {
         $previous_post = $post->previousPost();
         $next_post     = $post->nextPost();
+        $other_posts = $post->otherRecentPosts();
 
         return $this->primitive([
             'previous' => $previous_post ? [
@@ -57,6 +58,10 @@ class NewsPostTransformer extends TransformerAbstract
                 'title' => $next_post->title,
                 'url'   => $next_post->url
             ] : null,
+            'others' => $other_posts?->map(fn($post) => [
+                    'title' => $post->title,
+                    'url'   => $post->url
+                ])->toArray() ?? null,
         ]);
     }
 

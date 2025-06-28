@@ -7,7 +7,7 @@ import AboutBanner from '@/components/front/about-banner';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import TextLink from '@/components/mode/text-link';
 import HeadingSmall from '@/components/heading-small';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, NewspaperIcon } from 'lucide-react';
 
 interface NewsPostPageProps {
     post: NewsPost;
@@ -47,7 +47,7 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
 
                         <div className="flex flex-col lg:flex-row gap-3 justify-between">
                             {post.pages.previous && (
-                                <Link className="lg:w-2/5 hover:bg-muted p-5 mr-auto flex flex-col lg:justify-end gap-1"
+                                <Link className="lg:w-2/5 hover-bg p-5 mr-auto flex flex-col lg:justify-end gap-1"
                                       href={post.pages.previous.url} rel="prev">
                                     <span
                                         className="font-display text-xl leading-tight">{post.pages.previous.title}</span>
@@ -56,7 +56,7 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
                                 </Link>)}
                             {post.pages.next && (
                                 <Link
-                                    className="lg:w-2/5 lg:text-right hover:bg-muted p-5 ml-auto flex flex-col lg:justify-end lg:items-end gap-1"
+                                    className="lg:w-2/5 lg:text-right hover-bg p-5 ml-auto flex flex-col lg:justify-end lg:items-end gap-1"
                                     href={post.pages.next.url}
                                     rel="next">
                                     <span className="font-display text-xl leading-tight">{post.pages.next.title}</span>
@@ -69,9 +69,22 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
                     </article>
 
                     <aside className="lg:w-1/5 flex flex-col gap-5">
-                        {/* TODO other News Posts. */}
 
-                        <Advert className="mt-3" height={160}/>
+                        <Advert className="mt-3" height={200}/>
+
+                        {post.pages?.others?.length && (
+                            <menu className="flex flex-col gap-1">
+                                <HeadingSmall title="More press releases"/>
+                                {post.pages?.others.map((row) => (
+                                    <Link key={row.url}
+                                          className="flex gap-3 hover-bg p-2 text-sm font-display leading-tight"
+                                          href={row.url}>
+                                        <NewspaperIcon className="w-4 flex-shrink-0"/>
+                                        {row.title}
+                                    </Link>
+                                ))}
+                            </menu>
+                        )}
 
                         <div className="text-sm leading-tight">
                             <HeadingSmall title="About CATAWOL Records"/>

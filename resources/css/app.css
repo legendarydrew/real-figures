@@ -240,8 +240,9 @@ has the theme configured here.)
         @apply flex justify-end gap-1;
     }
 
+    /* A standardised hover background colour. */
     .hover-bg {
-        @apply hover:bg-indigo-200/20;
+        @apply hover:bg-indigo-300/20;
     }
 
     .outlined-text {
