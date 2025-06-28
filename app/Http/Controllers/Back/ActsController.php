@@ -26,7 +26,7 @@ class ActsController extends Controller
     public function create(): Response
     {
         return Inertia::render('back/act-edit', [
-            'genres' => fn() => Genre::pluck('name')->toArray()
+            'genreList' => fn() => Genre::orderBy('name')->pluck('name')->toArray()
         ]);
     }
 
@@ -34,8 +34,8 @@ class ActsController extends Controller
     {
         $act = Act::findOrFail($id);
         return Inertia::render('back/act-edit', [
-            'act'    => fn() => fractal($act, new ActTransformer())->parseIncludes(['meta', 'profile', 'picture']),
-            'genres' => fn() => Genre::pluck('name')->toArray()
+            'act' => fn() => fractal($act, new ActTransformer())->parseIncludes(['meta', 'profile', 'picture']),
+            'genreList' => fn() => Genre::orderBy('name')->pluck('name')->toArray()
         ]);
     }
 }
