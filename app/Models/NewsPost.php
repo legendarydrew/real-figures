@@ -15,6 +15,11 @@ class NewsPost extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    public function getDates()
+    {
+        return ['created_at', 'updated_at', 'published_at'];
+    }
+
     public function scopePublished(Builder $query): Builder
     {
         return $query->whereNotNull('published_at');
