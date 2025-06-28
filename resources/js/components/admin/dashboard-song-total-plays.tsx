@@ -2,6 +2,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { Nothing } from '@/components/mode/nothing';
 import { usePage } from '@inertiajs/react';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { cssVar } from '@/lib/utils';
 
 // https://www.geeksforgeeks.org/create-a-line-chart-using-recharts-in-reactjs/
 
@@ -54,7 +55,7 @@ export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ dat
                             <Tooltip content={tooltipContent} isAnimationActive={false}/>
                             <Bar dataKey="play_count" label="Total song plays"
                                  radius={[4, 4, 0, 0]}
-                                 className="fill-indigo-500"/>
+                                 fill={cssVar('--primary')}/>
                         </BarChart>
                     </ResponsiveContainer>
                 ) : (
