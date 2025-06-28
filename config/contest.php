@@ -7,7 +7,11 @@ return [
             'general'       => 5,
             'golden_buzzer' => 10
         ],
-        'options'  => [2, 5, 10, 15, 20],
+        'minimum' => [
+            'general'       => 1,
+            'golden_buzzer' => 6
+        ],
+        'options' => [3, 5, 10, 15, 20, 50, 100],
         'currency' => 'USD'
     ],
     'song'        => [

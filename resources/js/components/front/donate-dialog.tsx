@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -28,6 +28,7 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
     const { donation } = usePage().props;
     const { trackEvent } = useAnalytics();
 
+    const donationOptions = useRef<number[]>(donation.options.filter((v) => v >= donation.minimum.general));
     const [amount, setAmount] = useState<number>(donation.default.general);
     const [message, setMessage] = useState<string>('');
     const [isAnonymous, setIsAnonymous] = useState<boolean>(false);
@@ -107,23 +108,33 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
                 ) : (
                     <>
                         <div
-                            className="flex flex-col lg:flex-row gap-3 justify-between items-center py-2 px-5 bg-green-200 dark:bg-green-700 rounded-sm">
-                            <Label htmlFor="donationAmount">I would like to donate</Label>
+                            className="flex flex-col gap-1 py-2 px-5 bg-green-200 dark:bg-green-700 rounded-sm">
+                            <div className="flex flex-col lg:flex-row gap-3 justify-between items-center">
 
-                            <div className="flex gap-1 items-center">
-                                {donation.options.map((value) => (
-                                    <Button className="max-sm:hidden" key={value} variant="secondary" type="button"
-                                            onClick={() => setAmount(value)}>{value}</Button>
-                                ))}
-                                <div className="ml-2 flex items-center">
-                                    <Input
-                                        className="bg-white w-[5rem] border-green-500 text-green-800 font-semibold text-right text-lg"
-                                        id="donationAmount" type="number" value={amount} min="1"
-                                        onChange={amountHandler}/>
-                                    <span
-                                        className="p-1 font-semibold text-base">{donation.currency}</span>
+                                <Label htmlFor="donationAmount">I would like to donate</Label>
+
+                                <div className="flex gap-1 items-center">
+                                    {donationOptions.current.map((value) => (
+                                        <Button className="max-sm:hidden" key={value} variant="secondary" type="button"
+                                                onClick={() => setAmount(value)}>{value}</Button>
+                                    ))}
+                                    <div className="ml-2 flex items-center">
+                                        <Input
+                                            className="bg-white w-[5rem] border-green-500 text-green-800 font-semibold text-right text-lg"
+                                            id="donationAmount" type="number" value={amount}
+                                            min={donation.minimum.general}
+                                            onChange={amountHandler}/>
+                                        <span
+                                            className="p-1 font-semibold text-base">{donation.currency}</span>
+                                    </div>
                                 </div>
                             </div>
+
+                            <p className="text-xs text-center w-5/6 mx-auto text-green-700 dark:text-green-200">We're
+                                asking for a minimum
+                                donation
+                                of <b>{donation.currency} {donation.minimum.general}</b>.</p>
+
                         </div>
 
                         <div className="flex-grow max-sm:hidden">
@@ -145,6 +156,7 @@ export const DonateDialog: FC<DonateDialogProps> = () => {
                             </div>
 
                             <PaypalButton amount={amount} currency={donation.currency}
+                                          minimumAmount={donation.minimum.general}
                                           additionalData={{ is_anonymous: isAnonymous, message }}
                                           description="Real Figures Don't F.O.L.D: donation"
                                           onProcessing={processingHandler}
