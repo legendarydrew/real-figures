@@ -11,6 +11,13 @@ use Inertia\Response;
 class NewsController extends Controller
 {
 
+    public function index(): Response
+    {
+        return Inertia::render('front/news', [
+            'posts' => fractal(NewsPost::published()->paginate())->transformWith(NewsPostTransformer::class)->withResourceName('data')->toArray(),
+        ]);
+    }
+
     public function show(string $slug): Response
     {
         $post = NewsPost::whereSlug($slug)->firstOrFail();

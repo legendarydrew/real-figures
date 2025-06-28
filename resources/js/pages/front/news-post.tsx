@@ -1,6 +1,5 @@
 import { Head } from '@inertiajs/react';
 import { FrontContent } from '@/components/front/front-content';
-import Heading from '@/components/heading';
 import FrontLayout from '@/layouts/front-layout';
 import { Advert } from '@/components/mode/advert';
 import { NewsPost } from '@/types';
@@ -22,18 +21,25 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
             <FrontContent>
                 <div className="flex flex-col lg:flex-row gap-5">
 
-                    <div className="lg:w-4/5 p-3">
+                    <article className="lg:w-4/5">
                         <PlaceholderPattern className="w-full stroke-neutral-300 mb-5"/>
-                        <Heading title={post.title} description={post.published_at}/>
 
-                        <div className="content text-base" dangerouslySetInnerHTML={{ __html: post.content }}/>
+                        <header className="mb-5">
+                            <h1 className="font-display text-3xl">{post.title}</h1>
+                            {post.published_at && (
+                                <p className="text-muted-foreground text-sm">CATAWOL
+                                    Records, <time>{post.published_at}</time></p>)}
+                        </header>
 
-                        <Advert className="mt-3" height={160}/>
-                    </div>
+                        <div className="content text-base pr-10" dangerouslySetInnerHTML={{ __html: post.content }}/>
 
-                    <div className="lg:w-1/5">
+                        <Advert className="mt-3" height={240}/>
+                    </article>
+
+                    <aside className="lg:w-1/5">
                         ...
-                    </div>
+                        <Advert className="mt-3" height={160}/>
+                    </aside>
 
                 </div>
 

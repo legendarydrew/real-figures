@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 export const FrontHeader: React.FC = () => {
 
-    const { auth, showActs } = usePage<SharedData>().props;
+    const { auth, showActs, showNews } = usePage<SharedData>().props;
 
     const { openDialog } = useDialog();
 
@@ -56,6 +56,8 @@ export const FrontHeader: React.FC = () => {
                     </Button>
 
                     <Link href={route('home')} onClick={closeMenuHandler} className={linkStyle}>Contest</Link>
+                    {showNews && (
+                        <Link href={route('news')} onClick={closeMenuHandler} className={linkStyle}>News</Link>)}
                     {showActs && (
                         <Link href={route('acts')} onClick={closeMenuHandler} className={linkStyle}>Acts</Link>
                     )}
@@ -76,7 +78,8 @@ export const FrontHeader: React.FC = () => {
                 </nav>
 
                 {/* "Hamburger" icon for mobile devices. */}
-                <Button className="md:hidden" type="button" variant="ghost" size="icon" onClick={openMenuHandler} title="Menu">
+                <Button className="md:hidden" type="button" variant="ghost" size="icon" onClick={openMenuHandler}
+                        title="Menu">
                     <MenuIcon/>
                 </Button>
 

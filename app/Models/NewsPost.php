@@ -37,7 +37,8 @@ class NewsPost extends Model
 
     public function getExcerptAttribute(): string
     {
-        return Str::words($this->content, 20);
+        $text_content = strip_tags(Str::markdown($this->content));
+        return Str::words($text_content, 20);
     }
 
     public function getUrlAttribute()
