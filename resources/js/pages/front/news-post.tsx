@@ -26,9 +26,7 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
                         <PlaceholderPattern className="w-full stroke-neutral-300 mb-5"/>
                         <Heading title={post.title} description={post.published_at}/>
 
-                        <div className="content text-base">
-                            {post.content}
-                        </div>
+                        <div className="content text-base" dangerouslySetInnerHTML={{ __html: post.content }}/>
 
                         <Advert className="mt-3" height={160}/>
                     </div>

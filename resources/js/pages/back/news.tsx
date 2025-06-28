@@ -121,9 +121,8 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
                                 <td className="text-center">{post.updated_at}</td>
                                 <td>
                                     <div className="toolbar">
-                                        <Button asChild variant="outline" type="button"
-                                                title="View Post">
-                                            <Link href={post.url} target="_blank">
+                                        <Button asChild variant="outline" title="View Post">
+                                            <Link href={post.url}>
                                                 <NewspaperIcon className="h-3 w-3"/>
                                             </Link>
                                         </Button>

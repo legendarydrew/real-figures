@@ -16,9 +16,11 @@ class NewsPostFactory extends Factory
      */
     public function definition(): array
     {
+        $this->faker->addProvider(new \DavidBadura\FakerMarkdownGenerator\FakerProvider($this->faker));
+
         return [
             'title'   => $this->faker->sentence(),
-            'content' => $this->faker->paragraphs(4, true)
+            'content' => $this->faker->markdown()
         ];
     }
 
