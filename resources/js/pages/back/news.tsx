@@ -9,6 +9,8 @@ import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Toaster } from '@/components/mode/toast-message';
 import { Nothing } from '@/components/mode/nothing';
+import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<NewsPost> }>) {
 
@@ -106,9 +108,12 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
                         </thead>
                         <tbody>
                         {posts.data.map((post) => (
-                            <tr className="hover-bg select-none" key={post.id}>
+                            <tr key={post.id}
+                                className={cn(post.published_at && 'bg-green-100 hover:bg-green-200', 'hover-bg select-none')}>
                                 <th scope="row" className="text-left">
-                                    <b>{post.title}</b><br/>
+                                    <b>{post.title}</b> {post.published_at && (
+                                    <Badge className="ml-2" variant="secondary">Published</Badge>)}
+                                    <br/>
                                     {post.excerpt && <small
                                         className="block font-normal text-wrap leading-tight">{post.excerpt}</small>}
                                 </th>

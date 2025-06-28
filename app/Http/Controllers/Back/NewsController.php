@@ -57,6 +57,20 @@ class NewsController extends Controller
     {
         $data = $request->validated();
         $post = NewsPost::findOrFail($id);
+
+        if (isset($data['publish']))
+        {
+            if ($data['publish'] && is_null($post->published_at))
+            {
+                // Mark the News Post as published.
+                $data['published_at'] = now();
+            }
+            else
+            {
+                // Give ourselves the ability to unpublish, if necessary in the future.
+                $data['published_at'] = null;
+            }
+        }
         $post->update($data);
 
         return to_route('admin.news.edit', ['id' => $post->id]);
