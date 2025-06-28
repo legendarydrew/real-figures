@@ -70,7 +70,7 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
 
                     <aside className="lg:w-1/5 flex flex-col gap-5">
 
-                        <Advert className="mt-3" height={200}/>
+                        <Advert height={200}/>
 
                         {post.pages?.others?.length && (
                             <menu className="flex flex-col gap-1">
