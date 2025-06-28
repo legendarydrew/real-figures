@@ -25,7 +25,7 @@ class NewsPost extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function getDates()
+    public function getDates(): array
     {
         return ['created_at', 'updated_at', 'published_at'];
     }
@@ -38,6 +38,11 @@ class NewsPost extends Model
     public function getExcerptAttribute(): string
     {
         return Str::words($this->content, 20);
+    }
+
+    public function getUrlAttribute()
+    {
+        return route('news.show', ['slug' => $this->slug]);
     }
 
     public function references(): HasMany

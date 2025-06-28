@@ -238,6 +238,7 @@ export interface LanguageRow {
 export interface NewsPost {
     id: number;
     title: string;
+    url: string;
     excerpt?: string;
     content: string;
     created_at: string;

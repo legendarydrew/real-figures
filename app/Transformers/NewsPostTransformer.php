@@ -13,6 +13,7 @@ class NewsPostTransformer extends TransformerAbstract
         return [
             'id'           => (int)$post->id,
             'title'        => $post->title,
+            'url' => $post->url,
             'content'      => $post->content,
             'excerpt'      => $post->excerpt,
             'created_at'   => $post->created_at->format(config('contest.date_format')),
