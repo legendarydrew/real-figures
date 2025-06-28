@@ -5,6 +5,8 @@ import { Advert } from '@/components/mode/advert';
 import { NewsPost } from '@/types';
 import AboutBanner from '@/components/front/about-banner';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import TextLink from '@/components/mode/text-link';
+import HeadingSmall from '@/components/heading-small';
 
 interface NewsPostPageProps {
     post: NewsPost;
@@ -33,12 +35,31 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
 
                         <div className="content text-base pr-10" dangerouslySetInnerHTML={{ __html: post.content }}/>
 
+                        <p className="text-muted-foreground text-sm p-3">
+                            You are welcome to get in touch with us through our <TextLink
+                            href={route('contact')}>Contact page</TextLink>.<br/>
+                        </p>
+
+                        {/* TODO links to previous and next News Posts. */}
+
                         <Advert className="mt-3" height={240}/>
                     </article>
 
-                    <aside className="lg:w-1/5">
-                        ...
+                    <aside className="lg:w-1/5 flex flex-col gap-5">
+                        {/* TODO other News Posts. */}
+
                         <Advert className="mt-3" height={160}/>
+
+                        <div className="text-sm leading-tight">
+                            <HeadingSmall title="About CATAWOL Records"/>
+                            <p>CATAWOL Records is a music label championing bold voices and meaningful messages. We
+                                support artists who use creativity to challenge norms, raise awareness, and connect
+                                through sound.</p>
+                        </div>
+
+                        <PlaceholderPattern className="w-full stroke-zinc-300" title="SilentMode banner"/>
+                        <PlaceholderPattern className="w-full stroke-red-300" title="Brick Therapy banner"/>
+
                     </aside>
 
                 </div>
