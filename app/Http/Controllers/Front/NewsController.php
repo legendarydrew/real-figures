@@ -14,7 +14,12 @@ class NewsController extends Controller
     public function index(): Response
     {
         return Inertia::render('front/news', [
-            'posts' => fractal(NewsPost::published()->paginate())->transformWith(NewsPostTransformer::class)->withResourceName('data')->toArray(),
+            'posts' => fn() => fractal(NewsPost::published()
+                                               ->orderByDesc('published_at')
+                                               ->paginate(6))
+                ->transformWith(NewsPostTransformer::class)
+                ->withResourceName('data')
+                ->toArray(),
         ]);
     }
 

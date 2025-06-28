@@ -1,4 +1,4 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { FrontContent } from '@/components/front/front-content';
 import FrontLayout from '@/layouts/front-layout';
 import { Advert } from '@/components/mode/advert';
@@ -7,12 +7,17 @@ import AboutBanner from '@/components/front/about-banner';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { NewspaperIcon } from 'lucide-react';
 import HeadingSmall from '@/components/heading-small';
+import { Pagination } from '@/components/admin/pagination';
 
 interface NewsPageProps {
     posts: PaginatedResponse<NewsPost>;
 }
 
 const NewsPage: React.FC<NewsPageProps> = ({ posts }) => {
+
+    const pageHandler = (pageNumber: number): void => {
+        router.visit(route('news', { page: pageNumber }));
+    };
 
     return (
         <>
@@ -29,8 +34,6 @@ const NewsPage: React.FC<NewsPageProps> = ({ posts }) => {
 
                         <h1 className="font-display text-2xl mb-5">Contest News</h1>
 
-                        {/* TODO pagination. */}
-
                         <div className="flex flex-col gap-3">
                             {posts.data.map((post) => (
                                 <article key={post.id} className={"flex border"}>
@@ -38,13 +41,16 @@ const NewsPage: React.FC<NewsPageProps> = ({ posts }) => {
                                         <div className="w-1/8 flex items-center justify-center bg-white">
                                             <NewspaperIcon className="w-12"/>
                                         </div>
-                                        <div className="w-7/8 flex flex-col items-start justify-center p-5">
+                                        <div className="w-7/8 flex flex-col items-start justify-center gap-1 p-5">
                                             <h2 className="font-display text-xl leading-tight">{post.title}</h2>
                                             <p className="text-sm leading-tight">{post.excerpt}</p>
+                                            <p className="text-xs text-muted-foreground leading-tight">{post.published_at}</p>
                                         </div>
                                     </Link>
                                 </article>
                             ))}
+
+                            <Pagination results={posts} onPageChange={pageHandler}/>
                         </div>
 
                         <Advert className="mt-3" height={240}/>
