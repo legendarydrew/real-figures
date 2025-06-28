@@ -36,7 +36,7 @@
       - [x] Notes about the Act (for aiding ChatGPT)
       - [x] Act traits (personality)
       - [x] Act's (spoken) languages.
-    - [ ] Ability to publish News posts.
-    - [ ] Display News posts on the front-facing site.
+  - [x] Ability to publish News posts.
+  - [x] Display News posts on the front-facing site.
 - [x] Display Stage rankings once a Stage is over.
 - [x] Impose a minimum donation amount for Golden Buzzers.
