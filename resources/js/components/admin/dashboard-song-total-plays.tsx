@@ -58,7 +58,7 @@ export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ dat
                         </BarChart>
                     </ResponsiveContainer>
                 ) : (
-                    <Nothing className="border-2 w-full h-full">
+                    <Nothing className="w-full h-full">
                         No information about Songs played.
                     </Nothing>
                 )}

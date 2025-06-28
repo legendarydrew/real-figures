@@ -11,6 +11,8 @@ import { DashboardSubscriberCount } from '@/components/admin/dashboard-subscribe
 import { DashboardVoteCount } from '@/components/admin/dashboard-vote-count';
 import { DashboardDonationCount } from '@/components/admin/dashboard-donation-count';
 import { DashboardGoldenBuzzerCount } from '@/components/admin/dashboard-golden-buzzer-count';
+import { DashboardAnalyticsViews } from '@/components/admin/dashboard-analytics-views';
+import { DashboardAnalyticsPages } from '@/components/admin/dashboard-analytics-pages';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -20,6 +22,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Dashboard({
+                                      analytics_pages,
+                                      analytics_views,
                                       donations,
                                       buzzer_count,
                                       message_count,
@@ -47,14 +51,21 @@ export default function Dashboard({
                     <DashboardGoldenBuzzerCount className="lg:col-start-2 lg:row-start-2 lg:col-span-1 lg:row-span-1"
                                                 buzzer_count={buzzer_count}/>
 
-                    <DashboardSongTotalPlays className="p-3 lg:col-start-1 lg:row-start-3 lg:col-span-2 lg:row-span-2"
+                    <DashboardAnalyticsViews className="p-3 lg:col-start-1 lg:row-start-3 lg:col-span-3 lg:row-span-4"
+                                             data={analytics_views}/>
+                    <DashboardAnalyticsPages className="p-3 lg:col-start-4 lg:row-start-3 lg:col-span-2 lg:row-span-4"
+                                             data={analytics_pages}/>
+
+                    <DashboardSongTotalPlays className="p-3 lg:col-start-1 lg:row-start-7 lg:col-span-2 lg:row-span-2"
                                              data={song_plays}/>
-                    <DashboardSongsPlayed className="p-3 lg:col-start-1 lg:row-start-5 lg:col-span-2 lg:row-span-2"
-                                          data={song_plays}/>
-                    <DashboardVotesCast className="p-3 lg:col-start-3 lg:row-start-3 lg:col-span-3 lg:row-span-2"
+                    <DashboardVotesCast className="p-3 lg:col-start-3 lg:row-start-7 lg:col-span-3 lg:row-span-2"
                                         data={votes}/>
-                    <DashboardDonations className="p-3 lg:col-start-3 lg:row-start-5 lg:col-span-3 lg:row-span-3"
+
+                    <DashboardSongsPlayed className="p-3 lg:col-start-1 lg:row-start-9 lg:col-span-2 lg:row-span-3"
+                                          data={song_plays}/>
+                    <DashboardDonations className="p-3 lg:col-start-3 lg:row-start-9 lg:col-span-3 lg:row-span-3"
                                         data={donations}/>
+
                 </div>
             </div>
         </AppLayout>

@@ -14,6 +14,8 @@ use App\Transformers\DonationTransformer;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Analytics\Facades\Analytics;
+use Spatie\Analytics\Period;
 
 class DashboardController extends Controller
 {
@@ -22,6 +24,8 @@ class DashboardController extends Controller
     {
         $current_stage = ContestFacade::getCurrentStage();
         return Inertia::render('back/dashboard', [
+            'analytics_pages' => fn() => $this->getMostViewedPages(),
+            'analytics_views' => fn() => $this->getPageViews(),
             'donations'        => fn() => [
                 'golden_buzzers' => GoldenBuzzer::count(),
                 'rows'           => fractal(Donation::orderByDesc('id')->take(10)->get(), new DonationTransformer())->parseIncludes('amount')->toArray(),
@@ -118,6 +122,34 @@ class DashboardController extends Controller
             $date    = $date->addDay();
         }
         return $dates;
+    }
+
+    public function getPageViews(): array
+    {
+        $analyticsData = Analytics::fetchTotalVisitorsAndPageViews(Period::days(14));
+        $data          = $analyticsData->map(fn($row) => [
+            'date'     => $row['date']->format('Y-m-d'),
+            'views'    => $row['screenPageViews'],
+            'visitors' => $row['activeUsers'],
+        ])
+                                       ->toArray();
+
+        // For some reason we have to do the sorting here, as attempting to do it with the
+        // collection returns nothing.
+        usort($data, fn($a, $b) => strcmp($a['date'], $b['date']));
+
+        return $data;
+    }
+
+    public function getMostViewedPages(): array
+    {
+        $analyticsData = Analytics::fetchMostVisitedPages(Period::days(7));
+        return $analyticsData->map(fn($row, $index) => [
+            'index' => $index,
+            'url'   => $row['fullPageUrl'],
+            'title' => $row['pageTitle'],
+            'views' => $row['screenPageViews'],
+        ])->toArray();
     }
 
 }
