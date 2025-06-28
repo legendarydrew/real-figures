@@ -26,7 +26,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
     const { data, setData } = useForm({
         type: undefined, // the type of News Post to create.
         references: [], // ID(s) of the Stage/Round/Acts to refer to.
-        previous: undefined,  // [optional] previous News Post to reference.
+        previous: undefined,  // [optional] previous News Post ID to reference.
         prompt: "" // user-entered information to help OpenAI.
     });
 
@@ -40,6 +40,12 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
             return rounds?.find((round) => round.id == data.references[0]);
         }
     }, [rounds, data.references]);
+
+    const selectedNewsPost = useMemo((): never => {
+        if (data.previous) {
+            return posts?.find((post) => post.id == data.previous);
+        }
+    }, [posts, data.previous]);
 
     const cancelHandler = (): void => {
         router.visit(route('admin.news'));
@@ -189,7 +195,8 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     <div>
                         <Label htmlFor="postPrevious">Refer to previous News Post (optional)</Label>
                         <Select id="postPrevious" onValueChange={selectPreviousHandler} disabled={!posts.length}>
-                            <SelectTrigger>{data.previous ?? <i>none</i>}</SelectTrigger>
+                            <SelectTrigger>{selectedNewsPost ? `${selectedNewsPost.published_at} - ${selectedNewsPost.title}` :
+                                <i>none</i>}</SelectTrigger>
                             <SelectContent>
                                 <SelectItem value={undefined}>
                                     <i>none</i>

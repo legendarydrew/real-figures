@@ -90,7 +90,7 @@ return [
         "Content:",
         ":previous_content\n",
         "---",
-        "Using the previous press release, write a follow-up release, consistent in style and tone, including these updates:\n"
+        "Using the previous press release, write a follow-up release, consistent in style and tone, with these parameters:\n"
     ],
     'output'   => [
         // Parameters for the press release output.
