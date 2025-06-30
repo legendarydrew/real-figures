@@ -80,7 +80,7 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
                         <Link href={route('admin.news.create')}>Create Post</Link>
                     </Button>
                     <Button asChild variant="secondary">
-                        <Link href={route('admin.news-generate.index')}>Generate</Link>
+                        <Link href={route('admin.news-generate')}>Generate</Link>
                     </Button>
                 </div>
             </div>
