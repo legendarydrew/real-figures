@@ -25,4 +25,12 @@ class SubscribersTest extends TestCase
         $response->assertInertia(fn(Assert $page) => $page->component('back/subscribers'));
     }
 
+    public function test_email_filter()
+    {
+        $response = $this->actingAs($this->user)->get(route('admin.subscribers', ['filter' => ['email' => fake()->email]]));
+
+        $response->assertOk();
+        $response->assertInertia(fn(Assert $page) => $page->component('back/subscribers'));
+    }
+
 }

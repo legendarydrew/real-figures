@@ -16,7 +16,7 @@ class UpdateTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->post    = NewsPost::factory()->createOne();
+        $this->post = NewsPost::factory()->unpublished()->createOne();
         $this->payload = [
             'id'      => $this->post->id,
             'title'   => fake()->sentence(),
@@ -45,6 +45,42 @@ class UpdateTest extends TestCase
         $this->post->refresh();
         self::assertEquals($this->payload['title'], $this->post->title);
         self::assertEquals($this->payload['content'], $this->post->content);
+    }
+
+    public function test_preserve_published_date()
+    {
+        $this->actingAs($this->user)->putJson(route('news.update', ['id' => $this->post->id]), $this->payload);
+        $this->post->refresh();
+        self::assertNull($this->post->published_at);
+
+        $date                     = now()->microseconds(0);
+        $this->post->published_at = $date;
+        $this->post->save();
+
+        $this->actingAs($this->user)->putJson(route('news.update', ['id' => $this->post->id]), $this->payload);
+        $this->post->refresh();
+        self::assertEquals($date, $this->post->published_at);
+    }
+
+    public function test_publish_post()
+    {
+        $this->payload['publish'] = true;
+        $this->actingAs($this->user)->putJson(route('news.update', ['id' => $this->post->id]), $this->payload);
+
+        $this->post->refresh();
+        self::assertNotNull($this->post->published_at);
+    }
+
+    public function test_unpublish_post()
+    {
+        $this->post->published_at = now();
+        $this->post->save();
+
+        $this->payload['publish'] = false;
+        $this->actingAs($this->user)->putJson(route('news.update', ['id' => $this->post->id]), $this->payload);
+
+        $this->post->refresh();
+        self::assertNull($this->post->published_at);
     }
 
 }
