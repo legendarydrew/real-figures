@@ -31,4 +31,11 @@ class NewsPostFactory extends Factory
             'published_at' => fake()->dateTimeThisMonth
         ]);
     }
+
+    public function unpublished(): NewsPostFactory
+    {
+        return $this->state([
+            'published_at' => null
+        ]);
+    }
 }
