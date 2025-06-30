@@ -42,7 +42,7 @@ class NewsPost extends Model
         return Str::words($text_content, 20);
     }
 
-    public function getUrlAttribute()
+    public function getUrlAttribute(): string
     {
         return route('news.show', ['slug' => $this->slug]);
     }
