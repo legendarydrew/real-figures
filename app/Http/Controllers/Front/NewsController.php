@@ -13,6 +13,11 @@ class NewsController extends Controller
 
     public function index(): Response
     {
+        if (NewsPost::published()->count() === 0)
+        {
+            abort(404);
+        }
+
         return Inertia::render('front/news', [
             'posts' => fn() => fractal(NewsPost::published()
                                                ->orderByDesc('published_at')
