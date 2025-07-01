@@ -1,6 +1,5 @@
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { Link, router } from '@inertiajs/react';
 import { SubscribePanel } from '@/components/front/subscribe-panel';
 
@@ -15,8 +14,10 @@ export default function AboutBanner() {
             <div className="max-w-5xl mx-auto grid gap-4 grid-cols-1 md:grid-cols-2">
 
                 <div className="md:pr-10">
-                    <PlaceholderPattern
-                        className="w-full h-[10rem] mb-5 stroke-neutral-900/20 dark:stroke-neutral-100/40"/>
+                    <figure className="mb-5 overflow-hidden">
+                        <img className="w-full h-[10rem]" src="img/partnership.png"
+                             alt="The CEO of CATAWOL Records and the MODE Family's Sigfig joining forces."/>
+                    </figure>
 
                     <Heading title="About the Contest"/>
                     <p className="mb-3">

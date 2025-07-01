@@ -27,7 +27,7 @@
   - [ ] other meta tags.
 - [x] Update the theme to use the CATAWOL Records branding guidelines.
 - [x] Standardised button variants.
-- [ ] Add a News section.
+- [x] Add a News section.
     - [x] Generate News posts with the help of OpenAI/ChatGPT. ($$)
     - [x] optionally generate a News post based on a Stage or Round.
     - [x] Add metadata to Acts to help with generating News posts.

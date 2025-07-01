@@ -19,6 +19,7 @@ import {
 import FrontLayout from '@/layouts/front-layout';
 import { Advert } from '@/components/mode/advert';
 import { useAnalytics } from '@/hooks/use-analytics';
+import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 
 const RulesPage: React.FC = () => {
 
@@ -44,6 +45,10 @@ const RulesPage: React.FC = () => {
             </Head>
 
             <FrontContent>
+                <figure className="overflow-hidden h-50">
+                    <PlaceholderPattern className="w-full stroke-neutral-400"/>
+                </figure>
+
                 <div className="flex flex-col md:flex-row mb-5 gap-5 mb:gap-10">
                     <div className="md:w-3/5">
                         <Heading title="Real Figures Don't F.O.L.D &ndash; Contest Rules"/>

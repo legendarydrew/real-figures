@@ -25,7 +25,21 @@ export const AboutCatawolPanel: React.FC = ({ opened }) => {
             </CollapsibleTrigger>
             <CollapsibleContent
                 className="content pt-3 pb-5 lg:pb-10 px-2 lg:px-5 flex flex-col md:flex-row gap-5 lg:gap-10">
-                <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
+
+                <div className="md:w-2/5 flex flex-col gap-5">
+                    <PlaceholderPattern className="w-full stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
+
+                    <figure className="overflow-hidden">
+                        <img className="w-full" src="img/chelsea-chapel.png"
+                             alt="Chelsea Chapel during a live performance."/>
+                    </figure>
+
+                    <figure className="overflow-hidden">
+                        <img className="w-full" src="img/lorien.png"
+                             alt="Lorien working on a hit single."/>
+                    </figure>
+                </div>
+
                 <div className="md:w-3/5">
                     <p>
                         <b className="text-current">CATAWOL Records is a fictitious music label,</b> created as
