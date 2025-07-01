@@ -15,7 +15,7 @@ export default function AboutBanner() {
 
                 <div className="md:pr-10">
                     <figure className="mb-5 overflow-hidden">
-                        <img className="w-full h-[10rem]" src="img/partnership.png"
+                        <img className="w-full h-[10rem]" src="/img/partnership.png"
                              alt="The CEO of CATAWOL Records and the MODE Family's Sigfig joining forces."/>
                     </figure>
 
