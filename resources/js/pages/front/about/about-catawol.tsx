@@ -32,11 +32,6 @@ export const AboutCatawolPanel: React.FC = ({ opened }) => {
                     </figure>
 
                     <figure className="overflow-hidden">
-                        <img className="w-full" src="img/chelsea-chapel.png"
-                             alt="Chelsea Chapel during a live performance."/>
-                    </figure>
-
-                    <figure className="overflow-hidden">
                         <img className="w-full" src="img/lorien.png"
                              alt="Lorien working on a hit single."/>
                     </figure>

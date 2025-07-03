@@ -2,6 +2,7 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Link, router } from '@inertiajs/react';
 import { SubscribePanel } from '@/components/front/subscribe-panel';
+import { BrickTherapyLink } from '@/components/front/brick-therapy-link';
 
 export default function AboutBanner() {
 
@@ -28,8 +29,8 @@ export default function AboutBanner() {
                         information</Button>
                 </div>
 
-                <div className="flex flex-col gap-3 md:grid md:gap-2 md:grid-cols-2 md:grid-rows-2">
-                    <SubscribePanel className="w-full col-span-1 md:col-span-2"/>
+                <div className="flex flex-col gap-3 md:grid md:gap-2 md:grid-cols-3 md:grid-rows-2">
+                    <SubscribePanel className="w-full col-span-1 md:col-span-3"/>
 
                     <Link
                         className="flex flex-col justify-end bg-green-700 hover:bg-green-800 text-white font-semibold p-3 col-span-1 h-10 min-h-[6rem] md:h-auto rounded-sm leading-none"
@@ -44,6 +45,8 @@ export default function AboutBanner() {
                         <br/>
                         <span className="text-sm">on YouTube</span>
                     </Link>
+
+                    <BrickTherapyLink className="rounded-sm over overflow-hidden"/>
                 </div>
 
             </div>
