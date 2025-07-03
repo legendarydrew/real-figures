@@ -11,7 +11,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ManualVoteTest extends TestCase
+class ManualVoteStoreTest extends TestCase
 {
     use DatabaseMigrations;
 
