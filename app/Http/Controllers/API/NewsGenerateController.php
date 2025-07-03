@@ -20,8 +20,6 @@ use OpenAI\Testing\Responses\Fixtures\Chat\CreateResponseFixture;
  */
 class NewsGenerateController extends Controller
 {
-    //
-
     /**
      * Using the provided information, ask OpenAI to generate content for a News Post.
      * If successful, we will create a new News Post and begin editing it.
@@ -57,11 +55,13 @@ class NewsGenerateController extends Controller
         $usage = $result->usage;
         $json = json_decode($result->choices[0]->message->content, true);
 
-        $post = NewsPost::factory()->createOne([
-            'type'    => $data['type'],
-            'title'   => $json['title'],
-            'content' => $json['content']
-        ]);
+        $post = NewsPost::factory()
+                        ->unpublished()
+                        ->createOne([
+                            'type'    => $data['type'],
+                            'title'   => $json['title'],
+                            'content' => $json['content']
+                        ]);
         if (isset($data['references']))
         {
             foreach ($data['references'] as $reference_id)

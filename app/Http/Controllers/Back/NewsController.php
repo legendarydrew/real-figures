@@ -48,7 +48,7 @@ class NewsController extends Controller
     public function store(NewsPostRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $post = NewsPost::factory()->create($data);
+        $post = NewsPost::factory()->unpublished()->create($data);
 
         return to_route('admin.news.edit', ['id' => $post->id]);
     }
