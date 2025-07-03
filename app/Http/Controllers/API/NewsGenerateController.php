@@ -20,8 +20,6 @@ use OpenAI\Testing\Responses\Fixtures\Chat\CreateResponseFixture;
  */
 class NewsGenerateController extends Controller
 {
-    //
-
     /**
      * Using the provided information, ask OpenAI to generate content for a News Post.
      * If successful, we will create a new News Post and begin editing it.
