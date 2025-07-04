@@ -7,6 +7,7 @@ use App\Http\Controllers\API\ContactMessagesRespondController;
 use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\GoldenBuzzerBreakdownController;
 use App\Http\Controllers\API\LanguagesController;
+use App\Http\Controllers\API\NewsPromptController;
 use App\Http\Controllers\API\SongController;
 use App\Http\Controllers\API\SongPlayController;
 use App\Http\Controllers\API\StageAllocateController;
@@ -29,6 +30,8 @@ use App\Http\Controllers\Back\ContactMessageController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\DonationsController;
 use App\Http\Controllers\Back\GoldenBuzzersController;
+use App\Http\Controllers\Back\NewsController;
+use App\Http\Controllers\Back\NewsGenerateController;
 use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
 use App\Http\Controllers\Back\SubscribersController;
@@ -55,6 +58,8 @@ Route::get('acts/{slug}', [\App\Http\Controllers\Front\ActsController::class, 's
 Route::get('contact', fn() => Inertia::render('front/contact'))->name('contact');
 Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
 Route::get('donor-wall', [DonorWallController::class, 'index'])->name('donations');
+Route::get('news', [\App\Http\Controllers\Front\NewsController::class, 'index'])->name('news');
+Route::get('news/{slug}', [\App\Http\Controllers\Front\NewsController::class, 'show'])->name('news.show');
 Route::get('subscriber/confirm/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
 Route::get('subscriber/remove/{id}/{code}', [SubscriberRemoveController::class, 'show'])->name('subscriber.remove');
 Route::get('votes', [VotesController::class, 'index'])->name('votes');
@@ -95,6 +100,12 @@ Route::prefix('/api')->group(function ()
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
 
+        Route::post('news/generate', [\App\Http\Controllers\API\NewsGenerateController::class, 'store'])->name('news.generate');
+        Route::post('news/prompt', [NewsPromptController::class, 'store'])->name('news.prompt');
+
+        Route::post('news', [NewsController::class, 'store'])->name('news.store');
+        Route::put('news/{id}', [NewsController::class, 'update'])->name('news.update');
+
         Route::put('messages/{id}', [ContactMessagesController::class, 'update'])->name('messages.read');
         Route::put('messages/{id}/respond', [ContactMessagesRespondController::class, 'update'])->name('messages.respond');
         Route::delete('messages', [ContactMessagesController::class, 'destroy'])->name('messages.destroy');
@@ -132,6 +143,10 @@ Route::middleware(['auth', 'verified'])->group(function ()
     Route::get('/admin/contact', [ContactMessageController::class, 'index'])->name('admin.contact');
     Route::get('/admin/donations', [DonationsController::class, 'index'])->name('admin.donations');
     Route::get('/admin/golden-buzzers', [GoldenBuzzersController::class, 'index'])->name('admin.golden-buzzers');
+    Route::get('/admin/news', [NewsController::class, 'index'])->name('admin.news');
+    Route::get('/admin/news/generate', [NewsGenerateController::class, 'index'])->name('admin.news-generate');
+    Route::get('/admin/news/new', [NewsController::class, 'create'])->name('admin.news.create');
+    Route::get('/admin/news/{id}', [NewsController::class, 'edit'])->name('admin.news.edit');
     Route::get('/admin/songs', [SongsController::class, 'index'])->name('admin.songs');
     Route::get('/admin/stages', [StagesController::class, 'index'])->name('admin.stages');
     Route::get('/admin/subscribers', [SubscribersController::class, 'index'])->name('admin.subscribers');

@@ -73,6 +73,7 @@ export interface Stage {
 export interface Act {
     id?: number;
     name: string;
+    slug?: string;
     has_profile: boolean;
     profile?: {
         description: string;
@@ -233,4 +234,29 @@ export interface RoundVoteBreakdown {
 export interface LanguageRow {
     code: string;
     name: string;
+}
+
+export interface NewsPost {
+    id: number;
+    title: string;
+    url: string;
+    excerpt?: string;
+    content: string;
+    created_at: string;
+    published_at?: string;
+    updated_at: string;
+    pages?: {
+        previous?: {
+            title: string;
+            url: string;
+        };
+        next?: {
+            title: string;
+            url: string;
+        };
+        others?: {
+            title: string;
+            url: string;
+        }[];
+    };
 }

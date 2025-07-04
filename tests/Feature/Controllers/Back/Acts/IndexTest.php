@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Controllers\Back;
+namespace Tests\Feature\Controllers\Back\Acts;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
-class ActsTest extends TestCase
+class IndexTest extends TestCase
 {
     use DatabaseMigrations;
 

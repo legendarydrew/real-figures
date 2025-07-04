@@ -167,6 +167,10 @@ has the theme configured here.)
         @apply border-border;
     }
 
+    ::selection {
+        @apply bg-primary text-primary-foreground;
+    }
+
     body {
         @apply bg-background text-foreground;
     }
@@ -177,15 +181,15 @@ has the theme configured here.)
 
     /* Used for converted markdown content. */
     .content h1 {
-        @apply font-sans text-xl leading-none font-semibold tracking-normal;
+        @apply font-display text-xl leading-tight tracking-normal;
     }
 
     .content h2 {
-        @apply font-sans text-lg leading-none font-semibold tracking-normal;
+        @apply font-display text-lg leading-tight tracking-normal;
     }
 
     .content h3 {
-        @apply font-sans text-base leading-none font-semibold tracking-normal;
+        @apply font-display text-base leading-tight tracking-normal;
     }
 
     .content b {
@@ -202,6 +206,14 @@ has the theme configured here.)
 
     .content p {
         @apply my-2 leading-normal;
+    }
+
+    .content ::marker {
+        @apply font-semibold;
+    }
+
+    .content li {
+        @apply pl-1;
     }
 
     .content ol {
@@ -240,8 +252,9 @@ has the theme configured here.)
         @apply flex justify-end gap-1;
     }
 
+    /* A standardised hover background colour. */
     .hover-bg {
-        @apply hover:bg-indigo-200/20;
+        @apply hover:bg-indigo-300/20;
     }
 
     .outlined-text {

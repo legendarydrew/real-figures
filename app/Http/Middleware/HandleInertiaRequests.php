@@ -38,6 +38,7 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'showActs' => ContestFacade::shouldShowActs(),
+            'showNews' => ContestFacade::shouldShowNews(),
             'sidebarOpen' => $request->cookie('sidebar_state') === 'true',
             'flash'    => [
                 'message' => fn() => $request->session()->get('message'),

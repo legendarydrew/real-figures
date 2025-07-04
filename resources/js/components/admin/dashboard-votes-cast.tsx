@@ -2,6 +2,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { Nothing } from '@/components/mode/nothing';
 import { usePage } from '@inertiajs/react';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { cssVar } from '@/lib/utils';
 
 type DashboardVotesCastData = {
     date: string;
@@ -50,7 +51,7 @@ export const DashboardVotesCast: React.FC<DashboardVotesCastProps> = ({ data, cl
                             <Tooltip content={tooltipContent} isAnimationActive={false}/>
                             <Bar dataKey="votes" label="Votes cast"
                                  radius={[4, 4, 0, 0]}
-                                 className="fill-zinc-500"/>
+                                 fill={cssVar('--secondary')}/>
                         </BarChart>
                     </ResponsiveContainer>
                 ) : (

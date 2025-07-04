@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Contest;
+namespace Tests\Unit\Contest;
 
 use App\Facades\ContestFacade;
 use App\Models\Act;

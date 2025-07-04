@@ -44,6 +44,11 @@ const RulesPage: React.FC = () => {
             </Head>
 
             <FrontContent>
+                <figure className="mb-5">
+                    <img className="object-cover h-50 mx-auto" src="/img/panel-of-judges-ai.jpg"
+                         alt="A representative panel of judges for the song contest."/>
+                </figure>
+
                 <div className="flex flex-col md:flex-row mb-5 gap-5 mb:gap-10">
                     <div className="md:w-3/5">
                         <Heading title="Real Figures Don't F.O.L.D &ndash; Contest Rules"/>

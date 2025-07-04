@@ -22,7 +22,7 @@ class StageRoundsController extends Controller
         $stage = Stage::findOrFail($stage_id);
 
         return Inertia::render('back/stages', [
-            'rounds' => fn() => fractal($stage->rounds, new RoundAdminTransformer())->toArray()['data']
+            'rounds' => fn() => fractal($stage->rounds, new RoundAdminTransformer())->toArray()
         ]);
     }
 }

@@ -9,7 +9,6 @@ import { Advert } from '@/components/mode/advert';
 import { useDialog } from '@/context/dialog-context';
 import { DONATE_DIALOG_NAME } from '@/components/front/donate-dialog';
 import { Button } from '@/components/ui/button';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 
 interface DonorWallPageProps {
     donations: Donation[];
@@ -26,16 +25,15 @@ const DonorWallPage: React.FC<DonorWallPageProps> = ({ donations, buzzers }) => 
 
     return (
         <>
-            <Head title="Donation Wall">
+            <Head title="Donor Wall">
                 <meta name="description"
                       content="Support the CATAWOL Records Song Contest and help us amplify creativity and raise awareness of bullying. Learn how to donate and make a difference."/>
             </Head>
 
             <FrontContent>
-                <Heading title="Donation Wall"/>
-
                 <div className="flex flex-col-reverse md:flex-row gap-5 mb-8">
                     <div className="content md:w-3/5">
+                        <Heading title="Donor Wall"/>
                         <p>
                             <b>Consider supporting the contest by making a donation.</b>
                         </p>
@@ -53,13 +51,16 @@ const DonorWallPage: React.FC<DonorWallPageProps> = ({ donations, buzzers }) => 
                         </Button>
                     </div>
 
-                    <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20"/>
+                    <figure className="md:w-2/5 overflow-hidden">
+                        <img className="w-full" src="/img/chelsea-chapel.jpg"
+                             alt="Classical singer Chelsea Chapel during a live performance."/>
+                    </figure>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-5">
 
                     <div className="w-full lg:w-2/3 rounded-md bg-green-100 dark:bg-green-700/50">
-                        <h2 className="bg-green-300 dark:bg-green-700/50 text-xl font-semibold px-3 py-1.5 rounded-t-md">Generous
+                        <h2 className="font-display bg-green-300 dark:bg-green-700/50 text-base px-3 py-1.5 rounded-t-md">Generous
                             Donations</h2>
                         {donations.length ? (
                             <>
@@ -78,12 +79,12 @@ const DonorWallPage: React.FC<DonorWallPageProps> = ({ donations, buzzers }) => 
                                 </ul>
                             </>
                         ) : (
-                            <Nothing>Be the first to make a donation!</Nothing>
+                            <Nothing className="text-sm p-5 leading-tight">Be the first to make a donation!</Nothing>
                         )}
                     </div>
 
                     <div className="w-full lg:w-1/3 rounded-md bg-amber-100 dark:bg-amber-700/50">
-                        <h2 className="bg-amber-300 dark:bg-amber-700/50 text-xl font-semibold px-3 py-1.5 rounded-t-md">Golden
+                        <h2 className="font-display bg-amber-300 dark:bg-amber-700/50 text-base px-3 py-1.5 rounded-t-md">Golden
                             Buzzers</h2>
                         {buzzers.length ? (
                             <ul className="text-sm flex flex-wrap overflow-y-auto max-h-[50dvh] px-3 py-2">
@@ -97,7 +98,8 @@ const DonorWallPage: React.FC<DonorWallPageProps> = ({ donations, buzzers }) => 
                                 ))}
                             </ul>
                         ) : (
-                            <Nothing className="text-amber-900 dark:text-amber-100/80">Will you be the first to hit
+                            <Nothing className="text-amber-900 dark:text-amber-100/80 p-5 text-sm leading-tight">Will
+                                you be the first to hit
                                 a Golden Buzzer?</Nothing>
                         )}
                     </div>

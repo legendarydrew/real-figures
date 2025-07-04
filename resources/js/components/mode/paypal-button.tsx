@@ -15,6 +15,7 @@ import React from 'react';
 
 interface DonationButtonProps {
     amount?: number;
+    minimumAmount?: number;
     approveEndpoint?: string;
     currency?: string;
     description?: string; // what the donation is for.
@@ -29,6 +30,7 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({
                                                                 description,
                                                                 amount = 10,
                                                                 currency = 'USD',
+                                                                minimumAmount = 0,
                                                                 additionalData,
                                                                 onProcessing,
                                                                 onSuccess,
@@ -57,7 +59,7 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({
      */
     const createOrderHandler: PayPalButtonsComponentProps['createOrder'] = async (_, actions) => {
         // Don't do anything if we have an invalid amount.
-        if (isNaN(amount) || amount <= 0) {
+        if (isNaN(amount) || amount < minimumAmount) {
             return;
         }
 
@@ -114,7 +116,8 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({
 
     return (
         <PayPalScriptProvider options={scriptOptions}>
-            <PayPalButtons style={buttonStyle} createOrder={createOrderHandler} onApprove={approveHandler}
+            <PayPalButtons style={buttonStyle} disabled={amount < minimumAmount} createOrder={createOrderHandler}
+                           onApprove={approveHandler}
                            onError={onFailure}/>
         </PayPalScriptProvider>
     );

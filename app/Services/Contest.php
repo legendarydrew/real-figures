@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Facades\RoundResultsFacade;
 use App\Models\Act;
+use App\Models\NewsPost;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\Song;
@@ -17,8 +18,8 @@ class Contest
 {
 
     /**
-     * Returns TRUE if the contest is over.
-     * The contest is considered over if all Stages are over.
+     * Returns TRUE if the Contest is over.
+     * The Contest is considered over if all Stages are over.
      *
      * @return bool
      */
@@ -26,6 +27,17 @@ class Contest
     {
         $stages = Stage::all();
         return $stages->isNotEmpty() && $stages->every(fn(Stage $stage) => $stage->isOver());
+    }
+
+    /**
+     * Returns TRUE if the Contest is currently underway.
+     * The Contest is running if at least one Round has started.
+     *
+     * @return bool
+     */
+    public function isRunning(): bool
+    {
+        return Round::started()->count() > 0;
     }
 
     /**
@@ -200,6 +212,17 @@ class Contest
     public function shouldShowActs(): bool
     {
         return Act::whereHas('songs')->count() > 0;
+    }
+
+    /**
+     * Returns TRUE if the News pages should be shown.
+     * This should be the case if there is at least one published News Post.
+     *
+     * @return bool
+     */
+    public function shouldShowNews(): bool
+    {
+        return NewsPost::published()->count() > 0;
     }
 
 }

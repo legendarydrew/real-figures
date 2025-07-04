@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { Dialog, DialogContent, DialogFooter, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -32,6 +32,7 @@ export const GoldenBuzzerDialog: FC = () => {
     const { donation, stage } = usePage().props;
     const { trackEvent } = useAnalytics();
 
+    const donationOptions = useRef<number[]>(donation.options.filter((v) => v >= donation.minimum.golden_buzzer));
     const [round, setRound] = useState<Round>();
     const [song, setSong] = useState<Song>();
     const [amount, setAmount] = useState<number>(donation.default.general);
@@ -135,23 +136,32 @@ export const GoldenBuzzerDialog: FC = () => {
                         </div>
 
                         <div
-                            className="flex flex-col lg:flex-row gap-3 justify-between items-center py-2 px-5 bg-amber-300 dark:bg-yellow-600 dark:text-amber-100 shadow rounded-sm">
-                            <Label htmlFor="donationAmount">I would like to donate</Label>
+                            className="flex flex-col gap-1 py-2 px-5 bg-amber-300 dark:bg-yellow-600 dark:text-amber-100 shadow rounded-sm">
+                            <div className="flex flex-col lg:flex-row gap-3 justify-between items-center">
 
-                            <div className="flex gap-1 items-center">
-                                {donation.options.map((value) => (
-                                    <Button className="max-sm:hidden" key={value} variant="secondary" type="button"
-                                            onClick={() => setAmount(value)}>{value}</Button>
-                                ))}
-                                <div className="ml-2 flex items-center">
-                                    <Input
-                                        className="bg-white w-[6rem] border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-900 font-semibold text-right text-lg"
-                                        id="donationAmount" type="number" value={amount} min="1"
-                                        onChange={amountHandler}/>
-                                    <span
-                                        className="p-1 font-semibold text-base">{donation.currency}</span>
+                                <Label htmlFor="donationAmount">I would like to donate</Label>
+
+                                <div className="flex gap-1 items-center">
+                                    {donationOptions.current.map((value) => (
+                                        <Button className="max-sm:hidden" key={value} variant="gold" type="button"
+                                                onClick={() => setAmount(value)}>{value}</Button>
+                                    ))}
+                                    <div className="ml-2 flex items-center">
+                                        <Input
+                                            className="bg-white w-[6rem] border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-900 font-semibold text-right text-lg"
+                                            id="donationAmount" type="number" value={amount}
+                                            min={donation.minimum.golden_buzzer}
+                                            onChange={amountHandler}/>
+                                        <span
+                                            className="p-1 font-semibold text-base">{donation.currency}</span>
+                                    </div>
                                 </div>
                             </div>
+
+                            <p className="text-xs text-center w-5/6 mx-auto">
+                                We're asking for a minimum
+                                of <b>{donation.currency} {donation.minimum.golden_buzzer}</b> for Golden Buzzers.
+                            </p>
                         </div>
 
                         <div className="flex-grow max-sm:hidden">
@@ -165,7 +175,7 @@ export const GoldenBuzzerDialog: FC = () => {
                                    message="Something went wrong with processing your donation, please try again."/>
                         )}
 
-                        <DialogFooter className="mt-0 items-center md:justify-between h-10">
+                        <DialogFooter className="mt-0 items-center md:justify-between">
                             <div className="flex gap-2 items-center">
                                 <Checkbox id="donationAnonymous" className="bg-white" checked={isAnonymous}
                                           onCheckedChange={anonymousHandler}/>
@@ -173,7 +183,8 @@ export const GoldenBuzzerDialog: FC = () => {
                             </div>
 
                             <PaypalButton approveEndpoint="api/golden-buzzer"
-                                          amount={amount} currency={donation.currency}
+                                          amount={amount} minimumAmount={donation.minimum.golden_buzzer}
+                                          currency={donation.currency}
                                           additionalData={{
                                               is_anonymous: isAnonymous,
                                               message,

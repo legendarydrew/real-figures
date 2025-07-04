@@ -38,6 +38,13 @@ class IsOnLastStageTest extends TestCase
         self::assertFalse(ContestFacade::isOver());
     }
 
+    public function test_only_stage()
+    {
+        Stage::factory()->over()->create();
+
+        self::assertTrue(ContestFacade::isOver());
+    }
+
     public function test_last_of_many_stages()
     {
         Stage::factory(2)->over()->create();

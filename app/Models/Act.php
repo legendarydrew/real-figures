@@ -7,12 +7,26 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Act extends Model
 {
     use HasFactory;
+    use HasSlug;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    /**
+     * @return SlugOptions
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+                          ->generateSlugsFrom('name')
+                          ->saveSlugsTo('slug')
+                          ->usingSeparator('-');
+    }
 
     public function profile(): HasOne
     {
@@ -52,6 +66,11 @@ class Act extends Model
     public function notes(): HasMany
     {
         return $this->hasMany(ActMetaNote::class);
+    }
+
+    public function goldenBuzzers(): HasManyThrough
+    {
+        return $this->hasManyThrough(GoldenBuzzer::class, Song::class, 'act_id', 'song_id', 'id', 'id');
     }
 
     /**

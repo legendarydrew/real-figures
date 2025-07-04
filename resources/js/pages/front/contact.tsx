@@ -83,6 +83,12 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
             </Head>
 
             <FrontContent>
+
+                <figure className="mb-5">
+                    <img className="object-cover h-50 mx-auto" src="/img/receiving-fanmail.jpg"
+                         alt="The MODE Family's Sigfig and Val reading fanmail."/>
+                </figure>
+
                 <Heading title="Get in touch!"/>
 
                 <div className="flex flex-col lg:flex-row gap-5">
