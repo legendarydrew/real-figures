@@ -52,8 +52,8 @@ const DonorWallPage: React.FC<DonorWallPageProps> = ({ donations, buzzers }) => 
                     </div>
 
                     <figure className="md:w-2/5 overflow-hidden">
-                        <img className="w-full" src="img/chelsea-chapel.png"
-                             alt="Chelsea Chapel during a live performance."/>
+                        <img className="w-full" src="/img/chelsea-chapel.jpg"
+                             alt="Classical singer Chelsea Chapel during a live performance."/>
                     </figure>
                 </div>
 

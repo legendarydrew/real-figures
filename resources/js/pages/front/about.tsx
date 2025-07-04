@@ -30,7 +30,7 @@ const AboutPage: React.FC = () => {
 
                 <div className="content pt-3 pb-5 lg:pb-10 lg:px-2 flex flex-col md:flex-row gap-5 lg:gap-10">
                     <figure className="md:w-2/5 overflow-hidden">
-                        <img className="h-full w-auto" src="img/high-school-dropout.png"
+                        <img className="" src="/img/high-school-dropout.jpg"
                              alt="High School Dropout posing with a fan."/>
                     </figure>
                     <div className="content md:w-3/5">

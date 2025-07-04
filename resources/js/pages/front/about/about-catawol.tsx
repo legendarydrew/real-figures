@@ -27,12 +27,12 @@ export const AboutCatawolPanel: React.FC = ({ opened }) => {
 
                 <div className="md:w-2/5 flex flex-col gap-5">
                     <figure className="overflow-hidden">
-                        <img className="w-full" src="img/catawol-records-modular-building.jpg"
+                        <img className="w-full" src="/img/catawol-records-modular-building.jpg"
                              alt="The original CATAWOL Records modular building in LEGO."/>
                     </figure>
 
                     <figure className="overflow-hidden">
-                        <img className="w-full" src="img/lorien.png"
+                        <img className="w-full" src="/img/lorien.jpg"
                              alt="Lorien working on a hit single."/>
                     </figure>
                 </div>

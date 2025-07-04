@@ -23,7 +23,8 @@ export const AboutSongPanel: React.FC = ({ opened }) => {
             <CollapsibleContent
                 className="content pt-3 pb-5 lg:pb-10 px-2 lg:px-5 flex flex-col md:flex-row gap-5 lg:gap-10">
                 <figure className="md:w-2/5">
-                    <img className="w-full" src="img/bryknii.png" alt="Superstar Bryknii singing to a fan."/>
+                    <img className="w-full" src="/img/bryknii-with-boy.jpg"
+                         alt="Superstar pop singer Bryknii singing to a fan."/>
                 </figure>
                 <div className="md:w-3/5">
                     <p>

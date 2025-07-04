@@ -22,7 +22,7 @@ const IntroPage: React.FC = () => {
                 </p>
                 <SubscribeForm className="mt-3"/>
             </ContestHeader>
-            <Advert className="mx-auto text-center" height={90}/>
+            <Advert className="mx-auto text-center" height={240}/>
             <ContestOutline/>
             <GoldenBuzzerBanner/>
             <AboutBanner/>

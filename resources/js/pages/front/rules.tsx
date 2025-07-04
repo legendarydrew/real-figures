@@ -19,7 +19,6 @@ import {
 import FrontLayout from '@/layouts/front-layout';
 import { Advert } from '@/components/mode/advert';
 import { useAnalytics } from '@/hooks/use-analytics';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 
 const RulesPage: React.FC = () => {
 
@@ -45,8 +44,9 @@ const RulesPage: React.FC = () => {
             </Head>
 
             <FrontContent>
-                <figure className="overflow-hidden h-50">
-                    <PlaceholderPattern className="w-full stroke-neutral-400"/>
+                <figure className="overflow-hidden h-50 mb-5">
+                    <img className="w-full" src="/img/panel-of-judges-ai.jpg"
+                         alt="A representative panel of judges for the song contest."/>
                 </figure>
 
                 <div className="flex flex-col md:flex-row mb-5 gap-5 mb:gap-10">
