@@ -84,8 +84,8 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
 
             <FrontContent>
 
-                <figure className="overflow-hidden h-50 mb-5">
-                    <img className="w-full" src="/img/receiving-fanmail.jpg"
+                <figure className="mb-5">
+                    <img className="object-cover h-50 mx-auto" src="/img/receiving-fanmail.jpg"
                          alt="The MODE Family's Sigfig and Val reading fanmail."/>
                 </figure>
 

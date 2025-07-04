@@ -29,8 +29,8 @@ const AboutPage: React.FC = () => {
                 <Heading title="Real Figures Don't F.O.L.D &ndash; About the Project" className="mb-5"/>
 
                 <div className="content pt-3 pb-5 lg:pb-10 lg:px-2 flex flex-col md:flex-row gap-5 lg:gap-10">
-                    <figure className="md:w-2/5 overflow-hidden">
-                        <img className="" src="/img/high-school-dropout.jpg"
+                    <figure className="md:w-2/5">
+                        <img className="object-cover h-full" src="/img/high-school-dropout.jpg"
                              alt="High School Dropout posing with a fan."/>
                     </figure>
                     <div className="content md:w-3/5">

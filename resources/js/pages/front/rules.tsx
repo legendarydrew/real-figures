@@ -44,8 +44,8 @@ const RulesPage: React.FC = () => {
             </Head>
 
             <FrontContent>
-                <figure className="overflow-hidden h-50 mb-5">
-                    <img className="w-full" src="/img/panel-of-judges-ai.jpg"
+                <figure className="mb-5">
+                    <img className="object-cover h-50 mx-auto" src="/img/panel-of-judges-ai.jpg"
                          alt="A representative panel of judges for the song contest."/>
                 </figure>
 
