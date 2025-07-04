@@ -21,6 +21,7 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
 
     const { data, setData, errors, setError } = useForm<Required<ActForm>>({
         name: '',
+        slug: '',
         profile: {
             description: ''
         },
@@ -36,6 +37,7 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
     useEffect(() => {
         setData({
             name: act?.name ?? '',
+            slug: act?.slug ?? '',
             profile: {
                 description: act?.profile?.description ?? ''
             },
@@ -60,6 +62,11 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
     const changeNameHandler = (e: ChangeEvent) => {
         setData('name', e.target.value);
         setError('name', '');
+    };
+
+    const changeSlugHandler = (e: ChangeEvent) => {
+        setData('slug', e.target.value);
+        setError('slug', '');
     };
 
     const changeProfileDescriptionHandler = (value: string) => {
@@ -157,7 +164,14 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
                             <Label htmlFor="actName">Act's name</Label>
                             <Input id="actName" type="text" className="font-bold text-lg" value={data.name}
                                    onChange={changeNameHandler}/>
-                            <InputError className="mt-2" message={errors.title}/>
+                            <InputError className="mt-2" message={errors.name}/>
+                        </div>
+
+                        <div className="mb-3">
+                            <Label htmlFor="actSlug">Slug</Label>
+                            <Input id="actSlug" type="text" className="text-sm" value={data.slug}
+                                   onChange={changeSlugHandler} placeholder="Generated from the Act name"/>
+                            <InputError className="mt-2" message={errors.slug}/>
                         </div>
 
                         <div className="mb-2 flex gap-2">

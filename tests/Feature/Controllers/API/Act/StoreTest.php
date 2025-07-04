@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Intervention\Image\Laravel\Facades\Image;
 use PHPUnit\Framework\Attributes\Depends;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
+use Str;
 use Tests\TestCase;
 
 class StoreTest extends TestCase
@@ -38,6 +39,26 @@ class StoreTest extends TestCase
     {
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertRedirectToRoute('admin.acts.edit', ['id' => 1]);
+    }
+
+    #[Depends('test_as_user')]
+    public function test_creates_act_without_slug()
+    {
+        $this->payload['slug'] = null;
+        $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+
+        $act = Act::first();
+        self::assertEquals(Str::slug($this->payload['name']), $act->slug);
+    }
+
+    #[Depends('test_as_user')]
+    public function test_creates_act_with_custom_slug()
+    {
+        $this->payload['slug'] = fake()->word;
+        $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+
+        $act = Act::first();
+        self::assertEquals($this->payload['slug'], $act->slug);
     }
 
     #[Depends('test_as_user')]

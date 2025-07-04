@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Intervention\Image\Laravel\Facades\Image;
 use PHPUnit\Framework\Attributes\Depends;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
+use Str;
 use Tests\TestCase;
 
 class UpdateTest extends TestCase
@@ -57,6 +58,27 @@ class UpdateTest extends TestCase
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, 404), $this->payload);
         $response->assertNotFound();
     }
+
+    #[Depends('test_as_user')]
+    public function test_updates_act_without_slug()
+    {
+        $this->payload['slug'] = null;
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+
+        $act = Act::first();
+        self::assertEquals(Str::slug($this->payload['name']), $act->slug);
+    }
+
+    #[Depends('test_as_user')]
+    public function test_updates_act_with_custom_slug()
+    {
+        $this->payload['slug'] = fake()->word;
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+
+        $act = Act::first();
+        self::assertEquals($this->payload['slug'], $act->slug);
+    }
+
 
     #[Depends('test_updates_act')]
     public function test_updates_existing_profile()
