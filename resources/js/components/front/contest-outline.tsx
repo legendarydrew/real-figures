@@ -2,7 +2,8 @@ import HeadingSmall from '@/components/heading-small';
 
 export default function ContestOutline() {
     return (
-        <div className="bg-gray-500 text-white py-10 px-5">
+        <div
+            className="bg-gray-500 bg-[url(/img/bg-overview.jpg)] bg-center bg-cover text-shadow-sm text-white py-10 px-5">
             <div className="max-w-5xl mx-auto grid gap-5 md:grid-cols-2 lg:grid-cols-3">
 
                 <div>

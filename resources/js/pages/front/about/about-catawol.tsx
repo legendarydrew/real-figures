@@ -1,6 +1,5 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import HeadingSmall from '@/components/heading-small';
 import { useState } from 'react';
 
@@ -25,7 +24,19 @@ export const AboutCatawolPanel: React.FC = ({ opened }) => {
             </CollapsibleTrigger>
             <CollapsibleContent
                 className="content pt-3 pb-5 lg:pb-10 px-2 lg:px-5 flex flex-col md:flex-row gap-5 lg:gap-10">
-                <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
+
+                <div className="md:w-2/5 flex flex-col gap-5">
+                    <figure className="overflow-hidden">
+                        <img className="w-full" src="/img/catawol-records-modular-building.jpg"
+                             alt="The original CATAWOL Records modular building in LEGO."/>
+                    </figure>
+
+                    <figure className="overflow-hidden">
+                        <img className="w-full" src="/img/lorien.jpg"
+                             alt="Lorien working on a hit single."/>
+                    </figure>
+                </div>
+
                 <div className="md:w-3/5">
                     <p>
                         <b className="text-current">CATAWOL Records is a fictitious music label,</b> created as

@@ -56,7 +56,7 @@ const HomeStageEndPage: React.FC = ({ stage, previousRounds, isLastStage }) => {
                         </div>
 
                         <div className="lg:w-1/3">
-                            <Advert className="mx-auto text-center" height={90}/>
+                            <Advert className="mx-auto text-center" height={240}/>
                         </div>
                     </div>
 

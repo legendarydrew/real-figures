@@ -8,6 +8,7 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import TextLink from '@/components/mode/text-link';
 import HeadingSmall from '@/components/heading-small';
 import { ChevronLeft, ChevronRight, NewspaperIcon } from 'lucide-react';
+import { BrickTherapyLink } from '@/components/front/brick-therapy-link';
 
 interface NewsPostPageProps {
     post: NewsPost;
@@ -94,7 +95,8 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
                         </div>
 
                         <PlaceholderPattern className="w-full stroke-zinc-300" title="SilentMode banner"/>
-                        <PlaceholderPattern className="w-full stroke-red-300" title="Brick Therapy banner"/>
+
+                        <BrickTherapyLink/>
 
                     </aside>
 

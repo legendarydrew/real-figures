@@ -1,6 +1,5 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { useState } from 'react';
 
 export const AboutFoldPanel: React.FC = ({ opened }) => {
@@ -23,7 +22,9 @@ export const AboutFoldPanel: React.FC = ({ opened }) => {
             </CollapsibleTrigger>
             <CollapsibleContent
                 className="content pt-3 pb-5 lg:pb-10 px-2 lg:px-5 flex flex-col md:flex-row gap-5 lg:gap-10">
-                <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
+                <figure className="md:w-2/5">
+                    <img className="w-full" src="img/fold-logo.png" alt="The unofficial logo of the F.O.L.D."/>
+                </figure>
                 <div className="md:w-3/5">
                     <p>The F.O.L.D describes an unofficial inner circle within the LEGO space, that
                         appears inclusive on the surface, but acts in exclusive and controlling ways.</p>
@@ -37,7 +38,8 @@ export const AboutFoldPanel: React.FC = ({ opened }) => {
                             subtle discrimination, or are pushed out entirely.
                         </p>
 
-                        <p className="font-semibold">While the F.O.L.D is specific to the LEGO space, their pattern of behaviour is also common
+                        <p className="font-semibold">While the F.O.L.D is specific to the LEGO space, their pattern of
+                            behaviour is also common
                             across other hobby and interest groups.</p>
 
                         <p>The concept was introduced with SilentMode's 2024 <b>SCREAMix</b> project,

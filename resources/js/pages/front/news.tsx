@@ -8,6 +8,7 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { NewspaperIcon } from 'lucide-react';
 import HeadingSmall from '@/components/heading-small';
 import { Pagination } from '@/components/admin/pagination';
+import { BrickTherapyLink } from '@/components/front/brick-therapy-link';
 
 interface NewsPageProps {
     posts: PaginatedResponse<NewsPost>;
@@ -67,7 +68,8 @@ const NewsPage: React.FC<NewsPageProps> = ({ posts }) => {
                         </div>
 
                         <PlaceholderPattern className="w-full stroke-zinc-300" title="SilentMode banner"/>
-                        <PlaceholderPattern className="w-full stroke-red-300" title="Brick Therapy banner"/>
+
+                        <BrickTherapyLink/>
                     </aside>
 
                 </div>

@@ -3,7 +3,6 @@ import { FrontContent } from '@/components/front/front-content';
 import Heading from '@/components/heading';
 import HeadingSmall from '@/components/heading-small';
 import FrontLayout from '@/layouts/front-layout';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { Advert } from '@/components/mode/advert';
 import { AboutSongPanel } from '@/pages/front/about/about-song';
 import { AboutFoldPanel } from '@/pages/front/about/about-fold';
@@ -30,7 +29,10 @@ const AboutPage: React.FC = () => {
                 <Heading title="Real Figures Don't F.O.L.D &ndash; About the Project" className="mb-5"/>
 
                 <div className="content pt-3 pb-5 lg:pb-10 lg:px-2 flex flex-col md:flex-row gap-5 lg:gap-10">
-                    <PlaceholderPattern className="md:w-2/5 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
+                    <figure className="md:w-2/5 overflow-hidden">
+                        <img className="" src="/img/high-school-dropout.jpg"
+                             alt="High School Dropout posing with a fan."/>
+                    </figure>
                     <div className="content md:w-3/5">
                         <p className="text-lg">
                             <b>Real Figures Don't F.O.L.D combines SilentMode's interest in LEGO</b> with music,
