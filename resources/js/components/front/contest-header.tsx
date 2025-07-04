@@ -2,13 +2,13 @@ export default function ContestHeader({ children }) {
     return (
         <div
             className="bg-linear-to-b from-slate-500 to-indigo-800 text-white dark:bg-indigo-800/60 px-5">
-            <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-end gap-4">
+            <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-end gap-4 relative overflow-hidden">
 
-                <div className="w-2/5 overflow-hidden h-full">
-                    <img className="w-full" src="/img/microphone.png" alt="A microphone on a stand."/>
+                <div className="md:w-2/5 overflow-hidden absolute md:static bottom-0 z-1">
+                    <img className="max-h-[20rem] md:ml-auto" src="/img/microphone.png" alt="A microphone on a stand."/>
                 </div>
 
-                <div className="px-3 py-5 md:py-10 md:px-0 md:w-1/2 md:ml-10">
+                <div className="px-3 py-5 md:py-10 md:px-0 md:w-1/2 md:ml-10 z-2">
                     <h1 className="display-text text-4xl text-shadow-md mb-3">
                         32 Acts.<br/>1 Anthem.
                     </h1>

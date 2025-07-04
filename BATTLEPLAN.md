@@ -8,7 +8,7 @@
 
 ## Graphics
 
-- [ ] Home page: Graphic for the introduction banner (a microphone?).
+- [x] Home page: Graphic for the introduction banner (a microphone?).
 - [ ] Home page: Graphic for Golden Buzzer banner.
 - [ ] Home page: Graphics for the contest outline columns. [optional]
 - [ ] Home page: Graphic for the about the contest banner.
@@ -16,7 +16,7 @@
 - [ ] About page: Graphics for the introduction.
 - [ ] About page: Graphics for About CATAWOL Records.
 - [ ] About page: Graphic for About the Song.
-- [ ] About page: Graphic for What is the F.O.L.D?
+- [x] About page: Graphic for What is the F.O.L.D?
 - [ ] About page: Graphic for About SilentMode.
 
 ## Miscellaneous

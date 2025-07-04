@@ -57,7 +57,7 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
                                 </Link>)}
                             {post.pages.next && (
                                 <Link
-                                    className="lg:w-2/5 lg:text-right hover-bg p-5 ml-auto flex flex-col lg:justify-end lg:items-end gap-1"
+                                    className="lg:w-2/5 md:text-right hover-bg p-5 ml-auto flex flex-col lg:justify-end md:items-end gap-1"
                                     href={post.pages.next.url}
                                     rel="next">
                                     <span className="font-display text-xl leading-tight">{post.pages.next.title}</span>
@@ -94,9 +94,11 @@ const NewsPostPage: React.FC<NewsPostPageProps> = ({ post }) => {
                                 through sound.</p>
                         </div>
 
-                        <PlaceholderPattern className="w-full stroke-zinc-300" title="SilentMode banner"/>
-
-                        <BrickTherapyLink/>
+                        <div className="flex flex-row max-h-[8rem] lg:max-h-none lg:flex-col gap-3">
+                            <PlaceholderPattern className="w-[8rem] lg:w-auto flex-shrink-0 stroke-zinc-300"
+                                                title="SilentMode banner"/>
+                            <BrickTherapyLink className="max-h-[8rem] lg:max-h-none lg:flex-shrink-0"/>
+                        </div>
 
                     </aside>
 

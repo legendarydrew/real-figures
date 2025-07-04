@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Features\Controllers\Front\News;
+namespace Test\Feature\Controllers\Front\News;
 
 use App\Models\NewsPost;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
