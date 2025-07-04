@@ -73,6 +73,7 @@ export interface Stage {
 export interface Act {
     id?: number;
     name: string;
+    slug?: string;
     has_profile: boolean;
     profile?: {
         description: string;
