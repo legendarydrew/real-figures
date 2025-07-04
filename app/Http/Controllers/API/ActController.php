@@ -33,7 +33,7 @@ class ActController extends Controller
         {
             $act = Act::factory()->create([
                 'name'             => $data['name'],
-                'slug' => $data['slug'],
+                'slug' => $data['slug'] ?? null,
                 'is_fan_favourite' => $data['is_fan_favourite'] ?? false,
             ]);
             $this->updateActImage($act, $data);
@@ -58,7 +58,7 @@ class ActController extends Controller
         {
             $act->update([
                 'name'             => $data['name'],
-                'slug' => $data['slug'],
+                'slug' => $data['slug'] ?? null,
                 'is_fan_favourite' => $data['is_fan_favourite'] ?? false,
             ]);
             $this->updateActImage($act, $data);
