@@ -39,10 +39,10 @@ const NewsPage: React.FC<NewsPageProps> = ({ posts }) => {
                             {posts.data.map((post) => (
                                 <article key={post.id} className={"flex border"}>
                                     <Link href={post.url} className="flex hover-bg hover:shadow-md">
-                                        <div className="w-1/8 flex items-center justify-center bg-white">
+                                        <div className="max-sm:hidden w-1/8 flex items-center justify-center bg-white">
                                             <NewspaperIcon className="w-12"/>
                                         </div>
-                                        <div className="w-7/8 flex flex-col items-start justify-center gap-1 p-5">
+                                        <div className="md:w-7/8 flex flex-col items-start justify-center gap-1 p-5">
                                             <h2 className="font-display text-xl leading-tight">{post.title}</h2>
                                             <p className="text-sm leading-tight">{post.excerpt}</p>
                                             <p className="text-xs text-muted-foreground leading-tight">{post.published_at}</p>
@@ -67,9 +67,12 @@ const NewsPage: React.FC<NewsPageProps> = ({ posts }) => {
                                 through sound.</p>
                         </div>
 
-                        <PlaceholderPattern className="w-full stroke-zinc-300" title="SilentMode banner"/>
+                        <div className="flex flex-row max-h-[8rem] lg:max-h-none lg:flex-col gap-3">
+                            <PlaceholderPattern className="w-[8rem] lg:w-auto flex-shrink-0 stroke-zinc-300"
+                                                title="SilentMode banner"/>
+                            <BrickTherapyLink className="max-h-[8rem] lg:max-h-none lg:flex-shrink-0"/>
+                        </div>
 
-                        <BrickTherapyLink/>
                     </aside>
 
                 </div>
