@@ -14,7 +14,6 @@ use App\Models\Song;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Model>
@@ -29,10 +28,8 @@ class ActFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->unique()->name;
         return [
-            'name'             => $name,
-            'slug'             => Str::slug($name),
+            'name' => $this->faker->unique()->name,
             'is_fan_favourite' => $this->faker->boolean(10)
         ];
     }
