@@ -7,7 +7,7 @@ import { ActDialog } from '@/components/admin/act-dialog';
 import { Pagination } from '@/components/admin/pagination';
 import { ActItem } from '@/components/mode/act-item';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
-import { Toaster } from '@/components/mode/toast-message';
+import { RTToast } from '@/components/mode/toast-message';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Nothing } from '@/components/mode/nothing';
 
@@ -48,7 +48,7 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
                     setIsDeleting(false);
                 },
                 onSuccess: () => {
-                    Toaster.success(`"${currentAct.name}" was deleted.`);
+                    RTToast.success(`"${currentAct.name}" was deleted.`);
                     setIsDeleteDialogOpen(false);
                     setCurrentAct(undefined);
                 }

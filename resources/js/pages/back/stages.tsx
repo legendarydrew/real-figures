@@ -8,7 +8,7 @@ import { StageItem } from '@/components/admin/stage-item';
 import { RoundAllocateDialog } from '@/components/admin/round-allocate-dialog';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
-import { Toaster } from '@/components/mode/toast-message';
+import { RTToast } from '@/components/mode/toast-message';
 import { StageWinnersDialog } from '@/components/admin/stage-winners-dialog';
 import { StageResultsDialog } from '@/components/admin/stage-results-dialog';
 import { StageVotesDialog } from '@/components/admin/stage-votes-dialog';
@@ -75,7 +75,7 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
                     setIsDeleting(false);
                 },
                 onSuccess: () => {
-                    Toaster.success(`"${currentStage.title}" was deleted.`);
+                    RTToast.success(`"${currentStage.title}" was deleted.`);
                     setIsDeleteDialogOpen(false);
                     setCurrentStage(undefined);
                 }

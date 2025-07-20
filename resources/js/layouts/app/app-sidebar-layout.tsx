@@ -12,7 +12,7 @@ export default function AppSidebarLayout({ children }: PropsWithChildren<{
     return (
         <DialogProvider>
             <AppShell variant="sidebar">
-                <Toaster position="bottom-left"/>
+                <Toaster position="bottom-center"/>
                 <AppSidebar/>
                 <AppContent variant="sidebar">
                     {children}

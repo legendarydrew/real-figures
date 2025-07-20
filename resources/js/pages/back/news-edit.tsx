@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
 import { MarkdownEditor } from '@/components/mode/markdown-editor';
-import { Toaster } from '@/components/mode/toast-message';
+import { RTToast } from '@/components/mode/toast-message';
 import { Alert } from '@/components/mode/alert';
 import { ConfirmDialog } from '@/components/admin/confirm-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
@@ -74,7 +74,7 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
             router.put(route('news.update', { id: post.id }), { ...data, publish }, {
                 showProgress: true,
                 onSuccess: () => {
-                    Toaster.success('News Post was updated.');
+                    RTToast.success('News Post was updated.');
                 },
                 onFinish: () => {
                     setIsSaving(false)
@@ -85,7 +85,7 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
             router.post(route('news.store'), data, {
                 showProgress: true,
                 onSuccess: () => {
-                    Toaster.success('News Post was created.');
+                    RTToast.success('News Post was created.');
                 },
                 onFinish: () => {
                     setIsSaving(false)

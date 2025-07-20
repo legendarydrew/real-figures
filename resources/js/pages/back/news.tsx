@@ -7,7 +7,7 @@ import { NewsPost, PaginatedResponse } from '@/types';
 import { Pagination } from '@/components/admin/pagination';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
-import { Toaster } from '@/components/mode/toast-message';
+import { RTToast } from '@/components/mode/toast-message';
 import { Nothing } from '@/components/mode/nothing';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -61,7 +61,7 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
                     setIsDeleting(false);
                 },
                 onSuccess: () => {
-                    Toaster.success(`"${currentPost.title}" was deleted.`);
+                    RTToast.success(`"${currentPost.title}" was deleted.`);
                     setIsDeleteDialogOpen(false);
                     setCurrentPost(undefined);
                 }

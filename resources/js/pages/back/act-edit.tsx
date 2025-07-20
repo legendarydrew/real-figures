@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
 import { MarkdownEditor } from '@/components/mode/markdown-editor';
-import { Toaster } from '@/components/mode/toast-message';
+import { RTToast } from '@/components/mode/toast-message';
 import { Checkbox } from '@/components/ui/checkbox';
 import HeadingSmall from '@/components/heading-small';
 import { ActMetaMembers } from '@/components/admin/act-meta-members';
@@ -125,7 +125,7 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
             router.patch(route('acts.update', { id: act.id }), formData, {
                 showProgress: true,
                 onSuccess: () => {
-                    Toaster.success(`Act "${act.name}" was updated.`);
+                    RTToast.success(`Act "${act.name}" was updated.`);
                 },
                 onFinish: () => {
                     setIsSaving(false)
@@ -136,7 +136,7 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
             router.post(route('acts.store'), formData, {
                 showProgress: true,
                 onSuccess: () => {
-                    Toaster.success(`Act "${data.name}" was created.`);
+                    RTToast.success(`Act "${data.name}" was created.`);
                 },
                 onFinish: () => {
                     setIsSaving(false)

@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { useForm } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Song } from '@/types';
-import { Toaster } from '@/components/mode/toast-message';
+import { RTToast } from '@/components/mode/toast-message';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import { LanguageFlag } from '@/components/mode/language-flag';
 import { LoadingButton } from '@/components/mode/loading-button';
@@ -83,7 +83,7 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
         if (isEditing()) {
             patch(route('songs.update', { id: song.id }), {
                 onSuccess: () => {
-                    Toaster.success("Song was updated.");
+                    RTToast.success("Song was updated.");
                     onOpenChange();
                 },
                 preserveScroll: true
@@ -91,7 +91,7 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
         } else {
             post(route('songs.store'), {
                 onSuccess: () => {
-                    Toaster.success("Song was created.");
+                    RTToast.success("Song was created.");
                     onOpenChange();
                 },
                 preserveScroll: true
