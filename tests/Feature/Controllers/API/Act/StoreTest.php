@@ -3,7 +3,6 @@
 namespace Tests\Feature\Controllers\API\Act;
 
 use App\Models\Act;
-use App\Models\ActPicture;
 use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Intervention\Image\Laravel\Facades\Image;
@@ -91,8 +90,7 @@ class StoreTest extends TestCase
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
 
         $act = Act::first();
-        self::assertInstanceOf(ActPicture::class, $act->picture);
-        self::assertEquals($this->payload['image'], $act->picture->image);
+        self::assertIsString($act->image);
     }
 
     #[Depends('test_as_user')]
