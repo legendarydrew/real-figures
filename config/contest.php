@@ -30,5 +30,9 @@ return [
     ],
     'ai'          => [
         'model' => 'gpt-4o-mini'
+    ],
+    'images'      => [
+        'subfolder' => 'act',
+        'resize'    => [1000, 1000]
     ]
 ];
