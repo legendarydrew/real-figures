@@ -76,7 +76,7 @@ class Act extends Model
      */
     public function getImageAttribute(): string|null
     {
-        return ActImageFacade::exists($this) ? ActImageFacade::path($this) : null;
+        return ActImageFacade::exists($this) ? ActImageFacade::url($this) : null;
     }
 
 }

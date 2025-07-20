@@ -15,7 +15,7 @@ class ActsController extends Controller
     public function index(): Response
     {
         return Inertia::render('back/acts', [
-            'acts' => fn() => fractal(Act::with(['profile', 'picture'])->paginate(12))
+            'acts' => fn() => fractal(Act::with(['profile'])->paginate(12))
                 ->transformWith(ActTransformer::class)
                 ->withResourceName('data')
                 ->toArray()
@@ -34,7 +34,7 @@ class ActsController extends Controller
     {
         $act = Act::findOrFail($id);
         return Inertia::render('back/act-edit', [
-            'act' => fn() => fractal($act, new ActTransformer())->parseIncludes(['meta', 'profile', 'picture']),
+            'act' => fn() => fractal($act, new ActTransformer())->parseIncludes(['meta', 'profile']),
             'genreList' => fn() => Genre::orderBy('name')->pluck('name')->toArray()
         ]);
     }

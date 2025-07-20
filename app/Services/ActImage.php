@@ -18,6 +18,11 @@ class ActImage
         return sprintf('%s/%s.png', $this->getImageFolder(), $act->slug);
     }
 
+    public function url(Act $act): string
+    {
+        return asset(sprintf('img/%s/%s.png', config('contest.images.subfolder'), $act->slug), true);
+    }
+
     public function create(Act $act, string $image): void
     {
         // Create the folder if it doesn't exist.

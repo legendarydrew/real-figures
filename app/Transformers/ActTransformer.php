@@ -22,7 +22,7 @@ class ActTransformer extends TransformerAbstract
             'name'        => $act->name,
             'slug'        => $act->slug,
             'has_profile' => (bool)$act->profile,
-            'image'       => $act->picture ? $act->picture->image : null,
+            'image' => $act->image,
         ];
     }
 

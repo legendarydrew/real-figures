@@ -62,7 +62,7 @@ class ActFactory extends Factory
             if ($this->faker->boolean($chance))
             {
                 $this->faker->addProvider(new FakerPicsumImagesProvider($this->faker));
-                ActImageFacade::create($act, fake()->image);
+                ActImageFacade::create($act, $this->faker->image);
             }
         });
     }
