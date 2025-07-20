@@ -38,11 +38,6 @@ class Act extends Model
         return $this->hasMany(Song::class);
     }
 
-    public function picture(): HasOne
-    {
-        return $this->hasOne(ActPicture::class);
-    }
-
     public function members(): HasMany
     {
         return $this->hasMany(ActMetaMember::class);
@@ -80,7 +75,7 @@ class Act extends Model
      */
     public function getImageAttribute(): string|null
     {
-        return $this->picture?->image ?? null;
+        return null;
     }
 
 }
