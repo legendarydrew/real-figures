@@ -22,7 +22,7 @@ export const ActMetaLanguages: React.FC<ActMetaLanguagesProps> = ({ languages, o
     }, [languages]);
 
     const availableLanguages: LanguageRow[] = useMemo((): { code: string, name: string }[] => {
-        return languageList.current.filter((languageCode) => !rows.includes(languageCode));
+        return languageList.current.filter((languageCode) => !rows.find((l) => l.code === languageCode));
     }, [rows]); /* we're learning! */
 
     const addLanguageHandler = (languageCode: string): void => {

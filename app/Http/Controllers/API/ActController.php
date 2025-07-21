@@ -76,7 +76,7 @@ class ActController extends Controller
         {
             ActImageFacade::create($act, $data['image']);
         }
-        else
+        elseif (isset($data['remove_image']) && $data['remove_image'])
         {
             ActImageFacade::delete($act);
         }

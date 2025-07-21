@@ -22,7 +22,7 @@ class ActTransformer extends TransformerAbstract
             'name'        => $act->name,
             'slug'        => $act->slug,
             'has_profile' => (bool)$act->profile,
-            'image' => $act->image,
+            'image_url' => $act->image,
         ];
     }
 
@@ -60,7 +60,7 @@ class ActTransformer extends TransformerAbstract
                 'role' => $member->role,
             ]),
             'traits'           => $act->traits->map(fn(ActMetaTrait $trait) => [
-                'id'   => $trait->id,
+                'id' => $trait->id,
                 'trait' => $trait->trait,
             ]),
             'notes'            => $act->notes->map(fn(ActMetaNote $note) => [

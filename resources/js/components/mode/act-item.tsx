@@ -27,7 +27,7 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
 
     const textClasses = (): string => {
         return cn("display-text flex-grow pr-3 text-lg leading-tight text-left",
-            act.image && 'text-white outlined-text',
+            act.image_url && 'text-white outlined-text',
             editable && 'overflow-x-hidden ellipsis');
     }
 
@@ -36,9 +36,9 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
             className={cn("relative flex rounded-md b-2 aspect-square w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 items-center flex-col justify-end overflow-hidden select-none", className)}
             {...props}>
 
-            {act.image ? (
+            {act.image_url ? (
                 <div className="w-full h-full bg-act-image z-0">
-                    <div className="bg-cover w-full h-full" style={{ backgroundImage: `url(${act.image}`}}></div>
+                    <div className="bg-cover w-full h-full" style={{ backgroundImage: `url(${act.image_url}` }}></div>
                 </div>
             ) : (
                 <div className="w-full h-full z-0 flex items-center justify-center text-gray-500 select-none">
