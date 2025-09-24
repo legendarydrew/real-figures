@@ -4,7 +4,7 @@ export default function GoldenBuzzerBanner() {
             <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-3 md:gap-4">
 
                 <figure>
-                    <img src="/img/golden-buzzer.jpg" className="max-h-50" alt="Pressing the Golden Buzzer."/>
+                    <img src="/img/golden-buzzer.png" className="max-h-50" alt="Pressing the Golden Buzzer."/>
                 </figure>
 
                 <div className="p-3 md:p-0 md:w-1/2 md:ml-10">

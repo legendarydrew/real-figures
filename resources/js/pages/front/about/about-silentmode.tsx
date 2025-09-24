@@ -25,7 +25,7 @@ export const AboutSilentmodePanel: React.FC = ({ opened }) => {
             <CollapsibleContent
                 className="content pt-3 pb-5 lg:pb-10 px-2 lg:px-5 flex flex-col md:flex-row gap-5 lg:gap-10">
                 <figure className="md:w-2/5 aspect-square overflow-hidden">
-                    <img className="w-full" src="/img/sigfig.jpg" alt="The MODE Family's Sigfig."/>
+                    <img className="w-full" src="/img/sigfig.png" alt="The MODE Family's Sigfig."/>
                 </figure>
                 <div className="md:w-3/5">
                     <p><b className="text-current">SilentMode is a Maker, Artist and LEGO Enthusiast</b> based in
