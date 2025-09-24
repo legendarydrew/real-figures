@@ -17,6 +17,7 @@
 /proxy.config.json
 /rector.php
 /src
+/stories
 /tests
 /test.ts
 /tsconfig.app.json
@@ -24,6 +25,7 @@
 /tsconfig.spec.json
 /typings.d.json
 /vendor/composer/composer/tests/*
+/vitest.*
 /webpack.mix.js
 /yarn.lock
 /yarn-error.log
