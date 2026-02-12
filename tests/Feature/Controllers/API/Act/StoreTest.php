@@ -5,7 +5,6 @@ namespace Tests\Feature\Controllers\API\Act;
 use App\Models\Act;
 use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Intervention\Image\Laravel\Facades\Image;
 use PHPUnit\Framework\Attributes\Depends;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use Str;
@@ -86,10 +85,12 @@ class StoreTest extends TestCase
     public function test_creates_act_with_image()
     {
         fake()->addProvider(new FakerPicsumImagesProvider(fake()));
-        $this->payload['image'] = Image::read(fake()->image())->encode()->toDataUri();
-        $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $this->payload['image'] = fake()->image();
+        $response               = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertCreated();
 
         $act = Act::first();
+        self::assertInstanceOf(Act::class, $act);
         self::assertIsString($act->image);
     }
 
