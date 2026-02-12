@@ -3,7 +3,6 @@
 namespace Tests\Feature\Controllers\API\Act;
 
 use App\Models\Act;
-use App\Models\ActPicture;
 use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Intervention\Image\Laravel\Facades\Image;
@@ -118,21 +117,21 @@ class UpdateTest extends TestCase
     {
         fake()->addProvider(new FakerPicsumImagesProvider(fake()));
         $this->payload['image'] = Image::read(fake()->image())->encode()->toDataUri();
+        $this->payload['remove_image'] = false;
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
-        $this->act->load('picture');
-        self::assertInstanceOf(ActPicture::class, $this->act->picture);
-        self::assertEquals($this->payload['image'], $this->act->picture->image);
+        $this->act->refresh();
+        self::assertIsString($this->act->image);
     }
 
     #[Depends('test_updates_act')]
     public function test_updates_and_removes_image()
     {
-        $this->payload['image'] = null;
+        $this->payload['remove_image'] = true;
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
-        $this->act->load('picture');
-        self::assertNull($this->act->picture);
+        $this->act->refresh();
+        self::assertNull($this->act->image);
     }
 
 }

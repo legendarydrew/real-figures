@@ -10,7 +10,7 @@ import { Pagination } from '@/components/admin/pagination';
 import { Icon } from '@/components/icon';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
-import { Toaster } from '@/components/mode/toast-message';
+import { RTToast } from '@/components/mode/toast-message';
 import { Nothing } from '@/components/mode/nothing';
 
 interface TableSort {
@@ -86,7 +86,7 @@ export default function Songs({ acts, songs }: Readonly<{ songs: PaginatedRespon
                     setIsDeleting(false);
                 },
                 onSuccess: () => {
-                    Toaster.success(`"${currentSong.title}" was deleted.`);
+                    RTToast.success(`"${currentSong.title}" was deleted.`);
                     setIsDeleteDialogOpen(false);
                     setCurrentSong(undefined);
                 }

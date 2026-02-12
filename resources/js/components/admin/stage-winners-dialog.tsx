@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { useForm } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Stage } from '@/types';
-import { Toaster } from '@/components/mode/toast-message';
+import { RTToast } from '@/components/mode/toast-message';
 import { LoadingButton } from '@/components/mode/loading-button';
 
 interface StageWinnersDialogProps {
@@ -36,7 +36,7 @@ export const StageWinnersDialog: FC<StageWinnersDialogProps> = ({ open, onOpenCh
 
         post(route('stages.winners', { id: stage.id }), {
             onSuccess: () => {
-                Toaster.success(`Winning Songs for Stage "${stage.title}" were confirmed.`);
+                RTToast.success(`Winning Songs for Stage "${stage.title}" were confirmed.`);
                 onOpenChange();
             }
         });

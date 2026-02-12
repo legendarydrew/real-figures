@@ -2,18 +2,19 @@
 
 namespace Database\Factories;
 
+use App\Facades\ActImageFacade;
 use App\Models\Act;
 use App\Models\ActMetaGenre;
 use App\Models\ActMetaLanguage;
 use App\Models\ActMetaMember;
 use App\Models\ActMetaNote;
 use App\Models\ActMetaTrait;
-use App\Models\ActPicture;
 use App\Models\ActProfile;
 use App\Models\Song;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Model;
+use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 
 /**
  * @extends Factory<Model>
@@ -60,7 +61,8 @@ class ActFactory extends Factory
         {
             if ($this->faker->boolean($chance))
             {
-                ActPicture::factory()->for($act)->createOne();
+                $this->faker->addProvider(new FakerPicsumImagesProvider($this->faker));
+                ActImageFacade::create($act, $this->faker->image);
             }
         });
     }

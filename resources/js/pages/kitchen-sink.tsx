@@ -6,6 +6,9 @@ import { ChangeEvent, useState } from 'react';
 import { LoadingButton } from '@/components/mode/loading-button';
 import { FlashMessage } from '@/components/mode/flash-message';
 import { Alert } from '@/components/mode/alert';
+import { Button } from '@/components/ui/button';
+import { Toaster } from 'react-hot-toast';
+import { RTToast } from '@/components/mode/toast-message';
 
 export default function KitchenSinkPage() {
     const [donationAmount, setDonationAmount] = useState(10);
@@ -24,6 +27,10 @@ export default function KitchenSinkPage() {
     const failureHandler = (): void => {
         setFailure(true);
         setSuccess(false);
+    };
+
+    const showToast = (type: string = 'default'): void => {
+        RTToast[type]('This is a toast message.');
     };
 
     return (
@@ -68,6 +75,15 @@ export default function KitchenSinkPage() {
                         <LoadingButton variant="outline" isLoading={true}>Hello</LoadingButton>
                     </section>
 
+                    <section className="my-3">
+                        <h2 className="mb-1 text-base font-bold">Toast messages</h2>
+                        <Button onClick={() => showToast()} type="button">Default</Button>
+                        <Button onClick={() => showToast('success')} type="button">Success</Button>
+                        <Button onClick={() => showToast('info')} type="button">Info</Button>
+                        <Button onClick={() => showToast('warning')} type="button">Warning</Button>
+                        <Button onClick={() => showToast('error')} type="button">Error</Button>
+                    </section>
+                    <Toaster position="bottom-center"/>
                 </main>
                 <footer className="text-center text-xs">Copyright &copy; Drew Maughan (SilentMode).</footer>
             </div>

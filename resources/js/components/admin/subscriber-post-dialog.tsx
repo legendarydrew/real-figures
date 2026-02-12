@@ -9,7 +9,7 @@ import { LoadingButton } from '@/components/mode/loading-button';
 import { useDialog } from '@/context/dialog-context';
 import { cn } from '@/lib/utils';
 import axios from 'axios';
-import { Toaster } from '@/components/mode/toast-message';
+import { RTToast } from '@/components/mode/toast-message';
 
 type SubscriberPostForm = {
     title: string;
@@ -54,7 +54,7 @@ export const SubscriberPostDialog: FC<SubscriberPostDialogProps> = ({ onCreated 
             setProcessing(true);
             axios.post(route('subscribers.post'), data)
                 .then((response) => {
-                    Toaster.success(response.data.subscribers ?
+                    RTToast.success(response.data.subscribers ?
                         `Post has been sent to ${response.data.subscribers} subscriber(s).` :
                         "Post has been saved."
                     );

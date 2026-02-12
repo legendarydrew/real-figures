@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { useForm } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Stage } from '@/types';
-import { Toaster } from '@/components/mode/toast-message';
+import { RTToast } from '@/components/mode/toast-message';
 import { MarkdownEditor } from '@/components/mode/markdown-editor';
 import { LoadingButton } from '@/components/mode/loading-button';
 
@@ -78,7 +78,7 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
             // the whole row is being updated.)
             patch(route('stages.update', { id: stage.id }), {
                 onSuccess: () => {
-                    Toaster.success(`"${stage.title}" was updated.`);
+                    RTToast.success(`"${stage.title}" was updated.`);
                     onOpenChange();
                 },
                 preserveScroll: true
@@ -87,7 +87,7 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
             // Creating a new Stage.
             post(route('stages.store'), {
                 onSuccess: () => {
-                    Toaster.success(`"${data.title}" was created.`);
+                    RTToast.success(`"${data.title}" was created.`);
                     onOpenChange();
                 },
                 preserveScroll: true

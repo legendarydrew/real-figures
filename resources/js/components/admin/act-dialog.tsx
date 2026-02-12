@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { router, useForm, usePage } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Act } from '@/types';
-import { Toaster } from '@/components/mode/toast-message';
+import { RTToast } from '@/components/mode/toast-message';
 import { MarkdownEditor } from '@/components/mode/markdown-editor';
 import { LoadingButton } from '@/components/mode/loading-button';
 
@@ -91,7 +91,7 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
             router.patch(route('acts.update', { id: act.id }), formData, {
                 showProgress: true,
                 onSuccess: () => {
-                    Toaster.success(`Act "${act.name}" was updated.`);
+                    RTToast.success(`Act "${act.name}" was updated.`);
                     onOpenChange();
                 },
                 preserveScroll: true
@@ -100,7 +100,7 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
             router.post(route('acts.store'), formData, {
                 showProgress: true,
                 onSuccess: () => {
-                    Toaster.success(`Act "${data.name}" was created.`);
+                    RTToast.success(`Act "${data.name}" was created.`);
                     onOpenChange();
                 },
                 preserveScroll: true

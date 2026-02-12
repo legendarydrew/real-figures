@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
 import { MarkdownEditor } from '@/components/mode/markdown-editor';
-import { Toaster } from '@/components/mode/toast-message';
+import { RTToast } from '@/components/mode/toast-message';
 import { Checkbox } from '@/components/ui/checkbox';
 import HeadingSmall from '@/components/heading-small';
 import { ActMetaMembers } from '@/components/admin/act-meta-members';
@@ -27,6 +27,8 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
         },
         is_fan_favourite: false,
         image: '',
+        image_url: '',
+        remove_image: false,
         meta: {
             members: [],
             notes: [],
@@ -42,7 +44,8 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
                 description: act?.profile?.description ?? ''
             },
             is_fan_favourite: act?.meta.is_fan_favourite ?? 0,
-            image: act?.image,
+            image_url: act?.image_url,
+            remove_image: false,
             meta: {
                 genres:act?.meta.genres ?? [],
                 languages: act?.meta.languages ?? [],
@@ -80,7 +83,9 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
         // https://stackoverflow.com/a/53129416/4073160
         const reader: FileReader = new FileReader();
         reader.onload = function () {
-            setData('image', reader.result?.toString());
+            setData('image', file);
+            setData('image_url', reader.result?.toString());
+            setData('remove_image', false);
             setError('image', '');
         };
         reader.readAsDataURL(file);
@@ -89,6 +94,8 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
 
     const removeImageHandler = () => {
         setData('image', '');
+        setData('image_url', '');
+        setData('remove_image', true);
         setError('image', '');
     };
 
@@ -114,18 +121,18 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
         }
 
         // Remove empty meta information.
-        setData('meta.genres', (prev) => prev.filter((row) => row?.length));
-        setData('meta.languages', (prev) => prev.filter((row) => row?.length));
-        setData('meta.members', (prev) => prev.filter((row) => row.name && row.role));
-        setData('meta.notes', (prev) => prev.filter((row) => row.note));
-        setData('meta.traits', (prev) => prev.filter((row) => row.trait));
+        formData.meta.languages = formData.meta.languages.filter((row) => row?.length);
+        formData.meta.genres = formData.meta.genres.filter((row) => row?.length);
+        formData.meta.members = formData.meta.members.filter((row) => row?.length);
+        formData.meta.notes = formData.meta.notes.filter((row) => row?.length);
+        formData.meta.traits = formData.meta.traits.filter((row) => row?.length);
 
         setIsSaving(true);
         if (isEditing()) {
             router.patch(route('acts.update', { id: act.id }), formData, {
                 showProgress: true,
                 onSuccess: () => {
-                    Toaster.success(`Act "${act.name}" was updated.`);
+                    RTToast.success(`Act "${act.name}" was updated.`);
                 },
                 onFinish: () => {
                     setIsSaving(false)
@@ -136,7 +143,7 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
             router.post(route('acts.store'), formData, {
                 showProgress: true,
                 onSuccess: () => {
-                    Toaster.success(`Act "${data.name}" was created.`);
+                    RTToast.success(`Act "${data.name}" was created.`);
                 },
                 onFinish: () => {
                     setIsSaving(false)
@@ -182,20 +189,20 @@ export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreLi
                                     {/* The usual method of using a label styled as a button. */}
                                     <label
                                         className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] h-9 px-4 py-2 has-[>svg]:px-3 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90"
-                                        htmlFor="actImage">{data.image ? 'Replace' : 'Add'}</label>
+                                        htmlFor="actImage">{data.image_url ? 'Replace' : 'Add'}</label>
                                     <input id="actImage" type="file" accept="image/*" onChange={changeImageHandler}
                                            className="hidden" aria-describedby="actImageHelp"/>
 
-                                    {data.image && (<Button variant="destructive" type="button"
+                                    {data.image_url && (<Button variant="destructive" type="button"
                                                             onClick={removeImageHandler}>Remove</Button>)}
                                 </div>
                                 <p className="mt-1 text-xs" id="file_input_help">JPEG or PNG recommended.</p>
                             </div>
-                            {data.image && (
+                            {data.image_url && (
                                 <div
                                     className="w-[12em] h-[10em] rounded-sm overflow-hidden bg-linear-to-bl from-indigo-300 to-indigo-700">
                                     <div className="w-full h-full rounded-sm bg-cover"
-                                         style={{ backgroundImage: `url(${data.image})` }}/>
+                                         style={{ backgroundImage: `url(${data.image_url})` }}/>
                                 </div>
                             )}
                         </div>

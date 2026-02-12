@@ -36,6 +36,12 @@ class LanguagesTest extends TestCase
 
         $this->act->refresh();
         self::assertCount(count($this->payload['meta']['languages']), $this->act->languages);
+
+        $saved_language_codes = $this->act->languages->pluck('code')->toArray();
+        foreach ($this->payload['meta']['languages'] as $language_code)
+        {
+            self::assertContains($language_code, $saved_language_codes);
+        }
     }
 
     public function test_replace_meta_languages()

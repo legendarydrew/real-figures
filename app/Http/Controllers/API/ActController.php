@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Facades\ActImageFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ActRequest;
 use App\Models\Act;
@@ -73,11 +74,11 @@ class ActController extends Controller
     {
         if (!empty($data['image']))
         {
-            $act->picture()->updateOrCreate(['act_id' => $act->id], ['image' => $data['image']]);
+            ActImageFacade::create($act, $data['image']);
         }
-        else
+        elseif (isset($data['remove_image']) && $data['remove_image'])
         {
-            $act->picture()->delete();
+            ActImageFacade::delete($act);
         }
     }
 

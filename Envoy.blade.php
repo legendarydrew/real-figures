@@ -42,7 +42,8 @@ $php = $php ?: 'php';
 
 @story('deploy')
 create_project_folder
-rsync
+{{--rsync--}}
+scp
 verify_install
 set_permissions
 activate_release
@@ -66,6 +67,17 @@ echo "=> Deploying code from {{ $dir }} to {{ $remote }}..."
   We make sure to include the trailing forward slash, to copy the contents of the folder instead of the folder itself.
 --}}
 rsync -zrSlha --stats --exclude-from=deployment-exclude-list.txt {{ $dir }}/ {{ $remote }}
+@endtask
+
+@task('scp', ['on' => 'localhost'])
+{{-- Create a clean deploy directory --}}
+tar cf deploy.tar --exclude-from=deployment-exclude-list.txt --exclude-vcs .
+mkdir - deploy
+tar xf deploy.tar -C ./deploy
+rm deploy.tar
+
+{{-- Copy to server --}}
+scp -P {{ $port ?? 22 }} -r deploy/* \ {{ $remote }}
 @endtask
 
 @task('verify_install', ['on' => 'web'])

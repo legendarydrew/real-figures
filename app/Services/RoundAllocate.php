@@ -43,7 +43,7 @@ class RoundAllocate
 
         if ($songs_per_round > 1)
         {
-            $songs->shuffle();
+            $songs = $songs->shuffle();
             $song_chunks = $songs->chunk($songs_per_round, false);
         }
         else

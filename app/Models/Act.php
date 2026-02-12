@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Facades\ActImageFacade;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -36,11 +37,6 @@ class Act extends Model
     public function songs(): HasMany
     {
         return $this->hasMany(Song::class);
-    }
-
-    public function picture(): HasOne
-    {
-        return $this->hasOne(ActPicture::class);
     }
 
     public function members(): HasMany
@@ -80,7 +76,7 @@ class Act extends Model
      */
     public function getImageAttribute(): string|null
     {
-        return $this->picture?->image ?? null;
+        return ActImageFacade::exists($this) ? ActImageFacade::url($this) : null;
     }
 
 }
