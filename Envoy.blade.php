@@ -5,10 +5,13 @@ We want to upload it to a folder outside of public_html, then create a symlink
 (In this case, silentmode.tv/real-figures).
 --}}
 
+@setup
 $port = $port ?? 22;
+@endsetup
 
-@servers(['web' => [sprintf('%s@%s', $user, $host)], 'localhost' => ['127.0.0.1']])
-{{-- The above must be on a single line.--}}
+@servers(['web' => [sprintf('%s@%s -p %u', $user, $host, $port)], 'localhost' => ['127.0.0.1']])
+{{-- The above must be on a single line. --}}
+{{-- Custom port: https://laracasts.com/discuss/channels/laravel/specifying-the-server-port-in-envoy --}}
 
 @setup
 // Sanity checks for information.
