@@ -123,13 +123,24 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEPLOY_SSH }}
 
-      - name: Run Laravel Envoy
+      - name: Run Laravel Envoy (debug)
         run: |
-          echo "Current directory: $(pwd)"
-          ls -la vendor/bin/ || echo "vendor/bin does not exist"
-          ls -la .env 2>/dev/null || echo ".env file does not exist"
-          ssh-keyscan -t rsa ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
-          php ./vendor/bin/envoy run deploy --run=${{ github.RUN_NUMBER }} --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="$(pwd)" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
+          echo "Current working directory: $(pwd)"
+          echo "List files:"
+          ls -la
+          echo "Checking PHP version:"
+          php -v
+          echo "Checking Envoy version:"
+          php ./vendor/bin/envoy --version || echo "Envoy not available!"
+          echo "Attempting deployment..."
+          php ./vendor/bin/envoy run deploy \
+            --run=${{ github.RUN_NUMBER }} \
+            --host="${{ secrets.DEPLOY_HOST }}" \
+            --user="${{ secrets.DEPLOY_USER }}" \
+            --path="${{ secrets.DEPLOY_PATH }}" \
+            --dir="$(pwd)" \
+            --su_email="${{ secrets.SUPER_EMAIL }}" \
+            --su_password="${{ secrets.SUPER_PASSWORD }}" || { echo "Envoy failed with exit code $?"; exit 1; }
 
   release:
     runs-on: ubuntu-latest
