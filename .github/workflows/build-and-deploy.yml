@@ -74,8 +74,6 @@ jobs:
           php -r "file_put_contents('.env', str_replace(\"[ENV_TURNSTILE_SITE_KEY]\", \"${{ secrets.ENV_TURNSTILE_SITE_KEY }}\", file_get_contents('.env')));"
 
       - name: Install Composer dependencies
-        # We're only interested in non-dev dependencies, but we will also add Laravel Envoy
-        # for deploying the site.
         run: |
           composer install --optimize-autoloader --no-dev --no-ansi --no-interaction --prefer-dist --ignore-platform-reqs
 
