@@ -5,8 +5,13 @@ We want to upload it to a folder outside of public_html, then create a symlink
 (In this case, silentmode.tv/real-figures).
 --}}
 
-@servers(['web' => [sprintf('%s@%s:%s', $user, $host, $port ?? 22)], 'localhost' => ['127.0.0.1']])
-{{-- The above must be on a single line.--}}
+@setup
+$port = $port ?? 22;
+@endsetup
+
+@servers(['web' => [sprintf('%s@%s -p %u', $user, $host, $port)], 'localhost' => ['127.0.0.1']])
+{{-- The above must be on a single line. --}}
+{{-- Custom port: https://laracasts.com/discuss/channels/laravel/specifying-the-server-port-in-envoy --}}
 
 @setup
 // Sanity checks for information.
@@ -71,13 +76,15 @@ rsync -zrSlha --stats --exclude-from=deployment-exclude-list.txt {{ $dir }}/ {{ 
 
 @task('scp', ['on' => 'localhost'])
 {{-- Create a clean deploy directory --}}
+echo "=> Creating deploy folder"
 tar cf deploy.tar --exclude-from=deployment-exclude-list.txt --exclude-vcs .
 mkdir - deploy
 tar xf deploy.tar -C ./deploy
 rm deploy.tar
 
 {{-- Copy to server --}}
-scp -P {{ $port ?? 22 }} -r deploy/* \ {{ $remote }}
+echo "=> Copying deploy folder (port {{$port}})"
+scp -P {{ $port }} -r deploy/* \ {{ $remote }}
 @endtask
 
 @task('verify_install', ['on' => 'web'])
