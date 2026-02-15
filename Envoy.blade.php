@@ -76,7 +76,7 @@ rsync -zrSlha --stats --exclude-from=deployment-exclude-list.txt {{ $dir }}/ {{ 
 
 @task('scp', ['on' => 'localhost'])
 echo "=> Deploying code..."
-tar -czf - --exclude-from=deployment-exclude-list.txt --exclude-vcs . | ssh -p {{ $port }} {{ $user }}@{{ $host }} "tar -xzf - -C {{ $new_release_dir }}"
+tar -czf - --exclude-from=deployment-exclude-list.txt --exclude-vcs . | ssh -p 9284 {{ $user }}@{{ $host }} "tar -xzf - -C {{ $new_release_dir }}"
 @endtask
 
 @task('verify_install', ['on' => 'web'])
