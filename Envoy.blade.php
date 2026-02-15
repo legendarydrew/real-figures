@@ -32,7 +32,7 @@ if (!(preg_match("/(\/home\/|\/var\/www\/)/i", $path) === 1)) {
 exit('ERROR: the provided $path doesn\'t look like a web directory.');
 }
 
-$project_dir         = $path . '/minisites/real-figures';
+$project_dir         = $path;
 
 $current_release_dir = $project_dir . '/current';
 $releases_dir        = $project_dir . '/releases';
@@ -75,10 +75,10 @@ rsync -zrSlha --stats --exclude-from=deployment-exclude-list.txt {{ $dir }}/ {{ 
 @endtask
 
 @task('scp', ['on' => 'localhost'])
-tar --exclude-from=deployment-exclude-list.txt \
+tar -czf - . \
+    --exclude-from=deployment-exclude-list.txt \
     --exclude-vcs \
-    -czf - . \
-| ssh -p {{ $port }} {{ $remote }} \
+| ssh -p {{ $port }} {{ $user }}@{{ $host }} \
     "tar -xzf - -C {{ $new_release_dir }}"
 @endtask
 
