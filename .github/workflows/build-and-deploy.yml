@@ -119,16 +119,13 @@ jobs:
         with:
           php-version: 8.3
 
-      - uses: webfactory/ssh-agent@v0.9.1
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.DEPLOY_SSH }}
 
       - name: Run Laravel Envoy (debug)
         run: |
-          echo "Checking PHP version:"
-          php -v
-          echo "Checking Envoy version:"
-          php ./vendor/bin/envoy --version || echo "Envoy not available!"
           echo "Attempting deployment..."
           # BEGIN SSH key for use with Envoy (ChatGPT).
           mkdir -p ~/.ssh
@@ -136,6 +133,13 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           # END SSH key for use with Envoy.
           ssh-keyscan -t rsa -p ${{ secrets.DEPLOY_PORT }} ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+          ssh -v ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} -p ${{ secrets.DEPLOY_PORT }} "echo connected"
+          echo "Host deployhost" >> ~/.ssh/config
+          echo "  HostName ${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/config
+          echo "  User ${{ secrets.DEPLOY_USER }}" >> ~/.ssh/config
+          echo "  Port ${{ secrets.DEPLOY_PORT }}" >> ~/.ssh/config
+          echo "  IdentitiesOnly yes" >> ~/.ssh/config
+          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
           php ./vendor/bin/envoy run deploy \
             --run=${{ github.RUN_NUMBER }} \
             --host="${{ secrets.DEPLOY_HOST }}" \
@@ -145,6 +149,7 @@ jobs:
             --dir="$(pwd)" \
             --su_email="${{ secrets.SUPER_EMAIL }}" \
             --su_password="${{ secrets.SUPER_PASSWORD }}" || { echo "Envoy failed with exit code $?"; exit 1; }
+          echo "e"
 
   release:
     runs-on: ubuntu-latest

@@ -9,7 +9,7 @@ We want to upload it to a folder outside of public_html, then create a symlink
 $port = $port ?? 22;
 @endsetup
 
-@servers(['web' => [sprintf('%s@%s -p %u', $user, $host, $port)], 'localhost' => ['127.0.0.1']])
+@servers(['web' => ['deployhost'], 'localhost' => ['127.0.0.1']])
 {{-- The above must be on a single line. --}}
 {{-- Custom port: https://laracasts.com/discuss/channels/laravel/specifying-the-server-port-in-envoy --}}
 
@@ -83,8 +83,8 @@ tar xf deploy.tar -C ./deploy
 rm deploy.tar
 
 {{-- Copy to server --}}
-echo "=> Copying deploy folder (port {{$port}})"
-scp -P {{ $port }} -r deploy/* \ {{ $remote }}
+echo "=> Copying deploy folder"
+scp -P 9284 -r deploy/* \ {{ $remote }}
 @endtask
 
 @task('verify_install', ['on' => 'web'])
