@@ -28,12 +28,12 @@ export const FrontFooter: React.FC = () => {
                         <PlaceholderPattern
                             className="w-full h-30 mb-2 flex-shrink-0 stroke-neutral-900/20 dark:stroke-neutral-100/20"/>
 
-                        <DialogDescription className="mb-5">
+                        <DialogDescription className="mb-5 text-center">
                             <span
                                 className="font-semibold">CATAWOL Records presents: Real Figures Don't F.O.L.D</span><br/>
                             An upskilling and advocacy project in the form of a song contest, calling attention to <b>bullying
                             in adult
-                            hobbies</b>, especially within the LEGO space.
+                            hobbies</b>, particularly within the LEGO space.
                         </DialogDescription>
 
                         <div className="grid lg:grid-cols-2 gap-5">
@@ -46,15 +46,11 @@ export const FrontFooter: React.FC = () => {
                                 <dl className="text-sm md:grid grid-cols-3 gap-x-2 gap-y-1">
                                     <dt className="font-semibold col-span-1">Created by</dt>
                                     <dd className="font-semibold col-span-2">Drew Maughan (SilentMode)</dd>
-                                    <dt className="font-semibold col-span-1">Lyrics</dt>
+                                    <dt className="font-semibold col-span-1">Song lyrics</dt>
                                     <dd className="font-semibold col-span-2">Drew Maughan (SilentMode)</dd>
                                     <dt className="font-semibold col-span-1">Inspired by</dt>
                                     <dd className="col-span-2">
-                                        <Link href="https://www.youtube.com/@littlelego"
-                                              className="hover:underline" target="_blank">Little
-                                            Lego</Link> and <Link href="https://www.youtube.com/@Never2old4lego"
-                                                                  className="hover:underline"
-                                                                  target="_blank">Never2old4lego</Link>
+                                        Little L Bricks and Never2old4bricks
                                     </dd>
                                 </dl>
                             </div>
@@ -62,7 +58,7 @@ export const FrontFooter: React.FC = () => {
                             <div>
                                 <div className="flex gap-2 items-center mb-1">
                                     <Computer className="w-5 flex-shrink-0"/>
-                                    <HeadingSmall title="AI"/>
+                                    <HeadingSmall title="AI Content"/>
                                 </div>
                                 <dl className="text-sm md:grid grid-cols-2 gap-x-2 gap-y-1">
                                     <dt className="font-semibold col-span-1">Song creation</dt>
@@ -92,7 +88,7 @@ export const FrontFooter: React.FC = () => {
                         <div className="mt-3 text-left text-sm lg:text-xs md:text-center flex flex-col gap-1">
                             <p>All songs are the property of Drew Maughan (SilentMode).</p>
                             <p>SilentMode, the SilentMode logo, CATAWOL Records, the CATAWOL
-                                Records logo, "Real Figures Don't F.O.L.D", "F.O.L.D", act names and character
+                                Records logo, "Real Figures Don't F.O.L.D", "F.O.L.D", Act names and character
                                 designs are &copy; Drew Maughan (SilentMode).
                             </p>
                             <p>LEGO is a registered trademark of The LEGO Group, which has no involvement with ths
