@@ -126,18 +126,18 @@ jobs:
 
       - name: Run Laravel Envoy (debug)
         run: |
-          echo "Checking PHP version:"
-          php -v
-          echo "Checking Envoy version:"
-          php ./vendor/bin/envoy --version || echo "Envoy not available!"
           echo "Attempting deployment..."
           # BEGIN SSH key for use with Envoy (ChatGPT).
+          echo "a"
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_SSH }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
+          echo "b"
           # END SSH key for use with Envoy.
           ssh-keyscan -t rsa -p ${{ secrets.DEPLOY_PORT }} ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+          echo "c"
           ssh -v ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "echo connected"
+          echo "d"
           php ./vendor/bin/envoy run deploy \
             --run=${{ github.RUN_NUMBER }} \
             --host="${{ secrets.DEPLOY_HOST }}" \
@@ -147,6 +147,7 @@ jobs:
             --dir="$(pwd)" \
             --su_email="${{ secrets.SUPER_EMAIL }}" \
             --su_password="${{ secrets.SUPER_PASSWORD }}" || { echo "Envoy failed with exit code $?"; exit 1; }
+          echo "e"
 
   release:
     runs-on: ubuntu-latest
