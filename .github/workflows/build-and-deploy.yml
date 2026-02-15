@@ -114,7 +114,7 @@ jobs:
           name: project-artifact
           path: .
 
-      - name: Setup PHP  # Copilot suggested adding this step!
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
@@ -125,8 +125,11 @@ jobs:
 
       - name: Run Laravel Envoy
         run: |
+          echo "Current directory: $(pwd)"
+          ls -la vendor/bin/ || echo "vendor/bin does not exist"
+          ls -la .env 2>/dev/null || echo ".env file does not exist"
           ssh-keyscan -t rsa ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
-          php ./vendor/bin/envoy run deploy --run=${{ github.RUN_NUMBER }} --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="${{ github.WORKSPACE }}" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
+          php ./vendor/bin/envoy run deploy --run=${{ github.RUN_NUMBER }} --host="${{ secrets.DEPLOY_HOST }}" --user="${{ secrets.DEPLOY_USER }}" --path="${{ secrets.DEPLOY_PATH }}" --dir="$(pwd)" --su_email="${{ secrets.SUPER_EMAIL }}" --su_password="${{ secrets.SUPER_PASSWORD }}"
 
   release:
     runs-on: ubuntu-latest
