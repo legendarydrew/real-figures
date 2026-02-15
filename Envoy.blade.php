@@ -5,7 +5,7 @@ We want to upload it to a folder outside of public_html, then create a symlink
 (In this case, silentmode.tv/real-figures).
 --}}
 
-@servers(['web' => [sprintf('%s@%s', $user, $host)], 'localhost' => ['127.0.0.1']])
+@servers(['web' => [sprintf('%s@%s:%s', $user, $host, $port ?? 22)], 'localhost' => ['127.0.0.1']])
 {{-- The above must be on a single line.--}}
 
 @setup
