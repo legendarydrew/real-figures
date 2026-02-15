@@ -126,8 +126,6 @@ jobs:
       - name: Run Laravel Envoy (debug)
         run: |
           echo "Current working directory: $(pwd)"
-          echo "List files:"
-          ls -la
           echo "Checking PHP version:"
           php -v
           echo "Checking Envoy version:"
@@ -138,6 +136,7 @@ jobs:
             --host="${{ secrets.DEPLOY_HOST }}" \
             --user="${{ secrets.DEPLOY_USER }}" \
             --path="${{ secrets.DEPLOY_PATH }}" \
+            --port="${{ secrets.DEPLOY_PORT }}" \
             --dir="$(pwd)" \
             --su_email="${{ secrets.SUPER_EMAIL }}" \
             --su_password="${{ secrets.SUPER_PASSWORD }}" || { echo "Envoy failed with exit code $?"; exit 1; }
