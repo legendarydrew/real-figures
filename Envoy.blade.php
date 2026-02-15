@@ -39,7 +39,8 @@ $releases_dir        = $project_dir . '/releases';
 $new_release_dir     = $releases_dir . '/' . $run . '-' . now()->format('YmdHi');
 $keep_versions       = 3;
 
-$remote              = sprintf('%s@%s:%s', $user, $host, $new_release_dir);
+$remote              = sprintf('deployhost:%s', $new_release_dir);
+// $remote              = sprintf('%s@%s:%s', $user, $host, $new_release_dir);
 
 // Set the command used to represent PHP.
 $php = $php ?: 'php';
