@@ -133,7 +133,7 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           # END SSH key for use with Envoy.
           ssh-keyscan -t rsa -p ${{ secrets.DEPLOY_PORT }} ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
-          ssh -v ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PORT }} "echo connected"
+          ssh -v ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} -p ${{ secrets.DEPLOY_PORT }} "echo connected"
           echo "d"
           php ./vendor/bin/envoy run deploy \
             --run=${{ github.RUN_NUMBER }} \
