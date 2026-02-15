@@ -7,7 +7,7 @@ We want to upload it to a folder outside of public_html, then create a symlink
 
 $port = $port ?? 22;
 
-@servers(['web' => [sprintf('%s@%s:%u', $user, $host, $port)], 'localhost' => ['127.0.0.1']])
+@servers(['web' => [sprintf('%s@%s', $user, $host)], 'localhost' => ['127.0.0.1']])
 {{-- The above must be on a single line.--}}
 
 @setup
@@ -73,12 +73,14 @@ rsync -zrSlha --stats --exclude-from=deployment-exclude-list.txt {{ $dir }}/ {{ 
 
 @task('scp', ['on' => 'localhost'])
 {{-- Create a clean deploy directory --}}
+echo "=> Creating deploy folder"
 tar cf deploy.tar --exclude-from=deployment-exclude-list.txt --exclude-vcs .
 mkdir - deploy
 tar xf deploy.tar -C ./deploy
 rm deploy.tar
 
 {{-- Copy to server --}}
+echo "=> Copying deploy folder (port {$port})"
 scp -P {{ $port }} -r deploy/* \ {{ $remote }}
 @endtask
 
