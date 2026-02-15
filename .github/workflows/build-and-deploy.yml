@@ -131,6 +131,7 @@ jobs:
           echo "Checking Envoy version:"
           php ./vendor/bin/envoy --version || echo "Envoy not available!"
           echo "Attempting deployment..."
+          ssh-keyscan -t rsa -p ${{ secrets.DEPLOY_PORT }} ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
           php ./vendor/bin/envoy run deploy \
             --run=${{ github.RUN_NUMBER }} \
             --host="${{ secrets.DEPLOY_HOST }}" \
