@@ -134,7 +134,12 @@ jobs:
           # END SSH key for use with Envoy.
           ssh-keyscan -t rsa -p ${{ secrets.DEPLOY_PORT }} ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
           ssh -v ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} -p ${{ secrets.DEPLOY_PORT }} "echo connected"
-          echo "d"
+          echo "Host deployhost" >> ~/.ssh/config
+          echo "  HostName ${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/config
+          echo "  User ${{ secrets.DEPLOY_USER }}" >> ~/.ssh/config
+          echo "  Port ${{ secrets.DEPLOY_PORT }}" >> ~/.ssh/config
+          echo "  IdentitiesOnly yes" >> ~/.ssh/config
+          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
           php ./vendor/bin/envoy run deploy \
             --run=${{ github.RUN_NUMBER }} \
             --host="${{ secrets.DEPLOY_HOST }}" \
