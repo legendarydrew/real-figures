@@ -28,7 +28,7 @@ class LanguagesTest extends TestCase
     public function test_structure()
     {
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT);
-        $response->assertJsonCount(20);
+        $response->assertJsonCount(10); // see TestCase
         $response->assertJsonStructure(['*' => ['code', 'name']]);
     }
 
