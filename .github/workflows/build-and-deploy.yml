@@ -114,9 +114,14 @@ jobs:
           name: project-artifact
           path: .
 
+      - name: Setup PHP  # Copilot suggested adding this step!
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+
       - uses: webfactory/ssh-agent@v0.9.1
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_SSH }}  # private key
+          ssh-private-key: ${{ secrets.DEPLOY_SSH }}
 
       - name: Run Laravel Envoy
         run: |
