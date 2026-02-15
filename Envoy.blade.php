@@ -60,7 +60,7 @@ cleanup
 
 @task('create_project_folder', ['on' => 'web'])
 echo "=> Creating project folder..."
-mkdir -p {{ $releases_dir }}
+mkdir -p {{ $new_release_dir }}
 @endtask
 
 @task('rsync', ['on' => 'localhost'])
@@ -75,11 +75,8 @@ rsync -zrSlha --stats --exclude-from=deployment-exclude-list.txt {{ $dir }}/ {{ 
 @endtask
 
 @task('scp', ['on' => 'localhost'])
-tar -czf - . \
-    --exclude-from=deployment-exclude-list.txt \
-    --exclude-vcs \
-| ssh -p {{ $port }} {{ $user }}@{{ $host }} \
-    "tar -xzf - -C {{ $new_release_dir }}"
+echo "=> Deploying code..."
+tar -czf - --exclude-from=deployment-exclude-list.txt --exclude-vcs . | ssh -p {{ $port }} {{ $user }}@{{ $host }} "tar -xzf - -C {{ $new_release_dir }}"
 @endtask
 
 @task('verify_install', ['on' => 'web'])
