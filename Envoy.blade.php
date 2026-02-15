@@ -84,9 +84,6 @@ scp -P {{ $port ?? 22 }} -r deploy/* \ {{ $remote }}
 echo "=> Verifying install ({{ $new_release_dir }})..."
 cd {{ $new_release_dir }}
 
-{{-- Rename the generated env file. --}}
-mv env .env
-
 {{-- Check that we can run artisan, and the presence of the .env file. --}}
 {{ $php }} artisan --version
 [[ -f {{ $new_release_dir }}/\.env ]] && echo ".env file is present." || echo ".env file is MISSING!"
