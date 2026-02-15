@@ -119,7 +119,8 @@ jobs:
         with:
           php-version: 8.3
 
-      - uses: webfactory/ssh-agent@v0.9.1
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.DEPLOY_SSH }}
 
@@ -132,6 +133,7 @@ jobs:
           php ./vendor/bin/envoy --version || echo "Envoy not available!"
           echo "Attempting deployment..."
           ssh-keyscan -t rsa -p ${{ secrets.DEPLOY_PORT }} ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+          ssh -v ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "echo connected"
           php ./vendor/bin/envoy run deploy \
             --run=${{ github.RUN_NUMBER }} \
             --host="${{ secrets.DEPLOY_HOST }}" \
