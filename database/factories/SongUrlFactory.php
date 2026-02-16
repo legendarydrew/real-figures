@@ -13,9 +13,9 @@ class SongUrlFactory extends Factory
     public function definition(): array
     {
         // https://github.com/aalaap/faker-youtube
-        $this->faker->addProvider(new \Faker\Provider\Youtube($this->faker));
+        fake()->addProvider(new \Faker\Provider\Youtube(fake()));
         return [
-            'url' => $this->faker->youtubeUri(),
+            'url' => fake()->youtubeUri(),
         ];
     }
 }

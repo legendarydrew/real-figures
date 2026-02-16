@@ -16,10 +16,10 @@ class ActProfileFactory extends Factory
      */
     public function definition(): array
     {
-        $this->faker->addProvider(new \DavidBadura\FakerMarkdownGenerator\FakerProvider($this->faker));
+        fake()->addProvider(new \DavidBadura\FakerMarkdownGenerator\FakerProvider(fake()));
 
         return [
-            'description' => $this->faker->markdown(),
+            'description' => fake()->markdown(),
         ];
     }
 
