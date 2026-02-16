@@ -14,6 +14,7 @@ use App\Models\Song;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 
 /**
@@ -29,9 +30,11 @@ class ActFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->unique()->name();
         return [
-            'name' => $this->faker->unique()->name,
-            'is_fan_favourite' => $this->faker->boolean(10)
+            'name'             => $name,
+            'slug'             => Str::slug($name),
+            'is_fan_favourite' => fake()->boolean(10)
         ];
     }
 
@@ -59,10 +62,10 @@ class ActFactory extends Factory
     {
         return $this->afterCreating(function (Act $act) use ($chance)
         {
-            if ($this->faker->boolean($chance))
+            if (fake()->boolean($chance))
             {
-                $this->faker->addProvider(new FakerPicsumImagesProvider($this->faker));
-                ActImageFacade::create($act, $this->faker->image);
+                fake()->addProvider(new FakerPicsumImagesProvider(fake()));
+                ActImageFacade::create($act, fake()->image);
             }
         });
     }
@@ -78,29 +81,29 @@ class ActFactory extends Factory
             ]);
 
             // Add notes.
-            if ($this->faker->boolean())
+            if (fake()->boolean())
             {
-                $note_count = $this->faker->numberBetween(1, 4);
+                $note_count = fake()->numberBetween(1, 4);
                 ActMetaNote::factory($note_count)->for($act)->create();
             }
 
             // Add genre.
-            if ($this->faker->boolean())
+            if (fake()->boolean())
             {
                 ActMetaGenre::factory()->for($act)->createOne();
             }
 
             // Add member(s).
-            if ($this->faker->boolean())
+            if (fake()->boolean())
             {
-                $member_count = $this->faker->biasedNumberBetween(1, 3);
+                $member_count = fake()->biasedNumberBetween(1, 3);
                 ActMetaMember::factory($member_count)->for($act)->create();
             }
 
             // Add traits (personality, etc.)
-            if ($this->faker->boolean())
+            if (fake()->boolean())
             {
-                $trait_count = $this->faker->biasedNumberBetween(1, 3);
+                $trait_count = fake()->biasedNumberBetween(1, 3);
                 ActMetaTrait::factory($trait_count)->for($act)->create();
             }
         });

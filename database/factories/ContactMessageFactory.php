@@ -17,11 +17,11 @@ class ContactMessageFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'    => $this->faker->name(),
-            'email'   => $this->faker->unique()->safeEmail(),
-            'body'    => $this->faker->realText(),
-            'ip_address' => $this->faker->ipv4(),
-            'is_spam' => $this->faker->boolean(10),
+            'name'       => fake()->name(),
+            'email'      => fake()->unique()->safeEmail(),
+            'body'       => fake()->realText(),
+            'ip_address' => fake()->ipv4(),
+            'is_spam'    => fake()->boolean(10),
             'read_at' => null,
         ];
     }

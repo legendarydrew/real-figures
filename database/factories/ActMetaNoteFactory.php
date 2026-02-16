@@ -17,7 +17,7 @@ class ActMetaNoteFactory extends Factory
     public function definition(): array
     {
         return [
-            'note' => $this->faker->realText(),
+            'note' => fake()->realText(),
         ];
     }
 }
