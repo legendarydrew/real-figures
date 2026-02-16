@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string('title')->unique();
             $table->text('description');
+            $table->text('golden_buzzer_perks')->nullable();
             $table->timestamps();
         });
 
