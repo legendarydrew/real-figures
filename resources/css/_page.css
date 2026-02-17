@@ -1,0 +1,11 @@
+.page-banner {
+    @apply bg-secondary/50 h-50 mb-2;
+}
+
+.page-heading {
+    @apply font-display text-2xl font-normal mt-4 mb-8;
+}
+
+.page-subheading {
+    @apply font-display text-lg font-normal;
+}
