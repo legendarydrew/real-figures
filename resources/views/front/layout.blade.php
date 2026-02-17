@@ -27,7 +27,7 @@
 
         <nav class="site-header-nav">
             <button type="button" class="site-header-nav-close" title="Close menu">
-                &times;
+                <i class="fa-solid fa-close"></i>
             </button>
 
             <a href="{{ route('contest') }}">Contest</a>
@@ -40,7 +40,7 @@
         </nav>
 
         <button type="button" class="site-header-nav-open" title="Menu">
-            open
+            <i class="fa-solid fa-bars"></i>
         </button>
     </div>
 </header>
