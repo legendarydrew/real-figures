@@ -6,6 +6,8 @@ has the theme configured here.)
 */
 
 @import 'tailwindcss';
+@import "./_layout.css";
+@import "./_home.css";
 
 @plugin 'tailwindcss-animate';
 
@@ -162,6 +164,10 @@ has the theme configured here.)
     --sidebar-ring: oklch(0.439 0 0);
 }
 
+@utility display-text {
+    @apply font-display font-medium tracking-wide;
+}
+
 @layer base {
     * {
         @apply border-border;
@@ -171,12 +177,14 @@ has the theme configured here.)
         @apply bg-primary text-primary-foreground;
     }
 
-    body {
-        @apply bg-background text-foreground;
+    html, body {
+        min-height: 100dvh;
     }
 
-    .display-text {
-        @apply font-display font-medium tracking-wide;
+    body {
+        @apply bg-background text-foreground;
+        @apply font-sans antialiased;
+        @apply flex flex-col;
     }
 
     /* Used for converted markdown content. */
@@ -267,4 +275,5 @@ has the theme configured here.)
     .bg-act-image {
         @apply bg-linear-to-bl from-primary to-blue-950;
     }
+
 }
