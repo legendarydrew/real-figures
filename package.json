@@ -39,6 +39,7 @@
     },
     "dependencies": {
         "@ctrl/react-adsense": "^1.8.0",
+        "@fortawesome/fontawesome-free": "^7.2.0",
         "@headlessui/react": "^2.2.8",
         "@inertiajs/react": "^2.1.6",
         "@paypal/react-paypal-js": "^8.9.1",

@@ -6,6 +6,7 @@ has the theme configured here.)
 */
 
 @import 'tailwindcss';
+@import "@fortawesome/fontawesome-free/css/all.css";
 @import "./_layout.css";
 @import "./_page.css";
 @import "./_collapse.css";

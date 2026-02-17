@@ -32,15 +32,15 @@
 
         <!-- Advert to go here. -->
 
-        @include('front.collapse', ['title' => 'Terminology', 'content' => 'front.rules.terminology'])
-        @include('front.collapse', ['title' => 'Contest Brief', 'content' => 'front.rules.contest-brief'])
-        @include('front.collapse', ['title' => 'Eligibility', 'content' => 'front.rules.contest-eligibility'])
-        @include('front.collapse', ['title' => 'Song Criteria', 'content' => 'front.rules.song-criteria'])
-        @include('front.collapse', ['title' => 'Stage 1: Knockout Stage', 'content' => 'front.rules.stage-one'])
-        @include('front.collapse', ['title' => 'Stage 2: Finals', 'content' => 'front.rules.stage-two'])
-        @include('front.collapse', ['title' => 'The Golden Buzzer', 'content' => 'front.rules.golden-buzzer'])
-        @include('front.collapse', ['title' => 'How Votes Are Calculated', 'content' => 'front.rules.vote-calculation'])
-        @include('front.collapse', ['title' => 'Special Situations', 'content' => 'front.rules.special-situations'])
+        @include('front.collapse', ['title' => 'Terminology', 'icon' => 'fa-solid fa-message', 'content' => 'front.rules.terminology'])
+        @include('front.collapse', ['title' => 'Contest Brief', 'icon' => 'fa-solid fa-book', 'content' => 'front.rules.contest-brief'])
+        @include('front.collapse', ['title' => 'Eligibility', 'icon' => 'fa-solid fa-check-circle', 'content' => 'front.rules.contest-eligibility'])
+        @include('front.collapse', ['title' => 'Song Criteria', 'icon' => 'fa-solid fa-list-check', 'content' => 'front.rules.song-criteria'])
+        @include('front.collapse', ['title' => 'Stage 1: Knockout Stage', 'icon' => 'fa-solid fa-music', 'content' => 'front.rules.stage-one'])
+        @include('front.collapse', ['title' => 'Stage 2: Finals', 'icon' => 'fa-solid fa-ranking-star', 'content' => 'front.rules.stage-two'])
+        @include('front.collapse', ['title' => 'The Golden Buzzer', 'icon' => 'fa-solid fa-star text-yellow-500', 'content' => 'front.rules.golden-buzzer'])
+        @include('front.collapse', ['title' => 'How Votes Are Calculated', 'icon' => 'fa-solid fa-check-to-slot', 'content' => 'front.rules.vote-calculation'])
+        @include('front.collapse', ['title' => 'Special Situations', 'icon' => 'fa-solid fa-shield', 'content' => 'front.rules.special-situations'])
         @include('front.collapse', ['title' => 'Advice for Visitors', 'content' => 'front.rules.advice-for-visitors'])
 
     </div>
