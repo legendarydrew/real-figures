@@ -26,6 +26,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "fakerphp/faker": "^1.24",
         "inertiajs/inertia-laravel": "^2.0",
         "intervention/image-laravel": "^1.5",
         "laravel/envoy": "^2.10",
@@ -43,7 +44,6 @@
         "aalaap/faker-youtube": "^2.0",
         "barryvdh/laravel-ide-helper": "^3.5",
         "davidbadura/faker-markdown-generator": "*",
-        "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.18",
         "laravel/sail": "^1.41",
