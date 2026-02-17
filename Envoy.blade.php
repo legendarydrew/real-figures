@@ -129,8 +129,8 @@ cd {{ $new_release_dir }}
 @endtask
 
 @task('content_update', ['on' => 'web'])
+echo '=> Creating superuser'
 cd {{ $new_release_dir }}
-
 {{ $php }} artisan rt:superuser "{{ $su_email }}" "{{ $su_password }}"
 @endtask
 
