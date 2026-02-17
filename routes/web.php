@@ -35,6 +35,7 @@ use App\Http\Controllers\Back\NewsGenerateController;
 use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
 use App\Http\Controllers\Back\SubscribersController;
+use App\Http\Controllers\Front\AboutController;
 use App\Http\Controllers\Front\SitemapController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
@@ -47,7 +48,7 @@ use Inertia\Inertia;
 // Front-facing pages.
 // ----------------------------------------------------------------------------
 Route::get('/', fn() => view('front/home'))->name('home');
-Route::get('about', fn() => view('front/about'))->name('about');
+Route::get('about', [AboutController::class, 'index'])->name('about');
 Route::get('acts', fn() => view('front/acts'))->name('acts');
 Route::get('contact', fn() => view('front/contact'))->name('contact');
 Route::get('contest', fn() => view('front/contest'))->name('contest');
