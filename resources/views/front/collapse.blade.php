@@ -3,7 +3,7 @@
         <input type="checkbox" name="collapse"/>
         {{ $title }}
     </label>
-    <div class="content-collapse-body content flex gap-8">
+    <div class="content-collapse-body content">
         @include($content)
     </div>
 </section>
