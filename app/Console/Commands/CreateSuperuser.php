@@ -40,6 +40,7 @@ class CreateSuperuser extends Command
         else
         {
             User::factory()->create([
+                'name' => 'SilentMode',
                 'email' => $email,
                 'password' => Hash::make($password),
             ]);
