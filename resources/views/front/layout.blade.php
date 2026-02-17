@@ -29,13 +29,13 @@
                 &times;
             </button>
 
-            <a href="">Contest</a>
-            <a href="">News</a>
-            <a href="">Acts</a>
-            <a href="">Rules</a>
-            <a href="">About</a>
-            <a href="">Donate</a>
-            <a href="">Contact</a>
+            <a href="{{ route('contest') }}">Contest</a>
+            <a href="{{ route('news') }}">News</a>
+            <a href="{{ route('acts') }}">Acts</a>
+            <a href="{{ route('rules') }}">Rules</a>
+            <a class="donate-link" href="{{ route('donate') }}">Donate!</a>
+            <a href="{{ route('about') }}">About</a>
+            <a href="{{ route('contact') }}">Contact</a>
         </nav>
 
         <button type="button" class="site-header-nav-open" title="Menu">

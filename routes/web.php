@@ -35,12 +35,7 @@ use App\Http\Controllers\Back\NewsGenerateController;
 use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
 use App\Http\Controllers\Back\SubscribersController;
-use App\Http\Controllers\Front\DonorWallController;
-use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\SitemapController;
-use App\Http\Controllers\Front\SubscriberConfirmController;
-use App\Http\Controllers\Front\SubscriberRemoveController;
-use App\Http\Controllers\Front\VotesController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Models\Round;
@@ -51,18 +46,15 @@ use Inertia\Inertia;
 // ----------------------------------------------------------------------------
 // Front-facing pages.
 // ----------------------------------------------------------------------------
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('about', fn() => Inertia::render('front/about'))->name('about');
-Route::get('acts', [\App\Http\Controllers\Front\ActsController::class, 'index'])->name('acts');
-Route::get('acts/{slug}', [\App\Http\Controllers\Front\ActsController::class, 'show'])->name('act');
-Route::get('contact', fn() => Inertia::render('front/contact'))->name('contact');
-Route::get('contest-rules', fn() => Inertia::render('front/rules'))->name('rules');
-Route::get('donor-wall', [DonorWallController::class, 'index'])->name('donations');
-Route::get('news', [\App\Http\Controllers\Front\NewsController::class, 'index'])->name('news');
-Route::get('news/{slug}', [\App\Http\Controllers\Front\NewsController::class, 'show'])->name('news.show');
-Route::get('subscriber/confirm/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
-Route::get('subscriber/remove/{id}/{code}', [SubscriberRemoveController::class, 'show'])->name('subscriber.remove');
-Route::get('votes', [VotesController::class, 'index'])->name('votes');
+Route::get('/', fn() => view('front/home'))->name('home');
+Route::get('about', fn() => view('front/about'))->name('about');
+Route::get('acts', fn() => view('front/acts'))->name('acts');
+Route::get('contact', fn() => view('front/contact'))->name('contact');
+Route::get('contest', fn() => view('front/contest'))->name('contest');
+Route::get('donate', fn() => view('front/donate'))->name('donate');
+Route::get('news', fn() => view('front/news'))->name('news');
+Route::get('rules', fn() => view('front/rules'))->name('rules');
+Route::get('songs', fn() => view('front/songs'))->name('songs');
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // ----------------------------------------------------------------------------
