@@ -17,7 +17,7 @@ class ActMetaTraitFactory extends Factory
     public function definition(): array
     {
         return [
-            'trait' => $this->faker->sentence(),
+            'trait' => fake()->sentence(),
         ];
     }
 }

@@ -24,11 +24,11 @@ class RoundFactory extends Factory
      */
     public function definition(): array
     {
-        $start_date = Carbon::parse($this->faker->dateTimeThisMonth());
+        $start_date = Carbon::parse(fake()->dateTimeThisMonth());
         $end_date   = $start_date->clone()->addWeek();
 
         return [
-            'title'     => $this->faker->sentence(2),
+            'title' => fake()->sentence(2),
             'starts_at' => $start_date,
             'ends_at'   => $end_date,
         ];

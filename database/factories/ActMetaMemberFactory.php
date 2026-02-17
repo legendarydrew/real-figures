@@ -17,8 +17,8 @@ class ActMetaMemberFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'role' => $this->faker->word()
+            'name' => fake()->name(),
+            'role' => fake()->word()
         ];
     }
 }

@@ -18,12 +18,12 @@ class DonationFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'           => $this->faker->name(),
-            'transaction_id' => $this->faker->unique()->uuid(),
-            'amount'         => $this->faker->randomFloat(2, 1, 999),
-            'currency'       => $this->faker->boolean(80) ? 'USD' : $this->faker->currencyCode(),
-            'message'        => $this->faker->boolean(20) ? $this->faker->realText() : null,
-            'is_anonymous' => $this->faker->boolean(20),
+            'name'           => fake()->name(),
+            'transaction_id' => fake()->unique()->uuid(),
+            'amount'         => fake()->randomFloat(2, 1, 999),
+            'currency'       => fake()->boolean(80) ? 'USD' : fake()->currencyCode(),
+            'message'        => fake()->boolean(20) ? fake()->realText() : null,
+            'is_anonymous'   => fake()->boolean(20),
         ];
     }
 }

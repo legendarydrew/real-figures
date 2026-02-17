@@ -57,7 +57,7 @@ class SongFactory extends Factory
     {
         return $this->afterCreating(function (Song $song) use ($chance)
         {
-            if ($this->faker->boolean($chance))
+            if (fake()->boolean($chance))
             {
                 SongUrl::factory()->for($song)->create();
             }
@@ -68,13 +68,13 @@ class SongFactory extends Factory
     {
         return $this->afterCreating(function (Song $song)
         {
-            $date = now()->subDays($this->faker->numberBetween(1, 10));
+            $date = now()->subDays(fake()->numberBetween(1, 10));
             while ($date <= now())
             {
                 SongPlay::create([
                     'song_id'    => $song->id,
                     'played_on'  => $date->format('Y-m-d'),
-                    'play_count' => $this->faker->numberBetween(1, 100),
+                    'play_count' => fake()->numberBetween(1, 100),
                 ]);
                 $date->addDay();
             }

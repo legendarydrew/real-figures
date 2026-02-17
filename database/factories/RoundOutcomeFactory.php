@@ -17,9 +17,9 @@ class RoundOutcomeFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_votes'  => $this->faker->numberBetween(0, 10),
-            'second_votes' => $this->faker->numberBetween(0, 10),
-            'third_votes'  => $this->faker->numberBetween(0, 10),
+            'first_votes'  => fake()->numberBetween(0, 10),
+            'second_votes' => fake()->numberBetween(0, 10),
+            'third_votes'  => fake()->numberBetween(0, 10),
             'was_manual'   => false,
         ];
     }

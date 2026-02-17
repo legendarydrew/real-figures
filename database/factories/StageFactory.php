@@ -25,9 +25,9 @@ class StageFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'               => $this->faker->unique()->words(3, true),
-            'description'         => $this->faker->paragraph,
-            'golden_buzzer_perks' => $this->faker->boolean(20) ? null : $this->faker->paragraph,
+            'title'               => fake()->unique()->words(3, true),
+            'description'         => fake()->paragraph,
+            'golden_buzzer_perks' => fake()->boolean(20) ? null : fake()->paragraph,
         ];
     }
 
@@ -42,7 +42,7 @@ class StageFactory extends Factory
             }
             else
             {
-                $round_count = $this->faker->numberBetween(1, 4);
+                $round_count = fake()->numberBetween(1, 4);
                 Round::factory($round_count)->withSongs()->for($stage)->create();
             }
         });
@@ -58,12 +58,12 @@ class StageFactory extends Factory
             foreach ($stage->rounds as $round)
             {
                 // Randomise the chance of a Stage having votes vs. resorting to a "manual vote".
-                if ($this->faker->boolean(80))
+                if (fake()->boolean(80))
                 {
                     $song_ids = $round->songs->pluck('id')->toArray();
                     for ($i = 0; $i < 100; $i++)
                     {
-                        $votes = $this->faker->randomElements($song_ids, 3);
+                        $votes = fake()->randomElements($song_ids, 3);
                         // Spotted an issue here: because all three choices are required,
                         // a Round must have at least three Songs.
                         RoundVote::create([
@@ -91,7 +91,7 @@ class StageFactory extends Factory
         return $this->afterCreating(function (Stage $stage)
         {
             // Create ended Rounds.
-            $round_count = $this->faker->numberBetween(1, 4);
+            $round_count = fake()->numberBetween(1, 4);
             $rounds      = Round::factory($round_count)->ended()->withSongs(5)->withVotes()->for($stage)->create();
 
             $rounds->each(function (Round $round)
@@ -126,7 +126,7 @@ class StageFactory extends Factory
     {
         if ($stage->rounds()->count() === 0)
         {
-            Round::factory($this->faker->numberBetween(1, 4))->withSongs()->ended()->for($stage)->create();
+            Round::factory(fake()->numberBetween(1, 4))->withSongs()->ended()->for($stage)->create();
         }
         else
         {

@@ -16,12 +16,12 @@ class NewsPostFactory extends Factory
      */
     public function definition(): array
     {
-        $this->faker->addProvider(new \DavidBadura\FakerMarkdownGenerator\FakerProvider($this->faker));
+        fake()->addProvider(new \DavidBadura\FakerMarkdownGenerator\FakerProvider(fake()));
 
         return [
-            'title'        => $this->faker->sentence(),
-            'content'      => $this->faker->markdown(),
-            'published_at' => $this->faker->boolean(30) ? $this->faker->dateTimeThisYear() : null,
+            'title'        => fake()->sentence(),
+            'content'      => fake()->markdown(),
+            'published_at' => fake()->boolean(30) ? fake()->dateTimeThisYear() : null,
         ];
     }
 
