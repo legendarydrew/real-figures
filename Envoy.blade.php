@@ -32,14 +32,14 @@ if (!(preg_match("/(\/home\/|\/var\/www\/)/i", $path) === 1)) {
 exit('ERROR: the provided $path doesn\'t look like a web directory.');
 }
 
-$project_dir         = $path . '/minisites/real-figures';
+$project_dir         = $path;
 
 $current_release_dir = $project_dir . '/current';
 $releases_dir        = $project_dir . '/releases';
 $new_release_dir     = $releases_dir . '/' . $run . '-' . now()->format('YmdHi');
 $keep_versions       = 3;
 
-$remote              = sprintf('%s@%s:%s', $user, $host, $new_release_dir);
+$remote = sprintf('%s@%s', $user, $host);
 
 // Set the command used to represent PHP.
 $php = $php ?: 'php';
@@ -60,7 +60,7 @@ cleanup
 
 @task('create_project_folder', ['on' => 'web'])
 echo "=> Creating project folder..."
-mkdir -p {{ $releases_dir }}
+mkdir -p {{ $new_release_dir }}
 @endtask
 
 @task('rsync', ['on' => 'localhost'])
@@ -75,16 +75,8 @@ rsync -zrSlha --stats --exclude-from=deployment-exclude-list.txt {{ $dir }}/ {{ 
 @endtask
 
 @task('scp', ['on' => 'localhost'])
-{{-- Create a clean deploy directory --}}
-echo "=> Creating deploy folder"
-tar cf deploy.tar --exclude-from=deployment-exclude-list.txt --exclude-vcs .
-mkdir - deploy
-tar xf deploy.tar -C ./deploy
-rm deploy.tar
-
-{{-- Copy to server --}}
-echo "=> Copying deploy folder"
-scp -P 9284 -r deploy/* \ {{ $remote }}
+echo "=> Deploying code..."
+tar --exclude-from=deployment-exclude-list.txt --exclude-vcs --add-file=".env" -czf - . | ssh -p {{ $port }} {{ $remote }} "tar -xzf - -C {{ $new_release_dir }}"
 @endtask
 
 @task('verify_install', ['on' => 'web'])
