@@ -21,7 +21,7 @@
     <div class="site-container">
 
         <a class="site-header-brand" href="{{ route('home') }}">
-            Logo here
+            <img src="{{ asset('logo/catawol-logo.svg') }}" alt="CATAWOL Records"/>
         </a>
 
         <nav class="site-header-nav">

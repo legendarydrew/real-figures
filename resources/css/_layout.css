@@ -15,6 +15,10 @@
 
     .site-header-brand {
         @apply font-bold;
+
+        img {
+            @apply w-auto h-10;
+        }
     }
 
     .site-header-nav {
