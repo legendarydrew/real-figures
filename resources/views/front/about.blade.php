@@ -46,9 +46,9 @@
             </div>
         </div>
 
-        @include('front.about.catawol')
-        @include('front.about.song')
-        @include('front.about.fold')
-        @include('front.about.silentmode')
+        @include('front.collapse', ['title' => 'About CATAWOL Records', 'content' => 'front.about.catawol'])
+        @include('front.collapse', ['title' => 'About the Song', 'content' => 'front.about.song'])
+        @include('front.collapse', ['title' => 'What is F.O.L.D?', 'content' => 'front.about.fold'])
+        @include('front.collapse', ['title' => 'Who is SilentMode?', 'content' => 'front.about.silentmode'])
     </div>
 @endsection
