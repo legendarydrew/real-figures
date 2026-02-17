@@ -1,0 +1,22 @@
+.content-collapse {
+    &:not(:last-child) {
+        @apply border-b-1;
+    }
+
+    .content-collapse-title {
+        @apply block font-display p-4 text-black w-full cursor-pointer;
+        @apply hover:bg-secondary/10 transition-[background-color];
+
+        input {
+            @apply hidden;
+        }
+
+        &:has(input:not(:checked)) + .content-collapse-body {
+            @apply hidden;
+        }
+    }
+
+    .content-collapse-body {
+        @apply py-4;
+    }
+}

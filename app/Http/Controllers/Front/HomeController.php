@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Round;
 use App\Transformers\RoundTransformer;
 use App\Transformers\StageTransformer;
+use Illuminate\View\View;
 use Inertia\Inertia;
-use Inertia\Response;
 
 /**
  * HomeController
@@ -45,7 +45,12 @@ class HomeController extends Controller
      * For convenience, we're assuming that all created Stages are part of the same contest.
      */
 
-    public function index(): Response
+    public function index(): View
+    {
+        return view('front/home');
+    }
+
+    protected function determineStatus(): \Inertia\Response
     {
         // Check whether the contest is over (i.e. all Stages are "over").
         // In this case, we want to display the winners.

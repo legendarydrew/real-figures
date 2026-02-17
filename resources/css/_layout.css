@@ -1,0 +1,51 @@
+/* General (front) site layout. */
+
+@layer base {
+    .site-container {
+        @apply max-w-4xl mx-auto;
+    }
+
+    .site-header {
+        @apply border-b-1 py-2 w-full shadow-sm;
+
+        .site-container {
+            @apply px-2 lg:px-0 flex items-center justify-between gap-2;
+        }
+    }
+
+    .site-header-brand {
+        @apply font-bold;
+
+        img {
+            @apply w-auto h-10;
+        }
+    }
+
+    .site-header-nav {
+        @apply flex flex-grow items-center justify-end gap-2;
+
+        a {
+            @apply display-text text-lg md:text-sm leading-normal px-3 py-1.5 hover:underline text-[#1b1b18] dark:text-[#EDEDEC];
+
+            &.donate-link {
+                @apply text-green-600 dark:text-green-200;
+            }
+        }
+    }
+
+    .site-header-nav-open {
+        @apply md:hidden;
+    }
+
+    .site-header-nav-close {
+        @apply md:hidden z-90 fixed top-4 right-6;
+    }
+
+    .site-main {
+        @apply flex-grow overflow-y-auto;
+    }
+
+    .site-footer {
+        @apply py-2 px-5 text-xs text-center;
+    }
+}

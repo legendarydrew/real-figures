@@ -1,0 +1,37 @@
+/* HOME page. */
+
+.home-hero {
+    @apply bg-secondary text-white font-bold mb-8 p-8 h-50;
+}
+
+.home-grid {
+    @apply grid grid-cols-1 xl:grid-cols-4 gap-2 mb-8;
+
+    .home-grid-songs {
+        @apply col-span-2 row-span-2 bg-primary/50;
+    }
+
+    .home-grid-buzzer {
+        @apply col-span-2 row-span-2 bg-primary/30;
+    }
+
+    .home-grid-rules {
+        @apply col-span-2 row-span-2 bg-primary/10;
+    }
+
+    .home-grid-youtube {
+        @apply col-span-1 row-span-1 bg-secondary/30;
+    }
+
+    .home-grid-about {
+        @apply col-span-1 row-span-2 bg-secondary/30;
+    }
+
+    .home-grid-donor {
+        @apply col-span-1 row-span-1 bg-secondary/30;
+    }
+}
+
+.home-advert {
+    @apply bg-secondary/10 h-[120px] text-center;
+}

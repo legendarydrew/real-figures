@@ -6,6 +6,13 @@ has the theme configured here.)
 */
 
 @import 'tailwindcss';
+@import "@fortawesome/fontawesome-free/css/all.css";
+@import "./_layout.css";
+@import "./_page.css";
+@import "./_collapse.css";
+@import "./_content.css";
+@import "./_home.css";
+@import "./_about.css";
 
 @plugin 'tailwindcss-animate';
 
@@ -162,6 +169,10 @@ has the theme configured here.)
     --sidebar-ring: oklch(0.439 0 0);
 }
 
+@utility display-text {
+    @apply font-display font-medium tracking-wide;
+}
+
 @layer base {
     * {
         @apply border-border;
@@ -171,57 +182,14 @@ has the theme configured here.)
         @apply bg-primary text-primary-foreground;
     }
 
+    html, body {
+        min-height: 100dvh;
+    }
+
     body {
         @apply bg-background text-foreground;
-    }
-
-    .display-text {
-        @apply font-display font-medium tracking-wide;
-    }
-
-    /* Used for converted markdown content. */
-    .content h1 {
-        @apply font-display text-xl leading-tight tracking-normal;
-    }
-
-    .content h2 {
-        @apply font-display text-lg leading-tight tracking-normal;
-    }
-
-    .content h3 {
-        @apply font-display text-base leading-tight tracking-normal;
-    }
-
-    .content b {
-        @apply text-muted-foreground font-semibold;
-    }
-
-    .content i {
-        @apply italic;
-    }
-
-    .content blockquote {
-        @apply m-5;
-    }
-
-    .content p {
-        @apply my-2 leading-normal;
-    }
-
-    .content ::marker {
-        @apply font-semibold;
-    }
-
-    .content li {
-        @apply pl-1;
-    }
-
-    .content ol {
-        @apply mt-3 mb-5 ml-5 list-decimal;
-    }
-
-    .content ul {
-        @apply mt-3 mb-5 ml-5 list-disc;
+        @apply font-sans antialiased;
+        @apply flex flex-col;
     }
 
     /* Dashboard tables.
@@ -267,4 +235,5 @@ has the theme configured here.)
     .bg-act-image {
         @apply bg-linear-to-bl from-primary to-blue-950;
     }
+
 }
