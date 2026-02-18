@@ -12,13 +12,16 @@
         </header>
 
         <div class="site-container">
-            <ul class="grid grid-cols-1 gap-4 lg:grid-cols-5">
+            <ul class="grid grid-cols-1 gap-2 lg:grid-cols-4">
                 <!-- Winner -->
                 @foreach($results['winners'] as $song)
                     <li class="display-text col-span-2 row-span-2 text-shadow-md">
                         <div class="relative w-full bg-yellow-200/30 text-left leading-none">
                             @include('front.act-image', ['act' => $song['act'], 'size' => 'full'])
-                            <p class="absolute top-0 p-5 text-xl text-yellow-300 uppercase">Winner</p>
+                            <p class="absolute top-0 p-5 text-xl text-yellow-300 uppercase">
+                                <i class="fa-solid fa-trophy"></i>
+                                Winner
+                            </p>
                             <div
                                 class="absolute bottom-0 w-full p-3 text-xl leading-tight lg:p-5">{{ $song['act']['name'] }}</div>
                         </div>
@@ -32,7 +35,10 @@
                             @include('front.act-image', ['act' => $song['act'], 'size' => 'full'])
                             <div class="absolute bottom-0 w-full p-3 text-base leading-tight">
                                 {{ $song['act']['name'] }}
-                                <p class="text-sm text-indigo-200 uppercase">Runner-up</p>
+                                <p class="text-sm text-indigo-200 uppercase">
+                                    <i class="fa-solid fa-award"></i>
+                                    Runner-up
+                                </p>
                             </div>
                         </div>
                     </li>
@@ -40,7 +46,8 @@
             </ul>
 
             <!-- Table of scores. -->
-            <table class="table">
+            <table class="contest-scores">
+                <caption>Final Rankings</caption>
                 <thead>
                 <tr>
                     <th scope="col">&nbsp;</th>
@@ -54,7 +61,7 @@
                 @foreach($outcomes as $row)
                     <tr>
                         <th scope="row">{{ $row['song']['act']['name'] }}</th>
-                        <td>{{ $row['score'] }}</td>
+                        <td class="contest-score-total">{{ $row['score'] }}</td>
                         <td>{{ $row['first_votes'] }}</td>
                         <td>{{ $row['second_votes'] }}</td>
                         <td>{{ $row['third_votes'] }}</td>
@@ -64,7 +71,7 @@
             </table>
         </div>
 
-        <footer class="contest-footer">
+        <footer class="contest-footer content">
             <p>Whether your favourite song made it to the top or not, <b>you helped make this contest unforgettable.</b>
             </p>
             <p>Your support amplified voices, celebrated creativity, and helped shine a light on an important cause.</p>
@@ -74,3 +81,9 @@
         </footer>
     </div>
 @endsection
+
+{{-- TODO display the results of previous stages.--}}
+{{-- TODO display the number of votes. --}}
+{{-- TODO indicate songs that received Golden Buzzers. --}}
+{{-- TODO indicate high-scoring runner-ups. --}}
+{{-- TODO indicate rank numbers. --}}

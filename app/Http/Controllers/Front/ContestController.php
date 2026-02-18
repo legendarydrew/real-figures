@@ -50,7 +50,7 @@ class ContestController extends Controller
 
         if (ContestFacade::isOver())
         {
-            $outcomes = $current_stage->outcomes()->scoreOrder()->get();
+            $outcomes = $current_stage->outcomes()->scoreOrder()->get()->sortByDesc(fn($outcome) => $outcome->score);
             return view('front.contest.over', [
                 'results'  => ContestFacade::overallWinners(),
                 'outcomes' => fractal($outcomes, RoundOutcomeTransformer::class)->toArray(),

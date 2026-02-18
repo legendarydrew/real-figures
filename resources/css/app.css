@@ -13,6 +13,7 @@ has the theme configured here.)
 @import "./_content.css";
 @import "./_home.css";
 @import "./_about.css";
+@import "./_contest.css";
 
 @plugin 'tailwindcss-animate';
 

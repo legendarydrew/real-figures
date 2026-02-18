@@ -1,0 +1,40 @@
+.contest-header {
+    @apply text-center my-8;
+
+    h1 {
+        @apply font-display text-2xl font-normal mt-4 mb-2;
+    }
+}
+
+.contest-footer {
+    @apply text-center my-8;
+}
+
+.contest-scores {
+    @apply my-8 mx-auto;
+
+    caption {
+        @apply font-display font-normal text-xl my-1;
+    }
+
+    th {
+        @apply font-display font-normal text-right px-4 py-0.5;
+    }
+
+    td {
+        @apply text-right min-w-10 px-4;
+    }
+
+    thead th {
+        @apply border-b-1 text-sm;
+    }
+
+    tbody th {
+        @apply min-w-1/4;
+    }
+
+    .contest-score-total {
+        @apply font-semibold;
+    }
+
+}
