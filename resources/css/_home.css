@@ -8,7 +8,9 @@
     @apply grid grid-cols-1 xl:grid-cols-4 gap-2 mb-8;
 
     .home-grid-songs {
-        @apply col-span-2 row-span-4 bg-primary/50;
+        @apply col-span-2 row-span-4 bg-primary/80 hover:bg-primary transition-colors p-4;
+        @apply leading-tight text-white text-shadow-sm;
+        @apply flex flex-col justify-end;
     }
 
     .home-grid-buzzer {

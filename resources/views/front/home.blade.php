@@ -10,7 +10,10 @@
 
     <div class="site-container">
         <div class="home-grid">
-            <div class="home-grid-songs">2️⃣ Songs</div>
+            <a class="home-grid-songs" href="{{route('contest')}}">
+                <div class="font-display text-2xl">Listen to the Songs</div>
+                <div class="font-bold">and vote for your favourites!</div>
+            </a>
             <div class="home-grid-buzzer">
                 <div class="font-display text-2xl">Golden Buzzer</div>
                 <div class="font-bold">Support your favourite Acts and Songs!</div>
