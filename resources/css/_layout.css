@@ -6,7 +6,7 @@
     }
 
     .site-header {
-        @apply bg-white/40 border-b-1 py-2 w-full shadow-sm sticky top-0 backdrop-blur-sm;
+        @apply bg-white/40 border-b-1 py-2 w-full shadow-sm sticky top-0 backdrop-blur-sm z-10;
 
         .site-container {
             @apply px-2 lg:px-0 flex items-center justify-between gap-2;

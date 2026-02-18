@@ -36,6 +36,7 @@ use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
 use App\Http\Controllers\Back\SubscribersController;
 use App\Http\Controllers\Front\AboutController;
+use App\Http\Controllers\Front\ActsController as FrontActsController;
 use App\Http\Controllers\Front\ContestController;
 use App\Http\Controllers\Front\SitemapController;
 use App\Http\Controllers\Settings\PasswordController;
@@ -50,7 +51,7 @@ use Inertia\Inertia;
 // ----------------------------------------------------------------------------
 Route::get('/', fn() => view('front/home'))->name('home');
 Route::get('about', [AboutController::class, 'index'])->name('about');
-Route::get('acts', fn() => view('front/acts'))->name('acts');
+Route::get('acts', [FrontActsController::class, 'index'])->name('acts');
 Route::get('contact', fn() => view('front/contact'))->name('contact');
 Route::get('contest', [ContestController::class, 'index'])->name('contest');
 Route::get('donate', fn() => view('front/donate'))->name('donate');
