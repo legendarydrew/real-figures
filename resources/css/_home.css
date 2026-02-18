@@ -32,7 +32,9 @@
     }
 
     .home-grid-donor {
-        @apply col-span-1 row-span-1 bg-secondary/30;
+        @apply col-span-1 row-span-1 bg-green-600 p-2 min-h-30;
+        @apply leading-tight text-white text-shadow-sm;
+        @apply flex flex-col justify-end;
     }
 }
 

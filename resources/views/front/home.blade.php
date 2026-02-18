@@ -21,7 +21,9 @@
             </a>
             <div class="home-grid-youtube">5️⃣ YouTube channel</div>
             <div class="home-grid-about">7️⃣ About the project</div>
-            <div class="home-grid-donor">6️⃣ Donor wall</div>
+            <a class="home-grid-donor" href="{{ route('donate') }}">
+                <div class="font-display">Donor Wall</div>
+            </a>
         </div>
 
         <div class="home-advert">Advert</div>
