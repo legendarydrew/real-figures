@@ -20,9 +20,11 @@
                 <div class="font-bold">How it all works</div>
             </a>
             <div class="home-grid-youtube">5️⃣ YouTube channel</div>
-            <div class="home-grid-about">7️⃣ About the project</div>
+            <a class="home-grid-about" href="{{ route('about') }}">
+                <div class="font-display text-lg">About the project</div>
+            </a>
             <a class="home-grid-donor" href="{{ route('donate') }}">
-                <div class="font-display">Donor Wall</div>
+                <div class="font-display text-lg">Donor Wall</div>
             </a>
         </div>
 
