@@ -11,7 +11,7 @@
 
         <div class="page-banner">Page banner</div>
 
-        <h1 class="page-heading">Real Figures Don't F.O.L.D &ndash; About the Project</h1>
+        <h1 class="page-heading">Real Figures Don't F.O.L.D &mdash; About the Project</h1>
 
         <div class="about-intro content">
             <p class="content-intro">
