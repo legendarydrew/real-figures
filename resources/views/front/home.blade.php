@@ -19,7 +19,9 @@
                 <div class="font-display text-2xl">Contest Rules</div>
                 <div class="font-bold">How it all works</div>
             </a>
-            <div class="home-grid-youtube">5️⃣ YouTube channel</div>
+            <a class="home-grid-youtube" href="https://youtube.com/@silentmodetv" target="_blank">
+                <div class="font-display text-lg">CATAWOL on YouTube</div>
+            </a>
             <a class="home-grid-about" href="{{ route('about') }}">
                 <div class="font-display text-lg">About the project</div>
             </a>
