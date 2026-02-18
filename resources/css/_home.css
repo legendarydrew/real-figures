@@ -18,7 +18,9 @@
     }
 
     .home-grid-rules {
-        @apply col-span-2 row-span-2 bg-primary/10;
+        @apply col-span-2 row-span-2 bg-zinc-700 p-4 min-h-50;
+        @apply leading-tight text-white text-shadow-sm;
+        @apply flex flex-col justify-end;
     }
 
     .home-grid-youtube {

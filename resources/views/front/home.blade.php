@@ -13,9 +13,12 @@
             <div class="home-grid-songs">2️⃣ Songs</div>
             <div class="home-grid-buzzer">
                 <div class="font-display text-2xl">Golden Buzzer</div>
-                <div class="font-display">Support your favourite Acts and Songs!</div>
+                <div class="font-bold">Support your favourite Acts and Songs!</div>
             </div>
-            <div class="home-grid-rules">4️⃣ Contest Rules</div>
+            <a class="home-grid-rules" href="{{ route('rules') }}">
+                <div class="font-display text-2xl">Contest Rules</div>
+                <div class="font-bold">How it all works</div>
+            </a>
             <div class="home-grid-youtube">5️⃣ YouTube channel</div>
             <div class="home-grid-about">7️⃣ About the project</div>
             <div class="home-grid-donor">6️⃣ Donor wall</div>
