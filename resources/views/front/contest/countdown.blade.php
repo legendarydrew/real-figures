@@ -1,10 +1,12 @@
-@extends('front.contest')
+@extends('front.layout')
 
 @section('content')
     <div class="contest contest-countdown">
 
         <header class="contest-header">
-            <h1>Countdown</h1>
+            <countdown timestamp="{{$countdown }}" size="large"></countdown>
+            <h1>Countdown to {{$stage['title']}}</h1>
+            {!! $stage['description'] !!}
         </header>
 
     </div>
