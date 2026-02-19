@@ -1,5 +1,5 @@
 .contest {
-    @apply bg-cover bg-fixed min-h-full text-white text-shadow-sm p-8;
+    @apply bg-cover bg-[#030923] bg-fixed min-h-full text-white text-shadow-sm p-8;
 }
 
 .contest-header {

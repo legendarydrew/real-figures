@@ -1,12 +1,12 @@
 @extends('front.contest')
 
-@section('content')
-    <div class="contest contest-stage">
+@section('page-title', $stage['title'])
+@section('page-description', "Voting is underway for {$stage['title']}.")
 
-        <header class="contest-header">
-            <h1>{{ $stage['title'] }}</h1>
-            <p>{!! $stage['description'] !!}</p>
-        </header>
+@section('contest-header')
+    <h1>{{ $stage['title'] }}</h1>
+    <p>{!! $stage['description'] !!}</p>
+@endsection
 
-    </div>
+@section('contest-content')
 @endsection

@@ -1,13 +1,18 @@
-@extends('front.layout')
+@extends('front.contest')
 
-@section('content')
-    <div class="contest contest-countdown">
+@section('page-title', "Countdown to {$stage['title']}")
+@section('page-description', "{$stage['title']} is on the way — get ready to vote for your favourite Acts!")
 
-        <header class="contest-header">
-            <countdown timestamp="{{$countdown }}" size="large"></countdown>
-            <h1>Countdown to {{$stage['title']}}</h1>
-            {!! $stage['description'] !!}
-        </header>
+@section('contest-header')
+    <countdown timestamp="{{$countdown }}" size="large"></countdown>
+    <h1>Countdown to {{$stage['title']}}</h1>
+    {!! $stage['description'] !!}
+@endsection
 
+@section('contest-content')
+    <div class="max-w-xl mx-auto">
+        <subscribe-form></subscribe-form>
+        <p class="text-xs text-center my-4">Your email address will only be used for sending notifications, and will
+            not be shared with anyone else.</p>
     </div>
 @endsection
