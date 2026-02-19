@@ -1,5 +1,8 @@
 @extends('front.layout')
 
+@section('page-title', 'Coming Soon.')
+@section('page-description', 'CATAWOL Records is launching the Real Figures Don\'t F.O.L.D Song Contest, where your vote makes a difference.')
+
 @section('content')
 
     <div class="contest" style="background-image: url({{ asset('img/bg-stage.jpg') }}">
