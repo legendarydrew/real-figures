@@ -39,6 +39,7 @@ use App\Http\Controllers\Front\AboutController;
 use App\Http\Controllers\Front\ActsController as FrontActsController;
 use App\Http\Controllers\Front\ContestController;
 use App\Http\Controllers\Front\SitemapController;
+use App\Http\Controllers\Front\SubscriberConfirmController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Models\Round;
@@ -58,6 +59,7 @@ Route::get('donate', fn() => view('front/donate'))->name('donate');
 Route::get('news', fn() => view('front/news'))->name('news');
 Route::get('rules', fn() => view('front/rules'))->name('rules');
 Route::get('songs', fn() => view('front/songs'))->name('songs');
+Route::get('subscriber/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // ----------------------------------------------------------------------------
