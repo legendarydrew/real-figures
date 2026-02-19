@@ -31,8 +31,13 @@
 
         <!-- Donation buttons. -->
         <div class="my-8 flex justify-center items-center gap-16">
-            <button type="button" class="bg-green-600 hover:bg-green-700">PayPal</button>
-            <a href="https://www.justgiving.com/kidscape/donate" target="_blank">Kidscape</a>
+
+            {{-- https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog#modal_dialogs_using_invoker_commands  --}}
+            <button type="button" class="bg-green-600 hover:bg-green-700"
+                    command="show-modal" commandfor="donate-dialog" aria-controls="donate-dialog">Donate to us (PayPal)
+            </button>
+
+            <a href="https://www.justgiving.com/kidscape/donate" target="_blank">Donate to Kidscape</a>
         </div>
 
         <!-- Donations -->
@@ -69,4 +74,12 @@
         @endif
 
     </div>
+
+    <dialog id="donate-dialog" class="dialog">
+        <button class="dialog-close" command="close" commandfor="donate-dialog" aria-controls="donate-dialog"
+                title="Close">
+            <i class="fa-solid fa-close"></i>
+        </button>
+        <p>This is a test.</p>
+    </dialog>
 @endsection

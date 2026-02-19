@@ -11,6 +11,7 @@ has the theme configured here.)
 @import "./_page.css";
 @import "./_collapse.css";
 @import "./_content.css";
+@import "./_dialog.css";
 @import "./_home.css";
 @import "./_about.css";
 @import "./_contest.css";
