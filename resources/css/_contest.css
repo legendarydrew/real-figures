@@ -1,8 +1,16 @@
+.contest {
+    @apply bg-cover bg-fixed min-h-full text-white text-shadow-sm p-8;
+}
+
 .contest-header {
     @apply text-center my-8;
 
     h1 {
         @apply font-display text-2xl font-normal mt-4 mb-2;
+    }
+
+    p {
+        @apply max-w-2xl mx-auto;
     }
 }
 
