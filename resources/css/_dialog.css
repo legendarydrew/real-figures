@@ -1,0 +1,14 @@
+.dialog {
+    @apply bg-white text-black p-8 pt-12 rounded-sm shadow-md;
+    @apply text-sm;
+    @apply max-w-1/2 m-auto;
+    @apply backdrop:bg-secondary/60;
+
+    .dialog-close {
+        @apply absolute right-8 top-8 text-sm cursor-pointer;
+    }
+
+    .dialog-title {
+        @apply font-display text-xl -mt-6 mb-2 mr-12;
+    }
+}

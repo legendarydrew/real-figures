@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { CountdownTimer } from '@/components/mode/countdown-timer';
 import { SubscribeForm } from '@/components/front/subscribe-form';
+import { DonateDialog } from '@/components/front/donate-dialog';
 
 let tags;
 
@@ -16,4 +17,10 @@ for (const element: HTMLElement of tags) {
 tags = document.getElementsByTagName("subscribe-form");
 for (const element: HTMLElement of tags) {
     createRoot(element).render(<SubscribeForm/>);
+}
+
+// Donation dialog form.
+tags = document.getElementsByTagName("donate-dialog");
+for (const element: HTMLElement of tags) {
+    createRoot(element).render(<DonateDialog/>);
 }

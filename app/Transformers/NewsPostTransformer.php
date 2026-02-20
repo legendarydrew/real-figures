@@ -20,9 +20,9 @@ class NewsPostTransformer extends TransformerAbstract
             'url' => $post->url,
             'content'      => $post->content,
             'excerpt'      => $post->excerpt,
-            'created_at'   => $post->created_at->format(config('contest.date_format')),
-            'published_at' => $post->published_at?->format(config('contest.date_format')) ?? null,
-            'updated_at'   => $post->updated_at->format(config('contest.date_format')),
+            'created_at'   => $post->created_at->format(config('contest.format.full-date')),
+            'published_at' => $post->published_at?->format(config('contest.format.full-date')) ?? null,
+            'updated_at'   => $post->updated_at->format(config('contest.format.full-date')),
         ];
     }
 
