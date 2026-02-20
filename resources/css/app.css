@@ -207,6 +207,10 @@ has the theme configured here.)
         @apply flex flex-col;
     }
 
+    hr {
+        @apply bg-muted h-[1] w-4/5 mx-auto my-4;
+    }
+
     /* Dashboard tables.
      (adapted from https://tw-elements.com/docs/standard/data/tables/#small) */
     table.dashboard-table {

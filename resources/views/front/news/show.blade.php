@@ -30,34 +30,34 @@
             {!! $post['content'] !!}
         </div>
 
-        <aside class="content news-enquiries">
+        <div class="content news-enquiries">
             For enquiries, you are welcome to get in touch with us through our <a href="{{ route('contact') }}">Contact
                 page</a>.
-        </aside>
+        </div>
 
-        {{--
-        @if (isset($post['pages']['previous']) || isset($post['pages']['next']))<hr class="my-5"/>@endif
-
-            <div className="flex flex-col lg:flex-row gap-3 justify-between">
-                {post.pages.previous && (
-                <Link className="lg:w-2/5 hover-bg p-5 mr-auto flex flex-col lg:justify-end gap-1"
-                      href={post.pages.previous.url} rel="prev">
-                <span
-                    className="font-display text-xl leading-tight">{post.pages.previous.title}</span>
-                <b className="text-sm flex items-center"><ChevronLeft className="w-4 h-4"/> Previous
-                    post</b>
-                </Link>)}
-                {post.pages.next && (
-                <Link
-                    className="lg:w-2/5 md:text-right hover-bg p-5 ml-auto flex flex-col lg:justify-end md:items-end gap-1"
-                    href={post.pages.next.url}
-                    rel="next">
-                <span className="font-display text-xl leading-tight">{post.pages.next.title}</span>
-                <b className="text-sm flex items-center">Next post <ChevronRight
-                        className="w-4 h-4"/></b>
-                </Link>)}
-            </div>
-            --}}
+        @if (isset($post['pages']['previous']) || isset($post['pages']['next']))
+            <hr>
+            <nav class="news-nav">
+                @if ($post['pages']['previous'])
+                    <a class="news-nav-prev" href="{{$post['pages']['previous']['url']}}" rel="prev">
+                        <span class="news-nav-title">{{$post['pages']['previous']['title']}}</span>
+                        <b class="news-nav-label">
+                            <i class="fa-solid fa-chevron-left"></i>
+                            Previous post
+                        </b>
+                    </a>
+                @endif
+                @if ($post['pages']['next'])
+                    <a class="news-nav-next" href="{{$post['pages']['next']['url']}}" rel="next">
+                        <span class="news-nav-title">{{$post['pages']['next']['title']}}</span>
+                        <b class="news-nav-label">
+                            Next post
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </b>
+                    </a>
+                @endif
+            </nav>
+        @endif
     </article>
 
     {{--
