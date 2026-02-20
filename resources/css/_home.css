@@ -1,26 +1,48 @@
 /* HOME page. */
 
 .home-hero {
-    @apply bg-secondary text-white text-shadow-md mb-8 h-50;
+    @apply bg-secondary text-white text-shadow-md mb-8 h-1 h-70;
+
+    &.contest-over {
+        @apply h-50;
+    }
 
     .site-container {
         @apply h-full lg:flex lg:items-end;
     }
 
     .home-hero-mic {
-        @apply bg-no-repeat bg-center bg-contain;
+        @apply bg-no-repeat bg-bottom bg-contain;
         @apply h-full lg:w-1/4 lg:flex-shrink-0;
     }
 
-    .home-hero-text {
+    .home-hero-content {
         @apply flex-grow p-8;
+    }
 
+    .home-hero-text {
         h1 {
             @apply font-display text-4xl mb-2;
         }
 
         p {
-            @apply text-sm;
+            @apply text-lg leading-tight;
+        }
+    }
+
+    .home-hero-subscribe {
+        @apply flex flex-col gap-1 mt-4;
+
+        h2 {
+            @apply font-display text-lg m-0;
+        }
+
+        p {
+            @apply text-xs
+        }
+
+        a {
+            @apply text-primary font-semibold underline;
         }
     }
 }
