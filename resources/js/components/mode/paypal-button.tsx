@@ -1,4 +1,3 @@
-import { usePage } from '@inertiajs/react';
 import {
     PayPalButtons,
     PayPalButtonsComponentProps,
@@ -19,7 +18,7 @@ interface DonationButtonProps {
     approveEndpoint?: string;
     currency?: string;
     description?: string; // what the donation is for.
-    additionalData?: { [key: string]: any }; // other information for the transaction.
+    additionalData?: { [key: string]: never }; // other information for the transaction.
     onProcessing?: () => void;
     onFailure?: () => void;
     onSuccess?: () => void;
@@ -36,11 +35,12 @@ export const PaypalButton: React.FC<DonationButtonProps> = ({
                                                                 onSuccess,
                                                                 onFailure
                                                             }) => {
-    // see AppServiceProvider.php.
-    const { paypalClientId } = usePage().props;
+
+    const paypalClientId = document.querySelector("meta[name=paypal-client]").attributes['content'].value;
+    // Read the PayPal client ID from a meta tag,
 
     const scriptOptions: ReactPayPalScriptOptions = {
-        clientId: paypalClientId as string,
+        clientId: paypalClientId,
         disableFunding: ['credit'],
         enableFunding: ['card', 'venmo']
     };

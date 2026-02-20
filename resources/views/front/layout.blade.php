@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('page-title', config('app.name', 'Laravel'))</title>
     <meta name="description" content="@yield('page-description')"/>
+    <meta name="paypal-client" content="{{ config('services.paypal.client_id')}}"/>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet"/>
 

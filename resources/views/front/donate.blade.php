@@ -1,6 +1,6 @@
 @extends('front.layout')
 
-@section('page-title', 'Make A Donation')
+@section('page-title', 'Donations')
 @section('page-description', "Support the CATAWOL Records Song Contest and help us amplify creativity and raise awareness of bullying. Learn how to donate and make a difference.")
 
 @section('content')
@@ -11,33 +11,34 @@
             page banner
         </div>
 
-        <h1 class="page-heading">Make a Donation</h1>
-
-        <div class="content">
-            <p class="text-lg">
-                If you're enjoying the Contest, please consider <b>making a donation:</b> either to us,
-                or to <a class="font-semibold hover:underline" href="https://kidscape.org.uk"
-                         target="_blank">Kidscape</a>, our designated charity.
-            </p>
-            <p>Donations made to us will go toward the costs associated with building and maintaining the site,
-                supporting our Acts and their music production, and aiding the MODE Family in their time of need.
-            </p>
-            <p><a class="font-semibold hover:underline" href="https://kidscape.org.uk" target="_blank">Kidscape</a>
-                provides telephone advice and works directly with parents, children and carers experiencing bullying,
-                across the United Kingdom.</p>
-            <p>You can also <a class="font-semibold hover:underline" href="{{route('contact')}}">contact
-                    us</a> directly with other suggestions for supporting the contest.</p>
-        </div>
+        <h1 class="page-heading">Your Donations</h1>
 
         <!-- Donation buttons. -->
         <div class="my-8 flex justify-center items-center gap-16">
 
             {{-- https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog#modal_dialogs_using_invoker_commands  --}}
-            <button type="button" class="bg-green-600 hover:bg-green-700"
+            <button type="button" class="button primary"
                     command="show-modal" commandfor="donate-dialog" aria-controls="donate-dialog">Donate to us (PayPal)
             </button>
 
-            <a href="https://www.justgiving.com/kidscape/donate" target="_blank">Donate to Kidscape</a>
+            <a class="button secondary" href="https://www.justgiving.com/kidscape/donate" rel="external"
+               target="_blank">Donate to Kidscape</a>
+        </div>
+
+        <div class="content mb-8">
+            <p class="text-lg">
+                If you're enjoying the Contest, please consider <b>making a donation:</b> either to us,
+                or to <a class="font-semibold hover:underline" href="https://kidscape.org.uk" rel="external"
+                         target="_blank">Kidscape</a>, our designated charity.
+            </p>
+            <p>Donations made to us will go toward the costs associated with building and maintaining the site,
+                supporting our Acts and their music production, and aiding the MODE Family in their time of need.
+            </p>
+            <p><a class="font-semibold hover:underline" href="https://kidscape.org.uk" rel="external" target="_blank">Kidscape</a>
+                provides telephone advice and works directly with parents, children and carers experiencing bullying,
+                across the United Kingdom.</p>
+            <p>You can also <a class="font-semibold hover:underline" href="{{route('contact')}}">contact
+                    us</a> directly with other suggestions for supporting the contest.</p>
         </div>
 
         <!-- Donations -->
@@ -80,6 +81,7 @@
                 title="Close">
             <i class="fa-solid fa-close"></i>
         </button>
-        <p>This is a test.</p>
+        <h2 class="dialog-title">Make a Donation</h2>
+        <donate-dialog></donate-dialog>
     </dialog>
 @endsection

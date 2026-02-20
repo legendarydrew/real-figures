@@ -1,10 +1,10 @@
 .donations-list,
 .golden-buzzers-list {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2;
-    @apply mt-2 mb-8 p-4;
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+    @apply mt-2 mb-8 p-2;
 
     li {
-        @apply flex justify-between items-center;
+        @apply flex justify-between items-center px-2 py-1 transition-colors;
 
         .anonymous {
             @apply italic;
@@ -22,8 +22,16 @@
 
 .donations-list {
     @apply bg-green-500/50;
+
+    li {
+        @apply hover:bg-green-700/50;
+    }
 }
 
 .golden-buzzers-list {
     @apply bg-yellow-500/50;
+
+    li {
+        @apply hover:bg-yellow-700/50;
+    }
 }
