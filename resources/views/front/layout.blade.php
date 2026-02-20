@@ -8,6 +8,7 @@
     <title>@yield('page-title', config('app.name', 'Laravel'))</title>
     <meta name="description" content="@yield('page-description')"/>
     <meta name="paypal-client" content="{{ config('services.paypal.client_id')}}"/>
+    @yield('meta')
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet"/>
 
@@ -32,7 +33,9 @@
             </button>
 
             <a href="{{ route('contest') }}">Contest</a>
-            <a href="{{ route('news') }}">News</a>
+            @if(\App\Facades\ContestFacade::shouldShowNews())
+                <a href="{{ route('news') }}">News</a>
+            @endif
             <a href="{{ route('acts') }}">Acts</a>
             <a href="{{ route('rules') }}">Rules</a>
             <a class="donate-link" href="{{ route('donate') }}">Donate!</a>

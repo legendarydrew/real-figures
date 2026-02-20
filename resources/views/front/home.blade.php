@@ -10,6 +10,12 @@
 
     <div class="site-container">
         <div class="home-grid">
+            @if(\App\Facades\ContestFacade::shouldShowNews())
+                <a class="home-grid-news" href="{{route('news')}}">
+                    <div class="font-display text-2xl">Contest News</div>
+                </a>
+                <div class="home-grid-advert">Advert</div>
+            @endif
             <a class="home-grid-songs" href="{{route('contest')}}">
                 <div class="font-display text-2xl">Listen to the Songs</div>
                 <div class="font-bold">and vote for your favourites!</div>

@@ -1,0 +1,92 @@
+.news-index {
+    @apply flex flex-col mb-8;
+}
+
+.news-index-item {
+    a {
+        @apply flex border hover-bg hover:shadow-md flex hover-bg hover:shadow-md;
+    }
+
+    &:not(:last-child) {
+        &::after {
+            @apply content-[''] block h-[1] w-3/5 bg-muted mx-auto my-4;
+        }
+    }
+}
+
+.news-index-item-icon {
+    @apply max-sm:hidden w-1/8 flex items-center justify-center bg-white;
+}
+
+.news-index-item-details {
+    @apply md:w-7/8 flex flex-col items-start justify-center gap-1 p-5;
+}
+
+.news-index-item-title {
+    @apply font-display text-xl leading-tight;
+}
+
+.news-index-item-excerpt {
+    @apply text-sm leading-tight;
+}
+
+.news-index-item-date {
+    @apply text-xs text-muted-foreground leading-tight;
+}
+
+.news-aside {
+    @apply text-sm my-8;
+}
+
+
+.news-post {
+    @apply my-8;
+}
+
+.news-post-header {
+    @apply mt-4 mb-8;
+}
+
+.news-post-heading {
+    @apply font-display text-3xl;
+}
+
+.news-post-date {
+    @apply text-muted-foreground text-sm;
+}
+
+.news-post-content {
+    @apply text-base pr-10;
+}
+
+.news-enquiries {
+    @apply text-muted-foreground text-sm p-3 my-5;
+}
+
+.news-nav {
+    @apply flex flex-col lg:flex-row gap-3 justify-between my-4;
+}
+
+.news-nav-prev {
+    @apply lg:w-1/2 hover-bg p-4 mr-auto flex flex-col lg:justify-end gap-1;
+}
+
+.news-nav-next {
+    @apply lg:w-1/2 md:text-right hover-bg p-4 ml-auto flex flex-col lg:justify-end md:items-end gap-1;
+}
+
+.news-nav-title {
+    @apply font-display text-xl leading-tight;
+}
+
+.news-nav-label {
+    @apply text-sm flex items-center;
+}
+
+.news-more {
+    @apply grid lg:grid-cols-4 gap-4;
+}
+
+.news-more-link {
+    @apply hover-bg p-2 text-sm font-display leading-tight;
+}

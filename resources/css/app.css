@@ -17,6 +17,7 @@ has the theme configured here.)
 @import "./_about.css";
 @import "./_contest.css";
 @import "./_donate.css";
+@import "./_news.css";
 
 @plugin 'tailwindcss-animate';
 
@@ -182,6 +183,11 @@ has the theme configured here.)
     @apply font-display font-medium tracking-wide;
 }
 
+@utility hover-bg {
+    @apply hover:bg-indigo-300/20 transition-colors;
+}
+
+
 @layer base {
     * {
         @apply border-border;
@@ -199,6 +205,10 @@ has the theme configured here.)
         @apply bg-background text-foreground;
         @apply font-sans antialiased;
         @apply flex flex-col;
+    }
+
+    hr {
+        @apply bg-muted h-[1] w-4/5 mx-auto my-4;
     }
 
     /* Dashboard tables.
@@ -230,9 +240,6 @@ has the theme configured here.)
     }
 
     /* A standardised hover background colour. */
-    .hover-bg {
-        @apply hover:bg-indigo-300/20;
-    }
 
     .outlined-text {
         @apply text-shadow-md;
