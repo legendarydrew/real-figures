@@ -33,7 +33,9 @@
             </button>
 
             <a href="{{ route('contest') }}">Contest</a>
-            <a href="{{ route('news') }}">News</a>
+            @if(\App\Facades\ContestFacade::shouldShowNews())
+                <a href="{{ route('news') }}">News</a>
+            @endif
             <a href="{{ route('acts') }}">Acts</a>
             <a href="{{ route('rules') }}">Rules</a>
             <a class="donate-link" href="{{ route('donate') }}">Donate!</a>
