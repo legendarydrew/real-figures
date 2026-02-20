@@ -58,41 +58,19 @@
                 @endif
             </nav>
         @endif
+
+        @if (isset($post['pages']['others']) && count($post['pages']['others']))
+            <h2 class="page-subheading">More Contest News</h2>
+            <menu class="news-more">
+                @foreach($post['pages']['others'] as $row)
+                    <a class="news-more-link" href={{$row['url']}}>
+                        {{$row['title']}}
+                    </a>
+                @endforeach
+            </menu>
+        @endif
+
+        @include('front.news.about')
     </article>
 
-    {{--
-        <aside className="lg:w-1/5 flex flex-col gap-5">
-
-            <Advert height={200}/>
-
-                {post.pages?.others?.length && (
-                <menu className="flex flex-col gap-1">
-                    <HeadingSmall title="More press releases"/>
-                    {post.pages?.others.map((row) => (
-                    <Link key={row.url}
-                          className="flex gap-3 hover-bg p-2 text-sm font-display leading-tight"
-                          href={row.url}>
-                    <NewspaperIcon className="w-4 flex-shrink-0"/>
-                    {row.title}
-                    </Link>
-                    ))}
-                </menu>
-                )}
-
-                <div className="text-sm leading-tight">
-                    <HeadingSmall title="About CATAWOL Records"/>
-                    <p>CATAWOL Records is a music label championing bold voices and meaningful messages. We
-                        support artists who use creativity to challenge norms, raise awareness, and connect
-                        through sound.</p>
-                </div>
-
-                <div className="flex flex-row max-h-[8rem] lg:max-h-none lg:flex-col gap-3">
-                    <PlaceholderPattern className="w-[8rem] lg:w-auto flex-shrink-0 stroke-zinc-300"
-                                        title="SilentMode banner"/>
-                    <BrickTherapyLink className="max-h-[8rem] lg:max-h-none lg:flex-shrink-0"/>
-                </div>
-
-        </aside>
---}}
-    </article>
 @endsection

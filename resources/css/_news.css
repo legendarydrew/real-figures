@@ -64,15 +64,15 @@
 }
 
 .news-nav {
-    @apply flex flex-col lg:flex-row gap-3 justify-between;
+    @apply flex flex-col lg:flex-row gap-3 justify-between my-4;
 }
 
 .news-nav-prev {
-    @apply lg:w-2/5 hover-bg p-4 mr-auto flex flex-col lg:justify-end gap-1;
+    @apply lg:w-1/2 hover-bg p-4 mr-auto flex flex-col lg:justify-end gap-1;
 }
 
 .news-nav-next {
-    @apply lg:w-2/5 md:text-right hover-bg p-4 ml-auto flex flex-col lg:justify-end md:items-end gap-1;
+    @apply lg:w-1/2 md:text-right hover-bg p-4 ml-auto flex flex-col lg:justify-end md:items-end gap-1;
 }
 
 .news-nav-title {
@@ -81,4 +81,12 @@
 
 .news-nav-label {
     @apply text-sm flex items-center;
+}
+
+.news-more {
+    @apply grid lg:grid-cols-4 gap-4;
+}
+
+.news-more-link {
+    @apply hover-bg p-2 text-sm font-display leading-tight;
 }
