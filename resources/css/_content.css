@@ -12,7 +12,11 @@
     }
 
     h1, h2, h3 {
-        @apply font-display leading-tight tracking-normal mt-4;
+        @apply font-display leading-tight tracking-normal mt-4 mb-2;
+
+        &:not(:first-child) {
+            @apply mt-8;
+        }
     }
 
     h1 {
@@ -36,11 +40,23 @@
     }
 
     blockquote {
-        @apply m-5;
+        @apply border-l-4 border-secondary p-5 font-display text-lg text-secondary leading-1.5 my-8;
+
+        > p {
+            @apply m-0 lg:max-w-4/5;
+
+            &::before {
+                content: "\201C";
+            }
+
+            &:last-child::after {
+                content: "\201D";
+            }
+        }
     }
 
     p {
-        @apply my-2 leading-normal;
+        @apply mb-2 leading-normal;
     }
 
     ::marker {
@@ -52,11 +68,11 @@
     }
 
     ol {
-        @apply my-4 ml-4 list-decimal;
+        @apply my-4 ml-8 list-decimal;
     }
 
     ul {
-        @apply my-4 ml-4 list-disc;
+        @apply my-4 ml-8 list-disc;
     }
 
 }

@@ -17,6 +17,7 @@ has the theme configured here.)
 @import "./_about.css";
 @import "./_contest.css";
 @import "./_donate.css";
+@import "./_news.css";
 
 @plugin 'tailwindcss-animate';
 
@@ -182,6 +183,11 @@ has the theme configured here.)
     @apply font-display font-medium tracking-wide;
 }
 
+@utility hover-bg {
+    @apply hover:bg-indigo-300/20 transition-colors;
+}
+
+
 @layer base {
     * {
         @apply border-border;
@@ -230,9 +236,6 @@ has the theme configured here.)
     }
 
     /* A standardised hover background colour. */
-    .hover-bg {
-        @apply hover:bg-indigo-300/20;
-    }
 
     .outlined-text {
         @apply text-shadow-md;
