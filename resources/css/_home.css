@@ -1,7 +1,28 @@
 /* HOME page. */
 
 .home-hero {
-    @apply bg-secondary text-white font-bold mb-8 p-8 h-50;
+    @apply bg-secondary text-white text-shadow-md mb-8 h-50;
+
+    .site-container {
+        @apply h-full lg:flex lg:items-end;
+    }
+
+    .home-hero-mic {
+        @apply bg-no-repeat bg-center bg-contain;
+        @apply h-full lg:w-1/4 lg:flex-shrink-0;
+    }
+
+    .home-hero-text {
+        @apply flex-grow p-8;
+
+        h1 {
+            @apply font-display text-4xl mb-2;
+        }
+
+        p {
+            @apply text-sm;
+        }
+    }
 }
 
 .home-grid {

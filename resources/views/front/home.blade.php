@@ -4,7 +4,13 @@
 
     <div class="home-hero">
         <div class="site-container">
-            Site Hero here.
+            <div class="home-hero-mic" style="background-image: url({{ asset('img/microphone.png') }}"></div>
+            <div class="class home-hero-text">
+                <h1>32 Acts. One Anthem.</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur cumque delectus dolores
+                    exercitationem labore maiores mollitia nam numquam obcaecati officia optio perferendis perspiciatis
+                    quam, quas quos reiciendis repudiandae sequi tempora?</p>
+            </div>
         </div>
     </div>
 
