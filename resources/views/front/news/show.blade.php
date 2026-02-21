@@ -30,6 +30,8 @@
             {!! $post['content'] !!}
         </div>
 
+        @include('front.advert')
+
         <div class="content news-enquiries">
             For enquiries, you are welcome to get in touch with us through our <a href="{{ route('contact') }}">Contact
                 page</a>.

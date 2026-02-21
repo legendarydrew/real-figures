@@ -30,7 +30,7 @@
             </p>
         </div>
 
-        <!-- Advert to go here. -->
+        @include('front.advert')
 
         @include('front.collapse', ['title' => 'Terminology', 'icon' => 'fa-solid fa-message', 'content' => 'front.rules.terminology'])
         @include('front.collapse', ['title' => 'Contest Brief', 'icon' => 'fa-solid fa-book', 'content' => 'front.rules.contest-brief'])
@@ -43,5 +43,6 @@
         @include('front.collapse', ['title' => 'Special Situations', 'icon' => 'fa-solid fa-shield', 'content' => 'front.rules.special-situations'])
         @include('front.collapse', ['title' => 'Advice for Visitors', 'content' => 'front.rules.advice-for-visitors'])
 
+        @include('front.advert')
     </div>
 @endsection

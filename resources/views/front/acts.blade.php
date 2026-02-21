@@ -24,6 +24,8 @@
                 No Acts have entered the contest - yet!
             </div>
         @endif
+
+        @include('front.advert')
     </div>
 
 @endsection

@@ -30,5 +30,7 @@
                 {{-- TODO <Pagination results={posts} onPageChange={pageHandler}/>--}}
         </div>
 
+    @include('front.advert')
+
     @include('front.news.about')
 @endsection

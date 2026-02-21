@@ -46,6 +46,8 @@
             @endforeach
         </ul>
 
+        @include('front.advert')
+
         <!-- Table of scores. -->
         <table class="contest-scores">
             <caption>Final Rankings</caption>
@@ -70,16 +72,15 @@
             @endforeach
             </tbody>
         </table>
-    </div>
 
-    <footer class="contest-footer content">
-        <p>Whether your favourite song made it to the top or not, <b>you helped make this contest unforgettable.</b>
-        </p>
-        <p>Your support amplified voices, celebrated creativity, and helped shine a light on an important cause.</p>
-        <p>
-            From everyone at CATAWOL Records &mdash; <b>thank you.</b>
-        </p>
-    </footer>
+        <footer class="contest-footer content">
+            <p>Whether your favourite song made it to the top or not, <b>you helped make this contest unforgettable.</b>
+            </p>
+            <p>Your support amplified voices, celebrated creativity, and helped shine a light on an important cause.</p>
+            <p>
+                From everyone at CATAWOL Records &mdash; <b>thank you.</b>
+            </p>
+        </footer>
     </div>
 @endsection
 

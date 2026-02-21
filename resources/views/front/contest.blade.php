@@ -8,5 +8,9 @@
         </header>
 
         @yield('contest-content')
+
+        <div class="site-container">
+            @include('front.advert')
+        </div>
     </div>
 @endsection

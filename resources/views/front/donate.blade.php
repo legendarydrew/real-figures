@@ -74,6 +74,8 @@
             </ul>
         @endif
 
+        @include('front.advert')
+
     </div>
 
     <dialog id="donate-dialog" class="dialog">
