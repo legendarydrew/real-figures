@@ -250,6 +250,10 @@ has the theme configured here.)
         text-shadow: 0 0 0.25em var(--foreground), -1px -1px 0 var(--foreground), 1px -1px 0 var(--foreground), -1px 1px 0 var(--foreground), 1px 1px 0 var(--foreground);
     }
 
+    .advert {
+        @apply bg-secondary/10 min-h-30 block my-8 text-center;
+    }
+
     .bg-act-image {
         @apply bg-linear-to-bl from-primary to-blue-950;
     }

@@ -117,7 +117,3 @@
 
     }
 }
-
-.home-advert {
-    @apply bg-secondary/10 h-[120px] text-center;
-}

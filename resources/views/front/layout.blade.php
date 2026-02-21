@@ -18,6 +18,8 @@
     @viteReactRefresh
     @vite(['resources/css/app.css', 'resources/js/components.js'])
     <link rel="sitemap" href="{{ route('sitemap') }}" type="application/xml"/>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </head>
 <body>
 <header class="site-header">

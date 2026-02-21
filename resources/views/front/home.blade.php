@@ -43,7 +43,7 @@
                 <a class="home-grid-news" href="{{route('news')}}">
                     <div class="font-display text-2xl">Contest News</div>
                 </a>
-                <div class="home-grid-advert">Advert</div>
+                @include('front.advert', ['class' => 'home-grid-advert'])
             @endif
             <a class="home-grid-songs" href="{{route('contest')}}">
                 <div class="font-display text-2xl">Listen to the Songs</div>
@@ -68,6 +68,6 @@
             </a>
         </div>
 
-        <div class="home-advert">Advert</div>
+        @include('front.advert')
     </div>
 @endsection

@@ -24,6 +24,8 @@
     <div class="site-container">
         {{-- Display each of the rounds in the Stage. --}}
 
+        @include('front.advert')
+
         @foreach ($previous_rounds as $round)
             @include('front.contest.previous-round', ['round' => $round, 'show_title' => count($previous_rounds) > 1])
         @endforeach
@@ -31,6 +33,8 @@
         <div class="px-8 py-4 bg-gold/80">
             <p>It's not too late to support your favourite Acts with a <b>Golden Buzzer!</b></p>
         </div>
+
+        @include('front.advert')
     </div>
 
 @endsection
