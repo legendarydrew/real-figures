@@ -13,4 +13,9 @@
         @apply bg-secondary hover:bg-secondary/90 text-secondary-foreground;
         @apply focus-visible:ring-secondary/20 dark:focus-visible:ring-secondary/40;
     }
+
+    &.gold {
+        @apply bg-gold/60 hover:bg-gold text-gold-foreground text-shadow-sm;
+        @apply focus-visible:ring-gold/40;
+    }
 }

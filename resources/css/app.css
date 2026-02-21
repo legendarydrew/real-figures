@@ -85,6 +85,8 @@ has the theme configured here.)
     --color-sidebar-ring: var(--sidebar-ring);
 
     --color-link: var(--link);
+    --color-gold: var(--color-yellow-500);
+    --color-gold-foreground: var(--color-yellow-100);
 }
 
 /*
