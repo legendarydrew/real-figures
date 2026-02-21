@@ -18,4 +18,8 @@
         @apply bg-gold/60 hover:bg-gold text-gold-foreground text-shadow-sm;
         @apply focus-visible:ring-gold/40;
     }
+
+    &.large {
+        @apply text-xl;
+    }
 }
