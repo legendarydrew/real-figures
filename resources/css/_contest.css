@@ -1,3 +1,7 @@
+@utility contest-panel {
+    @apply bg-secondary/60 text-white p-8 my-8;
+}
+
 .contest {
     @apply bg-cover bg-[#030923] bg-fixed min-h-full text-white text-shadow-sm p-8;
 }
@@ -14,12 +18,8 @@
     }
 }
 
-.contest-footer {
-    @apply text-center my-8;
-}
-
 .contest-scores {
-    @apply my-8 mx-auto;
+    @apply mx-auto text-white;
 
     caption {
         @apply font-display font-normal text-xl my-1;
@@ -37,12 +37,25 @@
         @apply border-b-1 text-sm;
     }
 
-    tbody th {
-        @apply min-w-1/4;
+    tbody {
+        tr {
+            @apply hover-bg;
+        }
+
+        th {
+            @apply min-w-1/4;
+        }
     }
 
     .contest-score-total {
         @apply font-semibold;
     }
+}
 
+.contest-footer {
+    @apply text-center my-8;
+
+    b {
+        @apply text-inherit;
+    }
 }

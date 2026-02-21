@@ -49,29 +49,31 @@
         @include('front.advert')
 
         <!-- Table of scores. -->
-        <table class="contest-scores">
-            <caption>Final Rankings</caption>
-            <thead>
-            <tr>
-                <th scope="col">&nbsp;</th>
-                <th scope="col">Score</th>
-                <th scope="col">1st</th>
-                <th scope="col">2nd</th>
-                <th scope="col">3rd</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($outcomes as $row)
+        <div class="contest-panel">
+            <table class="contest-scores">
+                <caption>Final Rankings</caption>
+                <thead>
                 <tr>
-                    <th scope="row">{{ $row['song']['act']['name'] }}</th>
-                    <td class="contest-score-total">{{ $row['score'] }}</td>
-                    <td>{{ $row['first_votes'] }}</td>
-                    <td>{{ $row['second_votes'] }}</td>
-                    <td>{{ $row['third_votes'] }}</td>
+                    <th scope="col">&nbsp;</th>
+                    <th scope="col">Score</th>
+                    <th scope="col">1st</th>
+                    <th scope="col">2nd</th>
+                    <th scope="col">3rd</th>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                @foreach($outcomes as $row)
+                    <tr>
+                        <th scope="row">{{ $row['song']['act']['name'] }}</th>
+                        <td class="contest-score-total">{{ $row['score'] }}</td>
+                        <td>{{ $row['first_votes'] }}</td>
+                        <td>{{ $row['second_votes'] }}</td>
+                        <td>{{ $row['third_votes'] }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
 
         <footer class="contest-footer content">
             <p>Whether your favourite song made it to the top or not, <b>you helped make this contest unforgettable.</b>
