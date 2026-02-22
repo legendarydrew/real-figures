@@ -8,7 +8,6 @@
          {{--         data-ad-format={format}--}}
          @if (config('services.adsense.testing'))
              data-adtest="on"
-         data-ad-test="on"
          @endif
          data-full-width-responsive=""></ins>
 </div>

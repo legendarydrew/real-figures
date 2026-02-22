@@ -6,11 +6,6 @@
 @section('contest-header')
     <h1>{{ $stage['title'] }}</h1>
     <p>{!! $stage['description'] !!}</p>
-    @if(isset($stage['goldenBuzzerPerks']))
-        <div class="px-8 py-2 text-sm bg-gold/80">
-            <p><b>Awarding a Golden Buzzer:</b> {{ $stage['goldenBuzzerPerks'] }}</p>
-        </div>
-    @endif
 @endsection
 
 @section('contest-content')
@@ -19,11 +14,9 @@
 
         @if($current_round)
             {{-- The current round. --}}
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-y-0 my-8">
-                <div class="col-span-1 md:col-span-3 col-start-1 row-start-1 text-center md:text-left">
-                    <h2 class="page-subheading">{{ $current_round['full_title'] }}
-                </div>
-                <div class="col-span-1 text-center col-start-1 md:col-start-4 row-start-2 md:row-start-1 md:row-span-2">
+            <div class="flex justify-between my-4">
+                <h2 class="page-subheading">{{ $current_round['full_title'] }}</h2>
+                <div class="flex flex-end items-center gap-2">
                     <span class="text-sm">Voting ends in</span>
                     <countdown timestamp="{{$countdown}}"></countdown>
                 </div>
@@ -31,7 +24,7 @@
         @endif
 
         {{-- The Acts and their songs. --}}
-        <ul class="grid gap-4 grid-cols-2 md:grid-cols-4 select-none mb-8">
+        <ul class="grid gap-2 grid-cols-2 md:grid-cols-4 select-none mb-8">
             @foreach($current_round['songs'] as $song)
                 <li class="leading-none">
                     <button type="button"
@@ -40,7 +33,8 @@
                         <div class="p-3 lg:p-5 absolute bottom-0 w-full">
                             <div class="text-lg font-semibold leading-tight">{{ $song['act']['name'] }}</div>
                             <div class="flex items-center truncate gap-2 text-sm font-semibold leading-tight">
-                                {{--                            <LanguageFlag languageCode={song.language}/>--}}
+                                <span class="flag:{{ strtoupper($song['language']['flag']) }}"
+                                      title="{{ $song['language']['name'] }}"></span>
                                 {{ $song['title'] }}
                             </div>
                         </div>
@@ -64,9 +58,14 @@
             @endforeach
         @endif
 
-        <div class="px-8 py-4 bg-gold/80">
+        <div class="golden-buzzer-prompt">
             <p><b>Don't forget:</b> you can support your favourite Acts with a <b>Golden Buzzer</b>,
                 and reward them with <em>the same honours as the winners</em>.</p>
+            @if(isset($stage['goldenBuzzerPerks']))
+                <div class="golden-buzzer-perks">
+                    {!! $stage['goldenBuzzerPerks'] !!}
+                </div>
+            @endif
         </div>
     </div>
 

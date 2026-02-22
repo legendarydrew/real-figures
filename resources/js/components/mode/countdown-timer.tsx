@@ -102,13 +102,13 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
                 </>
             ) : (
                 <>
-                    <span className={`w-6 ${smallWarningClasses()}`}>{formatDigits(counter.days)}</span>
+                    <span className={`w-7 ${smallWarningClasses()}`}>{formatDigits(counter.days)}</span>
                     <span>:</span>
-                    <span className={`w-6 ${smallWarningClasses()}`}>{formatDigits(counter.hours)}</span>
+                    <span className={`w-7 ${smallWarningClasses()}`}>{formatDigits(counter.hours)}</span>
                     <span>:</span>
-                    <span className={`w-6 ${smallWarningClasses()}`}>{formatDigits(counter.mins)}</span>
+                    <span className={`w-7 ${smallWarningClasses()}`}>{formatDigits(counter.mins)}</span>
                     <span>:</span>
-                    <span className={`w-6 ${smallWarningClasses()}`}>{formatDigits(counter.secs)}</span>
+                    <span className={`w-7 ${smallWarningClasses()}`}>{formatDigits(counter.secs)}</span>
                 </>
             )}
         </div>

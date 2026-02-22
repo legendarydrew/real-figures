@@ -31,3 +31,4 @@ tags = document.getElementsByTagName("contact-form");
 for (const element: HTMLElement of tags) {
     createRoot(element).render(<ContactForm/>);
 }
+

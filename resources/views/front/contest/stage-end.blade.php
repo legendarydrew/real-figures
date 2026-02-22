@@ -26,8 +26,13 @@
             @include('front.contest.previous-round', ['round' => $round, 'show_title' => count($previous_rounds) > 1])
         @endforeach
 
-        <div class="px-8 py-4 bg-gold/80">
+            <div class="golden-buzzer-prompt">
             <p>It's not too late to support your favourite Acts with a <b>Golden Buzzer!</b></p>
+                @if(isset($stage['goldenBuzzerPerks']))
+                    <div class="golden-buzzer-perks">
+                        {!! $stage['goldenBuzzerPerks'] !!}
+                    </div>
+                @endif
         </div>
     </div>
 
