@@ -14,8 +14,8 @@
         <h1 class="page-heading">Real Figures Don't F.O.L.D &mdash; About the Project</h1>
 
         <div class="about-intro content">
-            <p class="content-intro">
-                <b>Real Figures Don't F.O.L.D combines SilentMode's interest in LEGO</b> with music,
+            <p class="content-intro text-center">
+                <b>Real Figures Don't F.O.L.D combines SilentMode's interest in LEGO</b> with music,<br>
                 "artificial intelligence", web development and advocacy.
             </p>
 
@@ -52,6 +52,7 @@
         @include('front.collapse', ['title' => 'About the Song', 'content' => 'front.about.song'])
         @include('front.collapse', ['title' => 'What is F.O.L.D?', 'content' => 'front.about.fold'])
         @include('front.collapse', ['title' => 'Who is SilentMode?', 'content' => 'front.about.silentmode'])
+        @include('front.collapse', ['title' => 'Credits', 'content' => 'front.about.credits'])
 
         @include('front.advert')
     </div>
