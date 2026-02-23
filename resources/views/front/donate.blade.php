@@ -8,7 +8,8 @@
     <div class="site-container my-8">
 
         <div class="page-banner">
-            page banner
+            <img src="{{ asset('img/banners/donate-2.jpg') }}"
+                 alt="Minifigures being presented with a large cheque in a public setting.">
         </div>
 
         <h1 class="page-heading">Your Donations</h1>
