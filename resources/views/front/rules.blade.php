@@ -10,8 +10,8 @@
     <div class="site-container my-8">
 
         <div class="page-banner">
-            <img class="object-cover h-50 mx-auto" src="{{ asset('img/panel-of-judges-ai.jpg') }}"
-                 alt="A representative panel of judges for the song contest."/>
+            <img src="{{ asset('img/banners/rules-5.jpg') }}"
+                 alt="A representative panel of judges for the song contest.">
         </div>
 
         <h1 class="page-heading">Real Figures Don't F.O.L.D &ndash; Contest Rules</h1>

@@ -9,7 +9,9 @@
 
 @section('content')
     <div class="site-container my-8">
-        <div class="page-banner">Page banner</div>
+        <div class="page-banner">
+            <img src="{{ asset('img/banners/contact-2.jpg') }}" alt="Minifigures reading and handling fanmail.">
+        </div>
 
         <h1 class="page-heading">Contact Us</h1>
 

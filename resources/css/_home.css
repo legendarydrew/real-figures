@@ -1,23 +1,20 @@
 /* HOME page. */
 
 .home-hero {
-    @apply bg-secondary text-white text-shadow-md mb-8 h-1 h-70;
+    @apply bg-secondary bg-cover bg-left text-white text-shadow-md mb-8 h-1 h-70;
+    @apply bg-[url('../../public/img/banners/hero-1.jpg')];
 
     &.contest-over {
         @apply h-50;
+        @apply bg-[url('../../public/img/banners/hero-3.jpg')];
     }
 
     .site-container {
-        @apply h-full lg:flex lg:items-end;
-    }
-
-    .home-hero-mic {
-        @apply bg-no-repeat bg-bottom bg-contain;
-        @apply h-full lg:w-1/4 lg:flex-shrink-0;
+        @apply h-full lg:flex lg:items-end lg:justify-end;
     }
 
     .home-hero-content {
-        @apply flex-grow p-8;
+        @apply p-8 w-3/4 lg:self-end;
     }
 
     .home-hero-text {

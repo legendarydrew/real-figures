@@ -6,7 +6,6 @@
 
     <div class="home-hero{{\App\Facades\ContestFacade::isOver() ? ' contest-over' : ''}}">
         <div class="site-container">
-            <div class="home-hero-mic" style="background-image: url({{ asset('img/microphone.png') }}"></div>
             <div class="home-hero-content">
                 <div class="home-hero-text">
                     <h1>32 Acts. One Anthem.</h1>
@@ -34,7 +33,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <div class="site-container">
