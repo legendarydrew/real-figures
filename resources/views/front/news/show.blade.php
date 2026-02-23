@@ -15,7 +15,9 @@
 
     <article class="site-container news-post">
 
-        <div class="page-banner">Page banner</div>
+        <div class="page-banner">
+            <img src="{{ asset('img/banners/news-7.jpg') }}" alt="A news reporter at her desk.">
+        </div>
 
         <header class="news-post-header">
             <h1 class="news-post-heading">{{$post['title']}}</h1>

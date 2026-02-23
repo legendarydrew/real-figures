@@ -7,7 +7,9 @@
 
     <div class="site-container my-8">
 
-        <div class="page-banner">Page banner</div>
+        <div class="page-banner">
+            <img src="{{ asset('img/banners/news-7.jpg') }}" alt="A news reporter at her desk.">
+        </div>
 
         <h1 class="page-heading">Contest News</h1>
 
