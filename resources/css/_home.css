@@ -48,6 +48,7 @@
     @apply grid grid-cols-1 xl:grid-cols-4 gap-2 mb-8;
 
     .home-grid-news {
+        @apply bg-[url('../../public/img/banners/news-7.jpg')] bg-center bg-cover bg-blend-hard-light;
         @apply col-span-2 row-span-2 bg-black/80 hover:bg-black transition-colors p-4;
         @apply leading-tight text-white text-shadow-sm;
         @apply flex flex-col justify-end;
@@ -58,6 +59,7 @@
     }
 
     .home-grid-songs {
+        @apply bg-[url('../../public/img/bg-stage.jpg')] bg-center bg-cover bg-blend-multiply;
         @apply col-span-2 row-span-4 bg-primary/80 hover:bg-primary transition-colors p-4;
         @apply col-start-1 row-start-1;
         @apply leading-tight text-white text-shadow-sm;
@@ -72,6 +74,7 @@
     }
 
     .home-grid-rules {
+        @apply bg-[url('../../public/img/banners/rules-5.jpg')] bg-center bg-cover bg-blend-multiply;
         @apply col-span-2 row-span-3 bg-zinc-500 hover:bg-zinc-700 transition-colors p-4;
         @apply col-start-1 row-start-5;
         @apply leading-tight text-white text-shadow-sm;
@@ -86,6 +89,7 @@
     }
 
     .home-grid-about {
+        @apply bg-[url('../../public/img/banners/about-2.jpg')] bg-center bg-cover bg-blend-multiply;
         @apply col-span-1 row-span-4 bg-slate-400 hover:bg-slate-600 transition-colors p-2;
         @apply col-start-4;
         @apply leading-tight text-white text-shadow-sm;
@@ -93,7 +97,8 @@
     }
 
     .home-grid-donor {
-        @apply col-span-1 row-span-2 bg-green-400 hover:bg-green-600 transition-colors p-2 min-h-30;
+        @apply bg-[url('../../public/img/banners/donate-2.jpg')] bg-center bg-cover bg-blend-multiply;
+        @apply col-span-1 row-span-2 bg-green-600 hover:bg-green-700 transition-colors p-2 min-h-30;
         @apply col-start-3;
         @apply leading-tight text-white text-shadow-sm;
         @apply flex flex-col justify-end;
