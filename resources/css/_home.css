@@ -2,11 +2,11 @@
 
 .home-hero {
     @apply bg-secondary bg-cover bg-left text-white text-shadow-md mb-8 h-1 h-70;
-    @apply bg-[url('../img/banners/hero-1.jpg')];
+    @apply bg-[url('../../public/img/banners/hero-1.jpg')];
 
     &.contest-over {
         @apply h-50;
-        @apply bg-[url('../img/banners/hero-3.jpg')];
+        @apply bg-[url('../../public/img/banners/hero-3.jpg')];
     }
 
     .site-container {

@@ -5,7 +5,7 @@ import { DonateDialog } from '@/components/front/donate-dialog';
 import ContactForm from '@/components/contact-form';
 
 import.meta.glob([
-    '../img/**'
+    '../../public/img/**'
 ]);
 
 let tags;
