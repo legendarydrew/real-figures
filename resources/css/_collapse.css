@@ -17,6 +17,7 @@
     }
 
     .content-collapse-body {
-        @apply py-4;
+        @apply pb-4 lg:pt-4;
+        @apply px-4 lg:px-0;
     }
 }
