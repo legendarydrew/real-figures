@@ -6,6 +6,7 @@ import { VoteIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { SongBanner } from '@/components/mode/song-banner';
+import { cn } from '@/lib/utils';
 
 interface RoundVoteDialogProps {
     round: Round;
@@ -96,7 +97,7 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
         <>
             <p>Vote for your three favourite Songs in this Round, in the order that you like them.</p>
 
-            <div className="my-8 max-h-[60dvh] overflow-y-auto">
+            <div className="my-8 max-h-[60dvh] flex flex-col gap-y-1 overflow-y-auto">
                 {round.songs.map((song) => (
                     <div key={song.id}
                          className="flex gap-[2px] items-center hover:bg-secondary/40 select-none pr-2">
@@ -104,7 +105,7 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
                         {votePositions.map((position) => (
                             <Button key={`${song.id}-${position.key}`}
                                     variant={isChecked(song, position.key) ? 'checked' : 'default'}
-                                    className={`w-20 rounded-none text-center p-2 ${hasError(position.key) ? ' border-red-500' : ''}`}
+                                    className={cn('w-20 rounded-none text-center p-2', hasError(position.key) ? 'ring-2 ring-red-500 text-red-500' : '')}
                                     aria-label={`${position.key} place`}
                                     disabled={successful}
                                     onClick={() => setVoteHandler(song, position.key)}>

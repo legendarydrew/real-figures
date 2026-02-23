@@ -2,7 +2,7 @@
     @apply display-text;
     @apply enabled:cursor-pointer rounded-xs shadow-xs focus-visible:ring-muted/20 dark:focus-visible:ring-muted/40;
     @apply bg-muted hover:bg-muted/90 text-muted-foreground;
-    @apply flex justify-center items-center px-8 py-3;
+    @apply flex gap-2 justify-center items-center px-8 py-3;
 
     &.primary {
         @apply bg-primary hover:bg-primary/90 text-primary-foreground;

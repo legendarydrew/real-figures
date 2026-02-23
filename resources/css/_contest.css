@@ -61,5 +61,5 @@
 }
 
 #vote-dialog {
-    @apply bg-dark text-white w-3xl;
+    @apply bg-dark text-white w-full max-w-3xl;
 }

@@ -77,7 +77,7 @@
             <i class="fa-solid fa-close"></i>
         </button>
         <h2 class="dialog-title">
-            Cast your Vote for <span class="text-muted-foreground">{{ $current_round['full_title'] }}</span>...
+            Cast your Vote for <span class="text-primary">{{ $current_round['full_title'] }}</span>...
         </h2>
         <vote-dialog round="{{ json_encode($current_round) }}"></vote-dialog>
     </dialog>
