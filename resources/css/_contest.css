@@ -59,3 +59,7 @@
         @apply text-inherit;
     }
 }
+
+#vote-dialog {
+    @apply bg-dark text-white w-3xl;
+}

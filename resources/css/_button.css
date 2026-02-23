@@ -1,8 +1,8 @@
 @utility button {
     @apply display-text;
-    @apply enabled:cursor-pointer rounded-sm shadow-xs focus-visible:ring-muted/20 dark:focus-visible:ring-muted/40;
+    @apply enabled:cursor-pointer rounded-xs shadow-xs focus-visible:ring-muted/20 dark:focus-visible:ring-muted/40;
     @apply bg-muted hover:bg-muted/90 text-muted-foreground;
-    @apply px-8 py-3;
+    @apply flex justify-center items-center px-8 py-3;
 
     &.primary {
         @apply bg-primary hover:bg-primary/90 text-primary-foreground;
@@ -19,7 +19,15 @@
         @apply focus-visible:ring-gold/40;
     }
 
+    &.small {
+        @apply h-8 rounded-md px-3 has-[>svg]:px-2.5;
+    }
+
     &.large {
         @apply text-xl;
+    }
+
+    &.icon {
+        @apply aspect-square;
     }
 }

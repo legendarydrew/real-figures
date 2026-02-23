@@ -38,10 +38,10 @@ const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
                 {...props}
             >
                 {isLoading && (
-                    <Loader2 className="absolute h-5 w-5 animate-spin"/>
+                    <Loader2 className="absolute size-6 animate-spin"/>
                 )}
                 <Slottable>
-                    <span className={isLoading ? 'invisible px-1' : 'flex gap-2 items-center'}>{children}</span>
+                    <span className={isLoading ? 'flex invisible px-1' : 'flex gap-2 items-center'}>{children}</span>
                 </Slottable>
             </Comp>
         );
