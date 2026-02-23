@@ -9,7 +9,9 @@
 
     <div class="site-container my-8">
 
-        <div class="page-banner">Page banner</div>
+        <div class="page-banner">
+            <img src="{{ asset('img/banners/about-2.jpg') }}" alt="An ensemble of musicians, singers and performers.">
+        </div>
 
         <h1 class="page-heading">Real Figures Don't F.O.L.D &mdash; About the Project</h1>
 

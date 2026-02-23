@@ -1,5 +1,9 @@
 .page-banner {
-    @apply bg-secondary/50 h-50 mb-2;
+    @apply bg-secondary/50 h-50 mb-2 overflow-hidden;
+
+    img {
+        @apply object-cover;
+    }
 }
 
 .page-heading {
