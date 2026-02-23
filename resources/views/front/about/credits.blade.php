@@ -39,29 +39,34 @@
             <dl class="text-sm md:grid grid-cols-2 gap-x-2 gap-y-1">
                 <dt class="font-semibold col-span-1">Song creation</dt>
                 <dd class="col-span-1">
-                    <a href="https://udio.com" class="hover:underline" target="_blank">Udio</a>
+                    <a href="https://udio.com" class="hover:underline" rel="external" target="_blank">Udio</a>
                     {{--                /--}}
-                    {{--                <a href="https://suno.com/invite/@headdy470" class="hover:underline" target="_blank">Suno</a>--}}
+                    {{--                <a href="https://suno.com/invite/@headdy470" class="hover:underline" rel="external" target="_blank">Suno</a>--}}
                 </dd>
                 <dt class="font-semibold col-span-1">Lyric translations</dt>
                 <dd class="col-span-1">
-                    <a href="https://generatelyrics.io/" class="hover:underline" target="_blank">Generate Lyrics</a>
+                    <a href="https://generatelyrics.io/" class="hover:underline" rel="external" target="_blank">Generate
+                        Lyrics</a>
                 </dd>
                 <dt class="font-semibold col-span-1">
-                    Act designs (inspiration)<br/>
-                    Background images
+                    Imagery
                 </dt>
                 <dd class="col-span-1">
-                    <a href="https://www.imagine.art/" class="hover:underline" target="_blank">ImagineArt</a>
+                    <a href="https://www.imagine.art/" class="hover:underline" rel="external"
+                       target="_blank">ImagineArt</a> /
+                    <a href="https://grok.com/imagine" class="hover:underline" rel="external" target="_blank">Grok</a>
                 </dd>
                 <dt class="font-semibold col-span-1">Content aid</dt>
                 <dd class="col-span-1">
-                    <a href="https://chat.openai.com/" class="hover:underline" target="_blank">ChatGPT</a> /
-                    <a href="https://grammarly.com/" class="hover:underline" target="_blank">Grammarly</a>
+                    <a href="https://chat.openai.com/" class="hover:underline" rel="external"
+                       target="_blank">ChatGPT</a> /
+                    <a href="https://grammarly.com/" class="hover:underline" rel="external"
+                       target="_blank">Grammarly</a>
                 </dd>
                 <dt class="font-semibold col-span-1">Coding aid</dt>
                 <dd class="col-span-1">
-                    <a href="https://chat.openai.com/" class="hover:underline" target="_blank">ChatGPT</a>
+                    <a href="https://chat.openai.com/" class="hover:underline" rel="external"
+                       target="_blank">ChatGPT</a>
                 </dd>
             </dl>
         </div>
@@ -77,7 +82,7 @@
         Designed and developed by Perfect Zero Labs. <a
             class="font-semibold hover:underline"
             href="https://www.youtube.com/watch?v=4paaA69PFPk"
-            target="_blank">#givecredit</a>
+            rel="external" target="_blank">#givecredit</a>
     </div>
 
 </div>
