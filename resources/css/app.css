@@ -192,7 +192,7 @@ has the theme configured here.)
 
 @layer base {
     * {
-        @apply border-border;
+        @apply border-border transition-colors;
     }
 
     ::selection {

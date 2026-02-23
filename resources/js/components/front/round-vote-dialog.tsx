@@ -1,35 +1,25 @@
 import { Round, Song } from '@/types';
-import { useDialog } from '@/context/dialog-context';
 import React, { useEffect, useState } from 'react';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from '@/components/ui/dialog';
 import { Alert } from '@/components/mode/alert';
 import { LoadingButton } from '@/components/mode/loading-button';
 import { VoteIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
-import { useAnalytics } from '@/hooks/use-analytics';
 import { SongBanner } from '@/components/mode/song-banner';
+import { cn } from '@/lib/utils';
 
 interface RoundVoteDialogProps {
     round: Round;
 }
-
-export const ROUND_VOTE_DIALOG_NAME = 'round-vote';
 
 /**
  * ROUND VOTE DIALOG component
  * This component presents a dialog for allowing the user to vote on the specified Round.
  * There won't be a limit on the number of times a user can vote on a Round,
  * but they should only be able to do so once at a time.
- * Voting should be disallowed if the Round is not active (before the start time and after
- * the end time).
+ * Voting should be disallowed if the Round is not active (before the start time and after the end time).
  */
 export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
-
-    const { openDialogName, closeDialog } = useDialog();
-    const { trackEvent } = useAnalytics();
-
-    const isOpen = openDialogName === ROUND_VOTE_DIALOG_NAME;
 
     const votePositions = [
         { key: 'first', ordinal: '1st' },
@@ -43,13 +33,11 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
     const [successful, setSuccessful] = useState<boolean>(false);
 
     useEffect(() => {
-        if (isOpen) {
-            // Reset the votes.
-            setUserVotes({});
-            setSuccessful(false);
-            setErrors({});
-        }
-    }, [isOpen]);
+        // Reset the votes.
+        setUserVotes({});
+        setSuccessful(false);
+        setErrors({});
+    }, []);
 
     const isChecked = (song: Song, position: string): boolean => {
         return userVotes[position] === song.id;
@@ -93,10 +81,9 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
         });
 
         setIsVoting(true);
-        axios.post(route('vote'), payload)
+        axios.post('/api/vote', payload)
             .then(() => {
                 setSuccessful(true);
-                trackEvent({ category: 'Round', action: 'Vote', label: round.full_title, nonInteraction: false });
             })
             .catch((error: AxiosError) => {
                 setErrors(error.response.data.errors);
@@ -107,49 +94,43 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={closeDialog}>
-            <DialogContent className="lg:max-w-3xl">
-                <DialogTitle>Cast your Vote for <span
-                    className="text-muted-foreground">{round.full_title}</span>!</DialogTitle>
-                <DialogDescription>
-                    Vote for your three favourite Songs in this Round...
-                </DialogDescription>
+        <>
+            <p>Vote for your three favourite Songs in this Round, in the order that you like them.</p>
 
-                <div className="my-1 max-h-[60dvh] overflow-y-auto">
-                    {round.songs.map((song) => (
-                        <div key={song.id}
-                             className="flex items-center hover:bg-zinc-200 select-none pr-2">
-                            <SongBanner className="flex-grow" song={song}/>
-                            {votePositions.map((position) => (
-                                <Button key={`${song.id}-${position.key}`}
-                                        variant={isChecked(song, position.key) ? 'checked' : 'outline'}
-                                        className={`w-20 text-center p-2 ${hasError(position.key) ? ' border-red-500' : ''}`}
-                                        aria-label={`${position.key} place`}
-                                        disabled={successful}
-                                        onClick={() => setVoteHandler(song, position.key)}>
-                                    {position.ordinal}
-                                </Button>
-                            ))}
-                        </div>
-                    ))}
-                </div>
-                {hasErrors() ? (
-                    <Alert type="error" className="my-0"
-                           message="Something went wrong with casting your vote, please try again."/>
-                ) : ''}
+            <div className="my-8 max-h-[60dvh] flex flex-col gap-y-1 overflow-y-auto">
+                {round.songs.map((song) => (
+                    <div key={song.id}
+                         className="flex gap-[2px] items-center hover:bg-secondary/40 select-none pr-2">
+                        <SongBanner className="flex-grow" song={song}/>
+                        {votePositions.map((position) => (
+                            <Button key={`${song.id}-${position.key}`}
+                                    variant={isChecked(song, position.key) ? 'checked' : 'default'}
+                                    className={cn('w-20 rounded-none text-center p-2', hasError(position.key) ? 'ring-2 ring-red-500 text-red-500' : '')}
+                                    aria-label={`${position.key} place`}
+                                    disabled={successful}
+                                    onClick={() => setVoteHandler(song, position.key)}>
+                                {position.ordinal}
+                            </Button>
+                        ))}
+                    </div>
+                ))}
+            </div>
 
-                {successful ? (
-                    <Alert type="success" message="Your vote has been cast! Thank you!"/>
-                ) : (
-                    <DialogFooter>
-                        <LoadingButton size="lg" type="button" className="w-full text-base" isLoading={isVoting}
-                                       onClick={castVoteHandler}>
-                            <VoteIcon/> Cast Vote
-                        </LoadingButton>
-                    </DialogFooter>
-                )}
+            {hasErrors() ? (
+                <Alert type="error" className="-mt-4"
+                       message="Something went wrong with casting your vote, please try again."/>
+            ) : ''}
 
-            </DialogContent>
-        </Dialog>
+            {successful ? (
+                <Alert type="success" message="Your vote has been cast! Thank you!"/>
+            ) : (
+
+                <LoadingButton variant="primary" size="lg" type="button" className="w-full text-base"
+                               isLoading={isVoting}
+                               onClick={castVoteHandler}>
+                    <VoteIcon/> Cast Vote
+                </LoadingButton>
+            )}
+        </>
     )
 };

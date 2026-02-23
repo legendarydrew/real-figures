@@ -3,6 +3,7 @@ import { CountdownTimer } from '@/components/mode/countdown-timer';
 import { SubscribeForm } from '@/components/front/subscribe-form';
 import { DonateDialog } from '@/components/front/donate-dialog';
 import ContactForm from '@/components/contact-form';
+import { RoundVoteDialog } from '@/components/front/round-vote-dialog';
 
 import.meta.glob([
     '../../public/img/**'
@@ -36,3 +37,9 @@ for (const element: HTMLElement of tags) {
     createRoot(element).render(<ContactForm/>);
 }
 
+// Vote dialog.
+tags = document.getElementsByTagName("vote-dialog");
+for (const element: HTMLElement of tags) {
+    const round = element.attributes.getNamedItem('round').value;
+    createRoot(element).render(<RoundVoteDialog round={JSON.parse(round)}/>);
+}

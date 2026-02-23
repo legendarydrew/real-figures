@@ -47,7 +47,9 @@
         </ul>
 
         {{-- A big button for casting a vote. --}}
-        <button type="button" class="button large w-full my-4">Cast your Vote...</button>
+            <button type="button" class="button large w-full my-4"
+                    command="show-modal" commandfor="vote-dialog" aria-controls="vote-dialog">Cast your Vote...
+            </button>
 
         @if(count($previous_rounds))
             @include('front.advert')
@@ -68,5 +70,16 @@
             @endif
         </div>
     </div>
+
+    <dialog id="vote-dialog" class="dialog">
+        <button class="dialog-close" command="close" commandfor="vote-dialog" aria-controls="vote-dialog"
+                title="Close">
+            <i class="fa-solid fa-close"></i>
+        </button>
+        <h2 class="dialog-title">
+            Cast your Vote for <span class="text-primary">{{ $current_round['full_title'] }}</span>...
+        </h2>
+        <vote-dialog round="{{ json_encode($current_round) }}"></vote-dialog>
+    </dialog>
 
 @endsection
