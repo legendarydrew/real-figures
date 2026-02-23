@@ -27,6 +27,7 @@
         @endforeach
 
             <div class="golden-buzzer-prompt">
+                <div class="inner"></div>
             <p>It's not too late to support your favourite Acts with a <b>Golden Buzzer!</b></p>
                 @if(isset($stage['goldenBuzzerPerks']))
                     <div class="golden-buzzer-perks">

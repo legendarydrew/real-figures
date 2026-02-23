@@ -48,6 +48,7 @@
                 <div class="font-bold">and vote for your favourites!</div>
             </a>
             <div class="home-grid-buzzer">
+                <div class="inner"></div>
                 <div class="font-display text-2xl">Golden Buzzer</div>
                 <div class="font-bold">Support your favourite Acts and Songs!</div>
             </div>

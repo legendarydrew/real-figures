@@ -258,7 +258,20 @@ has the theme configured here.)
     }
 
     .golden-buzzer-prompt {
-        @apply px-8 py-4 bg-gold/80 text-center;
+        @apply bg-linear-to-r from-yellow-700 to-yellow-500;
+        @apply relative pl-8 pr-[25%] py-4 text-center z-1;
+
+        .inner {
+            /* Background image with a gradual fade out - thanks to ChatGPT. */
+            @apply bg-[url('../../public/img/banners/golden-buzzer-4.jpg')] bg-no-repeat bg-right bg-contain bg-blend-multiply;
+            @apply [mask-image:linear-gradient(to_left, black_50%, transparent_75%)];
+            @apply [-webkit-mask-image:linear-gradient(to_left, black_50%, transparent_75%)];
+            @apply [mask-size:100%_100%];
+            @apply [mask-repeat:no-repeat];
+            @apply [-webkit-mask-size:100%_100%];
+            @apply [-webkit-mask-repeat:no-repeat];
+            @apply absolute h-full aspect-[2] top-0 right-0 -z-1;
+        }
 
         .golden-buzzer-perks {
             @apply italic text-sm mt-2 leading-tight;

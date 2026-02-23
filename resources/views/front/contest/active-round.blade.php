@@ -61,6 +61,7 @@
         @endif
 
         <div class="golden-buzzer-prompt">
+            <div class="inner"></div>
             <p><b>Don't forget:</b> you can support your favourite Acts with a <b>Golden Buzzer</b>,
                 and reward them with <em>the same honours as the winners</em>.</p>
             @if(isset($stage['goldenBuzzerPerks']))

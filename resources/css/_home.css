@@ -67,10 +67,24 @@
     }
 
     .home-grid-buzzer {
-        @apply col-span-2 row-span-3 bg-yellow-500 hover:bg-yellow-600 transition-colors p-4;
+        @apply bg-linear-to-r from-yellow-700 to-yellow-500;
+        @apply col-span-2 row-span-3;
         @apply col-start-3 row-start-1;
-        @apply leading-tight text-white text-shadow-sm;
         @apply flex flex-col justify-end;
+        @apply leading-tight text-white text-shadow-sm;
+        @apply p-4 relative z-1;
+
+        .inner {
+            /* Background image with a gradual fade out - thanks to ChatGPT. */
+            @apply bg-[url('../../public/img/banners/golden-buzzer-4.jpg')] bg-no-repeat bg-right bg-contain bg-blend-multiply;
+            @apply [mask-image:linear-gradient(to_left, black_15%, transparent_28%)];
+            @apply [-webkit-mask-image:linear-gradient(to_left, black_15%, transparent_28%)];
+            @apply [mask-size:100%_100%];
+            @apply [mask-repeat:no-repeat];
+            @apply [-webkit-mask-size:100%_100%];
+            @apply [-webkit-mask-repeat:no-repeat];
+            @apply absolute size-full left-0 top-0 -z-1;
+        }
     }
 
     .home-grid-rules {
