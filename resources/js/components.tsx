@@ -4,6 +4,10 @@ import { SubscribeForm } from '@/components/front/subscribe-form';
 import { DonateDialog } from '@/components/front/donate-dialog';
 import ContactForm from '@/components/contact-form';
 
+import.meta.glob([
+    '../img/**'
+]);
+
 let tags;
 
 // Countdown.
