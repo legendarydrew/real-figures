@@ -50,7 +50,7 @@
     .home-grid-news {
         @apply bg-[url('../../public/img/banners/news-7.jpg')] bg-center bg-cover bg-blend-hard-light;
         @apply col-span-2 row-span-2 bg-black/80 hover:bg-black transition-colors p-4;
-        @apply leading-tight text-white text-shadow-sm;
+        @apply leading-tight text-white text-shadow-md;
         @apply flex flex-col justify-end;
     }
 
@@ -62,7 +62,7 @@
         @apply bg-[url('../../public/img/bg-stage.jpg')] bg-center bg-cover bg-blend-multiply;
         @apply col-span-2 row-span-4 bg-primary/80 hover:bg-primary transition-colors p-4;
         @apply col-start-1 row-start-1;
-        @apply leading-tight text-white text-shadow-sm;
+        @apply leading-tight text-white text-shadow-md;
         @apply flex flex-col justify-end;
     }
 
@@ -71,13 +71,13 @@
         @apply col-span-2 row-span-3;
         @apply col-start-3 row-start-1;
         @apply flex flex-col justify-end;
-        @apply leading-tight text-white text-shadow-sm;
+        @apply leading-tight text-white text-shadow-md;
         @apply p-4 relative z-1;
 
         .inner {
             /* Background image with a gradual fade out - thanks to ChatGPT. */
             @apply bg-[url('../../public/img/banners/golden-buzzer-4.jpg')] bg-no-repeat bg-right bg-contain bg-blend-multiply;
-            @apply mask-linear-[to_left, black_15%, transparent_28%];
+            @apply mask-linear-[to_left,black_15%,transparent_28%];
             /* no spaces! */
             @apply mask-no-repeat;
             @apply absolute size-full left-0 top-0 -z-1;
@@ -88,14 +88,15 @@
         @apply bg-[url('../../public/img/banners/rules-5.jpg')] bg-center bg-cover bg-blend-multiply;
         @apply col-span-2 row-span-3 bg-zinc-500 hover:bg-zinc-700 transition-colors p-4;
         @apply col-start-1 row-start-5;
-        @apply leading-tight text-white text-shadow-sm;
+        @apply leading-tight text-white text-shadow-md;
         @apply flex flex-col justify-end;
     }
 
     .home-grid-youtube {
+        @apply bg-[url('../../public/img/banners/youtube-1.jpg')] bg-center bg-cover bg-blend-hard-light;
         @apply col-span-1 row-span-2 bg-red-400 hover:bg-red-600 transition-colors p-2 min-h-30;
         @apply col-start-3;
-        @apply leading-tight text-white text-shadow-sm;
+        @apply leading-tight text-white text-shadow-md;
         @apply flex flex-col justify-end;
     }
 
@@ -103,7 +104,7 @@
         @apply bg-[url('../../public/img/banners/about-2.jpg')] bg-center bg-cover bg-blend-multiply;
         @apply col-span-1 row-span-4 bg-slate-400 hover:bg-slate-600 transition-colors p-2;
         @apply col-start-4;
-        @apply leading-tight text-white text-shadow-sm;
+        @apply leading-tight text-white text-shadow-md;
         @apply flex flex-col justify-end;
     }
 
@@ -111,7 +112,7 @@
         @apply bg-[url('../../public/img/banners/donate-2.jpg')] bg-center bg-cover bg-blend-multiply;
         @apply col-span-1 row-span-2 bg-green-600 hover:bg-green-700 transition-colors p-2 min-h-30;
         @apply col-start-3;
-        @apply leading-tight text-white text-shadow-sm;
+        @apply leading-tight text-white text-shadow-md;
         @apply flex flex-col justify-end;
     }
 
