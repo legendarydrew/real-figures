@@ -1,7 +1,5 @@
 <div class="md:px-8">
-    <div class="page-banner">
-        <img src="{{ asset('img/banners/credits-1.jpg') }}" alt="An empty stage after a music performance.">
-    </div>
+    <img src="{{ asset('img/banners/credits-1.jpg') }}" alt="An empty stage after a music performance.">
 
     <div class="content text-center">
         <h2>CATAWOL Records presents: Real Figures Don't F.O.L.D</h2>
