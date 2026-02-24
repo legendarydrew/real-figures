@@ -28,6 +28,6 @@
     }
 
     &.icon {
-        @apply aspect-square;
+        @apply aspect-square p-3;
     }
 }

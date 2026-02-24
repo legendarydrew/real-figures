@@ -7,7 +7,7 @@
         @apply text-lg leading-tight;
     }
 
-    a {
+    a:not(.button) {
         @apply text-link hover:underline;
     }
 

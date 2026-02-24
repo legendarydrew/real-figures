@@ -16,14 +16,32 @@
                 well as on
                 his <a class="underline" href="https://silentmode.tv" target="_blank">dedicated web
                     site.</a></p>
-            <div class="flex justify-center gap-3">
+            <div class="flex justify-center gap-2 my-4">
                 <!-- Add icons! -->
-                <a href="https://youtube.com/@silentmodetv">Link</a>
-                <a href="https://instagram.com/silentmodetv">Link</a>
-                <a href="https://x.com/silentmodetv">Link</a>
-                <a href="https://tiktok.com/silentmodetv">Link</a>
-                <a href="https://www.flickr.com/photos/drewmaughan/">Link</a>
-                <a href="https://patreon.com/SilentMode">Link</a>
+                <a class="button secondary icon rounded text-xl" href="https://youtube.com/@silentmodetv"
+                   target="_blank" rel="external" title="SilentMode on YouTube.">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+                <a class="button secondary icon rounded text-xl" href="https://instagram.com/silentmodetv"
+                   target="_blank" rel="external" title="SilentMode on Instagram.">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a class="button secondary icon rounded text-xl" href="https://x.com/silentmodetv" target="_blank"
+                   rel="external" title="SilentMode on X (Twitter).">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+                <a class="button secondary icon rounded text-xl" href="https://tiktok.com/silentmodetv" target="_blank"
+                   rel="external" title="SilentMode on Tiktok.">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+                <a class="button secondary icon rounded text-xl" href="https://www.flickr.com/photos/drewmaughan/"
+                   target="_blank" rel="external" title="SilentMode on Flickr.">
+                    <i class="fa-brands fa-flickr"></i>
+                </a>
+                <a class="button secondary icon rounded text-xl" href="https://patreon.com/SilentMode" target="_blank"
+                   rel="external" title="SilentMode on Patreon.">
+                    <i class="fa-brands fa-patreon"></i>
+                </a>
             </div>
         </div>
     </div>
