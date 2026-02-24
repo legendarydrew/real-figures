@@ -2,6 +2,7 @@
 
 @section('page-title', $post['title'])
 @section('page-description', $post['excerpt'])
+@section('page-type', 'article')
 @section('meta')
     @if(isset($post['pages']['previous']))
         <link rel="prev" href="{{$post['pages']['previous']['url']}}"/>
@@ -9,6 +10,17 @@
     @if(isset($post['pages']['next']))
         <link rel="prev" href="{{$post['pages']['next']['url']}}"/>
     @endif
+@endsection
+
+@section('open-graph')
+    <meta property="article:section" content="Contest News">
+    <meta property="article:published_time" content="{{ $post['published_at'] }}">
+    <meta property="article:modified_time" content="{{ $post['updated_at'] }}">
+    <meta property="article:tag" content="press release">
+    <meta property="article:tag" content="song contest">
+    <meta property="article:tag" content="catawol records">
+    <meta property="article:tag" content="silentmode">
+    <meta property="article:tag" content="ai music">
 @endsection
 
 @section('content')

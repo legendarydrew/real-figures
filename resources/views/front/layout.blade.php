@@ -5,19 +5,40 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('page-title', config('app.name', 'Laravel'))</title>
+    <title>@yield('page-title', config('app.name'))</title>
     <meta name="description" content="@yield('page-description')"/>
     <meta name="paypal-client" content="{{ config('services.paypal.client_id')}}"/>
     @yield('meta')
+
+    {{-- Stylesheets. --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet"/>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap" rel="stylesheet">
     @viteReactRefresh
     @vite(['resources/css/app.css', 'resources/js/components.js'])
     <link rel="sitemap" href="{{ route('sitemap') }}" type="application/xml"/>
+
+    {{-- Open Graph tags. --}}
+    <meta property="og:title" content="@yield('page-title', config('app.name'))"/>
+    <meta property="og:type" content="@yield('page-type', 'website')"/>
+    <meta property="og:url" content="@yield('page-url', url()->current())"/>
+    <meta property="og:description" content="@yield('page-description')"/>
+    <meta property="og:locale" content="{{ app()->getLocale() }}"/>
+    <meta property="og:site_name" content="SilentMode.tv">
+    @hasSection('page-image')
+        <meta property="og:image" content="@yield('page-image')"/>
+        <meta property="og:image:width" content="1200"/>
+        <meta property="og:image:height" content="600"/>
+    @endif
+    @hasSection('page-image-alt')
+        <meta property="og:image:alt" content="@yield('page-image-alt')">
+    @endif
+    {{-- General recommendation: 2:1 ratio, 1200px wide. (https://www.opengraph.io/open-graph-meta-tags) --}}
+    @yield('open-graph')
+
+    {{-- Google AdSense (for those all-important ads). --}}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </head>

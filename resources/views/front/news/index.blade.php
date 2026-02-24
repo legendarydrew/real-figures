@@ -2,7 +2,7 @@
 
 @section('page-title', 'Contest News')
 @section('page-description', 'Stay updated with the latest news from the CATAWOL Records Song Contest — announcements, round results, artist highlights, and behind-the-scenes stories.')
-
+@section('page-url', route('news'))
 @section('content')
 
     <div class="site-container my-8">

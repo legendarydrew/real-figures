@@ -1,9 +1,7 @@
 @extends('front.layout')
 
 @section('page-title', 'About The Project')
-@section('page-description')
-    Learn more about the CATAWOL Records song contest: why it was created, the message behind the music, and how it brings artists and audiences together.
-@endsection
+@section('page-description', 'Learn more about the CATAWOL Records song contest: why it was created, the message behind the music, and how it brings artists and audiences together.')
 
 @section('content')
 
