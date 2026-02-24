@@ -13,10 +13,10 @@
 @section('contest-content')
 
     <div class="site-container">
-        <ul class="grid grid-cols-1 gap-2 lg:grid-cols-4">
+        <ul class="grid gap-2 md:grid-cols-4">
             <!-- Winner -->
             @foreach($results['winners'] as $song)
-                <li class="display-text col-span-2 row-span-2 text-shadow-md">
+                <li class="display-text md:col-span-2 md:row-span-2 text-shadow-md">
                     <div class="relative w-full bg-yellow-200/30 text-left leading-none">
                         @include('front.act-image', ['act' => $song['act'], 'size' => 'full'])
                         <p class="absolute top-0 p-5 text-xl text-yellow-300 uppercase">
@@ -56,9 +56,9 @@
                 <tr>
                     <th scope="col">&nbsp;</th>
                     <th scope="col">Score</th>
-                    <th scope="col">1st</th>
-                    <th scope="col">2nd</th>
-                    <th scope="col">3rd</th>
+                    <th scope="col" class="max-md:hidden">1st</th>
+                    <th scope="col" class="max-md:hidden">2nd</th>
+                    <th scope="col" class="max-md:hidden">3rd</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -66,9 +66,9 @@
                     <tr>
                         <th scope="row">{{ $row['song']['act']['name'] }}</th>
                         <td class="contest-score-total">{{ $row['score'] }}</td>
-                        <td>{{ $row['first_votes'] }}</td>
-                        <td>{{ $row['second_votes'] }}</td>
-                        <td>{{ $row['third_votes'] }}</td>
+                        <td class="max-md:hidden">{{ $row['first_votes'] }}</td>
+                        <td class="max-md:hidden">{{ $row['second_votes'] }}</td>
+                        <td class="max-md:hidden">{{ $row['third_votes'] }}</td>
                     </tr>
                 @endforeach
                 </tbody>
