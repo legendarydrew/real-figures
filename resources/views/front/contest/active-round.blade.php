@@ -39,20 +39,25 @@
                             </div>
                         </div>
                     </button>
-                    <button class="button gold w-full rounded-none" type="button">
+                    <button class="button gold w-full rounded-none" type="button"
+                            command="show-modal" commandfor="golden-buzzer-dialog-{{ $song['act_id'] }}"
+                            aria-controls="golden-buzzer-dialog-{{ $song['act_id'] }}">
                         <i class="fa-solid fa-star"></i> Golden Buzzer
                     </button>
+                    @include('front.contest.golden-buzzer', ['stage' => $stage, 'song' => $song, 'round' => $current_round])
                 </li>
             @endforeach
         </ul>
 
         {{-- A big button for casting a vote. --}}
-            <button type="button" class="button large w-full my-4"
-                    command="show-modal" commandfor="vote-dialog" aria-controls="vote-dialog">Cast your Vote...
-            </button>
+        <button type="button" class="button large w-full my-4"
+                command="show-modal" commandfor="vote-dialog" aria-controls="vote-dialog">Cast your Vote...
+        </button>
 
         @if(count($previous_rounds))
             @include('front.advert')
+
+            <h2 class="page-subheading">Previous Rounds</h2>
 
             {{-- Previous rounds. --}}
             @foreach ($previous_rounds as $round)

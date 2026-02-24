@@ -13,10 +13,13 @@
                         {{-- open the player --}}
                         {{ $song['act']['name'] }}
                     </button>
-                    <button class="button gold rounded-none hidden md:block" size="lg" type="button"
-                            title="Award a Golden Buzzer">
+                    <button class="button gold rounded-none hidden md:block" type="button"
+                            title="Award a Golden Buzzer" command="show-modal"
+                            commandfor="golden-buzzer-dialog-{{ $song['act_id'] }}"
+                            aria-controls="golden-buzzer-dialog-{{ $song['act_id'] }}">
                         <i class="fa-solid fa-star"></i>
                     </button>
+                    @include('front.contest.golden-buzzer', ['stage' => $stage, 'song' => $song, 'round' => $round])
                 </div>
 
             </li>

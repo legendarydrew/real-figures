@@ -4,6 +4,7 @@ import { SubscribeForm } from '@/components/front/subscribe-form';
 import { DonateDialog } from '@/components/front/donate-dialog';
 import ContactForm from '@/components/contact-form';
 import { RoundVoteDialog } from '@/components/front/round-vote-dialog';
+import { GoldenBuzzerDialog } from '@/components/front/golden-buzzer-dialog';
 
 import.meta.glob([
     '../../public/img/**'
@@ -42,4 +43,14 @@ tags = document.getElementsByTagName("vote-dialog");
 for (const element: HTMLElement of tags) {
     const round = element.attributes.getNamedItem('round').value;
     createRoot(element).render(<RoundVoteDialog round={JSON.parse(round)}/>);
+}
+
+// Golden Buzzer dialog.
+tags = document.getElementsByTagName("golden-buzzer-dialog");
+for (const element: HTMLElement of tags) {
+    const stage = element.attributes.getNamedItem('stage').value;
+    const round = element.attributes.getNamedItem('round').value;
+    const song = element.attributes.getNamedItem('song').value;
+    createRoot(element).render(<GoldenBuzzerDialog stage={JSON.parse(stage)} round={JSON.parse(round)}
+                                                   song={JSON.parse(song)}/>);
 }
