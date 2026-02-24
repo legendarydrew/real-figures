@@ -1,21 +1,16 @@
 <div class="flex gap-8">
-    <div class="md:w-2/5">
-        <figure class="overflow-hidden">
-            <img class="w-full" src="{{ asset('img/catawol-records-modular-building.jpg') }}"
+    <div class="md:w-1/3     flex flex-col gap-4">
+        <img class="object-cover" src="{{ asset('img/catawol-records-modular-building.jpg') }}"
                  alt="The original CATAWOL Records modular building in LEGO."/>
-        </figure>
 
-        <figure class="overflow-hidden">
-            <img class="w-full" src="{{ asset('img/lorien.png') }}"
-                 alt="Lorien working on a hit single."/>
-        </figure>
+        <img class="object-cover" src="{{ asset('img/banners/music-producer.jpg') }}"
+             alt="A female musician at a mixing desk in a studio."/>
     </div>
 
-    <div class="md:w-3/5">
+    <div class="md:w-2/3">
         <p>
             <b class="text-current">CATAWOL Records is a fictitious music label,</b> created as
-            the subject of
-            SilentMode's first ever LEGO modular building, back in 2011.
+            the subject of SilentMode's first ever LEGO modular building, back in 2011.
         </p>
 
         <div class="text-sm">
