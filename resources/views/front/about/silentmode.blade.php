@@ -1,4 +1,4 @@
-<div class="flex gap-8">
+<div class="flex flex-col md:flex-row gap-4 md:gap-8">
     <figure class="md:w-2/5 aspect-square overflow-hidden">
         <img class="w-full" src="{{asset('img/sigfig.png')}}"
              alt="SilentMode, represented by the MODE Family's Sigfig."/>

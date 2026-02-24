@@ -21,25 +21,25 @@
                 "artificial intelligence", web development and advocacy.
             </p>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm my-8">
-                <div class="p-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-4 text-sm my-8 text-center lg:text-left">
+                <div class="p-2 lg:p-4">
                     <b>Revisiting one of SilentMode's earliest Creations.</b><br/>
                     CATAWOL Records began life as a modular building, designed and built
                     near the beginning of SilentMode's time in the LEGO hobby.
                 </div>
-                <div class="p-4">
+                <div class="p-2 lg:p-4">
                     <b>Embarking on an ambitious LEGO project.</b><br/>
                     Expanding on his existing skills as a Maker, Artist and LEGO
                     Enthusiast, this is SilentMode's first project to fully incorporate music and
                     AI/computer-generated content.
                 </div>
-                <div class="p-4">
+                <div class="p-2 lg:p-4">
                     <b>Creating the first ever anti-bullying campaign (that we know of) within the LEGO space.</b><br/>
                     An opportunity to highlight an important issue,
                     affecting <b>both children and adults</b>, that has probably never been
                     addressed before in the context of LEGO.
                 </div>
-                <div class="p-4">
+                <div class="p-2 lg:p-4">
                     <b>A live demonstration of coding ability.</b><br/>
                     Designed and built by SilentMode himself, the site uses
                     Laravel with Inertia for the back end, and React with Tailwind for the front end.

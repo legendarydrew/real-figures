@@ -1,4 +1,4 @@
-<div class="px-8">
+<div class="md:px-8">
     <div class="page-banner">
         <img src="{{ asset('img/banners/credits-1.jpg') }}" alt="An empty stage after a music performance.">
     </div>
@@ -10,7 +10,7 @@
             in particular, within the LEGO space.</p>
     </div>
 
-    <div class="grid grid-cols-2 gap-8">
+    <div class="grid text-center md:text-left md:grid-cols-2 gap-4 md:gap-8">
         <div>
             <h2 class="page-subheading">
                 <i class="fa-solid fa-person"></i> People
@@ -72,7 +72,7 @@
         </div>
     </div>
 
-    <div class="mt-8 text-left text-xs lg:text-xs md:text-center flex flex-col gap-1">
+    <div class="mt-8 text-center text-xs flex flex-col gap-1">
         All songs are the property of Drew Maughan (SilentMode).<br/>
         SilentMode, the SilentMode logo, CATAWOL Records, the CATAWOL
         Records logo, "Real Figures Don't F.O.L.D", "F.O.L.D", Act names and character

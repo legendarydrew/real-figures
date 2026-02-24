@@ -1,9 +1,9 @@
-<div class="flex gap-8">
-    <figure class="md:w-1/4">
+<div class="flex flex-col md:flex-row gap-4 md:gap-8">
+    <figure class="md:w-2/5 lg:w-1/4 flex flex-col gap-4">
         <img class="object-cover" src="{{ asset('img/banners/singer-and-boy.jpg') }}"
              alt="A female superstar pop singer singing to an upset young male fan."/>
     </figure>
-    <div class="md:w-3/4">
+    <div class="md:w-3/5 lg:w-3/4">
         <p>
             <b class="text-current">Real Figures Don't F.O.L.D</b> is a song <b
                 class="text-current">for those who have experienced
@@ -24,4 +24,4 @@
             </ul>
         </div>
     </div>
-</div>
+    </figure>

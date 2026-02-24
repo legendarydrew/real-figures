@@ -1,8 +1,9 @@
 .page-banner {
-    @apply bg-secondary/50 max-h-50 mb-2 overflow-hidden;
+    @apply bg-secondary/50 h-36 lg:h-56 -mt-8 mb-2 overflow-hidden;
+    @apply -mx-4 lg:mx-0;
 
     img {
-        @apply object-cover;
+        @apply object-cover size-full;
     }
 }
 

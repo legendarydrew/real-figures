@@ -1,6 +1,6 @@
-<div class="flex gap-8">
+<div class="flex flex-col md:flex-row gap-4 md:gap-8">
     <figure class="md:w-2/5">
-        <img class="w-full" src="{{ asset('img/fold-logo.png')}}" alt="The unofficial logo of the F.O.L.D."/>
+        <img class="md:w-full" src="{{ asset('img/fold-logo.png')}}" alt="The unofficial logo of the F.O.L.D."/>
     </figure>
     <div class="md:w-3/5">
         <p>The F.O.L.D describes an unofficial inner circle within the LEGO space, that
