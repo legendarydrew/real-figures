@@ -60,10 +60,43 @@
     }
 }
 
+.contest-current-round {
+    @apply grid gap-2 md:grid-cols-2 lg:grid-cols-3 select-none mb-8;
+}
+
+.song-item {
+    @apply relative overflow-hidden;
+}
+
+.song-item-image {
+    @apply aspect-square w-full text-left bg-secondary/30 leading-none relative hover:bg-secondary/50 cursor-pointer;
+    @apply has-[.bg-act-image]:transition-transform has-[.bg-act-image]:hover:scale-[1.1];
+}
+
+.song-item-act {
+    @apply bg-secondary/30 absolute bottom-0 left-0 w-full flex items-center gap-3;
+}
+
+.song-item-flag {
+    @apply ml-3 shadow-md/60;
+}
+
+.song-item-act-name {
+    @apply font-display text-lg text-left text-shadow-md/60 leading-tight flex-grow;
+}
+
+.song-item-golden-buzzer {
+    @apply rounded-none;
+}
+
 #vote-dialog {
     @apply bg-dark text-white w-full max-w-3xl;
 }
 
 .golden-buzzer-dialog {
-    @apply bg-yellow-200 w-full max-w-3xl;
+    @apply bg-yellow-200 w-full max-w-3xl px-4 md:px-8;
+
+    .dialog-close {
+        @apply right-4 md:right-8;
+    }
 }
