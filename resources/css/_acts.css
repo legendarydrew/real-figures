@@ -1,0 +1,66 @@
+.act-item {
+    @apply relative flex aspect-square w-full items-center flex-col justify-end overflow-hidden;
+    @apply bg-gray-200 dark:bg-gray-700;
+    @apply select-none;
+
+    &.has-image {
+        @apply text-white text-shadow-md;
+    }
+
+    &.has-profile {
+        @apply cursor-pointer;
+        @apply hover:bg-gray-300 dark:hover:bg-gray-600;
+
+        &:hover .act-image-bg {
+            @apply scale-[1.1];
+        }
+    }
+}
+
+.act-item-text {
+    @apply absolute bottom-0 left-0 w-full p-4;
+    @apply display-text text-lg leading-none text-left;
+}
+
+.act-dialog {
+    @apply max-w-4xl w-full p-6;
+
+    .dialog-title {
+        @apply text-3xl mb-2 mt-0;
+    }
+
+    .act-profile-layout {
+        @apply flex flex-col overflow-y-auto max-h-[80dvh] md:flex-row md:overflow-visible md:max-h-none gap-8;
+    }
+
+    .act-profile-image {
+        @apply md:w-1/3;
+
+    }
+
+    .act-profile-content {
+        @apply md:w-2/3;
+    }
+
+    .act-profile-genres {
+        @apply flex flex-wrap gap-2 mb-4;
+
+        li {
+            @apply text-xs font-semibold;
+            @apply inline bg-secondary/50 leading-none px-1.5 py-1 rounded-md select-none;
+        }
+    }
+}
+
+.act-image {
+    @apply aspect-square;
+
+    .act-image-bg {
+        @apply w-full h-full bg-cover bg-center z-0;
+        @apply transition-transform;
+    }
+
+    .act-image-ph {
+        @apply w-full h-full z-0 flex items-center justify-center text-gray-500 select-none;
+    }
+}

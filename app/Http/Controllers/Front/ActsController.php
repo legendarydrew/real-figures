@@ -24,7 +24,9 @@ class ActsController extends Controller
         if ($acts->isNotEmpty())
         {
             return view('front.acts', [
-                'acts' => fractal($acts->sortBy('name'), new ActTransformer(), '')->toArray()
+                'acts' => fractal($acts->sortBy('name'), new ActTransformer(), '')
+                    ->parseIncludes(['genres', 'profileContent'])
+                    ->toArray()
             ]);
         }
         abort(404);
@@ -34,12 +36,15 @@ class ActsController extends Controller
     {
         $act = Act::whereSlug($slug)->whereHas('profile')->first();
 
-        if ($act) {
+        if ($act)
+        {
             return Inertia::render('front/acts', [
                 'acts'       => fn() => fractal(Act::whereHas('songs')->orderBy('name')->get(), new ActTransformer(), '')->toArray(),
                 'currentAct' => fn() => fractal($act, new ActTransformer(), '')->parseIncludes(['profileContent'])->toArray()
             ]);
-        } else {
+        }
+        else
+        {
             return to_route('acts');
         }
 

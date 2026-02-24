@@ -13,7 +13,7 @@ use League\Fractal\TransformerAbstract;
 
 class ActTransformer extends TransformerAbstract
 {
-    protected array $availableIncludes = ['meta', 'profile', 'profileContent'];
+    protected array $availableIncludes = ['genres', 'meta', 'profile', 'profileContent'];
 
     public function transform(Act $act): array
     {
@@ -46,6 +46,11 @@ class ActTransformer extends TransformerAbstract
             ]);
         }
         return null;
+    }
+
+    public function includeGenres(Act $act): Primitive
+    {
+        return $this->primitive($act->genres()->pluck('name'));
     }
 
     public function includeMeta(Act $act): Primitive

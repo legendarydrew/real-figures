@@ -112,11 +112,11 @@ const ContactForm: React.FC = () => {
 
                 {failed ? (<Alert type="error" message="Your message could not be sent, please try again."/>) : ''}
 
-                <LoadingButton size="lg" type="submit" disabled={!data.token} isLoading={processing}>
+                <LoadingButton size="lg" variant="primary" type="submit" disabled={!data.token} isLoading={processing}>
                     Send Message
                 </LoadingButton>
 
-                <p className="text-xs">Your details will not be shared with anyone.</p>
+                <p className="text-xs text-center lg:text-left">Your details will not be shared with anyone.</p>
             </form>
         )
     );

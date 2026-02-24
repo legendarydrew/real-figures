@@ -1,8 +1,36 @@
-<div
-    class="relative flex b-2 aspect-square w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 items-center flex-col justify-end overflow-hidden select-none">
+<button command="show-modal" commandfor="act-{{ $act['id'] }}" aria-controls="act-{{ $act['id'] }}"
+        class="act-item{{ $act['image'] ? ' has-image' : '' }}{{ isset($act['profileContent']) ? ' has-profile' : '' }}">
     @include('front.act-image', ['act' => $act, 'size' => 'full'])
+    <span class="act-item-text">{{ $act['name'] }}</span>
+</button>
 
-    <div class="absolute bottom w-full flex justify-between items-center px-3 py-2">
-        <span class="display-text flex-grow pr-3 text-lg leading-tight text-left">{{$act['name']}}</span>
-    </div>
-</div>
+@if(isset($act['profileContent']))
+    <dialog id="act-{{ $act['id'] }}" class="dialog act-dialog">
+        <button class="dialog-close" command="close" commandfor="act-{{ $act['id'] }}"
+                aria-controls="act-{{ $act['id'] }}"
+                title="Close">
+            <i class="fa-solid fa-close"></i>
+        </button>
+
+        <div
+            class="act-profile-layout">
+            <div class="act-profile-image">
+                @include('front.act-image', ['act' => $act, 'size' => 'full'])
+            </div>
+            <div class="act-profile-content">
+                <h2 class="dialog-title">{{ $act['name'] }}</h2>
+
+                @if(count($act['genres']))
+                    <ul class="act-profile-genres">
+                        @foreach($act['genres'] as $genre)
+                            <li>{{ $genre }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+                <div class="content md:h-[50dvh] md:overflow-y-auto text-sm leading-normal">
+                    {!! $act['profileContent']['description'] !!}
+                </div>
+            </div>
+        </div>
+    </dialog>
+@endif

@@ -1,9 +1,7 @@
 @extends('front.layout')
 
 @section('page-title', 'Competing Acts')
-@section('page-description')
-    Meet the 32 Acts competing in the CATAWOL Records Song Contest.
-@endsection
+@section('page-description', 'Meet the 32 Acts competing in the CATAWOL Records Song Contest.')
 
 @section('content')
 

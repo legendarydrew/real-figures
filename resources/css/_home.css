@@ -1,5 +1,5 @@
 /* HOME page. */
-
+@layer base {
 .home-hero {
     @apply bg-secondary bg-cover bg-left text-white text-shadow-md mb-8 h-1 h-70;
     @apply bg-[url('../../public/img/banners/hero-1.jpg')];
@@ -78,6 +78,7 @@
             /* Background image with a gradual fade out - thanks to ChatGPT. */
             @apply bg-[url('../../public/img/banners/golden-buzzer-4.jpg')] bg-no-repeat bg-right bg-contain bg-blend-multiply;
             @apply mask-linear-[to_left, black_15%, transparent_28%];
+            /* no spaces! */
             @apply mask-no-repeat;
             @apply absolute size-full left-0 top-0 -z-1;
         }
@@ -128,4 +129,5 @@
         }
 
     }
+}
 }

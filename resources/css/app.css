@@ -16,6 +16,7 @@ has the theme configured here.)
 @import "./_dialog.css";
 @import "./_home.css";
 @import "./_about.css";
+@import "./_acts.css";
 @import "./_contest.css";
 @import "./_donate.css";
 @import "./_news.css";
@@ -264,7 +265,8 @@ has the theme configured here.)
         .inner {
             /* Background image with a gradual fade out - thanks to ChatGPT. */
             @apply bg-[url('../../public/img/banners/golden-buzzer-4.jpg')] bg-no-repeat bg-right bg-contain bg-blend-multiply;
-            @apply mask-linear-[to_left, black_50%, transparent_75%];
+            @apply mask-linear-['to_left,black_50%,transparent_75%'];
+            /* NO spaces! */
             @apply mask-no-repeat;
             @apply absolute h-full aspect-[2] top-0 right-0 -z-1;
         }
