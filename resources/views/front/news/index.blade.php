@@ -29,7 +29,7 @@
                 </article>
             @endforeach
 
-                {{-- TODO <Pagination results={posts} onPageChange={pageHandler}/>--}}
+                {{ $paginator->links() }}
         </div>
 
     @include('front.advert')

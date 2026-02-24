@@ -26,6 +26,7 @@ class NewsController extends Controller
                 ->transformWith(NewsPostTransformer::class)
                 ->withResourceName('data')
                 ->toArray(),
+            'paginator' => $posts
         ]);
     }
 
