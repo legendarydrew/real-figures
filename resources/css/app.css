@@ -10,6 +10,7 @@ has the theme configured here.)
 @import "country-flag-icons/3x2/flags.css";
 @import "./_layout.css";
 @import "./_page.css";
+@import "./_alert.css";
 @import "./_button.css";
 @import "./_collapse.css";
 @import "./_content.css";
@@ -265,7 +266,7 @@ has the theme configured here.)
         .inner {
             /* Background image with a gradual fade out - thanks to ChatGPT. */
             @apply bg-[url('../../public/img/banners/golden-buzzer-4.jpg')] bg-no-repeat bg-right bg-contain bg-blend-multiply;
-            @apply mask-linear-['to_left,black_50%,transparent_75%'];
+            @apply mask-linear-[to_left, black_50%, transparent_75%];
             /* NO spaces! */
             @apply mask-no-repeat;
             @apply absolute h-full aspect-[2] top-0 right-0 -z-1;

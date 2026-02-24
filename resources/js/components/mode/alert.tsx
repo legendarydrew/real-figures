@@ -24,26 +24,10 @@ export const Alert: React.FC<AlertProps> = ({ type, message, className, children
         }
     };
 
-    const alertClasses = (): string => {
-        switch (type) {
-            case 'warning':
-                return 'bg-orange-100 text-orange-800';
-            case 'info':
-                return 'bg-blue-100 text-blue-800';
-            case 'error':
-                return 'bg-red-100 text-red-800';
-            case 'success':
-                return 'bg-green-100 text-green-800';
-            default:
-                return 'bg-indigo-100 text-indigo-800';
-        }
-    }
     return (message || children) ? (
-        <div
-            className={cn("flex gap-3 justify-between items-center px-3 py-2 bg-green-100 rounded-xs my-3 text-sm", alertClasses(), message ? 'font-semibold' : '', className)}
-            {...props}>
-            <Icon className="text-lg" iconNode={alertIcon()}/>
-            <div className="flex-grow">{message ?? children}</div>
+        <div className={cn("alert", type, message ? 'with-message' : '', className)} {...props}>
+            <Icon className="alert-icon" iconNode={alertIcon()}/>
+            <div className="alert-text">{message ?? children}</div>
         </div>
     ) : '';
 }
