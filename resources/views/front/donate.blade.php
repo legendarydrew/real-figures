@@ -15,14 +15,14 @@
         <h1 class="page-heading">Your Donations</h1>
 
         <!-- Donation buttons. -->
-        <div class="my-8 flex justify-center items-center gap-16">
+        <div class="my-8 flex flex-col md:flex-row justify-center items-center gap-4 md:gap-16">
 
             {{-- https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog#modal_dialogs_using_invoker_commands  --}}
-            <button type="button" class="button primary"
+            <button type="button" class="button primary w-4/5"
                     command="show-modal" commandfor="donate-dialog" aria-controls="donate-dialog">Donate to us (PayPal)
             </button>
 
-            <a class="button secondary" href="https://www.justgiving.com/kidscape/donate" rel="external"
+            <a class="button secondary w-4/5" href="https://www.justgiving.com/kidscape/donate" rel="external"
                target="_blank">Donate to Kidscape</a>
         </div>
 
