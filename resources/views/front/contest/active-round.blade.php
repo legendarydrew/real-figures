@@ -24,7 +24,7 @@
         @endif
 
         {{-- The Acts and their songs. --}}
-        <div class="contest-current-round">
+        <div class="contest-round">
             @foreach($current_round['songs'] as $song)
                 @include('front.song-item')
             @endforeach

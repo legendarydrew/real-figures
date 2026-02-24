@@ -60,8 +60,24 @@
     }
 }
 
-.contest-current-round {
+.contest-round {
     @apply grid gap-2 md:grid-cols-2 lg:grid-cols-3 select-none mb-8;
+}
+
+.contest-previous-round {
+    @apply mb-2 bg-black/50 p-4 rounded-sm;
+
+    .contest-round {
+        @apply lg:grid-cols-4;
+    }
+
+    .song-item-flag {
+        --CountryFlagIcon-height: 0.75rem;
+    }
+
+    .song-item-act-name {
+        @apply text-base;
+    }
 }
 
 .song-item {
@@ -82,7 +98,7 @@
 }
 
 .song-item-act-name {
-    @apply font-display text-lg text-left text-shadow-md/60 leading-tight flex-grow;
+    @apply font-display text-lg text-left text-shadow-md/60 leading-none flex-grow;
 }
 
 .song-item-golden-buzzer {
