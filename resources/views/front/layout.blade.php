@@ -50,25 +50,29 @@
             <img src="{{ asset('logo/catawol-logo.svg') }}" alt="CATAWOL Records"/>
         </a>
 
+        <input type="checkbox" id="nav-open">
+
         <nav class="site-header-nav">
-            <button type="button" class="site-header-nav-close" title="Close menu">
+            <label class="site-header-nav-close" for="nav-open" title="Close menu">
                 <i class="fa-solid fa-close"></i>
-            </button>
+            </label>
 
             <a href="{{ route('contest') }}">Contest</a>
             @if(\App\Facades\ContestFacade::shouldShowNews())
                 <a href="{{ route('news') }}">News</a>
             @endif
+            @if(\App\Facades\ContestFacade::shouldShowActs())
             <a href="{{ route('acts') }}">Acts</a>
+            @endif
             <a href="{{ route('rules') }}">Rules</a>
             <a class="donate-link" href="{{ route('donate') }}">Donate!</a>
             <a href="{{ route('about') }}">About</a>
             <a href="{{ route('contact') }}">Contact</a>
         </nav>
 
-        <button type="button" class="site-header-nav-open" title="Menu">
+        <label type="button" class="site-header-nav-open" for="nav-open" title="Menu">
             <i class="fa-solid fa-bars"></i>
-        </button>
+        </label>
     </div>
 </header>
 
