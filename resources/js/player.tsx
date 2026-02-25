@@ -8,6 +8,7 @@ playerRoot.render(<SongPlayer/>);
 
 globalThis.openSongPlayer = (el: HTMLElement): void => {
     const song = JSON.parse(el.dataset.song);
+    playerElement.dataset.songId = song.id;
     playerElement.querySelector('.song-player-banner-flag').classList = `song-player-banner-flag flag flag:${song.language.flag}`;
     playerElement.querySelector('.song-player-banner-act').textContent = song.act.name;
     playerElement.querySelector('.song-player-banner-title').textContent = song.title;
@@ -21,7 +22,13 @@ globalThis.closeSongPlayer = (): void => {
     playerElement?.hidePopover();
     playerRoot.render(<SongPlayer/>); // stop the video
 
+    playerElement.dataset.songId = '';
     playerElement.querySelector('.song-player-banner-flag').classList = 'song-player-banner-flag flag';
     playerElement.querySelector('.song-player-banner-act').textContent = '';
     playerElement.querySelector('.song-player-banner-title').textContent = '';
+}
+
+globalThis.awardGoldenBuzzer = (): void => {
+    const dialogId = `golden-buzzer-dialog-${playerElement.dataset.songId}`;
+    document.getElementById(dialogId)?.showModal();
 }
