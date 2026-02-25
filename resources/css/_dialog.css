@@ -11,7 +11,8 @@
     }
 
     .dialog-close {
-        @apply absolute right-8 top-8 text-sm cursor-pointer;
+        @apply absolute right-6 top-6 text-sm cursor-pointer p-2 rounded-sm;
+        @apply text-black/50 hover:bg-muted hover:text-black;
     }
 
     .dialog-title {

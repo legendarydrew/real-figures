@@ -1,26 +1,56 @@
 @utility button {
     @apply display-text;
     @apply enabled:cursor-pointer rounded-xs shadow-xs focus-visible:ring-muted/20 dark:focus-visible:ring-muted/40;
-    @apply bg-muted hover:bg-muted/90 text-muted-foreground;
+    @apply bg-muted enabled:hover:bg-muted/90 text-muted-foreground;
     @apply flex gap-2 justify-center items-center px-8 py-3;
 
     &.primary {
-        @apply bg-primary hover:bg-primary/90 text-primary-foreground;
+        @apply bg-primary enabled:hover:bg-primary/90 text-primary-foreground;
         @apply focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40;
     }
 
     &.secondary {
-        @apply bg-secondary hover:bg-secondary/90 text-secondary-foreground;
-        @apply focus-visible:ring-secondary/20 dark:focus-visible:ring-secondary/40;
+        @apply bg-secondary text-secondary-foreground;
+        @apply enabled:hover:bg-secondary/90 focus-visible:ring-secondary/20 dark:focus-visible:ring-secondary/40;
     }
 
     &.gold {
-        @apply bg-gold/60 hover:bg-gold text-gold-foreground text-shadow-sm;
-        @apply focus-visible:ring-gold/40;
+        @apply bg-gold text-gold-foreground text-shadow-sm;
+        @apply enabled:hover:bg-gold-hover focus-visible:ring-gold/40;
+    }
+
+    &.confirm {
+        @apply bg-green-700 text-green-50;
+        @apply enabled:hover:bg-green-700/90 focus-visible:ring-green-700/20 dark:focus-visible:ring-green-700/40;
+    }
+
+    &.destructive {
+        @apply bg-destructive text-white;
+        @apply enabled:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40;
+    }
+
+    &.outline {
+        @apply border border-input;
+        @apply bg-background enabled:hover:bg-secondary/50 enabled:hover:text-secondary;
+    }
+
+    &.checked {
+        @apply bg-indigo-700 text-white;
+        @apply enabled:hover:bg-indigo-500/80 focus-visible:ring-indigo-700/20 dark:focus-visible:ring-indigo-500/40;
+    }
+
+    &.ghost {
+        @apply shadow-none;
+        @apply enabled:hover:bg-accent enabled:hover:text-accent-foreground;
+    }
+
+    &.link {
+        @apply shadow-none text-indigo-700 underline-offset-4;
+        @apply hover:underline;
     }
 
     &.small {
-        @apply h-8 rounded-md px-3 has-[>svg]:px-2.5;
+        @apply h-8 px-3;
     }
 
     &.large {
@@ -29,5 +59,16 @@
 
     &.icon {
         @apply aspect-square p-3;
+    }
+}
+
+.loading-button {
+    @apply flex-shrink-0;
+
+    .is-loading {
+        @apply flex invisible px-1;
+    }
+    .not-loading {
+        @apply flex gap-2 items-center;
     }
 }

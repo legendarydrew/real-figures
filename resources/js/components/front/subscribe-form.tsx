@@ -48,7 +48,7 @@ export const SubscribeForm: React.FC = ({ className, ...props }) => {
                        value={email}
                        onChange={emailChangeHandler}
                        placeholder="Enter your email address..."/>
-                <LoadingButton type="submit" className="rounded-l-none" isLoading={isProcessing}>I'm in!</LoadingButton>
+                <LoadingButton type="submit" className="h-9 rounded-l-none" disabled={!email} isLoading={isProcessing}>I'm in!</LoadingButton>
             </div>
             {hasError ? <Alert type="error" message={hasError}/> : ''}
         </form>

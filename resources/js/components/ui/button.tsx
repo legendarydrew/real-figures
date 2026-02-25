@@ -12,13 +12,13 @@ const buttonVariants = cva(
                 default: "",
                 primary: "primary",
                 secondary: "secondary",
-                confirm: "display-text bg-green-700 text-green-50 shadow-xs hover:bg-green-700/90 focus-visible:ring-green-700/20 dark:focus-visible:ring-green-700/40",
-                destructive: "display-text bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
-                outline: "display-text border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground",
+                confirm: "confirm",
+                destructive: "destructive",
+                outline: "outline",
                 gold: "gold",
-                checked: "display-text bg-indigo-700 text-white shadow-xs hover:bg-indigo-500/80 focus-visible:ring-indigo-700/20 dark:focus-visible:ring-indigo-500/40",
-                ghost: "display-text hover:bg-accent hover:text-accent-foreground",
-                link: "text-indigo-700 underline-offset-4 hover:underline"
+                checked: "checked",
+                ghost: "ghost",
+                link: "link"
             },
             size: {
                 default: "",

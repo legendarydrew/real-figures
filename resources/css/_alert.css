@@ -1,6 +1,6 @@
 .alert {
     @apply flex gap-3 justify-between items-center px-3 py-2 rounded-xs my-3 text-sm;
-    @apply bg-indigo-100 text-indigo-800;
+    @apply bg-indigo-100 text-indigo-800 text-shadow-none;
 
     &.with-message {
         @apply font-semibold;

@@ -98,7 +98,7 @@ export const DonateDialog: React.FC = () => {
 
                         <div className="flex gap-1 items-center">
                             {donationOptions.current.map((value) => (
-                                <Button className="max-sm:hidden" key={value} variant="secondary" type="button"
+                                <Button className="max-sm:hidden" key={value} variant="secondary" size="sm" type="button"
                                         onClick={() => setAmount(value)}>{value}</Button>
                             ))}
                             <div className="ml-2 flex items-center">

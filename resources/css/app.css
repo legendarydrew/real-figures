@@ -88,6 +88,7 @@ has the theme configured here.)
 
     --color-link: var(--link);
     --color-gold: var(--color-yellow-500);
+    --color-gold-hover: var(--color-amber-500);
     --color-gold-foreground: var(--color-yellow-100);
 }
 
