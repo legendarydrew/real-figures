@@ -1,28 +1,10 @@
-<div class="mb-2 bg-black/50 p-4 rounded-sm">
+<div class="contest-previous-round">
     @if($show_title)
         <h2 class="page-subheading">{{$round['title']}}</h2>
     @endif
-    <ul class="grid gap-x-4 gap-y-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 select-none">
+    <div class="contest-round">
         @foreach($round['songs'] as $song)
-            <li class="flex flex-col">
-
-                @include('front.act-image', ['act' => $song['act'], 'size' => 'full'])
-
-                <div class="flex">
-                    <button class="p-2 font-display flex-grow text-left">
-                        {{-- open the player --}}
-                        {{ $song['act']['name'] }}
-                    </button>
-                    <button class="button gold rounded-none hidden md:block" type="button"
-                            title="Award a Golden Buzzer" command="show-modal"
-                            commandfor="golden-buzzer-dialog-{{ $song['act_id'] }}"
-                            aria-controls="golden-buzzer-dialog-{{ $song['act_id'] }}">
-                        <i class="fa-solid fa-star"></i>
-                    </button>
-                    @include('front.contest.golden-buzzer', ['stage' => $stage, 'song' => $song, 'round' => $round])
-                </div>
-
-            </li>
+            @include('front.song-item')
         @endforeach
-    </ul>
+    </div>
 </div>

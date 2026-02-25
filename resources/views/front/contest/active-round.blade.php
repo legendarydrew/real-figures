@@ -24,30 +24,11 @@
         @endif
 
         {{-- The Acts and their songs. --}}
-        <ul class="grid gap-2 grid-cols-2 md:grid-cols-4 select-none mb-8">
+        <div class="contest-round">
             @foreach($current_round['songs'] as $song)
-                <li class="leading-none">
-                    <button type="button"
-                            class="aspect-square w-full text-left bg-secondary/30 leading-none relative hover:bg-secondary/50 cursor-pointer">
-                        @include('front.act-image', ['act' => $song['act'], 'size' => 'full'])
-                        <div class="p-3 lg:p-5 absolute bottom-0 w-full">
-                            <div class="text-lg font-semibold leading-tight">{{ $song['act']['name'] }}</div>
-                            <div class="flex items-center truncate gap-2 text-sm font-semibold leading-tight">
-                                <span class="flag:{{ strtoupper($song['language']['flag']) }}"
-                                      title="{{ $song['language']['name'] }}"></span>
-                                {{ $song['title'] }}
-                            </div>
-                        </div>
-                    </button>
-                    <button class="button gold w-full rounded-none" type="button"
-                            command="show-modal" commandfor="golden-buzzer-dialog-{{ $song['act_id'] }}"
-                            aria-controls="golden-buzzer-dialog-{{ $song['act_id'] }}">
-                        <i class="fa-solid fa-star"></i> Golden Buzzer
-                    </button>
-                    @include('front.contest.golden-buzzer', ['stage' => $stage, 'song' => $song, 'round' => $current_round])
-                </li>
+                @include('front.song-item')
             @endforeach
-        </ul>
+        </div>
 
         {{-- A big button for casting a vote. --}}
         <button type="button" class="button large w-full my-4"
