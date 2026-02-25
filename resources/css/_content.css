@@ -35,6 +35,10 @@
         @apply text-muted-foreground font-semibold;
     }
 
+    strong {
+        @apply text-black font-semibold;
+    }
+
     i {
         @apply italic;
     }
@@ -68,11 +72,11 @@
     }
 
     ol {
-        @apply my-4 ml-8 list-decimal;
+        @apply my-4 ml-4 list-decimal;
     }
 
     ul {
-        @apply my-4 ml-8 list-disc;
+        @apply my-4 ml-4 list-disc;
     }
 
 }

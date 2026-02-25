@@ -22,6 +22,7 @@ has the theme configured here.)
 @import "./_contest.css";
 @import "./_donate.css";
 @import "./_news.css";
+@import "./_rules.css";
 
 @plugin 'tailwindcss-animate';
 

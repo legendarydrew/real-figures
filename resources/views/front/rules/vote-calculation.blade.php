@@ -1,35 +1,32 @@
-<div class="flex flex-col md:flex-row gap-3 justify-between items-start mb-3">
-    <div class="w-full md:w-1/3">
-        <p>Each Song is awarded:</p>
-        <table class="w-full border-spacing-1 border-separate">
-            <tbody>
-            <tr>
-                <th scope="row" class="text-left pr-4">1st choice vote</th>
-                <td class="font-semibold text-right text-muted-foreground">4 points</td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-left pr-4">2nd choice vote</th>
-                <td class="font-semibold text-right text-muted-foreground">2 points</td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-left pr-4">3rd choice vote</th>
-                <td class="font-semibold text-right text-muted-foreground">1 point</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+<p>Visitors will be asked to vote for their <b>top three favourite Songs</b> in each Round, in order of preference.</p>
 
-    <div class="md:flex-grow md:pl-10">
-        <p>Songs are ranked based on:</p>
-        <ol class="my-0">
-            <li><b>Total score</b></li>
-            <li><b>Number</b> of 1st choice votes</li>
-            <li><b>Number</b> of 2nd choice votes</li>
-            <li><b>Number</b> of 3rd choice votes</li>
-        </ol>
+<h2>Scoring</h2>
+<p>Songs will be awarded points based on votes in each Round:</p>
+<table class="rules-voting-scores">
+    <tbody>
+    <tr>
+        <th scope="row">1st choice</th>
+        <td>4 points</td>
+    </tr>
+    <tr>
+        <th scope="row">2nd choice</th>
+        <td>2 points</td>
+    </tr>
+    <tr>
+        <th scope="row">3rd choice</th>
+        <td>1 point</td>
+    </tr>
+    </tbody>
+</table>
 
-    </div>
-</div>
+<h2>Ranking</h2>
+<p>At the end of each Round, winning Songs will be determined by:</p>
+<ul>
+    <li><b>total points</b> based on votes;</li>
+    <li><b>number</b> of 1st choice votes;</li>
+    <li><b>number</b> of 2nd choice votes;</li>
+    <li><b>number</b> of 3rd choice votes.</li>
+</ul>
 
-<p class="italic text-sm">Note: Golden Buzzers are honorary and do not influence
-    scores.</p>
+<p class="rules-note">NOTE: Golden Buzzers have <b>no effect on scores</b>, they are for supporting Acts
+    regardless of winning.</p>
