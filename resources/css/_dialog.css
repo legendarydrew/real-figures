@@ -1,14 +1,25 @@
+/* https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog */
+/* Open state of the dialog  */
+.dialog:open {
+    opacity: 1;
+    transform: scale(1);
+    @apply backdrop:bg-secondary/60 backdrop:grayscale-100 backdrop:backdrop-blur-xs;
+}
+
+/* Closed state of the dialog   */
 .dialog {
+    opacity: 0;
+    transform: scale(0.98);
+    transition:
+        opacity 0.2s ease-out,
+        transform 0.2s ease-out,
+        overlay 0.2s ease-out allow-discrete,
+        display 0.2s ease-out allow-discrete;
     @apply bg-white text-black p-8 pt-12 rounded-sm shadow-md;
     @apply text-sm;
-    @apply max-w-1/2 m-auto;
-    @apply backdrop:bg-secondary/60 backdrop:grayscale-100 backdrop:backdrop-blur-xs;
     @apply drop-shadow-2xl drop-shadow-black/60;
-    @apply animate-[dialog-enter_0.2s_ease-in_forwards];
-
-    &[open]::backdrop {
-        @apply animate-[backdrop-enter_0.2s_ease-out_forwards];
-    }
+    @apply max-w-1/2 m-auto;
+    @apply backdrop:bg-transparent;
 
     .dialog-close {
         @apply absolute right-6 top-6 text-sm cursor-pointer p-2 rounded-sm;
@@ -20,22 +31,29 @@
     }
 }
 
-@keyframes dialog-enter {
-    from {
+/* Before open state  */
+/* Needs to be after the previous dialog:open rule to take effect,
+    as the specificity is the same */
+@starting-style {
+    .dialog:open {
         opacity: 0;
         transform: scale(0.98);
     }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
 }
 
-@keyframes backdrop-enter {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
+/* Transition the :backdrop when the dialog modal is promoted to the top layer */
+.dialog::backdrop {
+    transition:
+        display 0.2s allow-discrete,
+        overlay 0.2s allow-discrete,
+        background-color 0.2s;
+}
+
+/* This starting-style rule cannot be nested inside the above selector
+because the nesting selector cannot represent pseudo-elements. */
+
+@starting-style {
+    .dialog:open::backdrop {
+        @apply bg-transparent;
     }
 }
