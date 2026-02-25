@@ -47,8 +47,6 @@ use App\Http\Controllers\Front\SitemapController;
 use App\Http\Controllers\Front\SubscriberConfirmController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
-use App\Models\Round;
-use App\Transformers\RoundTransformer;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -66,16 +64,6 @@ Route::get('news/{slug}', [FrontNewsController::class, 'show'])->name('news.show
 Route::get('rules', [RulesController::class, 'index'])->name('rules');
 Route::get('subscriber/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
-
-// ----------------------------------------------------------------------------
-// Our famous Kitchen Sink page (only available in debug mode).
-// ----------------------------------------------------------------------------
-if (app()->hasDebugModeEnabled())
-{
-    Route::get('kitchen-sink', fn() => Inertia::render('kitchen-sink', [
-        'round' => fractal(Round::active()->first(), RoundTransformer::class)->toArray()
-    ]))->name('kitchen-sink');
-}
 
 // ----------------------------------------------------------------------------
 // API endpoints.
