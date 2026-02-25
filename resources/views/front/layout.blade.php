@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap" rel="stylesheet">
     @viteReactRefresh
-    @vite(['resources/css/app.css', 'resources/js/components.js'])
+    @vite(['resources/css/app.css', 'resources/js/components.tsx', 'resources/js/player.tsx'])
     <link rel="sitemap" href="{{ route('sitemap') }}" type="application/xml"/>
 
     {{-- Open Graph tags. --}}
@@ -70,7 +70,7 @@
             <a href="{{ route('contact') }}">Contact</a>
         </nav>
 
-        <label type="button" class="site-header-nav-open" for="nav-open" title="Menu">
+        <label class="site-header-nav-open" for="nav-open" title="Menu">
             <i class="fa-solid fa-bars"></i>
         </label>
     </div>

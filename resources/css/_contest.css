@@ -112,3 +112,32 @@
         @apply right-4 md:right-8;
     }
 }
+
+#song-player {
+    @apply z-10 fixed bg-white dark:bg-gray-700 shadow-md w-full max-w-lg overflow-hidden;
+    @apply top-[100dvh] left-1/2 -translate-x-1/2 -translate-y-[calc(100%+1rem)];
+
+    .song-player-video {
+        @apply bg-black;
+    }
+
+    .song-player-banner {
+        @apply flex items-center font-display;
+    }
+
+    .song-player-banner-flag {
+        @apply ml-3;
+    }
+
+    .song-player-banner-song {
+        @apply flex-grow flex flex-col px-3;
+    }
+
+    .song-player-banner-act {
+        @apply text-base leading-none;
+    }
+    .song-player-banner-title {
+        @apply text-xs leading-none;
+    }
+}
+

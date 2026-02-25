@@ -1,5 +1,5 @@
 <div class="song-item">
-    <button class="song-item-image" type="button">
+    <button class="song-item-image" type="button" onclick="openSongPlayer(this)" data-song="{{ json_encode($song) }}">
         @include('front.act-image', ['act' => $song['act'], 'size' => 'full'])
     </button>
     <div class="song-item-act">
