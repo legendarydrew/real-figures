@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 interface CountdownTimerProps {
     timestamp: string;
@@ -20,7 +21,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
     useEffect(() => updateTimer(), [timestamp]);
     useEffect(() => updateWarnTime(), [warnAt]);
 
-    const countdownInterval = useRef(null);
+    const countdownInterval: RefObject<number | null> = useRef(null);
 
     const updateTimer = () => {
         const now = new Date().getTime();
@@ -56,13 +57,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
         return ('00' + value.toString()).slice(-2);
     }
 
-    const smallWarningClasses = (): string => {
-        return warning ? ' text-destructive-foreground text-shadow-sm' : '';
-    }
-
-    const largeWarningClasses = (): string => {
-        return warning ? ' text-green-200 text-shadow-sm' : ' text-white';
-    }
+    const warningClass: string = warning ? 'warning' : '';
 
     // When this component mounts, update the countdown timer every half second (for more accuracy).
     useEffect(() => {
@@ -75,40 +70,35 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
     }, []); // empty array = execute on mount.
 
     return (
-        <div
-            className="flex justify-center font-semibold items-center gap-1 text-xl text-center leading-none">
+        <div className="countdown-timer">
             {size.toLowerCase() === 'large' ? (
                 <>
-                    <div
-                        className={`flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 ${largeWarningClasses()} rounded-sm text-center`}>
-                        <span className="text-3xl">{formatDigits(counter.days)}</span>
-                        <span className="text-xs">days</span>
+                    <div className={cn('large-digit', warningClass)}>
+                        <span className="digit">{formatDigits(counter.days)}</span>
+                        <span className="unit">days</span>
                     </div>
-                    <div
-                        className={`flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 ${largeWarningClasses()} rounded-sm text-center`}>
-                        <span className="text-3xl">{formatDigits(counter.hours)}</span>
-                        <span className="text-xs">hours</span>
+                    <div className={cn('large-digit', warningClass)}>
+                        <span className="digit">{formatDigits(counter.hours)}</span>
+                        <span className="unit">hours</span>
                     </div>
-                    <div
-                        className={`flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 ${largeWarningClasses()} rounded-sm text-center`}>
-                        <span className="text-3xl">{formatDigits(counter.mins)}</span>
-                        <span className="text-xs">minutes</span>
+                    <div className={cn('large-digit', warningClass)}>
+                        <span className="digit">{formatDigits(counter.mins)}</span>
+                        <span className="unit">minutes</span>
                     </div>
-                    <div
-                        className={`flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 ${largeWarningClasses()} rounded-sm text-center`}>
-                        <span className="text-3xl">{formatDigits(counter.secs)}</span>
-                        <span className="text-xs">seconds</span>
+                    <div className={cn('large-digit', warningClass)}>
+                        <span className="digit">{formatDigits(counter.secs)}</span>
+                        <span className="unit">seconds</span>
                     </div>
                 </>
             ) : (
                 <>
-                    <span className={`w-7 ${smallWarningClasses()}`}>{formatDigits(counter.days)}</span>
+                    <span className={cn('small-digit', warningClass)}>{formatDigits(counter.days)}</span>
                     <span>:</span>
-                    <span className={`w-7 ${smallWarningClasses()}`}>{formatDigits(counter.hours)}</span>
+                    <span className={cn('small-digit', warningClass)}>{formatDigits(counter.hours)}</span>
                     <span>:</span>
-                    <span className={`w-7 ${smallWarningClasses()}`}>{formatDigits(counter.mins)}</span>
+                    <span className={cn('small-digit', warningClass)}>{formatDigits(counter.mins)}</span>
                     <span>:</span>
-                    <span className={`w-7 ${smallWarningClasses()}`}>{formatDigits(counter.secs)}</span>
+                    <span className={cn('small-digit', warningClass)}>{formatDigits(counter.secs)}</span>
                 </>
             )}
         </div>

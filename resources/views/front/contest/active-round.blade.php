@@ -16,7 +16,7 @@
             {{-- The current round. --}}
             <div class="flex flex-col md:flex-row items-center justify-between my-4">
                 <h2 class="page-subheading">{{ $current_round['full_title'] }}</h2>
-                <div class="flex flex-end items-center gap-2">
+                <div class="contest-round-countdown">
                     <span class="text-sm">Voting ends in</span>
                     <countdown timestamp="{{$countdown}}"></countdown>
                 </div>

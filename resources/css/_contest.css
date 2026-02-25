@@ -178,3 +178,8 @@
         }
     }
 }
+
+.contest-round-countdown {
+    @apply bg-black/50 px-4 py-2 select-none;
+    @apply flex justify-end items-center gap-2;
+}

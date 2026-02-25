@@ -1,0 +1,27 @@
+.countdown-timer {
+    @apply flex justify-center font-display items-center gap-1 text-xl text-center leading-none;
+
+    .small-digit {
+        @apply w-7;
+
+        &.warning {
+            @apply text-destructive-foreground;
+        }
+    }
+
+    .large-digit {
+        @apply flex flex-col gap-0.5 leading-none w-18 p-2 bg-gray-800 rounded-sm text-center text-white;
+
+        .digit {
+            @apply text-3xl font-display;
+        }
+
+        .unit {
+            @apply text-xs;
+        }
+
+        &.warning {
+            @apply text-green-200 text-shadow-sm;
+        }
+    }
+}
