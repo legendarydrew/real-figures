@@ -48,9 +48,11 @@ has the theme configured here.)
 
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
+    --color-primary-hover: #7c81d3;
 
     --color-secondary: var(--secondary);
     --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary-hover: #3e4856;
 
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
