@@ -52,7 +52,6 @@
         </div>
 
         @if (isset($post['pages']['previous']) || isset($post['pages']['next']))
-            <hr>
             <nav class="news-nav">
                 @if ($post['pages']['previous'])
                     <a class="news-nav-prev" href="{{$post['pages']['previous']['url']}}" rel="prev">
@@ -73,6 +72,8 @@
                     </a>
                 @endif
             </nav>
+
+            <hr>
         @endif
 
         @if (isset($post['pages']['others']) && count($post['pages']['others']))
@@ -80,7 +81,10 @@
             <menu class="news-more">
                 @foreach($post['pages']['others'] as $row)
                     <a class="news-more-link" href={{$row['url']}}>
-                        {{$row['title']}}
+                        <div class="news-more-link-icon">
+                            <i class="fa-solid fa-newspaper"></i>
+                        </div>
+                        <span class="news-more-link-title">{{$row['title']}}</span>
                     </a>
                 @endforeach
             </menu>

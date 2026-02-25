@@ -29,7 +29,7 @@
                 </article>
             @endforeach
 
-                {{ $paginator->links() }}
+            {{ $paginator->links() }}
         </div>
 
     @include('front.advert')
