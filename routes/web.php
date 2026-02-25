@@ -37,9 +37,12 @@ use App\Http\Controllers\Back\StagesController;
 use App\Http\Controllers\Back\SubscribersController;
 use App\Http\Controllers\Front\AboutController;
 use App\Http\Controllers\Front\ActsController as FrontActsController;
+use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\ContestController;
 use App\Http\Controllers\Front\DonateController;
+use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\NewsController as FrontNewsController;
+use App\Http\Controllers\Front\RulesController;
 use App\Http\Controllers\Front\SitemapController;
 use App\Http\Controllers\Front\SubscriberConfirmController;
 use App\Http\Controllers\Settings\PasswordController;
@@ -52,16 +55,15 @@ use Inertia\Inertia;
 // ----------------------------------------------------------------------------
 // Front-facing pages.
 // ----------------------------------------------------------------------------
-Route::get('/', fn() => view('front/home'))->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('about', [AboutController::class, 'index'])->name('about');
 Route::get('acts', [FrontActsController::class, 'index'])->name('acts');
-Route::get('contact', fn() => view('front/contact'))->name('contact');
+Route::get('contact', [ContactController::class, 'index'])->name('contact');
 Route::get('contest', [ContestController::class, 'index'])->name('contest');
 Route::get('donate', [DonateController::class, 'index'])->name('donate');
 Route::get('news', [FrontNewsController::class, 'index'])->name('news');
 Route::get('news/{slug}', [FrontNewsController::class, 'show'])->name('news.show');
-Route::get('rules', fn() => view('front/rules'))->name('rules');
-Route::get('songs', fn() => view('front/songs'))->name('songs');
+Route::get('rules', [RulesController::class, 'index'])->name('rules');
 Route::get('subscriber/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
