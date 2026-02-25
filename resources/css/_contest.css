@@ -67,10 +67,6 @@
 .contest-previous-round {
     @apply mb-2 bg-black/50 p-4 rounded-sm;
 
-    .contest-round {
-        @apply lg:grid-cols-4;
-    }
-
     .song-item-flag {
         --CountryFlagIcon-height: 0.75rem;
     }
