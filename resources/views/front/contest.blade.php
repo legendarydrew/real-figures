@@ -1,5 +1,9 @@
 @extends('front.layout')
 
+@section('vite')
+    @vite(['resources/js/player.tsx'])
+@endsection
+
 @section('content')
     <div class="contest" style="background-image: url({{ asset('img/bg-stage.jpg') }}">
 

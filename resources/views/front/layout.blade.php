@@ -17,8 +17,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap" rel="stylesheet">
     @viteReactRefresh
-    @vite(['resources/css/app.css', 'resources/js/components.tsx', 'resources/js/player.tsx'])
+    @vite(['resources/css/app.css', 'resources/js/components.tsx'])
     <link rel="sitemap" href="{{ route('sitemap') }}" type="application/xml"/>
+    @yield('vite')
 
     {{-- Open Graph tags. --}}
     <meta property="og:title" content="@yield('page-title', config('app.name'))"/>
