@@ -14,7 +14,7 @@
 
         @if($current_round)
             {{-- The current round. --}}
-            <div class="flex justify-between my-4">
+            <div class="flex flex-col md:flex-row items-center justify-between my-4">
                 <h2 class="page-subheading">{{ $current_round['full_title'] }}</h2>
                 <div class="flex flex-end items-center gap-2">
                     <span class="text-sm">Voting ends in</span>
@@ -38,7 +38,7 @@
         @if(count($previous_rounds))
             @include('front.advert')
 
-            <h2 class="page-subheading">Previous Rounds</h2>
+            <h2 class="page-subheading contest-previous-heading">Previous Rounds</h2>
 
             {{-- Previous rounds. --}}
             @foreach ($previous_rounds as $round)
@@ -48,8 +48,7 @@
 
         <div class="golden-buzzer-prompt">
             <div class="inner"></div>
-            <p><b>Don't forget:</b> you can support your favourite Acts with a <b>Golden Buzzer</b>,
-                and reward them with <em>the same honours as the winners</em>.</p>
+            <p><b>Don't forget:</b> you can support your favourite Acts with a <b>Golden Buzzer</b>.</p>
             @if(isset($stage['goldenBuzzerPerks']))
                 <div class="golden-buzzer-perks">
                     {!! $stage['goldenBuzzerPerks'] !!}

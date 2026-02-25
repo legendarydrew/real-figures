@@ -264,9 +264,10 @@ has the theme configured here.)
 
     .golden-buzzer-prompt {
         @apply bg-linear-to-r from-yellow-700 to-yellow-500;
-        @apply relative pl-8 pr-[25%] py-4 text-center z-1;
+        @apply relative px-4 md:pl-8 md:pr-[25%] py-4 text-center leading-tight z-1;
 
         .inner {
+            @apply max-sm:hidden;
             /* Background image with a gradual fade out - thanks to ChatGPT. */
             @apply bg-[url('../../public/img/banners/golden-buzzer-4.jpg')] bg-no-repeat bg-right bg-contain bg-blend-multiply;
             @apply mask-linear-[to_left,black_50%,transparent_75%];
