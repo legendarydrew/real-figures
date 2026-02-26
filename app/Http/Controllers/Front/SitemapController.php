@@ -4,13 +4,18 @@ namespace App\Http\Controllers\Front;
 
 use App\Facades\ContestFacade;
 use App\Http\Controllers\Controller;
-use App\Models\Act;
 use App\Models\NewsPost;
 use Illuminate\Http\Request;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * SitemapController
+ * Responsible for the creation of an XML sitemap file.
+ *
+ * @package App\Http\Controllers\Front
+ */
 class SitemapController extends Controller
 {
     public function index(Request $request): Response
@@ -19,6 +24,9 @@ class SitemapController extends Controller
 
         // Home page.
         $sitemap->add(Url::create(route('home'))->setPriority(1));
+
+        // Contest page.
+        $sitemap->add(Url::create(route('contest'))->setPriority(0.9));
 
         // News pages (if there are published News Posts to show).
         if (ContestFacade::shouldShowNews())
@@ -36,18 +44,13 @@ class SitemapController extends Controller
         if (ContestFacade::shouldShowActs())
         {
             $sitemap->add(Url::create(route('acts')));
-
-            Act::whereHas('songs')->whereHas('profile')->get()->each(function (Act $act) use (&$sitemap)
-            {
-                $sitemap->add(Url::create(route('act', ['slug' => $act->slug])));
-            });
         }
 
         // Rules page.
         $sitemap->add(Url::create(route('rules')));
 
         // Donations page.
-        $sitemap->add(Url::create(route('donations')));
+        $sitemap->add(Url::create(route('donate')));
 
         // Votes page (if available).
         if (ContestFacade::isOver())
