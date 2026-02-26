@@ -21,7 +21,7 @@ class RoundVoteBreakdownTransformer extends TransformerAbstract
                 'first_choice_votes'  => $outcome->first_votes,
                 'second_choice_votes' => $outcome->second_votes,
                 'third_choice_votes'  => $outcome->third_votes,
-//                'was_manual'          => $outcome->was_manual
+                'has_buzzer'          => $outcome->song->goldenBuzzers()->where('round_id', $round->id)->exists(),
             ]),
             'manual_vote' => $round->outcomes->every('was_manual')
         ];

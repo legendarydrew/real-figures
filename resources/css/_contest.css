@@ -208,15 +208,15 @@
     td, th {
         @apply px-2 py-1;
 
-        &:first-child {
-            /* Golden Buzzer column. */
-            @apply w-16 text-center;
+        &:nth-child(-n+2) {
+            /* Golden Buzzer and win columns. */
+            @apply w-10 text-center;
         }
-        &:nth-child(3) {
+        &:nth-child(4) {
             /* Score column. */
             @apply w-24 display-text text-right;
         }
-        &:nth-child(n+4) {
+        &:nth-child(n+5) {
             /* Votes columns. */
             @apply w-16 text-sm text-right;
         }

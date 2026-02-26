@@ -33,8 +33,9 @@
                         <table class="votes-breakdown">
                             <thead>
                             <tr>
-                                <th scope="col">Golden<br>Buzzer</th>
-                                <th scope="col"></th>
+                                <th scope="col"></th>{{-- Golden Buzzer --}}
+                                <th scope="col"></th>{{-- Winner/Runner-up --}}
+                                <th scope="col"></th>{{-- Act --}}
                                 <th scope="col">Score</th>
                                 <th scope="col">1st choice</th>
                                 <th scope="col">2nd choice</th>
@@ -44,6 +45,11 @@
                             <tbody>
                             @foreach($breakdown['songs'] as $song)
                                 <tr>
+                                    <td>
+                                        @if($song['has_buzzer'])
+                                            <i class="fa-solid fa-star text-gold" title="Awarded a Golden Buzzer."></i>
+                                        @endif
+                                    </td>
                                     <td></td>
                                     <th scope="row">
                                         <div class="flex gap-2 items-center">
