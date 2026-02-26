@@ -46,48 +46,18 @@
             @endforeach
         </ul>
 
+        <div class="text-center my-8">
+            <a href="{{ route('votes') }}" class="button primary large">View voting breakdown</a>
+        </div>
+
         @include('front.advert')
 
-        <!-- Table of scores. -->
-        <div class="contest-panel">
-            <table class="contest-scores">
-                <caption>Final Rankings</caption>
-                <thead>
-                <tr>
-                    <th scope="col">&nbsp;</th>
-                    <th scope="col">Score</th>
-                    <th scope="col" class="max-md:hidden">1st</th>
-                    <th scope="col" class="max-md:hidden">2nd</th>
-                    <th scope="col" class="max-md:hidden">3rd</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($outcomes as $row)
-                    <tr>
-                        <th scope="row">{{ $row['song']['act']['name'] }}</th>
-                        <td class="contest-score-total">{{ $row['score'] }}</td>
-                        <td class="max-md:hidden">{{ $row['first_votes'] }}</td>
-                        <td class="max-md:hidden">{{ $row['second_votes'] }}</td>
-                        <td class="max-md:hidden">{{ $row['third_votes'] }}</td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
 
         <footer class="contest-footer content">
             <p>Whether your favourite song made it to the top or not, <b>you helped make this contest unforgettable.</b>
             </p>
             <p>Your support amplified voices, celebrated creativity, and helped shine a light on an important cause.</p>
-            <p>
-                From everyone at CATAWOL Records &mdash; <b>thank you.</b>
-            </p>
+            <p> From everyone at CATAWOL Records &mdash; <b>thank you.</b></p>
         </footer>
     </div>
 @endsection
-
-{{-- TODO display the results of previous stages.--}}
-{{-- TODO display the number of votes. --}}
-{{-- TODO indicate songs that received Golden Buzzers. --}}
-{{-- TODO indicate high-scoring runner-ups. --}}
-{{-- TODO indicate rank numbers. --}}

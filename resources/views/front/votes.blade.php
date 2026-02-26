@@ -23,6 +23,8 @@
                         @endif
                         @if($breakdown['manual_vote'])
                             <p class="text-sm">Winners were determined by an independent panel.</p>
+                            @else
+                                <p class="text-sm"><b>{{ $breakdown['vote_count'] }}</b> total votes cast.</p>
                         @endif
 
                         <table class="votes-breakdown">
