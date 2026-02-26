@@ -54,3 +54,21 @@ for (const element: HTMLElement of tags) {
     createRoot(element).render(<GoldenBuzzerDialog stage={JSON.parse(stage)} round={JSON.parse(round)}
                                                    song={JSON.parse(song)}/>);
 }
+
+// If there is a hash in the current URL, scroll to the location of the respective element (if there is one).
+// This is more for the benefit of linking to collapse sections.
+const hash = window.location.hash;
+if (hash) {
+    const element = document.getElementById(hash.replace('#', ''));
+    const menu = document.querySelector('header.site-header');
+    const checkbox = element.parentElement.querySelector('input[type="checkbox"]');
+    if (checkbox) {
+        checkbox.setAttribute('checked', 'checked'); // open the collapse section.
+    }
+    if (element) {
+        window.scrollTo({
+            behavior: 'smooth',
+            top: element.getBoundingClientRect().top + window.scrollY - menu.clientHeight - 24
+        });
+    }
+}
