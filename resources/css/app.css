@@ -189,7 +189,7 @@ has the theme configured here.)
 }
 
 @utility display-text {
-    @apply font-display font-medium tracking-wide;
+    @apply font-display font-medium leading-tight;
 }
 
 @utility hover-bg {

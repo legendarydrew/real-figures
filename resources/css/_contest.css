@@ -4,13 +4,17 @@
 
 .contest {
     @apply bg-cover bg-[#030923] bg-center bg-fixed min-h-full text-white text-shadow-sm p-4 lg:p-8;
+
+    .site-container {
+        @apply max-sm:px-0;
+    }
 }
 
 .contest-header {
     @apply text-center my-8;
 
     h1 {
-        @apply font-display text-2xl font-normal mt-4 mb-2;
+        @apply display-text text-2xl mt-4 mb-2;
     }
 
     p {
@@ -22,11 +26,11 @@
     @apply mx-auto text-white w-full;
 
     caption {
-        @apply font-display font-normal text-xl my-1;
+        @apply display-text text-xl my-1;
     }
 
     th {
-        @apply font-display font-normal text-right px-4 py-0.5;
+        @apply display-text text-right px-4 py-0.5;
     }
 
     td {
@@ -105,7 +109,7 @@
 }
 
 .song-item-act-name {
-    @apply font-display text-lg text-left text-shadow-md/60 leading-none flex-grow;
+    @apply display-text text-lg text-left text-shadow-md/60 leading-none flex-grow;
 }
 
 .song-item-golden-buzzer {
@@ -137,7 +141,7 @@
     }
 
     .song-player-banner {
-        @apply flex items-center font-display;
+        @apply flex items-center display-text;
     }
 
     .song-player-banner-flag {
@@ -182,4 +186,60 @@
 .contest-round-countdown {
     @apply bg-black/50 px-4 py-2 select-none;
     @apply flex justify-end items-center gap-2;
+}
+
+.votes-stage {
+    @apply bg-dark/80 text-center my-8 p-4 md:p-8;
+
+    h2 {
+        @apply display-text text-xl
+    }
+}
+
+.votes-round {
+    h3 {
+        @apply display-text mb-4 text-base;
+    }
+}
+
+.votes-breakdown {
+    @apply w-full text-white select-none;
+
+    tr {
+        @apply hover-bg;
+    }
+
+    td, th {
+        @apply px-2 py-1;
+
+        &:nth-child(-n+2) {
+            /* Golden Buzzer and win columns. */
+            @apply w-8 max-sm:px-0 md:w-10 text-center;
+        }
+        &:nth-child(4) {
+            /* Score column. */
+            @apply w-16 md:w-24 display-text text-right;
+        }
+        &:nth-child(n+5) {
+            /* Votes columns. */
+            @apply w-16 text-sm text-right;
+        }
+
+        /* Hide columns at small screen widths. */
+        &:nth-child(1),
+        &:nth-child(n+5),
+        .act-image,
+        .flag {
+            @apply max-sm:hidden;
+        }
+    }
+
+    thead th {
+        @apply border-b-1 align-bottom;
+    }
+
+    tbody th {
+        /* Act. */
+        @apply display-text text-left;
+    }
 }

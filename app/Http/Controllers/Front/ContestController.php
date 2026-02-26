@@ -6,7 +6,6 @@ use App\Facades\ContestFacade;
 use App\Facades\ContestFacade as Contest;
 use App\Http\Controllers\Controller;
 use App\Models\Round;
-use App\Transformers\RoundOutcomeTransformer;
 use App\Transformers\RoundTransformer;
 use App\Transformers\StageTransformer;
 use Illuminate\Contracts\View\View;
@@ -25,21 +24,21 @@ class ContestController extends Controller
     {
         /*
          * What we want to display
-        +======================+===========+=======+=======+========+===============+========+
-        |    contest state     | countdown | stage | songs | voting | golden buzzer | scores |
-        +======================+===========+=======+=======+========+===============+========+
-        | prelaunch            |           |       |       |        |               |        |
-        +----------------------+-----------+-------+-------+--------+---------------+--------+
-        | before first round   | y         | y     |       |        |               |        |
-        +----------------------+-----------+-------+-------+--------+---------------+--------+
-        | in the current round | y         | y     | y     | y      | y             |        |
-        +----------------------+-----------+-------+-------+--------+---------------+--------+
-        | stage over           |           | y     | y     |        | y             |        |
-        +----------------------+-----------+-------+-------+--------+---------------+--------+
-        | stage winners chosen |           | y     | y     |        |               | y      |
-        +----------------------+-----------+-------+-------+--------+---------------+--------+
-        | contest over         |           |       | y     |        |               | y      |
-        +----------------------+-----------+-------+-------+--------+---------------+--------+
+        +======================+===========+=======+=======+========+===============+
+        |    contest state     | countdown | stage | songs | voting | golden buzzer |
+        +======================+===========+=======+=======+========+===============+
+        | prelaunch            |           |       |       |        |               |
+        +----------------------+-----------+-------+-------+--------+---------------+
+        | before first round   | y         | y     |       |        |               |
+        +----------------------+-----------+-------+-------+--------+---------------+
+        | in the current round | y         | y     | y     | y      | y             |
+        +----------------------+-----------+-------+-------+--------+---------------+
+        | stage over           |           | y     | y     |        | y             |
+        +----------------------+-----------+-------+-------+--------+---------------+
+        | stage winners chosen |           | y     | y     |        |               |
+        +----------------------+-----------+-------+-------+--------+---------------+
+        | contest over         |           |       | y     |        |               |
+        +----------------------+-----------+-------+-------+--------+---------------+
         (courtesy of https://ozh.github.io/ascii-tables/)
         For convenience, we're assuming that all available Stages are part of the same contest.
         */
@@ -50,10 +49,8 @@ class ContestController extends Controller
 
         if (ContestFacade::isOver())
         {
-            $outcomes = $current_stage->outcomes()->scoreOrder()->get()->sortByDesc(fn($outcome) => $outcome->score);
             return view('front.contest.over', [
-                'results'  => ContestFacade::overallWinners(),
-                'outcomes' => fractal($outcomes, RoundOutcomeTransformer::class)->toArray(),
+                'results'  => ContestFacade::overallWinners()
             ]);
         }
 

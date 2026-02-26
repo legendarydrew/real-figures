@@ -55,9 +55,9 @@ class RoundOutcome extends Model
 
     public function scopeScoreOrder(Builder $builder): Builder
     {
-        return $builder->orderBy('first_votes', 'desc')
-                       ->orderBy('second_votes', 'desc')
-                       ->orderBy('third_votes', 'desc');
+        return $builder->orderByDesc('first_votes')
+                       ->orderByDesc('second_votes')
+                       ->orderByDesc('third_votes');
     }
 
 }

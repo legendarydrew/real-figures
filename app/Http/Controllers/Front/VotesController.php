@@ -2,39 +2,32 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Facades\ContestFacade;
-use App\Facades\VoteBreakdownFacade;
 use App\Http\Controllers\Controller;
-use App\Models\Round;
 use App\Models\Stage;
-use Inertia\Inertia;
-use Inertia\Response;
+use App\Transformers\StageVoteBreakdownTransformer;
+use Illuminate\View\View;
 
 /**
  * VotesController
  * A page that displays a breakdown of votes for each Stage.
- * Only breakdowns for over Stages will be shown. If there are no over Stages,
- * this page should not exist.
+ * Only breakdowns for over Stages will be shown.
+ * If there are no over Stages, this page should not be accessible.
  *
  * @package App\Http\Controllers\Front
  */
 class VotesController extends Controller
 {
-    public function index(): Response
+    public function index(): View
     {
-        if (ContestFacade::isOver())
+        $stages = Stage::whereHas('outcomes')
+                       ->orderByDesc('id')
+                       ->get()
+                       ->filter(fn(Stage $stage) => $stage->isOver());
+        if ($stages->isNotEmpty())
         {
-            $stages = Stage::whereHas('outcomes')->orderByDesc('id')->get()->filter(fn(Stage $stage) => $stage->isOver());
-            if ($stages->isNotEmpty())
-            {
-                return Inertia::render('front/votes', [
-                    'stages' => fn() => $stages->map(fn(Stage $stage) => [
-                        'id'         => $stage->id, // for testing purposes.
-                        'title'      => $stage->title,
-                        'breakdowns' => $stage->rounds->map(fn(Round $round) => VoteBreakdownFacade::forRound($round))
-                    ]),
-                ]);
-            }
+            return view('front.votes', [
+                'stages' => fractal($stages, StageVoteBreakdownTransformer::class)->toArray()
+            ]);
         }
 
         abort(404);
