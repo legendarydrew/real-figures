@@ -45,6 +45,7 @@ use App\Http\Controllers\Front\NewsController as FrontNewsController;
 use App\Http\Controllers\Front\RulesController;
 use App\Http\Controllers\Front\SitemapController;
 use App\Http\Controllers\Front\SubscriberConfirmController;
+use App\Http\Controllers\Front\VotesController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +65,7 @@ Route::get('news/{slug}', [FrontNewsController::class, 'show'])->name('news.show
 Route::get('rules', [RulesController::class, 'index'])->name('rules');
 Route::get('subscriber/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('votes', [VotesController::class, 'index'])->name('votes');
 
 // ----------------------------------------------------------------------------
 // API endpoints.
