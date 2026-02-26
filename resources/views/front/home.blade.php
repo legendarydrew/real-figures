@@ -25,7 +25,7 @@
                         <h2>Subscribe for updates!</h2>
                         <subscribe-form></subscribe-form>
                         <p>
-                            Stay updated about the contest's progress, and be informed about when
+                            Stay updated about the Contest's progress, and be informed about when
                             it's time to cast your votes!<br>
                             <em>Your details will not be used for anything else.</em>
                         </p>

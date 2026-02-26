@@ -19,7 +19,7 @@
             </div>
         @else
             <div class="nothing">
-                No Acts have entered the contest - yet!
+                No Acts have entered the Contest &mdash; yet!
             </div>
         @endif
 

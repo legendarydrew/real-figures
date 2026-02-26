@@ -46,7 +46,7 @@ const RulesPage: React.FC = () => {
             <FrontContent>
                 <figure className="mb-5">
                     <img className="object-cover h-50 mx-auto" src="/img/panel-of-judges-ai.jpg"
-                         alt="A representative panel of judges for the song contest."/>
+                         alt="A representative panel of judges for the Song Contest."/>
                 </figure>
 
                 <div className="flex flex-col md:flex-row mb-5 gap-5 mb:gap-10">
@@ -103,7 +103,7 @@ const RulesPage: React.FC = () => {
                             <dd className="md:w-7/8 mb-2">
                                 A major phase of the Contest:
                                 <ul className="my-2">
-                                    <li><b>Knockout Stage</b> &ndash; the initial round-based competition.</li>
+                                    <li><b>Knockout Stage</b> &ndash; the initial Round-based competition.</li>
                                     <li><b>Finals</b> &ndash; the creative reinterpretation phase for the top 10
                                         Songs.
                                     </li>

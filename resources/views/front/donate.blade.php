@@ -38,7 +38,7 @@
                 provides telephone advice and works directly with parents, children and carers experiencing bullying,
                 across the United Kingdom.</p>
             <p>You can also <a href="{{route('contact')}}">contact us</a> directly with other suggestions for supporting
-                the contest.</p>
+                the Contest.</p>
         </div>
 
         <!-- Donations -->

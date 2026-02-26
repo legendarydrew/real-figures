@@ -3,8 +3,8 @@
 
     <div class="content text-center">
         <h2>CATAWOL Records presents: Real Figures Don't F.O.L.D</h2>
-        <p>An upskilling and advocacy project in the form of a song contest,
-            calling attention to <b>bullying within adult hobby groups:</b>
+        <p>An upskilling and advocacy project in the form of a Song Contest,
+            calling attention to <b>bullying within adult and hobby groups:</b>
             in particular, within the LEGO space.</p>
     </div>
 

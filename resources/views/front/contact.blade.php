@@ -17,7 +17,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-5 lg:gap-8">
             <div class="content lg:col-span-2">
-                <p>Have a question about the contest? Want to know more about the voting process,
+                <p>Have a question about the Contest? Want to know more about the voting process,
                     submissions, or the Golden Buzzer? We’d love to hear from you!</p>
                 <p>Whether you're an artist, a voter, a supporter, or just curious, we’re all ears.</p>
 

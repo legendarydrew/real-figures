@@ -14,7 +14,7 @@
 <ul>
     <li>members of the F.O.L.D.;</li>
     <li>relatives or affiliates of competing Acts;</li>
-    <li>contest administrators;</li>
+    <li>Contest administrators;</li>
     <li>employees of CATAWOL Records.</li>
 </ul>
 <p>Only votes cast while a Round is open will be counted.</p>

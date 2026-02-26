@@ -24,7 +24,7 @@ const NewsPage: React.FC<NewsPageProps> = ({ posts }) => {
         <>
             <Head title="Contest News">
                 <meta name="description"
-                      content="Stay updated with the latest news from the CATAWOL Records Song Contest — announcements, round results, artist highlights, and behind-the-scenes stories."/>
+                      content="Stay updated with the latest news from the CATAWOL Records Song Contest — announcements, Round results, Act highlights, and behind-the-scenes stories."/>
             </Head>
 
             <FrontContent>

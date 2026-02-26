@@ -1,7 +1,7 @@
 @extends('front.layout')
 
 @section('page-title', 'Contest Rules')
-@section('page-description', 'The official rules for the CATAWOL Records song contest: how it works, who can vote, what the stages involve, and how winners are chosen.')
+@section('page-description', 'The official rules for the CATAWOL Records Song Contest: how it works, who can vote, what the stages involve, and how winners are chosen.')
 
 @section('content')
 
@@ -9,7 +9,7 @@
 
         <div class="page-banner">
             <img src="{{ asset('img/banners/rules-5.jpg') }}"
-                 alt="A representative panel of judges for the song contest.">
+                 alt="A representative panel of judges for the Song Contest.">
         </div>
 
         <h1 class="page-heading">Real Figures Don't F.O.L.D &ndash; Contest Rules</h1>
