@@ -17,11 +17,6 @@
 
                 @foreach($stage['breakdowns'] as $breakdown)
                     {{-- each Round in the Stage. --}}
-                    {{--
-                    What we want to see:
-                    - whether a Song received a Golden Buzzer in that round;
-                    - which Song(s) won (winner or runner-up).
-                                   --}}
                     <div class="votes-round">
                         @if (count($stage['breakdowns']) > 1)
                             <h3>{{$breakdown['title']}}</h3>
@@ -37,9 +32,9 @@
                                 <th scope="col"></th>{{-- Winner/Runner-up --}}
                                 <th scope="col"></th>{{-- Act --}}
                                 <th scope="col">Score</th>
-                                <th scope="col">1st choice</th>
-                                <th scope="col">2nd choice</th>
-                                <th scope="col">3rd choice</th>
+                                <th scope="col">1st</th>
+                                <th scope="col">2nd</th>
+                                <th scope="col">3rd</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -50,10 +45,17 @@
                                             <i class="fa-solid fa-star text-gold" title="Awarded a Golden Buzzer."></i>
                                         @endif
                                     </td>
-                                    <td></td>
+                                    <td>
+                                        @if($song['win_status'] === \App\Enums\RoundWinState::WINNER)
+                                            <i class="fa-solid fa-trophy text-gold" title="Winner"></i>
+                                        @elseif($song['win_status'] === \App\Enums\RoundWinState::RUNNER_UP)
+                                            <i class="fa-solid fa-ribbon text-primary" title="Runner-Up"></i>
+                                        @endif
+                                    </td>
                                     <th scope="row">
                                         <div class="flex gap-2 items-center">
                                             @include('front.act-image', ['act' => $song['song']['act'], 'size' => 8])
+                                            <span class="flag flag:{{ $song['song']['language']['flag'] }}"></span>
                                             {{ $song['song']['act']['name'] }}
                                         </div>
                                     </th>

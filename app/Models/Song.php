@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RoundWinState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -39,6 +40,11 @@ class Song extends Model
     public function rounds(): HasManyThrough
     {
         return $this->hasManyThrough(Round::class, RoundSongs::class, 'song_id', 'id', 'id', 'round_id');
+    }
+
+    public function wins(): HasMany
+    {
+        return $this->hasMany(StageWinner::class);
     }
 
     /**
@@ -103,5 +109,34 @@ class Song extends Model
               ->where('song_id', $this->id)
               ->delete();
         }
+    }
+
+    /**
+     * Returns TRUE if the Song received a Golden Buzzer in the specified Round.
+     *
+     * @param Round $round
+     * @return bool
+     */
+    public function hasGoldenBuzzer(Round $round): bool
+    {
+        return $this->goldenBuzzers->some('round_id', $round->id);
+    }
+
+    /**
+     * Determines whether this Song was a winner or a runner-up in the specified Round.
+     *
+     * @param Round $round
+     * @return RoundWinState
+     */
+    public function roundWinStatus(Round $round): RoundWinState
+    {
+        $win = $this->wins()->where('round_id', $round->id)->first();
+
+        if ($win)
+        {
+            return $win->is_winner ? RoundWinState::WINNER : RoundWinState::RUNNER_UP;
+        }
+
+        return RoundWinState::NONE;
     }
 }

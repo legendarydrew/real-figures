@@ -185,7 +185,7 @@
 }
 
 .votes-stage {
-    @apply bg-dark/80 text-center p-4 md:p-8;
+    @apply bg-dark/80 text-center my-8 p-4 md:p-8;
 
     h2 {
         @apply display-text text-xl
@@ -223,7 +223,7 @@
     }
 
     thead th {
-        @apply align-bottom leading-none;
+        @apply border-b-1 align-bottom;
     }
 
     tbody th {
