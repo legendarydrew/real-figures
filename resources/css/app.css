@@ -19,6 +19,7 @@ has the theme configured here.)
 @import "./_home.css";
 @import "./_about.css";
 @import "./_acts.css";
+@import "./_contact.css";
 @import "./_contest.css";
 @import "./_donate.css";
 @import "./_news.css";

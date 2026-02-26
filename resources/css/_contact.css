@@ -1,0 +1,11 @@
+.contact-layout {
+    @apply grid grid-cols-1 lg:grid-cols-5 lg:gap-8;
+
+    .content {
+        @apply lg:col-span-2;
+    }
+
+    .contact-layout-form {
+        @apply lg:col-span-3;
+    }
+}
