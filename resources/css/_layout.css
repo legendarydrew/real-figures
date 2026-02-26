@@ -71,6 +71,10 @@
 
     .site-main {
         @apply flex-grow overflow-y-auto;
+
+        >.site-container:first-child {
+            @apply my-8;
+        }
     }
 
     .site-footer {

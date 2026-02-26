@@ -8,11 +8,11 @@
     }
 
     a:not(.button) {
-        @apply text-link hover:underline;
+        @apply text-link font-semibold hover:underline;
     }
 
     h1, h2, h3 {
-        @apply font-display leading-tight tracking-normal mt-4 mb-2;
+        @apply font-display leading-tight tracking-normal mt-4 mb-2 select-none;
 
         &:not(:first-child) {
             @apply mt-8;
