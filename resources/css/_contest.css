@@ -4,6 +4,10 @@
 
 .contest {
     @apply bg-cover bg-[#030923] bg-center bg-fixed min-h-full text-white text-shadow-sm p-4 lg:p-8;
+
+    .site-container {
+        @apply max-sm:px-0;
+    }
 }
 
 .contest-header {
@@ -210,15 +214,23 @@
 
         &:nth-child(-n+2) {
             /* Golden Buzzer and win columns. */
-            @apply w-10 text-center;
+            @apply w-8 max-sm:px-0 md:w-10 text-center;
         }
         &:nth-child(4) {
             /* Score column. */
-            @apply w-24 display-text text-right;
+            @apply w-16 md:w-24 display-text text-right;
         }
         &:nth-child(n+5) {
             /* Votes columns. */
             @apply w-16 text-sm text-right;
+        }
+
+        /* Hide columns at small screen widths. */
+        &:nth-child(1),
+        &:nth-child(n+5),
+        .act-image,
+        .flag {
+            @apply max-sm:hidden;
         }
     }
 
