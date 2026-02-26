@@ -4,7 +4,7 @@
         @if (isset($icon))
             <i class="{{ $icon }} mr-4"></i>
         @endif
-        {{ $title }}
+        <a id="{{ Str::slug($title) }}">{{ $title }}</a>
     </label>
     <div class="content-collapse-body content">
         @include($content)
