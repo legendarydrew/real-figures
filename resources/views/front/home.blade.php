@@ -19,8 +19,8 @@
                 </div>
                 <div class="home-hero-subscribe">
                     @if(\App\Facades\ContestFacade::isOver())
-                        <p>The Contest is now over. Visit the <a href="{{ route('contest') }}">Contest page</a> to find
-                            out which Acts came out on top.</p>
+                        <p>The Contest is now over. Visit the <a href="{{ route('contest') }}">Contest page</a>
+                            to find out which Acts came out on top.</p>
                     @else
                         <h2>Subscribe for updates!</h2>
                         <subscribe-form></subscribe-form>
@@ -39,31 +39,31 @@
         <div class="home-grid">
             @if(\App\Facades\ContestFacade::shouldShowNews())
                 <a class="home-grid-news" href="{{route('news')}}">
-                    <div class="font-display text-2xl">Contest News</div>
+                    <span class="home-grid-title">Contest News</span>
                 </a>
                 @include('front.advert', ['class' => 'home-grid-advert'])
             @endif
             <a class="home-grid-songs" href="{{route('contest')}}">
-                <div class="font-display text-2xl">Listen to the Songs</div>
-                <div class="font-bold">and vote for your favourites!</div>
+                <span class="home-grid-title">Listen to the Songs</span>
+                <span class="home-grid-subtitle">and vote for your favourites!</span>
             </a>
             <div class="home-grid-buzzer">
                 <div class="inner"></div>
-                <div class="font-display text-2xl">Golden Buzzer</div>
-                <div class="font-bold">Support your favourite Acts and Songs!</div>
+                <span class="home-grid-title">Golden Buzzer</span>
+                <span class="home-grid-subtitle">Support your favourite Acts and Songs!</span>
             </div>
             <a class="home-grid-rules" href="{{ route('rules') }}">
-                <div class="font-display text-2xl">Contest Rules</div>
-                <div class="font-bold">How it all works</div>
+                <span class="home-grid-title">Contest Rules</span>
+                <span class="home-grid-subtitle">How it all works</span>
             </a>
             <a class="home-grid-youtube" href="https://youtube.com/@silentmodetv" target="_blank">
-                <div class="font-display text-lg">CATAWOL on YouTube</div>
+                <span class="home-grid-small-title">CATAWOL on YouTube</span>
             </a>
             <a class="home-grid-about" href="{{ route('about') }}">
-                <div class="font-display text-lg">About the project</div>
+                <span class="home-grid-small-title">About the project</span>
             </a>
             <a class="home-grid-donor" href="{{ route('donate') }}">
-                <div class="font-display text-lg">Donor Wall</div>
+                <span class="home-grid-small-title">Donor Wall</span>
             </a>
         </div>
 

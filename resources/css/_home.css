@@ -1,140 +1,152 @@
 /* HOME page. */
 @layer base {
-.home-hero {
-    @apply bg-secondary bg-cover bg-left text-white text-shadow-md/30 mb-8 md:h-90 lg:h-80;
-    @apply bg-[url('../../public/img/banners/hero-1.jpg')];
+    .home-hero {
+        @apply bg-secondary bg-cover bg-left text-white text-shadow-md/30 mb-8 md:h-90 lg:h-80;
+        @apply bg-[url('../../public/img/banners/hero-1.jpg')];
 
-    &.contest-over {
-        @apply bg-[url('../../public/img/banners/hero-3.jpg')];
-        @apply md:h-70 lg:h-50;
+        &.contest-over {
+            @apply bg-[url('../../public/img/banners/hero-3.jpg')];
+            @apply md:h-70 lg:h-50;
+
+            .home-hero-content {
+                @apply pt-40;
+                @apply md:w-3/5;
+            }
+        }
+
+        .site-container {
+            @apply md:h-full md:flex md:items-end md:justify-end;
+        }
 
         .home-hero-content {
-            @apply pt-40;
-            @apply md:w-3/5;
+            @apply pt-30 pb-4 text-center;
+            @apply md:text-left md:p-8 md:w-5/8 lg:w-3/4 md:self-end;
+        }
+
+        .home-hero-text {
+            h1 {
+                @apply display-text text-4xl mb-2;
+            }
+
+            p {
+                @apply text-lg leading-tight;
+            }
+        }
+
+        .home-hero-subscribe {
+            @apply flex flex-col gap-1 mt-4;
+
+            h2 {
+                @apply display-text text-lg m-0;
+            }
+
+            p {
+                @apply text-xs
+            }
+
+            a {
+                @apply text-primary font-semibold underline;
+            }
         }
     }
 
-    .site-container {
-        @apply md:h-full md:flex md:items-end md:justify-end;
-    }
+    .home-grid {
+        @apply grid grid-cols-1 md:grid-cols-4 gap-2 mb-8;
 
-    .home-hero-content {
-        @apply pt-30 pb-4 text-center;
-        @apply md:text-left md:p-8 md:w-5/8 lg:w-3/4 md:self-end;
-    }
-
-    .home-hero-text {
-        h1 {
-            @apply font-display text-4xl mb-2;
+        .home-grid-title {
+            @apply display-text text-2xl text-shadow-md/70;
         }
 
-        p {
-            @apply text-lg leading-tight;
-        }
-    }
-
-    .home-hero-subscribe {
-        @apply flex flex-col gap-1 mt-4;
-
-        h2 {
-            @apply font-display text-lg m-0;
+        .home-grid-small-title {
+            @apply display-text text-xl md:text-lg text-shadow-md/70;
         }
 
-        p {
-            @apply text-xs
+        .home-grid-subtitle {
+            @apply font-sans font-bold;
         }
 
-        a {
-            @apply text-primary font-semibold underline;
+        .home-grid-news {
+            @apply bg-[url('../../public/img/banners/news-7.jpg')] bg-center bg-cover bg-blend-hard-light min-h-30;
+            @apply md:col-span-2 md:row-span-2 bg-black/80 hover:bg-black transition-colors p-4;
+            @apply leading-tight text-white text-shadow-md/30;
+            @apply flex flex-col justify-end;
         }
-    }
-}
 
-.home-grid {
-    @apply grid grid-cols-1 md:grid-cols-4 gap-2 mb-8;
-
-    .home-grid-news {
-        @apply bg-[url('../../public/img/banners/news-7.jpg')] bg-center bg-cover bg-blend-hard-light min-h-30;
-        @apply md:col-span-2 md:row-span-2 bg-black/80 hover:bg-black transition-colors p-4;
-        @apply leading-tight text-white text-shadow-md/30;
-        @apply flex flex-col justify-end;
-    }
-
-    .home-grid-advert {
-        @apply md:col-span-2 md:row-span-2 bg-black/10 min-h-30;
-    }
-
-    .home-grid-songs {
-        @apply bg-[url('../../public/img/bg-stage.jpg')] bg-center bg-cover bg-blend-multiply min-h-30;
-        @apply md:col-span-2 md:row-span-4 bg-primary/80 hover:bg-primary transition-colors p-4;
-        @apply md:col-start-1 md:row-start-1;
-        @apply leading-tight text-white text-shadow-md/30;
-        @apply flex flex-col justify-end;
-    }
-
-    .home-grid-buzzer {
-        @apply bg-linear-to-r from-yellow-700 to-yellow-500 min-h-30;
-        @apply md:col-span-2 md:row-span-3;
-        @apply md:col-start-3 md:row-start-1;
-        @apply flex flex-col justify-end;
-        @apply leading-tight text-white text-shadow-md/30;
-        @apply p-4 relative z-1;
-
-        .inner {
-            /* Background image with a gradual fade out - thanks to ChatGPT. */
-            @apply bg-[url('../../public/img/banners/golden-buzzer-4.jpg')] bg-no-repeat bg-right bg-contain bg-blend-multiply;
-            @apply mask-linear-[to_left,black_15%,transparent_180px];
-            /* no spaces! */
-            @apply mask-no-repeat;
-            @apply absolute size-full left-0 top-0 -z-1;
+        .home-grid-advert {
+            @apply md:col-span-2 md:row-span-2 bg-black/10 min-h-30;
         }
-    }
 
-    .home-grid-rules {
-        @apply bg-[url('../../public/img/banners/rules-5.jpg')] bg-center bg-cover bg-blend-multiply min-h-30;
-        @apply md:col-span-2 md:row-span-3 bg-zinc-500 hover:bg-zinc-700 transition-colors p-4;
-        @apply md:col-start-1 md:row-start-5;
-        @apply leading-tight text-white text-shadow-md/30;
-        @apply flex flex-col justify-end;
-    }
-
-    .home-grid-youtube {
-        @apply bg-[url('../../public/img/banners/youtube-1.jpg')] bg-center bg-cover bg-blend-hard-light min-h-30;
-        @apply md:col-span-1 md:row-span-2 bg-red-400 hover:bg-red-600 transition-colors p-2 min-h-30;
-        @apply md:col-start-3;
-        @apply leading-tight text-white text-shadow-md/30;
-        @apply flex flex-col justify-end;
-    }
-
-    .home-grid-about {
-        @apply bg-[url('../../public/img/banners/about-2.jpg')] bg-center bg-cover bg-blend-multiply min-h-30;
-        @apply md:col-span-1 md:row-span-4 bg-slate-400 hover:bg-slate-600 transition-colors p-2;
-        @apply md:col-start-4;
-        @apply leading-tight text-white text-shadow-md/30;
-        @apply flex flex-col justify-end;
-    }
-
-    .home-grid-donor {
-        @apply bg-[url('../../public/img/banners/donate-2.jpg')] bg-center bg-cover bg-blend-multiply min-h-30;
-        @apply md:col-span-1 md:row-span-2 bg-green-600 hover:bg-green-700 transition-colors p-2;
-        @apply md:col-start-3;
-        @apply leading-tight text-white text-shadow-md/30;
-        @apply flex flex-col justify-end;
-    }
-
-    &:has(.home-grid-news) {
         .home-grid-songs {
-            @apply md:row-start-3;
+            @apply bg-[url('../../public/img/bg-stage.jpg')] bg-center bg-cover bg-blend-multiply min-h-30;
+            @apply md:col-span-2 md:row-span-4 bg-primary/80 hover:bg-primary transition-colors p-4;
+            @apply md:col-start-1 md:row-start-1;
+            @apply leading-tight text-white text-shadow-md/30;
+            @apply flex flex-col justify-end;
         }
 
         .home-grid-buzzer {
-            @apply md:row-start-3;
+            @apply bg-linear-to-r from-yellow-700 to-yellow-500 min-h-30;
+            @apply md:col-span-2 md:row-span-3;
+            @apply md:col-start-3 md:row-start-1;
+            @apply flex flex-col justify-end;
+            @apply leading-tight text-white text-shadow-md/30;
+            @apply p-4 relative z-1;
+
+            .inner {
+                /* Background image with a gradual fade out - thanks to ChatGPT. */
+                @apply bg-[url('../../public/img/banners/golden-buzzer-4.jpg')] bg-no-repeat bg-right bg-contain bg-blend-multiply;
+                @apply mask-linear-[to_left,black_15%,transparent_180px];
+                /* no spaces! */
+                @apply mask-no-repeat;
+                @apply absolute size-full left-0 top-0 -z-1;
+            }
         }
 
         .home-grid-rules {
-            @apply md:row-start-7;
+            @apply bg-[url('../../public/img/banners/rules-5.jpg')] bg-center bg-cover bg-blend-multiply min-h-30;
+            @apply md:col-span-2 md:row-span-3 bg-zinc-500 hover:bg-zinc-700 transition-colors p-4;
+            @apply md:col-start-1 md:row-start-5;
+            @apply leading-tight text-white text-shadow-md/30;
+            @apply flex flex-col justify-end;
         }
 
+        .home-grid-youtube {
+            @apply bg-[url('../../public/img/banners/youtube-1.jpg')] bg-center bg-cover bg-blend-hard-light min-h-30;
+            @apply md:col-span-1 md:row-span-2 bg-red-400 hover:bg-red-600 transition-colors p-2 min-h-30;
+            @apply md:col-start-3;
+            @apply leading-tight text-white text-shadow-md/30;
+            @apply flex flex-col justify-end;
+        }
+
+        .home-grid-about {
+            @apply bg-[url('../../public/img/banners/about-2.jpg')] bg-center bg-cover bg-blend-multiply min-h-30;
+            @apply md:col-span-1 md:row-span-4 bg-slate-400 hover:bg-slate-600 transition-colors p-2;
+            @apply md:col-start-4;
+            @apply leading-tight text-white text-shadow-md/30;
+            @apply flex flex-col justify-end;
+        }
+
+        .home-grid-donor {
+            @apply bg-[url('../../public/img/banners/donate-2.jpg')] bg-center bg-cover bg-blend-multiply min-h-30;
+            @apply md:col-span-1 md:row-span-2 bg-green-600 hover:bg-green-700 transition-colors p-2;
+            @apply md:col-start-3;
+            @apply leading-tight text-white text-shadow-md/30;
+            @apply flex flex-col justify-end;
+        }
+
+        &:has(.home-grid-news) {
+            .home-grid-songs {
+                @apply md:row-start-3;
+            }
+
+            .home-grid-buzzer {
+                @apply md:row-start-3;
+            }
+
+            .home-grid-rules {
+                @apply md:row-start-7;
+            }
+
+        }
     }
-}
 }
