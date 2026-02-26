@@ -4,7 +4,7 @@
     }
 
     .content-collapse-title {
-        @apply block font-display p-4 text-black w-full cursor-pointer;
+        @apply block font-display p-4 text-black w-full cursor-pointer relative;
         @apply hover:bg-secondary/10 transition-[background-color];
 
         input {
@@ -14,10 +14,21 @@
         &:has(input:not(:checked)) + .content-collapse-body {
             @apply hidden;
         }
+
+        &::after {
+            @apply font-icon content-['\f077'] font-black;
+            @apply absolute right-4;
+            /* f078 - chevron-down */
+            /* f077 - chevron-up */
+        }
+
+        &:has(input:not(:checked))::after {
+            @apply content-['\f078'];
+        }
     }
 
     .content-collapse-body {
         @apply pb-4 lg:pt-4;
-        @apply px-4 lg:px-0;
+        @apply px-4;
     }
 }
