@@ -26,9 +26,11 @@
                 <div class="song-player-banner-act"></div>
                 <div class="song-player-banner-title"></div>
             </div>
+            @if (!\App\Facades\ContestFacade::isOver())
             <button class="button gold icon" type="button" title="Award a Golden Buzzer" onclick="awardGoldenBuzzer()">
                 <i class="fa-solid fa-star"></i>
             </button>
+            @endif
             <button class="button ghost icon" type="button" onclick="closeSongPlayer()" title="Close">
                 <i class="fa-solid fa-close"></i>
             </button>

@@ -24,7 +24,7 @@
                             Winner
                         </p>
                         <div
-                            class="absolute bottom-0 w-full p-3 text-xl leading-tight lg:p-5">{{ $song['act']['name'] }}</div>
+                                class="absolute bottom-0 w-full p-3 text-xl leading-tight lg:p-5">{{ $song['act']['name'] }}</div>
                     </div>
                 </li>
             @endforeach
@@ -52,6 +52,18 @@
 
         @include('front.advert')
 
+        {{-- All entries. --}}
+        @if(count($songs))
+            <div class="my-8 text-center">
+                <h2 class="page-subheading">All Songs</h2>
+                <p>A huge thank you to all of our talented Acts for participating in this historic Song Contest:</p>
+            </div>
+            <div class="grid grid-cols-4 gap-4 my-8">
+                @foreach($songs as $song)
+                    @include('front.song-item',['golden_buzzer' => false])
+                @endforeach
+            </div>
+        @endif
 
         <footer class="contest-footer content">
             <p>Whether your favourite song made it to the top or not, <b>you helped make this contest unforgettable.</b>

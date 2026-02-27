@@ -6,7 +6,9 @@ use App\Facades\ContestFacade;
 use App\Facades\ContestFacade as Contest;
 use App\Http\Controllers\Controller;
 use App\Models\Round;
+use App\Models\Song;
 use App\Transformers\RoundTransformer;
+use App\Transformers\SongTransformer;
 use App\Transformers\StageTransformer;
 use Illuminate\Contracts\View\View;
 
@@ -44,13 +46,20 @@ class ContestController extends Controller
         */
 
         // Check whether the contest is over (i.e. all Stages are "over").
-        // In this case, we want to display the winning entries.
+        // In this case, we want to display the winning Acts.
+        // We will also list all the Songs that were entered in the Contest.
         $current_stage = Contest::getCurrentStage();
 
         if (ContestFacade::isOver())
         {
+            $songs = Song::with(['act'])
+                         ->whereHas('act')
+                         ->whereHas('rounds')
+                         ->get()
+                         ->sortBy(fn(Song $song) => $song->act->name);
             return view('front.contest.over', [
-                'results'  => ContestFacade::overallWinners()
+                'results' => ContestFacade::overallWinners(),
+                'songs'   => fractal($songs, SongTransformer::class)->toArray()
             ]);
         }
 
@@ -83,10 +92,10 @@ class ContestController extends Controller
             }
 
             return view($template, [
-                'stage'          => fractal($current_stage, StageTransformer::class)->parseIncludes(['description', 'goldenBuzzerPerks'])->toArray(),
+                'stage'           => fractal($current_stage, StageTransformer::class)->parseIncludes(['description', 'goldenBuzzerPerks'])->toArray(),
                 'current_round'   => fractal($current_round, RoundTransformer::class, '')->parseIncludes(['full_title'])->toArray(),
                 'previous_rounds' => fractal($previous_rounds?->sortByDesc('id'), RoundTransformer::class, '')->toArray(),
-                'countdown'      => $countdown,
+                'countdown'       => $countdown,
                 'last_stage'      => ContestFacade::isOnLastStage()
             ]);
         }
