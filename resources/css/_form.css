@@ -1,0 +1,30 @@
+.input-field {
+    @apply border-input flex h-9 w-full min-w-0 rounded-xs border bg-white dark:bg-white/10 px-3 py-1 text-base shadow-xs outline-none md:text-sm;
+    @apply transition-[color,box-shadow];
+    @apply file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium;
+    @apply placeholder:text-muted-foreground;
+    @apply selection:bg-primary selection:text-primary-foreground;
+    @apply disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50;
+    @apply focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px];
+    @apply aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive;
+}
+
+textarea.input-field {
+    @apply resize-none min-h-16 py-2;
+}
+
+.checkbox {
+    @apply border-input size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply data-[state=checked]:bg-secondary data-[state=checked]:border-secondary data-[state=checked]:text-secondary-foreground;
+    @apply focus-visible:ring-ring/50 focus-visible:ring-[3px] focus-visible:border-ring;
+    @apply aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive;
+}
+
+.checkbox-indicator {
+    @apply flex items-center justify-center text-current transition-none;
+}
+
+.checkbox-indicator-icon {
+    @apply size-3.5;
+}

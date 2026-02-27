@@ -16,6 +16,7 @@ has the theme configured here.)
 @import "./_countdown.css";
 @import "./_content.css";
 @import "./_dialog.css";
+@import "./_form.css";
 @import "./_home.css";
 @import "./_about.css";
 @import "./_acts.css";
@@ -28,7 +29,6 @@ has the theme configured here.)
 @plugin 'tailwindcss-animate';
 
 @source '../views';
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
 @custom-variant dark (&:is(.dark *), [data-mode="dark"]);
 
