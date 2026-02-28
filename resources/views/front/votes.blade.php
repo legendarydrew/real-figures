@@ -13,7 +13,7 @@
 
         @foreach ($stages as $stage)
             <div class="votes-stage">
-                <h2 class="display-text text-lg">{{$stage['title']}}</h2>
+                <h2 class="votes-stage-name">{{$stage['title']}}</h2>
 
                 @foreach($stage['breakdowns'] as $breakdown)
                     {{-- each Round in the Stage. --}}

@@ -82,6 +82,7 @@
     .contest-round {
         @apply mb-0 md:grid-cols-3 lg:grid-cols-4;
     }
+
     .song-item-flag {
         --CountryFlagIcon-height: 0.75rem;
     }
@@ -101,7 +102,7 @@
 }
 
 .song-item-act {
-    @apply bg-secondary/30 absolute bottom-0 left-0 w-full flex items-center gap-3;
+    @apply bg-white/30 absolute bottom-0 left-0 w-full flex items-center gap-3 min-h-8;
 }
 
 .song-item-flag {
@@ -155,6 +156,7 @@
     .song-player-banner-act {
         @apply text-base leading-none;
     }
+
     .song-player-banner-title {
         @apply text-xs leading-none;
     }
@@ -167,6 +169,7 @@
 .round-vote-song {
     @apply flex flex-col gap-y-2 md:flex-row items-center hover:bg-secondary/40 select-none;
 }
+
 .round-vote-song-banner {
     @apply w-full md:w-auto md:flex-grow;
 }
@@ -190,15 +193,23 @@
 
 .votes-stage {
     @apply bg-dark/80 text-center my-8 p-4 md:p-8;
+}
 
-    h2 {
-        @apply display-text text-xl
-    }
+.votes-stage-name {
+    @apply display-text text-xl mb-4;
 }
 
 .votes-round {
+    &:not(:last-child) {
+        @apply mb-8;
+    }
+
     h3 {
-        @apply display-text mb-4 text-base;
+        @apply display-text text-base;
+    }
+
+    .flag {
+        --CountryFlagIcon-height: 0.75rem;
     }
 }
 
@@ -216,16 +227,19 @@
             /* Golden Buzzer and win columns. */
             @apply w-8 max-sm:px-0 md:w-10 text-center;
         }
+
         &:nth-child(4) {
             /* Score column. */
             @apply w-16 md:w-24 display-text text-right;
         }
+
         &:nth-child(n+5) {
             /* Votes columns. */
             @apply w-16 text-sm text-right;
         }
 
         /* Hide columns at small screen widths. */
+
         &:nth-child(1),
         &:nth-child(n+5),
         .act-image,
@@ -241,5 +255,21 @@
     tbody th {
         /* Act. */
         @apply display-text text-left;
+    }
+}
+
+.contest-all {
+    @apply my-8 text-center;
+}
+
+.contest-all-songs {
+    @apply grid md:grid-cols-2 lg:grid-cols-4 gap-4 my-8;
+
+    .song-item-flag {
+        --CountryFlagIcon-height: 0.75rem;
+    }
+
+    .song-item-act-name {
+        @apply text-base;
     }
 }

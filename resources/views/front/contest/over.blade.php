@@ -54,14 +54,15 @@
 
         {{-- All entries. --}}
         @if(count($songs))
-            <div class="my-8 text-center">
+            <div class="contest-all">
                 <h2 class="page-subheading">All Songs</h2>
                 <p>A huge thank you to all of our talented Acts for participating in this historic Song Contest:</p>
-            </div>
-            <div class="grid grid-cols-4 gap-4 my-8">
-                @foreach($songs as $song)
-                    @include('front.song-item',['golden_buzzer' => false])
-                @endforeach
+
+                <div class="contest-all-songs">
+                    @foreach($songs as $song)
+                        @include('front.song-item',['golden_buzzer' => false])
+                    @endforeach
+                </div>
             </div>
         @endif
 
