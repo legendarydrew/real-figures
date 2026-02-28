@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('acts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('subtitle')->nullable();
             $table->string('slug')->unique();
             $table->timestamps();
         });
