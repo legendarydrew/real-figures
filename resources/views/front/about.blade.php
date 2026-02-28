@@ -2,7 +2,7 @@
 
 @section('page-title', 'About The Project')
 @section('page-description', 'Learn more about the CATAWOL Records Song Contest: why it was created, the message behind the music, and how it brings artists and audiences together.')
-
+@section('event-category', 'About')
 @section('content')
 
     <div class="site-container my-8">

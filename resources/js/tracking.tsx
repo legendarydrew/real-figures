@@ -3,12 +3,15 @@ import { UaEventOptions } from 'react-ga4/types/ga4';
 
 const analytics = {
     testMode: document.querySelector('meta[name=analytics-testing]').getAttribute('content'),
-    measurementId: document.querySelector('meta[name=analytics-id]').getAttribute('content')
+    measurementId: document.querySelector('meta[name=analytics-id]').getAttribute('content'),
+    defaultCategory: document.querySelector('meta[name=analytics-event-category]').getAttribute('content')
 };
 
 const initialise = () => {
     ReactGA.initialize(analytics.measurementId, { testMode: !!Number.parseInt(analytics.testMode) });
-    console.log('Analytics initialised.');
+    if (analytics.testMode) {
+        console.log('Analytics initialised.');
+    }
     trackPageView();
 };
 
@@ -22,6 +25,7 @@ const trackPageView = (path?: string): void => {
 };
 
 globalThis.trackEvent = (event: UaEventOptions) => {
+    event.category = event.category ?? analytics.defaultCategory;
     ReactGA.event({
         ...event,
         nonInteraction: true, // optional, true/false

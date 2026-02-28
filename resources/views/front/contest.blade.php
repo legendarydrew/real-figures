@@ -1,4 +1,5 @@
 @extends('front.layout')
+@section('event-category', 'Contest')
 
 @section('vite')
     @vite(['resources/js/player.tsx'])

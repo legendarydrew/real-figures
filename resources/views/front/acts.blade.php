@@ -2,6 +2,7 @@
 
 @section('page-title', 'Competing Acts')
 @section('page-description', 'Meet the 32 Acts competing in the CATAWOL Records Song Contest.')
+@section('event-category', 'Acts')
 
 @section('content')
 

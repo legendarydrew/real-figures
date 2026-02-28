@@ -42,6 +42,7 @@
     {{-- Google Analytics. --}}
     <meta name="analytics-testing" content="{{ config('services.analytics.testMode')}}"/>
     <meta name="analytics-id" content="{{ config('services.analytics.measurement_id')}}"/>
+    <meta name="analytics-event-category" content="@yield('event-category')"/>
 
     {{-- Google AdSense (for those all-important ads). --}}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>

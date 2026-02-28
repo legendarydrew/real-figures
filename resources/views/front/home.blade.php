@@ -1,6 +1,7 @@
 @extends('front.layout')
 
 @section('page-description', '32 Acts, One Anthem. Discover the CATAWOL Records Song Contest, where your vote decides the winner. Follow the journey and support music that makes a difference.')
+@section('event-category', 'Home')
 
 @section('content')
 

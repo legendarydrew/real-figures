@@ -2,6 +2,7 @@
 
 @section('page-title', 'Voting Breakdown')
 @section('page-description', 'Find out how each of the Acts scored in previous Stages! See how the votes were counted, which songs advanced, and how the winners were decided.')
+@section('event-category', 'Votes')
 
 @section('contest-header')
     <h1>Voting Breakdown</h1>

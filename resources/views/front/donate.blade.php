@@ -2,6 +2,7 @@
 
 @section('page-title', 'Donations')
 @section('page-description', "Support the CATAWOL Records Song Contest and help us amplify creativity and raise awareness of bullying. Learn how to donate and make a difference.")
+@section('event-category', 'Donate')
 
 @section('content')
     <div class="site-container">
