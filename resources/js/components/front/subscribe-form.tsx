@@ -28,6 +28,7 @@ export const SubscribeForm: React.FC = ({ className, ...props }) => {
         axios.post('/api/subscribers', { email })
             .then(() => {
                 setWasSuccessful(true);
+                globalThis.trackEvent({ action: 'New subscriber', nonInteraction: false });
             })
             .catch((error) => {
                 setHasError(error.response.data.message);

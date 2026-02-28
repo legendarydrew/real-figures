@@ -63,6 +63,7 @@ for (const element: HTMLElement of collapses) {
     element.addEventListener('change', () => {
         if (checkbox.checked) {
             window.history.replaceState(null, '', `#${hash}`);
+            trackEvent({ category: null, action: 'Panel open', label: hash, nonInteraction: false });
         }
     });
 }

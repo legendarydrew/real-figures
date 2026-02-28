@@ -2,6 +2,7 @@
 
 @section('page-title', 'Contact')
 @section('page-description', 'Use our contact form to reach the team behind the CATAWOL Records Song Contest. We’d love to hear from you.')
+@section('event-category', 'Contact')
 
 @section('meta')
     <meta name="turnstile" content="{{ config('services.turnstile.site_key')}}"/>

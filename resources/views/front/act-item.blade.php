@@ -1,5 +1,6 @@
 <button command="show-modal" commandfor="act-{{ $act['id'] }}" aria-controls="act-{{ $act['id'] }}"
-        class="act-item{{ $act['image'] ? ' has-image' : '' }}{{ isset($act['profileContent']) ? ' has-profile' : '' }}">
+        class="act-item{{ $act['image'] ? ' has-image' : '' }}{{ isset($act['profileContent']) ? ' has-profile' : '' }}"
+        onclick="trackEvent({ action: 'View Act', label: '{{ $act['slug'] }}'})">
     @include('front.act-image', ['act' => $act, 'size' => 'full'])
     <span class="act-item-text">{{ $act['name'] }}</span>
 </button>

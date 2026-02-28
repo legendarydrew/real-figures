@@ -55,6 +55,11 @@ const ContactForm: React.FC = () => {
             setProcessing(true);
             axios.post('/api/messages', data)
                 .then(() => {
+                    globalThis.trackEvent({
+                        action: 'Message sent',
+                        label: data.subscribe ? 'Subscribed' : 'Not subscribed',
+                        nonInteraction: false
+                    });
                     setSuccess(true);
                 })
                 .catch((response) => {

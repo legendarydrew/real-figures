@@ -2,6 +2,7 @@
 
 @section('page-title', 'Donations')
 @section('page-description', "Support the CATAWOL Records Song Contest and help us amplify creativity and raise awareness of bullying. Learn how to donate and make a difference.")
+@section('event-category', 'Donate')
 
 @section('content')
     <div class="site-container">
@@ -18,10 +19,12 @@
 
             {{-- https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog#modal_dialogs_using_invoker_commands  --}}
             <button type="button" class="button primary"
-                    command="show-modal" commandfor="donate-dialog" aria-controls="donate-dialog">Donate to us (PayPal)
+                    command="show-modal" commandfor="donate-dialog" aria-controls="donate-dialog"
+                    onclick="trackEvent({ action: 'Begin donation', nonInteraction: false })">Donate to us (PayPal)
             </button>
 
             <a class="button secondary" href="https://www.justgiving.com/kidscape/donate" rel="external"
+               onclick="trackEvent({ action: 'Donate to KidScape', nonInteraction: false })"
                target="_blank">Donate to Kidscape</a>
         </div>
 
