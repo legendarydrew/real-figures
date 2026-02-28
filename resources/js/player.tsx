@@ -9,6 +9,7 @@ playerRoot.render(<SongPlayer/>);
 globalThis.openSongPlayer = (el: HTMLElement): void => {
     const song = JSON.parse(el.dataset.song);
     playerElement.dataset.songId = song.id;
+    playerElement.dataset.actSlug = song.act.slug;
     playerElement.querySelector('.song-player-banner-flag').classList = `song-player-banner-flag flag flag:${song.language.flag}`;
     playerElement.querySelector('.song-player-banner-act').textContent = song.act.name;
     playerElement.querySelector('.song-player-banner-title').textContent = song.title;
@@ -16,6 +17,8 @@ globalThis.openSongPlayer = (el: HTMLElement): void => {
     playerRoot.render(<SongPlayer currentSong={song}/>);
 
     playerElement?.showPopover();
+
+    globalThis.trackEvent({ action: 'Open song player', label: song.act.slug, nonInteraction: false });
 }
 
 globalThis.closeSongPlayer = (): void => {
@@ -30,5 +33,7 @@ globalThis.closeSongPlayer = (): void => {
 
 globalThis.awardGoldenBuzzer = (): void => {
     const dialogId = `golden-buzzer-dialog-${playerElement.dataset.songId}`;
+    const actSlug = `golden-buzzer-dialog-${playerElement.dataset.actSlug}`;
     document.getElementById(dialogId)?.showModal();
+    globalThis.trackEvent({ action: 'Begin Golden Buzzer', label: actSlug, nonInteraction: false });
 }
