@@ -25,7 +25,7 @@ class ActsController extends Controller
         {
             return view('front.acts', [
                 'acts' => fractal($acts->sortBy('name'), new ActTransformer(), '')
-                    ->parseIncludes(['genres', 'profileContent'])
+                    ->parseIncludes(['genres', 'profileContent', 'accolades'])
                     ->toArray()
             ]);
         }

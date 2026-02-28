@@ -27,7 +27,27 @@
                         @endforeach
                     </ul>
                 @endif
-                <div class="content md:h-[50dvh] md:overflow-y-auto text-sm leading-normal">
+                @if (count($act['accolades']['wins']) || count($act['accolades']['buzzers']))
+                    <ul class="act-profile-accolades">
+                        @foreach($act['accolades']['wins'] as $win)
+                            <li>
+                                @if($win['is_winner'])
+                                    <i class="fa-solid fa-trophy text-gold"></i>
+                                @else
+                                    <i class="fa-solid fa-ribbon text-primary"></i>
+                                @endif
+                                {{ $win['text'] }}
+                            </li>
+                        @endforeach
+                        @foreach($act['accolades']['buzzers'] as $buzzer)
+                            <li>
+                                <i class="fa-solid fa-star text-gold"></i>
+                                {{ $buzzer }}
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+                <div class="content act-profile-desc">
                     {!! $act['profileContent']['description'] !!}
                 </div>
             </div>

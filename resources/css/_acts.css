@@ -43,12 +43,23 @@
     }
 
     .act-profile-genres {
-        @apply flex flex-wrap gap-2 mb-4;
+        @apply flex flex-wrap gap-2 mb-2;
 
         li {
             @apply text-xs font-semibold;
             @apply inline bg-secondary/50 leading-none px-1.5 py-1 rounded-md select-none;
         }
+    }
+
+    .act-profile-accolades {
+        @apply display-text text-sm mb-2;
+        li {
+            @apply flex gap-1 items-center;
+        }
+    }
+
+    .act-profile-desc {
+        @apply md:h-[50dvh] md:overflow-y-auto text-sm leading-normal;
     }
 }
 
