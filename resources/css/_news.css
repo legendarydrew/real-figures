@@ -29,7 +29,11 @@
 }
 
 .news-aside {
-    @apply text-sm my-8;
+    @apply text-sm my-8 flex flex-col justify-center md:justify-start items-center md:flex-row gap-6;
+
+    img {
+        @apply w-1/5 max-sm:hidden;
+    }
 }
 
 
