@@ -13,6 +13,11 @@ globalThis.openSongPlayer = (el: HTMLElement): void => {
     playerElement.querySelector('.song-player-banner-flag').classList = `song-player-banner-flag flag flag:${song.language.flag}`;
     playerElement.querySelector('.song-player-banner-act').textContent = song.act.name;
     playerElement.querySelector('.song-player-banner-title').textContent = song.title;
+    if (song.act.subtitle) {
+        const subtitle = document.createElement('small');
+        subtitle.innerText = song.act.subtitle;
+        playerElement.querySelector('.song-player-banner-act')?.append(subtitle);
+    }
 
     playerRoot.render(<SongPlayer currentSong={song}/>);
 

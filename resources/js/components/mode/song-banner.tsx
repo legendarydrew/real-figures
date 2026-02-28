@@ -15,7 +15,10 @@ export const SongBanner: React.FC<SongBannerProps> = ({ song, className, ...prop
                 <ActImage act={song.act} size="12"/>
             </div>
             <div className="pr-3 py-1 flex-grow text-left display-text">
-                <div className="text-base truncate">{song.act.name}</div>
+                <div className="text-base truncate">
+                    {song.act.name}
+                    <span className="text-sm ml-1">{song.act.subtitle}</span>
+                </div>
                 <div className="flex gap-2 text-xs items-center truncate">
                     {/*<LanguageFlag languageCode={song.language}/>*/}
                     {song.title}

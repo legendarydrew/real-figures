@@ -20,6 +20,10 @@
 .act-item-text {
     @apply absolute bottom-0 left-0 w-full p-4;
     @apply display-text text-lg leading-none text-left;
+
+    small {
+        @apply block text-sm;
+    }
 }
 
 .act-dialog {
@@ -27,6 +31,10 @@
 
     .dialog-title {
         @apply text-3xl mb-2 mt-0;
+
+        small {
+            @apply text-base text-muted-foreground;
+        }
     }
 
     .act-profile-layout {

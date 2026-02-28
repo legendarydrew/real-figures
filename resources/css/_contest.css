@@ -88,7 +88,11 @@
     }
 
     .song-item-act-name {
-        @apply text-base;
+        @apply text-base leading-none;
+    }
+
+    .song-item-act-subtitle {
+        @apply block text-xs leading-none;
     }
 }
 
@@ -102,7 +106,7 @@
 }
 
 .song-item-act {
-    @apply bg-white/30 absolute bottom-0 left-0 w-full flex items-center gap-3 min-h-8;
+    @apply bg-white/30 absolute bottom-0 left-0 w-full flex items-center gap-3 min-h-10;
 }
 
 .song-item-flag {
@@ -155,6 +159,10 @@
 
     .song-player-banner-act {
         @apply text-base leading-none;
+
+        small {
+            @apply text-sm ml-1 text-muted-foreground;
+        }
     }
 
     .song-player-banner-title {
@@ -271,5 +279,9 @@
 
     .song-item-act-name {
         @apply text-base;
+    }
+
+    .song-item-act-subtitle {
+        @apply block text-xs leading-none;
     }
 }

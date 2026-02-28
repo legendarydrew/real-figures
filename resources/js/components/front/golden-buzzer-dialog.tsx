@@ -99,7 +99,7 @@ export const GoldenBuzzerDialog: React.FC = ({ stage, round, song }) => {
                     <ConfettiExplosion {...confettiSettings} />
                     <h2 className="display-text text-xl mb-2">Thank you very much!</h2>
                     <p>You've just awarded a Golden Buzzer
-                        to <b className="font-semibold">{song?.act.name}</b> in <b
+                        to <b className="font-semibold">{song?.act.name} {song?.act.subtitle}</b> in <b
                             className="font-semibold">{round?.full_title}</b>.
                     </p>
                     <p className="font-semibold">Remember to <b>cast votes</b> for your favourite Acts in this

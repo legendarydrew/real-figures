@@ -22,6 +22,7 @@ class ActTransformer extends TransformerAbstract
         return [
             'id'          => (int)$act->id,
             'name'        => $act->name,
+            'subtitle'    => $act->subtitle,
             'slug'        => $act->slug,
             'has_profile' => (bool)$act->profile,
             'image'       => $act->image,
