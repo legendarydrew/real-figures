@@ -14,7 +14,7 @@ textarea.input-field {
 }
 
 .checkbox {
-    @apply border-input size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none;
+    @apply bg-white border-input size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none;
     @apply disabled:opacity-50 disabled:cursor-not-allowed;
     @apply data-[state=checked]:bg-secondary data-[state=checked]:border-secondary data-[state=checked]:text-secondary-foreground;
     @apply focus-visible:ring-ring/50 focus-visible:ring-[3px] focus-visible:border-ring;
@@ -27,4 +27,13 @@ textarea.input-field {
 
 .checkbox-indicator-icon {
     @apply size-3.5;
+}
+
+.input-label {
+    @apply inline-block text-sm leading-none font-medium select-none;
+    @apply group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50;
+
+    small {
+        @apply font-normal;
+    }
 }

@@ -129,14 +129,6 @@
     }
 }
 
-.golden-buzzer-dialog {
-    @apply bg-yellow-200 w-full max-w-3xl px-4 md:px-8;
-
-    .dialog-close {
-        @apply right-4 md:right-8;
-    }
-}
-
 #song-player {
     @apply z-10 fixed bg-white dark:bg-gray-700 shadow-md w-full max-w-lg overflow-hidden;
     @apply top-[100dvh] left-1/2 -translate-x-1/2 -translate-y-[calc(100%+1rem)];

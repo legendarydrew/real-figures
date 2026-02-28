@@ -94,66 +94,62 @@ export const GoldenBuzzerDialog: React.FC = ({ stage, round, song }) => {
 
     return (wasSuccessful ? (
             <div
-                className="h-1/3 p-10 text-yellow-700 dark:text-yellow-300 gap-3 relative">
-                <div className="flex flex-col text-center items-center justify-center">
+                className="golden-buzzer-success">
+                <div className="golden-buzzer-success-inner">
                     <ConfettiExplosion {...confettiSettings} />
-                    <h2 className="display-text text-xl mb-2">Thank you very much!</h2>
+                    <h2 className="golden-buzzer-success-heading">Thank you very much!</h2>
                     <p>You've just awarded a Golden Buzzer
-                        to <b className="font-semibold">{song?.act.name} {song?.act.subtitle}</b> in <b
-                            className="font-semibold">{round?.full_title}</b>.
+                        to <b>{song?.act.name} {song?.act.subtitle}</b> in <b>{round?.full_title}</b>.
                     </p>
-                    <p className="font-semibold">Remember to <b>cast votes</b> for your favourite Acts in this
-                        Round!</p>
+                    <p>Remember to <b>cast votes</b> for your favourite Acts in this Round!</p>
                 </div>
             </div>
         ) : (
-            <div className="flex flex-col gap-4">
+            <div className="golden-buzzer-content">
 
-                <div className="bg-yellow-500/20 rounded-sm flex flex-col gap-2 p-3">
+                <div className="golden-buzzer-content-song">
                     <SongBanner song={song}/>
                     {stage?.goldenBuzzerPerks ? (
-                        <p className="text-left text-amber-700 dark:text-amber-200 text-sm"
+                        <p className="golden-buzzer-content-perks"
                            dangerouslySetInnerHTML={{ __html: stage.goldenBuzzerPerks }}/>
                     ) : ''}
                 </div>
-                <p className="text-xs text-center">
+                <p className="golden-buzzer-content-important">
                     <b>IMPORTANT:</b> Golden Buzzers are honours toward your favourite Acts and
                     Songs &ndash; they <b>do not count toward scoring</b>.
                 </p>
 
                 <div
-                    className="flex flex-col gap-1 py-2 px-5 bg-amber-300 dark:bg-yellow-600 dark:text-amber-100 shadow rounded-sm">
-                    <div className="flex flex-col lg:flex-row gap-3 justify-between items-center">
+                    className="golden-buzzer-donate">
+                    <div className="golden-buzzer-donate-content">
 
                         <Label htmlFor="donationAmount">I would like to donate</Label>
 
-                        <div className="flex gap-1 items-center">
+                        <div className="golden-buzzer-donate-options">
                             {donationOptions.current.map((value) => (
-                                <Button className="max-sm:hidden" key={value} variant="gold" type="button"
+                                <Button key={value} variant="gold" type="button"
                                         onClick={() => setAmount(value)}>{value}</Button>
                             ))}
-                            <div className="ml-2 flex items-center">
+                            <div className="golden-buzzer-donate-amount">
                                 <Input
-                                    className="bg-white w-[6rem] border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-900 font-semibold text-right text-lg"
+                                    className="input-field"
                                     id="donationAmount" type="number" value={amount}
                                     min={donation.minimum.golden_buzzer}
                                     onChange={amountHandler}/>
-                                <span
-                                    className="p-1 font-semibold text-base">{donation.currency}</span>
+                                <span className="golden-buzzer-donate-currency">{donation.currency}</span>
                             </div>
                         </div>
                     </div>
 
-                    <p className="text-xs text-center w-5/6 mx-auto">
+                    <p className="golden-buzzer-donate-min">
                         We're asking for a minimum
                         of <b>{donation.currency} {donation.minimum.golden_buzzer}</b> for Golden Buzzers.
                     </p>
                 </div>
 
-                <div className="flex-grow max-sm:hidden">
-                    <Label className="mb-2" htmlFor="donationMessage">A message for SilentMode <small
-                        className="font-normal">(optional)</small></Label>
-                    <Textarea id="donationMessage" value={message} onChange={messageHandler} rows={2}/>
+                <div className="golden-buzzer-donate-message">
+                    <Label htmlFor={`donationMessage-${song.id}`}>A message for SilentMode <small>(optional)</small></Label>
+                    <Textarea id={`donationMessage-${song.id}`} value={message} onChange={messageHandler} rows={2}/>
                 </div>
 
                 {failed && (
@@ -161,10 +157,9 @@ export const GoldenBuzzerDialog: React.FC = ({ stage, round, song }) => {
                            message="Something went wrong with processing your donation, please try again."/>
                 )}
 
-                <footer className="mt-0 items-center md:justify-between">
-                    <div className="flex gap-2 items-center">
-                        <Checkbox id="donationAnonymous" className="bg-white" checked={isAnonymous}
-                                  onCheckedChange={anonymousHandler}/>
+                <footer className="golden-buzzer-footer">
+                    <div className="golden-buzzer-anonymous">
+                        <Checkbox id="donationAnonymous" checked={isAnonymous} onCheckedChange={anonymousHandler}/>
                         <Label htmlFor="donationAnonymous">I would like to remain anonymous.</Label>
                     </div>
 
