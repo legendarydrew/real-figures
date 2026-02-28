@@ -62,6 +62,8 @@
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
 
+    --color-highlight: var(--highlight);
+
     --color-light: #fdfdfc;
     --color-light-foreground: #1b1b18;
 

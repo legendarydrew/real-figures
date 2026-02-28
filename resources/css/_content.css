@@ -32,11 +32,11 @@
     }
 
     b {
-        @apply text-muted-foreground font-semibold;
+        @apply text-highlight font-semibold;
     }
 
     strong {
-        @apply text-black font-semibold;
+        @apply text-black dark:text-primary font-semibold;
     }
 
     i {

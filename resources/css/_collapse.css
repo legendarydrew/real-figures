@@ -4,7 +4,7 @@
     }
 
     .content-collapse-title {
-        @apply block font-display p-4 text-black w-full cursor-pointer relative;
+        @apply block font-display p-4 text-foreground w-full cursor-pointer relative;
         @apply hover:bg-secondary/10 transition-[background-color];
 
         input {
