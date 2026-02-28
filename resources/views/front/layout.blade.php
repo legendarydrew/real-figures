@@ -1,5 +1,5 @@
 <!doctype>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['dark' => ($appearance ?? 'system') == 'dark'])>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark" @class(['dark' => ($appearance ?? 'system') == 'dark'])>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -54,7 +54,9 @@
     <div class="site-container">
 
         <a class="site-header-brand" href="{{ route('home') }}">
-            <img src="{{ asset('logo/catawol-logo.svg') }}" alt="CATAWOL Records"/>
+            <svg title="CATAWOL Records">
+                <use href="{{ asset('logo/catawol-logo.svg') }}" x="-25%" height="100%"></use>
+            </svg>
         </a>
 
         <input type="checkbox" id="nav-open">

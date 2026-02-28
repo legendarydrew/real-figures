@@ -7,7 +7,7 @@
     }
 
     .site-header {
-        @apply bg-white/70 border-b-1 py-2 w-full shadow-sm sticky top-0 backdrop-blur-sm z-10;
+        @apply bg-background/70 text-foreground border-b-1 py-2 w-full shadow-sm sticky top-0 backdrop-blur-sm z-10;
 
         .site-container {
             @apply px-2 lg:px-0 flex items-center justify-between gap-2;
@@ -19,10 +19,10 @@
     }
 
     .site-header-brand {
-        @apply font-bold;
+        @apply font-bold dark:fill-foreground;
 
-        img {
-            @apply w-auto h-10;
+        svg {
+            @apply h-10 w-auto;
         }
     }
 
