@@ -10,11 +10,10 @@
 .dialog {
     opacity: 0;
     transform: scale(0.98);
-    transition:
-        opacity 0.2s ease-out,
-        transform 0.2s ease-out,
-        overlay 0.2s ease-out allow-discrete,
-        display 0.2s ease-out allow-discrete;
+    transition: opacity 0.2s ease-out,
+    transform 0.2s ease-out,
+    overlay 0.2s ease-out allow-discrete,
+    display 0.2s ease-out allow-discrete;
     @apply bg-white text-black p-8 pt-12 rounded-sm shadow-md;
     @apply text-sm;
     @apply drop-shadow-2xl drop-shadow-black/60;
@@ -43,10 +42,9 @@
 
 /* Transition the :backdrop when the dialog modal is promoted to the top layer */
 .dialog::backdrop {
-    transition:
-        display 0.2s allow-discrete,
-        overlay 0.2s allow-discrete,
-        background-color 0.2s;
+    transition: display 0.2s allow-discrete,
+    overlay 0.2s allow-discrete,
+    background-color 0.2s;
 }
 
 /* This starting-style rule cannot be nested inside the above selector
@@ -58,6 +56,67 @@ because the nesting selector cannot represent pseudo-elements. */
     }
 }
 
+
+/* DONATE dialog. */
+.donate-dialog {
+    @apply w-full max-w-3xl px-4 md:px-8;
+
+    .dialog-close {
+        @apply right-4 md:right-8;
+    }
+
+    .donate-dialog-success {
+        @apply h-1/3 p-10 flex flex-col text-center items-center justify-center text-green-600 font-semibold;
+    }
+
+    .donate-dialog-success-inner {
+        @apply mx-auto relative;
+    }
+
+    .donate-dialog-content {
+        @apply flex flex-col gap-4;
+    }
+
+    .donate-dialog-donate {
+        @apply flex flex-col gap-2 items-center p-4 bg-green-200 dark:bg-green-700;
+    }
+
+    .donate-dialog-donate-options {
+        @apply flex gap-1 items-center md:justify-center;
+
+        .button {
+            @apply max-sm:hidden text-base;
+        }
+    }
+
+    .donate-dialog-donate-amount {
+        @apply ml-2 flex items-center;
+
+        .input-field {
+            @apply w-24 border-green-500 text-green-800 font-semibold text-right text-lg;
+        }
+    }
+
+    .donate-dialog-donate-currency {
+        @apply p-1 font-semibold text-base;
+    }
+
+    .donate-dialog-donate-min {
+        @apply text-xs text-center w-5/6 mx-auto text-green-700 dark:text-green-200;
+    }
+
+    .donate-dialog-message {
+        @apply flex flex-col gap-2 max-sm:hidden;
+    }
+
+    .donate-dialog-footer {
+        @apply flex flex-col md:flex-row gap-2 mt-0 items-center md:justify-between;
+    }
+
+    .donate-dialog-anonymous {
+        @apply flex gap-2 items-center;
+    }
+}
 
 /* GOLDEN BUZZER dialog. */
 .golden-buzzer-dialog {
@@ -73,13 +132,16 @@ because the nesting selector cannot represent pseudo-elements. */
         b {
             @apply font-semibold;
         }
+
         p:last-child {
             @apply font-semibold;
         }
     }
+
     .golden-buzzer-success-inner {
         @apply flex flex-col text-center items-center justify-center;
     }
+
     .golden-buzzer-success-heading {
         @apply display-text text-xl mb-2;
     }

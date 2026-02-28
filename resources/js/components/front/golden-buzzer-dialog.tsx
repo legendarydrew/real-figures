@@ -131,11 +131,9 @@ export const GoldenBuzzerDialog: React.FC = ({ stage, round, song }) => {
                                         onClick={() => setAmount(value)}>{value}</Button>
                             ))}
                             <div className="golden-buzzer-donate-amount">
-                                <Input
-                                    className="input-field"
-                                    id="donationAmount" type="number" value={amount}
-                                    min={donation.minimum.golden_buzzer}
-                                    onChange={amountHandler}/>
+                                <Input id="donationAmount" type="number" value={amount}
+                                       min={donation.minimum.golden_buzzer}
+                                       onChange={amountHandler}/>
                                 <span className="golden-buzzer-donate-currency">{donation.currency}</span>
                             </div>
                         </div>
@@ -148,7 +146,8 @@ export const GoldenBuzzerDialog: React.FC = ({ stage, round, song }) => {
                 </div>
 
                 <div className="golden-buzzer-donate-message">
-                    <Label htmlFor={`donationMessage-${song.id}`}>A message for SilentMode <small>(optional)</small></Label>
+                    <Label htmlFor={`donationMessage-${song.id}`}>A message for
+                        SilentMode <small>(optional)</small></Label>
                     <Textarea id={`donationMessage-${song.id}`} value={message} onChange={messageHandler} rows={2}/>
                 </div>
 

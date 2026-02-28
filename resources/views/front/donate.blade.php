@@ -83,7 +83,7 @@
 
     </div>
 
-    <dialog id="donate-dialog" class="dialog">
+    <dialog id="donate-dialog" class="dialog donate-dialog">
         <button class="dialog-close" command="close" commandfor="donate-dialog" aria-controls="donate-dialog"
                 title="Close">
             <i class="fa-solid fa-close"></i>

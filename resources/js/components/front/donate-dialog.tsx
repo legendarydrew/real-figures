@@ -63,7 +63,7 @@ export const DonateDialog: React.FC = () => {
 
     const successHandler = () => {
         setWasSuccessful(true);
-        globalThis.trackEvent({ category: 'Donate', action: 'New donation', value: amount});
+        globalThis.trackEvent({ category: 'Donate', action: 'New donation', value: amount });
     };
 
     const failureHandler = () => {
@@ -81,72 +81,63 @@ export const DonateDialog: React.FC = () => {
 
     return (
         wasSuccessful ? (
-            <div
-                className="h-1/3 p-10 flex flex-col text-center items-center justify-center text-green-600 font-semibold">
-                <div className="mx-auto relative">
+            <div className="donate-dialog-success">
+                <div className="donate-dialog-success-inner">
                     <ConfettiExplosion {...confettiSettings} />
                 </div>
                 Thank you for your donation!
             </div>
         ) : (
-            <div className="flex flex-col gap-4">
-                <div
-                    className="flex flex-col gap-2 p-4 bg-green-200 dark:bg-green-700">
+            <div className="donate-dialog-content">
+                <div className="donate-dialog-donate">
 
                     <Label htmlFor="donationAmount">I would like to donate</Label>
 
-                    <div className="flex flex-col lg:flex-row gap-3 justify-between items-center">
-
-                        <div className="flex gap-1 items-center">
-                            {donationOptions.current.map((value) => (
-                                <Button className="max-sm:hidden" key={value} variant="secondary" size="sm" type="button"
-                                        onClick={() => setAmount(value)}>{value}</Button>
-                            ))}
-                            <div className="ml-2 flex items-center">
-                                <Input
-                                    className="bg-white w-[5rem] border-green-500 text-green-800 font-semibold text-right text-lg"
-                                    id="donationAmount" type="number" value={amount}
-                                    min={donation.minimum.general}
-                                    onChange={amountHandler}/>
-                                <span
-                                    className="p-1 font-semibold text-base">{donation.currency}</span>
-                            </div>
+                    <div className="donate-dialog-donate-options">
+                        {donationOptions.current.map((value) => (
+                            <Button key={value} variant="secondary" type="button" size="sm"
+                                    onClick={() => setAmount(value)}>{value}</Button>
+                        ))}
+                        <div className="donate-dialog-donate-amount">
+                            <Input id="donationAmount" type="number" value={amount} min={donation.minimum.general}
+                                   onChange={amountHandler}/>
+                            <span className="donate-dialog-donate-currency">{donation.currency}</span>
                         </div>
                     </div>
 
-                    <p className="text-xs text-center w-5/6 mx-auto text-green-700 dark:text-green-200">We're
-                        asking for a minimum
-                        donation
+                    <p className="donate-dialog-donate-min">We're asking for a minimum donation
                         of <b>{donation.currency} {donation.minimum.general}</b>.</p>
 
                 </div>
 
-                <div className="flex-grow flex flex-col gap-2 max-sm:hidden">
-                    <Label htmlFor="donationMessage">A message for SilentMode <small
-                        className="font-normal">(optional)</small></Label>
+                <div className="donate-dialog-message">
+                    <Label htmlFor="donationMessage">A message for SilentMode <small>(optional)</small></Label>
                     <Textarea id="donationMessage" autoFocus value={message} onChange={messageHandler} rows={2}/>
                 </div>
 
-                {failed && (
-                    <Alert type="error"
-                           message="Something went wrong with processing your donation, please try again."/>
-                )}
+                {
+                    failed && (
+                        <Alert type="error"
+                               message="Something went wrong with processing your donation, please try again."/>
+                    )
+                }
 
-                <div className="flex gap-2 items-center">
-                    <Checkbox id="donationAnonymous" className="bg-white" checked={isAnonymous}
-                              onCheckedChange={anonymousHandler}/>
-                    <Label htmlFor="donationAnonymous">I would like to remain anonymous.</Label>
-                </div>
+                <footer className="donate-dialog-footer">
+                    <div className="donate-dialog-anonymous">
+                        <Checkbox id="donationAnonymous" checked={isAnonymous} onCheckedChange={anonymousHandler}/>
+                        <Label htmlFor="donationAnonymous">I would like to remain anonymous.</Label>
+                    </div>
 
-                <PaypalButton amount={amount} currency={donation.currency}
-                              minimumAmount={donation.minimum.general}
-                              additionalData={{ is_anonymous: isAnonymous, message }}
-                              description="Real Figures Don't F.O.L.D: donation"
-                              onProcessing={processingHandler}
-                              onSuccess={successHandler}
-                              onFailure={failureHandler}/>
-
+                    <PaypalButton amount={amount} currency={donation.currency}
+                                  minimumAmount={donation.minimum.general}
+                                  additionalData={{ is_anonymous: isAnonymous, message }}
+                                  description="Real Figures Don't F.O.L.D: donation"
+                                  onProcessing={processingHandler}
+                                  onSuccess={successHandler}
+                                  onFailure={failureHandler}/>
+                </footer>
             </div>
         )
-    );
+    )
+        ;
 }
