@@ -32,6 +32,7 @@
 
         {{-- A big button for casting a vote. --}}
         <button type="button" class="button large w-full my-4"
+                onclick="trackEvent({ action: 'Begin vote', label: '{{ $current_round['full_title'] }}', nonInteraction: false })"
                 command="show-modal" commandfor="vote-dialog" aria-controls="vote-dialog">Cast your Vote...
         </button>
 
