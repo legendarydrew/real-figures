@@ -12,7 +12,8 @@
             <button class="song-item-golden-buzzer button gold icon" type="button"
                     title="Award a Golden Buzzer"
                     command="show-modal" commandfor="golden-buzzer-dialog-{{ $song['act_id'] }}"
-                    aria-controls="golden-buzzer-dialog-{{ $song['act_id'] }}">
+                    aria-controls="golden-buzzer-dialog-{{ $song['act_id'] }}"
+                    onclick="trackEvent({ action: 'Begin Golden Buzzer', label: '{{$song['act']['slug']}}', nonInteraction: false })">
                 <i class="fa-solid fa-star"></i>
             </button>
         @endif

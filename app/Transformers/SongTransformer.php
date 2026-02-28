@@ -17,6 +17,7 @@ class SongTransformer extends TransformerAbstract
             'act_id'     => (int)$song->act_id,
             'act'        => [
                 'name'  => $song->act->name,
+                'slug'  => $song->act->slug,
                 'image' => $song->act->image
             ],
             'video_id'   => $song->url ? $song->url->video_id : null,
