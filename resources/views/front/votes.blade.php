@@ -60,6 +60,9 @@
                                             @include('front.act-image', ['act' => $song['song']['act'], 'size' => 8])
                                             <span class="flag flag:{{ $song['song']['language']['flag'] }}"></span>
                                             {{ $song['song']['act']['name'] }}
+                                            @if ($song['act']['subtitle'])
+                                                <span class="text-sm">{{ $song['act']['subtitle'] }}</span>
+                                            @endif
                                         </div>
                                     </th>
                                     <td class="text-right font-semibold">{{$song['score']}}</td>

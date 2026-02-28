@@ -24,7 +24,12 @@
                             Winner
                         </p>
                         <div
-                                class="absolute bottom-0 w-full p-3 text-xl leading-tight lg:p-5">{{ $song['act']['name'] }}</div>
+                                class="absolute bottom-0 w-full p-3 text-xl leading-tight lg:p-5">
+                            {{ $song['act']['name'] }}
+                            @if ($song['act']['subtitle'])
+                                <span class="text-sm">{{ $song['act']['subtitle'] }}</span>
+                            @endif
+                        </div>
                     </div>
                 </li>
             @endforeach
@@ -36,6 +41,9 @@
                         @include('front.act-image', ['act' => $song['act'], 'size' => 'full'])
                         <div class="absolute bottom-0 w-full p-3 text-base leading-tight">
                             {{ $song['act']['name'] }}
+                            @if ($song['act']['subtitle'])
+                                <span class="block text-sm">{{ $song['act']['subtitle'] }}</span>
+                            @endif
                             <p class="text-sm text-indigo-200 uppercase">
                                 <i class="fa-solid fa-award"></i>
                                 Runner-up

@@ -108,6 +108,7 @@ export interface Song {
     play_count: number;
     act: {
         name: string;
+        subtitle?: string;
         image?: string;
     };
     url: string;

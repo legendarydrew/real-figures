@@ -2,7 +2,12 @@
         class="act-item{{ $act['image'] ? ' has-image' : '' }}{{ isset($act['profileContent']) ? ' has-profile' : '' }}"
         onclick="trackEvent({ action: 'View Act', label: '{{ $act['slug'] }}'})">
     @include('front.act-image', ['act' => $act, 'size' => 'full'])
-    <span class="act-item-text">{{ $act['name'] }}</span>
+    <span class="act-item-text">
+        {{ $act['name'] }}
+        @if($act['subtitle'])
+            <small>{{ $act['subtitle'] }}</small>
+        @endif
+    </span>
 </button>
 
 @if(isset($act['profileContent']))
@@ -19,7 +24,12 @@
                 @include('front.act-image', ['act' => $act, 'size' => 'full'])
             </div>
             <div class="act-profile-content">
-                <h2 class="dialog-title">{{ $act['name'] }}</h2>
+                <h2 class="dialog-title">
+                    {{ $act['name'] }}
+                    @if($act['subtitle'])
+                        <small>{{ $act['subtitle'] }}</small>
+                    @endif
+                </h2>
 
                 @if(count($act['genres']))
                     <ul class="act-profile-genres">

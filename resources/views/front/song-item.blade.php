@@ -7,6 +7,9 @@
               title="{{ $song['language']['name'] }}"></span>
         <div class="song-item-act-name">
             {{ $song['act']['name'] }}
+            @if ($song['act']['subtitle'])
+                <span class="song-item-act-subtitle">{{ $song['act']['subtitle'] }}</span>
+            @endif
         </div>
         @if($golden_buzzer)
             <button class="song-item-golden-buzzer button gold icon" type="button"
@@ -19,6 +22,6 @@
         @endif
     </div>
     @if($golden_buzzer)
-        @include('front.contest.golden-buzzer', ['stage' => $stage, 'song' => $song, 'round' => $current_round])
+        @include('front.contest.golden-buzzer', ['stage' => $stage, 'song' => $song, 'round' => $round])
     @endif
 </div>
