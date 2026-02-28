@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap" rel="stylesheet">
     @viteReactRefresh
-    @vite(['resources/css/app.css', 'resources/js/components.tsx'])
+    @vite(['resources/css/app.css', 'resources/js/components.tsx', 'resources/js/tracking.tsx'])
     <link rel="sitemap" href="{{ route('sitemap') }}" type="application/xml"/>
     @yield('vite')
 
@@ -39,9 +39,14 @@
     {{-- General recommendation: 2:1 ratio, 1200px wide. (https://www.opengraph.io/open-graph-meta-tags) --}}
     @yield('open-graph')
 
+    {{-- Google Analytics. --}}
+    <meta name="analytics-testing" content="{{ config('services.analytics.testMode')}}"/>
+    <meta name="analytics-id" content="{{ config('services.analytics.measurement_id')}}"/>
+
     {{-- Google AdSense (for those all-important ads). --}}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
 </head>
 <body>
 <header class="site-header">
