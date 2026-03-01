@@ -1,9 +1,9 @@
 .mode-toggle {
-    @apply inline-flex items-center gap-2;
+    @apply inline-flex items-center gap-2 md:w-5;
 }
 
 .mode-toggle-bg {
-    @apply relative inline-flex cursor-pointer items-center w-14 h-8 md:size-8 rounded-full bg-foreground transition-colors duration-300;
+    @apply relative inline-flex cursor-pointer items-center w-14 h-8 md:w-6 rounded-full bg-foreground transition-colors duration-300;
     @apply focus:outline-none focus:ring-2 focus:ring-primary/50;
 }
 

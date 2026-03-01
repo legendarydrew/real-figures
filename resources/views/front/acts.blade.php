@@ -8,12 +8,10 @@
 
     <div class="site-container">
         <h1 class="page-heading">Competing Acts</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A assumenda cupiditate debitis dignissimos enim
-            quisquam, reprehenderit voluptates. Animi corporis hic illo itaque odio officiis quasi reiciendis sunt
-            voluptatem. Quas, ratione.</p>
+        <p>Meet the 32 Acts that were shortlisted for CATAWOL Records' Real Figures Don't F.O.L.D Song Contest.</p>
 
         @if(count($acts))
-            <div class="grid auto-rows-min gap-2 md:grid-cols-3 lg:grid-cols-4">
+            <div class="grid auto-rows-min gap-2 md:grid-cols-3 lg:grid-cols-4 my-8">
                 @foreach($acts as $act)
                     @include('front.act-item', ['act' => $act])
                 @endforeach
