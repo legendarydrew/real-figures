@@ -44,6 +44,17 @@
             {!! $post['content'] !!}
         </div>
 
+        @if($post['acts'])
+            <aside>
+                <h2 class="page-subheading">Acts mentioned</h2>
+                <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    @foreach($post['acts'] as $act)
+                        @include('front.act-item', ['act' => $act])
+                    @endforeach
+                </div>
+            </aside>
+        @endif
+
         @include('front.advert')
 
         <div class="content news-enquiries">

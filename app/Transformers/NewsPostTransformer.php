@@ -4,20 +4,21 @@ namespace App\Transformers;
 
 use App\Models\NewsPost;
 use Illuminate\Support\Str;
+use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Primitive;
 use League\Fractal\TransformerAbstract;
 
 class NewsPostTransformer extends TransformerAbstract
 {
 
-    protected array $availableIncludes = ['content', 'pages'];
+    protected array $availableIncludes = ['content', 'acts', 'pages'];
 
     public function transform(NewsPost $post): array
     {
         return [
             'id'           => (int)$post->id,
             'title'        => $post->title,
-            'url' => $post->url,
+            'url'          => $post->url,
             'content'      => $post->content,
             'excerpt'      => $post->excerpt,
             'created_at'   => $post->created_at->format(config('contest.format.full-date')),
@@ -37,6 +38,11 @@ class NewsPostTransformer extends TransformerAbstract
         return $this->primitive(Str::markdown($post->content));
     }
 
+    public function includeActs(NewsPost $post): ?Collection
+    {
+        return $this->collection($post->actsMentioned(), new ActTransformer());
+    }
+
     /**
      * Include the News Post's previous and next pages, if available.
      *
@@ -47,7 +53,7 @@ class NewsPostTransformer extends TransformerAbstract
     {
         $previous_post = $post->previousPost();
         $next_post     = $post->nextPost();
-        $other_posts = $post->otherRecentPosts();
+        $other_posts   = $post->otherRecentPosts();
 
         return $this->primitive([
             'previous' => $previous_post ? [
@@ -58,7 +64,7 @@ class NewsPostTransformer extends TransformerAbstract
                 'title' => $next_post->title,
                 'url'   => $next_post->url
             ] : null,
-            'others' => $other_posts?->map(fn($post) => [
+            'others'   => $other_posts?->map(fn($post) => [
                     'title' => $post->title,
                     'url'   => $post->url
                 ])->toArray() ?? null,
