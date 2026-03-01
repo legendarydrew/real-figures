@@ -163,7 +163,7 @@ because the nesting selector cannot represent pseudo-elements. */
     }
 
     .golden-buzzer-donate {
-        @apply flex flex-col gap-1 py-2 px-5 bg-gold text-gold-dark-foreground shadow rounded-sm;
+        @apply flex flex-col gap-1 py-2 px-5 bg-gold/50 text-gold-foreground shadow rounded-sm;
     }
 
     .golden-buzzer-donate-content {
