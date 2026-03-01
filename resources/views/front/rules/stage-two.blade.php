@@ -16,7 +16,7 @@
 <h2>Voting</h2>
 <p>Voting conditions are exactly the same as for Stage 1, except Visitors will be asked to vote for their
     <b>top 3 favourites</b> from <b>all</b> entries.</p>
-<p>Only votes cast while the Round is open will be counted.</p>
+<p><em>Only votes cast through this site, and while the Round is open, will be counted.</em></p>
 
 <h2>Winning Songs</h2>
 <p>At the end of the Stage, <b>one Grand Winner</b> and <b>three Runners-Up</b> will be crowned.</p>

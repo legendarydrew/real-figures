@@ -17,7 +17,7 @@
     <li>Contest administrators;</li>
     <li>employees of CATAWOL Records.</li>
 </ul>
-<p>Only votes cast while a Round is open will be counted.</p>
+<p><em>Only votes cast through this site, and while a Round is open, will be counted.</em></p>
 
 <h2>Advancement</h2>
 <p>At the end of the Stage, when all Rounds have been completed, <b>ten</b> Acts will advance to Stage 2:</p>
