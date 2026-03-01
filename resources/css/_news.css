@@ -75,7 +75,7 @@
 }
 
 .news-nav-next {
-    @apply md:text-right md:items-end gap-1;
+    @apply md:text-right md:items-end md:ml-auto gap-1;
 }
 
 .news-nav-title {
@@ -99,4 +99,12 @@
 }
 .news-more-link-title {
     @apply text-sm font-display leading-tight p-2;
+}
+
+.news-post-mentions {
+    @apply my-8;
+}
+
+.news-post-mentions-list {
+    @apply grid gap-4 md:grid-cols-2 lg:grid-cols-4;
 }

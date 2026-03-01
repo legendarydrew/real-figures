@@ -45,9 +45,9 @@
         </div>
 
         @if($post['acts'])
-            <aside>
+            <aside class="news-post-mentions">
                 <h2 class="page-subheading">Acts mentioned</h2>
-                <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <div class="news-post-mentions-list">
                     @foreach($post['acts'] as $act)
                         @include('front.act-item', ['act' => $act])
                     @endforeach
