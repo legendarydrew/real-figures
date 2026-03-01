@@ -25,7 +25,6 @@
 @endsection
 
 @section('content')
-
     <article class="site-container news-post" itemscope itemtype="https://schema.org/BlogPosting">
 
         <div class="page-banner">
@@ -105,5 +104,4 @@
 
         @include('front.news.about')
     </article>
-
 @endsection

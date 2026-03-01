@@ -5,8 +5,7 @@
 @section('page-image', asset('img/og/og-news.jpg'))
 @section('page-url', route('news'))
 @section('content')
-
-    <div class="site-container my-8">
+    <div class="site-container">
 
         <div class="page-banner">
             <img src="{{ asset('img/banners/news-7.jpg') }}" alt="A news reporter at her desk.">
