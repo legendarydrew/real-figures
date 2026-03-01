@@ -42,6 +42,14 @@
     --donation-dark: #0a7d1f;
     --donation-dark-hover: #064a12;
     --donation-dark-foreground: var(--background);
+
+    --gold-light: #f0d078;
+    --gold: #F0B100;
+    --gold-hover: #bd8a00;
+    --gold-foreground: var(--foreground);
+    --gold-dark: #805e00;
+    --gold-dark-hover: #4d3800;
+    --gold-dark-foreground: var(--background);
 }
 
 .dark {

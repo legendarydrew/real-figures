@@ -1,5 +1,4 @@
 import { Act } from '@/types';
-import { PersonStanding } from 'lucide-react';
 import React from 'react';
 import { cn } from '@/lib/utils';
 
@@ -18,7 +17,9 @@ export const ActImage: React.FC<ActImageProps> = ({ act, size = '10', className 
                      style={{ backgroundImage: `url("${act.image}")` }}/>
             ) : (
                 <div className="w-full h-full z-0 flex items-center justify-center text-gray-500 select-none">
-                    <PersonStanding className="h-1/2 w-1/2"/>
+                    <svg className="size-8 opacity-50">
+                        <use href="/img/catawol-icon.svg" width="100%" height="100%" />
+                    </svg>
                 </div>
             )}
         </div>

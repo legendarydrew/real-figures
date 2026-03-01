@@ -90,9 +90,6 @@
     --color-sidebar-ring: var(--sidebar-ring);
 
     --color-link: var(--link);
-    --color-gold: var(--color-yellow-500);
-    --color-gold-hover: var(--color-amber-500);
-    --color-gold-foreground: var(--color-yellow-100);
 
     --color-donation-light: var(--donation-light);
     --color-donation: var(--donation);
@@ -102,6 +99,13 @@
     --color-donation-dark-hover: var(--donation-dark-hover);
     --color-donation-dark-foreground: var(--donation-dark-foreground);
 
+    --color-gold-light: var(--gold-light);
+    --color-gold: var(--gold);
+    --color-gold-hover: var(--gold-hover);
+    --color-gold-foreground: var(--gold-foreground);
+    --color-gold-dark: var(--gold-dark);
+    --color-gold-dark-hover: var(--gold-dark-hover);
+    --color-gold-dark-foreground: var(--gold-dark-foreground);
 }
 
 @layer base {
