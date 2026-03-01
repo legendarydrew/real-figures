@@ -1,5 +1,5 @@
 <!doctype>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark" @class(['dark' => ($appearance ?? 'system') == 'dark'])>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -71,13 +71,25 @@
                 <a href="{{ route('news') }}">News</a>
             @endif
             @if(\App\Facades\ContestFacade::shouldShowActs())
-            <a href="{{ route('acts') }}">Acts</a>
+                <a href="{{ route('acts') }}">Acts</a>
             @endif
             <a href="{{ route('rules') }}">Rules</a>
             <a class="donate-link" href="{{ route('donate') }}">Donate!</a>
             <a href="{{ route('about') }}">About</a>
             <a href="{{ route('contact') }}">Contact</a>
+
+            {{-- Dark mode toggle. --}}
+            {{-- https://www.djamware.com/post/how-to-create-a-dark-mode-toggle-with-tailwind-css - they got it from AI. --}}
+            <div class="site-header-mode">
+                <button id="theme-toggle" class="mode-toggle" aria-label="Toggle dark mode">
+                    <span class="mode-toggle-bg">
+                        <span class="mode-toggle-knob"></span>
+                    </span>
+                    <span class="mode-toggle-label">Toggle dark mode</span>
+                </button>
+            </div>
         </nav>
+
 
         <label class="site-header-nav-open" for="nav-open" title="Menu">
             <i class="fa-solid fa-bars"></i>
