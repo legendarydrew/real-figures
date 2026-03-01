@@ -2,6 +2,7 @@
 
 @section('page-title', $post['title'])
 @section('page-description', $post['excerpt'])
+@section('page-image', asset('img/og/og-news.jpg'))
 @section('page-type', 'article')
 @section('meta')
     @if(isset($post['pages']['previous']))

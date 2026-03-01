@@ -2,6 +2,7 @@
 
 @section('page-title', 'Contest Rules')
 @section('page-description', 'The official rules for the CATAWOL Records Song Contest: how it works, who can vote, what the stages involve, and how winners are chosen.')
+@section('page-image', asset('img/og/og-rules.jpg'))
 @section('event-category', 'Rules')
 
 @section('content')

@@ -2,6 +2,7 @@
 
 @section('page-title', 'Competing Acts')
 @section('page-description', 'Meet the 32 Acts competing in the CATAWOL Records Song Contest.')
+@section('page-image', asset('img/og/og-acts.jpg'))
 @section('event-category', 'Acts')
 
 @section('content')

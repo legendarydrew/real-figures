@@ -1,5 +1,6 @@
 @extends('front.layout')
 @section('event-category', 'Contest')
+@section('page-image', asset('img/og/og-contest.jpg'))
 
 @section('vite')
     @vite(['resources/js/player.tsx'])

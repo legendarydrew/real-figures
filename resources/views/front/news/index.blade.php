@@ -2,6 +2,7 @@
 
 @section('page-title', 'Contest News')
 @section('page-description', 'Stay updated with the latest news from the CATAWOL Records Song Contest — announcements, round results, artist highlights, and behind-the-scenes stories.')
+@section('page-image', asset('img/og/og-news.jpg'))
 @section('page-url', route('news'))
 @section('content')
 
