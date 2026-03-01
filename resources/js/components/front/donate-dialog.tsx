@@ -95,7 +95,7 @@ export const DonateDialog: React.FC = () => {
 
                     <div className="donate-dialog-donate-options">
                         {donationOptions.current.map((value) => (
-                            <Button key={value} variant="secondary" type="button" size="sm"
+                            <Button key={value} variant="donate" type="button" size="sm"
                                     onClick={() => setAmount(value)}>{value}</Button>
                         ))}
                         <div className="donate-dialog-donate-amount">

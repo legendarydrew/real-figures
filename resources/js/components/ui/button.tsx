@@ -16,6 +16,7 @@ const buttonVariants = cva(
                 destructive: "destructive",
                 outline: "outline",
                 gold: "gold",
+                donate: "donate",
                 checked: "checked",
                 ghost: "ghost",
                 link: "link"

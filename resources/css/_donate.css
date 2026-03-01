@@ -13,6 +13,7 @@
 
     li {
         @apply flex justify-between items-center px-2 py-1 transition-colors select-none;
+        @apply hover:bg-black/20;
 
         .donor-name {
             @apply flex-grow truncate;
@@ -34,16 +35,8 @@
 
 .donations-list {
     @apply bg-green-500/50;
-
-    li {
-        @apply hover:bg-green-700/50;
-    }
 }
 
 .golden-buzzers-list {
-    @apply bg-yellow-500/50;
-
-    li {
-        @apply hover:bg-yellow-700/50;
-    }
+    @apply bg-gold/50;
 }

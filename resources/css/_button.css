@@ -19,6 +19,11 @@
         @apply not-disabled:hover:bg-gold-hover focus-visible:ring-gold/40;
     }
 
+    &.donate {
+        @apply bg-donation text-donation-foreground text-shadow-sm;
+        @apply not-disabled:hover:bg-donation-hover focus-visible:ring-donation-dark/40;
+    }
+
     &.confirm {
         @apply bg-green-700 text-green-50;
         @apply not-disabled:hover:bg-green-700/90 focus-visible:ring-green-700/20 dark:focus-visible:ring-green-700/40;

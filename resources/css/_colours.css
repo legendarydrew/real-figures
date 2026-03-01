@@ -34,6 +34,14 @@
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.87 0 0);
     --link: oklch(0.488 0.243 264.376);
+
+    --donation-light: #84E296;
+    --donation: #259C3B;
+    --donation-hover: #196928;
+    --donation-foreground: var(--foreground);
+    --donation-dark: #0a7d1f;
+    --donation-dark-hover: #064a12;
+    --donation-dark-foreground: var(--background);
 }
 
 .dark {
@@ -43,7 +51,7 @@
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.145 0 0);
     --popover-foreground: oklch(0.985 0 0);
-    --primary: #adb1ff;
+    --primary: #8B8FEF;
     --primary-foreground: oklch(0.205 0 0);
     --secondary: #64748B;
     --secondary-foreground: oklch(0.985 0 0);

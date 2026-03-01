@@ -14,7 +14,7 @@
     transform 0.2s ease-out,
     overlay 0.2s ease-out allow-discrete,
     display 0.2s ease-out allow-discrete;
-    @apply bg-white text-black p-8 pt-12 rounded-sm shadow-md;
+    @apply bg-background text-foreground p-8 pt-12 rounded-sm shadow-md;
     @apply text-sm;
     @apply drop-shadow-2xl drop-shadow-black/60;
     @apply max-w-1/2 m-auto;
@@ -22,7 +22,7 @@
 
     .dialog-close {
         @apply absolute right-6 top-6 text-sm cursor-pointer p-2 rounded-sm;
-        @apply text-black/50 hover:bg-muted hover:text-black;
+        @apply text-foreground/50 hover:bg-muted hover:text-foreground;
     }
 
     .dialog-title {
@@ -66,7 +66,8 @@ because the nesting selector cannot represent pseudo-elements. */
     }
 
     .donate-dialog-success {
-        @apply h-1/3 p-10 flex flex-col text-center items-center justify-center text-green-600 font-semibold;
+        @apply p-10 flex flex-col text-center items-center justify-center text-lg text-donation font-semibold;
+        @apply dark:text-donation-light;
     }
 
     .donate-dialog-success-inner {
@@ -78,7 +79,8 @@ because the nesting selector cannot represent pseudo-elements. */
     }
 
     .donate-dialog-donate {
-        @apply flex flex-col gap-2 items-center p-4 bg-green-200 dark:bg-green-700;
+        @apply flex flex-col gap-2 items-center p-4 bg-donation-light text-donation-foreground;
+        @apply dark:bg-donation-dark dark:text-donation-foreground
     }
 
     .donate-dialog-donate-options {
@@ -93,7 +95,7 @@ because the nesting selector cannot represent pseudo-elements. */
         @apply ml-2 flex items-center;
 
         .input-field {
-            @apply w-24 border-green-500 text-green-800 font-semibold text-right text-lg;
+            @apply w-24 border-donation-dark text-donation dark:text-background font-semibold text-right text-lg;
         }
     }
 
@@ -102,7 +104,7 @@ because the nesting selector cannot represent pseudo-elements. */
     }
 
     .donate-dialog-donate-min {
-        @apply text-xs text-center w-5/6 mx-auto text-green-700 dark:text-green-200;
+        @apply text-xs text-center w-5/6 mx-auto;
     }
 
     .donate-dialog-message {
