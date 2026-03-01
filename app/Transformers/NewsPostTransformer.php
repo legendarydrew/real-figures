@@ -23,6 +23,7 @@ class NewsPostTransformer extends TransformerAbstract
             'excerpt'      => $post->excerpt,
             'created_at'   => $post->created_at->format(config('contest.format.full-date')),
             'published_at' => $post->published_at?->format(config('contest.format.full-date')) ?? null,
+            'timestamp'    => $post->published_at?->toISOString() ?? null,
             'updated_at'   => $post->updated_at->format(config('contest.format.full-date')),
         ];
     }

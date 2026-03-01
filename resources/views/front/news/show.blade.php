@@ -26,22 +26,23 @@
 
 @section('content')
 
-    <article class="site-container news-post">
+    <article class="site-container news-post" itemscope itemtype="https://schema.org/BlogPosting">
 
         <div class="page-banner">
             <img src="{{ asset('img/banners/news-7.jpg') }}" alt="A news reporter at her desk.">
         </div>
 
         <header class="news-post-header">
-            <h1 class="news-post-heading">{{$post['title']}}</h1>
+            <h1 class="news-post-heading" itemprop="headline">{{$post['title']}}</h1>
             @if($post['published_at'])
-                <p class="news-post-date">CATAWOL Records,
-                    <time>{{$post['published_at']}}</time>
+                <p class="news-post-date">
+                    <span itemprop="author">CATAWOL Records</span>,
+                    <time itemprop="datePublished" datetime="{{$post['timestamp']}}">{{$post['published_at']}}</time>
                 </p>
             @endif
         </header>
 
-        <div class="content news-post-content">
+        <div class="content news-post-content" itemprop="articleBody">
             {!! $post['content'] !!}
         </div>
 
