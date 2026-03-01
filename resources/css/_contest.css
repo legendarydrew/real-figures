@@ -216,6 +216,16 @@
 .votes-breakdown {
     @apply w-full text-white select-none;
 
+    .fa-star {
+        @apply text-gold;
+    }
+    .fa-trophy {
+        @apply text-gold;
+    }
+    .fa-ribbon {
+        @apply text-primary;
+    }
+
     tr {
         @apply hover-bg;
     }
@@ -255,6 +265,14 @@
     tbody th {
         /* Act. */
         @apply display-text text-left;
+    }
+}
+
+.votes-breakdown-act {
+    @apply flex gap-2 items-center;
+
+    small {
+        @apply text-sm leading-none;
     }
 }
 

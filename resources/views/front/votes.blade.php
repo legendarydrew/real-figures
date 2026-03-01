@@ -45,31 +45,31 @@
                                 <tr>
                                     <td>
                                         @if($song['has_buzzer'])
-                                            <i class="fa-solid fa-star text-gold" title="Awarded a Golden Buzzer."></i>
+                                            <i class="fa-solid fa-star" title="Awarded a Golden Buzzer."></i>
                                         @endif
                                     </td>
                                     <td>
                                         @if($song['win_status'] === \App\Enums\RoundWinState::WINNER)
-                                            <i class="fa-solid fa-trophy text-gold" title="Winner"></i>
+                                            <i class="fa-solid fa-trophy" title="Winner"></i>
                                         @elseif($song['win_status'] === \App\Enums\RoundWinState::RUNNER_UP)
-                                            <i class="fa-solid fa-ribbon text-primary" title="Runner-Up"></i>
+                                            <i class="fa-solid fa-ribbon" title="Runner-Up"></i>
                                         @endif
                                     </td>
                                     <th scope="row">
-                                        <div class="flex gap-2 items-center">
+                                        <div class="votes-breakdown-act">
                                             @include('front.act-image', ['act' => $song['song']['act'], 'size' => 8])
                                             <span class="flag flag:{{ $song['song']['language']['flag'] }}"></span>
                                             <div>
                                             {{ $song['song']['act']['name'] }}
                                             @if ($song['song']['act']['subtitle'])
-                                                <span class="text-sm">{{ $song['song']['act']['subtitle'] }}</span>
+                                                <small>{{ $song['song']['act']['subtitle'] }}</small>
                                             @endif</div>
                                         </div>
                                     </th>
-                                    <td class="text-right font-semibold">{{$song['score']}}</td>
-                                    <td class="text-sm text-right">{{$song['first_choice_votes']}}</td>
-                                    <td class="text-sm text-right">{{$song['second_choice_votes']}}</td>
-                                    <td class="text-sm text-right">{{$song['third_choice_votes']}}</td>
+                                    <td>{{$song['score']}}</td>
+                                    <td>{{$song['first_choice_votes']}}</td>
+                                    <td>{{$song['second_choice_votes']}}</td>
+                                    <td>{{$song['third_choice_votes']}}</td>
                                 </tr>
                             @endforeach
                             </tbody>
