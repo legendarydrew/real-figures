@@ -11,6 +11,7 @@
     @apply inline-block size-6 md:size-4 transform bg-background duration-300 transition-transform rounded-full;
     @apply translate-x-1 translate-y-0 md:translate-x-0.5 md:-translate-y-1.5;
     @apply dark:translate-x-7 dark:md:translate-x-0.5 dark:md:translate-y-1.5;
+    @apply motion-reduce:transition-none;
 }
 
 .mode-toggle-label {

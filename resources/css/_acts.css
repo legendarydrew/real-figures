@@ -12,7 +12,7 @@
         @apply hover:bg-gray-300 dark:hover:bg-gray-600;
 
         &:hover .act-image-bg {
-            @apply scale-[1.1];
+            @apply scale-[1.1] motion-reduce:scale-[1];
         }
     }
 }
@@ -76,7 +76,7 @@
 
     .act-image-bg {
         @apply w-full h-full bg-cover bg-center z-0;
-        @apply transition-transform;
+        @apply transition-transform motion-reduce:transition-none;
     }
 
     .act-image-ph {

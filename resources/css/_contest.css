@@ -102,7 +102,7 @@
 
 .song-item-image {
     @apply aspect-square w-full text-left bg-secondary/30 leading-none relative hover:bg-secondary/50 cursor-pointer;
-    @apply has-[.bg-act-image]:transition-transform has-[.bg-act-image]:hover:scale-[1.1];
+    @apply has-[.bg-act-image]:transition-transform has-[.bg-act-image]:hover:scale-[1.1] motion-reduce:has-[.bg-act-image]:hover:scale-[1];
 }
 
 .song-item-act {
