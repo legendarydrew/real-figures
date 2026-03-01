@@ -1,1 +1,9 @@
 /* ABOUT page. */
+
+.about-points {
+    @apply grid grid-cols-1 lg:grid-cols-2 text-sm ml-0 my-4 text-center lg:text-left;
+
+    li {
+        @apply p-2 lg:px-8 lg:py-4 m-0;
+    }
+}
