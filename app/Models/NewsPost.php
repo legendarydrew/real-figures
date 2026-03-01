@@ -84,4 +84,9 @@ class NewsPost extends Model
                        ->take(4)
                        ->get();
     }
+
+    public function actsMentioned(): Collection
+    {
+        return Act::get()->filter(fn(Act $act) => str_contains(strtolower($this->content), strtolower($act->name)));
+    }
 }

@@ -42,7 +42,7 @@ class NewsController extends Controller
 
         return view('front.news.show', [
             'post' => fractal($post)->transformWith(new NewsPostTransformer())
-                                    ->parseIncludes(['content', 'pages'])
+                                    ->parseIncludes(['content', 'acts', 'pages'])
                                     ->toArray()
         ]);
     }

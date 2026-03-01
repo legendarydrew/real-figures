@@ -44,6 +44,17 @@
             {!! $post['content'] !!}
         </div>
 
+        @if($post['acts'])
+            <aside class="news-post-mentions">
+                <h2 class="page-subheading">Acts mentioned</h2>
+                <div class="news-post-mentions-list">
+                    @foreach($post['acts'] as $act)
+                        @include('front.act-item', ['act' => $act])
+                    @endforeach
+                </div>
+            </aside>
+        @endif
+
         @include('front.advert')
 
         <div class="content news-enquiries">
