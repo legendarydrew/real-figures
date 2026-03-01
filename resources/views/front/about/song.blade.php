@@ -1,27 +1,28 @@
-<div class="flex flex-col md:flex-row gap-4 md:gap-8">
-    <figure class="md:w-2/5 lg:w-1/4 flex flex-col gap-4">
-        <img class="object-cover" src="{{ asset('img/banners/singer-and-boy.jpg') }}"
+<div class="about-song">
+    <figure class="about-song-left">
+        <img src="{{ asset('img/banners/singer-and-boy.jpg') }}"
              alt="A female superstar pop singer singing to an upset young male fan."/>
     </figure>
-    <div class="md:w-3/5 lg:w-3/4">
+    <div class="about-song-right">
         <p>
-            <b class="text-current">Real Figures Don't F.O.L.D</b> is a song <b
-                class="text-current">for those who have experienced
-                bullying</b>.</p>
+            <strong>Real Figures Don't F.O.L.D</strong> is a song
+            <strong>for those who have experienced bullying</strong>.
+        </p>
         <div class="text-sm">
             <p>It was written from the perspective that <b>neither the bullies nor their enablers
                     are listening or will listen</b>, and we can't expect them to change their ways &mdash; so the best
                 thing we can do is stand up for ourselves.</p>
             <p>The song can be interpreted in <b>three ways</b>:</p>
-            <ul class="list-disc">
+            <ul>
                 <li>as encouragement to targets of bullying to <b>be authentic and remain true to themselves</b>;
                 </li>
                 <li>that "selling out" to attempt to join the "in" crowd (the F.O.L.D) is <b
-                        class="text-muted-foreground">not an answer</b> to bullying;
+                    >not an answer</b> to bullying;
                 </li>
-                <li>as a reference to SilentMode's minifigure design, which stands upright and does not bend at the hip.
+                <li>as a reference to SilentMode's minifigure design, which stands upright and does not bend at the
+                    hip.
                 </li>
             </ul>
         </div>
     </div>
-    </figure>
+</div>

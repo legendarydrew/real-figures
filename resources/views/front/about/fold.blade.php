@@ -1,8 +1,8 @@
-<div class="flex flex-col md:flex-row gap-4 md:gap-8">
-    <figure class="md:w-2/5">
-        <img class="md:w-full" src="{{ asset('img/fold-logo.png')}}" alt="The unofficial logo of the F.O.L.D."/>
+<div class="about-fold">
+    <figure class="about-fold-left">
+        <img src="{{ asset('img/fold-logo.png')}}" alt="The unofficial logo of the F.O.L.D."/>
     </figure>
-    <div class="md:w-3/5">
+    <div class="about-fold-right">
         <p>The F.O.L.D describes an unofficial inner circle within the LEGO space, that
             appears inclusive on the surface, but acts in exclusive and controlling ways.</p>
 
@@ -15,9 +15,8 @@
                 subtle discrimination, or are pushed out entirely.
             </p>
 
-            <p class="font-semibold">While the F.O.L.D is specific to the LEGO space, their pattern of
-                behaviour is also common
-                across other hobby and interest groups.</p>
+            <p><strong>While the F.O.L.D is specific to the LEGO space, their pattern of
+                    behaviour is also common across other hobby and interest groups.</strong></p>
 
             <p>The concept was introduced with SilentMode's 2024 <b>SCREAMix</b> project,
                 first displayed at the Great Western Brick Show.</p>
