@@ -45,7 +45,7 @@ export const SubscribeForm: React.FC = ({ className, ...props }) => {
     ) : (
         <form onSubmit={submitHandler} className={className} {...props}>
             <div className="flex items-center">
-                <Input className="bg-white text-black dark:bg-white/20 dark:border-none rounded-r-none" type="email"
+                <Input className="rounded-r-none" type="email"
                        value={email}
                        onChange={emailChangeHandler}
                        placeholder="Enter your email address..."/>

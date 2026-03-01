@@ -16,7 +16,13 @@
 
     &.gold {
         @apply bg-gold text-gold-foreground text-shadow-sm;
-        @apply not-disabled:hover:bg-gold-hover focus-visible:ring-gold/40;
+        @apply dark:bg-gold-dark;
+        @apply not-disabled:hover:bg-gold-hover not-disabled:dark:hover:bg-gold-dark-hover focus-visible:ring-gold/40;
+    }
+
+    &.donate {
+        @apply bg-donation text-donation-foreground text-shadow-sm;
+        @apply not-disabled:hover:bg-donation-hover focus-visible:ring-donation-dark/40;
     }
 
     &.confirm {

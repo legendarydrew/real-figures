@@ -3,7 +3,9 @@
         <div class="act-image-bg" style="background-image: url({{$act['image'] }})"></div>
     @else
         <div class="act-image-ph">
-            <img src="{{ asset('img/catawol-icon.svg') }}" alt="">
+            <svg>
+                <use href="{{ asset('img/catawol-icon.svg') }}" height="100%" width="100%"></use>
+            </svg>
         </div>
     @endif
 </div>

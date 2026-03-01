@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" @class(['dark' => ($appearance ?? 'system') == 'dark'])>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,6 +28,12 @@
             padding: 1.5rem;
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
+
+            .dark & {
+                background-color: oklch(0.145 0 0);
+                color: oklch(0.985 0 0);
+                fill: oklch(0.985 0 0);
+            }
         }
 
         @media (prefers-color-scheme: dark) {
@@ -48,6 +54,7 @@
         .logo {
             flex-shrink: 0;
             height: 5rem;
+            width: 5rem;
         }
 
         .error-message {
@@ -68,7 +75,9 @@
 </head>
 <body>
 <div class="error">
-    <img class="logo" src="{{ asset('img/catawol-icon.svg') }}" alt="">
+    <svg class="logo">
+        <use href="{{ asset('img/catawol-icon.svg') }}" height="100%" width="100%"></use>
+    </svg>
 
     <div class="error-message">
         <h1 class="error-message-code">

@@ -17,9 +17,10 @@ class RoundTransformer extends TransformerAbstract
     {
 
         return [
-            'id'       => (int)$round->id,
-            'title'    => $round->title,
-            'deadline' => $round->ends_at->toISOString(),
+            'id'         => (int)$round->id,
+            'title'      => $round->title,
+            'full_title' => $round->full_title,
+            'deadline'   => $round->ends_at->toISOString(),
         ];
     }
 

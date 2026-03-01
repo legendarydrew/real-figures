@@ -73,7 +73,7 @@
 }
 
 .contest-previous-round {
-    @apply mb-2 bg-secondary-hover p-4;
+    @apply mb-2 bg-background/70 p-4;
 
     .page-subheading {
         @apply mb-2;
@@ -106,7 +106,7 @@
 }
 
 .song-item-act {
-    @apply bg-white/30 absolute bottom-0 left-0 w-full flex items-center gap-3 min-h-10;
+    @apply bg-background/30 absolute bottom-0 left-0 w-full flex items-center gap-3 min-h-10;
 }
 
 .song-item-flag {
@@ -130,7 +130,7 @@
 }
 
 #song-player {
-    @apply z-10 fixed bg-white dark:bg-gray-700 shadow-md w-full max-w-lg overflow-hidden;
+    @apply z-10 fixed bg-background text-foreground shadow-md w-full max-w-lg overflow-hidden;
     @apply top-[100dvh] left-1/2 -translate-x-1/2 -translate-y-[calc(100%+1rem)];
 
     .song-player-video {

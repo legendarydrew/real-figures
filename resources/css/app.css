@@ -1,13 +1,7 @@
-/*
-The project was generated WITHOUT having created a tailwind.config.js file.
-It appears that the theme is defined here, instead.
-(For some reason I had been reading the documentation for v1.9, the latest version indeed
-has the theme configured here.)
-*/
-
 @import 'tailwindcss';
 @import "@fortawesome/fontawesome-free/css/all.css";
 @import "country-flag-icons/3x2/flags.css";
+@import "./_colours.css";
 @import "./_layout.css";
 @import "./_page.css";
 @import "./_alert.css";
@@ -18,6 +12,7 @@ has the theme configured here.)
 @import "./_dialog.css";
 @import "./_form.css";
 @import "./_pagination.css";
+@import "./_toggle.css";
 @import "./_home.css";
 @import "./_about.css";
 @import "./_acts.css";
@@ -68,6 +63,8 @@ has the theme configured here.)
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
 
+    --color-highlight: var(--highlight);
+
     --color-light: #fdfdfc;
     --color-light-foreground: #1b1b18;
 
@@ -94,19 +91,24 @@ has the theme configured here.)
     --color-sidebar-ring: var(--sidebar-ring);
 
     --color-link: var(--link);
-    --color-gold: var(--color-yellow-500);
-    --color-gold-hover: var(--color-amber-500);
-    --color-gold-foreground: var(--color-yellow-100);
+
+    --color-donation-light: var(--donation-light);
+    --color-donation: var(--donation);
+    --color-donation-hover: var(--donation-hover);
+    --color-donation-foreground: var(--donation-foreground);
+    --color-donation-dark: var(--donation-dark);
+    --color-donation-dark-hover: var(--donation-dark-hover);
+    --color-donation-dark-foreground: var(--donation-dark-foreground);
+
+    --color-gold-light: var(--gold-light);
+    --color-gold: var(--gold);
+    --color-gold-hover: var(--gold-hover);
+    --color-gold-foreground: var(--gold-foreground);
+    --color-gold-dark: var(--gold-dark);
+    --color-gold-dark-hover: var(--gold-dark-hover);
+    --color-gold-dark-foreground: var(--gold-dark-foreground);
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
     *,
     ::after,
@@ -115,80 +117,6 @@ has the theme configured here.)
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
     }
-}
-
-:root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: #8B8FEF;
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: #64748B;
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: #E2EF80;
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.87 0 0);
-    --chart-1: oklch(0.646 0.222 41.116);
-    --chart-2: oklch(0.6 0.118 184.704);
-    --chart-3: oklch(0.398 0.07 227.392);
-    --chart-4: oklch(0.828 0.189 84.429);
-    --chart-5: oklch(0.769 0.188 70.08);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.87 0 0);
-    --link: oklch(0.488 0.243 264.376);
-}
-
-.dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.145 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.145 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.985 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.396 0.141 25.723);
-    --destructive-foreground: oklch(0.637 0.237 25.331);
-    --border: oklch(0.269 0 0);
-    --input: oklch(0.269 0 0);
-    --ring: oklch(0.439 0 0);
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
-    --chart-3: oklch(0.769 0.188 70.08);
-    --chart-4: oklch(0.627 0.265 303.9);
-    --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.985 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(0.269 0 0);
-    --sidebar-ring: oklch(0.439 0 0);
-
-    --link: oklch(0.666 0.131 268.881);
 }
 
 @utility display-text {

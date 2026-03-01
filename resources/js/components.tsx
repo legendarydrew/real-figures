@@ -10,6 +10,23 @@ import.meta.glob([
     '../../public/img/**'
 ]);
 
+// Dark mode toggle.
+const themeToggle = document.getElementById('theme-toggle');
+const root = document.documentElement;
+
+// Load saved theme on initial load
+if (localStorage.theme === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    root.classList.add('dark');
+} else if (localStorage.theme === 'light') {
+    root.classList.remove('dark');
+}
+
+// Toggle dark mode
+themeToggle.addEventListener('click', () => {
+    const isDark = root.classList.toggle('dark');
+    localStorage.theme = isDark ? 'dark' : 'light';
+});
+
 let tags;
 
 // Countdown.
