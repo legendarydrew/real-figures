@@ -59,10 +59,11 @@
                                         <div class="flex gap-2 items-center">
                                             @include('front.act-image', ['act' => $song['song']['act'], 'size' => 8])
                                             <span class="flag flag:{{ $song['song']['language']['flag'] }}"></span>
+                                            <div>
                                             {{ $song['song']['act']['name'] }}
-                                            @if ($song['act']['subtitle'])
-                                                <span class="text-sm">{{ $song['act']['subtitle'] }}</span>
-                                            @endif
+                                            @if ($song['song']['act']['subtitle'])
+                                                <span class="text-sm">{{ $song['song']['act']['subtitle'] }}</span>
+                                            @endif</div>
                                         </div>
                                     </th>
                                     <td class="text-right font-semibold">{{$song['score']}}</td>
