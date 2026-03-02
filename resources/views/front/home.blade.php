@@ -49,12 +49,11 @@
                 <span class="home-grid-title">Listen to the Songs</span>
                 <span class="home-grid-subtitle">and vote for your favourites!</span>
             </a>
-            <a class="home-grid-buzzer"
-               href="{{ \App\Facades\ContestFacade::isRunning() && !\App\Facades\ContestFacade::isOver() ? route('contest') : route('rules') . '#the-golden-buzzer' }}">
+            <div class="home-grid-buzzer">
                 <div class="inner"></div>
                 <span class="home-grid-title">Golden Buzzer</span>
                 <span class="home-grid-subtitle">Support your favourite Acts and Songs!</span>
-            </a>
+            </div>
             <a class="home-grid-rules" href="{{ route('rules') }}">
                 <span class="home-grid-title">Contest Rules</span>
                 <span class="home-grid-subtitle">How it all works</span>
