@@ -122,7 +122,7 @@ because the nesting selector cannot represent pseudo-elements. */
 
 /* GOLDEN BUZZER dialog. */
 .golden-buzzer-dialog {
-    @apply bg-gold-light text-gold-foreground w-full max-w-3xl px-4 md:px-8;
+    @apply bg-gold-light text-foreground w-full max-w-3xl px-4 md:px-8;
     @apply dark:bg-gold-dark;
 
     .dialog-close {
@@ -163,7 +163,7 @@ because the nesting selector cannot represent pseudo-elements. */
     }
 
     .golden-buzzer-donate {
-        @apply flex flex-col gap-1 py-2 px-5 bg-gold/50 text-gold-foreground shadow rounded-sm;
+        @apply flex flex-col gap-1 py-2 px-5 bg-gold/50 text-foreground dark:text-gold-foreground shadow rounded-sm;
     }
 
     .golden-buzzer-donate-content {
