@@ -46,10 +46,10 @@
     --gold-light: #f0d078;
     --gold: #F0B100;
     --gold-hover: #bd8a00;
-    --gold-foreground: var(--foreground);
+    --gold-foreground: #ffe293;
     --gold-dark: #805e00;
     --gold-dark-hover: #4d3800;
-    --gold-dark-foreground: var(--background);
+    --gold-dark-foreground: var(--gold-foreground);
 }
 
 .dark {
