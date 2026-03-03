@@ -73,12 +73,12 @@ for (const element: HTMLElement of tags) {
 }
 
 // When opening a collapse section, the respective hash is added to the current URL.
-const collapses = document.querySelectorAll(".content-collapse-title");
+const collapses: NodeListOf<HTMLDetailsElement> = document.querySelectorAll(".content-collapse");
 for (const element: HTMLElement of collapses) {
-    const hash = element.querySelector('a').getAttribute('id');
-    const checkbox: HTMLInputElement = element.querySelector('input[type="checkbox"]');
-    element.addEventListener('change', () => {
-        if (checkbox.checked) {
+    const hash = element.getAttribute('id');
+    const title = element.querySelector('summary');
+    title.addEventListener('click', () => {
+        if (!element.open) {
             window.history.replaceState(null, '', `#${hash}`);
             trackEvent({ category: null, action: 'Panel open', label: hash, nonInteraction: false });
         }
@@ -90,10 +90,7 @@ for (const element: HTMLElement of collapses) {
 if (window.location.hash) {
     const element = document.getElementById(window.location.hash.replace('#', ''));
     const menu = document.querySelector('header.site-header');
-    const checkbox = element.parentElement.querySelector('input[type="checkbox"]');
-    if (checkbox) {
-        checkbox.setAttribute('checked', 'checked'); // open the collapse section.
-    }
+    element.setAttribute('open', 'open'); // open the collapse section.
     if (element) {
         window.scrollTo({
             behavior: 'smooth',
