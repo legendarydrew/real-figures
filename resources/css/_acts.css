@@ -72,15 +72,15 @@
 }
 
 .act-image {
-    @apply aspect-square;
+    @apply block aspect-square;
 
     .act-image-bg {
-        @apply w-full h-full bg-cover bg-center z-0;
+        @apply block w-full h-full bg-cover bg-center z-0;
         @apply transition-transform motion-reduce:transition-none;
     }
 
     .act-image-ph {
-        @apply w-full h-full z-0 flex items-center justify-center text-gray-500 select-none;
+        @apply block w-full h-full z-0 flex items-center justify-center text-gray-500 select-none;
 
         svg {
             @apply w-1/2 h-1/2 opacity-40 fill-foreground;

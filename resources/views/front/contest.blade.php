@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <div class="contest" style="background-image: url({{ asset('img/bg-stage.jpg') }}">
+    <div class="contest" style="background-image: url({{ asset('img/bg-stage.jpg') }})">
 
         <header class="contest-header">
             @yield('contest-header')

@@ -19,7 +19,7 @@ return [
     ],
 
     'ses' => [
-        'key' => env('AWS_ACCESS_KEY_ID'),
+        'key'    => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
@@ -31,7 +31,7 @@ return [
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
-            'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
+            'channel'              => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
 
@@ -48,12 +48,38 @@ return [
 
     'paypal' => [
         'client_id' => env('PAYPAL_CLIENT_ID'),
-        'secret' => env('PAYPAL_SECRET'),
-        'mode'   => env('PAYPAL_MODE', 'sandbox'),
+        'secret'    => env('PAYPAL_SECRET'),
+        'mode'      => env('PAYPAL_MODE', 'sandbox'),
     ],
 
     'turnstile' => [
         'site_key'   => env('TURNSTILE_SITE_KEY'),
         'secret_key' => env('TURNSTILE_SECRET_KEY'),
-    ]
+    ],
+
+    'beautify' => [
+        'enabled'  => true,
+        'encoding' => 'utf8',
+        'settings' => [
+            'indent'               => 2,      // corresponds to auto.
+            'indent-spaces'        => 4,
+            'wrap'                 => 240,
+            'wrap-sections'        => false,
+            'markup'               => true,
+            'output-xhtml'         => false,
+            'char-encoding'        => 'utf8',
+            'hide-comments'        => true,
+            'uppercase-tags'       => false,
+            'uppercase-attributes' => false,
+            'break-before-br'      => false,
+            'drop-empty-elements'  => false,
+
+            // HTML5 workarounds
+            'doctype'              => 'omit', //The filter will add the configured doctype later
+            'new-blocklevel-tags'  => 'article,aside,canvas,dialog,embed,figcaption,figure,footer,header,hgroup,nav,output,progress,section,video,' .
+                // + our custom tags for components.
+                'countdown,contact-form,donate-dialog,golden-buzzer-dialog,subscribe-form,vote-dialog',
+            'new-inline-tags'      => 'audio,bdi,command,datagrid,datalist,details,keygen,mark,meter,rp,rt,ruby,source,summary,time,track,wbr',
+        ]
+    ],
 ];
