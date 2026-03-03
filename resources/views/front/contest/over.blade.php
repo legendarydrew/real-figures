@@ -5,7 +5,7 @@
 
 @section('contest-header')
     <h1>The Contest is Over!</h1>
-    <p class="mx-auto mb-3 text-base md:w-3/4">
+    <p>
         The votes are counted. The winners are announced. <b>The anthem has been chosen.</b>
     </p>
 @endsection
@@ -13,21 +13,20 @@
 @section('contest-content')
 
     <div class="site-container">
-        <ul class="grid gap-2 md:grid-cols-4">
+        <ul class="contest-winners">
             <!-- Winner -->
             @foreach($results['winners'] as $song)
-                <li class="display-text md:col-span-2 md:row-span-2 text-shadow-md">
-                    <div class="relative w-full bg-yellow-200/30 text-left leading-none">
+                <li class="winner">
+                    <div class="inner">
                         @include('front.act-image', ['act' => $song['act'], 'size' => 'full'])
-                        <p class="absolute top-0 p-5 text-xl text-yellow-300 uppercase">
+                        <p class="badge">
                             <i class="fa-solid fa-trophy"></i>
                             Winner
                         </p>
-                        <div
-                                class="absolute bottom-0 w-full p-3 text-xl leading-tight lg:p-5">
+                        <div class="act">
                             {{ $song['act']['name'] }}
                             @if ($song['act']['subtitle'])
-                                <span class="text-sm">{{ $song['act']['subtitle'] }}</span>
+                                <small>{{ $song['act']['subtitle'] }}</small>
                             @endif
                         </div>
                     </div>
@@ -36,15 +35,15 @@
 
             <!-- Runners-up! -->
             @foreach($results['runners_up'] as $song)
-                <li class="display-text col-span-1 row-span-1 text-shadow-md">
-                    <div class="bg-secondary/30 relative w-full text-left leading-none">
+                <li class="runner-up">
+                    <div class="inner">
                         @include('front.act-image', ['act' => $song['act'], 'size' => 'full'])
-                        <div class="absolute bottom-0 w-full p-3 text-base leading-tight">
+                        <div class="act">
                             {{ $song['act']['name'] }}
                             @if ($song['act']['subtitle'])
-                                <span class="block text-sm">{{ $song['act']['subtitle'] }}</span>
+                                <small>{{ $song['act']['subtitle'] }}</small>
                             @endif
-                            <p class="text-sm text-indigo-200 uppercase">
+                            <p class="badge">
                                 <i class="fa-solid fa-award"></i>
                                 Runner-up
                             </p>
@@ -54,7 +53,7 @@
             @endforeach
         </ul>
 
-        <div class="text-center my-8">
+        <div class="contest-vote-breakdown">
             <a href="{{ route('votes') }}" class="button primary large">View voting breakdown</a>
         </div>
 

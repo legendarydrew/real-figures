@@ -14,7 +14,7 @@
 
         @if($current_round)
             {{-- The current round. --}}
-            <div class="flex flex-col md:flex-row items-center justify-between my-4">
+            <div class="contest-current-heading">
                 <h2 class="page-subheading">{{ $current_round['full_title'] }}</h2>
                 <div class="contest-round-countdown">
                     <span class="text-sm">Voting ends in</span>
@@ -31,7 +31,7 @@
         </div>
 
         {{-- A big button for casting a vote. --}}
-        <button type="button" class="button large w-full my-4"
+        <button type="button" class="button large contest-vote-button"
                 onclick="trackEvent({ action: 'Begin vote', label: '{{ $current_round['full_title'] }}', nonInteraction: false })"
                 command="show-modal" commandfor="vote-dialog" aria-controls="vote-dialog">Cast your Vote...
         </button>

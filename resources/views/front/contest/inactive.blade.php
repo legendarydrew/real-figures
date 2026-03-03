@@ -10,9 +10,9 @@
 @endsection
 
 @section('contest-content')
-    <div class="max-w-xl mx-auto">
+    <div class="contest-subscribe">
         <subscribe-form></subscribe-form>
-        <p class="text-xs text-center my-4">Your email address will only be used for sending notifications, and will
+        <p>Your email address will only be used for sending notifications, and will
             not be shared with anyone else.</p>
     </div>
 @endsection

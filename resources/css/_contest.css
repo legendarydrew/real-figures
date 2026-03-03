@@ -22,6 +22,58 @@
     }
 }
 
+.contest-vote-button {
+    @apply w-full my-4;
+}
+
+.contest-winners {
+    @apply grid gap-2 md:grid-cols-4;
+
+    .inner {
+        @apply relative w-full text-left leading-none;
+    }
+
+    .winner {
+        @apply display-text md:col-span-2 md:row-span-2 text-shadow-md;
+
+        .inner {
+            @apply bg-yellow-200/30;
+        }
+
+        .badge {
+            @apply absolute top-0 p-5 text-xl text-gold uppercase;
+        }
+
+        .act {
+            @apply absolute bottom-0 w-full p-3 text-xl leading-tight lg:p-5;
+        }
+    }
+
+    .runner-up {
+        @apply display-text col-span-1 row-span-1 text-shadow-md;
+
+        .inner {
+            @apply bg-secondary/30;
+        }
+
+        .badge {
+            @apply text-sm text-primary uppercase;
+        }
+
+        .act {
+            @apply absolute bottom-0 w-full p-3 text-base leading-tight;
+
+            small {
+                @apply block;
+            }
+        }
+    }
+}
+
+.contest-vote-breakdown {
+    @apply text-center my-8;
+}
+
 .contest-scores {
     @apply mx-auto text-white w-full;
 
@@ -65,7 +117,11 @@
 }
 
 .contest-round {
-    @apply grid gap-2 md:grid-cols-2 lg:grid-cols-3 select-none mb-8;
+    @apply grid gap-2 md:grid-cols-2 lg:grid-cols-4 select-none mb-8;
+}
+
+.contest-current-heading {
+    @apply flex flex-col md:flex-row items-center justify-between my-4;
 }
 
 .contest-previous-heading {
@@ -96,6 +152,14 @@
     }
 }
 
+.contest-subscribe {
+    @apply max-w-xl mx-auto;
+
+    p {
+        @apply text-xs text-center my-4;
+    }
+}
+
 .song-item {
     @apply relative overflow-hidden;
 }
@@ -110,6 +174,7 @@
 }
 
 .song-item-flag {
+    --CountryFlagIcon-height: 0.75rem;
     @apply ml-3 shadow-md/60;
 }
 
@@ -223,9 +288,11 @@
     .fa-star {
         @apply text-gold;
     }
+
     .fa-trophy {
         @apply text-gold;
     }
+
     .fa-ribbon {
         @apply text-primary;
     }

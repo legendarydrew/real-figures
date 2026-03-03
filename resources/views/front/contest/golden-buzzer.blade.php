@@ -5,7 +5,7 @@
         <i class="fa-solid fa-close"></i>
     </button>
     <h2 class="dialog-title">
-        Award a <span class="text-amber-700 dark:text-amber-300">Golden Buzzer</span> to...
+        Award a Golden Buzzer to...
     </h2>
     <golden-buzzer-dialog stage="{{ json_encode($stage) }}" round="{{ json_encode($round) }}" song="{{ json_encode($song) }}"></golden-buzzer-dialog>
 </dialog>
