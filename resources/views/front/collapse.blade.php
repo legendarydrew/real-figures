@@ -1,12 +1,11 @@
-<section class="content-collapse">
-    <label class="content-collapse-title">
-        <input type="checkbox" name="collapse"/>
+<details class="content-collapse" id="{{ Str::slug($title) }}">
+    <summary class="content-collapse-title">
         @if (isset($icon))
             <i class="{{ $icon }} mr-4"></i>
         @endif
-        <a id="{{ Str::slug($title) }}">{{ $title }}</a>
-    </label>
+        {{ $title }}
+    </summary>
     <div class="content-collapse-body content">
         @include($content)
     </div>
-</section>
+</details>

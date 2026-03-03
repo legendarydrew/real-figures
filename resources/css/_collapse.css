@@ -16,15 +16,15 @@
         }
 
         &::after {
-            @apply font-icon content-['\f077'] font-black;
+            @apply font-icon content-['\f078'] font-black;
             @apply absolute right-4;
             /* f078 - chevron-down */
             /* f077 - chevron-up */
         }
+    }
 
-        &:has(input:not(:checked))::after {
-            @apply content-['\f078'];
-        }
+    &[open] .content-collapse-title::after {
+        @apply content-['\f077'];
     }
 
     .content-collapse-body {

@@ -1,7 +1,7 @@
 @utility button {
     @apply display-text;
     @apply not-disabled:cursor-pointer rounded-xs shadow-xs focus-visible:ring-muted/20 dark:focus-visible:ring-muted/40;
-    @apply bg-muted not-disabled:hover:bg-muted/90 text-muted-foreground;
+    @apply bg-muted not-disabled:hover:bg-muted/90 text-zinc-700;
     @apply flex gap-2 justify-center items-center px-8 py-3;
 
     &.primary {

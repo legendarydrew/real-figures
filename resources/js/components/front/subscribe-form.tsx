@@ -45,11 +45,14 @@ export const SubscribeForm: React.FC = ({ className, ...props }) => {
     ) : (
         <form onSubmit={submitHandler} className={className} {...props}>
             <div className="flex items-center">
-                <Input className="rounded-r-none" type="email"
+                <label htmlFor="subscribeEmail" className="sr-only">Enter your email address...</label>
+                <Input id="subscribeEmail" className="rounded-r-none" type="email"
                        value={email}
                        onChange={emailChangeHandler}
+                       autocomplete="email"
                        placeholder="Enter your email address..."/>
-                <LoadingButton type="submit" className="h-9 rounded-l-none" disabled={!email} isLoading={isProcessing}>I'm in!</LoadingButton>
+                <LoadingButton type="submit" className="h-9 rounded-l-none" disabled={!email} isLoading={isProcessing}>I'm
+                    in!</LoadingButton>
             </div>
             {hasError ? <Alert type="error" message={hasError}/> : ''}
         </form>

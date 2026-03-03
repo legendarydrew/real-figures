@@ -123,7 +123,7 @@ export const GoldenBuzzerDialog: React.FC = ({ stage, round, song }) => {
                     className="golden-buzzer-donate">
                     <div className="golden-buzzer-donate-content">
 
-                        <Label htmlFor="donationAmount">I would like to donate</Label>
+                        <Label htmlFor={`donationAmount-${song.id}`}>I would like to donate</Label>
 
                         <div className="golden-buzzer-donate-options">
                             {donationOptions.current.map((value) => (
@@ -131,7 +131,7 @@ export const GoldenBuzzerDialog: React.FC = ({ stage, round, song }) => {
                                         onClick={() => setAmount(value)}>{value}</Button>
                             ))}
                             <div className="golden-buzzer-donate-amount">
-                                <Input id="donationAmount" type="number" value={amount}
+                                <Input id={`donationAmount-${song.id}`} type="number" value={amount}
                                        min={donation.minimum.golden_buzzer}
                                        onChange={amountHandler}/>
                                 <span className="golden-buzzer-donate-currency">{donation.currency}</span>
@@ -158,8 +158,8 @@ export const GoldenBuzzerDialog: React.FC = ({ stage, round, song }) => {
 
                 <footer className="golden-buzzer-footer">
                     <div className="golden-buzzer-anonymous">
-                        <Checkbox id="donationAnonymous" checked={isAnonymous} onCheckedChange={anonymousHandler}/>
-                        <Label htmlFor="donationAnonymous">I would like to remain anonymous.</Label>
+                        <Checkbox id={`donationAnonymous-${song.id}`} checked={isAnonymous} onCheckedChange={anonymousHandler}/>
+                        <Label htmlFor={`donationAnonymous-${song.id}`}>I would like to remain anonymous.</Label>
                     </div>
 
                     <PaypalButton approveEndpoint="api/golden-buzzer"

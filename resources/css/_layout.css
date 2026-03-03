@@ -22,22 +22,27 @@
         @apply font-bold fill-foreground;
 
         svg {
-            @apply h-10 w-80 md:w-auto;
+            @apply h-10 w-60;
         }
     }
 
     .site-header-nav {
         /* Mobile form. */
-        @apply bg-background text-foreground flex flex-col justify-start items-center gap-2;
+        @apply bg-background text-foreground hidden md:flex flex-col justify-start items-center gap-2;
         @apply fixed top-14 left-0 z-20;
         @apply w-full px-8 py-4;
         @apply border-y-1;
+        @apply opacity-0 md:opacity-100;
+        transition: opacity 0.2s ease-out,
+        overlay 0.2s ease-out allow-discrete,
+        display 0.2s ease-out allow-discrete;
+        @apply motion-reduce:transition-none;
 
         /* Larger screen form. */
         @apply md:static md:flex-row md:flex-grow md:justify-end md:bg-transparent md:border-none md:p-0;
 
         a {
-            @apply display-text text-lg md:text-sm leading-normal px-3 py-1.5 hover:underline text-[#1b1b18] dark:text-[#EDEDEC];
+            @apply display-text text-lg md:text-sm leading-normal px-3 py-1.5 hover:underline text-foreground;
 
             &.donate-link {
                 @apply text-donation;
@@ -45,27 +50,26 @@
         }
     }
 
+    @starting-style {
+        .site-header:has(#nav-open:checked) .site-header-nav {
+            @apply opacity-0;
+        }
+    }
+
     /* Responsive magic. */
-    .site-header-nav-open {
+    .site-header-nav-toggle {
         @apply text-foreground px-2 py-1 md:hidden;
-    }
-
-    .site-header-nav-close {
-        @apply md:hidden z-90 fixed top-5 right-4;
-    }
-
-    &:not(:has(#nav-open:checked)) {
-        .site-header-nav {
-            @apply max-md:hidden;
-        }
-        .site-header-nav-close {
-            @apply hidden;
-        }
+        @apply after:font-icon after:content-['\f0c9'] after:font-black;
     }
 
     &:has(#nav-open:checked) {
-        .site-header-nav-open {
-            @apply hidden;
+        .site-header-nav {
+            @apply flex opacity-100;
+        }
+
+        .site-header-nav-toggle {
+            @apply z-90 fixed top-3 right-2;
+            @apply after:content-['\f00d'];
         }
     }
 
@@ -76,7 +80,7 @@
     .site-main {
         @apply flex-grow overflow-y-auto;
 
-        >.site-container:first-child {
+        > .site-container:first-child {
             @apply my-8;
         }
     }
