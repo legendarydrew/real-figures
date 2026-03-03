@@ -13,7 +13,7 @@
 @section('contest-content')
 
     <div class="site-container">
-        <ul class="contest-winners">
+        <ul class="contest-winners{{count($results['winners'] ) > 1 ? ' contest-joint-winners' : ''}}">
             <!-- Winner -->
             @foreach($results['winners'] as $song)
                 <li class="winner">

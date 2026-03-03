@@ -29,6 +29,10 @@
 .contest-winners {
     @apply grid gap-2 md:grid-cols-4;
 
+    &.contest-joint-winners {
+        @apply md:grid-cols-6;
+    }
+
     .inner {
         @apply relative w-full text-left leading-none;
     }
@@ -41,7 +45,7 @@
         }
 
         .badge {
-            @apply absolute top-0 p-5 text-xl text-gold uppercase;
+            @apply absolute top-0 p-5 text-xl text-winner uppercase;
         }
 
         .act {
@@ -57,7 +61,7 @@
         }
 
         .badge {
-            @apply text-sm text-primary uppercase;
+            @apply text-sm text-runner-up uppercase;
         }
 
         .act {
@@ -290,11 +294,11 @@
     }
 
     .fa-trophy {
-        @apply text-gold;
+        @apply text-winner;
     }
 
     .fa-ribbon {
-        @apply text-primary;
+        @apply text-runner-up;
     }
 
     td, th {

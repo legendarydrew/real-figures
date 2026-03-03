@@ -50,6 +50,9 @@
     --gold-dark: #805e00;
     --gold-dark-hover: #4d3800;
     --gold-dark-foreground: var(--gold-foreground);
+
+    --winner: var(--gold-foreground);
+    --runner-up: #b0b0fb;
 }
 
 .dark {

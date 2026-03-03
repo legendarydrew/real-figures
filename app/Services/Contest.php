@@ -7,7 +7,6 @@ use App\Models\Act;
 use App\Models\NewsPost;
 use App\Models\Round;
 use App\Models\RoundOutcome;
-use App\Models\Song;
 use App\Models\Stage;
 use App\Models\StageWinner;
 use App\Transformers\SongTransformer;
@@ -189,14 +188,10 @@ class Contest
 
             $winners    = $all_winners->filter(fn(StageWinner $winner) => $winner->is_winner);
             $runners_up = $all_winners->filter(fn(StageWinner $winner) => !$winner->is_winner);
-            $others     = Song::whereHas('rounds')
-                              ->whereNotIn('id', $all_winners->pluck('song_id'))
-                              ->get();
 
             return [
                 'winners'    => fractal($winners->map(fn(StageWinner $winner) => $winner->song), new SongTransformer())->toArray(),
                 'runners_up' => fractal($runners_up->map(fn(StageWinner $winner) => $winner->song), new SongTransformer())->toArray(),
-                'others'     => fractal($others, new SongTransformer())->toArray(),
             ];
         }
 

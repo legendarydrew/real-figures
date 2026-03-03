@@ -108,6 +108,9 @@
     --color-gold-dark: var(--gold-dark);
     --color-gold-dark-hover: var(--gold-dark-hover);
     --color-gold-dark-foreground: var(--gold-dark-foreground);
+
+    --color-winner: var(--winner);
+    --color-runner-up: var(--runner-up);
 }
 
 @layer base {
