@@ -21,7 +21,7 @@
                 </div>
                 <div class="home-hero-subscribe">
                     @if(\App\Facades\ContestFacade::isOver())
-                        <p>The Contest is now over. Visit the <a href="{{ route('contest') }}">Contest page</a>
+                        <p>The Contest is now over. Visit the Contest page
                             to find out which Acts came out on top.</p>
                     @else
                         <h2>Subscribe for updates!</h2>

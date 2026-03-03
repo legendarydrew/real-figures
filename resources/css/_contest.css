@@ -216,6 +216,10 @@
 .votes-breakdown {
     @apply w-full text-white select-none;
 
+    caption {
+        @apply text-sm;
+    }
+
     .fa-star {
         @apply text-gold;
     }
@@ -224,10 +228,6 @@
     }
     .fa-ribbon {
         @apply text-primary;
-    }
-
-    tr {
-        @apply hover-bg;
     }
 
     td, th {
@@ -260,6 +260,10 @@
 
     thead th {
         @apply border-b-1 align-bottom;
+    }
+
+    tbody tr {
+        @apply hover-bg;
     }
 
     tbody th {

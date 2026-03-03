@@ -22,18 +22,21 @@
                         @if (count($stage['breakdowns']) > 1)
                             <h3>{{$breakdown['title']}}</h3>
                         @endif
-                        @if($breakdown['manual_vote'])
-                            <p class="text-sm">Winners were determined by an independent panel.</p>
-                            @else
-                                <p class="text-sm"><b>{{ $breakdown['vote_count'] }}</b> total votes cast.</p>
-                        @endif
 
                         <table class="votes-breakdown">
+                            <caption>
+                                @if($breakdown['manual_vote'])
+                                    Winners were determined by an independent panel.
+                                @else
+                                    <b>{{ $breakdown['vote_count'] }}</b> total votes cast.
+                                @endif
+
+                            </caption>
                             <thead>
                             <tr>
-                                <th scope="col"></th>{{-- Golden Buzzer --}}
-                                <th scope="col"></th>{{-- Winner/Runner-up --}}
-                                <th scope="col"></th>{{-- Act --}}
+                                <th scope="col" aria-label="Golden Buzzer"></th>
+                                <th scope="col" aria-label="Winner/Runner-up"></th>
+                                <th scope="col" aria-label="Act"></th>
                                 <th scope="col">Score</th>
                                 <th scope="col">1st</th>
                                 <th scope="col">2nd</th>
