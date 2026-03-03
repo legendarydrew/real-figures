@@ -166,7 +166,7 @@ because the nesting selector cannot represent pseudo-elements. */
         @apply flex gap-1 items-center;
 
         .button {
-            @apply max-sm:hidden text-base;
+            @apply max-sm:hidden text-base text-white dark:text-gold-foreground px-4;
         }
     }
 
