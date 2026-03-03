@@ -87,21 +87,22 @@ const ContactForm: React.FC = () => {
                 <div>
                     <Label className="sr-only" htmlFor="contactName">Your name</Label>
                     <Input id="contactName" placeholder="Your name" data={data.name}
+                           autoComplete="name"
                            onChange={nameChangeHandler} disabled={processing}/>
                     <InputError message={errors.name}/>
                 </div>
 
                 <div>
-                    <Label className="sr-only" htmlFor="contactName">Your email address</Label>
-                    <Input id="contactName" type="email" placeholder="Your email address"
-                           value={data.email}
+                    <Label className="sr-only" htmlFor="contactEmail">Your email address</Label>
+                    <Input id="contactEmail" type="email" placeholder="Your email address"
+                           value={data.email} autoComplete="email"
                            onChange={emailChangeHandler} disabled={processing}/>
                     <InputError message={errors.email}/>
                 </div>
 
                 <div>
-                    <Label className="sr-only" htmlFor="contactName">Your message</Label>
-                    <Textarea id="contactName" rows={8}
+                    <Label className="sr-only" htmlFor="contactMessage">Your message</Label>
+                    <Textarea id="contactMessage" rows={8}
                               placeholder="Your message (min. 20 characters)"
                               value={data.body}
                               onChange={bodyChangeHandler} disabled={processing}/>

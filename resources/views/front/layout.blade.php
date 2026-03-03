@@ -5,7 +5,9 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@hasSection('page-title')@yield('page-title') &mdash; @endif{{ config('app.name') }}</title>
+    <title>@hasSection('page-title')
+            @yield('page-title') &mdash;
+        @endif{{ config('app.name') }}</title>
     <title>@yield('page-title', config('app.name'))</title>
     <meta name="description" content="@yield('page-description')"/>
     <meta name="paypal-client" content="{{ config('services.paypal.client_id')}}"/>
@@ -56,16 +58,12 @@
 
         <a class="site-header-brand" href="{{ route('home') }}">
             <svg title="CATAWOL Records">
-                <use href="{{ asset('logo/catawol-logo.svg') }}" x="-25%" height="100%"></use>
+                <use href="{{ asset('logo/catawol-logo.svg') }}" x="-35%" height="100%"></use>
             </svg>
         </a>
 
-        <input type="checkbox" id="nav-open">
 
         <nav class="site-header-nav">
-            <label class="site-header-nav-close" for="nav-open" title="Close menu">
-                <i class="fa-solid fa-close"></i>
-            </label>
 
             <a href="{{ route('contest') }}">Contest</a>
             @if(\App\Facades\ContestFacade::shouldShowNews())
@@ -92,9 +90,8 @@
         </nav>
 
 
-        <label class="site-header-nav-open" for="nav-open" title="Menu">
-            <i class="fa-solid fa-bars"></i>
-        </label>
+        <label class="site-header-nav-toggle" for="nav-open" aria-label="Toggle menu"></label>
+        <input type="checkbox" id="nav-open">
     </div>
 </header>
 
