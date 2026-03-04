@@ -45,7 +45,7 @@ class NewsPostTransformer extends TransformerAbstract
     }
 
     /**
-     * Include the News Post's previous and next pages, if available.
+     * Include the News Post's previous and next pages, along with other News posts, if available.
      *
      * @param NewsPost $post
      * @return Primitive|null
