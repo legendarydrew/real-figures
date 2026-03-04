@@ -1,7 +1,10 @@
 <?php
 
 return [
-    'date_format' => 'd/m/Y H:i',
+    'format' => [
+        'date'      => 'd/m/Y',
+        'full-date' => 'd/m/Y H:i',
+    ],
     'donation'    => [
         'default'  => [
             'general'       => 5,

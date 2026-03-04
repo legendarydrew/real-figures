@@ -1,0 +1,42 @@
+.donate-buttons {
+    @apply my-8 flex flex-col md:flex-row justify-center items-center gap-4 md:gap-16;
+
+    .button {
+        @apply w-4/5;
+    }
+}
+
+.donations-list,
+.golden-buzzers-list {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+    @apply mt-2 mb-8 p-2;
+
+    li {
+        @apply flex font-mono justify-between items-center px-2 py-1 transition-colors select-none;
+        @apply hover:bg-black/20;
+
+        .donor-name {
+            @apply flex-grow truncate;
+
+            &.anonymous {
+                @apply italic;
+            }
+
+            &.named {
+                @apply font-semibold;
+            }
+        }
+
+        .donor-date {
+            @apply text-xs text-right;
+        }
+    }
+}
+
+.donations-list {
+    @apply bg-green-500/50;
+}
+
+.golden-buzzers-list {
+    @apply bg-gold/50;
+}

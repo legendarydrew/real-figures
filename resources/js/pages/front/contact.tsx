@@ -137,7 +137,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ success }) => {
 
                                 <div className="flex gap-2 items-center">
                                     <Checkbox id="contactSubscribe" onCheckedChange={subscribeChangeHandler}/>
-                                    <Label htmlFor="contactSubscribe">I'd like updates about the contest.</Label>
+                                    <Label htmlFor="contactSubscribe">I'd like updates about the Contest.</Label>
                                 </div>
 
                                 <TurnstileWidget onVerify={verifyHandler}/>

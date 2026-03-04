@@ -1,5 +1,4 @@
 import Turnstile from "react-turnstile";
-import { usePage } from '@inertiajs/react';
 
 interface TurnstileWidgetProps {
     onVerify: (string) => void;
@@ -9,7 +8,8 @@ interface TurnstileWidgetProps {
 // https://github.com/Le0Developer/react-turnstile
 
 export const TurnstileWidget: React.FC<TurnstileWidgetProps> = ({ onVerify, onError }) => {
-    const { turnstileSiteKey } = usePage().props;
+    const turnstileSiteKey = document.querySelector("meta[name=turnstile]").attributes['content'].value;
+    // Read the Turnstile site key from a meta tag,
 
     const verifyHandler = (token: string) => {
         if (onVerify) {

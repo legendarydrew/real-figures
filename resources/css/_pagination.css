@@ -1,0 +1,51 @@
+.pagination-mobile {
+    @apply flex gap-2 items-center justify-between sm:hidden;
+
+    .pagination-link {
+        @apply px-4;
+    }
+}
+
+.pagination-non-mobile {
+    @apply hidden sm:flex-1 sm:flex sm:gap-2 sm:items-center sm:justify-between;
+}
+
+.pagination-showing {
+    @apply text-sm text-gray-700 dark:text-gray-600;
+}
+
+.pagination-showing-n {
+    @apply font-semibold;
+}
+
+.pagination-links {
+    @apply inline-flex rtl:flex-row-reverse shadow-sm rounded-md;
+}
+
+.pagination-link-sep {
+    @apply inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 cursor-default leading-5 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300;
+}
+
+.pagination-link {
+
+    @apply bg-white border border-gray-300;
+    @apply inline-flex items-center justify-center px-2 py-2 min-w-10 text-sm font-medium text-muted select-none;
+    @apply rounded-sm md:rounded-none first:md:rounded-l-sm last:md:rounded-r-sm;
+    @apply dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400;
+    @apply invisible md:visible;
+
+    &:not(.disabled, .active) {
+        @apply visible;
+        @apply text-secondary;
+        @apply dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300;
+        @apply hover-bg hover:text-secondary;
+        @apply focus:outline-none focus:ring ring-gray-300 focus:border-blue-300;
+        @apply active:bg-gray-100 active:text-gray-500;
+        @apply dark:active:bg-gray-700 dark:focus:border-blue-800;
+        @apply dark:hover:bg-gray-900 dark:hover:text-gray-300;
+    }
+
+    &.active {
+        @apply bg-muted text-muted-foreground;
+    }
+}

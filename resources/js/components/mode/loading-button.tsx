@@ -32,16 +32,16 @@ const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
         const Comp = asChild ? Slot : "button";
         return (
             <Comp
-                className={cn(buttonVariants({ variant, size, className }))}
+                className={cn('loading-button', buttonVariants({ variant, size, className }))}
                 ref={ref}
                 disabled={isLoading || disabled}
                 {...props}
             >
                 {isLoading && (
-                    <Loader2 className="absolute h-5 w-5 animate-spin"/>
+                    <Loader2 className="absolute size-6 animate-spin"/>
                 )}
                 <Slottable>
-                    <span className={isLoading ? 'invisible px-1' : 'flex gap-2 items-center'}>{children}</span>
+                    <span className={isLoading ? 'is-loading' : 'not-loading'}>{children}</span>
                 </Slottable>
             </Comp>
         );

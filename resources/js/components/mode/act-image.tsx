@@ -1,5 +1,4 @@
 import { Act } from '@/types';
-import { PersonStanding } from 'lucide-react';
 import React from 'react';
 import { cn } from '@/lib/utils';
 
@@ -12,13 +11,15 @@ interface ActImageProps {
 export const ActImage: React.FC<ActImageProps> = ({ act, size = '10', className }) => {
 
     return (
-        <div className={cn(`aspect-square w-${size} h-${size}`, act.image_url ? 'bg-act-image' : '', className)}>
-            {act?.image_url ? (
+        <div className={cn(`aspect-square w-${size} h-${size}`, act.image ? 'bg-act-image' : '', className)}>
+            {act?.image ? (
                 <div className="w-full h-full bg-cover bg-center z-0"
-                     style={{ backgroundImage: `url("${act.image_url}")` }}/>
+                     style={{ backgroundImage: `url("${act.image}")` }}/>
             ) : (
                 <div className="w-full h-full z-0 flex items-center justify-center text-gray-500 select-none">
-                    <PersonStanding className="h-1/2 w-1/2"/>
+                    <svg className="size-8 opacity-50">
+                        <use href="/img/catawol-icon.svg" width="100%" height="100%" />
+                    </svg>
                 </div>
             )}
         </div>

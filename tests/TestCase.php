@@ -22,5 +22,8 @@ abstract class TestCase extends BaseTestCase
 
         // Replacement fake image provider.
         fake()->addProvider(new FakerPicsumImagesProvider(fake()));
+
+        // Disable beautifying code (so we can use $response->assertIsView()).
+        config()->set('services.beautify.enabled', false);
     }
 }

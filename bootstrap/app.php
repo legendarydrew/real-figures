@@ -15,7 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
                   ->withRouting(
-                      web: __DIR__ . '/../routes/web.php',
+                      web: [
+                          __DIR__ . '/../routes/web.php',
+                          __DIR__ . '/../routes/admin.php',
+                          __DIR__ . '/../routes/api.php'
+                      ],
                       commands: __DIR__ . '/../routes/console.php',
                       health: '/up',
                   )
@@ -27,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
                           HandleAppearance::class,
                           HandleInertiaRequests::class,
                           AddLinkHeadersForPreloadedAssets::class,
+                          \App\Http\Middleware\Beautify::class
                       ]);
                   })
                   ->withSchedule(function (\Illuminate\Console\Scheduling\Schedule $schedule)

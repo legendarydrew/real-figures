@@ -1,0 +1,28 @@
+/* Firefox (uncomment to work in Firefox) */
+/** {*/
+/*    scrollbar-width: thin;*/
+/*    scrollbar-color: var(--secondary) var(--background);*/
+/*}*/
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+    @apply size-3;
+}
+
+*::-webkit-scrollbar-track {
+    @apply rounded-none bg-foreground/10;
+}
+
+*::-webkit-scrollbar-track:hover,
+*::-webkit-scrollbar-track:active {
+    @apply rounded-none bg-foreground/20;
+}
+
+*::-webkit-scrollbar-thumb {
+    @apply rounded-sm bg-secondary/50;
+}
+
+*::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:active {
+    @apply bg-secondary;
+}

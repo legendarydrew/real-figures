@@ -73,15 +73,22 @@ class NewsPost extends Model
     }
 
     /**
-     * Returns a list of the most recent published NewsPosts, not including this one.
+     * Returns a list of the most recent published NewsPosts, not including this one or the
+     * previous or next posts.
      *
      * @return Collection<NewsPost>|null
      */
     public function otherRecentPosts(): Collection|null
     {
-        return NewsPost::published()->where('id', '<>', $this->id)
+        return NewsPost::published()
+                       ->wherenotIn('id', [$this->id, $this->previousPost()?->id, $this->nextPost()?->id])
                        ->orderByDesc('id')
                        ->take(4)
                        ->get();
+    }
+
+    public function actsMentioned(): Collection
+    {
+        return Act::get()->filter(fn(Act $act) => str_contains(strtolower($this->content), strtolower($act->name)));
     }
 }

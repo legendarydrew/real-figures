@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Facades\ContestFacade;
-use App\Transformers\CurrentStageTransformer;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\View;
 use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,12 +24,14 @@ class AppServiceProvider extends ServiceProvider
     {
         // Make certain configured values available to our app. (Thanks once again, ChatGPT.)
         Inertia::share([
-            'adsense'          => config('services.adsense'),
-            'analytics'        => config('services.analytics'),
-            'donation'         => config('contest.donation'),
-            'locale'           => config('app.locale'),
-            'paypalClientId'   => config('services.paypal.client_id'),
-            'turnstileSiteKey' => config('services.turnstile.site_key'),
+            'analytics' => config('services.analytics'),
+            'donation'  => config('contest.donation'),
+            'locale'    => config('app.locale')
         ]);
+
+        \View::composer('front.links', function(View $view) {
+            // Determine the current route.
+            $view->with('current', Route::currentRouteName());
+        });
     }
 }

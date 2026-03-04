@@ -66,7 +66,7 @@ const HomeContestOverPage: React.FC = () => {
 
                     <div className="flex flex-col gap-1 text-center">
                         <p>
-                            Whether your favourite song made it to the top or not, <b>you helped make this contest unforgettable.</b>
+                            Whether your favourite song made it to the top or not, <b>you helped make this Contest unforgettable.</b>
                         </p>
                         <p>Your support amplified voices, celebrated creativity, and helped shine a light on an important cause.</p>
                         <p>

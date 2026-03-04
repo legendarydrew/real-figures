@@ -33,6 +33,7 @@ class ActFactory extends Factory
         $name = fake()->unique()->name();
         return [
             'name'             => $name,
+            'subtitle'         => fake()->boolean(10) ? fake()->words(asText: true) : null,
             'slug'             => Str::slug($name),
             'is_fan_favourite' => fake()->boolean(10)
         ];

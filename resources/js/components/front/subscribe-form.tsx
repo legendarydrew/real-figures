@@ -3,7 +3,6 @@ import { LoadingButton } from '@/components/mode/loading-button';
 import { ChangeEvent, useState } from 'react';
 import axios from 'axios';
 import { Alert } from '@/components/mode/alert';
-import { useAnalytics } from '@/hooks/use-analytics';
 
 export const SubscribeForm: React.FC = ({ className, ...props }) => {
 
@@ -11,8 +10,6 @@ export const SubscribeForm: React.FC = ({ className, ...props }) => {
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
     const [hasError, setHasError] = useState<string>('');
     const [wasSuccessful, setWasSuccessful] = useState<boolean>(false);
-
-    const { trackEvent } = useAnalytics();
 
     const emailChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.currentTarget.value);
@@ -28,10 +25,10 @@ export const SubscribeForm: React.FC = ({ className, ...props }) => {
         setHasError('');
         setIsProcessing(true);
 
-        axios.post(route('subscribe'), { email })
+        axios.post('/api/subscribers', { email })
             .then(() => {
                 setWasSuccessful(true);
-                trackEvent({ category: 'Action', action: 'Subscribe', label: 'Panel', nonInteraction: false });
+                globalThis.trackEvent({ action: 'New subscriber', nonInteraction: false });
             })
             .catch((error) => {
                 setHasError(error.response.data.message);
@@ -43,15 +40,19 @@ export const SubscribeForm: React.FC = ({ className, ...props }) => {
 
     return wasSuccessful ? (
         <Alert type="success">
-            <b>Thanks for subscribing!</b> You're on the list, and a confirmation email has been sent.
+            <b>Thanks for subscribing!</b> A confirmation email has been sent.
         </Alert>
     ) : (
         <form onSubmit={submitHandler} className={className} {...props}>
             <div className="flex items-center">
-                <Input className="bg-white dark:bg-white/20 dark:border-none rounded-r-none" type="email" value={email}
+                <label htmlFor="subscribeEmail" className="sr-only">Enter your email address...</label>
+                <Input id="subscribeEmail" className="rounded-r-none" type="email"
+                       value={email}
                        onChange={emailChangeHandler}
+                       autocomplete="email"
                        placeholder="Enter your email address..."/>
-                <LoadingButton type="submit" className="rounded-l-none" isLoading={isProcessing}>I'm in!</LoadingButton>
+                <LoadingButton type="submit" className="h-9 rounded-l-none" disabled={!email} isLoading={isProcessing}>I'm
+                    in!</LoadingButton>
             </div>
             {hasError ? <Alert type="error" message={hasError}/> : ''}
         </form>

@@ -39,7 +39,7 @@ class NewsGenerateController extends Controller
                                                          ->map(fn(NewsPost $post) => [
                                                              'id'           => $post->id,
                                                              'title'        => $post->title,
-                                                             'published_at' => $post->published_at->format(config('contest.date_format')),
+                                                             'published_at' => $post->published_at->format(config('contest.format.full-date')),
                                                          ])),
             'stages' => Inertia::optional(fn() => Stage::all()
                                                        ->filter(fn(Stage $stage) => !$stage->isInactive())

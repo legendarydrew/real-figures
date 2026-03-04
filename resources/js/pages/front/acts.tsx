@@ -64,7 +64,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ acts, currentAct }) => {
                                 ))}
                             </div>
                         ) : (
-                            <Nothing>No Acts have entered the contest - yet!</Nothing>
+                            <Nothing>No Acts have entered the Contest - yet!</Nothing>
                         )
                         }
                     </div>

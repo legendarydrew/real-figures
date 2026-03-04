@@ -1,0 +1,81 @@
+@utility button {
+    @apply display-text;
+    @apply not-disabled:cursor-pointer rounded-xs shadow-xs focus-visible:ring-muted/20 dark:focus-visible:ring-muted/40;
+    @apply bg-zinc-200 not-disabled:hover:bg-zinc-400 text-zinc-700;
+    @apply dark:bg-zinc-700 dark:not-disabled:hover:bg-zinc-500 dark:text-zinc-200;
+    @apply flex gap-2 justify-center items-center px-8 py-3;
+
+    &.primary {
+        @apply bg-primary text-primary-foreground;
+        @apply not-disabled:hover:bg-primary-hover focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40;
+    }
+
+    &.secondary {
+        @apply bg-secondary text-secondary-foreground;
+        @apply not-disabled:hover:bg-secondary-hover focus-visible:ring-secondary/20 dark:focus-visible:ring-secondary/40;
+    }
+
+    &.gold {
+        @apply bg-gold text-gold-foreground text-shadow-sm;
+        @apply dark:bg-gold-dark;
+        @apply not-disabled:hover:bg-gold-hover not-disabled:dark:hover:bg-gold-dark-hover focus-visible:ring-gold/40;
+    }
+
+    &.donate {
+        @apply bg-donation text-donation-foreground text-shadow-sm;
+        @apply not-disabled:hover:bg-donation-hover focus-visible:ring-donation-dark/40;
+    }
+
+    &.confirm {
+        @apply bg-green-700 text-green-50;
+        @apply not-disabled:hover:bg-green-700/90 focus-visible:ring-green-700/20 dark:focus-visible:ring-green-700/40;
+    }
+
+    &.destructive {
+        @apply bg-destructive text-white;
+        @apply not-disabled:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40;
+    }
+
+    &.outline {
+        @apply border border-input;
+        @apply bg-background not-disabled:hover:bg-secondary/50 not-disabled:hover:text-secondary;
+    }
+
+    &.checked {
+        @apply bg-indigo-700 text-white;
+        @apply not-disabled:hover:bg-indigo-500/80 focus-visible:ring-indigo-700/20 dark:focus-visible:ring-indigo-500/40;
+    }
+
+    &.ghost {
+        @apply shadow-none;
+        @apply not-disabled:hover:bg-accent not-disabled:hover:text-accent-foreground;
+    }
+
+    &.link {
+        @apply shadow-none text-indigo-700 underline-offset-4;
+        @apply hover:underline;
+    }
+
+    &.small {
+        @apply h-8 px-3;
+    }
+
+    &.large {
+        @apply text-xl;
+    }
+
+    &.icon {
+        @apply aspect-square p-3;
+    }
+}
+
+.loading-button {
+    @apply flex-shrink-0;
+
+    .is-loading {
+        @apply flex invisible;
+    }
+    .not-loading {
+        @apply flex gap-2 items-center;
+    }
+}

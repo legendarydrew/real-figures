@@ -35,7 +35,7 @@ const DonorWallPage: React.FC<DonorWallPageProps> = ({ donations, buzzers }) => 
                     <div className="content md:w-3/5">
                         <Heading title="Donor Wall"/>
                         <p>
-                            <b>Consider supporting the contest by making a donation.</b>
+                            <b>Consider supporting the Contest by making a donation.</b>
                         </p>
                         <p>All the money raised will go toward:</p>
                         <ul className="list-disc">
@@ -44,7 +44,7 @@ const DonorWallPage: React.FC<DonorWallPageProps> = ({ donations, buzzers }) => 
                             <li>supporting the MODE Family in their time of need.</li>
                         </ul>
                         <p>You can also <Link className="font-semibold hover:underline" href={route('contact')}>contact
-                            us</Link> to suggest other ways of supporting the contest.</p>
+                            us</Link> to suggest other ways of supporting the Contest.</p>
                         <Button size="lg" className="bg-green-600 hover:bg-green-700 w-full lg:w-1/2" type="button"
                                 onClick={showDonateDialog}>
                             Make a donation

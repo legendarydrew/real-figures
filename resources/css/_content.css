@@ -1,0 +1,82 @@
+/* CONTENT styles: used for controlling converted markdown content. */
+
+.content {
+    @apply leading-tight;
+
+    .content-intro {
+        @apply text-lg leading-tight;
+    }
+
+    a:not(.button) {
+        @apply text-link font-semibold hover:underline;
+    }
+
+    h1, h2, h3 {
+        @apply font-display leading-tight tracking-normal mt-4 mb-2 select-none;
+
+        &:not(:first-child) {
+            @apply mt-8;
+        }
+    }
+
+    h1 {
+        @apply text-xl;
+    }
+
+    h2 {
+        @apply text-lg;
+    }
+
+    h3 {
+        @apply text-base;
+    }
+
+    b {
+        @apply text-highlight font-semibold;
+    }
+
+    strong {
+        @apply text-black dark:text-primary font-semibold;
+    }
+
+    i {
+        @apply italic;
+    }
+
+    blockquote {
+        @apply border-l-4 border-secondary p-5 font-display text-lg text-secondary leading-1.5 my-8;
+
+        > p {
+            @apply m-0 lg:max-w-4/5;
+
+            &::before {
+                content: "\201C";
+            }
+
+            &:last-child::after {
+                content: "\201D";
+            }
+        }
+    }
+
+    p {
+        @apply mb-2 leading-normal;
+    }
+
+    ::marker {
+        @apply font-semibold;
+    }
+
+    li {
+        @apply mb-4 pl-1;
+    }
+
+    ol {
+        @apply my-4 ml-4 list-decimal;
+    }
+
+    ul {
+        @apply my-4 ml-4 list-disc;
+    }
+
+}

@@ -1,0 +1,95 @@
+/* General (front) site layout. */
+
+@layer base {
+    .site-container {
+        @apply max-w-4xl mx-auto;
+        @apply px-4 lg:px-0;
+    }
+
+    .site-header {
+        @apply bg-background/70 text-foreground border-b-1 py-2 w-full shadow-sm sticky top-0 backdrop-blur-sm z-10;
+
+        .site-container {
+            @apply px-2 lg:px-0 flex items-center justify-between gap-2;
+        }
+
+        input {
+            @apply hidden;
+        }
+    }
+
+    .site-header-brand {
+        @apply font-bold fill-foreground;
+
+        svg {
+            @apply h-10 w-60;
+        }
+    }
+
+    .site-header-nav {
+        /* Mobile form. */
+        @apply bg-background text-foreground hidden md:flex flex-col justify-start items-center gap-2;
+        @apply fixed top-14 left-0 z-20;
+        @apply w-full px-8 py-4;
+        @apply border-y-1;
+        @apply opacity-0 md:opacity-100;
+        transition: opacity 0.2s ease-out,
+        overlay 0.2s ease-out allow-discrete,
+        display 0.2s ease-out allow-discrete;
+        @apply motion-reduce:transition-none;
+
+        /* Larger screen form. */
+        @apply md:static md:flex-row md:flex-grow md:justify-end md:bg-transparent md:border-none md:p-0;
+
+        a {
+            @apply display-text text-lg md:text-sm leading-normal px-3 py-1.5 hover:underline text-foreground;
+
+            &.active {
+                @apply bg-foreground/50 text-background;
+            }
+
+            &.donate-link {
+                @apply text-donation;
+            }
+        }
+    }
+
+    @starting-style {
+        .site-header:has(#nav-open:checked) .site-header-nav {
+            @apply opacity-0;
+        }
+    }
+
+    /* Responsive magic. */
+    .site-header-nav-toggle {
+        @apply text-foreground px-2 py-1 md:hidden;
+        @apply after:font-icon after:content-['\f0c9'] after:font-black;
+    }
+
+    &:has(#nav-open:checked) {
+        .site-header-nav {
+            @apply flex opacity-100;
+        }
+
+        .site-header-nav-toggle {
+            @apply z-90 fixed top-3 right-2;
+            @apply after:content-['\f00d'];
+        }
+    }
+
+    .site-header-mode {
+        @apply md:ml-2;
+    }
+
+    .site-main {
+        @apply flex-grow overflow-y-auto;
+
+        > .site-container:first-child {
+            @apply my-8;
+        }
+    }
+
+    .site-footer {
+        @apply py-2 px-5 text-xs text-center;
+    }
+}

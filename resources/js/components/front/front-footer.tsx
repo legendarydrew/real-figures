@@ -31,7 +31,7 @@ export const FrontFooter: React.FC = () => {
                         <DialogDescription className="mb-5 text-center">
                             <span
                                 className="font-semibold">CATAWOL Records presents: Real Figures Don't F.O.L.D</span><br/>
-                            An upskilling and advocacy project in the form of a song contest, calling attention to <b>bullying
+                            An upskilling and advocacy project in the form of a Song Contest, calling attention to <b>bullying
                             in adult
                             hobbies</b>, particularly within the LEGO space.
                         </DialogDescription>

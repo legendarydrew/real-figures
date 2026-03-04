@@ -1,23 +1,38 @@
-/*
-The project was generated WITHOUT having created a tailwind.config.js file.
-It appears that the theme is defined here, instead.
-(For some reason I had been reading the documentation for v1.9, the latest version indeed
-has the theme configured here.)
-*/
-
 @import 'tailwindcss';
+@import "@fortawesome/fontawesome-free/css/all.css";
+@import "country-flag-icons/3x2/flags.css";
+@import "./_colours.css";
+@import "./_layout.css";
+@import "./_page.css";
+@import "./_alert.css";
+@import "./_button.css";
+@import "./_collapse.css";
+@import "./_countdown.css";
+@import "./_content.css";
+@import "./_dialog.css";
+@import "./_form.css";
+@import "./_pagination.css";
+@import "./_scrollbar.css";
+@import "./_toggle.css";
+@import "./_home.css";
+@import "./_about.css";
+@import "./_acts.css";
+@import "./_contact.css";
+@import "./_contest.css";
+@import "./_donate.css";
+@import "./_news.css";
+@import "./_rules.css";
 
 @plugin 'tailwindcss-animate';
 
 @source '../views';
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
 @custom-variant dark (&:is(.dark *), [data-mode="dark"]);
 
 @theme {
-    --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     --font-display: 'Cal Sans', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+    --font-icon: 'Font Awesome 7 Free';
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -34,9 +49,11 @@ has the theme configured here.)
 
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
+    --color-primary-hover: #7c81d3;
 
     --color-secondary: var(--secondary);
     --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary-hover: #3e4856;
 
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
@@ -46,6 +63,8 @@ has the theme configured here.)
 
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-highlight: var(--highlight);
 
     --color-light: #fdfdfc;
     --color-light-foreground: #1b1b18;
@@ -71,16 +90,29 @@ has the theme configured here.)
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    --color-link: var(--link);
+
+    --color-donation-light: var(--donation-light);
+    --color-donation: var(--donation);
+    --color-donation-hover: var(--donation-hover);
+    --color-donation-foreground: var(--donation-foreground);
+    --color-donation-dark: var(--donation-dark);
+    --color-donation-dark-hover: var(--donation-dark-hover);
+    --color-donation-dark-foreground: var(--donation-dark-foreground);
+
+    --color-gold-light: var(--gold-light);
+    --color-gold: var(--gold);
+    --color-gold-hover: var(--gold-hover);
+    --color-gold-foreground: var(--gold-foreground);
+    --color-gold-dark: var(--gold-dark);
+    --color-gold-dark-hover: var(--gold-dark-hover);
+    --color-gold-dark-foreground: var(--gold-dark-foreground);
+
+    --color-winner: var(--winner);
+    --color-runner-up: var(--runner-up);
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
     *,
     ::after,
@@ -91,137 +123,36 @@ has the theme configured here.)
     }
 }
 
-:root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: #8B8FEF;
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: #64748B;
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: #E2EF80;
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.87 0 0);
-    --chart-1: oklch(0.646 0.222 41.116);
-    --chart-2: oklch(0.6 0.118 184.704);
-    --chart-3: oklch(0.398 0.07 227.392);
-    --chart-4: oklch(0.828 0.189 84.429);
-    --chart-5: oklch(0.769 0.188 70.08);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.87 0 0);
+@utility display-text {
+    @apply font-display font-medium leading-tight;
 }
 
-.dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.145 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.145 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.985 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.396 0.141 25.723);
-    --destructive-foreground: oklch(0.637 0.237 25.331);
-    --border: oklch(0.269 0 0);
-    --input: oklch(0.269 0 0);
-    --ring: oklch(0.439 0 0);
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
-    --chart-3: oklch(0.769 0.188 70.08);
-    --chart-4: oklch(0.627 0.265 303.9);
-    --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.985 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(0.269 0 0);
-    --sidebar-ring: oklch(0.439 0 0);
+@utility hover-bg {
+    @apply hover:bg-indigo-300/20 transition-colors;
 }
+
 
 @layer base {
     * {
-        @apply border-border;
+        @apply border-border transition-colors;
     }
 
     ::selection {
         @apply bg-primary text-primary-foreground;
     }
 
+    html, body {
+        min-height: 100dvh;
+    }
+
     body {
         @apply bg-background text-foreground;
+        @apply font-sans antialiased;
+        @apply flex flex-col;
     }
 
-    .display-text {
-        @apply font-display font-medium tracking-wide;
-    }
-
-    /* Used for converted markdown content. */
-    .content h1 {
-        @apply font-display text-xl leading-tight tracking-normal;
-    }
-
-    .content h2 {
-        @apply font-display text-lg leading-tight tracking-normal;
-    }
-
-    .content h3 {
-        @apply font-display text-base leading-tight tracking-normal;
-    }
-
-    .content b {
-        @apply text-muted-foreground font-semibold;
-    }
-
-    .content i {
-        @apply italic;
-    }
-
-    .content blockquote {
-        @apply m-5;
-    }
-
-    .content p {
-        @apply my-2 leading-normal;
-    }
-
-    .content ::marker {
-        @apply font-semibold;
-    }
-
-    .content li {
-        @apply pl-1;
-    }
-
-    .content ol {
-        @apply mt-3 mb-5 ml-5 list-decimal;
-    }
-
-    .content ul {
-        @apply mt-3 mb-5 ml-5 list-disc;
+    hr {
+        @apply bg-muted h-[1] w-4/5 mx-auto my-4;
     }
 
     /* Dashboard tables.
@@ -253,10 +184,6 @@ has the theme configured here.)
     }
 
     /* A standardised hover background colour. */
-    .hover-bg {
-        @apply hover:bg-indigo-300/20;
-    }
-
     .outlined-text {
         @apply text-shadow-md;
 
@@ -264,7 +191,35 @@ has the theme configured here.)
         text-shadow: 0 0 0.25em var(--foreground), -1px -1px 0 var(--foreground), 1px -1px 0 var(--foreground), -1px 1px 0 var(--foreground), 1px 1px 0 var(--foreground);
     }
 
+    .advert {
+        @apply bg-secondary/10 min-h-30 block my-8 text-center;
+    }
+
     .bg-act-image {
         @apply bg-linear-to-bl from-primary to-blue-950;
+    }
+
+    .golden-buzzer-prompt {
+        @apply bg-linear-to-r from-yellow-700 to-yellow-500;
+        @apply relative px-4 md:pl-8 md:pr-[25%] py-4 text-center leading-tight z-1;
+
+        .inner {
+            @apply max-sm:hidden;
+            /* Background image with a gradual fade out - thanks to ChatGPT. */
+            @apply bg-[url('../../public/img/banners/golden-buzzer-4.jpg')] bg-no-repeat bg-right bg-contain bg-blend-multiply;
+            @apply mask-linear-[to_left,black_50%,transparent_75%];
+            /* NO spaces! */
+            @apply mask-no-repeat;
+            @apply absolute h-full aspect-[2] top-0 right-0 -z-1;
+        }
+
+        .golden-buzzer-perks {
+            @apply italic text-sm mt-2 leading-tight;
+        }
+    }
+
+    [class*=' flag:'],
+    [class^='flag:'] {
+        @apply flex-shrink-0;
     }
 }

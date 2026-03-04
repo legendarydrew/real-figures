@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Act;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,9 +19,18 @@ class NewsPostFactory extends Factory
     {
         fake()->addProvider(new \DavidBadura\FakerMarkdownGenerator\FakerProvider(fake()));
 
+        // Random mentions.
+        $acts = Act::inRandomOrder()->limit(3)->get();
+        $content = fake()->markdown();
+        $acts->each(function (Act $act) use (&$content) {
+            if (fake()->boolean(30)) {
+                $content .= "\n\n" . $act->name;
+            }
+        });
+
         return [
             'title'        => fake()->sentence(),
-            'content'      => fake()->markdown(),
+            'content'      => $content,
             'published_at' => fake()->boolean(30) ? fake()->dateTimeThisYear() : null,
         ];
     }
@@ -28,7 +38,7 @@ class NewsPostFactory extends Factory
     public function published(): NewsPostFactory
     {
         return $this->state([
-            'published_at' => fake()->dateTimeThisMonth
+            'published_at' => fake()->dateTimeThisYear
         ]);
     }
 

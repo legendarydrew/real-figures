@@ -1,0 +1,38 @@
+dl.rules-terms {
+    @apply grid md:grid-cols-6 gap-x-4 md:gap-y-6 my-8;
+
+    dt {
+        @apply font-semibold col-span-1;
+    }
+
+    dd {
+        @apply mb-6 md:mb-0 md:col-span-5;
+    }
+}
+
+.rules-voting-scores {
+    @apply w-full md:w-60 md:mx-auto border-spacing-2 border-separate;
+
+    th {
+        @apply text-left pr-4;
+    }
+
+    td {
+        @apply font-semibold text-right text-muted-foreground;
+    }
+}
+
+.rules-note {
+    @apply font-semibold text-sm;
+}
+
+.rules-intro {
+    @apply text-center;
+}
+.rules-outro {
+    @apply font-semibold text-center my-8;
+}
+
+.rules-large {
+    @apply text-lg;
+}

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -51,4 +52,12 @@ class RoundOutcome extends Model
     {
         return $this->first_votes + $this->second_votes + $this->third_votes;
     }
+
+    public function scopeScoreOrder(Builder $builder): Builder
+    {
+        return $builder->orderByDesc('first_votes')
+                       ->orderByDesc('second_votes')
+                       ->orderByDesc('third_votes');
+    }
+
 }

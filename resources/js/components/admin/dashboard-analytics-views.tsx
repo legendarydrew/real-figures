@@ -32,7 +32,7 @@ export const DashboardAnalyticsViews: React.FC<DashboardAnalyticsViewsProps> = (
                         {payload[0].value ? payload[0].value.toLocaleString() : 'No'} {payload[0].value === 1 ? 'page view' : 'page views'}
                     </span>
                     <span className="text-sm">
-                        {payload[1].value ? payload[1].value.toLocaleString() : 'No'} {payload[0].value === 1 ? 'visitor' : 'visitors'}
+                        {payload[1].value ? payload[1].value.toLocaleString() : 'No'} {payload[0].value === 1 ? 'Visitor' : 'Visitors'}
                     </span>
                 </div>
             );
