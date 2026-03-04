@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Controllers\Front;
 
+use App\Facades\ContestFacade;
 use App\Models\Act;
 use App\Models\NewsPost;
-use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -19,16 +19,31 @@ class SitemapTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_without_acts()
+    {
+        Act::truncate();
+        $response = $this->get('/sitemap.xml');
+        $response->assertOk();
+
+        $response->assertDontSee(route('acts'));
+    }
+
     public function test_with_acts()
     {
         $acts     = Act::factory(4)->withProfile()->withSong()->create();
         $response = $this->get('/sitemap.xml');
         $response->assertOk();
 
-        foreach ($acts as $act)
-        {
-            $response->assertSee(route('act', ['slug' => $act->slug]));
-        }
+        $response->assertSee(route('acts'));
+    }
+
+    public function test_without_news()
+    {
+        NewsPost::truncate();
+        $response         = $this->get('/sitemap.xml');
+        $response->assertOk();
+
+        $response->assertDontSee(route('news'));
     }
 
     public function test_with_news()
@@ -37,6 +52,8 @@ class SitemapTest extends TestCase
         $unpublished_post = NewsPost::factory(4)->unpublished()->create();
         $response         = $this->get('/sitemap.xml');
         $response->assertOk();
+
+        $response->assertSee(route('news'));
 
         foreach ($published_post as $post)
         {
@@ -49,9 +66,22 @@ class SitemapTest extends TestCase
         }
     }
 
+    public function test_with_contest_not_over()
+    {
+        ContestFacade::shouldReceive('isOver')->andReturn(false);
+        ContestFacade::partialMock();
+
+        $response = $this->get('/sitemap.xml');
+        $response->assertOk();
+
+        $response->assertDontSee(route('votes'));
+    }
+
     public function test_with_contest_over()
     {
-        Stage::factory()->over()->create();
+        ContestFacade::shouldReceive('isOver')->andReturn(true);
+        ContestFacade::partialMock();
+
         $response = $this->get('/sitemap.xml');
         $response->assertOk();
 

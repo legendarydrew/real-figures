@@ -6,7 +6,6 @@ use App\Models\ContactMessage;
 use App\Models\Subscriber;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Http;
-use Inertia\Testing\AssertableInertia as Assert;
 use Spatie\LaravelPackageTools\Concerns\Package\HasInertia;
 use Tests\TestCase;
 
@@ -42,7 +41,6 @@ class StoreTest extends TestCase
 
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertSuccessful();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/contact'));
 
         $message = ContactMessage::whereEmail($this->payload['email'])->first();
         self::assertInstanceOf(ContactMessage::class, $message);
@@ -59,7 +57,6 @@ class StoreTest extends TestCase
 
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertSuccessful();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/contact'));
 
         $message = ContactMessage::whereEmail($this->payload['email'])->first();
         self::assertInstanceOf(ContactMessage::class, $message);

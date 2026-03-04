@@ -4,7 +4,6 @@ namespace Tests\Feature\Controllers\Front\News;
 
 use App\Models\NewsPost;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class IndexTest extends TestCase
@@ -33,12 +32,14 @@ class IndexTest extends TestCase
         $response = $this->get(route('news'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/news')->has('posts'));
+        $response->assertViewIs('front.news.index');
+        $response->assertViewHas('posts');
 
         $response = $this->get(route('news'), ['page' => 2]);
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/news')->has('posts'));
+        $response->assertViewIs('front.news.index');
+        $response->assertViewHas('posts');
     }
 
 }

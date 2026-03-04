@@ -4,7 +4,6 @@ namespace Tests\Feature\Controllers\Front\News;
 
 use App\Models\NewsPost;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class ShowTest extends TestCase
@@ -17,7 +16,8 @@ class ShowTest extends TestCase
         $response = $this->get(route('news.show', ['slug' => $post->slug]));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/news-post')->has('post'));
+        $response->assertViewIs('front.news.show');
+        $response->assertViewHas('post');
     }
 
     public function test_published_as_user()
@@ -26,7 +26,8 @@ class ShowTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('news.show', ['slug' => $post->slug]));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/news-post')->has('post'));
+        $response->assertViewIs('front.news.show');
+        $response->assertViewHas('post');
     }
 
     public function test_unpublished_as_guest()
@@ -43,7 +44,8 @@ class ShowTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('news.show', ['slug' => $post->slug]));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/news-post')->has('post'));
+        $response->assertViewIs('front.news.show');
+        $response->assertViewHas('post');
     }
 
     public function test_invalid_post()

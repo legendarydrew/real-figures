@@ -3,7 +3,6 @@
 namespace Tests\Feature\Controllers\Front;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class ContactTest extends TestCase
@@ -15,7 +14,7 @@ class ContactTest extends TestCase
         $response = $this->get(route('contact'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('front/contact'));
+        $response->assertViewIs('front.contact');
     }
 
 }
