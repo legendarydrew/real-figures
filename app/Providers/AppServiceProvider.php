@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\View;
 use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,5 +28,10 @@ class AppServiceProvider extends ServiceProvider
             'donation'  => config('contest.donation'),
             'locale'    => config('app.locale')
         ]);
+
+        \View::composer('front.links', function(View $view) {
+            // Determine the current route.
+            $view->with('current', Route::currentRouteName());
+        });
     }
 }

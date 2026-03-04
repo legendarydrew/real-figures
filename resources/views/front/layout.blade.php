@@ -65,17 +65,7 @@
 
         <nav class="site-header-nav">
 
-            <a href="{{ route('contest') }}">Contest</a>
-            @if(\App\Facades\ContestFacade::shouldShowNews())
-                <a href="{{ route('news') }}">News</a>
-            @endif
-            @if(\App\Facades\ContestFacade::shouldShowActs())
-                <a href="{{ route('acts') }}">Acts</a>
-            @endif
-            <a href="{{ route('rules') }}">Rules</a>
-            <a class="donate-link" href="{{ route('donate') }}">Donate!</a>
-            <a href="{{ route('about') }}">About</a>
-            <a href="{{ route('contact') }}">Contact</a>
+            @include('front.links')
 
             {{-- Dark mode toggle. --}}
             {{-- https://www.djamware.com/post/how-to-create-a-dark-mode-toggle-with-tailwind-css - they got it from AI. --}}

@@ -12,7 +12,7 @@
         <p>Meet the 32 Acts that were shortlisted for CATAWOL Records' Real Figures Don't F.O.L.D Song Contest.</p>
 
         @if(count($acts))
-            <div class="grid auto-rows-min gap-2 md:grid-cols-3 lg:grid-cols-4 my-8">
+            <div class="acts-grid">
                 @foreach($acts as $act)
                     @include('front.act-item', ['act' => $act])
                 @endforeach

@@ -87,3 +87,7 @@
         }
     }
 }
+
+.acts-grid {
+    @apply grid auto-rows-min gap-2 md:grid-cols-3 lg:grid-cols-4 my-8;
+}
