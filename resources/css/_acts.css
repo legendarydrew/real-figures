@@ -61,6 +61,7 @@
 
     .act-profile-accolades {
         @apply display-text text-sm mb-2;
+
         li {
             @apply flex gap-1 items-center;
         }
@@ -90,4 +91,28 @@
 
 .acts-grid {
     @apply grid auto-rows-min gap-2 md:grid-cols-3 lg:grid-cols-4 my-8;
+}
+
+.song-banner {
+    @apply flex items-center gap-2;
+
+    .song-banner-image {
+        @apply bg-secondary/15 leading-none overflow-hidden;
+    }
+
+    .song-banner-text {
+        @apply pr-3 py-1 flex-grow text-left display-text;
+    }
+
+    .song-banner-text-name {
+        @apply text-base truncate;
+
+        small {
+            @apply text-sm ml-1;
+        }
+    }
+
+    .song-banner-text-title {
+        @apply flex gap-2 text-xs items-center truncate;
+    }
 }

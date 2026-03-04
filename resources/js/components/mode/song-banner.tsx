@@ -10,17 +10,16 @@ interface SongBannerProps {
 export const SongBanner: React.FC<SongBannerProps> = ({ song, className, ...props }) => {
 
     return (
-        <div className={cn("flex items-center gap-2", className)} {...props}>
-            <div className="bg-secondary/15 leading-none overflow-hidden">
+        <div className={cn("song-banner", className)} {...props}>
+            <div className="song-banner-image">
                 <ActImage act={song.act} size="12"/>
             </div>
-            <div className="pr-3 py-1 flex-grow text-left display-text">
-                <div className="text-base truncate">
+            <div className="song-banner-text">
+                <div className="song-banner-text-name">
                     {song.act.name}
-                    <span className="text-sm ml-1">{song.act.subtitle}</span>
+                    <small>{song.act.subtitle}</small>
                 </div>
-                <div className="flex gap-2 text-xs items-center truncate">
-                    {/*<LanguageFlag languageCode={song.language}/>*/}
+                <div className="song-banner-text-title">
                     {song.title}
                 </div>
             </div>

@@ -22,7 +22,7 @@
 
     .dialog-close {
         @apply sticky float-right top-0 right-0 translate-x-2 text-sm cursor-pointer p-2 rounded-sm;
-        @apply text-foreground/50 hover:bg-muted hover:text-foreground;
+        @apply text-foreground/50 hover:bg-muted/50 hover:text-foreground;
     }
 
     .dialog-title {
