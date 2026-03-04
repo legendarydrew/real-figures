@@ -10,6 +10,7 @@ use App\Http\Controllers\Front\NewsController;
 use App\Http\Controllers\Front\RulesController;
 use App\Http\Controllers\Front\SitemapController;
 use App\Http\Controllers\Front\SubscriberConfirmController;
+use App\Http\Controllers\Front\SubscriberRemoveController;
 use App\Http\Controllers\Front\VotesController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,6 @@ Route::get('news', [NewsController::class, 'index'])->name('news');
 Route::get('news/{slug}', [NewsController::class, 'show'])->name('news.show');
 Route::get('rules', [RulesController::class, 'index'])->name('rules');
 Route::get('subscriber/{id}/{code}', [SubscriberConfirmController::class, 'show'])->name('subscriber.confirm');
+Route::get('subscriber/remove/{id}/{code}', [SubscriberRemoveController::class, 'show'])->name('subscriber.remove');
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::get('votes', [VotesController::class, 'index'])->name('votes');

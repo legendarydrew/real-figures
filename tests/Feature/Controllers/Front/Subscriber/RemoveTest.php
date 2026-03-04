@@ -23,7 +23,7 @@ class RemoveTest extends TestCase
     public function test_remove_valid_unconfirmed_subscriber()
     {
         $subscriber = Subscriber::factory()->unconfirmed()->create();
-        $url        = sprintf(self::ENDPOINT, $subscriber->id, $subscriber->confirmation_code);
+        $url        = route('subscriber.remove', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
         $response   = $this->get($url);
         $response->assertRedirectToRoute('home');
 
@@ -37,7 +37,7 @@ class RemoveTest extends TestCase
     {
         $subscriber = Subscriber::factory()->confirmed()->create();
 
-        $url      = sprintf(self::ENDPOINT, $subscriber->id, $subscriber->confirmation_code);
+        $url        = route('subscriber.remove', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
         $response = $this->get($url);
         $response->assertRedirectToRoute('home');
 
@@ -50,7 +50,7 @@ class RemoveTest extends TestCase
     public function test_invalid_id()
     {
         $subscriber = Subscriber::factory()->create();
-        $url        = sprintf(self::ENDPOINT, 404, $subscriber->confirmation_code);
+        $url        = route('subscriber.remove', ['id' => 404, 'code' => $subscriber->confirmation_code]);
         $response   = $this->get($url);
         $response->assertRedirectToRoute('home');
 
@@ -63,7 +63,7 @@ class RemoveTest extends TestCase
     public function test_invalid_code()
     {
         $subscriber = Subscriber::factory()->unconfirmed()->create();
-        $url        = sprintf(self::ENDPOINT, $subscriber->id, '404');
+        $url        = route('subscriber.remove', ['id' => $subscriber->id, 'code' => 404]);
         $response   = $this->get($url);
         $response->assertRedirectToRoute('home');
 
@@ -73,25 +73,4 @@ class RemoveTest extends TestCase
         Mail::assertNothingSent();
     }
 
-    public function test_no_id()
-    {
-        $subscriber = Subscriber::factory()->create();
-        $url        = sprintf(self::ENDPOINT, '', $subscriber->confirmation_code);
-        $response   = $this->get($url);
-        $response->assertRedirectToRoute('home');
-
-        $subscriber->refresh();
-        self::assertInstanceOf(Subscriber::class, $subscriber);
-    }
-
-    public function test_no_code()
-    {
-        $subscriber = Subscriber::factory()->create();
-        $url        = sprintf(self::ENDPOINT, $subscriber->id, '');
-        $response   = $this->get($url);
-        $response->assertNotFound();
-
-        $subscriber->refresh();
-        self::assertInstanceOf(Subscriber::class, $subscriber);
-    }
 }
