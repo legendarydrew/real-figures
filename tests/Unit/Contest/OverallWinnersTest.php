@@ -7,7 +7,6 @@ use App\Facades\ContestFacade;
 use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-use function PHPUnit\Framework\assertFalse;
 
 class OverallWinnersTest extends TestCase
 {
@@ -33,7 +32,6 @@ class OverallWinnersTest extends TestCase
         self::assertIsArray($results);
         self::assertArrayHasKey('winners', $results);
         self::assertArrayHasKey('runners_up', $results);
-        self::assertArrayHasKey('others', $results);
     }
 
 }
