@@ -1,12 +1,12 @@
 {{--
 ENVOY deployment script
 This script was adapted from the one used for deploying the main web site.
-We want to upload it to a folder outside of public_html, then create a symlink
-(In this case, silentmode.tv/real-figures).
 --}}
 
 @setup
 $port = $port ?? 22;
+$now = new DateTime;
+{{-- now() is unavailable. --}}
 @endsetup
 
 @servers(['web' => ['deployhost'], 'localhost' => ['127.0.0.1']])
@@ -36,7 +36,7 @@ $project_dir         = $path;
 
 $current_release_dir = $project_dir . '/current';
 $releases_dir        = $project_dir . '/releases';
-$new_release_dir     = $releases_dir . '/' . $run . '-' . now()->format('YmdHi');
+$new_release_dir     = $releases_dir . '/' . $run . '-' . $now->format('YmdHi');
 $keep_versions       = 3;
 
 $remote = sprintf('%s@%s', $user, $host);
