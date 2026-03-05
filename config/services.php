@@ -58,7 +58,7 @@ return [
     ],
 
     'beautify' => [
-        'enabled'  => true,
+        'enabled'  => env('BEAUTIFY_HTML', false),
         'encoding' => 'utf8',
         'settings' => [
             'indent'               => 2,      // corresponds to auto.
