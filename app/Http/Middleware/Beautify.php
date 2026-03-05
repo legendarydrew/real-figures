@@ -53,7 +53,8 @@ class Beautify
         $response = $next($request);
 
         // Check PHP extension
-        if (!(extension_loaded('tidy') && config('services.beautify.enabled')))
+        // Do not try to beautify error pages.
+        if ($response->isServerError() || !(extension_loaded('tidy') && config('services.beautify.enabled')))
         {
             return $response;
         }
