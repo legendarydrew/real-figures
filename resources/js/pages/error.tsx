@@ -1,4 +1,5 @@
 import Heading from '@/components/heading';
+import FrontLayout from '@/layouts/front-layout';
 import { Advert } from '@/components/mode/advert';
 
 export default function ErrorPage({ status }) {
@@ -17,10 +18,12 @@ export default function ErrorPage({ status }) {
     }[status]
 
     return (
-        <div className="h-full flex flex-col items-center justify-center text-center">
-            <Heading title={title} description={description}/>
+        <FrontLayout>
+            <div className="h-full flex flex-col items-center justify-center text-center">
+                <Heading title={title} description={description}/>
 
-            <Advert className="mx-auto" height={160}/>
-        </div>
+                <Advert className="mx-auto" height={160} />
+            </div>
+        </FrontLayout>
     )
 }
