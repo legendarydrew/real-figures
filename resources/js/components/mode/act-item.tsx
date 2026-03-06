@@ -1,17 +1,20 @@
 import { Act } from '@/types';
 import { Button } from '@/components/ui/button';
-import { Edit, Info, PersonStanding, Trash } from 'lucide-react';
+import { Edit, Info, Trash } from 'lucide-react';
 import React from 'react';
 import { cn } from '@/lib/utils';
 
+/**
+ * ActItem
+ * A component for the back office to represent an Act. It includes edit and delete buttons.
+ */
 interface ActItemProps {
     act: Act
-    editable?: boolean;
     onEdit?: () => void;
     onDelete?: () => void;
 }
 
-export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelete, className, ...props }) => {
+export const ActItem: React.FC<ActItemProps> = ({ act, onEdit, onDelete, className, ...props }) => {
 
     const editHandler = (): void => {
         if (onEdit) {
@@ -25,52 +28,54 @@ export const ActItem: React.FC<ActItemProps> = ({ act, editable, onEdit, onDelet
         }
     }
 
-    const textClasses = (): string => {
-        return cn("display-text flex-grow pr-3 text-lg leading-tight text-left",
-            act.image_url && 'text-white outlined-text',
-            editable && 'overflow-x-hidden ellipsis');
-    }
+    const itemClasses = (): string => {
+        return cn('act-item',
+            act.image && 'has-image');
+    };
 
     return (
-        <div
-            className={cn("relative flex rounded-md b-2 aspect-square w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 items-center flex-col justify-end overflow-hidden select-none", className)}
-            {...props}>
+        <div className={itemClasses()} {...props}>
 
-            {act.image_url ? (
-                <div className="w-full h-full bg-act-image z-0">
-                    <div className="bg-cover w-full h-full" style={{ backgroundImage: `url(${act.image_url}` }}></div>
-                </div>
-            ) : (
-                <div className="w-full h-full z-0 flex items-center justify-center text-gray-500 select-none">
-                    <PersonStanding className="h-1/2 w-1/2"/>
-                </div>
-            )}
-
-            {editable && (
-                <div className="absolute top-2 right-2 toolbar">
-                    <Button variant="secondary" size="icon" className="cursor-pointer"
-                            onClick={editHandler}
-                            title="Edit Act">
-                        <Edit/>
-                    </Button>
-                    <Button variant="destructive" size="icon" className="cursor-pointer"
-                            onClick={deleteHandler}
-                            title="Delete Act">
-                        <Trash/>
-                    </Button>
-                </div>
-            )}
-
-            <div
-                className={cn("absolute bottom w-full flex justify-between items-center px-3 py-2")}>
-                <span className={textClasses()}>{act.name}</span>
-                {act.has_profile && (
-                    <span className="bg-blue-700 text-white rounded-full text-shadow-lg"
-                          title="Has a profile.">
-                        <Info className="h-5 w-5"/>
-                    </span>
+            {/* Background image. */}
+            <div className="act-image size-full">
+                {act.image ? (
+                    <div className="act-image-bg" style={{ backgroundImage: `url(${act.image}` }}/>
+                ) : (
+                    <div className="act-image-ph">
+                        <svg>
+                            <use href="/img/catawol-icon.svg" height="100%" width="100%"></use>
+                        </svg>
+                    </div>
                 )}
             </div>
-        </div>
-    );
+
+            {/* Management buttons. */}
+            <div className="act-item-toolbar">
+                {act.has_profile && (
+                    <span className="act-item-toolbar-profile" title="Has a profile.">
+                        <Info/>
+                    </span>
+                )}
+
+                <div className="toolbar ml-auto">
+                    <Button variant="secondary" size="icon" className="text-sm"
+                            onClick={editHandler}
+                            title="Edit Act">
+                        <Edit className="size-4"/>
+                    </Button>
+                    <Button variant="destructive" size="icon" className="text-sm"
+                            onClick={deleteHandler}
+                            title="Delete Act">
+                        <Trash className="size-4"/>
+                    </Button>
+                </div>
+
+            </div>
+
+            {/* Act name. */}
+            <div className="act-item-text">
+                {act.name}
+                {act.subtitle && (<small>{act.subtitle}</small>)}
+            </div>
+        </div>);
 };

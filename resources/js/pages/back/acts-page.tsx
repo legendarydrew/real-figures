@@ -11,7 +11,7 @@ import { RTToast } from '@/components/mode/toast-message';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Nothing } from '@/components/mode/nothing';
 
-export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }>) {
+export default function ActsPage({ acts }: Readonly<{ acts: PaginatedResponse<Act> }>) {
 
     const [currentAct, setCurrentAct] = useState<Act>();
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
@@ -73,7 +73,7 @@ export default function Acts({ acts }: Readonly<{ acts: PaginatedResponse<Act> }
             {acts.meta.pagination.total ? (
                 <div className="grid p-4 auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
                     {acts.data.map((act) => (
-                        <ActItem key={act.id} act={act} editable={true} onEdit={() => editHandler(act)}
+                        <ActItem key={act.id} act={act} onEdit={() => editHandler(act)}
                                  onDelete={() => deleteHandler(act)}/>
                     ))}
                 </div>

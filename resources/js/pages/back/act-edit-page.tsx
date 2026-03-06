@@ -17,7 +17,7 @@ import { ActMetaLanguages } from '@/components/admin/act-meta-languages';
 import { ActMetaTraits } from '@/components/admin/act-meta-traits';
 import { ActMetaGenres } from '@/components/admin/act-meta-genres';
 
-export default function ActEdit({ act, genreList }: Readonly<{ act: Act, genreList: string[] }>) {
+export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, genreList: string[] }>) {
 
     const { data, setData, errors, setError } = useForm<Required<ActForm>>({
         name: '',
