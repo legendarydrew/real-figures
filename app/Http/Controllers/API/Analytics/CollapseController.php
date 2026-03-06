@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Analytics;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Google\Analytics\Data\V1beta\Filter;
 use Google\Analytics\Data\V1beta\FilterExpression;
 use Illuminate\Http\JsonResponse;
@@ -44,12 +45,16 @@ class CollapseController extends Controller
             dimensionFilter: $filter
         );
 
-        $data = collect($rows)->map(fn($row) => [
-            'page'    => $row['pageTitle'] ?? 'unknown',
-            'section' => $row['customEvent:section_id'] ?? 'unknown',
-            'count'   => (int)$row['eventCount'],
-        ])->values();
+        $data = collect($rows)
+            ->groupBy(['pageTitle', 'customEvent:section_id'])
+            ->map(function ($events)
+            {
+                return $events->map(fn($row) => [
+                    'date'  => Carbon::createFromFormat('Ymd', $row['date'])->toDateString(),
+                    'count' => (int)$row['eventCount']
+                ]);
+            });
 
-        return response()->json($data);
+        return response()->json($data->values());
     }
 }

@@ -31,6 +31,25 @@ export default function AnalyticsPage() {
 
                 <p>It begins...</p>
 
+                <table className="data-table">
+                    <caption>Collapse sections opened</caption>
+                    <thead>
+                    <tr>
+                        <th>Page</th>
+                        <th>Section</th>
+                        <th>Count</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {data.length ? data.map((row, index) => (
+                        <tr key={index}>
+                            <td colSpan="3">{JSON.stringify(row)}</td>
+                        </tr>
+                    )) : (
+                        <tr><td colSpan="3" className="nothing">No data recorded.</td></tr>
+                    )}
+                    </tbody>
+                </table>
                 <div>{ data }</div>
             </div>
         </AppLayout>
