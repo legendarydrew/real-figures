@@ -4,6 +4,7 @@ import { Head } from '@inertiajs/react';
 import Heading from '@/components/heading';
 import { useEffect, useState } from "react";
 import { LoaderCircleIcon } from 'lucide-react';
+import { RTToast } from '@/components/mode/toast-message';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -23,7 +24,8 @@ export default function AnalyticsPage() {
             .then((res) => {
                 setData(res);
                 setIsLoading(false);
-            });
+            })
+            .catch((res) => RTToast.error(res.message));
     }, []);
 
     return (
