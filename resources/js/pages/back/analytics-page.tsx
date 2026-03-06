@@ -2,6 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import Heading from '@/components/heading';
+import { useEffect, useState } from "react";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -11,6 +12,16 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function AnalyticsPage() {
+
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        fetch("/api/analytics/collapse")
+            .then(res => res.json())
+            .then(setData);
+    }, []);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Analytics"/>
@@ -19,6 +30,8 @@ export default function AnalyticsPage() {
                 <Heading title="Analytics"/>
 
                 <p>It begins...</p>
+
+                <div>{ data }</div>
             </div>
         </AppLayout>
     );
