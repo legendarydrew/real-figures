@@ -5,6 +5,10 @@
 
     &.has-image {
         @apply text-white text-shadow-md;
+
+        .act-item-text {
+            @apply mix-blend-luminosity;
+        }
     }
 
     &.has-profile {
@@ -15,6 +19,18 @@
             @apply scale-[1.1] motion-reduce:scale-[1];
         }
     }
+}
+
+.act-item-toolbar {
+    @apply absolute top-0 w-full flex items-center p-2 text-sm;
+
+    .button {
+        @apply p-2 text-sm;
+    }
+}
+
+.act-item-toolbar-profile {
+    @apply bg-primary rounded-full text-white text-shadow-lg;
 }
 
 .act-item-text {
