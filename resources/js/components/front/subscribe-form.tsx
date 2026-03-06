@@ -49,7 +49,7 @@ export const SubscribeForm: React.FC = ({ className, ...props }) => {
                 <Input id="subscribeEmail" className="rounded-r-none" type="email"
                        value={email}
                        onChange={emailChangeHandler}
-                       autocomplete="email"
+                       autoComplete="email"
                        placeholder="Enter your email address..."/>
                 <LoadingButton type="submit" className="h-9 rounded-l-none" disabled={!email} isLoading={isProcessing}>I'm
                     in!</LoadingButton>

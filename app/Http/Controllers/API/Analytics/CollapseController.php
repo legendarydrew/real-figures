@@ -40,13 +40,13 @@ class CollapseController extends Controller
         $rows = Analytics::get(
             period: Period::days($days),
             metrics: ['eventCount'],
-            dimensions: ['date', 'pageTitle', 'customEvent:section_id'],
+            dimensions: ['date', 'customEvent:section_id'],
             maxResults: 1000,
             dimensionFilter: $filter
         );
 
         $data = collect($rows)
-            ->groupBy(['pageTitle', 'customEvent:section_id'])
+            ->groupBy(['customEvent:section_id'])
             ->map(function ($events)
             {
                 return $events->map(fn($row) => [

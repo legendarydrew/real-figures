@@ -3,6 +3,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import Heading from '@/components/heading';
 import { useEffect, useState } from "react";
+import { LoaderCircleIcon } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -13,13 +14,16 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function AnalyticsPage() {
 
-
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [data, setData] = useState([]);
 
     useEffect(() => {
         fetch("/api/analytics/collapse")
             .then(res => res.json())
-            .then(setData);
+            .then((res) => {
+                setData(res);
+                setIsLoading(false);
+            });
     }, []);
 
     return (
@@ -29,7 +33,7 @@ export default function AnalyticsPage() {
 
                 <Heading title="Analytics"/>
 
-                <p>It begins...</p>
+                { isLoading && <LoaderCircleIcon />}
 
                 <table className="data-table">
                     <caption>Collapse sections opened</caption>

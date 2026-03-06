@@ -7,8 +7,14 @@ const analytics = {
     defaultCategory: document.querySelector('meta[name=analytics-event-category]').getAttribute('content')
 };
 
+const isTesting: boolean =  !!Number.parseInt(analytics.testMode);
 const initialise = () => {
-    ReactGA.initialize(analytics.measurementId, { testMode: !!Number.parseInt(analytics.testMode) });
+    ReactGA.initialize(analytics.measurementId, {
+        gaOptions: {
+            debug_mode: isTesting
+        },
+        // testMode: isTesting
+    });
     if (analytics.testMode) {
         console.log('Analytics initialised.');
     }
