@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Heart, LayoutGrid, Mail, Music, Network, NewspaperIcon, Star, User, User2 } from 'lucide-react';
+import { BarChart3Icon, Heart, LayoutGrid, Mail, Music, Network, NewspaperIcon, Star, User, User2 } from 'lucide-react';
 import AppLogo from './mode/app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -26,6 +26,11 @@ const mainNavItems: NavItem[] = [
         title: 'News',
         href: '/admin/news',
         icon: NewspaperIcon
+    },
+    {
+        title: 'Analytics',
+        href: '/admin/analytics',
+        icon: BarChart3Icon
     },
     {
         title: 'Stages',

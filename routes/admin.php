@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Back\ActsController;
+use App\Http\Controllers\Back\AnalyticsController;
 use App\Http\Controllers\Back\ContactMessageController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\DonationsController;
@@ -31,6 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function ()
     Route::get('/admin/acts', [ActsController::class, 'index'])->name('admin.acts');
     Route::get('/admin/acts/new', [ActsController::class, 'create'])->name('admin.acts.new');
     Route::get('/admin/acts/{id}', [ActsController::class, 'edit'])->name('admin.acts.edit');
+    Route::get('/admin/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
     Route::get('/admin/contact', [ContactMessageController::class, 'index'])->name('admin.contact');
     Route::get('/admin/donations', [DonationsController::class, 'index'])->name('admin.donations');
     Route::get('/admin/golden-buzzers', [GoldenBuzzersController::class, 'index'])->name('admin.golden-buzzers');
