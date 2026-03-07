@@ -1,5 +1,5 @@
 table.data-table {
-    @apply my-4;
+    @apply my-4 w-full text-sm;
 
     td, th {
         @apply p-1;
