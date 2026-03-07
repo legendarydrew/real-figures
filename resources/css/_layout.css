@@ -2,8 +2,8 @@
 
 @layer base {
     .site-container {
-        @apply max-w-4xl mx-auto;
-        @apply px-4 lg:px-0;
+        @apply max-w-6xl mx-auto;
+        @apply px-4 xl:px-0;
     }
 
     .site-header {
@@ -78,7 +78,7 @@
     }
 
     .site-header-mode {
-        @apply md:ml-2;
+        @apply md:mx-2;
     }
 
     .site-main {
