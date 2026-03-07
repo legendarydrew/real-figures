@@ -1,0 +1,20 @@
+table.data-table {
+    @apply my-4 w-full text-sm;
+
+    td, th {
+        @apply p-1;
+    }
+
+    caption {
+        @apply display-text mb-2 text-lg text-left;
+    }
+    thead {
+        tr:last-child {
+            @apply border-b;
+        }
+
+        th {
+            @apply text-sm;
+        }
+    }
+}

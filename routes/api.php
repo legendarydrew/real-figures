@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\ActController;
+use App\Http\Controllers\API\Analytics\CollapseController;
 use App\Http\Controllers\API\BuzzerController;
 use App\Http\Controllers\API\ContactMessagesController;
 use App\Http\Controllers\API\ContactMessagesRespondController;
@@ -43,6 +44,8 @@ Route::prefix('/api')->group(function ()
         Route::post('acts', [ActController::class, 'store'])->name('acts.store');
         Route::patch('acts/{id}', [ActController::class, 'update'])->name('acts.update');
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
+
+        Route::get('analytics/collapse', [CollapseController::class, 'index'])->name('analytics.collapse');
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
 

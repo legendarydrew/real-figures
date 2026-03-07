@@ -83,7 +83,7 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
         axios.post('/api/vote', payload)
             .then(() => {
                 setSuccessful(true);
-                globalThis.trackEvent({ action: 'Vote cast', label: round.full_title });
+                globalThis.trackEvent('vote', { round: round.full_title });
             })
             .catch((error: AxiosError) => {
                 setErrors(error.response.data.errors);

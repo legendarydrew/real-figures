@@ -63,7 +63,10 @@ export const DonateDialog: React.FC = () => {
 
     const successHandler = () => {
         setWasSuccessful(true);
-        globalThis.trackEvent({ category: 'Donate', action: 'New donation', value: amount });
+        globalThis.trackEvent("donation", {
+            value: amount,
+            anonymous: isAnonymous
+        });
     };
 
     const failureHandler = () => {

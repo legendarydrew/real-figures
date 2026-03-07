@@ -33,7 +33,7 @@
 
     &.destructive {
         @apply bg-destructive text-white;
-        @apply not-disabled:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40;
+        @apply not-disabled:hover:bg-destructive-hover focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40;
     }
 
     &.outline {
