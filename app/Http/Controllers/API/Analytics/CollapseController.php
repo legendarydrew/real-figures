@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Analytics;
 
 use App\Http\Controllers\Controller;
+use App\Support\AnalyticsChartFormatter;
 use Google\Analytics\Data\V1beta\Filter;
 use Google\Analytics\Data\V1beta\FilterExpression;
 use Illuminate\Http\JsonResponse;
@@ -49,13 +50,10 @@ class CollapseController extends Controller
             \Cache::set('analytics.collapse', $rows, 600);
         }
 
-        $data = collect($rows)
-            ->map(fn($row) => [
-                    'page'    => $row['pageTitle'],
-                    'section' => $row['customEvent:section_id'],
-                    'date'    => $row['date']->toDateString(), // it's a Carbon instance.
-                    'count'   => (int)$row['eventCount']
-                ]);
+        $data = AnalyticsChartFormatter::stackedByDate(
+            $rows,
+            'customEvent:section_id'
+        );
 
         return response()->json($data);
     }
