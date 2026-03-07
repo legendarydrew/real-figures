@@ -22,7 +22,7 @@ class IndexTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.acts'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/acts'));
+        $response->assertInertia(fn(Assert $page) => $page->component('back/acts-page'));
     }
 
 }

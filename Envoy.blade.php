@@ -6,7 +6,6 @@ This script was adapted from the one used for deploying the main web site.
 @setup
 $port = $port ?? 22;
 $now = new DateTime;
-{{-- now() is unavailable. --}}
 @endsetup
 
 @servers(['web' => ['deployhost'], 'localhost' => ['127.0.0.1']])
