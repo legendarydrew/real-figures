@@ -31,7 +31,7 @@ class EditTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.acts.edit', ['id' => $this->act->id]));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/act-edit')
+        $response->assertInertia(fn(Assert $page) => $page->component('back/act-edit-page')
                                                           ->has('act')
                                                           ->has('genreList'));
     }
