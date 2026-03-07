@@ -3,9 +3,7 @@
          style="display: block"
          data-ad-client="{{ config('services.adsense.client_id') }}"
          data-ad-slot="{{ config('services.adsense.slot_id') }}"
-         {{--         data-ad-layout={layout}--}}
-         {{--         data-ad-layout-key={layoutKey}--}}
-         {{--         data-ad-format={format}--}}
+         data-ad-format="auto"
          @if (config('services.adsense.testing'))
              data-adtest="on"
          @endif

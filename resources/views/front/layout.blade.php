@@ -48,9 +48,11 @@
     <meta name="analytics-event-category" content="@yield('event-category')"/>
 
     {{-- Google AdSense (for those all-important ads). --}}
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6678290031589127"
+            crossorigin="anonymous"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 </head>
 <body>
 <header class="site-header">
@@ -94,5 +96,8 @@
         Copyright &copy; Drew Maughan (SilentMode), all rights reserved.
     </div>
 </footer>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 </body>
 </html>
