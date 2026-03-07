@@ -80,11 +80,10 @@ export const GoldenBuzzerDialog: React.FC = ({ stage, round, song }) => {
 
     const successHandler = () => {
         setWasSuccessful(true);
-        globalThis.trackEvent({
-            category: 'Golden Buzzer',
-            action: 'Awarded Golden Buzzer',
-            label: song.act.slug,
-            value: amount
+        globalThis.trackEvent("golden_buzzer", {
+            act: song.act.slug,
+            value: amount,
+            anonymous: isAnonymous
         });
     };
 

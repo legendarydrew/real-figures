@@ -23,7 +23,7 @@ export const SongPlayer: React.FC = ({ currentSong }) => {
         // We will only record a play if the video is at (or near) the beginning.
         if (e.target.getCurrentTime() <= 0.5) {
             axios.put(`/api/songs/${currentSong.id}/play`).then();
-            globalThis.trackEvent({ action: "Song play", label: currentSong.act.slug, nonInteraction: true });
+            globalThis.trackEvent('song_play', { act: currentSong.act.slug });
         }
     };
 

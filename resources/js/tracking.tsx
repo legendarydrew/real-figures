@@ -7,8 +7,14 @@ const analytics = {
     defaultCategory: document.querySelector('meta[name=analytics-event-category]').getAttribute('content')
 };
 
+const isTesting: boolean =  !!Number.parseInt(analytics.testMode);
 const initialise = () => {
-    ReactGA.initialize(analytics.measurementId, { testMode: !!Number.parseInt(analytics.testMode) });
+    ReactGA.initialize(analytics.measurementId, {
+        gaOptions: {
+            debug_mode: isTesting
+        },
+        // testMode: isTesting
+    });
     if (analytics.testMode) {
         console.log('Analytics initialised.');
     }
@@ -24,15 +30,21 @@ const trackPageView = (path?: string): void => {
     }
 };
 
-globalThis.trackEvent = (event: UaEventOptions) => {
-    event.category = event.category ?? analytics.defaultCategory;
-    ReactGA.event({
-        ...event,
-        nonInteraction: true, // optional, true/false
-        transport: "xhr"
-    });
+globalThis.trackEvent = (event: UaEventOptions | string, params?: { [key: string]: string | number }) => {
+    if (typeof event === 'string') {
+        // The recommended way (but requires the event to be set up as a custom dimension in GA4).
+        ReactGA.event(event, params);
+    } else {
+        // The old way...
+        event.category = event.category ?? analytics.defaultCategory;
+        ReactGA.event({
+            ...event,
+            nonInteraction: true, // optional, true/false
+            transport: "xhr"
+        });
+    }
     if (analytics.testMode) {
-        console.log('trackEvent', event);
+        console.log('trackEvent', event, params);
     }
 }
 

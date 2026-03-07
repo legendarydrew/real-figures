@@ -80,7 +80,10 @@ for (const element: HTMLElement of collapses) {
     title.addEventListener('click', () => {
         if (!element.open) {
             window.history.replaceState(null, '', `#${hash}`);
-            trackEvent({ category: null, action: 'Panel open', label: hash, nonInteraction: false });
+            globalThis.trackEvent("collapse_open", {
+                section_id: hash,
+                page_title: document.title.split('—')[0].trim()
+            });
         }
     });
 }

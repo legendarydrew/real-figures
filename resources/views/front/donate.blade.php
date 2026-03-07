@@ -21,11 +21,10 @@
             {{-- https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog#modal_dialogs_using_invoker_commands  --}}
             <button type="button" class="button primary"
                     command="show-modal" commandfor="donate-dialog" aria-controls="donate-dialog"
-                    onclick="trackEvent({ action: 'Begin donation', nonInteraction: false })">Donate to us (PayPal)
+                    onclick="trackEvent('dialog_open', { type: 'donate' })">Donate to us (PayPal)
             </button>
 
             <a class="button secondary" href="https://www.justgiving.com/kidscape/donate" rel="external"
-               onclick="trackEvent({ action: 'Donate to KidScape', nonInteraction: false })"
                target="_blank">Donate to Kidscape</a>
         </div>
 

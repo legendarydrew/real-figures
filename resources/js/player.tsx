@@ -23,7 +23,10 @@ globalThis.openSongPlayer = (el: HTMLElement): void => {
 
     playerElement?.showPopover();
 
-    globalThis.trackEvent({ action: 'Open song player', label: song.act.slug, nonInteraction: false });
+    globalThis.trackEvent("dialog_open", {
+        type: 'song',
+        act: song.act.slug
+    });
 }
 
 globalThis.closeSongPlayer = (): void => {
@@ -40,5 +43,8 @@ globalThis.awardGoldenBuzzer = (): void => {
     const dialogId = `golden-buzzer-dialog-${playerElement.dataset.songId}`;
     const actSlug = `golden-buzzer-dialog-${playerElement.dataset.actSlug}`;
     document.getElementById(dialogId)?.showModal();
-    globalThis.trackEvent({ action: 'Begin Golden Buzzer', label: actSlug, nonInteraction: false });
+    globalThis.trackEvent("dialog_open", {
+        type: 'golden_buzzer',
+        act: actSlug
+    });
 }
