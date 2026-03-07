@@ -2,9 +2,10 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import Heading from '@/components/heading';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LoaderCircleIcon } from 'lucide-react';
 import { RTToast } from '@/components/mode/toast-message';
+import axios from 'axios';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -16,16 +17,17 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function AnalyticsPage() {
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [data, setData] = useState([]);
+    const data = useRef();
 
     useEffect(() => {
-        fetch("/api/analytics/collapse")
-            .then(res => res.json())
+        axios.get("/api/analytics/collapse")
             .then((res) => {
-                setData(res);
-                setIsLoading(false);
+                data.current = res.data;
             })
-            .catch((res) => RTToast.error(res.message));
+            .catch((res) => RTToast.error(res.message))
+            .finally(() => {
+                setIsLoading(false);
+            });
     }, []);
 
     return (
@@ -47,16 +49,17 @@ export default function AnalyticsPage() {
                     </tr>
                     </thead>
                     <tbody>
-                    {data.length ? data.map((row, index) => (
+                    {data.current?.length ? data.current.map((row, index) => (
                         <tr key={index}>
-                            <td colSpan="3">{JSON.stringify(row)}</td>
+                            <td>{row.page}</td>
+                            <td>{row.section}</td>
+                            <td>{row.count}</td>
                         </tr>
                     )) : (
                         <tr><td colSpan="3" className="nothing">No data recorded.</td></tr>
                     )}
                     </tbody>
                 </table>
-                <div>{ data }</div>
             </div>
         </AppLayout>
     );

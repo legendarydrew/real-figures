@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\Analytics;
 
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 use Google\Analytics\Data\V1beta\Filter;
 use Google\Analytics\Data\V1beta\FilterExpression;
 use Illuminate\Http\JsonResponse;
@@ -27,34 +26,37 @@ class CollapseController extends Controller
         //    Event parameter: section_id
         //    Scope: Event
 
-        $filter = new FilterExpression([
-            'filter' => new Filter([
-                'field_name'    => 'eventName',
-                'string_filter' => new Filter\StringFilter([
-                    'match_type' => Filter\StringFilter\MatchType::EXACT,
-                    'value'      => 'collapse_open',
+        if (!$rows = \Cache::get('analytics.collapse'))
+        {
+            $filter = new FilterExpression([
+                'filter' => new Filter([
+                    'field_name'    => 'eventName',
+                    'string_filter' => new Filter\StringFilter([
+                        'match_type' => Filter\StringFilter\MatchType::EXACT,
+                        'value'      => 'collapse_open',
+                    ]),
                 ]),
-            ]),
-        ]);
+            ]);
 
-        $rows = Analytics::get(
-            period: Period::days($days),
-            metrics: ['eventCount'],
-            dimensions: ['date', 'customEvent:section_id'],
-            maxResults: 1000,
-            dimensionFilter: $filter
-        );
+            $rows = Analytics::get(
+                period: Period::days($days),
+                metrics: ['eventCount'],
+                dimensions: ['date', 'pageTitle', 'customEvent:section_id'],
+                maxResults: 1000,
+                dimensionFilter: $filter
+            );
+
+            \Cache::set('analytics.collapse', $rows, 600);
+        }
 
         $data = collect($rows)
-            ->groupBy(['customEvent:section_id'])
-            ->map(function ($events)
-            {
-                return $events->map(fn($row) => [
-                    'date'  => Carbon::createFromFormat('Ymd', $row['date'])->toDateString(),
-                    'count' => (int)$row['eventCount']
+            ->map(fn($row) => [
+                    'page'    => $row['pageTitle'],
+                    'section' => $row['customEvent:section_id'],
+                    'date'    => $row['date']->toDateString(), // it's a Carbon instance.
+                    'count'   => (int)$row['eventCount']
                 ]);
-            });
 
-        return response()->json($data->values());
+        return response()->json($data);
     }
 }
