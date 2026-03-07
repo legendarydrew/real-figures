@@ -80,27 +80,27 @@ export default function AnalyticsPage() {
                         ))}
                     </BarChart>
                 )}
-                {/*<table className="data-table">*/}
-                {/*    <caption>Collapse sections opened</caption>*/}
-                {/*    <thead>*/}
-                {/*    <tr>*/}
-                {/*        <th>Page</th>*/}
-                {/*        <th>Section</th>*/}
-                {/*        <th>Count</th>*/}
-                {/*    </tr>*/}
-                {/*    </thead>*/}
-                {/*    <tbody>*/}
-                {/*    {data?.length ? data.map((row, index) => (*/}
-                {/*        <tr key={index}>*/}
-                {/*            <td>{row.page}</td>*/}
-                {/*            <td>{row.section}</td>*/}
-                {/*            <td>{row.count}</td>*/}
-                {/*        </tr>*/}
-                {/*    )) : (*/}
-                {/*        <tr><td colSpan="3" className="nothing">No data recorded.</td></tr>*/}
-                {/*    )}*/}
-                {/*    </tbody>*/}
-                {/*</table>*/}
+                <table className="data-table">
+                    <caption>Collapse sections opened</caption>
+                    <thead>
+                    <tr>
+                        <th>Page</th>
+                        <th>Section</th>
+                        <th>Count</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {chartData ? chartData.table.map((row, index) => (
+                        <tr key={index}>
+                            <td>{row.page}</td>
+                            <td>{row.section}</td>
+                            <td>{row.count}</td>
+                        </tr>
+                    )) : (
+                        <tr><td colSpan="3" className="nothing">No data recorded.</td></tr>
+                    )}
+                    </tbody>
+                </table>
             </div>
         </AppLayout>
     );

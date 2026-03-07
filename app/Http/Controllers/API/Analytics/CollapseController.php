@@ -55,6 +55,12 @@ class CollapseController extends Controller
             'customEvent:section_id'
         );
 
+        $data['table'] = $rows->groupBy('customEvent:section_id')->map(fn($r) => [
+            'page' => $r->first()['pageTitle'],
+            'section' => $r->first()['customEvent:section_id'],
+            'count' => $r->sum('eventCount'),
+        ])->values();
+
         return response()->json($data);
     }
 }
