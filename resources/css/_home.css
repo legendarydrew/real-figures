@@ -20,7 +20,7 @@
 
         .home-hero-content {
             @apply pt-30 pb-4 text-center;
-            @apply md:text-left md:p-8 md:w-5/8 lg:w-3/4 md:self-end;
+            @apply md:text-left md:p-8 md:w-5/8 md:self-end;
         }
 
         .home-hero-text {
