@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
-
+import { Pie, PieChart, PieSectorShapeProps, Sector } from 'recharts';
 
 interface Props {
     days?: number;
@@ -42,6 +42,10 @@ export const ReferrersAnalytics: React.FC<Props> = ({ days = 7 }) => {
         return `hsl(${hue}, 65%, 55%)`;
     }
 
+    const pieSector = (props: PieSectorShapeProps) => {
+        return <Sector {...props} fill={stringToColor(chartData[props.index].referrer)}/>;
+    };
+
     return (
         <section id="analyticsReferrers" className="analytics-section">
             <HeadingSmall title="Referrers"/>
@@ -49,54 +53,47 @@ export const ReferrersAnalytics: React.FC<Props> = ({ days = 7 }) => {
             {/* TODO an overlay.*/}
             {isLoading && <LoaderCircleIcon/>}
 
-            <div className="grid lg:grid-cols-2 gap-8">
+            {chartData && (
+                <div className="grid lg:grid-cols-3 gap-8">
 
-                {/*{chartData && (*/}
-                {/*    <BarChart*/}
-                {/*        style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}*/}
-                {/*        responsive*/}
-                {/*        data={chartData.data}*/}
-                {/*    >*/}
-                {/*        <XAxis dataKey="date"/>*/}
-                {/*        <YAxis/>*/}
+                    <PieChart style={{ width: '100%', aspectRatio: 1 }} responsive>
+                        <Pie
+                            dataKey="count"
+                            data={chartData}
+                            fill="#8884d8"
+                            shape={pieSector}
+                            label
+                        />
+                    </PieChart>
 
-                {/*        {chartData.keys.map(key => (*/}
-                {/*            <Bar*/}
-                {/*                key={key}*/}
-                {/*                dataKey={key}*/}
-                {/*                stackId="sections"*/}
-                {/*                fill={getColor(key)}*/}
-                {/*            />*/}
-                {/*        ))}*/}
-                {/*    </BarChart>*/}
-                {/*)}*/}
-                <table className="data-table">
-                    <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col" className="text-left">Referrer</th>
-                        <th scope="col" className="text-right">Count</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {chartData ? chartData.table.map((row, index) => (
-                        <tr key={index}>
-                            <th scope="row">
+                    <table className="data-table lg:col-span-2">
+                        <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col" className="text-left">Referrer</th>
+                            <th scope="col" className="text-right">Count</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {chartData?.length ? chartData.map((row, index) => (
+                            <tr key={index}>
+                                <th scope="row">
                                 <span className="block size-4"
                                       style={{ backgroundColor: stringToColor(row.referrer) }}></span>
-                            </th>
-                            <th className="text-left" scope="row">{row.referrer.length ? row.referrer : (
-                                <em className="text-muted-foreground font-normal">none</em>)}</th>
-                            <td className="text-right">{row.count}</td>
-                        </tr>
-                    )) : (
-                        <tr>
-                            <td colSpan="3" className="nothing">No data recorded.</td>
-                        </tr>
-                    )}
-                    </tbody>
-                </table>
-            </div>
+                                </th>
+                                <th className="text-left" scope="row">{row.referrer.length ? row.referrer : (
+                                    <em className="text-muted-foreground font-normal">none</em>)}</th>
+                                <td className="text-right">{row.count}</td>
+                            </tr>
+                        )) : (
+                            <tr>
+                                <td colSpan="3" className="nothing">No data recorded.</td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </section>
     )
 }

@@ -31,16 +31,16 @@ class ReferrersController extends Controller
         }
 
         // Take the top x items, and group the others under 'Other'.
-        $top = $rows->take(12);
-        $other  = $rows->slice($top->count());
+        $top   = $rows->take(12);
+        $other = $rows->slice($top->count());
 
-        $data['table'] = $top->map(fn($r) => [
+        $data = $top->map(fn($r) => [
             'referrer' => $r['pageReferrer'],
             'count'    => $r['screenPageViews'],
         ])->values();
         if ($other->isNotEmpty())
         {
-            $data['table']->add([
+            $data->add([
                 'referrer' => 'Other',
                 'count'    => $other->sum('screenPageViews'),
             ]);
