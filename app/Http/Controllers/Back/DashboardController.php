@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Enums\ContestStatus;
 use App\Facades\ContestFacade;
+use App\Facades\ContestFacade as Contest;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Models\Donation;
 use App\Models\GoldenBuzzer;
+use App\Models\Round;
 use App\Models\RoundVote;
 use App\Models\SongPlay;
 use App\Models\Subscriber;
@@ -24,22 +27,23 @@ class DashboardController extends Controller
     {
         $current_stage = ContestFacade::getCurrentStage();
         return Inertia::render('back/dashboard', [
+            'contest_status' => fn() => $this->getContestStatus(),
             'analytics_countries' => fn() => $this->getTopCountries(),
             'analytics_pages'     => fn() => $this->getMostViewedPages(),
             'analytics_views'     => fn() => $this->getPageViews(),
-            'donations'        => fn() => [
+            'donations'           => fn() => [
                 'golden_buzzers' => GoldenBuzzer::count(),
                 'rows'           => fractal(Donation::orderByDesc('id')->take(10)->get(), new DonationTransformer())->parseIncludes('amount')->toArray(),
                 'count'          => Donation::count(),
                 'total'          => sprintf("%s %s", config('contest.donation.currency'), number_format(Donation::sum('amount'), 2)),
                 // making a dangerous assumption that the donations are all in the same currency.
             ],
-            'buzzer_count'     => fn() => GoldenBuzzer::count(),
-            'message_count'    => fn() => ContactMessage::whereNull('read_at')->count(),
-            'song_plays'       => fn() => $this->getPlaysThisWeek(),
-            'subscriber_count' => fn() => Subscriber::confirmed()->count(),
-            'votes'            => fn() => $this->getVotesThisWeek(),
-            'vote_count'       => fn() => $current_stage ? $current_stage->vote_count : 0
+            'buzzer_count'        => fn() => GoldenBuzzer::count(),
+            'message_count'       => fn() => ContactMessage::whereNull('read_at')->count(),
+            'song_plays'          => fn() => $this->getPlaysThisWeek(),
+            'subscriber_count'    => fn() => Subscriber::confirmed()->count(),
+            'votes'               => fn() => $this->getVotesThisWeek(),
+            'vote_count'          => fn() => $current_stage ? $current_stage->vote_count : 0
         ]);
     }
 
@@ -161,6 +165,60 @@ class DashboardController extends Controller
             'country' => $row['country'],
             'views'   => $row['screenPageViews'],
         ])->toArray();
+    }
+
+    /**
+     * Returns the current state of the Contest.
+     *
+     * @return array
+     */
+    protected function getContestStatus(): array
+    {
+        $current_stage = Contest::getCurrentStage();
+        $output        = [
+            'status' => ContestStatus::COMING_SOON
+        ];
+
+        if (Contest::isOver())
+        {
+            $output['status'] = ContestStatus::OVER;
+        }
+        else
+        {
+            if ($current_stage?->hasEnded())
+            {
+                $output['status'] = ContestStatus::JUDGEMENT;
+            }
+            else
+            {
+                $current_round = $current_stage->rounds->first(fn(Round $round) => $round->isActive());
+                if ($current_round)
+                {
+                    $output = [
+                        'status'    => ContestStatus::ACTIVE,
+                        'round'     => $current_round->full_title,
+                        'countdown' => $current_round->ends_at->toISOString()
+                    ];
+                }
+                else
+                {
+                    $current_round = $current_stage->rounds->first();
+                    $output        = [
+                        'status'    => ContestStatus::COUNTDOWN,
+                        'round'     => $current_round->full_title,
+                        'countdown' => $current_round->starts_at->toISOString()
+                    ];
+                }
+            }
+
+        }
+        // Contest has not started yet
+        // Stage is about to begin
+        // Stage is underway
+        // Stage is over
+        // Contest is over
+
+        return $output;
     }
 
 }

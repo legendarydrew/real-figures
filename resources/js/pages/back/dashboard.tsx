@@ -26,6 +26,7 @@ export default function Dashboard({
                                       analytics_countries,
                                       analytics_pages,
                                       analytics_views,
+                                      contest_status,
                                       donations,
                                       buzzer_count,
                                       message_count,
@@ -40,6 +41,11 @@ export default function Dashboard({
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
 
                 <Heading title="Dashboard"/>
+
+                <div>
+                    <p>Contest status: {contest_status.status}</p>
+                    {contest_status.round && (<p>Round: {contest_status.round}</p>)}
+                </div>
 
                 <div className="grid auto-rows-min gap-3 md:grid-cols-2 lg:grid-cols-5">
                     <DashboardMessageCount className="lg:col-start-1 lg:row-start-1 lg:col-span-1 lg:row-span-1"
