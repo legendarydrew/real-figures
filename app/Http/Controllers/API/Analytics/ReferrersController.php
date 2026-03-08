@@ -30,10 +30,21 @@ class ReferrersController extends Controller
             \Cache::set('analytics.referrers', $rows, now()->plus(minutes: config('contest.analytics.cache', 60)));
         }
 
-        $data['table'] = $rows->map(fn($r) => [
+        // Take the top x items, and group the others under 'Other'.
+        $top = $rows->take(12);
+        $other  = $rows->slice($top->count());
+
+        $data['table'] = $top->map(fn($r) => [
             'referrer' => $r['pageReferrer'],
-            'count' => $r['screenPageViews'],
+            'count'    => $r['screenPageViews'],
         ])->values();
+        if ($other->isNotEmpty())
+        {
+            $data['table']->add([
+                'referrer' => 'Other',
+                'count'    => $other->sum('screenPageViews'),
+            ]);
+        }
 
         return response()->json($data);
     }

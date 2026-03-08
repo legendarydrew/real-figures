@@ -29,7 +29,11 @@ export const ReferrersAnalytics: React.FC<Props> = ({ days = 7 }) => {
             });
     }
 
-    function stringToColor(str) {
+    const stringToColor = (str: string) => {
+        if (str === 'Other') {
+            return 'var(--chart-1-5)';
+        }
+
         let hash = 0;
         for (let i = 0; i < str.length; i++) {
             hash = str.charCodeAt(i) + ((hash << 5) - hash);
