@@ -187,7 +187,10 @@ class DashboardController extends Controller
         {
             if ($current_stage?->hasEnded())
             {
-                $output['status'] = ContestStatus::JUDGEMENT;
+                $output = [
+                    'status' => ContestStatus::JUDGEMENT,
+                    'round' => $current_stage->name
+                ];
             }
             else
             {

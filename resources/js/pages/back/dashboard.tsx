@@ -14,6 +14,7 @@ import { DashboardGoldenBuzzerCount } from '@/components/admin/dashboard-golden-
 import { DashboardAnalyticsViews } from '@/components/admin/dashboard-analytics-views';
 import { DashboardAnalyticsPages } from '@/components/admin/dashboard-analytics-pages';
 import { DashboardAnalyticsCountries } from '@/components/admin/dashboard-analytics-countries';
+import { DashboardContestStatus } from '@/components/admin/dashboard-contest-status';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -42,11 +43,6 @@ export default function Dashboard({
 
                 <Heading title="Dashboard"/>
 
-                <div>
-                    <p>Contest status: {contest_status.status}</p>
-                    {contest_status.round && (<p>Round: {contest_status.round}</p>)}
-                </div>
-
                 <div className="grid auto-rows-min gap-3 md:grid-cols-2 lg:grid-cols-5">
                     <DashboardMessageCount className="lg:col-start-1 lg:row-start-1 lg:col-span-1 lg:row-span-1"
                                            message_count={message_count}/>
@@ -58,6 +54,10 @@ export default function Dashboard({
                                             donation_count={donations.count}/>
                     <DashboardGoldenBuzzerCount className="lg:col-start-2 lg:row-start-2 lg:col-span-1 lg:row-span-1"
                                                 buzzer_count={buzzer_count}/>
+
+                    <DashboardContestStatus data={contest_status}
+                                            className="lg:col-start-3 lg:row-start-1 lg:col-span-3 lg:row-span-2"/>
+
 
                     <DashboardAnalyticsViews className="p-3 lg:col-start-1 lg:row-start-3 lg:col-span-3 lg:row-span-4"
                                              data={analytics_views}/>
