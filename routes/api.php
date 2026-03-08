@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\API\ActController;
 use App\Http\Controllers\API\Analytics\CollapseController;
+use App\Http\Controllers\API\Analytics\ReferrersController;
+use App\Http\Controllers\API\Analytics\VotesController;
 use App\Http\Controllers\API\BuzzerController;
 use App\Http\Controllers\API\ContactMessagesController;
 use App\Http\Controllers\API\ContactMessagesRespondController;
@@ -46,7 +48,8 @@ Route::prefix('/api')->group(function ()
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
         Route::get('analytics/collapse', [CollapseController::class, 'index'])->name('analytics.collapse');
-        Route::get('analytics/votes', [\App\Http\Controllers\API\Analytics\VotesController::class, 'index'])->name('analytics.votes');
+        Route::get('analytics/referrers', [ReferrersController::class, 'index'])->name('analytics.referrers');
+        Route::get('analytics/votes', [VotesController::class, 'index'])->name('analytics.votes');
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
 
