@@ -2,8 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import Heading from '@/components/heading';
-import { CollapseOpenAnalytics } from '@/components/analytics/collapse-open';
-import { VotesAnalytics } from '@/components/analytics/votes';
+import { ReferrersAnalytics } from '@/components/analytics/referrers';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,8 +20,9 @@ export default function AnalyticsPage() {
 
                 <Heading title="Analytics"/>
 
-                <CollapseOpenAnalytics/>
-                <VotesAnalytics/>
+                {/*<CollapseOpenAnalytics/>*/}
+                {/*<VotesAnalytics/>*/}
+                <ReferrersAnalytics />
             </div>
         </AppLayout>
     );
