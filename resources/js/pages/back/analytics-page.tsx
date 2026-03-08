@@ -2,10 +2,8 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import Heading from '@/components/heading';
-import { useEffect, useState } from "react";
-import { RTToast } from '@/components/mode/toast-message';
-import axios from 'axios';
 import { CollapseOpenAnalytics } from '@/components/analytics/collapse-open';
+import { VotesAnalytics } from '@/components/analytics/votes';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -16,21 +14,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function AnalyticsPage() {
 
-    const [isLoading, setIsLoading] = useState({ collapse: true });
-    const [chartData, setChartData] = useState({});
-
-    useEffect(() => {
-        axios.get("/api/analytics/collapse")
-            .then((res) => {
-                setChartData((prev) => ({...prev, collapse: res.data }));
-            })
-            .catch((res) => RTToast.error(res.message))
-            .finally(() => {
-                setIsLoading((prev) => ({ ...prev, collapse: false}));
-            });
-    }, []);
-
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Analytics"/>
@@ -38,7 +21,8 @@ export default function AnalyticsPage() {
 
                 <Heading title="Analytics"/>
 
-                <CollapseOpenAnalytics isLoading={isLoading.collapse} chartData={chartData.collapse} />
+                <CollapseOpenAnalytics/>
+                <VotesAnalytics/>
             </div>
         </AppLayout>
     );

@@ -10,6 +10,16 @@ use Illuminate\Http\JsonResponse;
 use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
+/**
+ * CollapseController
+ * This returns analytics data for collapsible sections opened over the specified period.
+ * These would suggest (but not necessarily mean) that specific content is being read.
+ * We would be interested in:
+ * - opened sections per day
+ * - which sections were opened, and how many times.
+ *
+ * @package App\Http\Controllers\API\Analytics
+ */
 class CollapseController extends Controller
 {
 
@@ -47,7 +57,7 @@ class CollapseController extends Controller
                 dimensionFilter: $filter
             );
 
-            \Cache::set('analytics.collapse', $rows, 600);
+            \Cache::set('analytics.collapse', $rows, now()->plus(minutes: config('contest.analytics.cache', 60)));
         }
 
         $data = AnalyticsChartFormatter::stackedByDate(

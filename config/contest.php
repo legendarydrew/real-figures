@@ -37,5 +37,8 @@ return [
     'images'      => [
         'subfolder' => 'act',
         'resize'    => [1000, 1000]
+    ],
+    'analytics' => [
+        'cache' => 20 // minutes
     ]
 ];

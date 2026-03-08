@@ -46,6 +46,7 @@ Route::prefix('/api')->group(function ()
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
         Route::get('analytics/collapse', [CollapseController::class, 'index'])->name('analytics.collapse');
+        Route::get('analytics/votes', [\App\Http\Controllers\API\Analytics\VotesController::class, 'index'])->name('analytics.votes');
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
 

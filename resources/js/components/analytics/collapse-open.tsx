@@ -1,14 +1,34 @@
 import { LoaderCircleIcon } from 'lucide-react';
 import { Bar, BarChart, XAxis, YAxis } from 'recharts';
 import HeadingSmall from '@/components/heading-small';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { RTToast } from '@/components/mode/toast-message';
+import { AnalyticsData } from '@/types';
 
 
 interface Props {
-    chartData?: any;
-    isLoading: boolean
+    days?: number;
 }
 
-export const CollapseOpenAnalytics: React.FC<Props> = ({ chartData, isLoading = false }) => {
+export const CollapseOpenAnalytics: React.FC<Props> = ({ days = 7 }) => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [chartData, setChartData] = useState<AnalyticsData>();
+
+    useEffect(() => {
+        fetchData();
+    }, [days]);
+
+    const fetchData = () => {
+        axios.get("/api/analytics/collapse", { params: { days } })
+            .then((res) => {
+                setChartData(res.data);
+            })
+            .catch((res) => RTToast.error(res.message))
+            .finally(() => {
+                setIsLoading(false);
+            });
+    }
 
     const fixedColors = {
         // Rules

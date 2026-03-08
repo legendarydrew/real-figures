@@ -263,3 +263,9 @@ export interface NewsPost {
         }[];
     };
 }
+
+export interface AnalyticsData {
+    data: any[];
+    keys: string[];
+    table?: any[];
+}

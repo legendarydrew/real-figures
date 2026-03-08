@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0bdf0a83ae2fba034203becf79d7b9c",
+    "content-hash": "ec5c4efe1abc5c6c2d7e11db6fd0342f",
     "packages": [
         {
             "name": "brick/math",
@@ -4878,6 +4878,45 @@
                 "source": "https://github.com/ramsey/uuid/tree/4.9.2"
             },
             "time": "2025-12-14T04:43:48+00:00"
+        },
+        {
+            "name": "redaelfillali/google-analytics-events",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/redafillali/google-analytics-events.git",
+                "reference": "47bf3c6ae5fdc46bfb1297acb89b26ddf4a2d8e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/redafillali/google-analytics-events/zipball/47bf3c6ae5fdc46bfb1297acb89b26ddf4a2d8e3",
+                "reference": "47bf3c6ae5fdc46bfb1297acb89b26ddf4a2d8e3",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^9 || ^10 || ^11 || ^12",
+                "php": "^8.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Redaelfillali\\GoogleAnalyticsEvents\\GoogleAnalyticsEventsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Redaelfillali\\GoogleAnalyticsEvents\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Send events to Google Analytics (GA4) via Measurement Protocol",
+            "support": {
+                "issues": "https://github.com/redafillali/google-analytics-events/issues",
+                "source": "https://github.com/redafillali/google-analytics-events/tree/1.0.3"
+            },
+            "time": "2025-06-25T10:58:42+00:00"
         },
         {
             "name": "sentry/sentry",
