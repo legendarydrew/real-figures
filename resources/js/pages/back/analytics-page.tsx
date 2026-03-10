@@ -20,6 +20,8 @@ export default function AnalyticsPage() {
 
                 <Heading title="Analytics"/>
 
+                {/* Tabs? */}
+
                 {/*<CollapseOpenAnalytics/>*/}
                 {/*<VotesAnalytics/>*/}
                 <ReferrersAnalytics />

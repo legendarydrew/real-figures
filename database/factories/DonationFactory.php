@@ -21,8 +21,8 @@ class DonationFactory extends Factory
             'name'           => fake()->name(),
             'transaction_id' => fake()->unique()->uuid(),
             'amount'         => fake()->randomFloat(2, 1, 999),
-            'currency'       => fake()->boolean(80) ? 'USD' : fake()->currencyCode(),
-            'message'        => fake()->boolean(20) ? fake()->realText() : null,
+            'currency'       => config('contest.donation.currency'),
+            'message'        => fake()->boolean(30) ? fake()->realText() : null,
             'is_anonymous'   => fake()->boolean(20),
         ];
     }

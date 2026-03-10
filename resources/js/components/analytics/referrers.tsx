@@ -1,10 +1,10 @@
-import { LoaderCircleIcon } from 'lucide-react';
 import HeadingSmall from '@/components/heading-small';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { Pie, PieChart, PieSectorShapeProps, Sector } from 'recharts';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface Props {
     days?: number;
@@ -51,7 +51,7 @@ export const ReferrersAnalytics: React.FC<Props> = ({ days = 7 }) => {
             <HeadingSmall title="Referrers"/>
 
             {/* TODO an overlay.*/}
-            {isLoading && <LoaderCircleIcon/>}
+            {isLoading && <Skeleton/>}
 
             {chartData && (
                 <div className="grid lg:grid-cols-3 gap-8">

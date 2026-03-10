@@ -15,9 +15,10 @@ class DonationsController extends Controller
     {
         $rows             = Donation::orderByDesc('id')->paginate();
         $is_first_page    = $rows->currentPage() === 1;
-        $transformed_data = fractal($rows->items(), new DonationTransformer())->parseIncludes(['amount'])->toArray();
+        $transformed_data = fractal($rows->items(), new DonationTransformer())->parseIncludes(['amount', 'message'])->toArray();
 
         return Inertia::render('back/donations', [
+            'total'        => fn() => Donation::sum('amount'),
             'count'        => fn() => Donation::count(),
             'rows'         => $is_first_page
                 ? $transformed_data
