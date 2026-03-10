@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Act;
 use App\Models\Round;
 use Illuminate\Console\Command;
 use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
@@ -30,6 +31,7 @@ class GenerateAnalyticsTestData extends Command
     {
         $this->generateCollapseEvents();
         $this->generateVoteEvents();
+        $this->generateSongPlayEvents();
     }
 
     protected function generateCollapseEvents(): void
@@ -57,7 +59,8 @@ class GenerateAnalyticsTestData extends Command
 
         ];
 
-        foreach (range(1, 50) as $ignored)
+        $event_count = fake()->numberBetween(40, 100);
+        foreach (range(1, $event_count) as $ignored)
         {
             $this->postEvent('collapse_open', $sections[array_rand($sections)]);
         }
@@ -73,13 +76,32 @@ class GenerateAnalyticsTestData extends Command
         }
         else
         {
-            foreach (range(1, 50) as $ignored)
+            $event_count = fake()->numberBetween(10, 50);
+            foreach (range(1, $event_count) as $ignored)
             {
                 $this->postEvent('vote', ['round' => $rounds->random()->full_title]);
             }
         }
 
     }
+
+    protected function generateSongPlayEvents(): void
+    {
+        $this->comment('- song plays');
+        $act_slugs = Act::whereHas('songs')->pluck('slug');
+
+        if ($act_slugs->isEmpty()) {
+            error('No Acts with Songs available.');
+            return;
+        }
+
+        $event_count = fake()->numberBetween(100, 500);
+        foreach (range(1, $event_count) as $ignored)
+        {
+            $this->postEvent('song_play', ['act' => $act_slugs->random()]);
+        }
+    }
+
 
     private function postEvent(string $eventName, array $dimensions): void
     {
