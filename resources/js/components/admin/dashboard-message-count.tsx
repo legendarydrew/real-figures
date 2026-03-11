@@ -13,11 +13,11 @@ export const DashboardMessageCount: React.FC<DashboardMessageCountProps> = ({ me
 
     return (
         <Link href={route('admin.contact')}
-              className={cn('bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-sm p-3 flex items-center gap-5 select-none', className)}>
-            <Mail className="w-10 h-10"/>
-            <div className="flex-grow flex flex-col gap-0 display-text">
-                <span className="text-3xl leading-none">{message_count.toLocaleString()}</span>
-                <span className="text-sm leading-none">unread {message_count === 1 ? 'message' : 'messages'}</span>
+              className={cn('admin-dashboard-count messages', className)}>
+            <Mail className="size-10"/>
+            <div className="admin-dashboard-count-text">
+                <span>{message_count.toLocaleString()}</span>
+                <span>unread {message_count === 1 ? 'message' : 'messages'}</span>
             </div>
         </Link>
     );

@@ -1,3 +1,44 @@
 .admin-content {
     @apply flex h-full flex-1 flex-col gap-4 rounded-xl p-4 pl-10;
 }
+
+
+.admin-dashboard-count {
+    @apply rounded-sm p-3 flex items-center gap-4 select-none;
+
+    &.messages {
+        @apply bg-secondary/30 hover:bg-secondary/50;
+
+        span {
+            @apply text-xs;
+        }
+    }
+
+    &.subscribers {
+        @apply bg-primary/50 hover:bg-primary;
+    }
+
+    &.donations {
+        @apply bg-donation/50 hover:bg-donation;
+    }
+
+    &.golden-buzzer {
+        @apply bg-gold/50 hover:bg-gold;
+
+        span {
+            @apply text-xs;
+        }
+    }
+}
+
+.admin-dashboard-count-text {
+    @apply flex-grow flex flex-col gap-0 display-text;
+
+    span {
+        @apply leading-none text-sm;
+
+        &:first-child {
+            @apply text-3xl;
+        }
+    }
+}

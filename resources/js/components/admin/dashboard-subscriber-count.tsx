@@ -11,11 +11,11 @@ export const DashboardSubscriberCount: React.FC<DashboardSubscriberCountProps> =
 
     return (
         <Link href={route('admin.subscribers')}
-              className={cn('bg-indigo-200 hover:bg-indigo-300 dark:bg-indigo-700 dark:hover:bg-indigo-600 rounded-sm p-3 flex items-center gap-5 select-none', className)}>
-            <User2Icon className="w-10 h-10"/>
-            <div className="flex-grow flex flex-col gap-0 display-text">
-                <span className="text-3xl leading-none">{subscriber_count.toLocaleString()}</span>
-                <span className="text-sm leading-none">{subscriber_count === 1 ? 'Subscriber' : 'Subscribers'}</span>
+              className={cn('admin-dashboard-count subscribers', className)}>
+            <User2Icon className="size-10"/>
+            <div className="admin-dashboard-count-text">
+                <span>{subscriber_count.toLocaleString()}</span>
+                <span>{subscriber_count === 1 ? 'Subscriber' : 'Subscribers'}</span>
             </div>
         </Link>
     );
