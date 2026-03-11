@@ -248,7 +248,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
 
                     <div className="bg-white border-t-1 flex justify-between sticky bottom-0 py-3">
                         <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
-                        <LoadingButton size="lg" isLoading={isSaving}>Save Act</LoadingButton>
+                        <LoadingButton variant="primary" size="lg" isLoading={isSaving}>Save Act</LoadingButton>
                     </div>
                 </form>
             </div>
