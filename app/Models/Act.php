@@ -18,13 +18,18 @@ class Act extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    public function getFullNameAttribute(): string
+    {
+        return $this->subtitle ? "{$this->name} {$this->subtitle}" : $this->name;
+    }
+
     /**
      * @return SlugOptions
      */
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-                          ->generateSlugsFrom('name')
+                          ->generateSlugsFrom(['name', 'subtitle'])
                           ->saveSlugsTo('slug')
                           ->usingSeparator('-');
     }

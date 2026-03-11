@@ -10,6 +10,7 @@ use App\Models\Subscriber;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -35,6 +36,10 @@ class DatabaseSeeder extends Seeder
             ]);
 
             $this->command->comment('Creating dummy Acts...');
+
+            // Remove existing Act images.
+            (new Filesystem)->cleanDirectory(public_path('img/act'));
+
             Act::factory(4)->withPicture(50)->withProfile()->withMeta()->withSong()->create();
             Act::factory(4)->withPicture(50)->withProfile()->withSong()->create();
             Act::factory(4)->withPicture(50)->withProfile()->create();

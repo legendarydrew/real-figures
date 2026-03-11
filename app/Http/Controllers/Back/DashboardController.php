@@ -194,7 +194,7 @@ class DashboardController extends Controller
             }
             else
             {
-                $current_round = $current_stage->rounds->first(fn(Round $round) => $round->isActive());
+                $current_round = $current_stage?->rounds->first(fn(Round $round) => $round->isActive());
                 if ($current_round)
                 {
                     $output = [
@@ -205,12 +205,14 @@ class DashboardController extends Controller
                 }
                 else
                 {
-                    $current_round = $current_stage->rounds->first();
-                    $output        = [
-                        'status'    => ContestStatus::COUNTDOWN,
-                        'round'     => $current_round->full_title,
-                        'countdown' => $current_round->starts_at->toISOString()
-                    ];
+                    $current_round = $current_stage?->rounds->first();
+                    if ($current_round) {
+                        $output        = [
+                            'status'    => ContestStatus::COUNTDOWN,
+                            'round'     => $current_round->full_title,
+                            'countdown' => $current_round->starts_at->toISOString()
+                        ];
+                    }
                 }
             }
 
