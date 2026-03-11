@@ -157,97 +157,101 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
         <AppLayout>
             <Head title="Create Act"/>
 
-            <div className="flex mb-3 p-4">
-                <h1 className="display-text flex-grow text-2xl">{isEditing() ? 'Edit Act' : 'Create Act'}</h1>
-            </div>
+            <div className="admin-content">
 
-            <form className="flex flex-col gap-3 px-5" onSubmit={saveHandler}>
+                <div className="flex mb-3 p-4">
+                    <h1 className="display-text flex-grow text-2xl">{isEditing() ? 'Edit Act' : 'Create Act'}</h1>
+                </div>
 
-                <div className="flex gap-10">
+                <form className="flex flex-col gap-3 px-5" onSubmit={saveHandler}>
 
-                    {/* Left side */}
-                    <div className="w-2/5">
-                        <div className="mb-3">
-                            <Label htmlFor="actName">Act's name</Label>
-                            <Input id="actName" type="text" className="font-bold text-lg" value={data.name}
-                                   onChange={changeNameHandler}/>
-                            <InputError className="mt-2" message={errors.name}/>
-                        </div>
+                    <div className="flex gap-10">
 
-                        <div className="mb-3">
-                            <Label htmlFor="actSlug">Slug</Label>
-                            <Input id="actSlug" type="text" className="text-sm" value={data.slug}
-                                   onChange={changeSlugHandler} placeholder="Generated from the Act name"/>
-                            <InputError className="mt-2" message={errors.slug}/>
-                        </div>
-
-                        <div className="mb-2 flex gap-2">
-                            <div className="flex-grow flex-shrink-0">
-                                <Label>Act picture</Label>
-
-                                <div className="flex gap-1 mt-2">
-                                    {/* The usual method of using a label styled as a button. */}
-                                    <label
-                                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] h-9 px-4 py-2 has-[>svg]:px-3 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90"
-                                        htmlFor="actImage">{data.image_url ? 'Replace' : 'Add'}</label>
-                                    <input id="actImage" type="file" accept="image/*" onChange={changeImageHandler}
-                                           className="hidden" aria-describedby="actImageHelp"/>
-
-                                    {data.image_url && (<Button variant="destructive" type="button"
-                                                            onClick={removeImageHandler}>Remove</Button>)}
-                                </div>
-                                <p className="mt-1 text-xs" id="file_input_help">JPEG or PNG recommended.</p>
+                        {/* Left side */}
+                        <div className="w-2/5">
+                            <div className="mb-3">
+                                <Label htmlFor="actName">Act's name</Label>
+                                <Input id="actName" type="text" className="font-bold text-lg" value={data.name}
+                                       onChange={changeNameHandler}/>
+                                <InputError className="mt-2" message={errors.name}/>
                             </div>
-                            {data.image_url && (
-                                <div
-                                    className="w-[12em] h-[10em] rounded-sm overflow-hidden bg-linear-to-bl from-indigo-300 to-indigo-700">
-                                    <div className="w-full h-full rounded-sm bg-cover"
-                                         style={{ backgroundImage: `url(${data.image_url})` }}/>
+
+                            <div className="mb-3">
+                                <Label htmlFor="actSlug">Slug</Label>
+                                <Input id="actSlug" type="text" className="text-sm" value={data.slug}
+                                       onChange={changeSlugHandler} placeholder="Generated from the Act name"/>
+                                <InputError className="mt-2" message={errors.slug}/>
+                            </div>
+
+                            <div className="mb-2 flex gap-2">
+                                <div className="flex-grow flex-shrink-0">
+                                    <Label>Act picture</Label>
+
+                                    <div className="flex gap-1 mt-2">
+                                        {/* The usual method of using a label styled as a button. */}
+                                        <label
+                                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] h-9 px-4 py-2 has-[>svg]:px-3 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90"
+                                            htmlFor="actImage">{data.image_url ? 'Replace' : 'Add'}</label>
+                                        <input id="actImage" type="file" accept="image/*" onChange={changeImageHandler}
+                                               className="hidden" aria-describedby="actImageHelp"/>
+
+                                        {data.image_url && (<Button variant="destructive" type="button"
+                                                                    onClick={removeImageHandler}>Remove</Button>)}
+                                    </div>
+                                    <p className="mt-1 text-xs" id="file_input_help">JPEG or PNG recommended.</p>
                                 </div>
-                            )}
+                                {data.image_url && (
+                                    <div
+                                        className="w-[12em] h-[10em] rounded-sm overflow-hidden bg-linear-to-bl from-indigo-300 to-indigo-700">
+                                        <div className="w-full h-full rounded-sm bg-cover"
+                                             style={{ backgroundImage: `url(${data.image_url})` }}/>
+                                    </div>
+                                )}
+                            </div>
+                            <InputError className="mt-2" message={errors.image}/>
                         </div>
-                        <InputError className="mt-2" message={errors.image}/>
+
+                        {/* Right side */}
+                        <div className="flex-shrink-0 flex-grow">
+                            <HeadingSmall title="Profile (optional)"/>
+
+                            <div>
+                                <Label htmlFor="actDescription">Description</Label>
+                                <MarkdownEditor className="h-[12rem]" value={data.profile?.description}
+                                                onChange={changeProfileDescriptionHandler}/>
+                                <InputError className="mt-2" message={errors['profile.description']}/>
+                            </div>
+                        </div>
+
                     </div>
 
-                    {/* Right side */}
-                    <div className="flex-shrink-0 flex-grow">
-                        <HeadingSmall title="Profile (optional)"/>
+                    {/* Optional Meta information. */}
+                    <HeadingSmall title="Additional information (optional)"/>
 
-                        <div>
-                            <Label htmlFor="actDescription">Description</Label>
-                            <MarkdownEditor className="h-[12rem]" value={data.profile?.description}
-                                            onChange={changeProfileDescriptionHandler}/>
-                            <InputError className="mt-2" message={errors['profile.description']}/>
-                        </div>
+                    <div>
+                        <label className="flex gap-2 items-center text-sm font-semibold">
+                            <Checkbox checked={data.is_fan_favourite}
+                                      onCheckedChange={(checked) => setData('is_fan_favourite', checked)}/>
+                            Is fan favourite
+                        </label>
+                        <p className="pl-6 text-sm text-muted-foreground">A fan favourite is a popular Act that is
+                            expected to win the Contest.</p>
                     </div>
 
-                </div>
+                    <ActMetaGenres genres={data.meta.genres} genreList={genreList}
+                                   onChange={(e) => updateMetaHandler('genres', e)}/>
+                    <ActMetaLanguages languages={data.meta.languages}
+                                      onChange={(e) => updateMetaHandler('languages', e)}/>
+                    <ActMetaMembers members={data.meta.members} onChange={(e) => updateMetaHandler('members', e)}/>
+                    <ActMetaNotes notes={data.meta.notes} onChange={(e) => updateMetaHandler('notes', e)}/>
+                    <ActMetaTraits traits={data.meta.traits} onChange={(e) => updateMetaHandler('traits', e)}/>
 
-                {/* Optional Meta information. */}
-                <HeadingSmall title="Additional information (optional)"/>
-
-                <div>
-                    <label className="flex gap-2 items-center text-sm font-semibold">
-                        <Checkbox checked={data.is_fan_favourite}
-                                  onCheckedChange={(checked) => setData('is_fan_favourite', checked)}/>
-                        Is fan favourite
-                    </label>
-                    <p className="pl-6 text-sm text-muted-foreground">A fan favourite is a popular Act that is
-                        expected to win the Contest.</p>
-                </div>
-
-                <ActMetaGenres genres={data.meta.genres} genreList={genreList} onChange={(e) => updateMetaHandler('genres', e)}/>
-                <ActMetaLanguages languages={data.meta.languages} onChange={(e) => updateMetaHandler('languages', e)}/>
-                <ActMetaMembers members={data.meta.members} onChange={(e) => updateMetaHandler('members', e)}/>
-                <ActMetaNotes notes={data.meta.notes} onChange={(e) => updateMetaHandler('notes', e)}/>
-                <ActMetaTraits traits={data.meta.traits} onChange={(e) => updateMetaHandler('traits', e)}/>
-
-                <div className="bg-white border-t-1 flex justify-between sticky bottom-0 py-3">
-                    <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
-                    <LoadingButton size="lg" isLoading={isSaving}>Save Act</LoadingButton>
-                </div>
-            </form>
-
+                    <div className="bg-white border-t-1 flex justify-between sticky bottom-0 py-3">
+                        <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
+                        <LoadingButton size="lg" isLoading={isSaving}>Save Act</LoadingButton>
+                    </div>
+                </form>
+            </div>
         </AppLayout>
-    );
+);
 };

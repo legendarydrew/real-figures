@@ -37,4 +37,4 @@ export default [js.configs.recommended, ...typescript.configs.recommended, {
 }, {
     ignores: ['vendor', 'node_modules', 'public', 'bootstrap/ssr', 'tailwind.config.js'],
 }, // Turn off all rules that might conflict with Prettier
-prettier];
+    prettier];

@@ -85,65 +85,67 @@ export default function ContactMessagesPage({
         <AppLayout>
             <Head title="Contact Messages"/>
 
-            <div className="flex mb-3 p-4 items-center sticky-top">
-                <h1 className="display-text flex-grow text-2xl mr-auto">Contact Messages</h1>
+            <div className="admin-content">
+                <div className="flex mb-3 p-4 items-center sticky-top">
+                    <h1 className="display-text flex-grow text-2xl mr-auto">Contact Messages</h1>
 
-                <div className="flex gap-1">
-                    <Button variant="outline" type="button" onClick={selectAllHandler}>
-                        <CheckSquare/>
-                    </Button>
-                    <Button variant="outline" type="button" onClick={deselectAllHandler}>
-                        <Square/>
-                    </Button>
-                    <Button variant="destructive" type="button" onClick={confirmDeleteHandler}
-                            disabled={!selectedIds.length}>Delete
-                        messages</Button>
+                    <div className="flex gap-1">
+                        <Button variant="outline" type="button" onClick={selectAllHandler}>
+                            <CheckSquare/>
+                        </Button>
+                        <Button variant="outline" type="button" onClick={deselectAllHandler}>
+                            <Square/>
+                        </Button>
+                        <Button variant="destructive" type="button" onClick={confirmDeleteHandler}
+                                disabled={!selectedIds.length}>Delete
+                            messages</Button>
+                    </div>
                 </div>
-            </div>
 
-            {messages?.length ? (
-                <>
-                    {messages.map((message) => (
-                        <Collapsible className="my-1 mx-4" key={message.id}
-                                     onOpenChange={() => markReadHandler(message)}>
-                            <div
-                                className={cn("flex gap-2 items-center p-2 w-full", message.was_read ? "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800" : "bg-teal-200 hover:bg-teal-300 dark:bg-teal-700 dark:hover:bg-teal-800")}>
-                                <Checkbox className="bg-white" checked={selectedIds.includes(message.id)}
-                                          onCheckedChange={(state) => state ? selectMessageHandler(message) : deselectMessageHandler(message)}/>
-                                <CollapsibleTrigger className="flex gap-3 w-full items-center">
+                {messages?.length ? (
+                    <>
+                        {messages.map((message) => (
+                            <Collapsible className="my-1 mx-4" key={message.id}
+                                         onOpenChange={() => markReadHandler(message)}>
+                                <div
+                                    className={cn("flex gap-2 items-center p-2 w-full", message.was_read ? "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800" : "bg-teal-200 hover:bg-teal-300 dark:bg-teal-700 dark:hover:bg-teal-800")}>
+                                    <Checkbox className="bg-white" checked={selectedIds.includes(message.id)}
+                                              onCheckedChange={(state) => state ? selectMessageHandler(message) : deselectMessageHandler(message)}/>
+                                    <CollapsibleTrigger className="flex gap-3 w-full items-center">
                                     <span className="flex-grow text-left">
                                         <span className="font-bold mr-2">{message.name}</span>
                                         <span className="text-sm">&lt;{message.email}&gt;</span>
                                     </span>
-                                    <span className="text-destructive-foreground"
-                                          title="Message is considered to be spam.">{message.is_spam ?
-                                        <MessageCircleWarning/> : ''}</span>
-                                    <time className="text-sm">{message.sent_at}</time>
-                                    <ChevronDown className="flex-shrink-0 h-6 w-6"/>
-                                </CollapsibleTrigger>
-                            </div>
-                            <CollapsibleContent
-                                className={cn("py-3 px-8", message.was_read ? "bg-gray-100/50" : "bg-teal-100/50")}>
-                                <blockquote className="mb-2">{message.body}</blockquote>
-                                {message.ip &&
-                                    <p className="text-xs">This message was sent from IP address {message.ip}.</p>}
-                                <ContactMessageRespond message={message}/>
-                            </CollapsibleContent>
-                        </Collapsible>
-                    ))}
-                    {hasMorePages ? (
-                        <WhenVisible always params={{
-                            data: { page: currentPage + 1 },
-                            only: ['messages'],
-                            reset: ['currentPage', 'hasMorePages'],
-                            preserveUrl: true
-                        }}/>) : ''}
-                </>
-            ) : (
-                <Nothing>
-                    No Contact Messages received.
-                </Nothing>
-            )}
+                                        <span className="text-destructive-foreground"
+                                              title="Message is considered to be spam.">{message.is_spam ?
+                                            <MessageCircleWarning/> : ''}</span>
+                                        <time className="text-sm">{message.sent_at}</time>
+                                        <ChevronDown className="flex-shrink-0 h-6 w-6"/>
+                                    </CollapsibleTrigger>
+                                </div>
+                                <CollapsibleContent
+                                    className={cn("py-3 px-8", message.was_read ? "bg-gray-100/50" : "bg-teal-100/50")}>
+                                    <blockquote className="mb-2">{message.body}</blockquote>
+                                    {message.ip &&
+                                        <p className="text-xs">This message was sent from IP address {message.ip}.</p>}
+                                    <ContactMessageRespond message={message}/>
+                                </CollapsibleContent>
+                            </Collapsible>
+                        ))}
+                        {hasMorePages ? (
+                            <WhenVisible always params={{
+                                data: { page: currentPage + 1 },
+                                only: ['messages'],
+                                reset: ['currentPage', 'hasMorePages'],
+                                preserveUrl: true
+                            }}/>) : ''}
+                    </>
+                ) : (
+                    <Nothing>
+                        No Contact Messages received.
+                    </Nothing>
+                )}
+            </div>
 
             <DestructiveDialog open={isConfirmingDelete} onConfirm={deleteHandler}
                                processing={processing}

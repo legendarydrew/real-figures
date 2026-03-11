@@ -64,34 +64,36 @@ export default function ManualVotePage({ stage, rounds }: Readonly<ManualVotePag
         <AppLayout>
             <Head title="Manual Vote"/>
 
-            <div className="flex mb-3 p-4">
-                <h1 className="display-text flex-grow text-2xl">Manual Voting for "{stage.title}"</h1>
-            </div>
+            <div className="admin-content">
 
-            <form className="my-3 mx-4" onSubmit={submitHandler}>
-                {hasErrors && (
-                    <p className="flex gap-2 text-red-500 mb-3">
-                        <CircleAlert/>
-                        There was at least one issue with casting the manual vote(s).
-                    </p>
-                )}
-                {rounds.map((round, roundIndex) => (
-                    <Card key={round.id} className="p-3 gap-2 mb-3 rounded-0">
-                        <CardTitle>{round.title}</CardTitle>
-                        <CardContent className="p-0">
-                            <ManualVoteItem round={round} votes={data.votes[roundIndex].song_ids}
-                                            positionErrors={positionErrors(roundIndex)}
-                                            onChange={(v) => voteHandler(roundIndex, v)}/>
-                        </CardContent>
-                    </Card>
-                ))}
-
-                <div className="flex justify-end">
-                    <LoadingButton isLoading={processing}>Cast manual votes</LoadingButton>
-                    <Button variant="link" type="button" onClick={cancelHandler}>Cancel</Button>
+                <div className="flex mb-3 p-4">
+                    <h1 className="display-text flex-grow text-2xl">Manual Voting for "{stage.title}"</h1>
                 </div>
-            </form>
 
+                <form className="my-3 mx-4" onSubmit={submitHandler}>
+                    {hasErrors && (
+                        <p className="flex gap-2 text-red-500 mb-3">
+                            <CircleAlert/>
+                            There was at least one issue with casting the manual vote(s).
+                        </p>
+                    )}
+                    {rounds.map((round, roundIndex) => (
+                        <Card key={round.id} className="p-3 gap-2 mb-3 rounded-0">
+                            <CardTitle>{round.title}</CardTitle>
+                            <CardContent className="p-0">
+                                <ManualVoteItem round={round} votes={data.votes[roundIndex].song_ids}
+                                                positionErrors={positionErrors(roundIndex)}
+                                                onChange={(v) => voteHandler(roundIndex, v)}/>
+                            </CardContent>
+                        </Card>
+                    ))}
+
+                    <div className="flex justify-end">
+                        <LoadingButton isLoading={processing}>Cast manual votes</LoadingButton>
+                        <Button variant="link" type="button" onClick={cancelHandler}>Cancel</Button>
+                    </div>
+                </form>
+            </div>
         </AppLayout>
-    );
+);
 }

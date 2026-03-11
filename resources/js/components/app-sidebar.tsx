@@ -12,7 +12,6 @@ import {
     SidebarTrigger
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
 import { BarChart3Icon, Heart, LayoutGrid, Mail, Music, Network, NewspaperIcon, Star, User, User2 } from 'lucide-react';
 import AppLogo from './mode/app-logo';
 
@@ -76,15 +75,13 @@ export function AppSidebar() {
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
                 <SidebarMenu>
-                    <SidebarMenuItem>
+                    <SidebarMenuItem className="relative">
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/" prefetch>
+                            <a href="/" target="_blank">
                                 <AppLogo/>
-                            </Link>
+                            </a>
                         </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                        <SidebarTrigger className="w-auto px-2 h-8"/>
+                        <SidebarTrigger className="w-auto px-2 h-8 absolute top-1/2 left-full -translate-y-1/2"/>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>

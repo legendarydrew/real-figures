@@ -73,82 +73,85 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
         <AppLayout>
             <Head title="News / Press Releases"/>
 
-            <div className="flex mb-3 p-4">
-                <h1 className="display-text flex-grow text-2xl">News</h1>
-                <div className="flex gap-1">
-                    <Button asChild variant="default">
-                        <Link href={route('admin.news.create')}>Create Post</Link>
-                    </Button>
-                    <Button asChild variant="secondary">
-                        <Link href={route('admin.news-generate')}>Generate</Link>
-                    </Button>
+            <div className="admin-content">
+
+                <div className="flex items-center">
+                    <h1 className="display-text flex-grow text-2xl">News</h1>
+                    <div className="flex gap-1">
+                        <Button asChild variant="default">
+                            <Link href={route('admin.news.create')}>Create Post</Link>
+                        </Button>
+                        <Button asChild variant="secondary">
+                            <Link href={route('admin.news-generate')}>Generate</Link>
+                        </Button>
+                    </div>
                 </div>
-            </div>
 
-            {posts.meta.pagination.total ? (
-                <div className="overflow-x-auto">
-                    <table className="dashboard-table">
-                        <colgroup>
-                            <col/>
-                            <col style={{ width: '10em' }}/>
-                            <col style={{ width: '10em' }}/>
-                            <col style={{ width: '6em' }}/>
-                        </colgroup>
-                        <thead className="text-sm">
-                        <tr className="border-b-2">
-                            <th>&nbsp;</th>
-                            <th scope="col" className="text-center select-none">
-                                Published at
-                            </th>
-                            <th scope="col" className="text-center select-none">
-                                Updated at
-                            </th>
-                            <th/>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {posts.data.map((post) => (
-                            <tr key={post.id}
-                                className={cn(post.published_at && 'bg-green-100 hover:bg-green-200', 'hover-bg select-none')}>
-                                <th scope="row" className="text-left">
-                                    <b>{post.title}</b> {post.published_at && (
-                                    <Badge className="ml-2" variant="secondary">Published</Badge>)}
-                                    <br/>
-                                    {post.excerpt && <small
-                                        className="block font-normal text-wrap leading-tight">{post.excerpt}</small>}
+                {posts.meta.pagination.total ? (
+                    <div className="overflow-x-auto">
+                        <table className="dashboard-table">
+                            <colgroup>
+                                <col/>
+                                <col style={{ width: '10em' }}/>
+                                <col style={{ width: '10em' }}/>
+                                <col style={{ width: '6em' }}/>
+                            </colgroup>
+                            <thead className="text-sm">
+                            <tr className="border-b-2">
+                                <th>&nbsp;</th>
+                                <th scope="col" className="text-center select-none">
+                                    Published at
                                 </th>
-                                <td className="text-center">{post.published_at ?? '-'}</td>
-                                <td className="text-center">{post.updated_at}</td>
-                                <td>
-                                    <div className="toolbar">
-                                        <Button asChild variant="outline" title="View Post">
-                                            <Link href={post.url}>
-                                                <NewspaperIcon className="h-3 w-3"/>
-                                            </Link>
-                                        </Button>
-                                        <Button variant="secondary"
-                                                onClick={() => editHandler(post)}
-                                                title="Edit Post">
-                                            <Edit className="h-3 w-3"/>
-                                        </Button>
-                                        <Button variant="destructive"
-                                                onClick={() => deleteHandler(post)}
-                                                title="Delete Post">
-                                            <Trash className="h-3 w-3"/>
-                                        </Button>
-                                    </div>
-                                </td>
+                                <th scope="col" className="text-center select-none">
+                                    Updated at
+                                </th>
+                                <th/>
                             </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>) : (
-                <Nothing>
-                    No News Posts have been created.
-                </Nothing>
-            )}
+                            </thead>
+                            <tbody>
+                            {posts.data.map((post) => (
+                                <tr key={post.id}
+                                    className={cn(post.published_at && 'bg-green-100 hover:bg-green-200', 'hover-bg select-none')}>
+                                    <th scope="row" className="text-left">
+                                        <b>{post.title}</b> {post.published_at && (
+                                        <Badge className="ml-2" variant="secondary">Published</Badge>)}
+                                        <br/>
+                                        {post.excerpt && <small
+                                            className="block font-normal text-wrap leading-tight">{post.excerpt}</small>}
+                                    </th>
+                                    <td className="text-center">{post.published_at ?? '-'}</td>
+                                    <td className="text-center">{post.updated_at}</td>
+                                    <td>
+                                        <div className="toolbar">
+                                            <Button asChild variant="outline" title="View Post">
+                                                <Link href={post.url}>
+                                                    <NewspaperIcon className="h-3 w-3"/>
+                                                </Link>
+                                            </Button>
+                                            <Button variant="secondary"
+                                                    onClick={() => editHandler(post)}
+                                                    title="Edit Post">
+                                                <Edit className="h-3 w-3"/>
+                                            </Button>
+                                            <Button variant="destructive"
+                                                    onClick={() => deleteHandler(post)}
+                                                    title="Delete Post">
+                                                <Trash className="h-3 w-3"/>
+                                            </Button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>) : (
+                    <Nothing>
+                        No News Posts have been created.
+                    </Nothing>
+                )}
 
-            <Pagination results={posts} onPageChange={pageHandler}/>
+                <Pagination results={posts} onPageChange={pageHandler}/>
+            </div>
 
             <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
                                onConfirm={confirmDeleteHandler} processing={isDeleting}>

@@ -98,102 +98,105 @@ export default function Songs({ acts, songs }: Readonly<{ songs: PaginatedRespon
         <AppLayout>
             <Head title="Songs"/>
 
-            <div className="flex mb-3 p-4">
-                <h1 className="display-text flex-grow text-2xl">Songs</h1>
-                <div className="flex gap-1">
-                    <Button onClick={() => editHandler()}>Add Song</Button>
+            <div className="admin-content">
+
+                <div className="flex mb-3 p-4">
+                    <h1 className="display-text flex-grow text-2xl">Songs</h1>
+                    <div className="flex gap-1">
+                        <Button onClick={() => editHandler()}>Add Song</Button>
+                    </div>
                 </div>
-            </div>
 
-            {songs.meta.pagination.total ? (
-                <div className="overflow-x-auto">
-                    <table className="dashboard-table">
-                        <colgroup>
-                            <col style={{ width: '4em' }}/>
-                            <col/>
-                            <col/>
-                            <col style={{ width: '6em' }}/>
-                            <col style={{ width: '10em' }}/>
-                        </colgroup>
-                        <thead className="text-sm">
-                        <tr className="border-b-2">
-                            <th className="text-left text-xs select-none cursor-pointer"
-                                onClick={() => sortHandler('language')}>
-                                Lang.
-                                {currentSort.current.column === 'language' ? (
-                                    <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
-                            </th>
-                            <th scope="col" className="text-left select-none cursor-pointer"
-                                onClick={() => sortHandler('title')}>
-                                Title
-                                {currentSort.current.column === 'title' ? (
-                                    <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
-                            </th>
-                            <th scope="col" className="text-left select-none cursor-pointer"
-                                onClick={() => sortHandler('act_name')}>
-                                Act
-                                {currentSort.current.column === 'act_name' ? (
-                                    <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
-                            </th>
-                            <th scope="col" className="text-right select-none cursor-pointer"
-                                onClick={() => sortHandler('play_count')}>
-                                Play count
-                                {currentSort.current.column === 'play_count' ? (
-                                    <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
-                            </th>
-                            <th/>
-                            <th/>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {songs.data.map((song) => (
-                            <tr className="hover-bg select-none" key={song.id}>
-                                <th scope="row" className="text-center">
-                                    <LanguageFlag languageCode={song.language}/>
+                {songs.meta.pagination.total ? (
+                    <div className="overflow-x-auto">
+                        <table className="dashboard-table">
+                            <colgroup>
+                                <col style={{ width: '4em' }}/>
+                                <col/>
+                                <col/>
+                                <col style={{ width: '6em' }}/>
+                                <col style={{ width: '10em' }}/>
+                            </colgroup>
+                            <thead className="text-sm">
+                            <tr className="border-b-2">
+                                <th className="text-left text-xs select-none cursor-pointer"
+                                    onClick={() => sortHandler('language')}>
+                                    Lang.
+                                    {currentSort.current.column === 'language' ? (
+                                        <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
                                 </th>
-                                <th scope="row" className="font-bold text-left">{song.title}</th>
-                                <td className="text-left">{song.act.name}</td>
-                                <td className="text-sm text-right">{song.play_count.toLocaleString()}</td>
-                                <td className="text-sm text-center">
-                                    {song.url && <a href={song.url} target="_blank">
-                                        <Music/>
-                                    </a>}
-                                </td>
-                                <td>
-                                    <div className="toolbar">
-                                        <Button variant="secondary"
-                                                onClick={() => editHandler(song)}
-                                                title="Edit Song">
-                                            <Edit className="h-3 w-3"/>
-                                        </Button>
-                                        <Button variant="destructive"
-                                                onClick={() => deleteHandler(song)}
-                                                title="Delete Song">
-                                            <Trash className="h-3 w-3"/>
-                                        </Button>
-                                    </div>
-                                </td>
+                                <th scope="col" className="text-left select-none cursor-pointer"
+                                    onClick={() => sortHandler('title')}>
+                                    Title
+                                    {currentSort.current.column === 'title' ? (
+                                        <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
+                                </th>
+                                <th scope="col" className="text-left select-none cursor-pointer"
+                                    onClick={() => sortHandler('act_name')}>
+                                    Act
+                                    {currentSort.current.column === 'act_name' ? (
+                                        <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
+                                </th>
+                                <th scope="col" className="text-right select-none cursor-pointer"
+                                    onClick={() => sortHandler('play_count')}>
+                                    Play count
+                                    {currentSort.current.column === 'play_count' ? (
+                                        <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
+                                </th>
+                                <th/>
+                                <th/>
                             </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>) : (
-                <Nothing>
-                    No Songs defined.
-                </Nothing>
-            )}
+                            </thead>
+                            <tbody>
+                            {songs.data.map((song) => (
+                                <tr className="hover-bg select-none" key={song.id}>
+                                    <th scope="row" className="text-center">
+                                        <LanguageFlag languageCode={song.language}/>
+                                    </th>
+                                    <th scope="row" className="font-bold text-left">{song.title}</th>
+                                    <td className="text-left">{song.act.name}</td>
+                                    <td className="text-sm text-right">{song.play_count.toLocaleString()}</td>
+                                    <td className="text-sm text-center">
+                                        {song.url && <a href={song.url} target="_blank">
+                                            <Music/>
+                                        </a>}
+                                    </td>
+                                    <td>
+                                        <div className="toolbar">
+                                            <Button variant="secondary"
+                                                    onClick={() => editHandler(song)}
+                                                    title="Edit Song">
+                                                <Edit className="h-3 w-3"/>
+                                            </Button>
+                                            <Button variant="destructive"
+                                                    onClick={() => deleteHandler(song)}
+                                                    title="Delete Song">
+                                                <Trash className="h-3 w-3"/>
+                                            </Button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>) : (
+                    <Nothing>
+                        No Songs defined.
+                    </Nothing>
+                )}
 
-            <Pagination results={songs} onPageChange={pageHandler}/>
+                <Pagination results={songs} onPageChange={pageHandler}/>
 
-            <SongDialog song={currentSong} acts={acts} open={isEditDialogOpen}
-                        onOpenChange={() => setIsEditDialogOpen(false)}/>
-            <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
-                               onConfirm={confirmDeleteHandler} processing={isDeleting}>
-                <DialogTitle>{`Delete Song "${currentSong?.title}" by ${currentSong?.act.name}`}</DialogTitle>
+                <SongDialog song={currentSong} acts={acts} open={isEditDialogOpen}
+                            onOpenChange={() => setIsEditDialogOpen(false)}/>
+                <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
+                                   onConfirm={confirmDeleteHandler} processing={isDeleting}>
+                    <DialogTitle>{`Delete Song "${currentSong?.title}" by ${currentSong?.act.name}`}</DialogTitle>
 
-                <span className="italic">This will remove the Song from all Rounds.</span><br/>
-                Are you sure you want to do this?
-            </DestructiveDialog>
+                    <span className="italic">This will remove the Song from all Rounds.</span><br/>
+                    Are you sure you want to do this?
+                </DestructiveDialog>
+            </div>
         </AppLayout>
-    );
+);
 }

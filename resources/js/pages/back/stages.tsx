@@ -87,43 +87,47 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
         <AppLayout>
             <Head title="Stages"/>
 
-            <div className="flex mb-3 p-4">
-                <h1 className="display-text flex-grow text-2xl">Stages</h1>
-                <div className="flex gap-1">
-                    <Button onClick={editHandler}>Create Stage</Button>
+            <div className="admin-content">
+
+                <div className="flex mb-3 p-4">
+                    <h1 className="display-text flex-grow text-2xl">Stages</h1>
+                    <div className="flex gap-1">
+                        <Button onClick={editHandler}>Create Stage</Button>
+                    </div>
                 </div>
+
+                <div className="p-4">
+                    {stages.length ? stages.map((stage) => (
+                        <StageItem key={stage.id} onAllocate={allocateHandler} onEdit={editHandler}
+                                   onDelete={deleteHandler} onChooseWinner={chooseWinnerHandler}
+                                   onShowResults={showResultsHandler}
+                                   onShowVotes={showVotesHandler}
+                                   stage={stage}/>
+                    )) : (
+                        <Nothing>
+                            No Stages present.
+                        </Nothing>
+                    )}
+                </div>
+
+                <StageDialog stage={currentStage} open={isEditDialogOpen}
+                             onOpenChange={() => setIsEditDialogOpen(false)}/>
+                <RoundAllocateDialog stage={currentStage} open={isAllocateDialogOpen} songs={songs}
+                                     onOpenChange={() => setIsAllocateDialogOpen(false)}/>
+                <StageWinnersDialog stage={currentStage} open={isWinnerDialogOpen}
+                                    onOpenChange={() => setIsWinnerDialogOpen(false)}/>
+                <StageResultsDialog stage={currentStage} open={isStageResultsDialogOpen}
+                                    onOpenChange={() => setIsStageResultsDialogOpen(false)}/>
+                <StageVotesDialog stage={currentStage} open={isStageVotesDialogOpen}
+                                  onOpenChange={() => setIsStageVotesDialogOpen(false)}/>
+                <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
+                                   onConfirm={confirmDeleteHandler} processing={isDeleting}>
+                    <DialogTitle>{`Delete Stage "${currentStage?.title}"`}</DialogTitle>
+
+                    <span className="italic">This will also delete the Rounds associated with this Stage.</span><br/>
+                    Are you sure you want to do this?
+                </DestructiveDialog>
             </div>
-
-            <div className="p-4">
-                {stages.length ? stages.map((stage) => (
-                    <StageItem key={stage.id} onAllocate={allocateHandler} onEdit={editHandler}
-                               onDelete={deleteHandler} onChooseWinner={chooseWinnerHandler}
-                               onShowResults={showResultsHandler}
-                               onShowVotes={showVotesHandler}
-                               stage={stage}/>
-                )) : (
-                    <Nothing>
-                        No Stages present.
-                    </Nothing>
-                )}
-            </div>
-
-            <StageDialog stage={currentStage} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
-            <RoundAllocateDialog stage={currentStage} open={isAllocateDialogOpen} songs={songs}
-                                 onOpenChange={() => setIsAllocateDialogOpen(false)}/>
-            <StageWinnersDialog stage={currentStage} open={isWinnerDialogOpen}
-                                onOpenChange={() => setIsWinnerDialogOpen(false)}/>
-            <StageResultsDialog stage={currentStage} open={isStageResultsDialogOpen}
-                                onOpenChange={() => setIsStageResultsDialogOpen(false)}/>
-            <StageVotesDialog stage={currentStage} open={isStageVotesDialogOpen}
-                              onOpenChange={() => setIsStageVotesDialogOpen(false)}/>
-            <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
-                               onConfirm={confirmDeleteHandler} processing={isDeleting}>
-                <DialogTitle>{`Delete Stage "${currentStage?.title}"`}</DialogTitle>
-
-                <span className="italic">This will also delete the Rounds associated with this Stage.</span><br/>
-                Are you sure you want to do this?
-            </DestructiveDialog>
         </AppLayout>
-    );
+);
 }

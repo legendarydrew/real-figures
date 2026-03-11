@@ -8,7 +8,7 @@ export default function AppLogo() {
                 <CatawolIconLogo className="size-7"/>
             </div>
             <div className="ml-1 grid flex-1 text-left text-base">
-                <span className="mb-0.5 leading-none font-semibold">RFDF Song Contest</span>
+                <span className="display-text">RFDF Song Contest</span>
             </div>
         </>
     );

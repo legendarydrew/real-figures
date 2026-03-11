@@ -61,38 +61,41 @@ export default function ActsPage({ acts }: Readonly<{ acts: PaginatedResponse<Ac
         <AppLayout>
             <Head title="Acts"/>
 
-            <div className="flex mb-3 p-4">
-                <h1 className="display-text flex-grow text-2xl">Acts</h1>
-                <div className="flex gap-1">
-                    <Button onClick={() => editHandler()}>Create Act</Button>
+            <div className="admin-content">
+
+                <div className="flex mb-3 p-4">
+                    <h1 className="display-text flex-grow text-2xl">Acts</h1>
+                    <div className="flex gap-1">
+                        <Button onClick={() => editHandler()}>Create Act</Button>
+                    </div>
                 </div>
-            </div>
 
-            <Pagination results={acts} onPageChange={pageHandler}/>
+                <Pagination results={acts} onPageChange={pageHandler}/>
 
-            {acts.meta.pagination.total ? (
-                <div className="grid p-4 auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
-                    {acts.data.map((act) => (
-                        <ActItem key={act.id} act={act} onEdit={() => editHandler(act)}
-                                 onDelete={() => deleteHandler(act)}/>
-                    ))}
-                </div>
-            ) : (
-                <Nothing>
-                    No Acts defined.
-                </Nothing>
-            )}
+                {acts.meta.pagination.total ? (
+                    <div className="grid p-4 auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
+                        {acts.data.map((act) => (
+                            <ActItem key={act.id} act={act} onEdit={() => editHandler(act)}
+                                     onDelete={() => deleteHandler(act)}/>
+                        ))}
+                    </div>
+                ) : (
+                    <Nothing>
+                        No Acts defined.
+                    </Nothing>
+                )}
 
-            <Pagination results={acts} onPageChange={pageHandler}/>
+                <Pagination results={acts} onPageChange={pageHandler}/>
 
-            <ActDialog act={currentAct} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
-            <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
-                               onConfirm={confirmDeleteHandler} processing={isDeleting}>
-                <DialogTitle>{`Delete Act "${currentAct?.name}"`}</DialogTitle>
-                <span className="italic">This will also delete Songs associated with this Act,
+                <ActDialog act={currentAct} open={isEditDialogOpen} onOpenChange={() => setIsEditDialogOpen(false)}/>
+                <DestructiveDialog open={isDeleteDialogOpen} onOpenChange={() => setIsDeleteDialogOpen(false)}
+                                   onConfirm={confirmDeleteHandler} processing={isDeleting}>
+                    <DialogTitle>{`Delete Act "${currentAct?.name}"`}</DialogTitle>
+                    <span className="italic">This will also delete Songs associated with this Act,
                     and remove them from existing Rounds.</span><br/>
-                Are you sure you want to do this?
-            </DestructiveDialog>
+                    Are you sure you want to do this?
+                </DestructiveDialog>
+            </div>
         </AppLayout>
-    );
+);
 }

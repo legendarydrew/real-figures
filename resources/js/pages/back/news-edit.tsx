@@ -99,48 +99,50 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
         <AppLayout>
             <Head title={`${isEditing.current ? 'Edit' : 'Create'} News Post`}/>
 
-            <div className="flex mb-3 p-4">
-                <h1 className="display-text flex-grow text-2xl">{`${isEditing.current ? 'Edit' : 'Create'} News Post`}</h1>
-            </div>
+            <div className="admin-content">
 
-            <form className="flex flex-col gap-3 px-5" onSubmit={saveHandler}>
-
-                <div>
-                    <Label htmlFor="postTitle">Title</Label>
-                    <Input id="postTitle" type="text" className="font-bold text-lg" defaultValue={data.title}
-                           onChange={changeTitleHandler}/>
-                    <InputError className="mt-2" message={errors.title}/>
+                <div className="flex mb-3 p-4">
+                    <h1 className="display-text flex-grow text-2xl">{`${isEditing.current ? 'Edit' : 'Create'} News Post`}</h1>
                 </div>
 
-                {isPublished.current && (
-                    <Alert type="success">This post was published on <b>{post.published_at}</b>.</Alert>
-                )}
+                <form className="flex flex-col gap-3 px-5" onSubmit={saveHandler}>
 
-                <div>
-                    <Label htmlFor="postContent">Description</Label>
-                    <MarkdownEditor className="h-[12rem]" value={data.content}
-                                    onChange={changeContentHandler}/>
-                    <InputError className="mt-2" message={errors.content}/>
-                </div>
-
-                <div className="bg-white border-t-1 flex justify-between sticky bottom-0 -mx-5 px-5 py-3">
-                    <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
-                    <div className="toolbar">
-                        <LoadingButton size="lg" isLoading={isSaving}>Save News Post</LoadingButton>
-                        {(isEditing.current && !isPublished.current && !isSaving) && (
-                            <Button variant="confirm" type="button" size="lg"
-                                    onClick={publishHandler}>Publish</Button>)}
+                    <div>
+                        <Label htmlFor="postTitle">Title</Label>
+                        <Input id="postTitle" type="text" className="font-bold text-lg" defaultValue={data.title}
+                               onChange={changeTitleHandler}/>
+                        <InputError className="mt-2" message={errors.title}/>
                     </div>
-                </div>
-            </form>
 
-            <ConfirmDialog open={isPublishDialogOpen} onOpenChange={() => setIsPublishDialogOpen(false)}
-                           onConfirm={confirmPublishHandler}>
-                <DialogTitle>Publish News Post: "{post?.title}"</DialogTitle>
+                    {isPublished.current && (
+                        <Alert type="success">This post was published on <b>{post.published_at}</b>.</Alert>
+                    )}
 
-                <span className="italic">The press release will be made visible to the public.</span><br/>
-                Are you sure you want to do this?</ConfirmDialog>
+                    <div>
+                        <Label htmlFor="postContent">Description</Label>
+                        <MarkdownEditor className="h-[12rem]" value={data.content}
+                                        onChange={changeContentHandler}/>
+                        <InputError className="mt-2" message={errors.content}/>
+                    </div>
 
+                    <div className="bg-white border-t-1 flex justify-between sticky bottom-0 -mx-5 px-5 py-3">
+                        <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
+                        <div className="toolbar">
+                            <LoadingButton size="lg" isLoading={isSaving}>Save News Post</LoadingButton>
+                            {(isEditing.current && !isPublished.current && !isSaving) && (
+                                <Button variant="confirm" type="button" size="lg"
+                                        onClick={publishHandler}>Publish</Button>)}
+                        </div>
+                    </div>
+                </form>
+
+                <ConfirmDialog open={isPublishDialogOpen} onOpenChange={() => setIsPublishDialogOpen(false)}
+                               onConfirm={confirmPublishHandler}>
+                    <DialogTitle>Publish News Post: "{post?.title}"</DialogTitle>
+
+                    <span className="italic">The press release will be made visible to the public.</span><br/>
+                    Are you sure you want to do this?</ConfirmDialog>
+            </div>
         </AppLayout>
-    );
+);
 };

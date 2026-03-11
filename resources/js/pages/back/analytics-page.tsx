@@ -16,7 +16,7 @@ export default function AnalyticsPage() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Analytics"/>
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+            <div className="admin-content">
 
                 <Heading title="Analytics"/>
 
