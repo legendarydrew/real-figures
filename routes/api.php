@@ -49,6 +49,7 @@ Route::prefix('/api')->group(function ()
 
         Route::get('analytics/collapse', [CollapseController::class, 'index'])->name('analytics.collapse');
         Route::get('analytics/referrers', [ReferrersController::class, 'index'])->name('analytics.referrers');
+        Route::get('analytics/songs', [\App\Http\Controllers\API\Analytics\SongController::class, 'index'])->name('analytics.songs');
         Route::get('analytics/votes', [VotesController::class, 'index'])->name('analytics.votes');
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
