@@ -21,7 +21,7 @@ use Spatie\Analytics\Period;
  *
  * @package App\Http\Controllers\API\Analytics
  */
-class SongController extends Controller
+class SongPlaysController extends Controller
 {
 
     public function index(): JsonResponse
