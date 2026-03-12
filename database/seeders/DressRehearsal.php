@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Facades\ContestFacade;
 use App\Facades\RoundAllocateFacade;
 use App\Models\Act;
 use App\Models\ActMetaGenre;
@@ -15,8 +16,13 @@ use App\Models\Round;
 use App\Models\RoundVote;
 use App\Models\Song;
 use App\Models\Stage;
+use App\Models\StageWinner;
+use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Seeder;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Str;
 
 class DressRehearsal extends Seeder
@@ -49,7 +55,7 @@ class DressRehearsal extends Seeder
             [
                 'title'               => 'Stage 2: Finals',
                 'description'         => 'Qualifying Acts go head-to-head to determine a Grand Winner and three Runners-Up. ' .
-                    'The winning Song becomes the official anthem of the Contest',
+                    'The winning Song becomes the official anthem of the Contest.',
                 'golden_buzzer_perks' => 'Acts will be represented as 3D-printed figures in SilentMode\'s style.'
             ]
         ];
@@ -88,8 +94,10 @@ class DressRehearsal extends Seeder
     {
         $this->command->comment('- creating Acts (with Songs)');
 
-        // Remove existing Act images.
-        (new Filesystem)->cleanDirectory(public_path('img/act'));
+        // Remove existing Act images, replacing them with those for the defined Acts.
+        $fs = new Filesystem();
+        $fs->cleanDirectory(public_path('img/act'));
+        $fs->copyDirectory(resource_path('rehearsal'), public_path('img/act'));
 
         foreach (ACTS as $act)
         {
@@ -149,54 +157,130 @@ class DressRehearsal extends Seeder
             case 3:
                 $this->stateStage1Ended();
                 break;
+            case 4:
+                $this->stateStage2Countdown();
+                break;
+            case 5:
+                $this->stateStage2Active();
+                break;
+            case 6:
+                $this->stateStage2Ended();
+                break;
+            case 7:
+                $this->stateOver();
+                break;
             default:
                 $this->command->comment('Nothing to do.');
         }
     }
 
-    protected function stateStage1Countdown()
+    protected function stateStage1Countdown(): void
     {
-        $songs = Song::all();
-        $stage = Stage::first();
+        $songs  = Song::all();
+        $stage1 = Stage::first();
 
-        RoundAllocateFacade::songs(
-            $stage, $songs,
-            songs_per_round: 4,
-            round_start: now()->addDay(),
-            round_duration: "1 days");
+        $this->allocateStage($stage1, $songs, now()->addDay(), judgement: false);
     }
 
-    protected function stateStage1Active()
+    protected function stateStage1Active(): void
     {
-        $songs = Song::all();
-        $stage = Stage::first();
+        $songs  = Song::all();
+        $stage1 = Stage::first();
 
-        RoundAllocateFacade::songs(
-            $stage, $songs,
-            songs_per_round: 4,
-            round_start: now(),
-            round_duration: "1 days");
+        $this->allocateStage($stage1, $songs, now());
     }
 
-    protected function stateStage1Ended()
+    protected function stateStage1Ended(): void
     {
-        $songs = Song::all();
-        $stage = Stage::first();
+        $songs  = Song::all();
+        $stage1 = Stage::first();
 
+        $this->allocateStage($stage1, $songs, now()->subDays(12), judgement: true);
+    }
+
+    protected function stateStage2Countdown(): void
+    {
+        $songs  = Song::all();
+        $stage1 = Stage::first();
+        $stage2 = Stage::skip(1)->first();
+
+        $this->allocateStage($stage1, $songs, now()->subDays(12), judgement: true);
+        $finalists = $this->getWinningSongs($stage1, 3);
+
+        $this->allocateStage($stage2, $finalists, now()->addDay(), songs_per_round: 32, round_duration: 7, judgement: false);
+    }
+
+    protected function stateStage2Active(): void
+    {
+        $songs  = Song::all();
+        $stage1 = Stage::first();
+        $stage2 = Stage::skip(1)->first();
+
+        $this->allocateStage($stage1, $songs, now()->subDays(12), judgement: true);
+        $finalists = $this->getWinningSongs($stage1, 3);
+
+        $this->allocateStage($stage2, $finalists, now(), songs_per_round: 32, round_duration: 7, judgement: false);
+    }
+
+    protected function stateStage2Ended(): void
+    {
+        $songs  = Song::all();
+        $stage1 = Stage::first();
+        $stage2 = Stage::skip(1)->first();
+
+        $this->allocateStage($stage1, $songs, now()->subDays(12), judgement: true);
+        $finalists = $this->getWinningSongs($stage1, 3);
+
+        $this->allocateStage($stage2, $finalists, now()->subDays(8), songs_per_round: 32, round_duration: 7, judgement: false);
+    }
+
+    protected function stateOver(): void
+    {
+        $songs  = Song::all();
+        $stage1 = Stage::first();
+        $stage2 = Stage::skip(1)->first();
+
+        $this->allocateStage($stage1, $songs, now()->subDays(12), judgement: true);
+        $finalists = $this->getWinningSongs($stage1, 3);
+
+        $this->allocateStage($stage2, $finalists, now()->subDays(8), songs_per_round: 32, round_duration: 7, judgement: true, runner_up_count: 3);
+    }
+
+    /**
+     * A convenience method for populating a Stage with Song entries.
+     *
+     * @param Stage      $stage
+     * @param Collection $songs
+     * @param Carbon     $start_time
+     * @param int        $songs_per_round
+     * @param int        $round_duration in days.
+     * @param bool       $judgement      if the Stage has ended, whether to determine the winners.
+     * @param int        $runner_up_count
+     * @return void
+     * @throws \Throwable
+     */
+    protected function allocateStage(Stage $stage, Collection $songs, CarbonInterface $start_time, int $songs_per_round = 4, int $round_duration = 1, bool $judgement = false, int $runner_up_count = 2): void
+    {
+        // Allocate Songs to Rounds for the specified stage.
         RoundAllocateFacade::songs(
             $stage, $songs,
-            songs_per_round: 4,
-            round_start: now()->subDays(9),
-            round_duration: "1 days");
-
+            songs_per_round: $songs_per_round,
+            round_start: $start_time,
+            round_duration: "$round_duration days");
         $stage->refresh();
-        foreach ($stage->rounds as $round)
-        {
-            // Randomise the chance of a Stage having votes vs. resorting to a "manual vote".
-            if (fake()->boolean(80))
+
+        // For each Round in the Stage...
+        $stage->rounds
+            ->filter(fn(Round $round) => $round->hasStarted())
+            ->each(function (Round $round) use ($judgement)
             {
                 $song_ids = $round->songs->pluck('id')->toArray();
-                for ($i = 0; $i < 100; $i++)
+
+                // Potentially cast some votes for a random selection of Songs.
+                // This should always happen if we want to determine which Songs qualify.
+                $vote_count = ($judgement || fake()->boolean(70)) ?
+                    fake()->numberBetween(1, 200) : 0;
+                for ($i = 0; $i < $vote_count; $i++)
                 {
                     $votes = fake()->randomElements($song_ids, 3);
                     RoundVote::create([
@@ -206,23 +290,67 @@ class DressRehearsal extends Seeder
                         'third_choice_id'  => $votes[2],
                     ]);
                 }
-            }
 
-            // The possibility of being awarded a Golden Buzzer.
-            for ($i = 0; $i < 30; $i++)
-            {
-                if (fake()->boolean(10))
+                // Potentially randomly award a Golden Buzzer to Songs.
+                for ($i = 0; $i < 30; $i++)
                 {
-                    $song_id = fake()->randomElement($song_ids);
-                    GoldenBuzzer::factory()->create([
-                        'round_id' => $round->id,
-                        'song_id'  => $song_id
-                    ]);
+                    if (fake()->boolean(10))
+                    {
+                        $song_id = fake()->randomElement($song_ids);
+                        GoldenBuzzer::factory()->create([
+                            'round_id' => $round->id,
+                            'song_id'  => $song_id
+                        ]);
+                    }
                 }
+            });
+
+        if ($stage->hasEnded())
+        {
+            // Calculate scores for each Song.
+            $stage->rounds()->each(function ($round)
+            {
+                ContestFacade::buildRoundOutcome($round);
+            });
+            $stage->refresh();
+
+            // Determine the winner and runner(s)-up, if requested.
+            if ($judgement && !$stage->requiresManualVote())
+            {
+                [$winners, $runners_up] = ContestFacade::determineStageWinners($stage, $runner_up_count);
+                DB::transaction(function () use ($stage, $winners, $runners_up)
+                {
+                    $winners->each(function ($winner) use ($stage)
+                    {
+                        StageWinner::create([
+                            'stage_id'  => $stage->id,
+                            'round_id'  => $winner->round_id,
+                            'song_id'   => $winner->song_id,
+                            'is_winner' => true
+                        ]);
+                    });
+                    $runners_up->each(function ($winner) use ($stage)
+                    {
+                        StageWinner::create([
+                            'stage_id'  => $stage->id,
+                            'round_id'  => $winner->round_id,
+                            'song_id'   => $winner->song_id,
+                            'is_winner' => false
+                        ]);
+                    });
+                });
             }
         }
+
     }
 
+    protected function getWinningSongs(Stage $stage, int $runners_up): Collection
+    {
+        [$winners, $runners_up] = ContestFacade::determineStageWinners($stage, $runners_up);
+        return $winners->map(fn($winner) => $winner->song)
+                       ->concat($runners_up->map(fn($runner) => $runner->song));
+
+    }
 }
 
 const STATES = [
