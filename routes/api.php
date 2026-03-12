@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\ActController;
 use App\Http\Controllers\API\Analytics\CollapseController;
+use App\Http\Controllers\API\Analytics\DonationsController;
 use App\Http\Controllers\API\Analytics\ReferrersController;
 use App\Http\Controllers\API\Analytics\VotesController;
 use App\Http\Controllers\API\BuzzerController;
@@ -48,6 +49,7 @@ Route::prefix('/api')->group(function ()
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
         Route::get('analytics/collapse', [CollapseController::class, 'index'])->name('analytics.collapse');
+        Route::get('analytics/donations', [DonationsController::class, 'index'])->name('analytics.donations');
         Route::get('analytics/referrers', [ReferrersController::class, 'index'])->name('analytics.referrers');
         Route::get('analytics/plays', [\App\Http\Controllers\API\Analytics\PlaysController::class, 'index'])->name('analytics.plays');
         Route::get('analytics/songs', [\App\Http\Controllers\API\Analytics\SongPlaysController::class, 'index'])->name('analytics.songs');
