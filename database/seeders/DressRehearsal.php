@@ -2,14 +2,18 @@
 
 namespace Database\Seeders;
 
+use App\Facades\RoundAllocateFacade;
 use App\Models\Act;
 use App\Models\ActMetaGenre;
 use App\Models\ActMetaLanguage;
 use App\Models\ActMetaNote;
 use App\Models\ActMetaTrait;
 use App\Models\Genre;
+use App\Models\GoldenBuzzer;
 use App\Models\Language;
 use App\Models\Round;
+use App\Models\RoundVote;
+use App\Models\Song;
 use App\Models\Stage;
 use Illuminate\Database\Seeder;
 use Illuminate\Filesystem\Filesystem;
@@ -24,17 +28,65 @@ class DressRehearsal extends Seeder
     {
         $this->command->info("\nStarting a dress rehearsal...");
 
+        $this->removeExistingData();
+        $this->createStages();
+        $this->createActs();
+
+        $answer = $this->command->choice('Which state of the Contest should there be?', STATES);
+        $this->setState($answer);
+
+        $this->command->info('Done.');
+    }
+
+    protected function stageDefinitions(): array
+    {
+        return [
+            [
+                'title'               => 'Stage 1: Knockouts',
+                'description'         => 'Eight rounds with four Acts each, to determine which Songs go through to the finals.',
+                'golden_buzzer_perks' => 'Acts will be given a profile and a new promotional image.'
+            ],
+            [
+                'title'               => 'Stage 2: Finals',
+                'description'         => 'Qualifying Acts go head-to-head to determine a Grand Winner and three Runners-Up. ' .
+                    'The winning Song becomes the official anthem of the Contest',
+                'golden_buzzer_perks' => 'Acts will be represented as 3D-printed figures in SilentMode\'s style.'
+            ]
+        ];
+
+    }
+
+    /**
+     * @return void
+     */
+    protected function removeExistingData(): void
+    {
         $this->command->comment('- removing existing Rounds');
+        RoundVote::truncate();
         Round::truncate();
         $this->command->comment('- removing existing Stages');
         Stage::truncate();
+        $this->command->comment('- removing existing Songs');
+        Song::truncate();
         $this->command->comment('- removing existing Acts');
         Act::truncate();
+    }
 
+    /**
+     * @return void
+     */
+    protected function createStages(): void
+    {
         $this->command->comment('- creating Stages');
         Stage::factory()->createMany($this->stageDefinitions());
+    }
 
-        $this->command->comment('- creating Acts');
+    /**
+     * @return void
+     */
+    protected function createActs(): void
+    {
+        $this->command->comment('- creating Acts (with Songs)');
 
         // Remove existing Act images.
         (new Filesystem)->cleanDirectory(public_path('img/act'));
@@ -75,30 +127,114 @@ class DressRehearsal extends Seeder
                 'note'   => $note,
             ]));
         }
-
-        $this->command->info('Done.');
-
     }
 
-    protected function stageDefinitions(): array
+    /**
+     * @param string $answer
+     * @return void
+     */
+    protected function setState(string $answer): void
     {
-        return [
-            [
-                'title'               => 'Stage 1: Knockouts',
-                'description'         => 'Eight rounds with four Acts each, to determine which Songs go through to the finals.',
-                'golden_buzzer_perks' => 'Acts will be given a profile and a new promotional image.'
-            ],
-            [
-                'title'               => 'Stage 2: Finals',
-                'description'         => 'Qualifying Acts go head-to-head to determine a Grand Winner and three Runners-Up. ' .
-                    'The winning Song becomes the official anthem of the Contest',
-                'golden_buzzer_perks' => 'Acts will be represented as 3D-printed figures in SilentMode\'s style.'
-            ]
-        ];
+        $this->command->info($answer);
+        $last_step = array_search($answer, STATES);
 
+        switch ($last_step)
+        {
+            case 1:
+                $this->stateStage1Countdown();
+                break;
+            case 2:
+                $this->stateStage1Active();
+                break;
+            case 3:
+                $this->stateStage1Ended();
+                break;
+            default:
+                $this->command->comment('Nothing to do.');
+        }
+    }
+
+    protected function stateStage1Countdown()
+    {
+        $songs = Song::all();
+        $stage = Stage::first();
+
+        RoundAllocateFacade::songs(
+            $stage, $songs,
+            songs_per_round: 4,
+            round_start: now()->addDay(),
+            round_duration: "1 days");
+    }
+
+    protected function stateStage1Active()
+    {
+        $songs = Song::all();
+        $stage = Stage::first();
+
+        RoundAllocateFacade::songs(
+            $stage, $songs,
+            songs_per_round: 4,
+            round_start: now(),
+            round_duration: "1 days");
+    }
+
+    protected function stateStage1Ended()
+    {
+        $songs = Song::all();
+        $stage = Stage::first();
+
+        RoundAllocateFacade::songs(
+            $stage, $songs,
+            songs_per_round: 4,
+            round_start: now()->subDays(9),
+            round_duration: "1 days");
+
+        $stage->refresh();
+        foreach ($stage->rounds as $round)
+        {
+            // Randomise the chance of a Stage having votes vs. resorting to a "manual vote".
+            if (fake()->boolean(80))
+            {
+                $song_ids = $round->songs->pluck('id')->toArray();
+                for ($i = 0; $i < 100; $i++)
+                {
+                    $votes = fake()->randomElements($song_ids, 3);
+                    RoundVote::create([
+                        'round_id'         => $round->id,
+                        'first_choice_id'  => $votes[0],
+                        'second_choice_id' => $votes[1],
+                        'third_choice_id'  => $votes[2],
+                    ]);
+                }
+            }
+
+            // The possibility of being awarded a Golden Buzzer.
+            for ($i = 0; $i < 30; $i++)
+            {
+                if (fake()->boolean(10))
+                {
+                    $song_id = fake()->randomElement($song_ids);
+                    GoldenBuzzer::factory()->create([
+                        'round_id' => $round->id,
+                        'song_id'  => $song_id
+                    ]);
+                }
+            }
+        }
     }
 
 }
+
+const STATES = [
+    'Coming soon',
+    'Stage 1: Knockouts - Countdown',
+    'Stage 1: Knockouts - Active',
+    'Stage 1: Knockouts - End',
+    'Stage 2: Finals - Countdown',
+    'Stage 2: Finals - Active',
+    'Stage 2: Finals - End',
+    'Contest over'
+];
 
 const ACTS = [
     [

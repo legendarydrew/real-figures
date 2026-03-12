@@ -38,7 +38,7 @@
     @apply display-text text-lg leading-none text-left;
 
     small {
-        @apply block text-sm;
+        @apply block text-sm leading-none;
     }
 }
 

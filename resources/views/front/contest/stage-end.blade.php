@@ -12,9 +12,9 @@
             but <em>only one Song</em> will be immortalised as the official anthem.</p>
     @else
         <h1>{{ $stage['title'] }}</h1>
-        <p><b>${{$stage['title']}} has ended, and the votes are being counted.</b>
+        <p><b>{{$stage['title']}} has ended.</b>
             Thank you to everybody who took part in the voting!</p>
-        <p><b>Who will make it to the next round? Who will just miss the cut?</b>
+        <p><b>Who will make it to the next Round? Who will just miss the cut?</b>
             All will be revealed soon, so stay tuned.</p>
     @endif
 @endsection
