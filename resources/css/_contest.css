@@ -186,6 +186,10 @@
     @apply display-text text-lg text-left text-shadow-md/60 leading-none flex-grow;
 }
 
+.song-item-act-subtitle {
+    @apply block text-xs leading-none;
+}
+
 .song-item-golden-buzzer {
     @apply rounded-none;
 }

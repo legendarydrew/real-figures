@@ -14,7 +14,7 @@ return [
     'round' => [
         'title' => [
             'only_round'  => ':stage_title',
-            'many_rounds' => ':stage_title: :round_title',
+            'many_rounds' => ':stage_title - :round_title',
         ]
     ],
     'song'  => [

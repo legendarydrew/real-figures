@@ -74,7 +74,7 @@ class RoundAllocate
                         'song_id'  => $song->id,
                     ]);
                 }
-                $round_start->add($interval)->addDay();
+                $round_start->add($interval)->addMinutes(30);
             }
         });
     }
