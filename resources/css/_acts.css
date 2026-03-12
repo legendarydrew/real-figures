@@ -7,7 +7,7 @@
         @apply text-white text-shadow-md;
 
         .act-item-text {
-            @apply mix-blend-luminosity;
+            @apply bg-secondary/90;
         }
     }
 
@@ -34,11 +34,11 @@
 }
 
 .act-item-text {
-    @apply absolute bottom-0 left-0 w-full p-4;
+    @apply absolute bottom-0 left-0 w-full p-3;
     @apply display-text text-lg leading-none text-left;
 
     small {
-        @apply block text-sm leading-none;
+        @apply inline-block text-sm leading-none;
     }
 }
 
