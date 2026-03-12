@@ -23,7 +23,7 @@ class NewsController extends Controller
 
     public function index(): Response
     {
-        return Inertia::render('back/news', [
+        return Inertia::render('back/news-page', [
             'posts' => fn() => fractal(NewsPost::orderByDesc('id')->paginate())
                 ->transformWith(NewsPostTransformer::class)
                 ->withResourceName('data')
@@ -33,12 +33,12 @@ class NewsController extends Controller
 
     public function create(): Response
     {
-        return Inertia::render('back/news-edit');
+        return Inertia::render('back/news-edit-page');
     }
 
     public function edit(int $id): Response
     {
-        return Inertia::render('back/news-edit', [
+        return Inertia::render('back/news-edit-page', [
             'post' => fn() => fractal(NewsPost::findOrFail($id))
                 ->transformWith(NewsPostTransformer::class)
                 ->toArray()

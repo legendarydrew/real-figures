@@ -26,7 +26,7 @@ class DashboardController extends Controller
     public function index(): Response
     {
         $current_stage = ContestFacade::getCurrentStage();
-        return Inertia::render('back/dashboard', [
+        return Inertia::render('back/dashboard-page', [
             'contest_status'   => fn() => $this->getContestStatus(),
             'analytics_views'  => fn() => $this->getPageViews(),
             'donations'        => fn() => [

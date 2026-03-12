@@ -19,7 +19,7 @@ class ContactMessageController extends Controller
         $is_first_page    = $messages->currentPage() === 1;
         $transformed_data = fractal($messages->items(), new ContactMessageTransformer())->toArray();
 
-        return Inertia::render('back/contact', [
+        return Inertia::render('back/messages-page', [
             'messages'     => $is_first_page
                 ? $transformed_data
                 : Inertia::merge(fn() => $transformed_data),

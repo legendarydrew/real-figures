@@ -10,6 +10,7 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { LoadingButton } from '@/components/mode/loading-button';
 import { BuzzerBreakdownDialog } from '@/components/admin/buzzer-breakdown-dialog';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 interface GoldenBuzzerPageProps {
     count: number;
@@ -53,9 +54,8 @@ export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePag
 
             <div className="admin-content">
 
-                <div className="flex lg:justify-between lg:items-end mb-3 p-4">
-                    <h1 className="display-text flex-grow text-2xl">Golden Buzzers</h1>
-                    {count ? (
+                <AdminHeader title="Golden Buzzers">
+                    {!!count && (
                         <div className="flex gap-2 items-center">
                             <p className="text-sm">
                                 <b>{count.toLocaleString()} Golden {count === 1 ? 'Buzzer' : 'Buzzers'}</b> {count === 1 ? 'was' : 'were'} hit.
@@ -63,8 +63,8 @@ export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePag
                             <LoadingButton type="button" isLoading={isLoadingBreakdown} onClick={breakdownHandler}>Show
                                 breakdown</LoadingButton>
                         </div>
-                    ) : ''}
-                </div>
+                    )}
+                </AdminHeader>
 
                 {count ? (
                     <>

@@ -13,8 +13,9 @@ import { StageWinnersDialog } from '@/components/admin/stage-winners-dialog';
 import { StageResultsDialog } from '@/components/admin/stage-results-dialog';
 import { StageVotesDialog } from '@/components/admin/stage-votes-dialog';
 import { Nothing } from '@/components/mode/nothing';
+import { AdminHeader } from '@/components/admin/admin-header';
 
-export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], songs }>) {
+export default function StagesPage({ stages, songs }: Readonly<{ stages: Stage[], songs }>) {
 
     const [currentStage, setCurrentStage] = useState<Stage>();
     const [isAllocateDialogOpen, setIsAllocateDialogOpen] = useState<boolean>(false);
@@ -89,12 +90,9 @@ export default function Stages({ stages, songs }: Readonly<{ stages: Stage[], so
 
             <div className="admin-content">
 
-                <div className="flex mb-3 p-4">
-                    <h1 className="display-text flex-grow text-2xl">Stages</h1>
-                    <div className="flex gap-1">
-                        <Button onClick={editHandler}>Create Stage</Button>
-                    </div>
-                </div>
+                <AdminHeader title="Stages">
+                    <Button onClick={editHandler}>Create Stage</Button>
+                </AdminHeader>
 
                 <div className="p-4">
                     {stages.length ? stages.map((stage) => (

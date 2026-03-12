@@ -11,6 +11,7 @@ import { RTToast } from '@/components/mode/toast-message';
 import { Nothing } from '@/components/mode/nothing';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<NewsPost> }>) {
 
@@ -75,17 +76,14 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
 
             <div className="admin-content">
 
-                <div className="flex items-center">
-                    <h1 className="display-text flex-grow text-2xl">News</h1>
-                    <div className="flex gap-1">
-                        <Button asChild variant="default">
-                            <Link href={route('admin.news.create')}>Create Post</Link>
-                        </Button>
-                        <Button asChild variant="secondary">
-                            <Link href={route('admin.news-generate')}>Generate</Link>
-                        </Button>
-                    </div>
-                </div>
+                <AdminHeader title="News">
+                    <Button asChild variant="default">
+                        <Link href={route('admin.news.create')}>Create Post</Link>
+                    </Button>
+                    <Button asChild variant="secondary">
+                        <Link href={route('admin.news-generate')}>Generate</Link>
+                    </Button>
+                </AdminHeader>
 
                 {posts.meta.pagination.total ? (
                     <div className="overflow-x-auto">

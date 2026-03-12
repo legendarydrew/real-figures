@@ -6,6 +6,7 @@ import React from 'react';
 import { Nothing } from '@/components/mode/nothing';
 import { cn } from '@/lib/utils';
 import { NotepadText } from 'lucide-react';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 interface DonationsPageProps {
     total: number;
@@ -25,7 +26,7 @@ export default function DonationsPage({ total, count, rows, currentPage, hasMore
             <Head title="Donations"/>
 
             <div className="admin-content">
-                <h1 className="display-text text-2xl p-4 mb-2">Donations</h1>
+                <AdminHeader title="Donations" />
 
                 {count ? (
                     <div className="grid lg:grid-cols-3">

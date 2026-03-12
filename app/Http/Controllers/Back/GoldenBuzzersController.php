@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
-use App\Models\ContactMessage;
 use App\Models\GoldenBuzzer;
-use App\Transformers\ContactMessageTransformer;
 use App\Transformers\GoldenBuzzerTransformer;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -19,7 +17,7 @@ class GoldenBuzzersController extends Controller
         $is_first_page    = $rows->currentPage() === 1;
         $transformed_data = fractal($rows->items(), new GoldenBuzzerTransformer())->toArray();
 
-        return Inertia::render('back/golden-buzzers', [
+        return Inertia::render('back/golden-buzzers-page', [
             'count' => fn() => GoldenBuzzer::count(),
             'rows'     => $is_first_page
                 ? $transformed_data

@@ -12,6 +12,7 @@ import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
 import { RTToast } from '@/components/mode/toast-message';
 import { Nothing } from '@/components/mode/nothing';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 interface TableSort {
     column: string;
@@ -21,7 +22,7 @@ interface TableSort {
 // As a future challenge: can we preserve this page's sort order?
 // (perhaps by adding the information to the meta data.)
 
-export default function Songs({ acts, songs }: Readonly<{ songs: PaginatedResponse<Song> }>) {
+export default function SongsPage({ acts, songs }: Readonly<{ songs: PaginatedResponse<Song> }>) {
 
     const [currentSong, setCurrentSong] = useState<Song>();
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
@@ -100,12 +101,9 @@ export default function Songs({ acts, songs }: Readonly<{ songs: PaginatedRespon
 
             <div className="admin-content">
 
-                <div className="flex mb-3 p-4">
-                    <h1 className="display-text flex-grow text-2xl">Songs</h1>
-                    <div className="flex gap-1">
-                        <Button onClick={() => editHandler()}>Add Song</Button>
-                    </div>
-                </div>
+                <AdminHeader title="Songs">
+                    <Button onClick={() => editHandler()}>Add Song</Button>
+                </AdminHeader>
 
                 {songs.meta.pagination.total ? (
                     <div className="overflow-x-auto">

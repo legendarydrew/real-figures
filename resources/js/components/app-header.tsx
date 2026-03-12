@@ -3,7 +3,12 @@ import { Icon } from '@/components/icon';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { NavigationMenu, NavigationMenuItem, NavigationMenuList, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
+import {
+    NavigationMenu,
+    NavigationMenuItem,
+    NavigationMenuList,
+    navigationMenuTriggerStyle
+} from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
@@ -42,7 +47,7 @@ interface AppHeaderProps {
     breadcrumbs?: BreadcrumbItem[];
 }
 
-export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
+export function AppHeader({ breadcrumbs = [] }: Readonly<AppHeaderProps>) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
     const getInitials = useInitials();
@@ -94,7 +99,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                         </Sheet>
                     </div>
 
-                    <Link href="/back/dashboard" prefetch className="flex items-center space-x-2">
+                    <Link href="/back/dashboard-page" prefetch className="flex items-center space-x-2">
                         <AppLogo />
                     </Link>
 

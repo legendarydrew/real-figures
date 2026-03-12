@@ -13,6 +13,7 @@ import { ContactMessageRespond } from '@/components/admin/contact-message-respon
 import { Nothing } from '@/components/mode/nothing';
 import axios from 'axios';
 import { cn } from '@/lib/utils';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 interface ContactMessagesPageProps {
     messages: ContactMessage[];
@@ -86,21 +87,18 @@ export default function ContactMessagesPage({
             <Head title="Contact Messages"/>
 
             <div className="admin-content">
-                <div className="flex mb-3 p-4 items-center sticky-top">
-                    <h1 className="display-text flex-grow text-2xl mr-auto">Contact Messages</h1>
 
-                    <div className="flex gap-1">
-                        <Button variant="outline" type="button" onClick={selectAllHandler}>
-                            <CheckSquare/>
-                        </Button>
-                        <Button variant="outline" type="button" onClick={deselectAllHandler}>
-                            <Square/>
-                        </Button>
-                        <Button variant="destructive" type="button" onClick={confirmDeleteHandler}
-                                disabled={!selectedIds.length}>Delete
-                            messages</Button>
-                    </div>
-                </div>
+                <AdminHeader title="Contact Messages">
+                    <Button variant="outline" type="button" onClick={selectAllHandler}>
+                        <CheckSquare/>
+                    </Button>
+                    <Button variant="outline" type="button" onClick={deselectAllHandler}>
+                        <Square/>
+                    </Button>
+                    <Button variant="destructive" type="button" onClick={confirmDeleteHandler}
+                            disabled={!selectedIds.length}>Delete
+                        messages</Button>
+                </AdminHeader>
 
                 {messages?.length ? (
                     <>

@@ -26,7 +26,7 @@ class SubscribersController extends Controller
         $transformed_data      = fractal($confirmed_subscribers->items(), new SubscriberTransformer())->toArray();
         $subscriber_posts = fractal(SubscriberPost::orderByDesc('id')->get(), new SubscriberPostTransformer())->toArray();
 
-        return Inertia::render('back/subscribers', [
+        return Inertia::render('back/subscribers-page', [
             'subscriberCount' => fn() => $subscriber_count,
             'subscribers'     => $is_first_page
                 ? $transformed_data

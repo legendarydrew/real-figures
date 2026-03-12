@@ -33,7 +33,7 @@ class NewsGenerateController extends Controller
          *
          * We want to ensure that we only fetch information we need.
          */
-        return Inertia::render('back/news-generate', [
+        return Inertia::render('back/news-generate-page', [
             'types'  => NewsPostType::cases(),
             'posts' => Inertia::optional(fn() => NewsPost::published()->orderByDesc('id')->get()
                                                          ->map(fn(NewsPost $post) => [

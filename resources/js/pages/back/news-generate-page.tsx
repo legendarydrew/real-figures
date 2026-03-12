@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import axios from 'axios';
 import { NewsPromptDialog } from '@/components/admin/news-prompt-dialog';
 import { Alert } from '@/components/mode/alert';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 interface NewsGeneratePageProps {
     types: string[];
@@ -125,9 +126,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
             <div className="admin-content">
 
-                <div className="flex mb-3 p-4">
-                    <h1 className="display-text flex-grow text-2xl">Generate a News Post</h1>
-                </div>
+                <AdminHeader title="Generate a News Post" />
 
                 <form className="flex-grow flex flex-col justify-between gap-5 px-5" onSubmit={generatePromptHandler}>
 

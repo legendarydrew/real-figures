@@ -16,6 +16,7 @@ import { ActMetaNotes } from '@/components/admin/act-meta-notes';
 import { ActMetaLanguages } from '@/components/admin/act-meta-languages';
 import { ActMetaTraits } from '@/components/admin/act-meta-traits';
 import { ActMetaGenres } from '@/components/admin/act-meta-genres';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, genreList: string[] }>) {
 
@@ -159,9 +160,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
 
             <div className="admin-content">
 
-                <div className="flex mb-3 p-4">
-                    <h1 className="display-text flex-grow text-2xl">{isEditing() ? 'Edit Act' : 'Create Act'}</h1>
-                </div>
+                <AdminHeader title={isEditing() ? 'Edit Act' : 'Create Act'} />
 
                 <form className="flex flex-col gap-3 px-5" onSubmit={saveHandler}>
 

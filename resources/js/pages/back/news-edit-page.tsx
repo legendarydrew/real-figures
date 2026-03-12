@@ -12,6 +12,7 @@ import { RTToast } from '@/components/mode/toast-message';
 import { Alert } from '@/components/mode/alert';
 import { ConfirmDialog } from '@/components/admin/confirm-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
 
@@ -101,9 +102,7 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
 
             <div className="admin-content">
 
-                <div className="flex mb-3 p-4">
-                    <h1 className="display-text flex-grow text-2xl">{`${isEditing.current ? 'Edit' : 'Create'} News Post`}</h1>
-                </div>
+                <AdminHeader title={`${isEditing.current ? 'Edit' : 'Create'} News Post`} />
 
                 <form className="flex flex-col gap-3 px-5" onSubmit={saveHandler}>
 

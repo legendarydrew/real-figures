@@ -1,8 +1,8 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import Heading from '@/components/heading';
 import { PlaysAnalytics } from '@/components/analytics/plays';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -18,7 +18,7 @@ export default function AnalyticsPage() {
             <Head title="Analytics"/>
             <div className="admin-content">
 
-                <Heading title="Analytics"/>
+                <AdminHeader title="Analytics"/>
 
                 {/* Tabs? */}
 

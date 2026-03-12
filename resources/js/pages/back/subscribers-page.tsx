@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { SUBSCRIBER_POST_DIALOG_NAME, SubscriberPostDialog } from '@/components/admin/subscriber-post-dialog';
 import { useDialog } from '@/context/dialog-context';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 interface SubscribersPageProps {
     subscriberCount: number;
@@ -124,16 +125,13 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
             <Head title="Subscribers"/>
 
             <div className="admin-content">
-                <div className="flex mb-3 p-4 items-center sticky-top">
-                    <h1 className="display-text flex-grow text-2xl mr-auto">Subscribers</h1>
-                    {subscribers.length ? (
-                        <div className="toolbar">
-                            <Button type="button" onClick={beginPostHandler}>
-                                <MailIcon/> Post Update
-                            </Button>
-                        </div>
-                    ) : ''}
-                </div>
+
+                <AdminHeader title="Subscribers">
+                    {!!subscribers.length && (
+                        <Button type="button" onClick={beginPostHandler}>
+                            <MailIcon/> Post Update
+                        </Button>)}
+                </AdminHeader>
 
                 {posts?.length ? (
                     <Collapsible className="mx-4 my-1" onOpenChange={() => toggleHandler('posts')}>

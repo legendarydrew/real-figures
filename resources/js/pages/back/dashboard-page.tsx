@@ -4,7 +4,6 @@ import { Head } from '@inertiajs/react';
 import { DashboardSongTotalPlays } from '@/components/admin/dashboard-song-total-plays';
 import { DashboardVotesCast } from '@/components/admin/dashboard-votes-cast';
 import { DashboardMessageCount } from '@/components/admin/dashboard-message-count';
-import Heading from '@/components/heading';
 import { DashboardSubscriberCount } from '@/components/admin/dashboard-subscriber-count';
 import { DashboardVoteCount } from '@/components/admin/dashboard-vote-count';
 import { DashboardDonationCount } from '@/components/admin/dashboard-donation-count';
@@ -20,9 +19,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     }
 ];
 
-export default function Dashboard({
-                                      analytics_countries,
-                                      analytics_pages,
+export default function DashboardPage({
                                       analytics_views,
                                       contest_status,
                                       donations,
@@ -37,8 +34,6 @@ export default function Dashboard({
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard"/>
             <div className="admin-content">
-
-                <Heading title="Dashboard"/>
 
                 <div className="grid auto-rows-max gap-3 md:grid-cols-2 lg:grid-cols-5">
                     <DashboardDate className="lg:col-span-2"/>

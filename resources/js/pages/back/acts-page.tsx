@@ -10,6 +10,7 @@ import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { RTToast } from '@/components/mode/toast-message';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Nothing } from '@/components/mode/nothing';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 export default function ActsPage({ acts }: Readonly<{ acts: PaginatedResponse<Act> }>) {
 
@@ -63,12 +64,9 @@ export default function ActsPage({ acts }: Readonly<{ acts: PaginatedResponse<Ac
 
             <div className="admin-content">
 
-                <div className="flex mb-3 p-4">
-                    <h1 className="display-text flex-grow text-2xl">Acts</h1>
-                    <div className="flex gap-1">
-                        <Button onClick={() => editHandler()}>Create Act</Button>
-                    </div>
-                </div>
+                <AdminHeader title="Acts">
+                    <Button onClick={() => editHandler()}>Create Act</Button>
+                </AdminHeader>
 
                 <Pagination results={acts} onPageChange={pageHandler}/>
 

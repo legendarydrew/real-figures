@@ -7,6 +7,7 @@ import { LoadingButton } from '@/components/mode/loading-button';
 import { Button } from '@/components/ui/button';
 import { CircleAlert } from 'lucide-react';
 import { ManualVoteItem } from '@/components/admin/manual-vote-item';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 interface ManualVotePageProps {
     stage: {
@@ -66,9 +67,7 @@ export default function ManualVotePage({ stage, rounds }: Readonly<ManualVotePag
 
             <div className="admin-content">
 
-                <div className="flex mb-3 p-4">
-                    <h1 className="display-text flex-grow text-2xl">Manual Voting for "{stage.title}"</h1>
-                </div>
+                <AdminHeader title={`Manual Voting for ${stage.title}`} />
 
                 <form className="my-3 mx-4" onSubmit={submitHandler}>
                     {hasErrors && (
