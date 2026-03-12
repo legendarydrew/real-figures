@@ -27,23 +27,21 @@ class DashboardController extends Controller
     {
         $current_stage = ContestFacade::getCurrentStage();
         return Inertia::render('back/dashboard', [
-            'contest_status' => fn() => $this->getContestStatus(),
-            'analytics_countries' => fn() => $this->getTopCountries(),
-            'analytics_pages'     => fn() => $this->getMostViewedPages(),
-            'analytics_views'     => fn() => $this->getPageViews(),
-            'donations'           => fn() => [
+            'contest_status'   => fn() => $this->getContestStatus(),
+            'analytics_views'  => fn() => $this->getPageViews(),
+            'donations'        => fn() => [
                 'golden_buzzers' => GoldenBuzzer::count(),
                 'rows'           => fractal(Donation::orderByDesc('id')->take(10)->get(), new DonationTransformer())->parseIncludes('amount')->toArray(),
                 'count'          => Donation::count(),
                 'total'          => sprintf("%s %s", config('contest.donation.currency'), number_format(Donation::sum('amount'), 2)),
                 // making a dangerous assumption that the donations are all in the same currency.
             ],
-            'buzzer_count'        => fn() => GoldenBuzzer::count(),
-            'message_count'       => fn() => ContactMessage::whereNull('read_at')->count(),
-            'song_plays'          => fn() => $this->getPlaysThisWeek(),
-            'subscriber_count'    => fn() => Subscriber::confirmed()->count(),
-            'votes'               => fn() => $this->getVotesThisWeek(),
-            'vote_count'          => fn() => $current_stage ? $current_stage->vote_count : 0
+            'buzzer_count'     => fn() => GoldenBuzzer::count(),
+            'message_count'    => fn() => ContactMessage::whereNull('read_at')->count(),
+            'song_plays'       => fn() => $this->getPlaysThisWeek(),
+            'subscriber_count' => fn() => Subscriber::confirmed()->count(),
+            'votes'            => fn() => $this->getVotesThisWeek(),
+            'vote_count'       => fn() => $current_stage ? $current_stage->vote_count : 0
         ]);
     }
 
@@ -146,27 +144,6 @@ class DashboardController extends Controller
         return $data;
     }
 
-    protected function getMostViewedPages(): array
-    {
-        $analyticsData = Analytics::fetchMostVisitedPages(Period::days(7));
-        return $analyticsData->map(fn($row, $index) => [
-            'index' => $index,
-            'url'   => $row['fullPageUrl'],
-            'title' => $row['pageTitle'],
-            'views' => $row['screenPageViews'],
-        ])->toArray();
-    }
-
-    protected function getTopCountries(): array
-    {
-        $analyticsData = Analytics::fetchTopCountries(Period::days(7));
-        return $analyticsData->map(fn($row, $index) => [
-            'index'   => $index,
-            'country' => $row['country'],
-            'views'   => $row['screenPageViews'],
-        ])->toArray();
-    }
-
     /**
      * Returns the current state of the Contest.
      *
@@ -189,7 +166,7 @@ class DashboardController extends Controller
             {
                 $output = [
                     'status' => ContestStatus::JUDGEMENT,
-                    'round' => $current_stage->name
+                    'round'  => $current_stage->name
                 ];
             }
             else
@@ -206,8 +183,9 @@ class DashboardController extends Controller
                 else
                 {
                     $current_round = $current_stage?->rounds->first();
-                    if ($current_round) {
-                        $output        = [
+                    if ($current_round)
+                    {
+                        $output = [
                             'status'    => ContestStatus::COUNTDOWN,
                             'round'     => $current_round->full_title,
                             'countdown' => $current_round->starts_at->toISOString()

@@ -43,10 +43,12 @@ export const DashboardAnalyticsViews: React.FC<DashboardAnalyticsViewsProps> = (
 
     return (
         <Card className={className}>
-            <CardTitle className="display-text font-normal">Page views <small>within the last week</small></CardTitle>
+            <CardTitle className="display-text font-normal">
+                Page views <small>within the last week</small>
+            </CardTitle>
             <CardContent className="px-0">
                 {data.length ? (
-                    <ResponsiveContainer className="w-full h-[12rem]" aspect={3.75}>
+                    <ResponsiveContainer className="w-full" aspect={5}>
                         <LineChart data={data} margin={2}>
                             <CartesianGrid strokeDasharray="3 3"/>
                             <XAxis dataKey="date"
@@ -57,12 +59,12 @@ export const DashboardAnalyticsViews: React.FC<DashboardAnalyticsViewsProps> = (
                             <Line dataKey="views" label="Page views" dot={false} strokeWidth={2}
                                   stroke={cssVar('--primary')}/>
                             <Line dataKey="visitors" label="Visitors" dot={false} strokeWidth={2}
-                                  stroke={cssVar('--secondary')}/>
+                                  stroke="var(--secondary')"/>
                         </LineChart>
                     </ResponsiveContainer>
                 ) : (
-                    <Nothing className="w-full h-full">
-                        No information about page views.
+                    <Nothing>
+                        No page views information.
                     </Nothing>
                 )}
             </CardContent>
