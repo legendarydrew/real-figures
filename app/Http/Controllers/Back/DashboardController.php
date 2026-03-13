@@ -134,14 +134,9 @@ class DashboardController extends Controller
             'date'     => $row['date']->format('Y-m-d'),
             'views'    => $row['screenPageViews'],
             'visitors' => $row['activeUsers'],
-        ])
-                                       ->toArray();
+        ])->reverse();
 
-        // For some reason we have to do the sorting here, as attempting to do it with the
-        // collection returns nothing.
-        usort($data, fn($a, $b) => strcmp($a['date'], $b['date']));
-
-        return $data;
+        return $data->values();
     }
 
     /**

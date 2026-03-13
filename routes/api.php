@@ -2,7 +2,12 @@
 
 use App\Http\Controllers\API\ActController;
 use App\Http\Controllers\API\Analytics\CollapseController;
+use App\Http\Controllers\API\Analytics\DonationsController;
+use App\Http\Controllers\API\Analytics\PagesController;
+use App\Http\Controllers\API\Analytics\PageViewsController;
+use App\Http\Controllers\API\Analytics\PlaysController;
 use App\Http\Controllers\API\Analytics\ReferrersController;
+use App\Http\Controllers\API\Analytics\SongPlaysController;
 use App\Http\Controllers\API\Analytics\VotesController;
 use App\Http\Controllers\API\BuzzerController;
 use App\Http\Controllers\API\ContactMessagesController;
@@ -48,9 +53,12 @@ Route::prefix('/api')->group(function ()
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
         Route::get('analytics/collapse', [CollapseController::class, 'index'])->name('analytics.collapse');
+        Route::get('analytics/donations', [DonationsController::class, 'index'])->name('analytics.donations');
         Route::get('analytics/referrers', [ReferrersController::class, 'index'])->name('analytics.referrers');
-        Route::get('analytics/plays', [\App\Http\Controllers\API\Analytics\PlaysController::class, 'index'])->name('analytics.plays');
-        Route::get('analytics/songs', [\App\Http\Controllers\API\Analytics\SongPlaysController::class, 'index'])->name('analytics.songs');
+        Route::get('analytics/page-views', [PageViewsController::class, 'index'])->name('analytics.page-views');
+        Route::get('analytics/pages', [PagesController::class, 'index'])->name('analytics.pages');
+        Route::get('analytics/plays', [PlaysController::class, 'index'])->name('analytics.plays');
+        Route::get('analytics/songs', [SongPlaysController::class, 'index'])->name('analytics.songs');
         Route::get('analytics/votes', [VotesController::class, 'index'])->name('analytics.votes');
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
