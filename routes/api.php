@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\ActController;
 use App\Http\Controllers\API\Analytics\CollapseController;
 use App\Http\Controllers\API\Analytics\DonationsController;
+use App\Http\Controllers\API\Analytics\PagesController;
 use App\Http\Controllers\API\Analytics\PageViewsController;
 use App\Http\Controllers\API\Analytics\PlaysController;
 use App\Http\Controllers\API\Analytics\ReferrersController;
@@ -55,6 +56,7 @@ Route::prefix('/api')->group(function ()
         Route::get('analytics/donations', [DonationsController::class, 'index'])->name('analytics.donations');
         Route::get('analytics/referrers', [ReferrersController::class, 'index'])->name('analytics.referrers');
         Route::get('analytics/page-views', [PageViewsController::class, 'index'])->name('analytics.page-views');
+        Route::get('analytics/pages', [PagesController::class, 'index'])->name('analytics.pages');
         Route::get('analytics/plays', [PlaysController::class, 'index'])->name('analytics.plays');
         Route::get('analytics/songs', [SongPlaysController::class, 'index'])->name('analytics.songs');
         Route::get('analytics/votes', [VotesController::class, 'index'])->name('analytics.votes');
