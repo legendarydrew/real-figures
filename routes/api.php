@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\API\ActController;
 use App\Http\Controllers\API\Analytics\CollapseController;
-use App\Http\Controllers\API\Analytics\DonationsController;
+use App\Http\Controllers\API\Analytics\DonationsAnonymousController;
+use App\Http\Controllers\API\Analytics\DonationsMadeController;
 use App\Http\Controllers\API\Analytics\PagesController;
 use App\Http\Controllers\API\Analytics\PageViewsController;
 use App\Http\Controllers\API\Analytics\PlaysController;
@@ -53,7 +54,8 @@ Route::prefix('/api')->group(function ()
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
         Route::get('analytics/collapse', [CollapseController::class, 'index'])->name('analytics.collapse');
-        Route::get('analytics/donations', [DonationsController::class, 'index'])->name('analytics.donations');
+        Route::get('analytics/donations/made', [DonationsMadeController::class, 'index'])->name('analytics.donations.made');
+        Route::get('analytics/donations/anonymous', [DonationsAnonymousController::class, 'index'])->name('analytics.donations.anonymous');
         Route::get('analytics/referrers', [ReferrersController::class, 'index'])->name('analytics.referrers');
         Route::get('analytics/page-views', [PageViewsController::class, 'index'])->name('analytics.page-views');
         Route::get('analytics/pages', [PagesController::class, 'index'])->name('analytics.pages');

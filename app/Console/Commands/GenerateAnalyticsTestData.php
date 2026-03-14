@@ -32,6 +32,7 @@ class GenerateAnalyticsTestData extends Command
         $this->generateCollapseEvents();
         $this->generateVoteEvents();
         $this->generateSongPlayEvents();
+        $this->generateDonationEvents();
     }
 
     protected function generateCollapseEvents(): void
@@ -90,7 +91,8 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- song plays');
         $act_slugs = Act::whereHas('songs')->pluck('slug');
 
-        if ($act_slugs->isEmpty()) {
+        if ($act_slugs->isEmpty())
+        {
             error('No Acts with Songs available.');
             return;
         }
@@ -99,6 +101,20 @@ class GenerateAnalyticsTestData extends Command
         foreach (range(1, $event_count) as $ignored)
         {
             $this->postEvent('song_play', ['act' => $act_slugs->random()]);
+        }
+    }
+
+    protected function generateDonationEvents(): void
+    {
+        $this->comment('- donations');
+
+        $event_count = fake()->numberBetween(10, 50);
+        foreach (range(1, $event_count) as $ignored)
+        {
+            $this->postEvent('donation', [
+                'amount'    => fake()->randomFloat(1, 100),
+                'anonymous' => fake()->boolean
+            ]);
         }
     }
 
