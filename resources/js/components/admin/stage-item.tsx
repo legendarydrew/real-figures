@@ -74,43 +74,45 @@ export const StageItem: React.FC<StageItemProps> = ({
 
 
     return (
-        <Collapsible className="mb-2">
+        <Collapsible className="my-1">
             <div
-                className="flex gap-2 py-0 pl-3 b-2 w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 items-center justify-between">
-                <span className="display-text flex-grow text-left">{stage.title}</span>
-                <StageStatusTag stage={stage}/>
+                className="flex gap-2 py-0 pl-3 b-2 w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 items-center justify-between select-none">
+                <div className="w-20 text-center">
+                    <StageStatusTag stage={stage} className="mr-auto"/>
+                </div>
+                <span className="display-text flex-grow">{stage.title}</span>
                 <div className="toolbar">
-                    {!stage.status.has_started && (<Button type="button" className="p-3 cursor-pointer"
+                    {!stage.status.has_started && (<Button type="button" className="p-2 cursor-pointer"
                                                            onClick={allocateHandler} title="Allocate Songs to Stage">
                         <Boxes/>
                     </Button>)}
-                    {stage.status.manual_vote && <Button type="button" variant="outline" className="p-3 cursor-pointer"
+                    {stage.status.manual_vote && <Button type="button" variant="outline" className="p-2 cursor-pointer"
                                                          onClick={manualVoteHandler} title="Manual Voting">
                         <Vote/>
                     </Button>}
                     {stage.status.choose_winners &&
-                        <Button type="button" variant="default" className="p-3 cursor-pointer"
+                        <Button type="button" variant="default" className="p-2 cursor-pointer"
                                 onClick={chooseWinnerHandler} title="Choose Winning Songs">
                             <FileBadge/>
                         </Button>}
                     {(stage.status?.has_ended && !stage.status.manual_vote) &&
-                        <Button type="button" variant="default" className="p-3 cursor-pointer"
+                        <Button type="button" variant="default" className="p-2 cursor-pointer"
                                 onClick={showVotesHandler} title="Vote Breakdown">
                             <Vote/>
                         </Button>}
                     {stage.winners.length ? (
-                        <Button type="button" variant="default" className="p-3 cursor-pointer"
+                        <Button type="button" variant="default" className="p-2 cursor-pointer"
                                 onClick={showResultsHandler}>
                             <Award/>
                         </Button>) : ''}
                 </div>
                 <div className="toolbar">
-                    <Button type="button" variant="secondary" className="p-3 cursor-pointer"
+                    <Button type="button" variant="secondary" className="p-2 cursor-pointer"
                             onClick={editHandler}
                             title="Edit Stage">
                         <Edit/>
                     </Button>
-                    <Button type="button" variant="destructive" className="p-3 cursor-pointer"
+                    <Button type="button" variant="destructive" className="p-2 cursor-pointer"
                             onClick={deleteHandler}
                             title="Delete Stage">
                         <Trash/>
@@ -122,8 +124,9 @@ export const StageItem: React.FC<StageItemProps> = ({
             </div>
             <CollapsibleContent className="bg-gray-100 dark:bg-gray-600 p-3">
 
-                <div className="mt-2 mb-5 text-sm">
-                    {stage.description}
+                <div className="mx-3 mb-4 mt-0 text-sm">
+                    <p>{stage.description}</p>
+                    { stage.golden_buzzer_perks && (<p className="text-xs"><b>Golden Buzzer perks:</b> { stage.golden_buzzer_perks }</p>)}
                 </div>
 
                 {stage.rounds.map((round) => (

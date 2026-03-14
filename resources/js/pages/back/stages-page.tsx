@@ -94,18 +94,16 @@ export default function StagesPage({ stages, songs }: Readonly<{ stages: Stage[]
                     <Button onClick={editHandler}>Create Stage</Button>
                 </AdminHeader>
 
-                <div className="p-4">
-                    {stages.length ? stages.map((stage) => (
-                        <StageItem key={stage.id} onAllocate={allocateHandler} onEdit={editHandler}
-                                   onDelete={deleteHandler} onChooseWinner={chooseWinnerHandler}
-                                   onShowResults={showResultsHandler}
-                                   onShowVotes={showVotesHandler}
-                                   stage={stage}/>
-                    )) : (
-                        <Nothing>
-                            No Stages present.
-                        </Nothing>
-                    )}
+                <div className="my-4">
+                {stages.length ? stages.map((stage) => (
+                    <StageItem key={stage.id} onAllocate={allocateHandler} onEdit={editHandler}
+                               onDelete={deleteHandler} onChooseWinner={chooseWinnerHandler}
+                               onShowResults={showResultsHandler}
+                               onShowVotes={showVotesHandler}
+                               stage={stage}/>
+                )) : (
+                    <Nothing>No Stages have been set up.</Nothing>
+                )}
                 </div>
 
                 <StageDialog stage={currentStage} open={isEditDialogOpen}
