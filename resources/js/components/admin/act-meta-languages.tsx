@@ -44,21 +44,21 @@ export const ActMetaLanguages: React.FC<ActMetaLanguagesProps> = ({ languages, o
     return (
         <div>
             <HeadingSmall title="Act's Spoken Languages"/>
-            <div className="flex flex-wrap gap-2 my-2">
+            <div className="flex flex-wrap gap-1 my-2 border rounded-sm p-1">
                 {rows.map((languageCode) => (
-                    <Button key={languageCode} className="flex-shrink-0 rounded-md" variant="outline" size="sm"
+                    <Button key={languageCode} className="font-sans flex-shrink-0 text-xs rounded-sm" size="sm"
                             type="button"
                             title="Remove"
                             onClick={() => removeRowHandler(languageCode)}>
                         <LanguageFlag languageCode={languageCode}/>
                         {matchingLanguage(languageCode)?.name}
-                        <XIcon/>
+                        <XIcon className="size-3" />
                     </Button>
                 ))}
 
                 {availableLanguages.length ? (
                     <Select id="songLanguage" onValueChange={addLanguageHandler}>
-                        <SelectTrigger className="w-auto">Add language</SelectTrigger>
+                        <SelectTrigger className="w-auto h-auto leading-none py-0">Add language</SelectTrigger>
                         <SelectContent>
                             {availableLanguages.map((language) => (
                                 <SelectItem key={language.code} value={language.code}>
