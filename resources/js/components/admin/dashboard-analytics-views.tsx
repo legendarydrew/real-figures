@@ -1,4 +1,4 @@
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Nothing } from '@/components/mode/nothing';
 import { usePage } from '@inertiajs/react';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
@@ -17,10 +17,10 @@ interface DashboardAnalyticsViewsProps {
 
 export const DashboardAnalyticsViews: React.FC<DashboardAnalyticsViewsProps> = ({ data, className }) => {
 
-    const { locale } = usePage().props;
+    const { locale, rounds } = usePage().props;
 
     const formatDate = (timestamp: string): string => {
-        return new Date(timestamp).toLocaleDateString(locale);
+        return new Date(timestamp).toLocaleDateString(locale as string);
     };
 
     const tooltipContent = ({ active, payload, label }) => {
@@ -60,6 +60,10 @@ export const DashboardAnalyticsViews: React.FC<DashboardAnalyticsViewsProps> = (
                                   stroke={cssVar('--primary')}/>
                             <Line dataKey="visitors" label="Visitors" dot={false} strokeWidth={2}
                                   stroke="var(--secondary')"/>
+
+                            { rounds.map((round) => (
+                                <ReferenceLine key={round.date} x={round.date} stroke="red" label={round.name} />
+                            ))}
                         </LineChart>
                     </ResponsiveContainer>
                 ) : (

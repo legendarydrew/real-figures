@@ -131,7 +131,7 @@ class DashboardController extends Controller
     {
         $analyticsData = Analytics::fetchTotalVisitorsAndPageViews(Period::days(14));
         $data          = $analyticsData->map(fn($row) => [
-            'date'     => $row['date']->format('Y-m-d'),
+            'date'     => $row['date']->startOfDay()->toISOString(),
             'views'    => $row['screenPageViews'],
             'visitors' => $row['activeUsers'],
         ])->reverse();
