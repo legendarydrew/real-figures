@@ -25,7 +25,7 @@ export const DonationsMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
             return;
         }
         setIsLoading(true);
-        return axios.get("/api/analytics/donations", { params: { days } })
+        return axios.get("/api/analytics/donations/made", { params: { days } })
             .then((res) => {
                 setChartData(res.data);
             })

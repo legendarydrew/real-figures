@@ -75,13 +75,17 @@ class AnalyticsChartFormatter
     }
 
     public static function stackedByDate(
-        array|Collection $rows,
+        array|Collection|null $rows,
         string           $dimension,
         string           $metric = 'eventCount',
         string           $interval = 'day',
         ?int             $top = null
     ): array
     {
+        if (is_null($rows)) {
+            return ['data' => [], 'keys' => []];
+        }
+
         // Organise the data into combinations of date and dimension values.
         $rows = collect($rows)->map(function ($row) use ($dimension, $metric, $interval)
         {

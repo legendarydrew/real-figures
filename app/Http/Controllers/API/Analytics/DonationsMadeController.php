@@ -21,7 +21,7 @@ use Spatie\Analytics\Period;
  *
  * @package App\Http\Controllers\API\Analytics
  */
-class DonationsController extends Controller
+class DonationsMadeController extends Controller
 {
 
     public function index(): JsonResponse
