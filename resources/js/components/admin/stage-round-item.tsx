@@ -3,6 +3,7 @@ import React from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { LanguageFlag } from '@/components/mode/language-flag';
 import { ActImage } from '@/components/mode/act-image';
+import { ChevronDown } from 'lucide-react';
 
 interface StageItemProps {
     round: Round;
@@ -24,23 +25,23 @@ export const StageRoundItem: React.FC<StageItemProps> = ({ round }) => {
                 <span className="w-[10em] py-2 text-center text-xs">{round.starts_at}</span>
                 <span className="text-xs py-2 text-muted-foreground">to</span>
                 <span className="w-[10em] py-2 text-center text-xs">{round.ends_at}</span>
+                <ChevronDown/>
             </CollapsibleTrigger>
-            <CollapsibleContent className="p-1">
+            <CollapsibleContent className="p-4">
                 {/* Display information about Songs in this Round here. */}
-                <ul>
+                <ul className="grid md:cols-2 lg:grid-cols-4 gap-4 mb-4">
                     {round.songs?.map((song) => (
-                        <li key={song.id}
-                            className="my-0.5 flex gap-1 justify-between items-center text-sm hover:bg-indigo-100 dark:hover:bg-indigo-800 select-none">
-                            <ActImage className="w-10 h-10" act={song.act}/>
-                            <span className="w-[20em] display-text">{song.act.name}</span>
-                            <span className="mr-auto display-text flex gap-1 items-center">
-                                <LanguageFlag languageCode={song.language}/>
-                                {song.title}
-                            </span>
-                            <span className="pr-2 text-right">
-                                {song.play_count.toLocaleString()}
-                                <span className="text-xs ml-1">{ song.play_count === 1 ? 'play' : 'plays'}</span>
-                            </span>
+                        <li key={song.id} className="flex gap-2 items-center text-sm select-none">
+                            <ActImage className="size-10" act={song.act}/>
+                            <div className="flex flex-col leading-none">
+                                <span className="display-text leading-none">
+                                    {song.act.name} <small className="text-muted-foreground">{song.act.subtitle}</small>
+                                </span>
+                                <span className="display-text flex gap-1 items-center">
+                                    <LanguageFlag languageCode={song.language}/>
+                                    {song.title}
+                                </span>
+                            </div>
                         </li>
                     ))}
                 </ul>
