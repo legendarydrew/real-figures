@@ -51,13 +51,12 @@ export default function DashboardPage({
 
                 </div>
 
+                <DashboardAnalyticsViews className="p-3 lg:col-start-1 lg:col-span-5 row-span-4" data={analytics_views}/>
                 {/*<DashboardSongTotalPlays className="p-3" data={song_plays}/>*/}
-
                 {/*<DashboardVotesCast className="p-3" data={votes}/>*/}
 
             </div>
 
-            <DashboardAnalyticsViews className="p-3 lg:col-start-1 lg:col-span-5 row-span-4" data={analytics_views}/>
         </AppLayout>
     );
 }
