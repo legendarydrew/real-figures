@@ -1,8 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { DashboardSongTotalPlays } from '@/components/admin/dashboard-song-total-plays';
-import { DashboardVotesCast } from '@/components/admin/dashboard-votes-cast';
 import { DashboardMessageCount } from '@/components/admin/dashboard-message-count';
 import { DashboardSubscriberCount } from '@/components/admin/dashboard-subscriber-count';
 import { DashboardVoteCount } from '@/components/admin/dashboard-vote-count';
@@ -53,13 +51,12 @@ export default function DashboardPage({
 
                 </div>
 
-                <DashboardAnalyticsViews className="p-3" data={analytics_views}/>
-
-                <DashboardSongTotalPlays className="p-3" data={song_plays}/>
-
-                <DashboardVotesCast className="p-3" data={votes}/>
+                <DashboardAnalyticsViews className="p-3 lg:col-start-1 lg:col-span-5 row-span-4" data={analytics_views}/>
+                {/*<DashboardSongTotalPlays className="p-3" data={song_plays}/>*/}
+                {/*<DashboardVotesCast className="p-3" data={votes}/>*/}
 
             </div>
+
         </AppLayout>
     );
 }
