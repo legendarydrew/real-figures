@@ -54,3 +54,29 @@
         }
     }
 }
+
+.admin-table {
+    @apply my-4;
+
+    th, td {
+        @apply px-3 py-2 leading-tight;
+    }
+
+    thead {
+        @apply text-xs;
+
+        tr:last-of-type {
+            @apply border-b;
+        }
+    }
+
+    tbody {
+        tr {
+            @apply hover:bg-secondary/20;
+        }
+
+        th, td {
+            @apply text-sm;
+        }
+    }
+}

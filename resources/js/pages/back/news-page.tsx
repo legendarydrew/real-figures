@@ -9,7 +9,6 @@ import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
 import { RTToast } from '@/components/mode/toast-message';
 import { Nothing } from '@/components/mode/nothing';
-import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { AdminHeader } from '@/components/admin/admin-header';
 
@@ -87,54 +86,45 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
 
                 {posts.meta.pagination.total ? (
                     <div className="overflow-x-auto">
-                        <table className="dashboard-table">
-                            <colgroup>
-                                <col/>
-                                <col style={{ width: '10em' }}/>
-                                <col style={{ width: '10em' }}/>
-                                <col style={{ width: '6em' }}/>
-                            </colgroup>
-                            <thead className="text-sm">
-                            <tr className="border-b-2">
-                                <th>&nbsp;</th>
-                                <th scope="col" className="text-center select-none">
-                                    Published at
-                                </th>
-                                <th scope="col" className="text-center select-none">
-                                    Updated at
-                                </th>
-                                <th/>
+                        <table className="admin-table">
+                            <thead>
+                            <tr>
+                                <th scope="col" />
+                                <th scope="col">Status</th>
+                                <th scope="col">Published</th>
+                                <th scope="col">Updated</th>
+                                <th scope="col"/>
                             </tr>
                             </thead>
                             <tbody>
                             {posts.data.map((post) => (
-                                <tr key={post.id}
-                                    className={cn(post.published_at && 'bg-green-100 hover:bg-green-200', 'hover-bg select-none')}>
+                                <tr key={post.id}>
                                     <th scope="row" className="text-left">
-                                        <b>{post.title}</b> {post.published_at && (
-                                        <Badge className="ml-2" variant="secondary">Published</Badge>)}
-                                        <br/>
-                                        {post.excerpt && <small
-                                            className="block font-normal text-wrap leading-tight">{post.excerpt}</small>}
+                                        <h2 className="display-text text-base mb-1">{post.title}</h2>
+                                        {post.excerpt && <div
+                                            className="font-normal text-sm text-wrap leading-tight">{post.excerpt}</div>}
                                     </th>
+                                    <td className="text-center">
+                                        {post.published_at ? (<Badge variant="affirmative">Published</Badge>) : (<Badge variant="secondary">Draft</Badge>)}
+                                    </td>
                                     <td className="text-center">{post.published_at ?? '-'}</td>
                                     <td className="text-center">{post.updated_at}</td>
                                     <td>
                                         <div className="toolbar">
-                                            <Button asChild variant="outline" title="View Post">
+                                            <Button asChild size="sm" variant="outline" className="p-2" title="View Post">
                                                 <Link href={post.url}>
-                                                    <NewspaperIcon className="h-3 w-3"/>
+                                                    <NewspaperIcon className="size-4"/>
                                                 </Link>
                                             </Button>
-                                            <Button variant="secondary"
+                                            <Button variant="secondary" size="sm" className="p-2"
                                                     onClick={() => editHandler(post)}
                                                     title="Edit Post">
-                                                <Edit className="h-3 w-3"/>
+                                                <Edit className="size-4"/>
                                             </Button>
-                                            <Button variant="destructive"
+                                            <Button variant="destructive" size="sm" className="p-2"
                                                     onClick={() => deleteHandler(post)}
                                                     title="Delete Post">
-                                                <Trash className="h-3 w-3"/>
+                                                <Trash className="size-4"/>
                                             </Button>
                                         </div>
                                     </td>
