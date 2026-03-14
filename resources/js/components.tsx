@@ -82,7 +82,7 @@ for (const element: HTMLElement of collapses) {
             window.history.replaceState(null, '', `#${hash}`);
             globalThis.trackEvent("collapse_open", {
                 section_id: hash,
-                page_title: document.title.split('—')[0].trim()
+                // page_title: document.title.split('—')[0].trim()
             });
         }
     });

@@ -66,10 +66,10 @@ class CollapseController extends Controller
         );
 
         $data['table'] = $rows->groupBy('customEvent:section_id')->map(fn($r) => [
-            'page' => $r->first()['pageTitle'],
+            'page'    => $r->first()['pageTitle'],
             'section' => $r->first()['customEvent:section_id'],
-            'count' => $r->sum('eventCount'),
-        ])->values();
+            'count'   => $r->sum('eventCount'),
+        ])->sortByDesc('count')->values();
 
         return response()->json($data);
     }
