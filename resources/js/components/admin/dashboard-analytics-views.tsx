@@ -23,6 +23,16 @@ export const DashboardAnalyticsViews: React.FC<DashboardAnalyticsViewsProps> = (
         return new Date(timestamp).toLocaleDateString(locale as string);
     };
 
+    const formatReferenceLine = (round) => ({
+        value: round.name,
+        fill: 'var(--secondary)',
+        position: 'insideBottomRight',
+        angle: -90,
+        fontSize: 10,
+        fontWeight: 'bold',
+        textAnchor: 'start'
+    });
+
     const tooltipContent = ({ active, payload, label }) => {
         if (active && payload?.length) {
             return (
@@ -48,7 +58,7 @@ export const DashboardAnalyticsViews: React.FC<DashboardAnalyticsViewsProps> = (
             </CardTitle>
             <CardContent className="px-0">
                 {data.length ? (
-                    <ResponsiveContainer className="w-full" aspect={5}>
+                    <ResponsiveContainer className="w-full" aspect={4}>
                         <LineChart data={data} margin={2}>
                             <CartesianGrid strokeDasharray="3 3"/>
                             <XAxis dataKey="date"
@@ -61,8 +71,11 @@ export const DashboardAnalyticsViews: React.FC<DashboardAnalyticsViewsProps> = (
                             <Line dataKey="visitors" label="Visitors" dot={false} strokeWidth={2}
                                   stroke="var(--secondary')"/>
 
-                            { rounds.map((round) => (
-                                <ReferenceLine key={round.date} x={round.date} stroke="red" label={round.name} />
+                            {rounds.map((round) => (
+                                <ReferenceLine key={round.date} x={round.date}
+                                               stroke="var(--secondary)"
+                                               strokeWidth={2}
+                                               label={formatReferenceLine(round)}/>
                             ))}
                         </LineChart>
                     </ResponsiveContainer>
