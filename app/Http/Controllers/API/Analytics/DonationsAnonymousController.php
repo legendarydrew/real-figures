@@ -45,7 +45,7 @@ class DonationsAnonymousController extends AnalyticsAPIController
     {
         // Group the results by anonymous/not anonymous.
         $data = AnalyticsChartFormatter::stackedByDate(
-            collect($rows),
+            $rows,
             'customEvent:anonymous'
         );
 
