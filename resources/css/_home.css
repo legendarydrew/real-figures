@@ -4,6 +4,10 @@
         @apply bg-secondary bg-cover bg-left text-white text-shadow-md/30 mb-8 md:h-90 lg:h-80;
         @apply bg-[url('../../public/img/banners/hero-1.jpg')];
 
+        &.contest-running {
+            @apply bg-[url('../../public/img/banners/hero-6.jpg')];
+        }
+
         &.contest-over {
             @apply bg-[url('../../public/img/banners/hero-3.jpg')];
             @apply md:h-70 lg:h-50;
@@ -26,6 +30,10 @@
         .home-hero-text {
             h1 {
                 @apply display-text text-4xl mb-2;
+            }
+
+            a {
+                @apply text-shadow-none;
             }
 
             p {

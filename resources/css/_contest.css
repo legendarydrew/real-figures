@@ -174,7 +174,7 @@
 }
 
 .song-item-act {
-    @apply bg-background/30 absolute bottom-0 left-0 w-full flex items-center gap-3 min-h-10;
+    @apply bg-secondary/90 absolute bottom-0 left-0 w-full flex items-center gap-3 min-h-10;
 }
 
 .song-item-flag {

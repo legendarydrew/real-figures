@@ -136,7 +136,7 @@ class DashboardController extends Controller
             'visitors' => $row['activeUsers'],
         ])->reverse();
 
-        return $data->values();
+        return $data->values()->toArray();
     }
 
     /**

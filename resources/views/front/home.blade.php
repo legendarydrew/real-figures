@@ -6,7 +6,8 @@
 
 @section('content')
 
-    <div class="home-hero{{\App\Facades\ContestFacade::isOver() ? ' contest-over' : ''}}">
+    <div
+        class="home-hero{{\App\Facades\ContestFacade::isOver() ? ' contest-over' : ''}}{{\App\Facades\ContestFacade::isRunning() ? ' contest-running' : ''}}">
         <div class="site-container">
             <div class="home-hero-content">
                 <div class="home-hero-text">
@@ -15,8 +16,13 @@
                         <p>We've raised awareness about <b>bullying</b> through music &mdash;
                             and <b>you helped pick the winner!</b></p>
                     @else
-                        <p>We're raising awareness about <b>bullying</b> through music &mdash;
-                            and <b>you</b> help pick the winner!</p>
+                        <p>
+                            We're raising awareness about <b>bullying</b> through music &mdash;
+                            and <b>you</b> help pick the winner!
+                            @if(\App\Facades\ContestFacade::isRunning())
+                                <a class="button primary" href="{{ route('contest') }}">View the Contest</a>
+                            @endif
+                        </p>
                     @endif
                 </div>
                 <div class="home-hero-subscribe">
