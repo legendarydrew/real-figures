@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\ActController;
+use App\Http\Controllers\API\Analytics\ActViewsController;
 use App\Http\Controllers\API\Analytics\CollapseController;
 use App\Http\Controllers\API\Analytics\DonationsAnonymousController;
 use App\Http\Controllers\API\Analytics\DonationsMadeController;
@@ -53,6 +54,7 @@ Route::prefix('/api')->group(function ()
         Route::patch('acts/{id}', [ActController::class, 'update'])->name('acts.update');
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
+        Route::get('analytics/acts', [ActViewsController::class, 'index'])->name('analytics.acts');
         Route::get('analytics/collapse', [CollapseController::class, 'index'])->name('analytics.collapse');
         Route::get('analytics/donations/made', [DonationsMadeController::class, 'index'])->name('analytics.donations.made');
         Route::get('analytics/donations/anonymous', [DonationsAnonymousController::class, 'index'])->name('analytics.donations.anonymous');

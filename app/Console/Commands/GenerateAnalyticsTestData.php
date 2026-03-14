@@ -22,17 +22,19 @@ class GenerateAnalyticsTestData extends Command
      *
      * @var string
      */
-    protected $description = 'Generate Analytics test data.';
+    protected $description = 'Generate Analytics test events.';
 
     /**
      * Execute the console command.
      */
     public function handle(): void
     {
+        $this->info('Generating Analytics test events...');
         $this->generateCollapseEvents();
         $this->generateVoteEvents();
         $this->generateSongPlayEvents();
         $this->generateDonationEvents();
+        $this->generateActViewEvents();
     }
 
     protected function generateCollapseEvents(): void
@@ -114,6 +116,21 @@ class GenerateAnalyticsTestData extends Command
             $this->postEvent('donation', [
                 'amount'    => fake()->randomFloat(1, 100),
                 'anonymous' => fake()->boolean
+            ]);
+        }
+    }
+
+    protected function generateActViewEvents(): void
+    {
+        $this->comment('- Act profile views');
+
+        $acts = Act::all();
+        $event_count = fake()->numberBetween(10, 100);
+        foreach (range(1, $event_count) as $ignored)
+        {
+            $this->postEvent('dialog_open', [
+                'type'    => 'act',
+                'act' => fake()->randomElement($acts)->slug
             ]);
         }
     }
