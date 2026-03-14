@@ -14,6 +14,16 @@ textarea.input-field {
     @apply resize-none min-h-16 py-2;
 }
 
+/* https://cruip.com/auto-growing-textarea-with-tailwind-css/ */
+.textarea-expand {
+    @apply grid text-sm;
+    @apply after:px-3.5 after:py-2.5 after:text-inherit after:[grid-area:1/1/2/2] after:whitespace-pre-wrap after:invisible after:content-[attr(data-cloned-val)_'_'] after:border;
+
+    textarea {
+        @apply h-full resize-none overflow-hidden [grid-area:1/1/2/2];
+    }
+}
+
 .checkbox {
     @apply bg-white border-input size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none;
     @apply disabled:opacity-50 disabled:cursor-not-allowed;

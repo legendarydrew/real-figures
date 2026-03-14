@@ -104,7 +104,7 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
 
                 <AdminHeader title={`${isEditing.current ? 'Edit' : 'Create'} News Post`} />
 
-                <form className="flex flex-col gap-3 px-5" onSubmit={saveHandler}>
+                <form className="flex flex-col gap-4" onSubmit={saveHandler}>
 
                     <div>
                         <Label htmlFor="postTitle">Title</Label>
@@ -119,15 +119,14 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
 
                     <div>
                         <Label htmlFor="postContent">Description</Label>
-                        <MarkdownEditor className="h-[12rem]" value={data.content}
-                                        onChange={changeContentHandler}/>
+                        <MarkdownEditor value={data.content} onChange={changeContentHandler}/>
                         <InputError className="mt-2" message={errors.content}/>
                     </div>
 
                     <div className="bg-white border-t-1 flex justify-between sticky bottom-0 -mx-5 px-5 py-3">
                         <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
                         <div className="toolbar">
-                            <LoadingButton size="lg" isLoading={isSaving}>Save News Post</LoadingButton>
+                            <LoadingButton variant="confirm" size="lg" isLoading={isSaving}>Save News Post</LoadingButton>
                             {(isEditing.current && !isPublished.current && !isSaving) && (
                                 <Button variant="confirm" type="button" size="lg"
                                         onClick={publishHandler}>Publish</Button>)}
@@ -139,7 +138,7 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
                                onConfirm={confirmPublishHandler}>
                     <DialogTitle>Publish News Post: "{post?.title}"</DialogTitle>
 
-                    <span className="italic">The press release will be made visible to the public.</span><br/>
+                    <span className="italic">The News post/press release will be made visible to the public.</span><br/>
                     Are you sure you want to do this?</ConfirmDialog>
             </div>
         </AppLayout>

@@ -96,6 +96,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                 const syntax = keyMap[e.key.toLowerCase()];
                 if (syntax) {
                     e.preventDefault();
+                    e.stopPropagation();
                     applyFormatting(syntax);
                 }
             }
@@ -110,6 +111,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     }, [value]);
 
     const changeHandler = (e: ChangeEvent) => {
+        e.target.parentNode.dataset.clonedVal = e.target.value;
         setMarkdown(e.target.value);
         onChange(e.target.value);
     };
@@ -120,44 +122,44 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
             <div className="flex justify-between mb-1">
 
                 <div className="flex gap-1">
-                    <Button className="p-1" variant="outline" type="button" size="sm"
+                    <Button className="p-1" type="button" size="icon"
                             onClick={() => applyFormatting("bold")} tabIndex="-1">
-                        <BoldIcon className="h-2"/>
+                        <BoldIcon className="size-3"/>
                     </Button>
-                    <Button className="p-1" variant="outline" type="button" size="sm"
+                    <Button className="p-1" type="button" size="icon"
                             onClick={() => applyFormatting("italic")} tabIndex="-1">
-                        <ItalicIcon className="h-2"/>
+                        <ItalicIcon className="size-3"/>
                     </Button>
-                    <Button className="p-1" variant="outline" type="button" size="sm"
+                    <Button className="p-1" type="button" size="icon"
                             onClick={() => applyFormatting("code")} tabIndex="-1">
-                        <CodeIcon className="h-2"/>
+                        <CodeIcon className="size-3"/>
                     </Button>
-                    <Button className="p-1" variant="outline" type="button" size="sm"
+                    <Button className="p-1" type="button" size="icon"
                             onClick={() => applyFormatting("heading")} tabIndex="-1">
-                        <HeadingIcon className="h-2"/>
+                        <HeadingIcon className="size-3"/>
                     </Button>
-                    <Button className="p-1" variant="outline" type="button" size="sm"
+                    <Button className="p-1" type="button" size="icon"
                             onClick={() => applyFormatting("link")} tabIndex="-1">
-                        <LinkIcon className="h-2"/>
+                        <LinkIcon className="size-3"/>
                     </Button>
-                    <Button className="p-1" variant="outline" type="button" size="sm"
+                    <Button className="p-1" type="button" size="icon"
                             onClick={() => applyFormatting("ulist")} tabIndex="-1">
-                        <ListIcon className="h-2"/>
+                        <ListIcon className="size-3"/>
                     </Button>
-                    <Button className="p-1" variant="outline" type="button" size="sm"
+                    <Button className="p-1" type="button" size="icon"
                             onClick={() => applyFormatting("olist")} tabIndex="-1">
-                        <ListOrderedIcon className="h-2"/>
+                        <ListOrderedIcon className="size-3"/>
                     </Button>
-                    <Button className="p-1" variant="outline" type="button" size="sm"
+                    <Button className="p-1" type="button" size="icon"
                             onClick={() => applyFormatting("quote")} tabIndex="-1">
-                        <QuoteIcon className="h-2"/>
+                        <QuoteIcon className="size-3"/>
                     </Button>
                 </div>
 
                 <div>
-                    <Toggle className="p-1" size="sm" value={preview} onClick={() => setPreview(!preview)}
+                    <Toggle className="p-2" size="icon" value={preview} onClick={() => setPreview(!preview)}
                             title="Toggle preview">
-                        <ViewIcon className="h-2"/>
+                        <ViewIcon className="size-4"/>
                     </Toggle>
                 </div>
             </div>
@@ -169,15 +171,19 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                 </CardContent>
 
             ) : (
-                <Textarea
-                    id="markdown-textarea"
-                    placeholder={placeholder}
-                    disabled={disabled}
-                    value={markdown}
-                    onChange={changeHandler}
-                    className={cn("min-h-[8rem] font-mono", className)}
-                />
-            )}
+                // https://cruip.com/auto-growing-textarea-with-tailwind-css/
+                <div className="textarea-expand">
+                    <Textarea
+                        id="markdown-textarea"
+                        placeholder={placeholder}
+                        disabled={disabled}
+                        value={markdown}
+                        onChange={changeHandler}
+                        className={cn("min-h-32 font-mono", className)}
+                    />
+                </div>
+            )
+            }
         </>
     );
 }
