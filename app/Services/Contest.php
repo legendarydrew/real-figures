@@ -220,4 +220,20 @@ class Contest
         return NewsPost::published()->count() > 0;
     }
 
+    /**
+     * Returns a list of Rounds and their start times.
+     * These will be used to add indicators to charts in the back office.
+     *
+     * @return array
+     */
+    public function getRoundMarkers(): array
+    {
+        $rounds = Round::all()->filter(fn(Round $round) => $round->hasStarted());
+
+        return $rounds->map((fn(Round $round) => [
+            'date' => $round->starts_at->startOfDay()->toISOString(),
+            'name' => $round->full_title
+        ]))->toArray();
+    }
+
 }
