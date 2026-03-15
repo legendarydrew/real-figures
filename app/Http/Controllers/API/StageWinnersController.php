@@ -21,10 +21,11 @@ class StageWinnersController extends Controller
      * @param StageWinnerRequest $request
      * @param int                $stage_id
      * @return RedirectResponse
+     * @throws \Throwable
      */
     public function store(StageWinnerRequest $request, int $stage_id): RedirectResponse
     {
-        $runner_up_count = $request->get('runners_up', 0);
+        $runner_up_count = $request->input('runners_up', 0);
         $stage           = Stage::findOrFail($stage_id);
 
         [$winners, $runners_up] = ContestFacade::determineStageWinners($stage, $runner_up_count);

@@ -52,10 +52,10 @@ export const ManualVoteItem: React.FC<ManualVoteProps> = ({
                             {song.act.subtitle && (
                                 <small className="ml-0.5 text-muted-foreground">{song.act.subtitle}</small>)}
                         </span>
-                        <span className="mr-auto display-text">
+                        <div className="flex gap-2 items-center mr-auto display-text">
                             <LanguageFlag languageCode={song.language} />
                             {song.title}
-                        </span>
+                        </div>
                         {positions.map((position) => (
                             <label key={`${song.id}-${position}`}
                                    className={`table-cell w-12 text-center p-2 hover:bg-indigo-100 ${positionHasError(position) ? 'bg-red-100' : ''}`}

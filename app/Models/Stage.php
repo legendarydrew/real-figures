@@ -130,11 +130,11 @@ class Stage extends Model
     {
         $status_key = 'inactive';
 
-        if ($this->rounds->count() > 0)
+        if ($this->rounds->count())
         {
             $statuses   = [
                 'judgement' => $this->canChooseWinners() || $this->requiresManualVote(),
-                'ended' => $this->hasEnded() || $this->isOver(),
+                'ended'     => $this->hasEnded() || $this->isOver(),
                 'started'   => $this->hasStarted(),
                 'ready'     => $this->rounds()->count()
             ];
