@@ -1,4 +1,3 @@
-import { LoaderCircleIcon } from 'lucide-react';
 import { Bar, BarChart, XAxis, YAxis } from 'recharts';
 import HeadingSmall from '@/components/heading-small';
 import { useEffect, useState } from 'react';
@@ -6,6 +5,7 @@ import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { ActItem } from '@/components/mode/act-item';
+import { LoadingOverlay } from '@/components/mode/loading-overlay';
 
 
 interface Props {
@@ -44,61 +44,60 @@ export const ActViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
         <section id="analyticsActViews" className="analytics-section">
             <HeadingSmall title="Act profiles viewed"/>
 
-            {/* TODO an overlay.*/}
-            {isLoading && <LoaderCircleIcon/>}
+            <LoadingOverlay isLoading={isLoading}>
+                <div className="flex flex-col lg:flex-row gap-8">
+                    <div className="lg:w-3/5">
+                        {chartData && (
+                            <BarChart
+                                style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
+                                responsive
+                                data={chartData.data}
+                            >
+                                <XAxis dataKey="date"/>
+                                <YAxis/>
 
-            <div className="flex flex-col lg:flex-row gap-8">
-                <div className="lg:w-3/5">
-                    {chartData && (
-                        <BarChart
-                            style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
-                            responsive
-                            data={chartData.data}
-                        >
-                            <XAxis dataKey="date"/>
-                            <YAxis/>
-
-                            {chartData.keys.map(key => (
-                                <Bar
-                                    key={key}
-                                    dataKey={key}
-                                    stackId="acts"
-                                    fill={getColor(key)}
-                                />
-                            ))}
-                        </BarChart>
-                    )}
-                </div>
-                <div className="lg:w-2/5">
-                    <table className="data-table">
-                        <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col" className="text-left">Act</th>
-                            <th scope="col" className="text-right">Count</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {chartData.table?.length ? chartData.table.map((row, index) => (
-                            <tr key={index}>
-                                <th scope="row">
+                                {chartData.keys.map(key => (
+                                    <Bar
+                                        key={key}
+                                        dataKey={key}
+                                        stackId="acts"
+                                        fill={getColor(key)}
+                                    />
+                                ))}
+                            </BarChart>
+                        )}
+                    </div>
+                    <div className="lg:w-2/5">
+                        <table className="data-table">
+                            <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col" className="text-left">Act</th>
+                                <th scope="col" className="text-right">Count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {chartData.table?.length ? chartData.table.map((row, index) => (
+                                <tr key={index}>
+                                    <th scope="row">
                                     <span className="block size-4"
                                           style={{ backgroundColor: stringToColor(row.act.slug) }}></span>
-                                </th>
-                                <th className="text-left" scope="row">
-                                    <ActItem act={row.act}/>
-                                </th>
-                                <td className="text-right">{row.count}</td>
-                            </tr>
-                        )) : (
-                            <tr>
-                                <td colSpan="3" className="nothing">No data recorded.</td>
-                            </tr>
-                        )}
-                        </tbody>
-                    </table>
+                                    </th>
+                                    <th className="text-left" scope="row">
+                                        <ActItem act={row.act}/>
+                                    </th>
+                                    <td className="text-right">{row.count}</td>
+                                </tr>
+                            )) : (
+                                <tr>
+                                    <td colSpan="3" className="nothing">No data recorded.</td>
+                                </tr>
+                            )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </LoadingOverlay>
         </section>
     )
 }

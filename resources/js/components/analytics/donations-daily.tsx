@@ -1,4 +1,3 @@
-import { LoaderCircleIcon } from 'lucide-react';
 import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
 import HeadingSmall from '@/components/heading-small';
 import { useEffect, useState } from 'react';
@@ -7,6 +6,7 @@ import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { Nothing } from '@/components/mode/nothing';
 import { usePage } from '@inertiajs/react';
+import { LoadingOverlay } from '@/components/mode/loading-overlay';
 
 
 interface Props {
@@ -42,9 +42,7 @@ export const DonationsDailyAnalytics: React.FC<Props> = ({ days = 7 }) => {
         <section id="analyticsDonationsDaily" className="analytics-section">
             <HeadingSmall title="Donations by day"/>
 
-            {/* TODO an overlay.*/}
-            {isLoading && <LoaderCircleIcon/>}
-
+            <LoadingOverlay isLoading={isLoading}>
             {chartData ? (
                 <BarChart
                     style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
@@ -58,6 +56,7 @@ export const DonationsDailyAnalytics: React.FC<Props> = ({ days = 7 }) => {
                     <Tooltip />
                 </BarChart>
             ) : (<Nothing>No data available.</Nothing>)}
+            </LoadingOverlay>
         </section>
     )
 }

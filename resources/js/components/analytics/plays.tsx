@@ -1,10 +1,10 @@
-import { LoaderCircleIcon } from 'lucide-react';
 import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
 import HeadingSmall from '@/components/heading-small';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AnalyticsData } from '@/types';
+import { LoadingOverlay } from '@/components/mode/loading-overlay';
 
 
 interface Props {
@@ -40,22 +40,21 @@ export const PlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
         <section id="analyticsPlays" className="analytics-section">
             <HeadingSmall title="Song Plays"/>
 
-            {/* TODO an overlay.*/}
-            {isLoading && <LoaderCircleIcon/>}
+            <LoadingOverlay isLoading={isLoading}>
+                {chartData && (
+                    <BarChart
+                        style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
+                        responsive
+                        data={chartData}
+                    >
+                        <XAxis dataKey="time"/>
+                        <YAxis/>
+                        <Tooltip/>
 
-            {chartData && (
-                <BarChart
-                    style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
-                    responsive
-                    data={chartData}
-                >
-                    <XAxis dataKey="time"/>
-                    <YAxis/>
-                    <Tooltip/>
-
-                    <Bar dataKey="count" fill="var(--chart-2-6)"/>
-                </BarChart>
-            )}
+                        <Bar dataKey="count" fill="var(--chart-2-6)"/>
+                    </BarChart>
+                )}
+            </LoadingOverlay>
         </section>
     )
 }

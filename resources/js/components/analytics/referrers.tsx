@@ -4,7 +4,7 @@ import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { Pie, PieChart, PieSectorShapeProps, Sector } from 'recharts';
-import { Skeleton } from '@/components/ui/skeleton';
+import { LoadingOverlay } from '@/components/mode/loading-overlay';
 
 interface Props {
     days?: number;
@@ -50,50 +50,49 @@ export const ReferrersAnalytics: React.FC<Props> = ({ days = 7 }) => {
         <section id="analyticsReferrers" className="analytics-section">
             <HeadingSmall title="Referrers"/>
 
-            {/* TODO an overlay.*/}
-            {isLoading && <Skeleton/>}
+            <LoadingOverlay isLoading={isLoading}>
+                {chartData && (
+                    <div className="grid lg:grid-cols-3 gap-8">
 
-            {chartData && (
-                <div className="grid lg:grid-cols-3 gap-8">
+                        <PieChart style={{ width: '100%', aspectRatio: 1 }} responsive>
+                            <Pie
+                                dataKey="count"
+                                data={chartData}
+                                fill="#8884d8"
+                                shape={pieSector}
+                                label
+                            />
+                        </PieChart>
 
-                    <PieChart style={{ width: '100%', aspectRatio: 1 }} responsive>
-                        <Pie
-                            dataKey="count"
-                            data={chartData}
-                            fill="#8884d8"
-                            shape={pieSector}
-                            label
-                        />
-                    </PieChart>
-
-                    <table className="data-table lg:col-span-2">
-                        <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col" className="text-left">Referrer</th>
-                            <th scope="col" className="text-right">Count</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {chartData?.length ? chartData.map((row, index) => (
-                            <tr key={index}>
-                                <th scope="row">
+                        <table className="data-table lg:col-span-2">
+                            <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col" className="text-left">Referrer</th>
+                                <th scope="col" className="text-right">Count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {chartData?.length ? chartData.map((row, index) => (
+                                <tr key={index}>
+                                    <th scope="row">
                                 <span className="block size-4"
                                       style={{ backgroundColor: stringToColor(row.referrer) }}></span>
-                                </th>
-                                <th className="text-left" scope="row">{row.referrer.length ? row.referrer : (
-                                    <em className="text-muted-foreground font-normal">none</em>)}</th>
-                                <td className="text-right">{row.count}</td>
-                            </tr>
-                        )) : (
-                            <tr>
-                                <td colSpan="3" className="nothing">No data recorded.</td>
-                            </tr>
-                        )}
-                        </tbody>
-                    </table>
-                </div>
-            )}
+                                    </th>
+                                    <th className="text-left" scope="row">{row.referrer.length ? row.referrer : (
+                                        <em className="text-muted-foreground font-normal">none</em>)}</th>
+                                    <td className="text-right">{row.count}</td>
+                                </tr>
+                            )) : (
+                                <tr>
+                                    <td colSpan="3" className="nothing">No data recorded.</td>
+                                </tr>
+                            )}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </LoadingOverlay>
         </section>
     )
 }

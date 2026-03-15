@@ -1,10 +1,10 @@
-import { LoaderCircleIcon } from 'lucide-react';
 import HeadingSmall from '@/components/heading-small';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AnalyticsData } from '@/types';
 import { Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { LoadingOverlay } from '@/components/mode/loading-overlay';
 
 
 interface Props {
@@ -40,45 +40,22 @@ export const DonationsMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
         <section id="analyticsDonations" className="analytics-section">
             <HeadingSmall title="Donations made"/>
 
-            {/* TODO an overlay.*/}
-            {isLoading && <LoaderCircleIcon/>}
+            <LoadingOverlay isLoading={isLoading}>
+                {chartData && (
+                    <LineChart
+                        style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
+                        responsive
+                        data={chartData}
+                    >
+                        <XAxis dataKey="date"/>
+                        <YAxis/>
+                        <Tooltip/>
 
-            {chartData && (
-                <LineChart
-                    style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
-                    responsive
-                    data={chartData}
-                >
-                    <XAxis dataKey="date"/>
-                    <YAxis/>
-                    <Tooltip/>
-
-                    <Line dataKey="started" stroke="var(--chart-1-2)"/>
-                    <Line dataKey="completed" stroke="var(--chart-2-5)"/>
-                </LineChart>
-            )}
-            {/*<table className="data-table">*/}
-            {/*    <thead>*/}
-            {/*    <tr>*/}
-            {/*        <th scope="col" className="text-left">Page</th>*/}
-            {/*        <th scope="col" className="text-left">Section</th>*/}
-            {/*        <th scope="col" className="text-right">Count</th>*/}
-            {/*    </tr>*/}
-            {/*    </thead>*/}
-            {/*    <tbody>*/}
-            {/*    {chartData ? chartData.table.map((row, index) => (*/}
-            {/*        <tr key={index}>*/}
-            {/*            <th className="text-left" scope="row">{row.page}</th>*/}
-            {/*            <th className="text-left" scope="row">{row.section}</th>*/}
-            {/*            <td className="text-right">{row.count}</td>*/}
-            {/*        </tr>*/}
-            {/*    )) : (*/}
-            {/*        <tr>*/}
-            {/*            <td colSpan="4" className="nothing">No data recorded.</td>*/}
-            {/*        </tr>*/}
-            {/*    )}*/}
-            {/*    </tbody>*/}
-            {/*</table>*/}
+                        <Line dataKey="started" stroke="var(--chart-1-2)"/>
+                        <Line dataKey="completed" stroke="var(--chart-2-5)"/>
+                    </LineChart>
+                )}
+            </LoadingOverlay>
         </section>
     )
 }
