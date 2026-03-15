@@ -12,13 +12,13 @@ use Spatie\Analytics\Period;
 
 /**
  * DonationsController
- * This returns analytics data for anonymous versus not-anonymous donations over the specified period.
+ * This returns analytics data for daily donations the specified period.
  *
  * @package App\Http\Controllers\API\Analytics
  */
-class DonationsAnonymousController extends AnalyticsAPIController
+class DonationsDailyController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'donations_anonymous';
+    const string CACHE_KEY = 'donations-per-day';
 
     protected function analyticsQuery(int $days): Collection
     {
@@ -34,26 +34,17 @@ class DonationsAnonymousController extends AnalyticsAPIController
 
         return Analytics::get(
             period: Period::days($days),
-            metrics: ['eventCount'],
-            dimensions: ['date', 'customEvent:anonymous'],
+            metrics: ['eventValue'],
+            dimensions: ['date'],
             maxResults: 1000,
-            dimensionFilter: $filter
+            dimensionFilter: $filter,
+            keepEmptyRows: true
         );
     }
 
     protected function analyticsProcessed(?Collection $rows, int $days): array
     {
-        // Group the results by anonymous/not anonymous.
-        $data = AnalyticsChartFormatter::stackedByDate(
-            $rows,
-            'customEvent:anonymous'
-        );
-
-        $data['table'] = $rows->groupBy('customEvent:anonymous')->map(fn($r, $key) => [
-            'name'  => $key ? 'Not anonymous' : 'Anonymous',
-            'count' => $r->sum('eventCount'),
-        ])->values();
-
-        return $data;
+        return AnalyticsChartFormatter::byDate($rows, $days, ['eventValue']);
     }
+
 }

@@ -45,33 +45,30 @@ class AnalyticsChartFormatter
         return $data->sortBy('time')->values()->toArray();
     }
 
-    public static function byDate(array|Collection $rows): array
+    public static function byDate(array|Collection $rows, int $fromDays, array $keys): array
     {
         $data = collect($rows)
-            ->map(fn($row) => [
-                'time'  => $row['date'],
-                'count' => (int)$row['eventCount']
-            ])
-            ->sortBy('time')
+            ->map(fn($row) => ['date' => $row['date']->toISOString(), ...$row])
+            ->sortBy('date')
             ->values();
 
         // Determine date range
-        $start = now()->subDays(7);
+        $start = now()->subDays($fromDays);
         $end   = now();
 
-        $dates = $data->pluck('time');
+        $dates = $data->pluck('date');
 
         $cursor  = $start->copy();
         while ($cursor->lte($end))
         {
-            $date = $cursor->format('Y-m-d H:00');
+            $date = $cursor->toISOString();
             if (!$dates->contains($date)) {
-                $data->push(['time' => $date, 'count' => 0]);
+                $data->push(['date' => $date, ...array_fill_keys($keys, 0)]);
             }
-            $cursor->addHour();
+            $cursor->addDay();
         }
 
-        return $data->sortBy('time')->values()->toArray();
+        return $data->sortBy('date')->values()->toArray();
     }
 
     public static function stackedByDate(

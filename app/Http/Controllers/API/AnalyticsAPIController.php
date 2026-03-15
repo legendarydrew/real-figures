@@ -20,7 +20,7 @@ abstract class AnalyticsAPIController extends Controller
 
     abstract protected function analyticsQuery(int $days): Collection;
 
-    abstract protected function analyticsProcessed(Collection|null $rows): array;
+    abstract protected function analyticsProcessed(?Collection $rows, int $days): array;
 
     final public function index(): JsonResponse
     {
@@ -34,7 +34,7 @@ abstract class AnalyticsAPIController extends Controller
                 now()->plus(minutes: config('contest.analytics.cache', 60)));
         }
 
-        $data = static::analyticsProcessed($rows);
+        $data = static::analyticsProcessed($rows, $days);
 
         return response()->json($data);
     }

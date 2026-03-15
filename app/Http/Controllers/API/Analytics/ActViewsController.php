@@ -67,7 +67,7 @@ class ActViewsController extends AnalyticsAPIController
         );
     }
 
-    protected function analyticsProcessed(?Collection $rows): array
+    protected function analyticsProcessed(?Collection $rows, int $days): array
     {
         $data = AnalyticsChartFormatter::stackedByDate(
             $rows,
