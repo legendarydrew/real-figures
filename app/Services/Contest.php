@@ -97,14 +97,14 @@ class Contest
      * @return void
      * @throws \Throwable
      */
-    public function buildRoundOutcome(Round $round): void
+    public function buildRoundOutcomes(Round $round, bool $manual = false): void
     {
         // Check that the Round has Votes for the round. If it has, create RoundOutcomes.
         // Bear in mind that it's possible for a Song not to have received any votes!
         if ($round->votes()->count())
         {
             $round->load(['votes', 'songs']);
-            DB::transaction(function () use ($round)
+            DB::transaction(function () use ($round, $manual)
             {
                 $round->outcomes()->delete();
 
@@ -122,6 +122,7 @@ class Contest
                                     'first_votes'  => $first_choices[$song->id] ?? 0,
                                     'second_votes' => $second_choices[$song->id] ?? 0,
                                     'third_votes'  => $third_choices[$song->id] ?? 0,
+                                    'was_manual'   => $manual
                                 ]);
                 }
             });

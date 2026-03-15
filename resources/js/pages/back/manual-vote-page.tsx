@@ -87,9 +87,9 @@ export default function ManualVotePage({ stage, rounds }: Readonly<ManualVotePag
                         </Card>
                     ))}
 
-                    <div className="flex justify-end">
-                        <LoadingButton isLoading={processing}>Cast manual votes</LoadingButton>
-                        <Button variant="link" type="button" onClick={cancelHandler}>Cancel</Button>
+                    <div className="flex justify-between">
+                        <Button variant="ghost" type="button" onClick={cancelHandler}>Cancel</Button>
+                        <LoadingButton variant="primary" isLoading={processing}>Cast Votes</LoadingButton>
                     </div>
                 </form>
             </div>
