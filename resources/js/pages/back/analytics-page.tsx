@@ -3,6 +3,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { AdminHeader } from '@/components/admin/admin-header';
 import { ActViewsAnalytics } from '@/components/analytics/act-views';
+import { ReferrersAnalytics } from '@/components/analytics/referrers';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -24,7 +25,7 @@ export default function AnalyticsPage() {
 
                 {/*<CollapseOpenAnalytics/>*/}
                 {/*<VotesAnalytics/>*/}
-                {/*<ReferrersAnalytics />*/}
+                <ReferrersAnalytics />
                 {/*<SongPlaysAnalytics/>*/}
                 {/*<PlaysAnalytics/>*/}
                 {/*<DonationsMadeAnalytics/>*/}

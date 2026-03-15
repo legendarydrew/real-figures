@@ -1,4 +1,3 @@
-import HeadingSmall from '@/components/heading-small';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
@@ -19,6 +18,11 @@ export const ReferrersAnalytics: React.FC<Props> = ({ days = 7 }) => {
     }, [days]);
 
     const fetchData = () => {
+        if (isLoading) {
+            return;
+        }
+
+        setIsLoading(true);
         axios.get("/api/analytics/referrers", { params: { days } })
             .then((res) => {
                 setChartData(res.data);
@@ -48,7 +52,7 @@ export const ReferrersAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsReferrers" className="analytics-section">
-            <HeadingSmall title="Referrers"/>
+            <h2 className="analytics-section-title">Referrers</h2>
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData && (
@@ -60,7 +64,6 @@ export const ReferrersAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                 data={chartData}
                                 fill="#8884d8"
                                 shape={pieSector}
-                                label
                             />
                         </PieChart>
 

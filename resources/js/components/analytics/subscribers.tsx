@@ -1,5 +1,4 @@
 import { Bar, BarChart, ReferenceLine, Tooltip, XAxis, YAxis } from 'recharts';
-import HeadingSmall from '@/components/heading-small';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
@@ -36,7 +35,7 @@ export const SubscribersAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsSubscribers" className="analytics-section">
-            <HeadingSmall title="Email subscribers"/>
+            <h2 className="analytics-section-title">Email subscribers"</h2>
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData && (
