@@ -132,3 +132,8 @@
         @apply flex gap-2 text-xs items-center truncate;
     }
 }
+
+.bg-act-image {
+    @apply bg-linear-to-bl from-act-from to-act-to;
+}
+
