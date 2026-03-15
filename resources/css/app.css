@@ -117,6 +117,9 @@
 
     --color-winner: var(--winner);
     --color-runner-up: var(--runner-up);
+
+    --color-act-from: var(--act-bg-from);
+    --color-act-to: var(--act-bg-to);
 }
 
 @layer base {
@@ -199,10 +202,6 @@
 
     .advert {
         @apply bg-secondary/10 min-h-30 block my-8 text-center;
-    }
-
-    .bg-act-image {
-        @apply bg-linear-to-bl from-primary to-blue-950;
     }
 
     .golden-buzzer-prompt {

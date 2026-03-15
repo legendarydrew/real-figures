@@ -1,6 +1,7 @@
 import { Round } from '@/types';
 import { ActImage } from '@/components/mode/act-image';
 import React from 'react';
+import { LanguageFlag } from '@/components/mode/language-flag';
 
 interface ManualVoteProps {
     round: Round;
@@ -46,8 +47,15 @@ export const ManualVoteItem: React.FC<ManualVoteProps> = ({
                     <li key={song.id}
                         className="flex gap-2 items-center select-none hover:bg-indigo-100/50">
                         <ActImage act={song.act} className="h-10 mr-3"/>
-                        <span className="w-[20em]">{song.act.name}</span>
-                        <span className="mr-auto">{song.title}</span>
+                        <span className="w-80 display-text">
+                            {song.act.name}
+                            {song.act.subtitle && (
+                                <small className="ml-0.5 text-muted-foreground">{song.act.subtitle}</small>)}
+                        </span>
+                        <div className="flex gap-2 items-center mr-auto display-text">
+                            <LanguageFlag languageCode={song.language} />
+                            {song.title}
+                        </div>
                         {positions.map((position) => (
                             <label key={`${song.id}-${position}`}
                                    className={`table-cell w-12 text-center p-2 hover:bg-indigo-100 ${positionHasError(position) ? 'bg-red-100' : ''}`}

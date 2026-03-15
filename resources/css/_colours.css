@@ -21,6 +21,9 @@
     --input: oklch(0.42 0 89.876);
     --ring: oklch(0.538 0 89.876);
 
+    --act-bg-from: var(--primary);
+    --act-bg-to: #50528a;
+
     /* Chart colours (shades derived from originally defined chart colours).
        https://colorkit.co/color-shades-generator*/
     --chart-1-1: #e1e1e1;

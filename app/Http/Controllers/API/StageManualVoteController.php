@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Facades\ContestFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManualVoteRequest;
 use App\Models\Round;
-use App\Models\RoundOutcome;
+use App\Models\RoundVote;
 use App\Models\Stage;
 use App\Transformers\RoundAdminTransformer;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 /**
  * StageManualVoteController
- * This endpoint records "manual votes" for Songs in a Round.
+ * This endpoint is for recording "manual votes" for Songs in a Round.
  * A "manual vote" takes place to determine a winner when and if a Round ends with no votes cast.
  *
  * @package App\Http\Controllers\API
@@ -23,6 +23,12 @@ use Inertia\Inertia;
 class StageManualVoteController extends Controller
 {
 
+    /**
+     * Display the manual vote page, with only the Rounds in the specified Stage that require a manual vote.
+     *
+     * @param int $stage_id
+     * @return \Inertia\Response|RedirectResponse
+     */
     public function show(int $stage_id): \Inertia\Response|RedirectResponse
     {
         $stage  = Stage::findOrFail($stage_id);
@@ -33,7 +39,7 @@ class StageManualVoteController extends Controller
             return to_route('admin.stages')->withErrors('Stage does not require manual votes.');
         }
 
-        return Inertia::render('back/manual-vote', [
+        return Inertia::render('back/manual-vote-page', [
             'stage'  => [
                 'id'    => $stage->id,
                 'title' => $stage->title
@@ -44,6 +50,14 @@ class StageManualVoteController extends Controller
         ]);
     }
 
+    /**
+     * Cast the manual votes for the specified Stage.
+     *
+     * @param ManualVoteRequest $request
+     * @param int               $stage_id
+     * @return RedirectResponse
+     * @throws \Throwable
+     */
     public function store(ManualVoteRequest $request, int $stage_id): RedirectResponse
     {
         Stage::findOrFail($stage_id);
@@ -53,40 +67,30 @@ class StageManualVoteController extends Controller
         {
             foreach ($data['votes'] as $vote)
             {
-                $round = Round::findOrFail($vote['round_id']);
-                if (!($round->stage_id === $stage_id && $round->requiresManualVote()))
+                $round = Round::whereStageId($stage_id)->findOrFail($vote['round_id']);
+                if ($round->requiresManualVote())
                 {
-                    continue;
+                    // Check that all the Songs being voted for are part of the Round.
+                    $round_song_ids = $round->songs->pluck('id')->toArray();
+                    $voted_song_ids = collect(array_values($vote['song_ids']));
+                    if (!$voted_song_ids->every(fn($song_id) => in_array($song_id, $round_song_ids)))
+                    {
+                        abort(400, "{$round->title}: An invalid Song was chosen.");
+                    }
+
+
+                    // Cast a vote for the Round, as directed.
+                    RoundVote::create([
+                        'round_id'         => $round->id,
+                        'first_choice_id'  => $vote['song_ids']['first'],
+                        'second_choice_id' => $vote['song_ids']['second'],
+                        'third_choice_id'  => $vote['song_ids']['third'],
+                        'was_manual'       => true
+                    ]);
                 }
 
-                $song_votes     = collect([$vote['song_ids']['first'], $vote['song_ids']['second'], $vote['song_ids']['third']]);
-                $round_song_ids = $round->songs->pluck('id')->toArray();
-                $other_songs    = array_filter($round_song_ids, fn($id) => !$song_votes->contains($id));
-                if (!$song_votes->every(fn($song_vote) => in_array($song_vote, $round_song_ids)))
-                {
-                    abort(400, "{$round->title}: An invalid song was chosen.");
-                }
-
-                // Create a RoundOutcome for each Song.
-                // Start with the Songs voted for, then create "empty" outcomes for the others.
-                RoundOutcome::factory($song_votes->count())
-                            ->manualVote()
-                            ->for($round)
-                            ->create([
-                                'song_id'      => new Sequence(...$song_votes),
-                                'first_votes'  => new Sequence(1, 0, 0),
-                                'second_votes' => new Sequence(0, 1, 0),
-                                'third_votes'  => new Sequence(0, 0, 1)
-                            ]);
-                RoundOutcome::factory(count($other_songs))
-                            ->manualVote()
-                            ->for($round)
-                            ->create([
-                                'song_id'      => new Sequence(...$other_songs),
-                                'first_votes'  => 0,
-                                'second_votes' => 0,
-                                'third_votes'  => 0
-                            ]);
+                // Recalculate outcomes for the Round.
+                ContestFacade::buildRoundOutcomes($round, true);
             }
         });
 

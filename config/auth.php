@@ -40,6 +40,12 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'api' => [ // something about the test suite wants the api guard?
+            'driver' => 'session',
+            'provider' => 'users',
+            'hash' => false,
+        ]
     ],
 
     /*
