@@ -35,6 +35,7 @@ class GenerateAnalyticsTestData extends Command
         $this->generateSongPlayEvents();
         $this->generateDonationEvents();
         $this->generateActViewEvents();
+        $this->generateSubscriberEvents();
     }
 
     protected function generateCollapseEvents(): void
@@ -114,8 +115,8 @@ class GenerateAnalyticsTestData extends Command
         foreach (range(1, $event_count) as $ignored)
         {
             $this->postEvent('donation', [
-                'amount'    => fake()->randomFloat(1, 100),
-                'anonymous' => fake()->boolean
+                'value' => fake()->randomFloat(1, 100),
+                'anonymous'  => fake()->boolean
             ]);
         }
     }
@@ -124,13 +125,26 @@ class GenerateAnalyticsTestData extends Command
     {
         $this->comment('- Act profile views');
 
-        $acts = Act::all();
+        $acts        = Act::all();
         $event_count = fake()->numberBetween(10, 100);
         foreach (range(1, $event_count) as $ignored)
         {
             $this->postEvent('dialog_open', [
-                'type'    => 'act',
-                'act' => fake()->randomElement($acts)->slug
+                'type' => 'act',
+                'act'  => fake()->randomElement($acts)->slug
+            ]);
+        }
+    }
+
+    protected function generateSubscriberEvents(): void
+    {
+        $this->comment('- Subscribers');
+
+        $event_count = fake()->numberBetween(10, 100);
+        foreach (range(1, $event_count) as $ignored)
+        {
+            $this->postEvent('subscriber', [
+                'value' => fake()->boolean ? 1 : -1
             ]);
         }
     }

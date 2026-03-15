@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Subscriber;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
+use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
 
 /**
  * SubscriberRemoveController
@@ -23,11 +24,7 @@ class SubscriberRemoveController extends Controller
         {
             $subscriber->delete();
             Session::flash('message', "{$subscriber->email} has been removed. Thank you for your time!");
-            Session::flash('track', [
-                'category' => 'Action',
-                'action'   => 'Subscribe',
-                'label'    => 'Removed'
-            ]);
+            app(GoogleAnalyticsService::class)->sendEvent('subscriber', ['value' => -1]);
         }
         else
         {

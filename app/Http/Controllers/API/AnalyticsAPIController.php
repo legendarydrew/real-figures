@@ -29,8 +29,9 @@ abstract class AnalyticsAPIController extends Controller
         $cache_key = 'analytics.' . static::CACHE_KEY . ".$days";
         if (!$rows = Cache::get($cache_key))
         {
+            $rows = $this->analyticsQuery($days);
             Cache::set($cache_key,
-                static::analyticsQuery($days),
+                $rows,
                 now()->plus(minutes: config('contest.analytics.cache', 60)));
         }
 
