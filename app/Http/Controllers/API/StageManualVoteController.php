@@ -33,7 +33,7 @@ class StageManualVoteController extends Controller
             return to_route('admin.stages')->withErrors('Stage does not require manual votes.');
         }
 
-        return Inertia::render('back/manual-vote', [
+        return Inertia::render('back/manual-vote-page', [
             'stage'  => [
                 'id'    => $stage->id,
                 'title' => $stage->title
