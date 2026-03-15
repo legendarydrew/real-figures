@@ -32,11 +32,12 @@ class AnalyticsChartFormatter
 
         $dates = $data->pluck('time');
 
-        $cursor  = $start->copy();
+        $cursor = $start->copy();
         while ($cursor->lte($end))
         {
             $date = $cursor->format('Y-m-d H:00');
-            if (!$dates->contains($date)) {
+            if (!$dates->contains($date))
+            {
                 $data->push(['time' => $date, 'count' => 0]);
             }
             $cursor->addHour();
@@ -58,11 +59,12 @@ class AnalyticsChartFormatter
 
         $dates = $data->pluck('date');
 
-        $cursor  = $start->copy();
+        $cursor = $start->copy();
         while ($cursor->lte($end))
         {
             $date = $cursor->toISOString();
-            if (!$dates->contains($date)) {
+            if (!$dates->contains($date))
+            {
                 $data->push(['date' => $date, ...array_fill_keys($keys, 0)]);
             }
             $cursor->addDay();
@@ -73,13 +75,14 @@ class AnalyticsChartFormatter
 
     public static function stackedByDate(
         array|Collection|null $rows,
-        string           $dimension,
-        string           $metric = 'eventCount',
-        string           $interval = 'day',
-        ?int             $top = null
+        string                $dimension,
+        string                $metric = 'eventCount',
+        string                $interval = 'day',
+        ?int                  $top = null
     ): array
     {
-        if (is_null($rows)) {
+        if (is_null($rows))
+        {
             return ['data' => [], 'keys' => []];
         }
 
@@ -132,6 +135,9 @@ class AnalyticsChartFormatter
             });
         }
 
+        /**
+         * @var Collection $keys
+         */
         $keys = $rows->pluck('dimension')->unique()->values();
 
         // Sum values per date + dimension
@@ -171,6 +177,9 @@ class AnalyticsChartFormatter
 
             return $row;
         });
+
+        // Ensure 'Other' is the last item in both lists, if present.
+        $keys = $keys->sort(fn($key) => $key === 'Other' ? 1 : 0);
 
         return [
             'keys' => $keys->values()->toArray(),

@@ -71,13 +71,14 @@ class ActViewsController extends AnalyticsAPIController
     {
         $data = AnalyticsChartFormatter::stackedByDate(
             $rows,
-            'customEvent:act'
+            'customEvent:act',
+            top: 10
         );
 
-        $data['table'] = $rows?->groupBy('customEvent:act')->map(fn($r) => [
-            'act'   => fractal(Act::whereSlug($r->first()['customEvent:act'])->first(), ActTransformer::class),
-            'count' => $r->sum('eventCount'),
-        ])->sortByDesc('count')->values() ?? [];
+        $data['table'] = array_map(fn($slug) => [
+            'act'   => $slug !== 'Other' ? fractal(Act::whereSlug($slug)->first(), ActTransformer::class) : null,
+            'count' => collect($data['data'])->pluck($slug)->sum(),
+        ], $data['keys']);
 
         return $data;
     }

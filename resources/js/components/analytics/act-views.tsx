@@ -3,9 +3,8 @@ import HeadingSmall from '@/components/heading-small';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
-import { AnalyticsData } from '@/types';
-import { ActItem } from '@/components/mode/act-item';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { ActImage } from '@/components/mode/act-image';
 
 
 interface Props {
@@ -14,13 +13,18 @@ interface Props {
 
 export const ActViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [chartData, setChartData] = useState<AnalyticsData>();
+    const [chartData, setChartData] = useState();
 
     useEffect(() => {
         fetchData();
     }, [days]);
 
     const fetchData = () => {
+        if (isLoading) {
+            return;
+        }
+        setIsLoading(true);
+
         axios.get("/api/analytics/acts", { params: { days } })
             .then((res) => {
                 setChartData(res.data);
@@ -45,9 +49,9 @@ export const ActViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
             <HeadingSmall title="Act profiles viewed"/>
 
             <LoadingOverlay isLoading={isLoading}>
-                <div className="flex flex-col lg:flex-row gap-8">
-                    <div className="lg:w-3/5">
-                        {chartData && (
+                {chartData && (
+                    <div className="flex flex-col lg:flex-row gap-8">
+                        <div className="lg:w-2/3">
                             <BarChart
                                 style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
                                 responsive
@@ -61,42 +65,49 @@ export const ActViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                         key={key}
                                         dataKey={key}
                                         stackId="acts"
-                                        fill={getColor(key)}
+                                        fill={stringToColor(key)}
                                     />
                                 ))}
                             </BarChart>
-                        )}
-                    </div>
-                    <div className="lg:w-2/5">
-                        <table className="data-table">
-                            <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col" className="text-left">Act</th>
-                                <th scope="col" className="text-right">Count</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {chartData.table?.length ? chartData.table.map((row, index) => (
-                                <tr key={index}>
-                                    <th scope="row">
-                                    <span className="block size-4"
-                                          style={{ backgroundColor: stringToColor(row.act.slug) }}></span>
-                                    </th>
-                                    <th className="text-left" scope="row">
-                                        <ActItem act={row.act}/>
-                                    </th>
-                                    <td className="text-right">{row.count}</td>
-                                </tr>
-                            )) : (
+                        </div>
+                        <div className="lg:w-1/3">
+                            <table className="data-table">
+                                <thead>
                                 <tr>
-                                    <td colSpan="3" className="nothing">No data recorded.</td>
+                                    <th scope="col"></th>
+                                    <th scope="col" colSpan={2} className="text-left">Act</th>
+                                    <th scope="col" className="text-right">Count</th>
                                 </tr>
-                            )}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                {chartData.table?.length ? chartData.table.map((row, index) => (
+                                    <tr key={index}>
+                                        <th scope="row">
+                                    <span className="block size-4"
+                                          style={{ backgroundColor: stringToColor(row.act?.slug ?? 'Other') }}></span>
+                                        </th>
+                                        <th className="text-left" scope="row">
+                                            {row.act && (<ActImage act={row.act} size={8}/>)}
+                                        </th>
+                                        <th className="text-left display-text" scope="row">
+                                            {row.act ? (<>
+                                                {row.act.name}
+                                                {row.act.subtitle && (<small
+                                                    className="ml-1 text-muted-foreground">{row.act.subtitle}</small>)}
+                                            </>) : 'Other'}
+                                        </th>
+                                        <td className="text-right">{row.count}</td>
+                                    </tr>
+                                )) : (
+                                    <tr>
+                                        <td colSpan="3" className="nothing">No data recorded.</td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                )}
             </LoadingOverlay>
         </section>
     )
