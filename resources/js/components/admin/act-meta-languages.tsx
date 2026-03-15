@@ -58,7 +58,7 @@ export const ActMetaLanguages: React.FC<ActMetaLanguagesProps> = ({ languages, o
 
                 {availableLanguages.length ? (
                     <Select id="songLanguage" onValueChange={addLanguageHandler}>
-                        <SelectTrigger className="w-auto h-auto leading-none py-0">Add language</SelectTrigger>
+                        <SelectTrigger className="w-auto h-8 leading-none py-0">Add language</SelectTrigger>
                         <SelectContent>
                             {availableLanguages.map((language) => (
                                 <SelectItem key={language.code} value={language.code}>

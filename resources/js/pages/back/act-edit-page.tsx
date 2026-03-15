@@ -225,7 +225,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                     </div>
 
                     {/* Optional Meta information. */}
-                    <HeadingSmall title="Additional information (optional)"/>
+                    <HeadingSmall title="Additional information (optional)" description="This information is mostly used to assist AI in generating content."/>
 
                     <div>
                         <label className="flex gap-2 items-center text-sm font-semibold">
@@ -241,6 +241,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                                    onChange={(e) => updateMetaHandler('genres', e)}/>
                     <ActMetaLanguages languages={data.meta.languages}
                                       onChange={(e) => updateMetaHandler('languages', e)}/>
+
                     <ActMetaMembers members={data.meta.members} onChange={(e) => updateMetaHandler('members', e)}/>
                     <ActMetaNotes notes={data.meta.notes} onChange={(e) => updateMetaHandler('notes', e)}/>
                     <ActMetaTraits traits={data.meta.traits} onChange={(e) => updateMetaHandler('traits', e)}/>

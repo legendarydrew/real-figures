@@ -43,7 +43,7 @@ export const ActMetaTraits: React.FC<ActMetaTraitsProps> = ({ traits, onChange }
 
     return (
         <div>
-            <HeadingSmall title="Act Traits" description="Anything we shoud know about the Act." />
+            <HeadingSmall title="Act Traits" description="Anything we shoud know about the Act's personality." />
             <ul className="my-2">
                 {rows.map((row, index) => (
                     <li key={index} className="flex items-stretch my-1">

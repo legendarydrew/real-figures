@@ -46,19 +46,19 @@ export const ActMetaNotes: React.FC<ActMetaNotesProps> = ({ notes, onChange }) =
             <HeadingSmall title="Act Notes"/>
             <ul className="my-2">
                 {rows.map((row, index) => (
-                    <li key={index} className="flex gap-2 my-1">
-                        <Textarea className="flex-grow font-semibold text-xs" rows={3}
+                    <li key={index} className="flex items-stretch my-1">
+                        <Textarea className="flex-grow text-xs" rows={3}
                                   placeholder="A note about the Act"
                                   value={row.note}
                                   onChange={(e) => updateRowHandler(index, 'note', e)}/>
                         <Button className="flex-shrink-0" size="icon" type="button" title="Remove"
                                 onClick={() => removeRowHandler(row)}>
-                            <XIcon/>
+                            <XIcon className="size-4"/>
                         </Button>
                     </li>
                 ))}
             </ul>
-            <Button type="button" onClick={addRowHandler}>
+            <Button type="button" size="sm" onClick={addRowHandler}>
                 <PlusIcon/>
                 Add
             </Button>
