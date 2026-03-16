@@ -63,7 +63,7 @@ export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
                             <Area dataKey="d" dot={false} strokeWidth={2} stackId="1"
                                   stroke="var(--donation)" fill="var(--donation-light)"/>
                             {donation.target && (<ReferenceLine y={donation.target} stroke="var(--secondary)"
-k                                                               label={`Target amount: ${donation.currency} ${donation.target}`}/>)}
+                                                               label={`Target amount: ${donation.currency} ${donation.target}`}/>)}
                         </AreaChart>
                     </ResponsiveContainer>
                 ) : (
