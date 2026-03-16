@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
 /**
- * DonationsController
- * This returns analytics data for donations started and completed over the specified period.
- * This one is trickier, because we would have to combine two reports.
+ * DonationsTotalController
+ * This returns analytics data for the cumulative donations total over the specified period.
+ * We don't need Google Analytics data for this, as we should have the information required
+ * in the database. However, we would want to make sure that the data is a snapshot of the
+ * specified period.
  * We would be interested in:
- * - donations started per day
- * - donations completed per day
+ * - donations per day
+ * - Golden Buzzer donations per day
  *
  * @package App\Http\Controllers\API\Analytics
  */

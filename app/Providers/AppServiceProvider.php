@@ -25,8 +25,12 @@ class AppServiceProvider extends ServiceProvider
     {
         // Make certain configured values available to our app. (Thanks once again, ChatGPT.)
         Inertia::share([
-            'locale' => config('app.locale'),
-            'rounds' => app()->runningUnitTests() ? [] : Contest::getRoundMarkers()
+            'donation' => [
+                'currency' => config('contest.donation.currency'),
+                'target'   => config('contest.donation.target_amount')
+            ],
+            'locale'   => config('app.locale'),
+            'rounds'   => app()->runningUnitTests() ? [] : Contest::getRoundMarkers()
         ]);
 
         \View::composer('front.links', function (View $view)

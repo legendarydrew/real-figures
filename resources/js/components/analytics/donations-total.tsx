@@ -1,4 +1,4 @@
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import HeadingSmall from '@/components/heading-small';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
@@ -14,6 +14,8 @@ interface Props {
 }
 
 export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
+
+    const { donation } = usePage().props;
 
     const [chartData, setChartData] = useState<AnalyticsData>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -58,6 +60,8 @@ export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
                             <YAxis className="display-text font-normal text-xs"/>
                             <Area dataKey="total" dot={false} strokeWidth={2}
                                   stroke="var(--donation)" fill="var(--donation-light)"/>
+                            {donation.target && (<ReferenceLine y={donation.target} stroke="var(--primary)"
+k                                                               label={`Target amount: ${donation.currency} ${donation.target}`}/>)}
                         </AreaChart>
                     </ResponsiveContainer>
                 ) : (
