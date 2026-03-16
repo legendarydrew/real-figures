@@ -16,7 +16,7 @@ return [
         ],
         'options'       => [3, 5, 10, 15, 20, 50, 100],
         'currency'      => 'USD',
-        'target_amount' => env('DONATION_TARGET', 0)  // [optional] target amount to raise.
+        'target_amount' => env('CONTEST_DONATION_TARGET', 0)  // [optional] target amount to raise.
     ],
     'song'      => [
         'default-title' => 'Real Figures Don\'t F.O.L.D'
@@ -28,9 +28,10 @@ return [
         'minSongs'    => 3,
     ],
     'judgement' => [
-        'winners'    => 1,
-        'runners-up' => 3,
-        'allow-ties' => true
+        'winners'       => 1,
+        'runners-up'    => 3,
+        'allow-ties'    => env('CONTEST_ALLOW_TIES', true),
+        'panel-members' => env('CONTEST_PANEL_COUNT', 0)  // number of additional "panel" members for manual voting.
     ],
     'ai'        => [
         'model' => 'gpt-4o-mini'
