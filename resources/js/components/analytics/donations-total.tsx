@@ -51,16 +51,18 @@ export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
             <HeadingSmall title="Donations total"/>
 
             <LoadingOverlay isLoading={isLoading}>
-                {chartData?.length ? (
+                {chartData?.data.length ? (
                     <ResponsiveContainer className="w-full" aspect={4}>
-                        <AreaChart data={chartData} margin={2}>
+                        <AreaChart data={chartData.data} margin={2}>
                             <XAxis dataKey="date"
                                    tickFormatter={formatDate}
                                    className="display-text font-normal text-xs"/>
                             <YAxis className="display-text font-normal text-xs"/>
-                            <Area dataKey="total" dot={false} strokeWidth={2}
+                            <Area dataKey="b" dot={false} strokeWidth={2} stackId="1"
+                                  stroke="var(--gold)" fill="var(--gold-light)"/>
+                            <Area dataKey="d" dot={false} strokeWidth={2} stackId="1"
                                   stroke="var(--donation)" fill="var(--donation-light)"/>
-                            {donation.target && (<ReferenceLine y={donation.target} stroke="var(--primary)"
+                            {donation.target && (<ReferenceLine y={donation.target} stroke="var(--secondary)"
 k                                                               label={`Target amount: ${donation.currency} ${donation.target}`}/>)}
                         </AreaChart>
                     </ResponsiveContainer>
