@@ -6,6 +6,7 @@ use App\Http\Controllers\API\Analytics\CollapseController;
 use App\Http\Controllers\API\Analytics\DonationsAnonymousController;
 use App\Http\Controllers\API\Analytics\DonationsDailyController;
 use App\Http\Controllers\API\Analytics\DonationsMadeController;
+use App\Http\Controllers\API\Analytics\DonationsTotalController;
 use App\Http\Controllers\API\Analytics\PagesController;
 use App\Http\Controllers\API\Analytics\PageViewsController;
 use App\Http\Controllers\API\Analytics\PlaysController;
@@ -59,8 +60,9 @@ Route::prefix('/api')->group(function ()
         Route::get('analytics/acts', [ActViewsController::class, 'index'])->name('analytics.acts');
         Route::get('analytics/collapse', [CollapseController::class, 'index'])->name('analytics.collapse');
         Route::get('analytics/donations/anonymous', [DonationsAnonymousController::class, 'index'])->name('analytics.donations.anonymous');
-        Route::get('analytics/donations/made', [DonationsMadeController::class, 'index'])->name('analytics.donations.made');
         Route::get('analytics/donations/daily', [DonationsDailyController::class, 'index'])->name('analytics.donations.daily');
+        Route::get('analytics/donations/made', [DonationsMadeController::class, 'index'])->name('analytics.donations.made');
+        Route::get('analytics/donations/total', [DonationsTotalController::class, 'index'])->name('analytics.donations.total');
         Route::get('analytics/referrers', [ReferrersController::class, 'index'])->name('analytics.referrers');
         Route::get('analytics/page-views', [PageViewsController::class, 'index'])->name('analytics.page-views');
         Route::get('analytics/pages', [PagesController::class, 'index'])->name('analytics.pages');
