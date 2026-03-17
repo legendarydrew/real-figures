@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\API\Analytics;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\AnalyticsAPIController;
 use Google\Analytics\Data\V1beta\Filter;
 use Google\Analytics\Data\V1beta\Filter\StringFilter;
 use Google\Analytics\Data\V1beta\FilterExpression;
 use Google\Analytics\Data\V1beta\FilterExpressionList;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
@@ -21,79 +21,80 @@ use Spatie\Analytics\Period;
  *
  * @package App\Http\Controllers\API\Analytics
  */
-class DonationsMadeController extends Controller
+class DonationsMadeController extends AnalyticsAPIController
 {
+    public const string CACHE_KEY  = 'donations-made';
+    const string        DIALOG_ID  = 'donate';
+    const string        EVENT_NAME = 'donation';
 
-    public function index(): JsonResponse
+    protected function analyticsQuery(int $days): Collection
     {
-        $days = request('days', 7);
+        $rows = [];
 
-        if (!$rows = \Cache::get('analytics.donations.' . $days))
-        {
-            $rows = [];
+        // https://developers.google.com/analytics/devguides/reporting/data/v1/basics#php_4
+        $started_filter = new FilterExpression([
+            'and_group' => new FilterExpressionList([
+                'expressions' => [
+                    new FilterExpression([
+                        'filter' => new Filter([
+                            'field_name'    => 'eventName',
+                            'string_filter' => new Filter\StringFilter([
+                                'match_type' => Filter\StringFilter\MatchType::EXACT,
+                                'value'      => 'dialog_open',
+                            ])
+                        ]),
+                    ]),
+                    new FilterExpression([
+                        'filter' => new Filter([
+                            'field_name'    => 'customEvent:type',
+                            'string_filter' => new StringFilter([
+                                'match_type' => Filter\StringFilter\MatchType::EXACT,
+                                'value'      => static::DIALOG_ID,
+                            ])
+                        ]),
+                    ]),
+                ],
+            ])
+        ]);
 
-            // https://developers.google.com/analytics/devguides/reporting/data/v1/basics#php_4
-            $started_filter = new FilterExpression([
-                'and_group' => new FilterExpressionList([
-                    'expressions' => [
-                        new FilterExpression([
-                            'filter' => new Filter([
-                                'field_name'    => 'eventName',
-                                'string_filter' => new Filter\StringFilter([
-                                    'match_type' => Filter\StringFilter\MatchType::EXACT,
-                                    'value'      => 'dialog_open',
-                                ])
-                            ]),
-                        ]),
-                        new FilterExpression([
-                            'filter' => new Filter([
-                                'field_name'    => 'customEvent:type',
-                                'string_filter' => new StringFilter([
-                                    'match_type' => Filter\StringFilter\MatchType::EXACT,
-                                    'value'      => 'donate',
-                                ])
-                            ]),
-                        ]),
-                    ],
+        $rows['started'] = Analytics::get(
+            Period::days($days),
+            metrics: ['eventCount'],
+            dimensions: ['date'],
+            maxResults: 1000,
+            dimensionFilter: $started_filter,
+            keepEmptyRows: true
+        );
+
+        $completed_filter = new FilterExpression([
+            'filter' => new Filter([
+                'field_name'    => 'eventName',
+                'string_filter' => new Filter\StringFilter([
+                    'match_type' => Filter\StringFilter\MatchType::EXACT,
+                    'value'      => static::EVENT_NAME,
                 ])
-            ]);
+            ]),
+        ]);
 
-            $rows['started'] = Analytics::get(
-                Period::days($days),
-                metrics: ['eventCount'],
-                dimensions: ['date'],
-                maxResults: 1000,
-                dimensionFilter: $started_filter,
-                keepEmptyRows: true
-            );
+        $rows['completed'] = Analytics::get(
+            Period::days($days),
+            metrics: ['eventCount'],
+            dimensions: ['date'],
+            maxResults: 1000,
+            dimensionFilter: $completed_filter,
+            keepEmptyRows: true
+        );
 
-            $completed_filter = new FilterExpression([
-                'filter' => new Filter([
-                    'field_name'    => 'eventName',
-                    'string_filter' => new Filter\StringFilter([
-                        'match_type' => Filter\StringFilter\MatchType::EXACT,
-                        'value'      => 'donation',
-                    ])
-                ]),
-            ]);
+        return collect($rows);
+    }
 
-            $rows['completed'] = Analytics::get(
-                Period::days($days),
-                metrics: ['eventCount'],
-                dimensions: ['date'],
-                maxResults: 1000,
-                dimensionFilter: $completed_filter,
-                keepEmptyRows: true
-            );
-
-            \Cache::set('analytics.donations.' . $days, $rows, now()->plus(minutes: config('contest.analytics.cache', 60)));
-        }
-
+    protected function analyticsProcessed(?Collection $rows, int $days): array
+    {
         $data   = [];
         $cursor = now()->subDays($days);
         do
         {
-            $date = $cursor->format('Y-m-d');
+            $date        = $cursor->format('Y-m-d');
             $data[$date] = ['date' => $date, 'started' => 0, 'completed' => 0];
             $cursor->addDay();
         }
@@ -105,9 +106,9 @@ class DonationsMadeController extends Controller
         });
         $rows['completed']->each(function ($row) use (&$data)
         {
-            $data[$row['date']->format('Y-m-d')]['started'] = $row['eventCount'];
+            $data[$row['date']->format('Y-m-d')]['completed'] = $row['eventCount'];
         });
 
-        return response()->json(array_values($data));
+        return array_values($data);
     }
 }

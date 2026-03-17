@@ -8,6 +8,7 @@ use App\Http\Controllers\API\Analytics\DonationsAnonymousController;
 use App\Http\Controllers\API\Analytics\DonationsDailyController;
 use App\Http\Controllers\API\Analytics\DonationsMadeController;
 use App\Http\Controllers\API\Analytics\DonationsTotalController;
+use App\Http\Controllers\API\Analytics\GoldenBuzzersMadeController;
 use App\Http\Controllers\API\Analytics\OutboundController;
 use App\Http\Controllers\API\Analytics\PagesController;
 use App\Http\Controllers\API\Analytics\PageViewsController;
@@ -66,6 +67,7 @@ Route::prefix('/api')->group(function ()
         Route::get('analytics/donations/daily', [DonationsDailyController::class, 'index'])->name('analytics.donations.daily');
         Route::get('analytics/donations/made', [DonationsMadeController::class, 'index'])->name('analytics.donations.made');
         Route::get('analytics/donations/total', [DonationsTotalController::class, 'index'])->name('analytics.donations.total');
+        Route::get('analytics/golden-buzzers/made', [GoldenBuzzersMadeController::class, 'index'])->name('analytics.golden-buzzers.made');
         Route::get('analytics/outbound', [OutboundController::class, 'index'])->name('analytics.outbound');
         Route::get('analytics/page-views', [PageViewsController::class, 'index'])->name('analytics.page-views');
         Route::get('analytics/pages', [PagesController::class, 'index'])->name('analytics.pages');

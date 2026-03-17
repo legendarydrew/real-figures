@@ -12,7 +12,7 @@ interface Props {
     days?: number
 }
 
-export const DonationsMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
+export const GoldenBuzzersMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     const [chartData, setChartData] = useState<AnalyticsData>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -26,7 +26,7 @@ export const DonationsMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
             return;
         }
         setIsLoading(true);
-        return axios.get("/api/analytics/donations/made", { params: { days } })
+        return axios.get("/api/analytics/golden-buzzers/made", { params: { days } })
             .then((res) => {
                 setChartData(res.data);
             })
@@ -38,8 +38,8 @@ export const DonationsMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
     }
 
     return (
-        <section id="analyticsDonations" className="analytics-section">
-            <HeadingSmall title="Donations made"/>
+        <section id="analyticsGoldenBuzzersMade" className="analytics-section">
+            <HeadingSmall title="Golden Buzzers made"/>
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData && (
@@ -52,8 +52,8 @@ export const DonationsMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         <ChartYAxis label="Count"/>
                         <Tooltip/>
 
-                        <Line dataKey="started" stroke="var(--donation-light)"/>
-                        <Line dataKey="completed" stroke="var(--donation)" strokeWidth={2}/>
+                        <Line dataKey="started" stroke="var(--gold-light)"/>
+                        <Line dataKey="completed" stroke="var(--gold)" strokeWidth={2}/>
                         <ChartRoundReferences/>
                     </LineChart>
                 )}
