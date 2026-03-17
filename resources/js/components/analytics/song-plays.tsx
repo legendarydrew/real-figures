@@ -1,10 +1,11 @@
-import { Bar, BarChart, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, ResponsiveContainer } from 'recharts';
 import HeadingSmall from '@/components/heading-small';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
 
 
 interface Props {
@@ -20,6 +21,10 @@ export const SongPlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
     }, [days]);
 
     const fetchData = () => {
+        if (isLoading) {
+            return;
+        }
+        setIsLoading(true);
         axios.get("/api/analytics/songs", { params: { days } })
             .then((res) => {
                 setChartData(res.data);
@@ -45,13 +50,10 @@ export const SongPlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData && (
-                    <BarChart
-                        style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
-                        responsive
-                        data={chartData.data}
-                    >
-                        <XAxis dataKey="date"/>
-                        <YAxis/>
+                    <ResponsiveContainer width="100%" aspect={1.618} maxHeight={300}>
+                    <BarChart data={chartData.data} height={300}>
+                        <ChartDateXAxis />
+                        <ChartYAxis label="Song plays" />
 
                         {chartData.keys.map(key => (
                             <Bar
@@ -61,7 +63,9 @@ export const SongPlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                 fill={stringToColor(key)}
                             />
                         ))}
+                        <ChartRoundReferences />
                     </BarChart>
+                    </ResponsiveContainer>
                 )}
                 <table className="data-table">
                     <thead>

@@ -1,8 +1,9 @@
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts";
 import { Nothing } from '@/components/mode/nothing';
 import { usePage } from '@inertiajs/react';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { cssVar } from '@/lib/utils';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis, formatDate } from '@/components/chart-elements';
 
 // https://www.geeksforgeeks.org/create-a-line-chart-using-recharts-in-reactjs/
 
@@ -22,17 +23,14 @@ export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ dat
 
     const { locale } = usePage().props;
 
-    const formatDate = (timestamp: string): string => {
-        return new Date(timestamp).toLocaleDateString(locale);
-    };
-
     const tooltipContent = ({ active, payload, label }) => {
         if (active && payload?.length) {
             return (
                 <div className="bg-white shadow-md leading-tight rounded-sm p-3">
-                    <span className="display-text">{formatDate(label)}</span><br/>
-                    <span
-                        className=" text-sm">{payload[0].value ? payload[0].value.toLocaleString() : 'No'} Song {payload[0].value === 1 ? 'play' : 'plays'}</span>
+                    <span className="display-text text-sm">{formatDate(locale as string, label)}</span><br/>
+                    <span className="text-xs">
+                        {payload[0].value ? payload[0].value.toLocaleString() : 'No'} Song {payload[0].value === 1 ? 'play' : 'plays'}
+                    </span>
                 </div>
             );
         }
@@ -45,23 +43,20 @@ export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ dat
             <CardTitle className="display-text font-normal">Song plays <small>within the last week</small></CardTitle>
             <CardContent>
                 {data.days.length ? (
-                    <ResponsiveContainer className="w-full h-[12rem]" aspect={2.5}>
-                        <BarChart data={data.days} margin={0}>
+                    <ResponsiveContainer width="100%" aspect={3} maxHeight={300}>
+                        <BarChart data={data.days} height={300}>
                             <CartesianGrid strokeDasharray="3 3"/>
-                            <XAxis dataKey="date" type="category" tickCount={7}
-                                   tickFormatter={formatDate}
-                                   className="display-text font-normal text-xs"/>
-                            <YAxis className="display-text font-normal text-xs"/>
+                            <ChartDateXAxis/>
+                            <ChartYAxis label="Song plays"/>
                             <Tooltip content={tooltipContent} isAnimationActive={false}/>
                             <Bar dataKey="play_count" label="Total song plays"
                                  radius={[4, 4, 0, 0]}
-                                 fill={cssVar('--primary')}/>
+                                 fill={cssVar('--chart-1-4')}/>
+                            <ChartRoundReferences />
                         </BarChart>
                     </ResponsiveContainer>
                 ) : (
-                    <Nothing className="w-full h-full">
-                        No information about Songs played.
-                    </Nothing>
+                    <Nothing>No information about Songs played.</Nothing>
                 )}
             </CardContent>
         </Card>);

@@ -1,10 +1,11 @@
-import { Bar, BarChart, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, ResponsiveContainer } from 'recharts';
 import HeadingSmall from '@/components/heading-small';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
 
 
 interface Props {
@@ -20,6 +21,10 @@ export const CollapseOpenAnalytics: React.FC<Props> = ({ days = 7 }) => {
     }, [days]);
 
     const fetchData = () => {
+        if (isLoading) {
+            return;
+        }
+        setIsLoading(true);
         axios.get("/api/analytics/collapse", { params: { days } })
             .then((res) => {
                 setChartData(res.data);
@@ -71,58 +76,53 @@ export const CollapseOpenAnalytics: React.FC<Props> = ({ days = 7 }) => {
             <HeadingSmall title="Collapse sections opened"/>
 
             <LoadingOverlay isLoading={isLoading}>
-                <div className="flex flex-col lg:flex-row gap-8">
-                    <div className="lg:w-3/5">
-                        {chartData && (
-                            <BarChart
-                                style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
-                                responsive
-                                data={chartData.data}
-                            >
-                                <XAxis dataKey="date"/>
-                                <YAxis/>
 
-                                {chartData.keys.map(key => (
-                                    <Bar
-                                        key={key}
-                                        dataKey={key}
-                                        stackId="sections"
-                                        fill={getColor(key)}
-                                    />
-                                ))}
-                            </BarChart>
-                        )}
-                    </div>
-                    <div className="lg:w-2/5">
-                        <table className="data-table">
-                            <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col" className="text-left">Page</th>
-                                <th scope="col" className="text-left">Section</th>
-                                <th scope="col" className="text-right">Count</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {chartData ? chartData.table.map((row, index) => (
-                                <tr key={index}>
-                                    <th scope="row">
+                {chartData && (
+                    <ResponsiveContainer aspect={3} width="100%" maxHeight={300}>
+                        <BarChart data={chartData.data} height={300}>
+                            <ChartDateXAxis/>
+                            <ChartYAxis label="Opens"/>
+
+                            {chartData.keys.map(key => (
+                                <Bar
+                                    key={key}
+                                    dataKey={key}
+                                    stackId="sections"
+                                    fill={getColor(key)}
+                                />
+                            ))}
+                            <ChartRoundReferences/>
+                        </BarChart>
+                    </ResponsiveContainer>
+                )}
+
+                <table className="data-table">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col" className="text-left">Page</th>
+                        <th scope="col" className="text-left">Section</th>
+                        <th scope="col" className="text-right">Count</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {chartData ? chartData.table.map((row, index) => (
+                        <tr key={index}>
+                            <th scope="row">
                                     <span className="block size-4"
                                           style={{ backgroundColor: getColor(row.section) }}></span>
-                                    </th>
-                                    <th className="text-left" scope="row">{row.page}</th>
-                                    <th className="text-left" scope="row">{row.section}</th>
-                                    <td className="text-right">{row.count}</td>
-                                </tr>
-                            )) : (
-                                <tr>
-                                    <td colSpan="4" className="nothing">No data recorded.</td>
-                                </tr>
-                            )}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                            </th>
+                            <th className="text-left" scope="row">{row.page}</th>
+                            <th className="text-left" scope="row">{row.section}</th>
+                            <td className="text-right">{row.count}</td>
+                        </tr>
+                    )) : (
+                        <tr>
+                            <td colSpan="4" className="nothing">No data recorded.</td>
+                        </tr>
+                    )}
+                    </tbody>
+                </table>
             </LoadingOverlay>
         </section>
     )
