@@ -60,6 +60,13 @@ class StageManualVoteController extends Controller
      */
     public function store(ManualVoteRequest $request, int $stage_id): RedirectResponse
     {
+        /* To make things more interesting: we have the option of simulating an "independent panel"
+         * by setting CONTEST_PANEL_COUNT in the env file. This will cast random votes per member
+         * in addition to the ones provided.
+         * There is also a CONTEST_PANEL_BIAS setting, controlling how closely each panel member's
+         * vote resembles the provided vote - which could mean that the Song we chose might not be
+         * the winner!
+         */
         Stage::findOrFail($stage_id);
 
         $data = $request->validated();
@@ -78,15 +85,16 @@ class StageManualVoteController extends Controller
                         abort(400, "{$round->title}: An invalid Song was chosen.");
                     }
 
-
                     // Cast a vote for the Round, as directed.
                     RoundVote::create([
                         'round_id'         => $round->id,
                         'first_choice_id'  => $vote['song_ids']['first'],
                         'second_choice_id' => $vote['song_ids']['second'],
-                        'third_choice_id'  => $vote['song_ids']['third'],
-                        'was_manual'       => true
+                        'third_choice_id'  => $vote['song_ids']['third']
                     ]);
+
+                    // Cast panel member votes (if necessary).
+                    $this->castPanelVotes($round->id, $round_song_ids, $vote['song_ids']);
                 }
 
                 // Recalculate outcomes for the Round.
@@ -95,5 +103,35 @@ class StageManualVoteController extends Controller
         });
 
         return to_route('admin.stages');
+    }
+
+    /**
+     * Create "independent panel" votes for the specified Round.
+     * These votes are determined at random, but might be biased toward the user's choices.
+     *
+     * @param int   $round_id the Round ID to vote on.
+     * @param array $song_ids a list of Song IDs.
+     * @param array $voted    how the user voted for this Round.
+     * @return void
+     */
+    protected function castPanelVotes(int $round_id, array $song_ids, array $voted): void
+    {
+        $vote_count = max(0, config('contest.judgement.panel-count'));
+        $vote_bias  = max(0, min(100, config('contest.judgement.panel-bias')));
+
+        for ($i = 0; $i < $vote_count; $i++)
+        {
+            // Determine whether the panel member's vote matches the user's, or is completely random.
+            $choices = fake()->boolean($vote_bias) ? array_values($voted) : fake()->randomElements($song_ids, 3);
+
+            // Cast the vote!
+            RoundVote::create([
+                'round_id'         => $round_id,
+                'first_choice_id'  => $choices[0],
+                'second_choice_id' => $choices[1],
+                'third_choice_id'  => $choices[2]
+            ]);
+
+        }
     }
 }

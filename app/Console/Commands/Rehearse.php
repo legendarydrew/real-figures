@@ -180,7 +180,8 @@ class Rehearse extends Command
         if (array_key_exists($state, RehearseData::STATES))
         {
             $this->info("Setting up " . RehearseData::STATES[$state]);
-            if ($manual_vote) {
+            if ($manual_vote)
+            {
                 $this->info('- manual voting required');
             }
         }
@@ -356,34 +357,13 @@ class Rehearse extends Command
 
                 // Potentially cast some votes for a random selection of Songs.
                 // This should always happen if we want to determine which Songs qualify.
-                if (!$manual_vote) {
-                    $vote_count = ($judgement || fake()->boolean(70)) ?
-                        fake()->numberBetween(1, 200) : 0;
-                    for ($i = 0; $i < $vote_count; $i++)
-                    {
-                        $votes = fake()->randomElements($song_ids, 3);
-                        RoundVote::create([
-                            'round_id'         => $round->id,
-                            'first_choice_id'  => $votes[0],
-                            'second_choice_id' => $votes[1],
-                            'third_choice_id'  => $votes[2],
-                        ]);
-                    }
+                if (!$manual_vote)
+                {
+                    $this->castVotes($judgement, $song_ids, $round);
                 }
-
 
                 // Potentially randomly award a Golden Buzzer to Songs.
-                for ($i = 0; $i < 30; $i++)
-                {
-                    if (fake()->boolean(10))
-                    {
-                        $song_id = fake()->randomElement($song_ids);
-                        GoldenBuzzer::factory()->create([
-                            'round_id' => $round->id,
-                            'song_id'  => $song_id
-                        ]);
-                    }
-                }
+                $this->awardGoldenBuzzers($song_ids, $round);
             });
 
         if ($stage->hasEnded())
@@ -391,35 +371,14 @@ class Rehearse extends Command
             // Calculate scores for each Song.
             $stage->rounds()->each(function ($round)
             {
-                ContestFacade::buildRoundOutcome($round);
+                ContestFacade::buildRoundOutcomes($round);
             });
             $stage->refresh();
 
             // Determine the winner and runner(s)-up, if requested.
             if ($judgement && !$stage->requiresManualVote())
             {
-                [$winners, $runners_up] = ContestFacade::determineStageWinners($stage, $runner_up_count);
-                DB::transaction(function () use ($stage, $winners, $runners_up)
-                {
-                    $winners->each(function ($winner) use ($stage)
-                    {
-                        StageWinner::create([
-                            'stage_id'  => $stage->id,
-                            'round_id'  => $winner->round_id,
-                            'song_id'   => $winner->song_id,
-                            'is_winner' => true
-                        ]);
-                    });
-                    $runners_up->each(function ($winner) use ($stage)
-                    {
-                        StageWinner::create([
-                            'stage_id'  => $stage->id,
-                            'round_id'  => $winner->round_id,
-                            'song_id'   => $winner->song_id,
-                            'is_winner' => false
-                        ]);
-                    });
-                });
+                $this->createStageWinners($stage, $runner_up_count);
             }
         }
 
@@ -438,5 +397,80 @@ class Rehearse extends Command
         return $winners->map(fn($winner) => $winner->song)
                        ->concat($runners_up->map(fn($runner) => $runner->song));
 
+    }
+
+    /**
+     * @param bool  $judgement
+     * @param array $song_ids
+     * @param Round $round
+     * @return int
+     */
+    protected function castVotes(bool $judgement, array $song_ids, Round $round): int
+    {
+        $vote_count = ($judgement || fake()->boolean(70)) ?
+            fake()->numberBetween(1, 200) : 0;
+        for ($i = 0; $i < $vote_count; $i++)
+        {
+            $votes = fake()->randomElements($song_ids, 3);
+            RoundVote::create([
+                'round_id'         => $round->id,
+                'first_choice_id'  => $votes[0],
+                'second_choice_id' => $votes[1],
+                'third_choice_id'  => $votes[2],
+            ]);
+        }
+        return $i;
+    }
+
+    /**
+     * @param array $song_ids
+     * @param Round $round
+     * @return void
+     */
+    protected function awardGoldenBuzzers(array $song_ids, Round $round): void
+    {
+        for ($i = 0; $i < 30; $i++)
+        {
+            if (fake()->boolean(10))
+            {
+                $song_id = fake()->randomElement($song_ids);
+                GoldenBuzzer::factory()->create([
+                    'round_id' => $round->id,
+                    'song_id'  => $song_id
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @param Stage $stage
+     * @param int   $runner_up_count
+     * @return void
+     * @throws Throwable
+     */
+    protected function createStageWinners(Stage $stage, int $runner_up_count): void
+    {
+        [$winners, $runners_up] = ContestFacade::determineStageWinners($stage, $runner_up_count);
+        DB::transaction(function () use ($stage, $winners, $runners_up)
+        {
+            $winners->each(function ($winner) use ($stage)
+            {
+                StageWinner::create([
+                    'stage_id'  => $stage->id,
+                    'round_id'  => $winner->round_id,
+                    'song_id'   => $winner->song_id,
+                    'is_winner' => true
+                ]);
+            });
+            $runners_up->each(function ($winner) use ($stage)
+            {
+                StageWinner::create([
+                    'stage_id'  => $stage->id,
+                    'round_id'  => $winner->round_id,
+                    'song_id'   => $winner->song_id,
+                    'is_winner' => false
+                ]);
+            });
+        });
     }
 }
