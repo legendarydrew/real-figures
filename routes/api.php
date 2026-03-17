@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\ActController;
 use App\Http\Controllers\API\Analytics\ActViewsController;
 use App\Http\Controllers\API\Analytics\CollapseController;
+use App\Http\Controllers\API\Analytics\CountriesController;
 use App\Http\Controllers\API\Analytics\DonationsAnonymousController;
 use App\Http\Controllers\API\Analytics\DonationsDailyController;
 use App\Http\Controllers\API\Analytics\DonationsMadeController;
@@ -60,6 +61,7 @@ Route::prefix('/api')->group(function ()
 
         Route::get('analytics/acts', [ActViewsController::class, 'index'])->name('analytics.acts');
         Route::get('analytics/collapse', [CollapseController::class, 'index'])->name('analytics.collapse');
+        Route::get('analytics/countries', [CountriesController::class, 'index'])->name('analytics.countries');
         Route::get('analytics/donations/anonymous', [DonationsAnonymousController::class, 'index'])->name('analytics.donations.anonymous');
         Route::get('analytics/donations/daily', [DonationsDailyController::class, 'index'])->name('analytics.donations.daily');
         Route::get('analytics/donations/made', [DonationsMadeController::class, 'index'])->name('analytics.donations.made');
