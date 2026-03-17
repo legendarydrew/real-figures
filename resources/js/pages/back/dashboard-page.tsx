@@ -8,6 +8,8 @@ import { DashboardDonationCount } from '@/components/admin/dashboard-donation-co
 import { DashboardGoldenBuzzerCount } from '@/components/admin/dashboard-golden-buzzer-count';
 import { DashboardAnalyticsViews } from '@/components/admin/dashboard-analytics-views';
 import { DashboardContestStatus } from '@/components/admin/dashboard-contest-status';
+import { DashboardSongTotalPlays } from '@/components/admin/dashboard-song-total-plays';
+import { DashboardVotesCast } from '@/components/admin/dashboard-votes-cast';
 import { DashboardDate } from '@/components/admin/dashboard-date';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -18,16 +20,16 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function DashboardPage({
-                                      analytics_views,
-                                      contest_status,
-                                      donations,
-                                      buzzer_count,
-                                      message_count,
-                                      subscriber_count,
-                                      song_plays,
-                                      votes,
-                                      vote_count
-                                  }) {
+                                          analytics_views,
+                                          contest_status,
+                                          donations,
+                                          buzzer_count,
+                                          message_count,
+                                          subscriber_count,
+                                          song_plays,
+                                          votes,
+                                          vote_count
+                                      }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard"/>
@@ -51,9 +53,9 @@ export default function DashboardPage({
 
                 </div>
 
-                <DashboardAnalyticsViews className="p-3 lg:col-start-1 lg:col-span-5 row-span-4" data={analytics_views}/>
-                {/*<DashboardSongTotalPlays className="p-3" data={song_plays}/>*/}
-                {/*<DashboardVotesCast className="p-3" data={votes}/>*/}
+                <DashboardAnalyticsViews className="p-3" data={analytics_views}/>
+                <DashboardSongTotalPlays className="p-3" data={song_plays}/>
+                <DashboardVotesCast className="p-3" data={votes}/>
 
             </div>
 

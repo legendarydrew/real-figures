@@ -2,8 +2,6 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { AdminHeader } from '@/components/admin/admin-header';
-import { OutboundAnalytics } from '@/components/analytics/outbound';
-import { SongPlaysAnalytics } from '@/components/analytics/song-plays';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -26,7 +24,7 @@ export default function AnalyticsPage() {
                 {/*<CollapseOpenAnalytics/>*/}
                 {/*<VotesAnalytics/>*/}
                 {/*<ReferrersAnalytics />*/}
-                <SongPlaysAnalytics/>
+                {/*<SongPlaysAnalytics/>*/}
                 {/*<PlaysAnalytics/>*/}
                 {/*<DonationsMadeAnalytics/>*/}
                 {/*<PageViewsAnalytics/>*/}
@@ -36,7 +34,7 @@ export default function AnalyticsPage() {
                 {/*<DonationsDailyAnalytics />*/}
                 {/*<SubscribersAnalytics/>*/}
                 {/*<DonationsTotalAnalytics/>*/}
-                <OutboundAnalytics/>
+                {/*<OutboundAnalytics/>*/}
             </div>
         </AppLayout>
     );
