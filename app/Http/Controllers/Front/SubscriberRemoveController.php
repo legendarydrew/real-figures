@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Subscriber;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Session;
 use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
 
@@ -17,7 +17,7 @@ use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
 class SubscriberRemoveController extends Controller
 {
 
-    public function show(int $subscriber_id, string $code): RedirectResponse
+    public function show(int $subscriber_id, string $code): View
     {
         $subscriber = Subscriber::whereConfirmationCode($code)->find($subscriber_id);
         if ($subscriber)
@@ -25,12 +25,9 @@ class SubscriberRemoveController extends Controller
             $subscriber->delete();
             Session::flash('message', "{$subscriber->email} has been removed. Thank you for your time!");
             app(GoogleAnalyticsService::class)->sendEvent('subscriber', ['value' => -1]);
-        }
-        else
-        {
-            Session::flash('message', "Invalid subscriber.");
+            return view('front.subscriber-removed');
         }
 
-        return to_route('home');
+        abort(404);
     }
 }
