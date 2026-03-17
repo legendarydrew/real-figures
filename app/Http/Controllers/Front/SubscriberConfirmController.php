@@ -30,7 +30,7 @@ class SubscriberConfirmController extends Controller
 
             if (!$previously_confirmed)
             {
-                Mail::to($subscriber->email)->send(new SubscriberConfirmation());
+                Mail::to($subscriber->email)->send(new SubscriberConfirmation($subscriber));
             }
 
             // TRACK new subscriber.

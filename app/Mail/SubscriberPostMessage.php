@@ -5,7 +5,6 @@ namespace App\Mail;
 use App\Models\Subscriber;
 use App\Models\SubscriberPost;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -15,7 +14,7 @@ class SubscriberPostMessage extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(private Subscriber $subscriber, private SubscriberPost $post)
+    public function __construct(private readonly Subscriber $subscriber, private readonly SubscriberPost $post)
     {
     }
 
