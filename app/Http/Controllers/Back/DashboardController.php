@@ -11,8 +11,10 @@ use App\Models\Donation;
 use App\Models\GoldenBuzzer;
 use App\Models\Round;
 use App\Models\RoundVote;
+use App\Models\Song;
 use App\Models\SongPlay;
 use App\Models\Subscriber;
+use App\Transformers\ActTransformer;
 use App\Transformers\DonationTransformer;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -169,10 +171,12 @@ class DashboardController extends Controller
                 $current_round = $current_stage?->rounds->first(fn(Round $round) => $round->isActive());
                 if ($current_round)
                 {
+                    $acts = $current_round->songs->map(fn(Song $song) => $song->act);
                     $output = [
                         'status'    => ContestStatus::ACTIVE,
                         'round'     => $current_round->full_title,
-                        'countdown' => $current_round->ends_at->toISOString()
+                        'countdown' => $current_round->ends_at->toISOString(),
+                        'acts'      => fractal($acts, ActTransformer::class)->toArray()
                     ];
                 }
                 else

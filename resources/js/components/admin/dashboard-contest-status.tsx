@@ -1,12 +1,15 @@
 import { CardContent } from '@/components/ui/card';
 import { CountdownTimer } from '@/components/mode/countdown-timer';
 import { cn } from '@/lib/utils';
+import { Act } from '@/types';
+import { ActImage } from '@/components/mode/act-image';
 
 interface Props {
     data: {
         status: string
         round?: string;
         countdown?: string;
+        acts?: Act[];
     };
     className: string;
 }
@@ -31,6 +34,11 @@ export const DashboardContestStatus: React.FC<Props> = ({ data, className }) => 
                         {data.status === 'countdown' && (<b>begins in</b>)}
                         {data.status === 'active' && (<b>ends in</b>)}
                         <CountdownTimer timestamp={data.countdown} size="small"/>
+                    </div>
+                )}
+                {data.acts && (
+                    <div className="flex gap-1 mb-2">
+                        {data.acts.map((act) => (<ActImage key={act.slug} act={act} size="12"/>))}
                     </div>
                 )}
                 <small className="font-semibold">Contest status</small>
