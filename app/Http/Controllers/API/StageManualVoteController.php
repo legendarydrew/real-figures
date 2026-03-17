@@ -90,8 +90,7 @@ class StageManualVoteController extends Controller
                         'round_id'         => $round->id,
                         'first_choice_id'  => $vote['song_ids']['first'],
                         'second_choice_id' => $vote['song_ids']['second'],
-                        'third_choice_id'  => $vote['song_ids']['third'],
-                        'was_manual'       => true
+                        'third_choice_id'  => $vote['song_ids']['third']
                     ]);
 
                     // Cast panel member votes (if necessary).
@@ -123,15 +122,14 @@ class StageManualVoteController extends Controller
         for ($i = 0; $i < $vote_count; $i++)
         {
             // Determine whether the panel member's vote matches the user's, or is completely random.
-            $choices = fake()->boolean($vote_bias) ? $voted : fake()->randomElements($song_ids, 3);
+            $choices = fake()->boolean($vote_bias) ? array_values($voted) : fake()->randomElements($song_ids, 3);
 
             // Cast the vote!
             RoundVote::create([
                 'round_id'         => $round_id,
                 'first_choice_id'  => $choices[0],
                 'second_choice_id' => $choices[1],
-                'third_choice_id'  => $choices[2],
-                'was_manual'       => true
+                'third_choice_id'  => $choices[2]
             ]);
 
         }

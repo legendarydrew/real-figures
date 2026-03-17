@@ -28,11 +28,13 @@ return [
         'minSongs'    => 3,
     ],
     'judgement' => [
-        'winners'       => 1,
-        'runners-up'    => 3,
-        'allow-ties'    => env('CONTEST_ALLOW_TIES', true),
-        'panel-count' => env('CONTEST_PANEL_COUNT', 0),  // number of additional "panel" members for manual voting.
-        'panel-bias'    => env('CONTEST_PANEL_BIAS', 50),  // 0-100 for how biased the "panel" will be toward the manual vote.
+        'winners'     => 1,
+        'runners-up'  => 3,
+        'allow-ties'  => env('CONTEST_ALLOW_TIES', true),
+        'panel-count' => env('CONTEST_PANEL_COUNT', 0),
+        // number of "panel" members for manual voting, in addition to the user.
+        'panel-bias'  => env('CONTEST_PANEL_BIAS', 50),
+        // 0-100 for how biased the "panel" will be toward the manual vote.
     ],
     'ai'        => [
         'model' => 'gpt-4o-mini'
@@ -42,6 +44,6 @@ return [
         'resize'    => [1000, 1000]
     ],
     'analytics' => [
-        'cache' => 20 // minutes
+        'cache' => 10 // minutes
     ]
 ];
