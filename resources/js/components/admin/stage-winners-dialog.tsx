@@ -57,7 +57,7 @@ export const StageWinnersDialog: FC<StageWinnersDialogProps> = ({ open, onOpenCh
                         <Input id="chooseRunnersUp" type="number" className="font-bold text-right w-[6em]"
                                value={data.runners_up}
                                min="1" max="10" onChange={changeRunnersUpHandler}/>
-                        <InputError className="mt-2" message={errors.runners_up}/>
+                        <InputError message={errors.runners_up}/>
                     </div>
 
                     <DialogFooter>

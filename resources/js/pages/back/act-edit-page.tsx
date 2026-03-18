@@ -172,14 +172,14 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                                 <Label htmlFor="actName">Act's name</Label>
                                 <Input id="actName" type="text" className="font-bold text-lg" value={data.name}
                                        onChange={changeNameHandler}/>
-                                <InputError className="mt-2" message={errors.name}/>
+                                <InputError message={errors.name}/>
                             </div>
 
                             <div className="mb-3">
                                 <Label htmlFor="actSlug">Slug</Label>
                                 <Input id="actSlug" type="text" className="text-sm" value={data.slug}
                                        onChange={changeSlugHandler} placeholder="Generated from the Act name"/>
-                                <InputError className="mt-2" message={errors.slug}/>
+                                <InputError message={errors.slug}/>
                             </div>
 
                             <div className="mb-2 flex gap-2">
@@ -207,7 +207,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                                     </div>
                                 )}
                             </div>
-                            <InputError className="mt-2" message={errors.image}/>
+                            <InputError message={errors.image}/>
                         </div>
 
                         {/* Right side */}
@@ -218,7 +218,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                                 <Label htmlFor="actDescription">Description</Label>
                                 <MarkdownEditor className="h-[12rem]" value={data.profile?.description}
                                                 onChange={changeProfileDescriptionHandler}/>
-                                <InputError className="mt-2" message={errors['profile.description']}/>
+                                <InputError message={errors['profile.description']}/>
                             </div>
                         </div>
 

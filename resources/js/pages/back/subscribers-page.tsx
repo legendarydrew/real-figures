@@ -12,8 +12,6 @@ import { DialogTitle } from '@/components/ui/dialog';
 import toast from 'react-hot-toast';
 import { Label } from '@/components/ui/label';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { SUBSCRIBER_POST_DIALOG_NAME, SubscriberPostDialog } from '@/components/admin/subscriber-post-dialog';
-import { useDialog } from '@/context/dialog-context';
 import { AdminHeader } from '@/components/admin/admin-header';
 
 interface SubscribersPageProps {
@@ -32,7 +30,6 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
                                                              posts
                                                          }: Readonly<SubscribersPageProps>) => {
 
-    const { openDialog } = useDialog();
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [isConfirmingDelete, setIsConfirmingDelete] = useState<boolean>(false);
     const [processing, setProcessing] = useState<boolean>(false);
@@ -48,14 +45,7 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
     }
 
     const beginPostHandler = (): void => {
-        console.log('post!');
-        openDialog(SUBSCRIBER_POST_DIALOG_NAME);
-    };
-
-    const reloadHandler = (): void => {
-        router.reload({
-            only: ['subscribers', 'posts']
-        });
+        router.visit(route('admin.subscribers-post'));
     };
 
     const filterEmailHandler = (e: ChangeEvent): void => {
@@ -128,7 +118,7 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
 
                 <AdminHeader title="Subscribers">
                     {!!subscribers.length && (
-                        <Button type="button" onClick={beginPostHandler}>
+                        <Button type="button" variant="primary" onClick={beginPostHandler}>
                             <MailIcon/> Post Update
                         </Button>)}
                 </AdminHeader>
@@ -222,7 +212,6 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
                     <Nothing>There are no Subscribers.</Nothing>
                 )}
 
-                <SubscriberPostDialog onCreated={reloadHandler}/>
                 <DestructiveDialog open={isConfirmingDelete} onConfirm={deleteHandler}
                                    processing={processing}
                                    onOpenChange={() => setIsConfirmingDelete(false)}>

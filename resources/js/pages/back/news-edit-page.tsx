@@ -110,7 +110,7 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
                         <Label htmlFor="postTitle">Title</Label>
                         <Input id="postTitle" type="text" className="font-bold text-lg" defaultValue={data.title}
                                onChange={changeTitleHandler}/>
-                        <InputError className="mt-2" message={errors.title}/>
+                        <InputError message={errors.title}/>
                     </div>
 
                     {isPublished.current && (
@@ -120,7 +120,7 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
                     <div>
                         <Label htmlFor="postContent">Description</Label>
                         <MarkdownEditor value={data.content} onChange={changeContentHandler}/>
-                        <InputError className="mt-2" message={errors.content}/>
+                        <InputError message={errors.content}/>
                     </div>
 
                     <div className="bg-white border-t-1 flex justify-between sticky bottom-0 -mx-5 px-5 py-3">

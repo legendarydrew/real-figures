@@ -26,6 +26,7 @@ import { cn } from '@/lib/utils';
 
 interface MarkdownEditorProps {
     value: string;
+    id?: string;
     className?: string;
     disabled?: boolean;
     placeholder?: string;
@@ -34,6 +35,7 @@ interface MarkdownEditorProps {
 
 export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                                                                   value,
+                                                                  id = "markdown-textarea",
                                                                   className,
                                                                   disabled,
                                                                   placeholder,
@@ -43,7 +45,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     const [preview, setPreview] = useState<boolean>(false);
 
     const applyFormatting = (syntax) => {
-        const textarea: HTMLTextAreaElement = document.getElementById("markdown-textarea");
+        const textarea: HTMLTextAreaElement = document.getElementById(id);
         const start = textarea.selectionStart;
         const end = textarea.selectionEnd;
         const selectedText = markdown.slice(start, end);
@@ -172,14 +174,14 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 
             ) : (
                 // https://cruip.com/auto-growing-textarea-with-tailwind-css/
-                <div className="textarea-expand">
+                <div className={cn('textarea-expand', className)}>
                     <Textarea
-                        id="markdown-textarea"
+                        id={id}
                         placeholder={placeholder}
                         disabled={disabled}
                         value={markdown}
                         onChange={changeHandler}
-                        className={cn("min-h-32 font-mono", className)}
+                        className="min-h-32 font-mono"
                     />
                 </div>
             )

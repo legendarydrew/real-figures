@@ -127,7 +127,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                                 <Input id="allocateStart" type="datetime-local" className="w-full"
                                        value={data.start_at}
                                        min={minStartTime.current} onChange={changeStartsAtHandler}/>
-                                <InputError className="mt-2" message={errors.start_at}/>
+                                <InputError message={errors.start_at}/>
                                 <p className="text-xs my-3 italic text-muted-foreground">NOTE: the first Round will be
                                     set to start an hour after
                                     the specified time.</p>
@@ -143,7 +143,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                                     <div className="text-sm font-bold text-center">
                                         {data.per_round} songs
                                     </div>
-                                    <InputError className="mt-2" message={errors.per_round}/>
+                                    <InputError message={errors.per_round}/>
                                 </div>
 
                                 <div>
@@ -155,7 +155,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                                     <div className="text-sm font-bold text-center">
                                         {data.duration} day(s)
                                     </div>
-                                    <InputError className="mt-2" message={errors.duration}/>
+                                    <InputError message={errors.duration}/>
                                 </div>
                             </div>
                         </div>
@@ -185,7 +185,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                             </div>
                             <p className="text-xs m-2"><b>{data.song_ids.length}</b> Song(s) selected.</p>
 
-                            <InputError className="mt-2" message={errors.song_ids}/>
+                            <InputError message={errors.song_ids}/>
                         </div>
                     </div>
 

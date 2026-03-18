@@ -107,21 +107,21 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
                         <Label htmlFor="stageName">Stage name</Label>
                         <Input id="stageName" type="text" className="font-bold" value={data.title}
                                onChange={changeTitleHandler}/>
-                        <InputError className="mt-2" message={errors.title}/>
+                        <InputError message={errors.title}/>
                     </div>
 
                     <div className="flex flex-col lg:flex-row gap-5">
                         <div className="lg:w-1/2 lg:max-w-1/2">
                             <Label htmlFor="stageDescription">Description</Label>
                             <MarkdownEditor value={data.description} onChange={changeDescriptionHandler}/>
-                            <InputError className="mt-2" message={errors.description}/>
+                            <InputError message={errors.description}/>
                         </div>
 
                         <div className="lg:w-1/2 lg:max-w-1/2">
                             <Label htmlFor="stageGoldenBuzzerPerks">Golden Buzzer Perks</Label>
                             <MarkdownEditor value={data.golden_buzzer_perks} onChange={changeGoldenBuzzerPerksHandler}
                                             placeholder="optional"/>
-                            <InputError className="mt-2" message={errors.golden_buzzer_perks}/>
+                            <InputError message={errors.golden_buzzer_perks}/>
                         </div>
                     </div>
 
