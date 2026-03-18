@@ -64,6 +64,10 @@
         @apply text-xl;
     }
 
+    &.xl {
+        @apply text-2xl p-6;
+    }
+
     &.icon {
         @apply aspect-square p-3;
     }

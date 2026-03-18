@@ -4,6 +4,7 @@
     @apply select-none;
 
     &.has-image {
+        @apply bg-linear-to-t from-act-from to-act-to;
         @apply text-white text-shadow-md;
 
         .act-item-text {
@@ -134,6 +135,6 @@
 }
 
 .bg-act-image {
-    @apply bg-linear-to-bl from-act-from to-act-to;
+    @apply bg-linear-to-t from-act-from to-act-to;
 }
 

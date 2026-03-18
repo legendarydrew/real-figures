@@ -18,7 +18,7 @@ export const ChartYAxis: React.FC = ({ label, ...props }) => {
         angle: -90,
         fontSize: 12,
         fontWeight: 'bold',
-        fill: 'var(--foreground)',
+        fill: 'var(--foreground)'
     };
     return (<YAxis fontSize={10} allowDecimals={false} label={labelProps} {...props} />)
 };
@@ -58,7 +58,7 @@ export const ChartRoundReferences: React.FC = () => {
 
     const formatReferenceLine = (round) => ({
         // value: round.name,
-        content: (props) => (<ChartReference round={round} props={props} />),
+        content: (props) => (<ChartReference round={round} props={props}/>),
         fill: 'var(--secondary)',
         position: 'insideBottomRight',
         angle: -90,
