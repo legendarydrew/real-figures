@@ -1,9 +1,9 @@
 .card {
-    @apply bg-card text-card-foreground flex flex-col gap-4 rounded-sm border shadow-sm;
+    @apply bg-card text-card-foreground flex flex-col rounded-sm border shadow-sm;
 }
 
 .card-header {
-    @apply flex flex-col gap-1.5 p-4 border-b;
+    @apply flex justify-between items-center gap-2 p-4 border-b;
 }
 
 .card-title {

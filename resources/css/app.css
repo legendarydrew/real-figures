@@ -165,29 +165,6 @@
         @apply bg-muted h-[1] w-4/5 mx-auto my-4;
     }
 
-    /* Dashboard tables.
-     (adapted from https://tw-elements.com/docs/standard/data/tables/#small) */
-    table.dashboard-table {
-        @apply min-w-full text-center text-sm font-light text-current;
-    }
-
-    table.dashboard-table thead {
-        @apply border-b border-neutral-200 font-medium select-none dark:border-white/10;
-    }
-
-    table.dashboard-table tfoot {
-        @apply border-t border-neutral-200 font-medium dark:border-white/10;
-    }
-
-    table.dashboard-table th,
-    table.dashboard-table td {
-        @apply px-6 py-2 whitespace-nowrap;
-    }
-
-    table.dashboard-table tr {
-        @apply border-b border-neutral-100 dark:border-white/10;
-    }
-
     /* Toolbar style for convenience. */
     .toolbar {
         @apply flex justify-end gap-1;

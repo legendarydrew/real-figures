@@ -4,15 +4,15 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Nothing } from '@/components/mode/nothing';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { CheckSquare, ChevronDown, ChevronUp, MailIcon, Square } from 'lucide-react';
+import { CheckSquare, ChevronDown, ChevronUp, MailIcon, Square, TrashIcon } from 'lucide-react';
 import { Subscriber, SubscriberPost } from '@/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
 import { DialogTitle } from '@/components/ui/dialog';
-import toast from 'react-hot-toast';
 import { Label } from '@/components/ui/label';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { AdminHeader } from '@/components/admin/admin-header';
+import { RTToast } from '@/components/mode/toast-message';
 
 interface SubscribersPageProps {
     subscriberCount: number;
@@ -85,10 +85,10 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
             onSuccess: () => {
                 deselectAllHandler();
                 setIsConfirmingDelete(false);
-                toast.success('Subscribers were removed.');
+                RTToast.success('Subscribers were removed.');
             },
             onError: () => {
-                toast.error('Could not remove the subscriber(s).');
+                RTToast.error('Could not remove the subscriber(s).');
             }
         })
     };
@@ -124,14 +124,13 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
                 </AdminHeader>
 
                 {posts?.length ? (
-                    <Collapsible className="mx-4 my-1" onOpenChange={() => toggleHandler('posts')}>
-                        <CollapsibleTrigger
-                            className="hover-bg w-full display-text flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
+                    <Collapsible className="card" onOpenChange={() => toggleHandler('posts')}>
+                        <CollapsibleTrigger className="card-header display-text hover-bg cursor-pointer">
                             Subscriber posts ({posts.length.toLocaleString()})
                             {isPanelOpen('posts') ? <ChevronUp/> : <ChevronDown/>}
                         </CollapsibleTrigger>
-                        <CollapsibleContent className="py-3 px-1">
-                            <table className="dashboard-table">
+                        <CollapsibleContent className="card-content">
+                            <table className="admin-table">
                                 <thead>
                                 <tr>
                                     <th scope="col" className="text-left">Title</th>
@@ -154,26 +153,27 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
                 ) : ''}
 
                 {subscriberCount ? (
-                    <Collapsible className="mx-4 my-1" onOpenChange={() => toggleHandler('subscribers')}>
-                        <CollapsibleTrigger
-                            className="hover-bg w-full display-text flex justify-between items-center gap-3 text-lg p-3 cursor-pointer">
-                            Subscribed email addresses ({subscriberCount.toLocaleString()})
+                    <Collapsible className="card" onOpenChange={() => toggleHandler('subscribers')}>
+                        <CollapsibleTrigger className="card-header display-text hover-bg cursor-pointer">
+                            Subscribers ({subscriberCount.toLocaleString()})
                             {isPanelOpen('subscribers') ? <ChevronUp/> : <ChevronDown/>}
                         </CollapsibleTrigger>
-                        <CollapsibleContent className="py-3 px-1">
-                            <div className="flex mb-3 gap-3">
+                        <CollapsibleContent className="card-content">
+                            <div className="flex items-stretch mb-2 gap-4">
                                 <Input type="search" className="flex-grow" value={filter.email}
                                        onChange={filterEmailHandler} placeholder="Filter by email"/>
                                 <div className="toolbar">
-                                    <Button variant="outline" type="button" onClick={selectAllHandler}>
-                                        <CheckSquare/>
+                                    <Button size="icon" type="button" onClick={selectAllHandler} title="Select all">
+                                        <CheckSquare className="size-3"/>
                                     </Button>
-                                    <Button variant="outline" type="button" onClick={deselectAllHandler}>
-                                        <Square/>
+                                    <Button size="icon" type="button" onClick={deselectAllHandler} title="Select none">
+                                        <Square className="size-3"/>
                                     </Button>
-                                    <Button variant="destructive" type="button" onClick={confirmDeleteHandler}
-                                            disabled={!selectedIds.length}>Remove Subscribers</Button>
                                 </div>
+                                <Button variant="destructive" size="icon" type="button" onClick={confirmDeleteHandler}
+                                        disabled={!selectedIds.length} title="Remove subscriber(s)">
+                                    <TrashIcon className="size-3"/>
+                                </Button>
                             </div>
 
                             <div className="overflow-y-auto max-h-[15rem] relative">
@@ -187,13 +187,13 @@ const SubscribersPage: React.FC<SubscribersPageProps> = ({
                                     {subscribers.map((subscriber) => (
                                         <li key={subscriber.id}
                                             className="hover-bg flex items-center gap-2 py-1 px-2 select-none">
-                                            <Checkbox id={'subscriber-' + subscriber.id} className="bg-white"
+                                            <Checkbox id={`subscriber-${subscriber.id}`} className="bg-white"
                                                       checked={selectedIds.includes(subscriber.id)}
                                                       onCheckedChange={(state) => state ? selectSubscriberHandler(subscriber) : deselectSubscriberHandler(subscriber)}/>
-                                            <Label htmlFor={'subscriber-' + subscriber.id}
-                                                   className="flex-grow truncate font-semibold">{subscriber.email}</Label>
-                                            <div className="w-30 text-right">{subscriber.created_at}</div>
-                                            <div className="w-30 text-right">{subscriber.updated_at}</div>
+                                            <Label htmlFor={`subscriber-${subscriber.id}`}
+                                                   className="flex-grow truncate font-semibold select-none">{subscriber.email}</Label>
+                                            <div className="w-30 text-right">{subscriber.created_at ?? '--'}</div>
+                                            <div className="w-30 text-right">{subscriber.updated_at ?? '--'}</div>
                                         </li>
                                     ))}
                                     {hasMorePages ? (
