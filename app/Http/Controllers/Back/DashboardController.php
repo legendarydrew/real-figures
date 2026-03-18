@@ -15,7 +15,6 @@ use App\Models\Song;
 use App\Models\SongPlay;
 use App\Models\Subscriber;
 use App\Transformers\ActTransformer;
-use App\Transformers\DonationTransformer;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -33,10 +32,7 @@ class DashboardController extends Controller
             'analytics_views'  => fn() => $this->getPageViews(),
             'donations'        => fn() => [
                 'golden_buzzers' => GoldenBuzzer::count(),
-                'rows'           => fractal(Donation::orderByDesc('id')->take(10)->get(), new DonationTransformer())->parseIncludes('amount')->toArray(),
                 'count'          => Donation::count(),
-                'total'          => sprintf("%s %s", config('contest.donation.currency'), number_format(Donation::sum('amount'), 2)),
-                // making a dangerous assumption that the donations are all in the same currency.
             ],
             'buzzer_count'     => fn() => GoldenBuzzer::count(),
             'message_count'    => fn() => ContactMessage::whereNull('read_at')->count(),
@@ -171,7 +167,7 @@ class DashboardController extends Controller
                 $current_round = $current_stage?->rounds->first(fn(Round $round) => $round->isActive());
                 if ($current_round)
                 {
-                    $acts = $current_round->songs->map(fn(Song $song) => $song->act);
+                    $acts   = $current_round->songs->map(fn(Song $song) => $song->act);
                     $output = [
                         'status'    => ContestStatus::ACTIVE,
                         'round'     => $current_round->full_title,
@@ -194,11 +190,6 @@ class DashboardController extends Controller
             }
 
         }
-        // Contest has not started yet
-        // Stage is about to begin
-        // Stage is underway
-        // Stage is over
-        // Contest is over
 
         return $output;
     }

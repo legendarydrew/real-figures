@@ -1,0 +1,27 @@
+.card {
+    @apply bg-card text-card-foreground flex flex-col gap-4 rounded-sm border shadow-sm;
+}
+
+.card-header {
+    @apply flex flex-col gap-1.5 p-4 border-b;
+}
+
+.card-title {
+    @apply display-text leading-none;
+
+    small {
+        @apply text-muted-foreground;
+    }
+}
+
+.card-description {
+    @apply text-muted-foreground text-sm;
+}
+
+.card-content {
+    @apply p-4;
+}
+
+.card-footer {
+    @apply flex items-center px-6;
+}

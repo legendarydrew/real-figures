@@ -53,9 +53,9 @@ export default function DashboardPage({
 
                 </div>
 
-                <DashboardAnalyticsViews className="p-3" data={analytics_views}/>
-                <DashboardSongTotalPlays className="p-3" data={song_plays}/>
-                <DashboardVotesCast className="p-3" data={votes}/>
+                <DashboardAnalyticsViews data={analytics_views}/>
+                <DashboardSongTotalPlays data={song_plays}/>
+                <DashboardVotesCast data={votes}/>
 
             </div>
 

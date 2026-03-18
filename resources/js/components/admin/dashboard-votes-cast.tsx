@@ -1,9 +1,9 @@
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Tooltip } from 'recharts';
 import { Nothing } from '@/components/mode/nothing';
 import { usePage } from '@inertiajs/react';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import { cssVar } from '@/lib/utils';
-import { ChartDateXAxis, ChartRoundReferences, ChartYAxis, formatDate } from '@/components/chart-elements';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cssVar, formatDate } from '@/lib/utils';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
 
 type DashboardVotesCastData = {
     date: string;
@@ -37,21 +37,21 @@ export const DashboardVotesCast: React.FC<DashboardVotesCastProps> = ({ data, cl
 
     return (
         <Card className={className}>
-            <CardTitle className="display-text font-normal">Votes cast <small>within the last week</small></CardTitle>
+            <CardHeader>
+                <CardTitle>Votes cast <small>within the last week</small></CardTitle>
+            </CardHeader>
             <CardContent>
                 {data.length ? (
-                    <ResponsiveContainer width="100%" aspect={3.75} maxHeight={300}>
-                        <BarChart data={data} height={300}>
-                            <CartesianGrid strokeDasharray="3 3"/>
-                            <ChartDateXAxis />
-                            <ChartYAxis label="Votes" />
-                            <Tooltip content={tooltipContent} isAnimationActive={false}/>
-                            <Bar dataKey="votes" label="Votes cast"
-                                 radius={[4, 4, 0, 0]}
-                                 fill={cssVar('--chart-4-4')}/>
-                            <ChartRoundReferences />
-                        </BarChart>
-                    </ResponsiveContainer>
+                    <BarChart responsive data={data} width="100%" height={200}>
+                        <CartesianGrid strokeDasharray="3 3"/>
+                        <ChartDateXAxis/>
+                        <ChartYAxis label="Votes"/>
+                        <Tooltip content={tooltipContent} isAnimationActive={false}/>
+                        <Bar dataKey="votes" label="Votes cast"
+                             radius={[4, 4, 0, 0]}
+                             fill={cssVar('--chart-4-4')}/>
+                        <ChartRoundReferences/>
+                    </BarChart>
                 ) : (
                     <Nothing>No information about votes cast.</Nothing>
                 )}

@@ -1,9 +1,9 @@
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts";
+import { Bar, BarChart, CartesianGrid, Tooltip } from "recharts";
 import { Nothing } from '@/components/mode/nothing';
 import { usePage } from '@inertiajs/react';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import { cssVar } from '@/lib/utils';
-import { ChartDateXAxis, ChartRoundReferences, ChartYAxis, formatDate } from '@/components/chart-elements';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cssVar, formatDate } from '@/lib/utils';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
 
 // https://www.geeksforgeeks.org/create-a-line-chart-using-recharts-in-reactjs/
 
@@ -40,21 +40,21 @@ export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ dat
 
     return (
         <Card className={className}>
-            <CardTitle className="display-text font-normal">Song plays <small>within the last week</small></CardTitle>
+            <CardHeader>
+                <CardTitle>Song plays <small>within the last week</small></CardTitle>
+            </CardHeader>
             <CardContent>
                 {data.days.length ? (
-                    <ResponsiveContainer width="100%" aspect={3} maxHeight={300}>
-                        <BarChart data={data.days} height={300}>
-                            <CartesianGrid strokeDasharray="3 3"/>
-                            <ChartDateXAxis/>
-                            <ChartYAxis label="Song plays"/>
-                            <Tooltip content={tooltipContent} isAnimationActive={false}/>
-                            <Bar dataKey="play_count" label="Total song plays"
-                                 radius={[4, 4, 0, 0]}
-                                 fill={cssVar('--chart-1-4')}/>
-                            <ChartRoundReferences />
-                        </BarChart>
-                    </ResponsiveContainer>
+                    <BarChart responsive data={data.days} width="100%" height={200}>
+                        <CartesianGrid strokeDasharray="3 3"/>
+                        <ChartDateXAxis/>
+                        <ChartYAxis label="Song plays"/>
+                        <Tooltip content={tooltipContent} isAnimationActive={false}/>
+                        <Bar dataKey="play_count" label="Total song plays"
+                             radius={[4, 4, 0, 0]}
+                             fill={cssVar('--chart-1-4')}/>
+                        <ChartRoundReferences/>
+                    </BarChart>
                 ) : (
                     <Nothing>No information about Songs played.</Nothing>
                 )}
