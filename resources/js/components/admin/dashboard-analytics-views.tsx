@@ -47,7 +47,7 @@ export const DashboardAnalyticsViews: React.FC<DashboardAnalyticsViewsProps> = (
         <Card className={className}>
             <CardHeader>
                 <CardTitle>
-                    Page views <small>within the last week</small>
+                    Page views <small>within the last two weeks</small>
                 </CardTitle>
             </CardHeader>
             <CardContent>

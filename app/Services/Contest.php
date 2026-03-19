@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Facades\ContestFacade;
 use App\Facades\RoundResultsFacade;
 use App\Models\Act;
 use App\Models\NewsPost;
@@ -222,19 +223,36 @@ class Contest
     }
 
     /**
-     * Returns a list of Rounds and their start times.
+     * Returns a list of date markers relating to the Contest.
      * These will be used to add indicators to charts in the back office.
      *
      * @return array
      */
-    public function getRoundMarkers(): array
+    public function getContestMarkers(): array
     {
+        // We want to include:
+        // - the start of each Stage (the creation date of the first Round in the Stage);
+        // - the beginnings of each Round;
+        // - the end of each Stage;
+        // - the end of the Contest (winners determined).
+        // If we want to be *extra*, we could try including dates of News and Subscriber posts,
+        // which could be turned on/off in each chart.
+        $stages = Stage::all()->filter(fn(Stage $stage) => $stage->rounds->count());
         $rounds = Round::all()->filter(fn(Round $round) => $round->hasStarted());
 
-        return $rounds->map((fn(Round $round) => [
-            'date' => $round->starts_at->startOfDay()->toISOString(),
-            'name' => $round->full_title
-        ]))->toArray();
+        return [
+            'stages' => $stages->map(fn(Stage $stage) => [
+                'start' => $stage->rounds->first()->starts_at->startOfDay()->toISOString(),
+                'end'   => $stage->rounds->last()->ends_at->startOfDay()->toISOString(),
+                'name'  => $stage->title
+            ]),
+            'rounds' => $rounds->map((fn(Round $round) => [
+                'date' => $round->starts_at->startOfDay()->toISOString(),
+                'name' => $round->full_title
+            ])),
+            'over'   => ContestFacade::isOver() ?
+                StageWinner::first()->created_at->startOfDay()->toISOString() : null
+        ];
     }
 
 }

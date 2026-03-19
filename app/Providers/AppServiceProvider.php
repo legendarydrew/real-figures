@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
                 'target'   => config('contest.donation.target_amount')
             ],
             'locale'   => config('app.locale'),
-            'rounds'   => app()->runningUnitTests() ? [] : Contest::getRoundMarkers()
+            'markers'  => app()->runningUnitTests() ? [] : Contest::getContestMarkers()
         ]);
 
         \View::composer('front.links', function (View $view)
