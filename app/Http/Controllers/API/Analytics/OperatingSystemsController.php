@@ -8,18 +8,18 @@ use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
 /**
- * BrowsersController
- * This returns analytics data for browsers used to access the site over the specified period.
+ * OperatingSystemsController
+ * This returns analytics data for operating systems used to access the site the specified period.
  *
  * @package App\Http\Controllers\API\Analytics
  */
-class BrowsersController extends AnalyticsAPIController
+class OperatingSystemsController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'browsers';
+    const string CACHE_KEY = 'os';
 
     protected function analyticsQuery(int $days): Collection
     {
-        return Analytics::fetchTopBrowsers(
+        return Analytics::fetchTopOperatingSystems(
             period: Period::days($days),
             maxResults: 100
         );
