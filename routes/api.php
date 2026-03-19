@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\ActController;
 use App\Http\Controllers\API\Analytics\ActViewsController;
+use App\Http\Controllers\API\Analytics\BrowsersController;
 use App\Http\Controllers\API\Analytics\CollapseController;
 use App\Http\Controllers\API\Analytics\CountriesController;
 use App\Http\Controllers\API\Analytics\DonationsAnonymousController;
@@ -61,6 +62,7 @@ Route::prefix('/api')->group(function ()
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
         Route::get('analytics/acts', [ActViewsController::class, 'index'])->name('analytics.acts');
+        Route::get('analytics/browsers', [BrowsersController::class, 'index'])->name('analytics.browsers');
         Route::get('analytics/collapse', [CollapseController::class, 'index'])->name('analytics.collapse');
         Route::get('analytics/countries', [CountriesController::class, 'index'])->name('analytics.countries');
         Route::get('analytics/donations/anonymous', [DonationsAnonymousController::class, 'index'])->name('analytics.donations.anonymous');
