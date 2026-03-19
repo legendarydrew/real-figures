@@ -20,6 +20,7 @@ use App\Http\Controllers\API\Analytics\ReferrersController;
 use App\Http\Controllers\API\Analytics\SongPlaysController;
 use App\Http\Controllers\API\Analytics\SubscribersController;
 use App\Http\Controllers\API\Analytics\UserTypesController;
+use App\Http\Controllers\API\Analytics\ViewportController;
 use App\Http\Controllers\API\Analytics\VotesController;
 use App\Http\Controllers\API\BuzzerController;
 use App\Http\Controllers\API\ContactMessagesController;
@@ -83,6 +84,7 @@ Route::prefix('/api')->group(function ()
         Route::get('analytics/songs', [SongPlaysController::class, 'index'])->name('analytics.songs');
         Route::get('analytics/subscribers', [SubscribersController::class, 'index'])->name('analytics.subscribers');
         Route::get('analytics/user-types', [UserTypesController::class, 'index'])->name('analytics.user-types');
+        Route::get('analytics/viewports', [ViewportController::class, 'index'])->name('analytics.viewports');
         Route::get('analytics/votes', [VotesController::class, 'index'])->name('analytics.votes');
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);

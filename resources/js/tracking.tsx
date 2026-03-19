@@ -13,7 +13,6 @@ const initialise = () => {
         gaOptions: {
             debug_mode: isTesting
         },
-        // testMode: isTesting
     });
     if (analytics.testMode) {
         console.log('Analytics initialised.');
@@ -24,11 +23,17 @@ const initialise = () => {
 // Track page views.
 const trackPageView = (path?: string): void => {
     path = path ?? window.location.pathname;
-    ReactGA.send({ hitType: "pageview", page: path });
+    ReactGA.send({ hitType: "pageview", page: path, visitor_viewport: getViewportSize() });
     if (analytics.testMode) {
         console.log('track page view', path);
     }
 };
+
+const getViewportSize = (): string => {
+    const width: number = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const height: number = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    return `${width} × ${height}`;
+}
 
 globalThis.trackEvent = (event: UaEventOptions | string, params?: { [key: string]: string | number }) => {
     if (typeof event === 'string') {
