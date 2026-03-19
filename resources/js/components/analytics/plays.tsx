@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
-import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
+import { ChartTimeXAxis, ChartYAxis } from '@/components/chart-elements';
 
 
 interface Props {
@@ -47,7 +47,7 @@ export const PlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         responsive
                         data={chartData}
                     >
-                        <ChartDateXAxis dataKey="time"/>
+                        <ChartTimeXAxis/>
                         <ChartYAxis label="Play count"/>
                         <Tooltip/>
 

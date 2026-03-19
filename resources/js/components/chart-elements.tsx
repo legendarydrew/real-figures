@@ -12,6 +12,15 @@ export const ChartDateXAxis: React.FC = () => {
     )
 };
 
+export const ChartTimeXAxis: React.FC = () => {
+    const { locale } = usePage().props;
+
+    return (
+        <XAxis dataKey="time" type="category"
+               tickFormatter={(ts) => formatDate(locale, ts)} fontSize={10}/>
+    )
+};
+
 /**
  * A component used for drawing a ReferenceLine label.
  * We went down this route because I wanted a background rectangle for the text, and we have to
