@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { AdminHeader } from '@/components/admin/admin-header';
-import { OperatingSystemsAnalytics } from '@/components/analytics/os';
+import { NewVsReturningAnalytics } from '@/components/analytics/new-vs-returning';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -39,7 +39,8 @@ export default function AnalyticsPage() {
             {/*    /!*<CountriesAnalytics/>*!/*/}
             {/*    /!*<GoldenBuzzersMadeAnalytics/>*!/*/}
             {/*    <BrowsersAnalytics />*/}
-                <OperatingSystemsAnalytics/>
+            {/*    <OperatingSystemsAnalytics/>*/}
+                <NewVsReturningAnalytics/>
             </div>
         </AppLayout>
     );
