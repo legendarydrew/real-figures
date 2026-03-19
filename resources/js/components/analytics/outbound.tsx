@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart } from 'recharts';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { Nothing } from '@/components/mode/nothing';
+import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
 
 interface Props {
     days?: number;
@@ -21,7 +22,6 @@ export const OutboundAnalytics: React.FC<Props> = ({ days = 7 }) => {
         if (isLoading) {
             return;
         }
-
         setIsLoading(true);
         axios.get("/api/analytics/outbound", { params: { days } })
             .then((res) => {
@@ -50,25 +50,23 @@ export const OutboundAnalytics: React.FC<Props> = ({ days = 7 }) => {
                 {chartData?.data.length ? (
                     <div className="flex flex-col gap-4">
 
-                        <ResponsiveContainer className="w-full">
-                            <BarChart aspect={4}
-                                style={{ width: '100%', maxHeight: '300px' }}
-                                responsive
-                                data={chartData.data}
-                            >
-                                <XAxis dataKey="date"/>
-                                <YAxis/>
+                        <BarChart aspect={4}
+                                  style={{ width: '100%', maxHeight: '200px', aspectRatio: 3 }}
+                                  responsive
+                                  data={chartData.data}
+                        >
+                            <ChartDateXAxis/>
+                            <ChartYAxis label="Clicks" />
 
-                                {chartData.keys.map(key => (
-                                    <Bar
-                                        key={key}
-                                        dataKey={key}
-                                        stackId="sections"
-                                        fill={getColor(key)}
-                                    />
-                                ))}
-                            </BarChart>
-                        </ResponsiveContainer>
+                            {chartData.keys.map(key => (
+                                <Bar
+                                    key={key}
+                                    dataKey={key}
+                                    stackId="sections"
+                                    fill={stringToColor(key ?? 'Other')}
+                                />
+                            ))}
+                        </BarChart>
 
                         <table className="data-table lg:col-span-2">
                             <thead>
@@ -79,14 +77,14 @@ export const OutboundAnalytics: React.FC<Props> = ({ days = 7 }) => {
                             </tr>
                             </thead>
                             <tbody>
-                            {chartData.data?.length ? chartData.data.map((row, index) => (
+                            {chartData.table?.length ? chartData.table.map((row, index) => (
                                 <tr key={index}>
                                     <th scope="row">
                                 <span className="block size-4"
-                                      style={{ backgroundColor: stringToColor(row.linkUrl) }}></span>
+                                      style={{ backgroundColor: stringToColor(row.url ?? 'Other') }}></span>
                                     </th>
-                                    <th className="text-left" scope="row">{row.linkUrl}</th>
-                                    <td className="text-right">{row.eventCount}</td>
+                                    <th className="text-left" scope="row">{row.url}</th>
+                                    <td className="text-right">{row.count}</td>
                                 </tr>
                             )) : (
                                 <tr>

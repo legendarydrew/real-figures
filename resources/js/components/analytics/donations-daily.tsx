@@ -1,12 +1,11 @@
-import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
-import HeadingSmall from '@/components/heading-small';
+import { Bar, BarChart, Tooltip } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { Nothing } from '@/components/mode/nothing';
-import { usePage } from '@inertiajs/react';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
 
 
 interface Props {
@@ -14,8 +13,6 @@ interface Props {
 }
 
 export const DonationsDailyAnalytics: React.FC<Props> = ({ days = 7 }) => {
-    const { locale } = usePage().props;
-
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [chartData, setChartData] = useState<AnalyticsData>();
 
@@ -23,11 +20,11 @@ export const DonationsDailyAnalytics: React.FC<Props> = ({ days = 7 }) => {
         fetchData();
     }, [days]);
 
-    const formatDate = (timestamp: string): string => {
-        return new Date(timestamp).toLocaleDateString(locale as string);
-    };
-
     const fetchData = () => {
+        if (isLoading) {
+            return;
+        }
+        setIsLoading(true);
         axios.get("/api/analytics/donations/daily", { params: { days } })
             .then((res) => {
                 setChartData(res.data);
@@ -40,22 +37,23 @@ export const DonationsDailyAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsDonationsDaily" className="analytics-section">
-            <HeadingSmall title="Donations by day"/>
+            <h2 className="analytics-section-title">Donations by day</h2>
 
             <LoadingOverlay isLoading={isLoading}>
-            {chartData ? (
-                <BarChart
-                    style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
-                    responsive
-                    data={chartData}
-                >
-                    <XAxis dataKey="date" tickFormatter={formatDate}/>
-                    <YAxis />
+                {chartData ? (
+                    <BarChart
+                        style={{ width: '100%', maxHeight: '200px', aspectRatio: 3 }}
+                        responsive
+                        data={chartData}
+                    >
+                        <ChartDateXAxis/>
 
-                    <Bar dataKey="eventValue" fill="var(--chart-3-5)"/>
-                    <Tooltip />
-                </BarChart>
-            ) : (<Nothing>No data available.</Nothing>)}
+                        <ChartYAxis label="Amount"/>
+
+                        <Bar dataKey="eventValue" fill="var(--chart-3-5)"/>
+                        <Tooltip/>
+                    </BarChart>
+                ) : (<Nothing>No data available.</Nothing>)}
             </LoadingOverlay>
         </section>
     )

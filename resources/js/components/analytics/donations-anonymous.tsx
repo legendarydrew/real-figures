@@ -1,10 +1,10 @@
-import { Bar, BarChart, XAxis, YAxis } from 'recharts';
-import HeadingSmall from '@/components/heading-small';
+import { Bar, BarChart } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
 
 
 interface Props {
@@ -20,6 +20,10 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
     }, [days]);
 
     const fetchData = () => {
+        if (isLoading) {
+            return;
+        }
+        setIsLoading(true);
         axios.get("/api/analytics/donations/anonymous", { params: { days } })
             .then((res) => {
                 setChartData(res.data);
@@ -50,19 +54,19 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsCollapseOpens" className="analytics-section">
-            <HeadingSmall title="Donation Anonymity"/>
+            <h2 className="analytics-section-title">Donation Anonymity</h2>
 
             <LoadingOverlay isLoading={isLoading}>
                 <div className="flex flex-col lg:flex-row gap-8">
                     <div className="lg:w-2/3">
                         {chartData && (
                             <BarChart
-                                style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
+                                style={{ width: '100%', maxHeight: '200px', aspectRatio: 3 }}
                                 responsive
                                 data={chartData.data}
                             >
-                                <XAxis dataKey="date"/>
-                                <YAxis/>
+                                <ChartDateXAxis/>
+                                <ChartYAxis label="Donations"/>
 
                                 {chartData.keys.map(key => (
                                     <Bar
@@ -89,7 +93,7 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                 <tr key={row.name}>
                                     <th scope="row">
                                 <span className="block size-4"
-                                      style={{ backgroundColor: getColor(row.section) }}></span>
+                                      style={{ backgroundColor: getColor(row.name) }}></span>
                                     </th>
                                     <th className="text-left" scope="row">{row.name}</th>
                                     <td className="text-right">{row.count}</td>

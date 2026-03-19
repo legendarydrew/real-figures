@@ -1,12 +1,12 @@
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import HeadingSmall from '@/components/heading-small';
+import { CartesianGrid, Line, LineChart, Tooltip } from 'recharts';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AnalyticsData } from '@/types';
 import { Nothing } from '@/components/mode/nothing';
-import { usePage } from '@inertiajs/react';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
+import { formatDate } from '@/lib/utils';
 
 
 interface Props {
@@ -38,12 +38,6 @@ export const PageViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     }
 
-    const { locale } = usePage().props;
-
-    const formatDate = (timestamp: string): string => {
-        return new Date(timestamp).toLocaleDateString(locale);
-    };
-
     const tooltipContent = ({ active, payload, label }) => {
         if (active && payload?.length) {
             return (
@@ -64,26 +58,23 @@ export const PageViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsVotes" className="analytics-section">
-            <HeadingSmall title="Page views"/>
+            <h2 className="analytics-section-title">Page views</h2>
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData?.length ? (
-                    <ResponsiveContainer className="w-full" aspect={5}>
-                        <LineChart data={chartData} margin={2}>
-                            <CartesianGrid strokeDasharray="3 3"/>
-                            <XAxis dataKey="date"
-                                   tickFormatter={formatDate}
-                                   className="display-text font-normal text-xs"/>
-                            <YAxis yAxisId="visitorsAxis" className="display-text font-normal text-xs"/>
-                            <YAxis yAxisId="viewsAxis" orientation="right"
-                                   className="display-text font-normal text-xs"/>
-                            <Tooltip content={tooltipContent} isAnimationActive={false}/>
-                            <Line dataKey="views" label="Page views" dot={false} strokeWidth={2}
-                                  stroke="var(--primary)" yAxisId="viewsAxis"/>
-                            <Line dataKey="visitors" label="Visitors" dot={false} strokeWidth={2}
-                                  stroke="var(--secondary)" yAxisId="visitorsAxis"/>
-                        </LineChart>
-                    </ResponsiveContainer>
+                    <LineChart data={chartData} style={{ width: '100%', maxHeight: '300px', aspectRatio: 3 }}
+                               responsive
+                               margin={2}>
+                        <CartesianGrid strokeDasharray="3 3"/>
+                        <ChartDateXAxis/>
+                        <ChartYAxis yAxisId="visitorsAxis" label="Page views"/>
+                        <ChartYAxis yAxisId="viewsAxis" label="Visitors" orientation="right"/>
+                        <Tooltip content={tooltipContent} isAnimationActive={false}/>
+                        <Line dataKey="views" label="Page views" dot={false} strokeWidth={2}
+                              stroke="var(--primary)" yAxisId="viewsAxis"/>
+                        <Line dataKey="visitors" label="Visitors" dot={false} strokeWidth={2}
+                              stroke="var(--secondary)" yAxisId="visitorsAxis"/>
+                    </LineChart>
                 ) : (
                     <Nothing>
                         No page views information.

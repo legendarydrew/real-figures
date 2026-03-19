@@ -1,9 +1,10 @@
-import { Bar, BarChart, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ActImage } from '@/components/mode/act-image';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
 
 
 interface Props {
@@ -52,12 +53,12 @@ export const ActViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
                     <div className="flex flex-col lg:flex-row gap-8">
                         <div className="lg:w-2/3">
                             <BarChart
-                                style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
+                                style={{ width: '100%', maxHeight: '320px', aspectRatio: 2 }}
                                 responsive
                                 data={chartData.data}
                             >
-                                <XAxis dataKey="date"/>
-                                <YAxis/>
+                                <ChartDateXAxis/>
+                                <ChartYAxis label="Profile views"/>
 
                                 {chartData.keys.map(key => (
                                     <Bar
@@ -67,6 +68,7 @@ export const ActViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                         fill={stringToColor(key)}
                                     />
                                 ))}
+                                <ChartRoundReferences/>
                             </BarChart>
                         </div>
                         <div className="lg:w-1/3">

@@ -1,9 +1,11 @@
-import { Bar, BarChart, ReferenceLine, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, ReferenceLine, Tooltip } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
+import { cssVar } from '@/lib/utils';
 
 
 interface Props {
@@ -35,20 +37,21 @@ export const SubscribersAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsSubscribers" className="analytics-section">
-            <h2 className="analytics-section-title">Email subscribers"</h2>
+            <h2 className="analytics-section-title">Email subscribers</h2>
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData && (
                     <BarChart
-                        style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
+                        style={{ width: '100%', maxHeight: '200px', aspectRatio: 3 }}
                         responsive
                         data={chartData}
                         stackOffset="sign">
-                        <XAxis dataKey="date"/>
-                        <YAxis/>
-                        <ReferenceLine y={0} stroke="#000"/>
+                        <ChartDateXAxis/>
+                        <ChartYAxis label="Net subscriptions"/>
+                        <ReferenceLine y={0} stroke={cssVar('--secondary')}/>
                         <Bar dataKey="eventValue" fill="var(--chart-2-5)"/>
                         <Tooltip/>
+                        <ChartRoundReferences/>
                     </BarChart>
                 )}
             </LoadingOverlay>

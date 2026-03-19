@@ -1,5 +1,4 @@
 import { Bar, BarChart, ResponsiveContainer } from 'recharts';
-import HeadingSmall from '@/components/heading-small';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
@@ -46,25 +45,25 @@ export const SongPlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsSongPlays" className="analytics-section">
-            <HeadingSmall title="Songs played"/>
+            <h2 className="analytics-section-title">Songs played</h2>
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData && (
                     <ResponsiveContainer width="100%" aspect={1.618} maxHeight={300}>
-                    <BarChart data={chartData.data} height={300}>
-                        <ChartDateXAxis />
-                        <ChartYAxis label="Song plays" />
+                        <BarChart data={chartData.data} height={300}>
+                            <ChartDateXAxis/>
+                            <ChartYAxis label="Play count"/>
 
-                        {chartData.keys.map(key => (
-                            <Bar
-                                key={key}
-                                dataKey={key}
-                                stackId="sections"
-                                fill={stringToColor(key)}
-                            />
-                        ))}
-                        <ChartRoundReferences />
-                    </BarChart>
+                            {chartData.keys.map(key => (
+                                <Bar
+                                    key={key}
+                                    dataKey={key}
+                                    stackId="sections"
+                                    fill={stringToColor(key)}
+                                />
+                            ))}
+                            <ChartRoundReferences/>
+                        </BarChart>
                     </ResponsiveContainer>
                 )}
                 <table className="data-table">

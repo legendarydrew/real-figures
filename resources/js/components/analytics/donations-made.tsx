@@ -1,4 +1,3 @@
-import HeadingSmall from '@/components/heading-small';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -39,7 +38,7 @@ export const DonationsMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsDonations" className="analytics-section">
-            <HeadingSmall title="Donations made"/>
+            <h2 className="analytics-section-title">Donations made</h2>
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData && (

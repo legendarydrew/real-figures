@@ -1,5 +1,4 @@
 import { Bar, BarChart, ResponsiveContainer } from 'recharts';
-import HeadingSmall from '@/components/heading-small';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
@@ -46,7 +45,7 @@ export const ViewportsAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsViewports" className="analytics-section">
-            <HeadingSmall title="Viewports"/>
+            <h2 className="analytics-section-title">Viewports</h2>
 
             <LoadingOverlay isLoading={isLoading}>
 

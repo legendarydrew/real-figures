@@ -1,10 +1,10 @@
-import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
-import HeadingSmall from '@/components/heading-small';
+import { Bar, BarChart, Tooltip } from 'recharts';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { ChartTimeXAxis, ChartYAxis } from '@/components/chart-elements';
 
 
 interface Props {
@@ -38,17 +38,17 @@ export const PlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsPlays" className="analytics-section">
-            <HeadingSmall title="Song Plays"/>
+            <h2 className="analytics-section-title">Song Plays</h2>
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData && (
                     <BarChart
-                        style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
+                        style={{ width: '100%', maxHeight: '240px', aspectRatio: 3 }}
                         responsive
                         data={chartData}
                     >
-                        <XAxis dataKey="time"/>
-                        <YAxis/>
+                        <ChartTimeXAxis/>
+                        <ChartYAxis label="Play count"/>
                         <Tooltip/>
 
                         <Bar dataKey="count" fill="var(--chart-2-6)"/>
