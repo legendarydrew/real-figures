@@ -63,9 +63,10 @@ class AnalyticsChartFormatter
         while ($cursor->lte($end))
         {
             $date = $cursor->toISOString();
+            $dateStart = $cursor->startOfDay()->toISOString();
             if (!$dates->contains($date))
             {
-                $data->push(['date' => $date, ...array_fill_keys($keys, 0)]);
+                $data->push(['date' => $dateStart, ...array_fill_keys($keys, 0)]);
             }
             $cursor->addDay();
         }
