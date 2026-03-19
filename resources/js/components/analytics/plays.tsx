@@ -1,10 +1,11 @@
-import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, Tooltip } from 'recharts';
 import HeadingSmall from '@/components/heading-small';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
 
 
 interface Props {
@@ -43,12 +44,12 @@ export const PlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
             <LoadingOverlay isLoading={isLoading}>
                 {chartData && (
                     <BarChart
-                        style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
+                        style={{ width: '100%', maxHeight: '240px', aspectRatio: 3 }}
                         responsive
                         data={chartData}
                     >
-                        <XAxis dataKey="time"/>
-                        <YAxis/>
+                        <ChartDateXAxis dataKey="time"/>
+                        <ChartYAxis label="Play count"/>
                         <Tooltip/>
 
                         <Bar dataKey="count" fill="var(--chart-2-6)"/>

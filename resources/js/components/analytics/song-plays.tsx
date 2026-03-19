@@ -53,7 +53,7 @@ export const SongPlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
                     <ResponsiveContainer width="100%" aspect={1.618} maxHeight={300}>
                     <BarChart data={chartData.data} height={300}>
                         <ChartDateXAxis />
-                        <ChartYAxis label="Song plays" />
+                        <ChartYAxis label="Play count" />
 
                         {chartData.keys.map(key => (
                             <Bar

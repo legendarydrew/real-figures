@@ -1,4 +1,4 @@
-import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, Tooltip } from 'recharts';
 import HeadingSmall from '@/components/heading-small';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -7,6 +7,7 @@ import { AnalyticsData } from '@/types';
 import { Nothing } from '@/components/mode/nothing';
 import { usePage } from '@inertiajs/react';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
 
 
 interface Props {
@@ -28,6 +29,10 @@ export const DonationsDailyAnalytics: React.FC<Props> = ({ days = 7 }) => {
     };
 
     const fetchData = () => {
+        if (isLoading) {
+            return;
+        }
+        setIsLoading(true);
         axios.get("/api/analytics/donations/daily", { params: { days } })
             .then((res) => {
                 setChartData(res.data);
@@ -45,12 +50,13 @@ export const DonationsDailyAnalytics: React.FC<Props> = ({ days = 7 }) => {
             <LoadingOverlay isLoading={isLoading}>
             {chartData ? (
                 <BarChart
-                    style={{ width: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
+                    style={{ width: '100%', maxHeight: '200px', aspectRatio: 3 }}
                     responsive
                     data={chartData}
                 >
-                    <XAxis dataKey="date" tickFormatter={formatDate}/>
-                    <YAxis />
+                    <ChartDateXAxis/>
+
+                    <ChartYAxis label="Amount" />
 
                     <Bar dataKey="eventValue" fill="var(--chart-3-5)"/>
                     <Tooltip />

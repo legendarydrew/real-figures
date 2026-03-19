@@ -45,6 +45,7 @@ class OutboundController extends AnalyticsAPIController
 
     protected function analyticsProcessed(?Collection $rows, int $days): array
     {
+        dd($rows);
         return AnalyticsChartFormatter::stackedByDate($rows, 'linkUrl');
     }
 

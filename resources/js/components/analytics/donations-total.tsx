@@ -1,4 +1,4 @@
-import { Area, AreaChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, ReferenceLine } from 'recharts';
 import HeadingSmall from '@/components/heading-small';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
@@ -7,6 +7,7 @@ import { AnalyticsData } from '@/types';
 import { Nothing } from '@/components/mode/nothing';
 import { usePage } from '@inertiajs/react';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
 
 
 interface Props {
@@ -52,20 +53,20 @@ export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData?.data.length ? (
-                    <ResponsiveContainer className="w-full" aspect={4}>
-                        <AreaChart data={chartData.data} margin={2}>
-                            <XAxis dataKey="date"
-                                   tickFormatter={formatDate}
-                                   className="display-text font-normal text-xs"/>
-                            <YAxis className="display-text font-normal text-xs"/>
-                            <Area dataKey="b" dot={false} strokeWidth={2} stackId="1"
-                                  stroke="var(--gold)" fill="var(--gold-light)"/>
-                            <Area dataKey="d" dot={false} strokeWidth={2} stackId="1"
-                                  stroke="var(--donation)" fill="var(--donation-light)"/>
-                            {donation.target && (<ReferenceLine y={donation.target} stroke="var(--secondary)"
-                                                               label={`Target amount: ${donation.currency} ${donation.target}`}/>)}
-                        </AreaChart>
-                    </ResponsiveContainer>
+                    <AreaChart style={{ width: '100%', maxHeight: '300px', aspectRatio: 3 }}
+                               responsive
+                               data={chartData.data} margin={2}>
+                        <ChartDateXAxis/>
+                        <ChartYAxis label="Total raised"/>
+                        <Area dataKey="b" dot={false} strokeWidth={2} stackId="1"
+                              stroke="var(--gold)" fill="var(--gold-light)"/>
+                        <Area dataKey="d" dot={false} strokeWidth={2} stackId="1"
+                              stroke="var(--donation)" fill="var(--donation-light)"/>
+                        {donation.target && (
+                            <ReferenceLine y={donation.target} stroke="var(--secondary)"
+                                           label={`Target amount: ${donation.currency} ${donation.target}`}/>
+                        )}
+                    </AreaChart>
                 ) : (
                     <Nothing>
                         No donation information.

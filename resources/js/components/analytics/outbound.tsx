@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, XAxis, YAxis } from 'recharts';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { Nothing } from '@/components/mode/nothing';
 
@@ -21,7 +21,6 @@ export const OutboundAnalytics: React.FC<Props> = ({ days = 7 }) => {
         if (isLoading) {
             return;
         }
-
         setIsLoading(true);
         axios.get("/api/analytics/outbound", { params: { days } })
             .then((res) => {
@@ -50,25 +49,23 @@ export const OutboundAnalytics: React.FC<Props> = ({ days = 7 }) => {
                 {chartData?.data.length ? (
                     <div className="flex flex-col gap-4">
 
-                        <ResponsiveContainer className="w-full">
-                            <BarChart aspect={4}
-                                style={{ width: '100%', maxHeight: '300px' }}
-                                responsive
-                                data={chartData.data}
-                            >
-                                <XAxis dataKey="date"/>
-                                <YAxis/>
+                        <BarChart aspect={4}
+                                  style={{ width: '100%', maxHeight: '300px', aspectRatio: 3 }}
+                                  responsive
+                                  data={chartData.data}
+                        >
+                            <XAxis dataKey="date"/>
+                            <YAxis/>
 
-                                {chartData.keys.map(key => (
-                                    <Bar
-                                        key={key}
-                                        dataKey={key}
-                                        stackId="sections"
-                                        fill={getColor(key)}
-                                    />
-                                ))}
-                            </BarChart>
-                        </ResponsiveContainer>
+                            {chartData.keys.map(key => (
+                                <Bar
+                                    key={key}
+                                    dataKey={key}
+                                    stackId="sections"
+                                    fill={stringToColor(key)}
+                                />
+                            ))}
+                        </BarChart>
 
                         <table className="data-table lg:col-span-2">
                             <thead>
