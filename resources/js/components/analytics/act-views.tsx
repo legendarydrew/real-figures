@@ -4,7 +4,7 @@ import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ActImage } from '@/components/mode/act-image';
-import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
 
 
 interface Props {
@@ -68,6 +68,7 @@ export const ActViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                         fill={stringToColor(key)}
                                     />
                                 ))}
+                                <ChartRoundReferences/>
                             </BarChart>
                         </div>
                         <div className="lg:w-1/3">

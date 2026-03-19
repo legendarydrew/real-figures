@@ -1,5 +1,4 @@
 import { Bar, BarChart } from 'recharts';
-import HeadingSmall from '@/components/heading-small';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
@@ -55,7 +54,7 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsCollapseOpens" className="analytics-section">
-            <HeadingSmall title="Donation Anonymity"/>
+            <h2 className="analytics-section-title">Donation Anonymity</h2>
 
             <LoadingOverlay isLoading={isLoading}>
                 <div className="flex flex-col lg:flex-row gap-8">

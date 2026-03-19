@@ -1,13 +1,12 @@
 import { CartesianGrid, Line, LineChart, Tooltip } from 'recharts';
-import HeadingSmall from '@/components/heading-small';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AnalyticsData } from '@/types';
 import { Nothing } from '@/components/mode/nothing';
-import { usePage } from '@inertiajs/react';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
+import { formatDate } from '@/lib/utils';
 
 
 interface Props {
@@ -39,12 +38,6 @@ export const PageViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     }
 
-    const { locale } = usePage().props;
-
-    const formatDate = (timestamp: string): string => {
-        return new Date(timestamp).toLocaleDateString(locale);
-    };
-
     const tooltipContent = ({ active, payload, label }) => {
         if (active && payload?.length) {
             return (
@@ -65,7 +58,7 @@ export const PageViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsVotes" className="analytics-section">
-            <HeadingSmall title="Page views"/>
+            <h2 className="analytics-section-title">Page views</h2>
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData?.length ? (

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
-import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
 import { cssVar } from '@/lib/utils';
 
 
@@ -51,6 +51,7 @@ export const SubscribersAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         <ReferenceLine y={0} stroke={cssVar('--secondary')}/>
                         <Bar dataKey="eventValue" fill="var(--chart-2-5)"/>
                         <Tooltip/>
+                        <ChartRoundReferences/>
                     </BarChart>
                 )}
             </LoadingOverlay>

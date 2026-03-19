@@ -1,5 +1,4 @@
 import { Area, AreaChart, ReferenceLine } from 'recharts';
-import HeadingSmall from '@/components/heading-small';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -41,15 +40,9 @@ export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     }
 
-    const { locale } = usePage().props;
-
-    const formatDate = (timestamp: string): string => {
-        return new Date(timestamp).toLocaleDateString(locale);
-    };
-
     return (
         <section id="analyticsVotes" className="analytics-section">
-            <HeadingSmall title="Donations total"/>
+            <h2 className="analytics-section-title">Donations total</h2>
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData?.data.length ? (

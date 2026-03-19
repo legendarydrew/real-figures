@@ -1,4 +1,3 @@
-import HeadingSmall from '@/components/heading-small';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -39,7 +38,7 @@ export const GoldenBuzzersMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     return (
         <section id="analyticsGoldenBuzzersMade" className="analytics-section">
-            <HeadingSmall title="Golden Buzzers made"/>
+            <h2 className="analytics-section-title">Golden Buzzers made</h2>
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData && (
