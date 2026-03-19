@@ -2,8 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { AdminHeader } from '@/components/admin/admin-header';
-import { DonationsMadeAnalytics } from '@/components/analytics/donations-made';
-import { GoldenBuzzersMadeAnalytics } from '@/components/analytics/golden-buzzers-made';
+import { ContactMessagesAnalytics } from '@/components/analytics/contact-messages';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,24 +20,30 @@ export default function AnalyticsPage() {
 
                 <AdminHeader title="Analytics"/>
 
-                {/* Tabs? */}
+            {/*    /!* Tabs? *!/*/}
 
-                {/*<CollapseOpenAnalytics/>*/}
-                {/*<VotesAnalytics/>*/}
-                {/*<ReferrersAnalytics />*/}
-                {/*<SongPlaysAnalytics/>*/}
-                {/*<PlaysAnalytics/>*/}
-                <DonationsMadeAnalytics/>
-                {/*<PageViewsAnalytics/>*/}
-                {/*<PagesAnalytics/>*/}
-                {/*<DonationsAnonymousAnalytics/>*/}
-                {/*<ActViewsAnalytics/>*/}
-                {/*<DonationsDailyAnalytics />*/}
-                {/*<SubscribersAnalytics/>*/}
-                {/*<DonationsTotalAnalytics/>*/}
-                {/*<OutboundAnalytics/>*/}
-                {/*<CountriesAnalytics/>*/}
-                <GoldenBuzzersMadeAnalytics/>
+            {/*    /!*<CollapseOpenAnalytics/>*!/*/}
+            {/*    /!*<VotesAnalytics/>*!/*/}
+            {/*    /!*<ReferrersAnalytics />*!/*/}
+            {/*    /!*<SongPlaysAnalytics/>*!/*/}
+            {/*    /!*<PlaysAnalytics/>*!/*/}
+            {/*    /!*<DonationsMadeAnalytics/>*!/*/}
+            {/*    /!*<PageViewsAnalytics/>*!/*/}
+            {/*    /!*<PagesAnalytics/>*!/*/}
+            {/*    /!*<DonationsAnonymousAnalytics/>*!/*/}
+            {/*    /!*<ActViewsAnalytics/>*!/*/}
+            {/*    /!*<DonationsDailyAnalytics />*!/*/}
+            {/*    /!*<SubscribersAnalytics/>*!/*/}
+            {/*    /!*<DonationsTotalAnalytics/>*!/*/}
+            {/*    /!*<OutboundAnalytics/>*!/*/}
+            {/*    /!*<CountriesAnalytics/>*!/*/}
+            {/*    /!*<GoldenBuzzersMadeAnalytics/>*!/*/}
+            {/*    <BrowsersAnalytics />*/}
+            {/*    <OperatingSystemsAnalytics/>*/}
+            {/*    <NewVsReturningAnalytics/>*/}
+            {/*    <PlatformAnalytics/>*/}
+            {/*    <ViewportsAnalytics/>*/}
+                <ContactMessagesAnalytics/>
             </div>
         </AppLayout>
     );
