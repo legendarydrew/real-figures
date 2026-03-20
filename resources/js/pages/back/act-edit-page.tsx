@@ -22,6 +22,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
 
     const { data, setData, errors, setError } = useForm<Required<ActForm>>({
         name: '',
+        subtitle: '',
         slug: '',
         profile: {
             description: ''
@@ -40,6 +41,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
     useEffect(() => {
         setData({
             name: act?.name ?? '',
+            subtitle: act?.subtitle ?? '',
             slug: act?.slug ?? '',
             profile: {
                 description: act?.profile?.description ?? ''
@@ -66,6 +68,11 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
     const changeNameHandler = (e: ChangeEvent) => {
         setData('name', e.target.value);
         setError('name', '');
+    };
+
+    const changeSubtitleHandler = (e: ChangeEvent) => {
+        setData('subtitle', e.target.value);
+        setError('subtitle', '');
     };
 
     const changeSlugHandler = (e: ChangeEvent) => {
@@ -176,6 +183,13 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                             </div>
 
                             <div className="mb-3">
+                                <Label htmlFor="actSubtitle">Act subtitle</Label>
+                                <Input id="actSubtitle" type="text" className="font-bold text-muted-foreground" value={data.subtitle}
+                                       onChange={changeSubtitleHandler}/>
+                                <InputError message={errors.subtitle}/>
+                            </div>
+
+                            <div className="mb-3">
                                 <Label htmlFor="actSlug">Slug</Label>
                                 <Input id="actSlug" type="text" className="text-sm" value={data.slug}
                                        onChange={changeSlugHandler} placeholder="Generated from the Act name"/>
@@ -189,12 +203,12 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                                     <div className="flex gap-1 mt-2">
                                         {/* The usual method of using a label styled as a button. */}
                                         <label
-                                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] h-9 px-4 py-2 has-[>svg]:px-3 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90"
+                                            className="button secondary small"
                                             htmlFor="actImage">{data.image_url ? 'Replace' : 'Add'}</label>
                                         <input id="actImage" type="file" accept="image/*" onChange={changeImageHandler}
                                                className="hidden" aria-describedby="actImageHelp"/>
 
-                                        {data.image_url && (<Button variant="destructive" type="button"
+                                        {data.image_url && (<Button variant="destructive" type="button" size="sm"
                                                                     onClick={removeImageHandler}>Remove</Button>)}
                                     </div>
                                     <p className="mt-1 text-xs" id="file_input_help">JPEG or PNG recommended.</p>
