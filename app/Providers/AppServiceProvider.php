@@ -29,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
                 'currency' => config('contest.donation.currency'),
                 'target'   => config('contest.donation.target_amount')
             ],
+            'contest' => [
+                'runners_up' => config('contest.judgement.runners-up'),
+            ],
             'locale'   => config('app.locale'),
             'markers'  => app()->runningUnitTests() ? [] : Contest::getContestMarkers()
         ]);
