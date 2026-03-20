@@ -124,13 +124,13 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                         <div className="w-2/5">
                             <div className="mb-4">
                                 <Label htmlFor="allocateStart">First Round start</Label>
-                                <Input id="allocateStart" type="datetime-local" className="w-full"
+                                <Input id="allocateStart" type="datetime-local" className="block w-full"
                                        value={data.start_at}
                                        min={minStartTime.current} onChange={changeStartsAtHandler}/>
                                 <InputError message={errors.start_at}/>
                                 <p className="text-xs my-3 italic text-muted-foreground">NOTE: the first Round will be
                                     set to start an hour after
-                                    the specified time.</p>
+                                    the specified time, to allow for a countdown.</p>
                             </div>
 
                             <div className="flex gap-2 justify-between">
@@ -174,12 +174,15 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                             <div className="border rounded-sm p-1 h-[40vh] min-h-[12rem] overflow-y-auto">
                                 {songs.map((song) => (
                                     <label htmlFor={`song-${song.id}`} key={song.id}
-                                           className="flex gap-2 text-xs items-center p-1 hover:bg-gray-100 select-none cursor-pointer">
+                                           className="flex gap-2 text-sm items-center p-1 hover-bg select-none cursor-pointer">
                                         <Checkbox id={`song-${song.id}`} value={song.id}
                                                   checked={isSongSelected(song.id)}
                                                   onCheckedChange={(checked) => checked ? addSongId(song.id) : removeSongId(song.id)}/>
-                                        <span className="">{song.act.name}</span>
-                                        <span className="font-bold">{song.title}</span>
+                                        <span className="display-text leading-none">
+                                            {song.act.name}
+                                            {song.act.subtitle && (<small className="ml-0.5">{song.act.subtitle}</small>)}
+                                        </span>
+                                        <span className="display-text text-xs text-muted-foreground leading-none">{song.title}</span>
                                     </label>
                                 ))}
                             </div>
@@ -190,9 +193,9 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
                     </div>
 
                     <DialogFooter>
-                        <LoadingButton variant="default" type="submit" isLoading={processing}>Create
-                            Rounds</LoadingButton>
                         <Button variant="ghost" type="button" onClick={onOpenChange}>Cancel</Button>
+                        <LoadingButton variant="primary" type="submit" isLoading={processing}>Create
+                            Rounds</LoadingButton>
                     </DialogFooter>
                 </form>
             </DialogContent>

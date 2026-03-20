@@ -26,7 +26,8 @@ class ConfirmTest extends TestCase
         $subscriber = Subscriber::factory()->unconfirmed()->create();
         $url        = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
         $response   = $this->get($url);
-        $response->assertRedirectToRoute('home');
+        $response->assertOk();
+        $response->assertViewIs('front.subscriber-confirmed');
 
         $subscriber->refresh();
         self::assertTrue((bool)$subscriber->confirmed);
@@ -43,7 +44,8 @@ class ConfirmTest extends TestCase
 
         $url      = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
         $response = $this->get($url);
-        $response->assertRedirectToRoute('home');
+        $response->assertOk();
+        $response->assertViewIs('front.subscriber-confirmed');
 
         $subscriber->refresh();
         self::assertTrue((bool)$subscriber->confirmed);

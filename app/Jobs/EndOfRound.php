@@ -4,10 +4,8 @@ namespace App\Jobs;
 
 use App\Facades\ContestFacade;
 use App\Models\Round;
-use App\Models\RoundOutcome;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Support\Facades\DB;
 
 /**
  * EndOfRound
@@ -43,6 +41,6 @@ class EndOfRound implements ShouldQueue
             return;
         }
 
-        ContestFacade::buildRoundOutcome($this->round);
+        ContestFacade::buildRoundOutcomes($this->round);
     }
 }

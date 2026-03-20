@@ -41,7 +41,7 @@ class ByRoundTest extends TestCase
     {
         $stage = Stage::factory()->createOne();
         $round     = Round::factory()->for($stage)->withSongs()->withVotes()->createOne();
-        ContestFacade::buildRoundOutcome($round);
+        ContestFacade::buildRoundOutcomes($round);
         $breakdown = VoteBreakdownFacade::forRound($round);
 
         self::assertEquals($round->id, $breakdown['id']);
