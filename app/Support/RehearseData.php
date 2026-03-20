@@ -3,7 +3,7 @@ namespace App\Support;
 
 class RehearseData
 {
-    const STATES = [
+    const array STATES = [
         1 => 'Coming soon',
         2 => 'Stage 1: Knockouts - Countdown',
         3 => 'Stage 1: Knockouts - Active',
@@ -14,7 +14,7 @@ class RehearseData
         8 => 'Contest over'
     ];
 
-    const STAGES = [
+    const array STAGES = [
         [
             'title'               => 'Stage 1: Knockouts',
             'description'         => 'Eight rounds with four Acts each, to determine which Songs go through to the finals.',
@@ -28,7 +28,7 @@ class RehearseData
         ]
     ];
 
-    const ACTS = [
+    const array ACTS = [
         [
             'name'             => 'Airi Kisaragi',
             'subtitle'         => null,

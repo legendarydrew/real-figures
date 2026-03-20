@@ -68,7 +68,7 @@ class ContestController extends Controller
         {
             // Display information about the current Round and any previous (ended) Rounds.
             // If there is no current Round, add a timestamp for counting down to the start of the first Round.
-                $current_round   = $current_stage->rounds->first(fn(Round $round) => $round->isActive());
+            $current_round   = $current_stage->rounds->first(fn(Round $round) => $round->isActive());
             $previous_rounds = null;
 
             if ($current_stage->hasEnded())
