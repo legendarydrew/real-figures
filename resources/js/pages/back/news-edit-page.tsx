@@ -23,6 +23,10 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
         publish: undefined
     });
 
+
+    const isEditing = useRef<boolean>(!!post?.id);
+    const isPublished = useRef<boolean>(!!post?.published_at);
+
     useEffect(() => {
         setData({
             id: post?.id,
@@ -30,22 +34,21 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
             content: post?.content,
             publish: undefined
         });
+        isEditing.current = !!post?.id;
+        isPublished.current = !!post?.published_at;
     }, [post]);
 
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [isPublishDialogOpen, setIsPublishDialogOpen] = useState<boolean>(false);
 
-    const isEditing = useRef<boolean>(!!post?.id);
-    const isPublished = useRef<boolean>(!!post?.published_at);
-
     const changeTitleHandler = (e: ChangeEvent) => {
-        setData('title', e.target.value);
-        setError('title', '');
+        setData((previousData) => ({ ...previousData, title: e.target.value }));
+        setError({ title: '' });
     };
 
     const changeContentHandler = (value: string) => {
-        setData('content', value); // a gotcha!
-        setError('content', '');
+        setData((previousData) => ({ ...previousData, content: value })); // a gotcha!
+        setError({ content: '' });
     };
 
     const cancelHandler = (): void => {
@@ -77,6 +80,9 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
                 onSuccess: () => {
                     RTToast.success('News Post was updated.');
                 },
+                onError: (errors) => {
+                    setError(errors);
+                },
                 onFinish: () => {
                     setIsSaving(false)
                 },
@@ -87,6 +93,9 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
                 showProgress: true,
                 onSuccess: () => {
                     RTToast.success('News Post was created.');
+                },
+                onError: (errors) => {
+                    setError(errors);
                 },
                 onFinish: () => {
                     setIsSaving(false)
@@ -102,7 +111,7 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
 
             <div className="admin-content">
 
-                <AdminHeader title={`${isEditing.current ? 'Edit' : 'Create'} News Post`} />
+                <AdminHeader title={`${isEditing.current ? 'Edit' : 'Create'} News Post`}/>
 
                 <form className="flex flex-col gap-4" onSubmit={saveHandler}>
 
@@ -111,22 +120,23 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
                         <Input id="postTitle" type="text" className="font-bold text-lg" defaultValue={data.title}
                                onChange={changeTitleHandler}/>
                         <InputError message={errors.title}/>
-                    </div>
 
-                    {isPublished.current && (
-                        <Alert type="success">This post was published on <b>{post.published_at}</b>.</Alert>
-                    )}
+                        {isPublished.current && (
+                            <Alert type="success">This post was published on <b>{post.published_at}</b>.</Alert>
+                        )}
+                    </div>
 
                     <div>
                         <Label htmlFor="postContent">Description</Label>
-                        <MarkdownEditor value={data.content} onChange={changeContentHandler}/>
+                        <MarkdownEditor className="min-h-60" value={data.content} onChange={changeContentHandler}/>
                         <InputError message={errors.content}/>
                     </div>
 
                     <div className="bg-white border-t-1 flex justify-between sticky bottom-0 -mx-5 px-5 py-3">
-                        <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
+                        <Button type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
                         <div className="toolbar">
-                            <LoadingButton variant="confirm" size="lg" isLoading={isSaving}>Save News Post</LoadingButton>
+                            <LoadingButton variant="primary" size="lg" isLoading={isSaving}>Save News
+                                Post</LoadingButton>
                             {(isEditing.current && !isPublished.current && !isSaving) && (
                                 <Button variant="confirm" type="button" size="lg"
                                         onClick={publishHandler}>Publish</Button>)}
@@ -142,5 +152,5 @@ export default function NewsEditPage({ post }: Readonly<{ post: NewsPost }>) {
                     Are you sure you want to do this?</ConfirmDialog>
             </div>
         </AppLayout>
-);
+    );
 };

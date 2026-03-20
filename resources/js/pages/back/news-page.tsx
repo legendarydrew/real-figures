@@ -145,7 +145,7 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
                                onConfirm={confirmDeleteHandler} processing={isDeleting}>
                 <DialogTitle>{"Delete News Post"}</DialogTitle>
 
-                <span className="italic">This will remove the News Post titled <b>{currentPost?.title}</b>.</span><br/>
+                This will remove the News Post titled <b>{currentPost?.title}</b>.<br/>
                 Are you sure you want to do this?
             </DestructiveDialog>
         </AppLayout>

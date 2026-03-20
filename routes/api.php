@@ -96,6 +96,7 @@ Route::prefix('/api')->group(function ()
 
         Route::post('news', [NewsController::class, 'store'])->name('news.store');
         Route::put('news/{id}', [NewsController::class, 'update'])->name('news.update');
+        Route::delete('news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
 
         Route::put('messages/{id}', [ContactMessagesController::class, 'update'])->name('messages.read');
         Route::put('messages/{id}/respond', [ContactMessagesRespondController::class, 'update'])->name('messages.respond');

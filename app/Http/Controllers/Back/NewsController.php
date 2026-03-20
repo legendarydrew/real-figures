@@ -75,4 +75,13 @@ class NewsController extends Controller
 
         return to_route('admin.news.edit', ['id' => $post->id]);
     }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        $post = NewsPost::findOrFail($id);
+        $post->deleteOrFail();
+
+        return to_route('admin.news');
+
+    }
 }

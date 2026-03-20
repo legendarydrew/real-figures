@@ -51,4 +51,5 @@ textarea.input-field {
 
 .input-error {
     @apply text-sm text-red-600 dark:text-red-400 mt-2;
+    @apply flex gap-2 items-center;
 }
