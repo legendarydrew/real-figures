@@ -58,13 +58,11 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                 traits: act?.meta.traits ?? []
             }
         });
+        setIsEditing(!!act?.id);
     }, [act]);
 
     const [isSaving, setIsSaving] = useState<boolean>(false);
-
-    const isEditing = (): boolean => {
-        return !!act?.id;
-    }
+    const [isEditing, setIsEditing] = useState<boolean>(false);
 
     const changeNameHandler = (e: ChangeEvent) => {
         setData((previousData) => ({ ...previousData, name: e.target.value }));
@@ -101,6 +99,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
     };
 
     const removeImageHandler = () => {
+        setData((previousData) => ({ ...previousData, image: undefined}));
         setData((previousData) => ({ ...previousData, new_image: undefined}));
         setData((previousData) => ({ ...previousData, remove_image: true}));
         setError({ image: '' });
@@ -139,8 +138,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
 
         setIsSaving(true);
 
-        console.log(formData);
-        if (isEditing()) {
+        if (isEditing) {
             router.patch(route('acts.update', { id: act.id }), formData, {
                 showProgress: true,
                 onSuccess: () => {
@@ -173,7 +171,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
 
             <div className="admin-content">
 
-                <AdminHeader title={isEditing() ? 'Edit Act' : 'Create Act'} />
+                <AdminHeader title={isEditing ? 'Edit Act' : 'Create Act'} />
 
                 <form className="flex flex-col gap-3 px-5" onSubmit={saveHandler}>
 
