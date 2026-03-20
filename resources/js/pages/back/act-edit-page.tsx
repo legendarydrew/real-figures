@@ -29,7 +29,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
         },
         is_fan_favourite: false,
         image: '',
-        image_url: '',
+        new_image: undefined,
         remove_image: false,
         meta: {
             members: [],
@@ -47,7 +47,8 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                 description: act?.profile?.description ?? ''
             },
             is_fan_favourite: act?.meta.is_fan_favourite ?? 0,
-            image_url: act?.image_url,
+            image: act?.image,
+            new_image: undefined,
             remove_image: false,
             meta: {
                 genres:act?.meta.genres ?? [],
@@ -66,23 +67,23 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
     }
 
     const changeNameHandler = (e: ChangeEvent) => {
-        setData('name', e.target.value);
-        setError('name', '');
+        setData((previousData) => ({ ...previousData, name: e.target.value }));
+        setError({ name: '' });
     };
 
     const changeSubtitleHandler = (e: ChangeEvent) => {
-        setData('subtitle', e.target.value);
-        setError('subtitle', '');
+        setData((previousData) => ({ ...previousData, subtitle: e.target.value}));
+        setError({ subtitle: '' });
     };
 
     const changeSlugHandler = (e: ChangeEvent) => {
-        setData('slug', e.target.value);
-        setError('slug', '');
+        setData((previousData) => ({ ...previousData, slug: e.target.value}));
+        setError({ slug: '' });
     };
 
     const changeProfileDescriptionHandler = (value: string) => {
-        setData('profile', { ...data.profile, description: value }); // a gotcha!
-        setError('profile.description', '');
+        setData((previousData) => ({ ...previousData, profile: { ...previousData.profile, description: value }})); // a gotcha!
+        setError({ 'profile.description': '' });
     };
 
     const changeImageHandler = (e) => {
@@ -90,30 +91,30 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
         // Convert the file to a base64 encoded string.
         // https://stackoverflow.com/a/53129416/4073160
         const reader: FileReader = new FileReader();
-        reader.onload = function () {
-            setData('image', file);
-            setData('image_url', reader.result?.toString());
-            setData('remove_image', false);
-            setError('image', '');
+        reader.onload = () => {
+            setData((previousData) => ({ ...previousData, new_image: reader.result?.toString()}));
+            setData((previousData) => ({ ...previousData, remove_image: false}));
+            setError({ image: '' });
         };
         reader.readAsDataURL(file);
-        e.target.filename = undefined; // to allow selecting the same file more than once.
+        e.target.value = null; // to allow selecting the same file more than once.
     };
 
     const removeImageHandler = () => {
-        setData('image', '');
-        setData('image_url', '');
-        setData('remove_image', true);
-        setError('image', '');
+        setData((previousData) => ({ ...previousData, new_image: undefined}));
+        setData((previousData) => ({ ...previousData, remove_image: true}));
+        setError({ image: '' });
     };
 
     const updateMetaHandler = (column: string, e: any): void => {
-        setData(`meta.${column}`, e);
+        setData((previousData) => ({ ...previousData, [`meta.${column}`]: e}));
     };
 
     const cancelHandler = (): void => {
         router.visit(route('admin.acts'));
     };
+
+    const displayImage = () => data.new_image ?? data.image;
 
     const saveHandler = (e: SubmitEvent) => {
         e.preventDefault();
@@ -129,6 +130,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
         }
 
         // Remove empty meta information.
+        delete formData.image;
         formData.meta.languages = formData.meta.languages.filter((row) => row?.length);
         formData.meta.genres = formData.meta.genres.filter((row) => row?.length);
         formData.meta.members = formData.meta.members.filter((row) => row?.length);
@@ -136,12 +138,15 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
         formData.meta.traits = formData.meta.traits.filter((row) => row?.length);
 
         setIsSaving(true);
+
+        console.log(formData);
         if (isEditing()) {
             router.patch(route('acts.update', { id: act.id }), formData, {
                 showProgress: true,
                 onSuccess: () => {
                     RTToast.success(`Act "${act.name}" was updated.`);
                 },
+                onError: setError,
                 onFinish: () => {
                     setIsSaving(false)
                 },
@@ -153,6 +158,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                 onSuccess: () => {
                     RTToast.success(`Act "${data.name}" was created.`);
                 },
+                onError: setError,
                 onFinish: () => {
                     setIsSaving(false)
                 },
@@ -204,20 +210,20 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                                         {/* The usual method of using a label styled as a button. */}
                                         <label
                                             className="button secondary small"
-                                            htmlFor="actImage">{data.image_url ? 'Replace' : 'Add'}</label>
+                                            htmlFor="actImage">{displayImage() ? 'Replace' : 'Add'}</label>
                                         <input id="actImage" type="file" accept="image/*" onChange={changeImageHandler}
                                                className="hidden" aria-describedby="actImageHelp"/>
 
-                                        {data.image_url && (<Button variant="destructive" type="button" size="sm"
+                                        {displayImage() && (<Button variant="destructive" type="button" size="sm"
                                                                     onClick={removeImageHandler}>Remove</Button>)}
                                     </div>
                                     <p className="mt-1 text-xs" id="file_input_help">JPEG or PNG recommended.</p>
                                 </div>
-                                {data.image_url && (
+                                {displayImage() && (
                                     <div
                                         className="w-[12em] h-[10em] rounded-sm overflow-hidden bg-linear-to-bl from-indigo-300 to-indigo-700">
-                                        <div className="w-full h-full rounded-sm bg-cover"
-                                             style={{ backgroundImage: `url(${data.image_url})` }}/>
+                                        <div className="size-full rounded-sm bg-cover"
+                                             style={{ backgroundImage: `url(${displayImage()})` }}/>
                                     </div>
                                 )}
                             </div>

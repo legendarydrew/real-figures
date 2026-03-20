@@ -20,7 +20,7 @@ class ActImage
 
     public function url(Act $act): string
     {
-        return asset(sprintf('img/%s/%s.png', config('contest.images.subfolder'), $act->slug), true);
+        return asset(sprintf('img/%s/%s.png?%u', config('contest.images.subfolder'), $act->slug, now()->secondOfHour()), true);
     }
 
     public function create(Act $act, string $image): void
@@ -32,6 +32,15 @@ class ActImage
         Image::read($image)
              ->scaleDown(...config('contest.images.resize'))
              ->save($this->path($act));
+    }
+
+    public function rename(Act $act): void
+    {
+        if ($this->exists($act))
+        {
+            $previous_path = sprintf('%s/%s.png', $this->getImageFolder(), $act->getPrevious()['slug']);
+            rename($previous_path, $this->path($act));
+        }
     }
 
     public function delete(Act $act): void

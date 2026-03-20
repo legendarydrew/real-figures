@@ -45,10 +45,7 @@ class ActController extends Controller
             return $act;
         });
 
-        if (isset($act))
-        {
-            return to_route('admin.acts.edit', ['id' => $act->id]);
-        }
+        return to_route('admin.acts.edit', ['id' => $act->id]);
     }
 
     public function update(ActRequest $request, int $act_id): RedirectResponse
@@ -74,13 +71,17 @@ class ActController extends Controller
 
     protected function updateActImage(Act $act, array $data): void
     {
-        if (!empty($data['image']))
+        if (!empty($data['new_image']))
         {
-            ActImageFacade::create($act, $data['image']);
+            ActImageFacade::create($act, $data['new_image']);
         }
         elseif (isset($data['remove_image']) && $data['remove_image'])
         {
             ActImageFacade::delete($act);
+        }
+        else
+        {
+            ActImageFacade::rename($act);
         }
     }
 
