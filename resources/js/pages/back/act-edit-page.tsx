@@ -46,7 +46,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
             profile: {
                 description: act?.profile?.description ?? ''
             },
-            is_fan_favourite: act?.meta.is_fan_favourite ?? 0,
+            is_fan_favourite: !!act?.meta.is_fan_favourite,
             image: act?.image,
             new_image: undefined,
             remove_image: false,
@@ -77,6 +77,11 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
     const changeSlugHandler = (e: ChangeEvent) => {
         setData((previousData) => ({ ...previousData, slug: e.target.value}));
         setError({ slug: '' });
+    };
+
+    const fanFavouriteHandler = (checked: boolean) => {
+        setData((previousData) => ({ ...previousData, is_fan_favourite: checked}));
+        setError({ is_fan_favourite: '' });
     };
 
     const changeProfileDescriptionHandler = (value: string) => {
@@ -248,7 +253,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                     <div>
                         <label className="flex gap-2 items-center text-sm font-semibold">
                             <Checkbox checked={data.is_fan_favourite}
-                                      onCheckedChange={(checked) => setData('is_fan_favourite', checked)}/>
+                                      onCheckedChange={fanFavouriteHandler}/>
                             Is fan favourite
                         </label>
                         <p className="pl-6 text-sm text-muted-foreground">A fan favourite is a popular Act that is
