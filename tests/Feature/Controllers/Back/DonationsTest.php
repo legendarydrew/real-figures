@@ -25,7 +25,7 @@ class DonationsTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.donations'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/donations'));
+        $response->assertInertia(fn(Assert $page) => $page->component('back/donations-page'));
     }
 
     #[Depends('test_as_user')]

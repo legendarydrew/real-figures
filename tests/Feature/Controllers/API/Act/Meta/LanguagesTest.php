@@ -30,6 +30,11 @@ class LanguagesTest extends TestCase
         ];
     }
 
+    public function test_have_languages_in_payload()
+    {
+        self::assertCount(3, $this->payload['meta']['languages']);
+    }
+
     public function test_adds_meta_languages()
     {
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);

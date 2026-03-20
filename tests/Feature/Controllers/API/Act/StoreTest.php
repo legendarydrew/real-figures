@@ -85,9 +85,9 @@ class StoreTest extends TestCase
     public function test_creates_act_with_image()
     {
         fake()->addProvider(new FakerPicsumImagesProvider(fake()));
-        $this->payload['image'] = fake()->image();
+        $this->payload['new_image'] = fake()->image();
         $response               = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
-        $response->assertCreated();
+        $response->assertRedirectToRoute('admin.acts.edit', ['id' => 1]);
 
         $act = Act::first();
         self::assertInstanceOf(Act::class, $act);
@@ -97,7 +97,7 @@ class StoreTest extends TestCase
     #[Depends('test_as_user')]
     public function test_updates_and_removes_image()
     {
-        $this->payload['image'] = null;
+        $this->payload['new_image'] = null;
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
 
         $act = Act::first();

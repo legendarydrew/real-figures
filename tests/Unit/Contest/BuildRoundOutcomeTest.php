@@ -18,7 +18,7 @@ class BuildRoundOutcomeTest extends TestCase
     {
         $stage = Stage::factory()->createOne();
         $round = Round::factory()->for($stage)->withSongs()->withVotes()->create();
-        ContestFacade::buildRoundOutcome($round);
+        ContestFacade::buildRoundOutcomes($round);
 
         $outcomes = RoundOutcome::whereRoundId($round->id)->get();
         self::assertCount($round->songs()->count(), $outcomes);
@@ -28,7 +28,7 @@ class BuildRoundOutcomeTest extends TestCase
     {
         $stage = Stage::factory()->createOne();
         $round = Round::factory()->for($stage)->withSongs()->create();
-        ContestFacade::buildRoundOutcome($round);
+        ContestFacade::buildRoundOutcomes($round);
 
         $outcomes = RoundOutcome::whereRoundId($round->id)->get();
         self::assertCount(0, $outcomes);
