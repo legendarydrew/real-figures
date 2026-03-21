@@ -31,7 +31,7 @@
         </div>
 
         {{-- A big button for casting a vote. --}}
-        <button type="button" class="button large contest-vote-button"
+        <button type="button" class="button xl primary contest-vote-button"
                 onclick="trackEvent('dialog_open', { type: 'vote', round: '{{ $current_round['full_title'] }}' })"
                 command="show-modal" commandfor="vote-dialog" aria-controls="vote-dialog">Cast your Vote...
         </button>

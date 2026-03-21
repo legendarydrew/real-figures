@@ -36,7 +36,7 @@ export default function Login({ status, canResetPassword }: Readonly<LoginProps>
     };
 
     return (
-        <AuthLayout title="Log in to your account" description="Enter your email and password below to log in">
+        <AuthLayout>
             <Head title="Log in"/>
 
             <form className="flex flex-col gap-6" onSubmit={submit}>
@@ -90,7 +90,7 @@ export default function Login({ status, canResetPassword }: Readonly<LoginProps>
                         <Label htmlFor="remember">Remember me</Label>
                     </div>
 
-                    <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
+                    <Button type="submit" className="mt-2 w-full" tabIndex={4} disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin"/>}
                         Log in
                     </Button>

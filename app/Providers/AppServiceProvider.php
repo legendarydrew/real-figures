@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Facades\ContestFacade as Contest;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
@@ -24,12 +25,19 @@ class AppServiceProvider extends ServiceProvider
     {
         // Make certain configured values available to our app. (Thanks once again, ChatGPT.)
         Inertia::share([
-            'analytics' => config('services.analytics'),
-            'donation'  => config('contest.donation'),
-            'locale'    => config('app.locale')
+            'donation' => [
+                'currency' => config('contest.donation.currency'),
+                'target'   => config('contest.donation.target_amount')
+            ],
+            'contest' => [
+                'runners_up' => config('contest.judgement.runners-up'),
+            ],
+            'locale'   => config('app.locale'),
+            'markers'  => app()->runningUnitTests() ? [] : Contest::getContestMarkers()
         ]);
 
-        \View::composer('front.links', function(View $view) {
+        \View::composer('front.links', function (View $view)
+        {
             // Determine the current route.
             $view->with('current', Route::currentRouteName());
         });

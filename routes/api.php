@@ -1,7 +1,28 @@
 <?php
 
 use App\Http\Controllers\API\ActController;
+use App\Http\Controllers\API\Analytics\ActViewsController;
+use App\Http\Controllers\API\Analytics\BrowsersController;
 use App\Http\Controllers\API\Analytics\CollapseController;
+use App\Http\Controllers\API\Analytics\ContactMessagesController as ContactMessagesAnalyticsController;
+use App\Http\Controllers\API\Analytics\CountriesController;
+use App\Http\Controllers\API\Analytics\DonationsAnonymousController;
+use App\Http\Controllers\API\Analytics\DonationsDailyController;
+use App\Http\Controllers\API\Analytics\DonationsMadeController;
+use App\Http\Controllers\API\Analytics\DonationsTotalController;
+use App\Http\Controllers\API\Analytics\GoldenBuzzersMadeController;
+use App\Http\Controllers\API\Analytics\OperatingSystemsController;
+use App\Http\Controllers\API\Analytics\OutboundController;
+use App\Http\Controllers\API\Analytics\PagesController;
+use App\Http\Controllers\API\Analytics\PageViewsController;
+use App\Http\Controllers\API\Analytics\PlatformController;
+use App\Http\Controllers\API\Analytics\PlaysController;
+use App\Http\Controllers\API\Analytics\ReferrersController;
+use App\Http\Controllers\API\Analytics\SongPlaysController;
+use App\Http\Controllers\API\Analytics\SubscribersController;
+use App\Http\Controllers\API\Analytics\UserTypesController;
+use App\Http\Controllers\API\Analytics\ViewportController;
+use App\Http\Controllers\API\Analytics\VotesController;
 use App\Http\Controllers\API\BuzzerController;
 use App\Http\Controllers\API\ContactMessagesController;
 use App\Http\Controllers\API\ContactMessagesRespondController;
@@ -45,7 +66,28 @@ Route::prefix('/api')->group(function ()
         Route::patch('acts/{id}', [ActController::class, 'update'])->name('acts.update');
         Route::delete('acts/{id}', [ActController::class, 'destroy'])->name('acts.destroy');
 
+        Route::get('analytics/acts', [ActViewsController::class, 'index'])->name('analytics.acts');
+        Route::get('analytics/browsers', [BrowsersController::class, 'index'])->name('analytics.browsers');
         Route::get('analytics/collapse', [CollapseController::class, 'index'])->name('analytics.collapse');
+        Route::get('analytics/contact', [ContactMessagesAnalyticsController::class, 'index'])->name('analytics.contact');
+        Route::get('analytics/countries', [CountriesController::class, 'index'])->name('analytics.countries');
+        Route::get('analytics/donations/anonymous', [DonationsAnonymousController::class, 'index'])->name('analytics.donations.anonymous');
+        Route::get('analytics/donations/daily', [DonationsDailyController::class, 'index'])->name('analytics.donations.daily');
+        Route::get('analytics/donations/made', [DonationsMadeController::class, 'index'])->name('analytics.donations.made');
+        Route::get('analytics/donations/total', [DonationsTotalController::class, 'index'])->name('analytics.donations.total');
+        Route::get('analytics/golden-buzzers/made', [GoldenBuzzersMadeController::class, 'index'])->name('analytics.golden-buzzers.made');
+        Route::get('analytics/os', [OperatingSystemsController::class, 'index'])->name('analytics.os');
+        Route::get('analytics/outbound', [OutboundController::class, 'index'])->name('analytics.outbound');
+        Route::get('analytics/page-views', [PageViewsController::class, 'index'])->name('analytics.page-views');
+        Route::get('analytics/pages', [PagesController::class, 'index'])->name('analytics.pages');
+        Route::get('analytics/platform', [PlatformController::class, 'index'])->name('analytics.platform');
+        Route::get('analytics/plays', [PlaysController::class, 'index'])->name('analytics.plays');
+        Route::get('analytics/referrers', [ReferrersController::class, 'index'])->name('analytics.referrers');
+        Route::get('analytics/songs', [SongPlaysController::class, 'index'])->name('analytics.songs');
+        Route::get('analytics/subscribers', [SubscribersController::class, 'index'])->name('analytics.subscribers');
+        Route::get('analytics/user-types', [UserTypesController::class, 'index'])->name('analytics.user-types');
+        Route::get('analytics/viewports', [ViewportController::class, 'index'])->name('analytics.viewports');
+        Route::get('analytics/votes', [VotesController::class, 'index'])->name('analytics.votes');
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
 
@@ -54,6 +96,7 @@ Route::prefix('/api')->group(function ()
 
         Route::post('news', [NewsController::class, 'store'])->name('news.store');
         Route::put('news/{id}', [NewsController::class, 'update'])->name('news.update');
+        Route::delete('news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
 
         Route::put('messages/{id}', [ContactMessagesController::class, 'update'])->name('messages.read');
         Route::put('messages/{id}/respond', [ContactMessagesRespondController::class, 'update'])->name('messages.respond');

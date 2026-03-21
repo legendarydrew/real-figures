@@ -122,7 +122,7 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
                                 <Label htmlFor="actName">Act's name</Label>
                                 <Input id="actName" type="text" className="font-bold" value={data.name}
                                        onChange={changeNameHandler}/>
-                                <InputError className="mt-2" message={errors.title}/>
+                                <InputError message={errors.title}/>
                             </div>
 
                             <div className="mb-2 flex gap-2">
@@ -147,7 +147,7 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
                                          style={{ backgroundImage: `url(${data.image})` }}/>
                                 )}
                             </div>
-                            <InputError className="mt-2" message={errors.image}/>
+                            <InputError message={errors.image}/>
                         </div>
 
                         {/* Right side */}
@@ -157,7 +157,7 @@ export const ActDialog: FC<ActDialogProps> = ({ open, onOpenChange, act }) => {
                                 <Label htmlFor="actDescription">Description</Label>
                                 <MarkdownEditor value={data.profile?.description}
                                                 onChange={changeProfileDescriptionHandler}/>
-                                <InputError className="mt-2" message={errors['profile.description']}/>
+                                <InputError message={errors['profile.description']}/>
                             </div>
                         </div>
 

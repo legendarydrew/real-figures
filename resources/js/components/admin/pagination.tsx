@@ -2,6 +2,7 @@ import { PaginatedResponse } from '@/types';
 import { Button } from '@/components/ui/button';
 import React, { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 interface PaginationProps {
     results: PaginatedResponse<unknown>;
@@ -12,6 +13,10 @@ interface PaginationProps {
 interface PaginationItem {
     id: string;
     value: number | null;
+}
+
+interface ButtonProps {
+    onClick?: () => undefined | void
 }
 
 export const Pagination: React.FC<PaginationProps> = ({ results, sideLinkCount = 2, onPageChange }) => {
@@ -87,7 +92,7 @@ export const Pagination: React.FC<PaginationProps> = ({ results, sideLinkCount =
     }
 
     return paginationData?.total_pages > 1 && (
-        <nav className="flex mx-4 my-3 justify-center items-center gap-x-2">
+        <nav className="pagination">
             {shouldShowInput() && <form onSubmit={manualSubmitHandler}>
                 <Input value={manualPageNumber} onChange={(v) => setManualPageNumber(v.target.value)} type="number"
                        min="0"
@@ -97,13 +102,13 @@ export const Pagination: React.FC<PaginationProps> = ({ results, sideLinkCount =
             </form>}
             {pageNumbers.map((pageNumber: PaginationItem) => (
                 <React.Fragment key={pageNumber.id}>
-                    {pageNumber.value ? <Button variant={isPageActive(pageNumber.value!) ? 'default' : 'ghost'}
-                                          className="cursor-pointer"
-                                                disabled={isPageActive(pageNumber.value!)}
-                                                onClick={() => onPageChange && onPageChange(pageNumber.value!)}
-                                                title={`Go to page ${pageNumber.value}`}>
-                        {pageNumber.value}
-                    </Button> : <Button variant="ghost" disabled>...</Button>}
+                    {pageNumber.value ?
+                        <Button className={cn('pagination-link', isPageActive(pageNumber.value) && 'active')}
+                                disabled={isPageActive(pageNumber.value)}
+                                onClick={() => onPageChange ? onPageChange(pageNumber.value!) : ''}
+                                title={`Go to page ${pageNumber.value}`}>
+                            {pageNumber.value}
+                        </Button> : <Button className="disabled">...</Button>}
                 </React.Fragment>
             ))}
         </nav>

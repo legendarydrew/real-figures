@@ -15,14 +15,78 @@ use Illuminate\Support\Collection;
  */
 class AnalyticsChartFormatter
 {
+
+    public static function byHour(array|Collection $rows): array
+    {
+        $data = collect($rows)
+            ->map(fn($row) => [
+                'time'  => Carbon::createFromFormat('YmdH', $row['dateHour'])->format('Y-m-d H:00'),
+                'count' => (int)$row['eventCount']
+            ])
+            ->sortBy('time')
+            ->values();
+
+        // Determine date range
+        $start = now()->subDays(7);
+        $end   = now();
+
+        $dates = $data->pluck('time');
+
+        $cursor = $start->copy();
+        while ($cursor->lte($end))
+        {
+            $date = $cursor->format('Y-m-d H:00');
+            if (!$dates->contains($date))
+            {
+                $data->push(['time' => $date, 'count' => 0]);
+            }
+            $cursor->addHour();
+        }
+
+        return $data->sortBy('time')->values()->toArray();
+    }
+
+    public static function byDate(array|Collection $rows, int $fromDays, array $keys): array
+    {
+        $data = collect($rows)
+            ->map(fn($row) => ['date' => $row['date']->toISOString(), ...$row])
+            ->sortBy('date')
+            ->values();
+
+        // Determine date range
+        $start = now()->subDays($fromDays);
+        $end   = now();
+
+        $dates = $data->pluck('date');
+
+        $cursor = $start->copy();
+        while ($cursor->lte($end))
+        {
+            $date = $cursor->toISOString();
+            $dateStart = $cursor->startOfDay()->toISOString();
+            if (!$dates->contains($date))
+            {
+                $data->push(['date' => $dateStart, ...array_fill_keys($keys, 0)]);
+            }
+            $cursor->addDay();
+        }
+
+        return $data->sortBy('date')->values()->toArray();
+    }
+
     public static function stackedByDate(
-        array|Collection $rows,
-        string           $dimension,
-        string           $metric = 'eventCount',
-        string           $interval = 'day',
-        ?int             $top = null
+        array|Collection|null $rows,
+        string                $dimension,
+        string                $metric = 'eventCount',
+        string                $interval = 'day',
+        ?int                  $top = null
     ): array
     {
+        if (is_null($rows))
+        {
+            return ['data' => [], 'keys' => []];
+        }
+
         // Organise the data into combinations of date and dimension values.
         $rows = collect($rows)->map(function ($row) use ($dimension, $metric, $interval)
         {
@@ -72,6 +136,9 @@ class AnalyticsChartFormatter
             });
         }
 
+        /**
+         * @var Collection $keys
+         */
         $keys = $rows->pluck('dimension')->unique()->values();
 
         // Sum values per date + dimension
@@ -111,6 +178,9 @@ class AnalyticsChartFormatter
 
             return $row;
         });
+
+        // Ensure 'Other' is the last item in both lists, if present.
+        $keys = $keys->sort(fn($key) => $key === 'Other' ? 1 : 0);
 
         return [
             'keys' => $keys->values()->toArray(),

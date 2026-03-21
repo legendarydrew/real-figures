@@ -3,8 +3,6 @@
 namespace Tests\Feature\Controllers\Back;
 
 use App\Models\Donation;
-use App\Models\RoundVote;
-use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Depends;
@@ -26,7 +24,7 @@ class DashboardTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/dashboard'));
+        $response->assertInertia(fn(Assert $page) => $page->component('back/dashboard-page'));
     }
 
     // Test with data!

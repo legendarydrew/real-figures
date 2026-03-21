@@ -117,14 +117,14 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
                                 ))}
                             </SelectContent>
                         </Select>
-                        <InputError className="mt-2" message={errors.act_id}/>
+                        <InputError message={errors.act_id}/>
                     </div>
 
                     <div className="mb-2">
                         <Label htmlFor="songTitle">Song Title</Label>
                         <Input id="songTitle" type="text" className="font-bold" value={data.title}
                                onChange={changeTitleHandler}/>
-                        <InputError className="mt-2" message={errors.title}/>
+                        <InputError message={errors.title}/>
                     </div>
 
                     <div className="mb-2">
@@ -146,7 +146,7 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
                                 ))}
                             </SelectContent>
                         </Select>
-                        <InputError className="mt-2" message={errors.act_id}/>
+                        <InputError message={errors.act_id}/>
                     </div>
 
                     <div className="mb-2">
@@ -154,7 +154,7 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
                         <Input id="songUrl" type="text" value={data.url}
                                placeholder="YouTube video embed URL"
                                onChange={changeUrlHandler}/>
-                        <InputError className="mt-2" message={errors.url}/>
+                        <InputError message={errors.url}/>
                     </div>
 
 

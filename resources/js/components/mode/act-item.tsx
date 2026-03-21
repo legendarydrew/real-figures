@@ -74,7 +74,7 @@ export const ActItem: React.FC<ActItemProps> = ({ act, onEdit, onDelete, classNa
 
             {/* Act name. */}
             <div className="act-item-text">
-                {act.name}
+                {act.name}&nbsp;
                 {act.subtitle && (<small>{act.subtitle}</small>)}
             </div>
         </div>);

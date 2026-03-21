@@ -65,26 +65,23 @@ export const ActMetaGenres: React.FC<ActMetaGenresProps> = ({ genres = [], genre
     return (
         <div>
             <HeadingSmall title="Act's Music Genres"/>
-            <div className="flex flex-wrap gap-2 my-2">
+            <div className="flex flex-wrap gap-1 my-2 border rounded-sm p-1">
                 {rows.map((genre) => (
-                    <Button key={genre} className="flex-shrink-0 rounded-md" variant="outline" size="sm"
+                    <Button key={genre} className="font-sans flex-shrink-0 text-xs rounded-sm"
+                            size="sm"
                             type="button"
                             title="Remove"
                             onClick={() => removeRowHandler(genre)}>
                         {genre}
-                        <XIcon/>
+                        <XIcon className="size-3" />
                     </Button>
                 ))}
 
                 <Combobox onChange={selectHandler}>
-                    <ComboboxInput className={cn(
-                        "border-input file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex h-9 w-full min-w-0 rounded-md border bg-transparent dark:bg-white/10 px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-                        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-                        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-                        className
-                    )} value={query} onChange={(event) => setQuery(event.target.value)}/>
+                    <ComboboxInput className={cn( "input-field", className)}
+                                   value={query} onChange={(event) => setQuery(event.target.value)}/>
                     <ComboboxOptions
-                        className="bg-popover text-popover-foreground data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 z-50 min-w-[8rem] overflow-hidden rounded-md border p-1 shadow-md">
+                        className="relative bg-popover text-popover-foreground data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 z-50 min-w-[8rem] overflow-hidden rounded-md border p-1 shadow-md">
                         {filteredGenres().map((genre) => (
                             <ComboboxOption key={genre} value={genre}
                                             className="data-[active]:bg-muted data-[active]:text-muted-foreground focus:bg-muted focus:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Facades\ContestFacade;
 use App\Facades\RoundResultsFacade;
 use App\Models\Act;
 use App\Models\NewsPost;
@@ -97,14 +98,14 @@ class Contest
      * @return void
      * @throws \Throwable
      */
-    public function buildRoundOutcome(Round $round): void
+    public function buildRoundOutcomes(Round $round, bool $manual = false): void
     {
         // Check that the Round has Votes for the round. If it has, create RoundOutcomes.
         // Bear in mind that it's possible for a Song not to have received any votes!
         if ($round->votes()->count())
         {
             $round->load(['votes', 'songs']);
-            DB::transaction(function () use ($round)
+            DB::transaction(function () use ($round, $manual)
             {
                 $round->outcomes()->delete();
 
@@ -122,6 +123,7 @@ class Contest
                                     'first_votes'  => $first_choices[$song->id] ?? 0,
                                     'second_votes' => $second_choices[$song->id] ?? 0,
                                     'third_votes'  => $third_choices[$song->id] ?? 0,
+                                    'was_manual'   => $manual
                                 ]);
                 }
             });
@@ -218,6 +220,39 @@ class Contest
     public function shouldShowNews(): bool
     {
         return NewsPost::published()->count() > 0;
+    }
+
+    /**
+     * Returns a list of date markers relating to the Contest.
+     * These will be used to add indicators to charts in the back office.
+     *
+     * @return array
+     */
+    public function getContestMarkers(): array
+    {
+        // We want to include:
+        // - the start of each Stage (the creation date of the first Round in the Stage);
+        // - the beginnings of each Round;
+        // - the end of each Stage;
+        // - the end of the Contest (winners determined).
+        // If we want to be *extra*, we could try including dates of News and Subscriber posts,
+        // which could be turned on/off in each chart.
+        $stages = Stage::all()->filter(fn(Stage $stage) => $stage->rounds->count());
+        $rounds = Round::all()->filter(fn(Round $round) => $round->hasStarted());
+
+        return [
+            'stages' => $stages->map(fn(Stage $stage) => [
+                'start' => $stage->rounds->first()->starts_at->startOfDay()->toISOString(),
+                'end'   => $stage->rounds->last()->ends_at->startOfDay()->toISOString(),
+                'name'  => $stage->title
+            ]),
+            'rounds' => $rounds->map((fn(Round $round) => [
+                'date' => $round->starts_at->startOfDay()->toISOString(),
+                'name' => $round->full_title
+            ])),
+            'over'   => ContestFacade::isOver() ?
+                StageWinner::first()->created_at->startOfDay()->toISOString() : null
+        ];
     }
 
 }

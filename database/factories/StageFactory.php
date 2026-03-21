@@ -96,7 +96,7 @@ class StageFactory extends Factory
 
             $rounds->each(function (Round $round)
             {
-                ContestFacade::buildRoundOutcome($round);
+                ContestFacade::buildRoundOutcomes($round);
             });
 
             // Create Stage winners.

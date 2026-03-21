@@ -13,3 +13,11 @@ export function titleCase(str: string) {
 export const cssVar = (name) => {
     return getComputedStyle(document.documentElement).getPropertyValue(name);
 }
+
+export function formatDate(locale: unknown, timestamp: string): string {
+    return new Date(timestamp).toLocaleDateString(locale as string, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+}

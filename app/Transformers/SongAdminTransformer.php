@@ -16,8 +16,9 @@ class SongAdminTransformer extends TransformerAbstract
             'language'   => $song->language->code,
             'act_id'     => (int)$song->act_id,
             'act'        => [
-                'name'  => $song->act->name,
-                'image' => $song->act->image
+                'name'     => $song->act->name,
+                'subtitle' => $song->act->subtitle,
+                'image'    => $song->act->image
             ],
             'play_count' => (int)$song->play_count,
             'url'        => $song->url ? $song->url->url : null,

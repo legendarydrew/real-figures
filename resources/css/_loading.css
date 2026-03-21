@@ -1,0 +1,11 @@
+.loading-overlay {
+    @apply relative min-h-16;
+
+    .loading-overlay-cover {
+        @apply absolute top-0 bg-muted/70 flex items-center justify-center w-full h-full rounded-sm;
+    }
+
+    .loading-overlay-icon {
+        @apply size-12 animate-spin;
+    }
+}

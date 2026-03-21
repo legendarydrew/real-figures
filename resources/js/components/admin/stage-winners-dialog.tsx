@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } f
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Stage } from '@/types';
 import { RTToast } from '@/components/mode/toast-message';
@@ -21,14 +21,16 @@ type StageWinnersForm = {
 }
 
 export const StageWinnersDialog: FC<StageWinnersDialogProps> = ({ open, onOpenChange, stage }) => {
+    const { contest } = usePage().props;
+
     const { data, setData, post, errors, setError, processing } = useForm<Required<StageWinnersForm>>({
-        runners_up: 1
+        runners_up: contest.runners_up
     });
 
     const changeRunnersUpHandler = (e: ChangeEvent) => {
         // We are using setData from useForm(), so we don't have to create separate states.
-        setData('runners_up', e.target.value);
-        setError('runners_up', '');
+        setData((prev) => ({ ...prev, runners_up: e.target.value }));
+        setError({ runners_up: '' });
     };
 
     const saveHandler = (e: SubmitEvent) => {
@@ -53,17 +55,19 @@ export const StageWinnersDialog: FC<StageWinnersDialogProps> = ({ open, onOpenCh
                 </DialogDescription>
                 <form onSubmit={saveHandler}>
                     <div className="mb-3 flex justify-between items-center">
-                        <Label htmlFor="chooseRunnersUp">Number of runners-up</Label>
-                        <Input id="chooseRunnersUp" type="number" className="font-bold text-right w-[6em]"
-                               value={data.runners_up}
-                               min="1" max="10" onChange={changeRunnersUpHandler}/>
-                        <InputError className="mt-2" message={errors.runners_up}/>
+                        <Label htmlFor="chooseRunnersUp" className="flex-grow">Number of runners-up</Label>
+                        <div className="w-20">
+                            <Input id="chooseRunnersUp" type="number" className="font-bold text-right"
+                                   value={data.runners_up}
+                                   min="1" max="10" onChange={changeRunnersUpHandler}/>
+                        </div>
+                        <InputError message={errors.runners_up}/>
                     </div>
 
                     <DialogFooter>
-                        <LoadingButton variant="default" type="submit" onClick={saveHandler}
-                                       isLoading={processing}>Confirm</LoadingButton>
                         <Button variant="ghost" type="button" onClick={onOpenChange}>Cancel</Button>
+                        <LoadingButton variant="primary" type="submit" onClick={saveHandler}
+                                       isLoading={processing}>Confirm</LoadingButton>
                     </DialogFooter>
                 </form>
             </DialogContent>

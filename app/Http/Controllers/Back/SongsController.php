@@ -17,7 +17,7 @@ class SongsController extends Controller
         // Sorting rows is done by passing a sort parameter, in the format "column:asc" or "column:desc".
         $sort = explode(':', request()->query('sort', 'title:asc'));
 
-        return Inertia::render('back/songs', [
+        return Inertia::render('back/songs-page', [
             'acts'  => fn() => Act::select(['id', 'name'])->orderBy('name')->get(),
             'songs' => fn() => fractal(
             // https://stackoverflow.com/a/72277299/4073160

@@ -18,6 +18,7 @@ use App\Http\Controllers\Back\NewsGenerateController;
 use App\Http\Controllers\Back\SongsController;
 use App\Http\Controllers\Back\StagesController;
 use App\Http\Controllers\Back\SubscribersController;
+use App\Http\Controllers\Back\SubscribersPostController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,7 @@ Route::middleware(['auth', 'verified'])->group(function ()
     Route::get('/admin/songs', [SongsController::class, 'index'])->name('admin.songs');
     Route::get('/admin/stages', [StagesController::class, 'index'])->name('admin.stages');
     Route::get('/admin/subscribers', [SubscribersController::class, 'index'])->name('admin.subscribers');
+    Route::get('/admin/subscribers-post', [SubscribersPostController::class, 'index'])->name('admin.subscribers-post');
 });
 
 

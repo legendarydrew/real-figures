@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsBase64Image;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -17,11 +18,12 @@ class ActRequest extends FormRequest
         return [
             'name'                => ['required', 'string',
                 Rule::unique('acts', 'name')->ignore($this->id)],
-            'slug'         => ['nullable', 'string'],
+            'subtitle'            => ['nullable', 'string'],
+            'slug'                => ['nullable', 'string'],
             'profile'             => ['sometimes', 'array'],
             'profile.description' => ['nullable', 'string'],
-            'image'        => ['nullable', 'image'],
-            'remove_image' => ['nullable', 'boolean'],
+            'new_image'           => ['nullable', new IsBase64Image()],
+            'remove_image'        => ['nullable', 'boolean'],
             'is_fan_favourite'    => ['sometimes', 'boolean'],
             'meta'                => ['sometimes', 'array'],
             'meta.genres'         => ['array'],

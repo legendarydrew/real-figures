@@ -21,7 +21,7 @@ class StageRoundsController extends Controller
     {
         $stage = Stage::findOrFail($stage_id);
 
-        return Inertia::render('back/stages', [
+        return Inertia::render('back/stages-page', [
             'rounds' => fn() => fractal($stage->rounds, new RoundAdminTransformer())->toArray()
         ]);
     }

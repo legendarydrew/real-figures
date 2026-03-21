@@ -10,14 +10,14 @@ use League\Fractal\TransformerAbstract;
 class DonationTransformer extends TransformerAbstract
 {
 
-    protected array $availableIncludes = ['amount'];
+    protected array $availableIncludes = ['amount', 'message'];
 
     public function transform(Donation|GoldenBuzzer $donation): array
     {
         return [
             'id'           => (int)$donation->id,
             'name'         => $donation->is_anonymous ? trans('anonymous') : $donation->name,
-            'created_at' => $donation->created_at->format(config('contest.format.date')),
+            'created_at' => $donation->created_at->format(config('contest.format.full-date')),
             'is_anonymous' => $donation->is_anonymous,
         ];
     }
@@ -27,5 +27,10 @@ class DonationTransformer extends TransformerAbstract
         return $this->primitive(
             sprintf("%s %s", $donation->currency, number_format($donation->amount, 2)
             ));
+    }
+
+    protected function includeMessage(Donation|GoldenBuzzer $donation): Primitive
+    {
+        return $this->primitive($donation->message);
     }
 }

@@ -1,0 +1,105 @@
+.admin-header {
+    @apply flex flex-col md:flex-row justify-between items-center;
+
+    .admin-header-title {
+        @apply display-text text-3xl flex-grow;
+    }
+
+    .admin-header-controls {
+        @apply flex gap-1 items-center;
+    }
+}
+
+.admin-content {
+    @apply flex h-full flex-1 flex-col gap-4 rounded-xl p-4 pl-10;
+}
+
+
+.admin-dashboard-count {
+    @apply rounded-sm p-3 flex items-center gap-4 select-none;
+
+    &.messages {
+        @apply bg-secondary/30 hover:bg-secondary/50;
+
+        span {
+            @apply text-xs;
+        }
+    }
+
+    &.subscribers {
+        @apply bg-primary/50 hover:bg-primary;
+    }
+
+    &.donations {
+        @apply bg-donation/50 hover:bg-donation;
+    }
+
+    &.golden-buzzer {
+        @apply bg-gold/50 hover:bg-gold;
+
+        span {
+            @apply text-xs;
+        }
+    }
+}
+
+.admin-dashboard-count-text {
+    @apply flex-grow flex flex-col gap-0 display-text;
+
+    span {
+        @apply leading-none text-sm;
+
+        &:first-child {
+            @apply text-3xl;
+        }
+    }
+}
+
+.admin-table {
+    @apply w-full my-4 first:mt-0 last:mb-0;
+
+    th, td {
+        @apply px-3 py-2 leading-tight;
+    }
+
+    thead {
+        @apply text-xs;
+
+        tr:last-of-type {
+            @apply border-b;
+        }
+    }
+
+    tbody {
+        tr {
+            @apply hover:bg-secondary/20;
+        }
+
+        th, td {
+            @apply text-sm;
+        }
+    }
+}
+
+/* Dashboard tables.
+ (adapted from https://tw-elements.com/docs/standard/data/tables/#small) */
+table.dashboard-table {
+    @apply min-w-full text-center text-sm font-light text-current;
+}
+
+table.dashboard-table thead {
+    @apply border-b border-neutral-200 font-medium select-none dark:border-white/10;
+}
+
+table.dashboard-table tfoot {
+    @apply border-t border-neutral-200 font-medium dark:border-white/10;
+}
+
+table.dashboard-table th,
+table.dashboard-table td {
+    @apply px-6 py-2 whitespace-nowrap;
+}
+
+table.dashboard-table tr {
+    @apply border-b border-neutral-100 dark:border-white/10;
+}

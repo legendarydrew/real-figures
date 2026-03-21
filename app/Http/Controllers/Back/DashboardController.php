@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Enums\ContestStatus;
 use App\Facades\ContestFacade;
+use App\Facades\ContestFacade as Contest;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Models\Donation;
 use App\Models\GoldenBuzzer;
+use App\Models\Round;
 use App\Models\RoundVote;
+use App\Models\Song;
 use App\Models\SongPlay;
 use App\Models\Subscriber;
-use App\Transformers\DonationTransformer;
+use App\Transformers\ActTransformer;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -23,16 +27,12 @@ class DashboardController extends Controller
     public function index(): Response
     {
         $current_stage = ContestFacade::getCurrentStage();
-        return Inertia::render('back/dashboard', [
-            'analytics_countries' => fn() => $this->getTopCountries(),
-            'analytics_pages'     => fn() => $this->getMostViewedPages(),
-            'analytics_views'     => fn() => $this->getPageViews(),
+        return Inertia::render('back/dashboard-page', [
+            'contest_status'   => fn() => $this->getContestStatus(),
+            'analytics_views'  => fn() => $this->getPageViews(),
             'donations'        => fn() => [
                 'golden_buzzers' => GoldenBuzzer::count(),
-                'rows'           => fractal(Donation::orderByDesc('id')->take(10)->get(), new DonationTransformer())->parseIncludes('amount')->toArray(),
                 'count'          => Donation::count(),
-                'total'          => sprintf("%s %s", config('contest.donation.currency'), number_format(Donation::sum('amount'), 2)),
-                // making a dangerous assumption that the donations are all in the same currency.
             ],
             'buzzer_count'     => fn() => GoldenBuzzer::count(),
             'message_count'    => fn() => ContactMessage::whereNull('read_at')->count(),
@@ -129,38 +129,69 @@ class DashboardController extends Controller
     {
         $analyticsData = Analytics::fetchTotalVisitorsAndPageViews(Period::days(14));
         $data          = $analyticsData->map(fn($row) => [
-            'date'     => $row['date']->format('Y-m-d'),
+            'date'     => $row['date']->startOfDay()->toISOString(),
             'views'    => $row['screenPageViews'],
             'visitors' => $row['activeUsers'],
-        ])
-                                       ->toArray();
+        ])->reverse();
 
-        // For some reason we have to do the sorting here, as attempting to do it with the
-        // collection returns nothing.
-        usort($data, fn($a, $b) => strcmp($a['date'], $b['date']));
-
-        return $data;
+        return $data->values()->toArray();
     }
 
-    protected function getMostViewedPages(): array
+    /**
+     * Returns the current state of the Contest.
+     *
+     * @return array
+     */
+    protected function getContestStatus(): array
     {
-        $analyticsData = Analytics::fetchMostVisitedPages(Period::days(7));
-        return $analyticsData->map(fn($row, $index) => [
-            'index' => $index,
-            'url'   => $row['fullPageUrl'],
-            'title' => $row['pageTitle'],
-            'views' => $row['screenPageViews'],
-        ])->toArray();
-    }
+        $current_stage = Contest::getCurrentStage();
+        $output        = [
+            'status' => ContestStatus::COMING_SOON
+        ];
 
-    protected function getTopCountries(): array
-    {
-        $analyticsData = Analytics::fetchTopCountries(Period::days(7));
-        return $analyticsData->map(fn($row, $index) => [
-            'index'   => $index,
-            'country' => $row['country'],
-            'views'   => $row['screenPageViews'],
-        ])->toArray();
+        if (Contest::isOver())
+        {
+            $output['status'] = ContestStatus::OVER;
+        }
+        else
+        {
+            if ($current_stage?->hasEnded())
+            {
+                $output = [
+                    'status' => ContestStatus::JUDGEMENT,
+                    'round'  => $current_stage->name
+                ];
+            }
+            else
+            {
+                $current_round = $current_stage?->rounds->first(fn(Round $round) => $round->isActive());
+                if ($current_round)
+                {
+                    $acts   = $current_round->songs->map(fn(Song $song) => $song->act);
+                    $output = [
+                        'status'    => ContestStatus::ACTIVE,
+                        'round'     => $current_round->full_title,
+                        'countdown' => $current_round->ends_at->toISOString(),
+                        'acts'      => fractal($acts, ActTransformer::class)->toArray()
+                    ];
+                }
+                else
+                {
+                    $current_round = $current_stage?->rounds->first();
+                    if ($current_round)
+                    {
+                        $output = [
+                            'status'    => ContestStatus::COUNTDOWN,
+                            'round'     => $current_round->full_title,
+                            'countdown' => $current_round->starts_at->toISOString()
+                        ];
+                    }
+                }
+            }
+
+        }
+
+        return $output;
     }
 
 }

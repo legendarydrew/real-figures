@@ -25,7 +25,8 @@ class RemoveTest extends TestCase
         $subscriber = Subscriber::factory()->unconfirmed()->create();
         $url        = route('subscriber.remove', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
         $response   = $this->get($url);
-        $response->assertRedirectToRoute('home');
+        $response->assertOk();
+        $response->assertViewIs('front.subscriber-removed');
 
         $this->expectException(ModelNotFoundException::class);
         $subscriber->refresh();
@@ -39,7 +40,8 @@ class RemoveTest extends TestCase
 
         $url        = route('subscriber.remove', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
         $response = $this->get($url);
-        $response->assertRedirectToRoute('home');
+        $response->assertOk();
+        $response->assertViewIs('front.subscriber-removed');
 
         $this->expectException(ModelNotFoundException::class);
         $subscriber->refresh();
@@ -52,7 +54,7 @@ class RemoveTest extends TestCase
         $subscriber = Subscriber::factory()->create();
         $url        = route('subscriber.remove', ['id' => 404, 'code' => $subscriber->confirmation_code]);
         $response   = $this->get($url);
-        $response->assertRedirectToRoute('home');
+        $response->assertNotFound();
 
         $subscriber->refresh();
         self::assertInstanceOf(Subscriber::class, $subscriber);
@@ -65,7 +67,7 @@ class RemoveTest extends TestCase
         $subscriber = Subscriber::factory()->unconfirmed()->create();
         $url        = route('subscriber.remove', ['id' => $subscriber->id, 'code' => 404]);
         $response   = $this->get($url);
-        $response->assertRedirectToRoute('home');
+        $response->assertNotFound();
 
         $subscriber->refresh();
         self::assertInstanceOf(Subscriber::class, $subscriber);

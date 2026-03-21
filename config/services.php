@@ -43,6 +43,7 @@ return [
 
     'analytics' => [
         'measurement_id' => env('ANALYTICS_MEASUREMENT_ID'),
+        'api_secret'     => env('ANALYTICS_API_SECRET'),
         'testMode'       => config('app.debug'),
     ],
 

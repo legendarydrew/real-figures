@@ -23,7 +23,7 @@
 }
 
 .contest-vote-button {
-    @apply w-full my-4;
+    @apply w-full max-w-160 mx-auto my-8 text-background;
 }
 
 .contest-winners {
@@ -174,7 +174,7 @@
 }
 
 .song-item-act {
-    @apply bg-background/30 absolute bottom-0 left-0 w-full flex items-center gap-3 min-h-10;
+    @apply bg-secondary/90 absolute bottom-0 left-0 w-full flex items-center gap-3 min-h-10;
 }
 
 .song-item-flag {
@@ -184,6 +184,10 @@
 
 .song-item-act-name {
     @apply display-text text-lg text-left text-shadow-md/60 leading-none flex-grow;
+}
+
+.song-item-act-subtitle {
+    @apply block text-xs leading-none;
 }
 
 .song-item-golden-buzzer {

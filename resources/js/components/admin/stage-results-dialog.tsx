@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Stage, StageWinner } from '@/types';
-import { ActImage } from '@/components/mode/act-image';
 import toast from 'react-hot-toast';
+import { SongBanner } from '@/components/mode/song-banner';
 
 interface StageResultsDialogProps {
     open: boolean;
@@ -40,11 +40,7 @@ export const StageResultsDialog: FC<StageResultsDialogProps> = ({ open, onOpenCh
                                 {winningRows().map((winner) => (
                                     <li key={winner.id}
                                         className="flex pr-2 justify-between items-center gap-2 my-0.5 h-[4rem] hover:bg-gray-100/10">
-                                        <ActImage act={winner.song.act}/>
-                                        <div className="flex-grow flex flex-col">
-                                            <span className="font-bold">{winner.song.act.name}</span>
-                                            <span className="text-sm">{winner.song.title}</span>
-                                        </div>
+                                        <SongBanner song={winner.song} />
                                         <span className="text-sm text-right text-muted-foreground">{winner.round}</span>
                                     </li>
                                 ))}
@@ -59,11 +55,7 @@ export const StageResultsDialog: FC<StageResultsDialogProps> = ({ open, onOpenCh
                                 {runnerUpRows().map((winner) => (
                                     <li key={winner.id}
                                         className="flex pr-3 justify-between items-center gap-2 my-0.5 hover:bg-gray-100/10">
-                                        <ActImage act={winner.song.act}/>
-                                        <div className="flex-grow flex flex-row gap-1">
-                                            <span className="font-bold">{winner.song.act.name}</span>
-                                            <span className="mr-auto">{winner.song.title}</span>
-                                        </div>
+                                        <SongBanner song={winner.song} />
                                         <span className="text-right text-muted-foreground">{winner.round}</span>
                                     </li>
                                 ))}

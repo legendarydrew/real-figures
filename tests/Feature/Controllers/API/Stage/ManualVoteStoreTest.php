@@ -26,6 +26,7 @@ class ManualVoteStoreTest extends TestCase
     {
         parent::setUp();
 
+        // Set up a Stage requiring a manual vote.
         $this->stage    = Stage::factory()->createOne();
         $this->round    = Round::factory()->for($this->stage)->ended()->createOne();
         $this->song_ids = Song::factory(8)->withAct()->create()->pluck('id')->toArray();
@@ -51,6 +52,8 @@ class ManualVoteStoreTest extends TestCase
                 ]
             ]
         ];
+
+        config()->set('contest.judgement.panel-count', 0);
     }
 
     public function test_as_guest()
@@ -84,7 +87,7 @@ class ManualVoteStoreTest extends TestCase
         ]);
 
         // a fake outcome.
-        $outcome = RoundOutcome::factory()->for($this->round)->create([
+        RoundOutcome::factory()->for($this->round)->create([
             'round_id'     => $this->round->id,
             'song_id'      => $song_id,
             'first_votes'  => $song_id,
@@ -93,13 +96,12 @@ class ManualVoteStoreTest extends TestCase
         ]);
 
         self::assertFalse($this->stage->requiresManualVote());
+        self::assertFalse($this->round->requiresManualVote());
 
         $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertRedirectToRoute('admin.stages');
 
-        $outcome->delete();
-
-        self::assertCount(0, $this->round->outcomes);
+        self::assertCount(1, $this->round->outcomes); // the fake outcome created before.
     }
 
     public function test_cast_manual_vote_for_invalid_stage()
@@ -141,36 +143,38 @@ class ManualVoteStoreTest extends TestCase
         self::assertCount(0, $this->round->outcomes);
     }
 
-    public function test_manual_vote_creates_outcomes()
+    public function test_manual_vote_creates_vote()
     {
+        // This test assumes there are no other panel members.
+        self::assertEquals(0, config('contest.judgement.panel-count'));
+
+        $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
+
+        $this->round->refresh();
+        self::assertCount(count($this->song_ids), $this->round->outcomes);
+        self::assertTrue($this->round->outcomes->every(fn($outcome) => $outcome->was_manual));
+        self::assertCount(1, $this->round->votes);
+
+        // Ensure the Songs received the correct vote.
+        $vote = $this->round->votes->first();
+
+        self::assertEquals($this->payload['votes'][0]['song_ids']['first'], $vote->first_choice_id);
+        self::assertEquals($this->payload['votes'][0]['song_ids']['second'], $vote->second_choice_id);
+        self::assertEquals($this->payload['votes'][0]['song_ids']['third'], $vote->third_choice_id);
+    }
+
+    public function test_manual_vote_with_panel_creates_votes()
+    {
+        config()->set('contest.judgement.panel-count', 7);
+
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
 
         self::assertTrue($this->round->outcomes->every(fn($outcome) => $outcome->was_manual));
 
-        $outcome = $this->round->outcomes->first(fn($outcome) => $outcome->song_id === $this->payload['votes'][0]['song_ids']['first']);
-        self::assertInstanceOf(RoundOutcome::class, $outcome);
+        $this->round->refresh();
+        self::assertCount(8, $this->round->votes);
 
-        self::assertEquals(1, $outcome->first_votes);
-        self::assertEquals(0, $outcome->second_votes);
-        self::assertEquals(0, $outcome->third_votes);
-
-        $outcome = $this->round->outcomes->first(fn($outcome) => $outcome->song_id === $this->payload['votes'][0]['song_ids']['second']);
-        self::assertEquals(0, $outcome->first_votes);
-        self::assertEquals(1, $outcome->second_votes);
-        self::assertEquals(0, $outcome->third_votes);
-
-        $outcome = $this->round->outcomes->first(fn($outcome) => $outcome->song_id === $this->payload['votes'][0]['song_ids']['third']);
-        self::assertEquals(0, $outcome->first_votes);
-        self::assertEquals(0, $outcome->second_votes);
-        self::assertEquals(1, $outcome->third_votes);
-
-        $picked   = [$this->payload['votes'][0]['song_ids']['first'], $this->payload['votes'][0]['song_ids']['second'], $this->payload['votes'][0]['song_ids']['third']];
-        $outcomes = $this->round->outcomes->filter(fn($outcome) => !in_array($outcome->song_id, $picked));
-        foreach ($outcomes as $outcome)
-        {
-            self::assertEquals(0, $outcome->first_votes);
-            self::assertEquals(0, $outcome->second_votes);
-            self::assertEquals(0, $outcome->third_votes);
-        }
+        self::assertCount(count($this->song_ids), $this->round->outcomes);
+        self::assertTrue($this->round->outcomes->every(fn($outcome) => $outcome->was_manual));
     }
 }
