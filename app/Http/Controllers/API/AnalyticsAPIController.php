@@ -24,6 +24,10 @@ abstract class AnalyticsAPIController extends Controller
 
     final public function index(): JsonResponse
     {
+        if (empty(static::CACHE_KEY)) {
+            abort(400, 'Undefined CACHE_KEY.');
+        }
+
         $days = request('days', 7);
 
         $cache_key = 'analytics.' . static::CACHE_KEY . ".$days";
