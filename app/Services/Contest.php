@@ -237,8 +237,21 @@ class Contest
         // - the end of the Contest (winners determined).
         // If we want to be *extra*, we could try including dates of News and Subscriber posts,
         // which could be turned on/off in each chart.
-        $stages = Stage::all()->filter(fn(Stage $stage) => $stage->rounds->count());
-        $rounds = Round::all()->filter(fn(Round $round) => $round->hasStarted());
+        try
+        {
+            $stages = Stage::all()->filter(fn(Stage $stage) => $stage->rounds->count());
+            $rounds = Round::all()->filter(fn(Round $round) => $round->hasStarted());
+        }
+        catch (\Exception $exception)
+        {
+            // There was an issue with deployment, where these results were attempted to be fetched
+            // as part of the GitHub action.
+            return [
+                'stages' => [],
+                'rounds' => [],
+                'over'   => null
+            ];
+        }
 
         return [
             'stages' => $stages->map(fn(Stage $stage) => [
