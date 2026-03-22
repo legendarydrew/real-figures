@@ -34,7 +34,7 @@ class ContactMessagesController extends AnalyticsAPIController
 
         return Analytics::get(
             period: Period::days($days),
-            metrics: ['eventValue'],
+            metrics: ['eventCount'],
             dimensions: ['date'],
             maxResults: 1000,
             dimensionFilter: $filter,
@@ -44,7 +44,7 @@ class ContactMessagesController extends AnalyticsAPIController
 
     protected function analyticsProcessed(?Collection $rows, int $days): array
     {
-        return AnalyticsChartFormatter::byDate($rows, $days, ['eventValue']);
+        return AnalyticsChartFormatter::byDate($rows, $days, ['eventCount']);
     }
 
 }

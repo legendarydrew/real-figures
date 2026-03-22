@@ -36,6 +36,7 @@ class GenerateAnalyticsTestData extends Command
         $this->generateDonationEvents();
         $this->generateActViewEvents();
         $this->generateSubscriberEvents();
+        $this->generateContactMessageEvents();
     }
 
     protected function generateCollapseEvents(): void
@@ -43,23 +44,23 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- collapse sections');
         $sections = [
             // Rules
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'terminology'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'contest-brief'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'eligibility'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'song-criteria'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'stage-1-knockout-stage'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'stage-2-finals'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'how-votes-are-calculated'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'the-golden-buzzer'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'special-situations'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'advice-for-visitors'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'terminology'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'contest-brief'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'eligibility'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'song-criteria'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'stage-1-knockout-stage'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'stage-2-finals'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'how-votes-are-calculated'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'the-golden-buzzer'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'special-situations'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'advice-for-visitors'],
 
             // About
-            ['pageTitle' => 'About the Project', 'section_id' => 'about-catawol-records'],
-            ['pageTitle' => 'About the Project', 'section_id' => 'about-the-song'],
-            ['pageTitle' => 'About the Project', 'section_id' => 'what-is-fold'],
-            ['pageTitle' => 'About the Project', 'section_id' => 'who-is-silentmode'],
-            ['pageTitle' => 'About the Project', 'section_id' => 'credits'],
+            ['page_title' => 'About the Project', 'section_id' => 'about-catawol-records'],
+            ['page_title' => 'About the Project', 'section_id' => 'about-the-song'],
+            ['page_title' => 'About the Project', 'section_id' => 'what-is-fold'],
+            ['page_title' => 'About the Project', 'section_id' => 'who-is-silentmode'],
+            ['page_title' => 'About the Project', 'section_id' => 'credits'],
 
         ];
 
@@ -145,6 +146,19 @@ class GenerateAnalyticsTestData extends Command
         {
             $this->postEvent('subscriber', [
                 'value' => fake()->boolean ? 1 : -1
+            ]);
+        }
+    }
+
+    protected function generateContactMessageEvents(): void
+    {
+        $this->comment('- Contact messages');
+
+        $event_count = fake()->numberBetween(10, 100);
+        foreach (range(1, $event_count) as $ignored)
+        {
+            $this->postEvent('contact_sent', [
+                'subscribed' => fake()->boolean
             ]);
         }
     }

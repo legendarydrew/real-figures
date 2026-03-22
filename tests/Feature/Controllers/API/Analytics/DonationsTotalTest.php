@@ -27,7 +27,7 @@ class DonationsTotalTest extends TestCase
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
 
         $response->assertOk();
-        $response->assertJsonCount(self::DAY_COUNT, 'data');
+        $response->assertJsonCount(self::DAY_COUNT + 1, 'data');
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
@@ -49,7 +49,7 @@ class DonationsTotalTest extends TestCase
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
 
         $response->assertOk();
-        $response->assertJsonCount(self::DAY_COUNT, 'data');
+        $response->assertJsonCount(self::DAY_COUNT + 1, 'data');
         $response->assertJsonStructure([
             'data' => [
                 '*' => [

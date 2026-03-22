@@ -54,10 +54,10 @@ class AnalyticsChartFormatter
             ->values();
 
         // Determine date range
-        $start = now()->subDays($fromDays);
+        $start = now()->startOfDay()->subDays($fromDays);
         $end   = now();
 
-        $dates = $data->pluck('date');
+        $dates = $data->pluck('date')->map(fn($date) => $date->startOfDay()->toISOString());
 
         $cursor = $start->copy();
         while ($cursor->lte($end))
