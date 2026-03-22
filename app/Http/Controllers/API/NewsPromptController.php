@@ -159,7 +159,7 @@ class NewsPromptController extends Controller
         $acts    = $stage->getActsInvolved();
         foreach ($acts as $act)
         {
-            $lines[] = "- $act->name";
+            $lines[] = trim("- $act->name $act->subtitle") . ($act->is_fan_favourite ? ' (favourite to win)' : '');
         }
 
         $previous_wins = StageWinner::where('stage_id', '<', $stage->id)->get();

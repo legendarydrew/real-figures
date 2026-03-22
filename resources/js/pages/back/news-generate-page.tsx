@@ -13,6 +13,7 @@ import { Alert } from '@/components/mode/alert';
 import { AdminHeader } from '@/components/admin/admin-header';
 import { NewsActSelect } from '@/components/admin/news-act-select';
 import { NewsStageSelect } from '@/components/admin/news-stage-select';
+import { NewsPostSelect } from '@/components/admin/news-post-select';
 
 interface NewsGeneratePageProps {
     types: string[];
@@ -41,12 +42,6 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
             return rounds?.find((round) => round.id == data.references[0]);
         }
     }, [rounds, data.references]);
-
-    const selectedNewsPost = useMemo((): never => {
-        if (data.previous) {
-            return posts?.find((post) => post.id == data.previous);
-        }
-    }, [posts, data.previous]);
 
     const cancelHandler = (): void => {
         router.visit(route('admin.news'));
@@ -171,27 +166,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     )}
 
                     {/* A list of existing published News Posts. */}
-                    {posts && (
-                        <div>
-                            <Label htmlFor="postPrevious">Reference to a previous News Post (optional)</Label>
-                            <Select id="postPrevious" onValueChange={selectPreviousHandler} disabled={!posts.length}>
-                                <SelectTrigger>
-                                    {selectedNewsPost ? `${selectedNewsPost.published_at} - ${selectedNewsPost.title}` :
-                                        <i>none</i>}
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value={undefined}>
-                                        <i>none</i>
-                                    </SelectItem>
-                                    {posts?.map((post) => (
-                                        <SelectItem key={post.id} value={post.id}>
-                                            {post.published_at} &mdash; {post.title}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    )}
+                    {posts && (<NewsPostSelect posts={posts} onChange={selectPreviousHandler} />)}
 
                     {/* Additional prompt. */}
                     {data.type && (
