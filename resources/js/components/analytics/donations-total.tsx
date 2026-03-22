@@ -1,4 +1,4 @@
-import { Area, AreaChart, ReferenceLine } from 'recharts';
+import { Area, AreaChart, ReferenceLine, Tooltip } from 'recharts';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -6,7 +6,8 @@ import { AnalyticsData } from '@/types';
 import { Nothing } from '@/components/mode/nothing';
 import { usePage } from '@inertiajs/react';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
-import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
+import { cssVar, formatDate } from '@/lib/utils';
 
 
 interface Props {
@@ -15,7 +16,7 @@ interface Props {
 
 export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
-    const { donation } = usePage().props;
+    const { donation, locale } = usePage().props;
 
     const [chartData, setChartData] = useState<AnalyticsData>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -40,8 +41,37 @@ export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     }
 
+    const tooltipContent = ({ active, payload, label }) => {
+        if (active && payload?.length) {
+            return (
+                <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-2">
+                    <span className="display-text text-sm">{formatDate(locale as string, label)}</span>
+                    <span className="flex items-center gap-1 text-xs">
+                        <span className="size-3 inline-block bg-(--donation-light)"></span>
+                        Donations: {donation.currency} {payload[0].value.toLocaleString()}
+                    </span>
+                    <span className="flex items-center gap-1 text-xs">
+                        <span className="size-3 inline-block bg-(--gold-light)"></span>
+                        Golden Buzzers: {donation.currency} {payload[1].value.toLocaleString()}
+                    </span>
+                </div>
+            );
+        }
+
+        return null;
+    };
+
+    const formatTargetReferenceLine = () => ({
+        value: `Target amount: ${donation.currency} ${donation.target}`,
+        fill: cssVar('--donation'),
+        position: 'insideBottomLeft',
+        fontSize: 11,
+        fontWeight: 'bold',
+        textAnchor: 'start'
+    });
+
     return (
-        <section id="analyticsVotes" className="analytics-section">
+        <section id="analyticsDonationsTotal" className="analytics-section">
             <h2 className="analytics-section-title">Donations total</h2>
 
             <LoadingOverlay isLoading={isLoading}>
@@ -57,8 +87,10 @@ export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
                               stroke="var(--donation)" fill="var(--donation-light)"/>
                         {donation.target && (
                             <ReferenceLine y={donation.target} stroke="var(--secondary)"
-                                           label={`Target amount: ${donation.currency} ${donation.target}`}/>
+                                           label={formatTargetReferenceLine()}/>
                         )}
+                        <Tooltip content={tooltipContent} isAnimationActive={false}/>
+                        <ChartRoundReferences/>
                     </AreaChart>
                 ) : (
                     <Nothing>
