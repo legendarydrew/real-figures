@@ -80,6 +80,20 @@ class ActViewsController extends AnalyticsAPIController
             'count' => collect($data['data'])->pluck($slug)->sum(),
         ], $data['keys']);
 
+        // Sort the table results in descending count order.
+        usort($data['table'], function ($a, $b)
+        {
+            if (is_null($a['act']))
+            {
+                return 1;
+            }
+            elseif (is_null($b['act']))
+            {
+                return -1;
+            }
+            return $a['count'] > $b['count'] ? -1 : 1;
+        });
+
         return $data;
     }
 }
