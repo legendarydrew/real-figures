@@ -51,7 +51,7 @@ return [
             "Mention whether any of the Rounds will have to be judged, which occurs when a Round has no votes.",
             "Consider any information about the Acts' performances in previous Stages."
         ],
-        'over'               => [],
+        'over'               => 'This Stage has ended.',
         'stage-acts'         => 'Acts participating in this Stage:',
         'round-breakdown'    => 'The Acts have been split into Rounds in this Stage as follows:',
         'current-round'      => 'The current Round is named :round_title.',

@@ -371,7 +371,7 @@ class NewsPromptController extends Controller
      */
     protected function getStageOverPrompt(array $lines, Stage $stage): string|array
     {
-        $lines = array_merge($lines, Lang::get('press-release.stage.over'));
+        $lines[] = Lang::get('press-release.stage.over');
 
         // Include the winners and runners-up of the Stage.
         $lines[] = Lang::get('press-release.stage.outcome');
@@ -390,7 +390,7 @@ class NewsPromptController extends Controller
      */
     protected function getStageEndedPrompt(array $lines, Stage $stage): string|array
     {
-        $lines = array_merge($lines, Lang::get('press-release.stage.ended'));
+        $lines[] = array_merge($lines, Lang::get('press-release.stage.ended'));
 
         // Include the number of votes in each Round.
         $lines[] = Lang::get('press-release.stage.round-votes');

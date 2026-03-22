@@ -5,14 +5,14 @@ import { Square, SquareCheck } from 'lucide-react';
 import React, { useState } from 'react';
 
 interface Props {
-    acts: { id: number, name: string, subtitle?: string };
+    acts: { id: number, name: string, subtitle?: string }[];
     onChange: (ids: number[]) => void;
 }
 
-export const NewsActSelect: React.FC = ({
-                                            acts, onChange = (ids) => {
+export const NewsActSelect: React.FC<Props> = ({
+                                                   acts, onChange = (ids) => {
     }
-                                        }) => {
+                                               }) => {
 
     const [selection, setSelection] = useState<number[]>([]);
 
@@ -56,7 +56,8 @@ export const NewsActSelect: React.FC = ({
                             <Checkbox value={act.id}
                                       checked={selection.includes(act.id)}
                                       onCheckedChange={(state) => selectHandler(act.id, state)}/>
-                            {act.name} <span className="text-xs text-muted-foreground leading-none">{act.subtitle}</span>
+                            {act.name} <span
+                            className="text-xs text-muted-foreground leading-none">{act.subtitle}</span>
                         </div>
                     </Label>
                 ))}

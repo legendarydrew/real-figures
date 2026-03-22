@@ -6,13 +6,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { LoadingButton } from '@/components/mode/loading-button';
 import { titleCase } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
 import { ExpandingTextarea } from '@/components/ui/textarea';
 import axios from 'axios';
 import { NewsPromptDialog } from '@/components/admin/news-prompt-dialog';
 import { Alert } from '@/components/mode/alert';
 import { AdminHeader } from '@/components/admin/admin-header';
 import { NewsActSelect } from '@/components/admin/news-act-select';
+import { NewsStageSelect } from '@/components/admin/news-stage-select';
 
 interface NewsGeneratePageProps {
     types: string[];
@@ -144,19 +144,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
                     {/* A list of Stages (if available). */}
                     {(data.type === 'stage' && stages) && (
-                        <div>
-                            <Label className="sr-only" htmlFor="postReference">Select a Stage</Label>
-                            <Select id="postReference" onValueChange={selectSingleReferenceHandler}>
-                                <SelectTrigger>{data.reference_id ?? 'Select a Stage...'}</SelectTrigger>
-                                <SelectContent>
-                                    {stages.map((stage) => (
-                                        <SelectItem key={stage.id} value={stage.id}>
-                                            {stage.title} <Badge>{stage.status}</Badge>
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        <NewsStageSelect stages={stages} onChange={selectSingleReferenceHandler}/>
                     )}
 
                     {/* A list of Rounds (if available). */}
