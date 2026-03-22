@@ -1,12 +1,11 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head, router, WhenVisible } from '@inertiajs/react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { CheckSquare, ChevronDown, MessageCircleWarning, Square } from 'lucide-react';
+import { CheckSquare, ChevronDown, MessageCircleWarning, Square, TrashIcon } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ContactMessage } from '@/types';
 import React, { useState } from 'react';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
-import toast from 'react-hot-toast';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ContactMessageRespond } from '@/components/admin/contact-message-respond';
@@ -14,6 +13,7 @@ import { Nothing } from '@/components/mode/nothing';
 import axios from 'axios';
 import { cn } from '@/lib/utils';
 import { AdminHeader } from '@/components/admin/admin-header';
+import { RTToast } from '@/components/mode/toast-message';
 
 interface ContactMessagesPageProps {
     messages: ContactMessage[];
@@ -74,10 +74,10 @@ export default function ContactMessagesPage({
             onSuccess: () => {
                 deselectAllHandler();
                 setIsConfirmingDelete(false);
-                toast.success('Message(s) successfully deleted.');
+                RTToast.success('Message(s) successfully deleted.');
             },
             onError: () => {
-                toast.error('Could not delete the message(s).');
+                RTToast.error('Could not delete the message(s).');
             }
         })
     };
@@ -89,21 +89,22 @@ export default function ContactMessagesPage({
             <div className="admin-content">
 
                 <AdminHeader title="Contact Messages">
-                    <Button variant="outline" type="button" onClick={selectAllHandler}>
+                    <Button type="button" onClick={selectAllHandler} title="Select all">
                         <CheckSquare/>
                     </Button>
-                    <Button variant="outline" type="button" onClick={deselectAllHandler}>
+                    <Button type="button" onClick={deselectAllHandler} title="Select none">
                         <Square/>
                     </Button>
                     <Button variant="destructive" type="button" onClick={confirmDeleteHandler}
-                            disabled={!selectedIds.length}>Delete
-                        messages</Button>
+                            disabled={!selectedIds.length} title="Delete messages">
+                        <TrashIcon/>
+                    </Button>
                 </AdminHeader>
 
                 {messages?.length ? (
-                    <>
+                    <div className="flex flex-col gap-1">
                         {messages.map((message) => (
-                            <Collapsible className="my-1 mx-4" key={message.id}
+                            <Collapsible key={message.id}
                                          onOpenChange={() => markReadHandler(message)}>
                                 <div
                                     className={cn("flex gap-2 items-center p-2 w-full", message.was_read ? "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800" : "bg-teal-200 hover:bg-teal-300 dark:bg-teal-700 dark:hover:bg-teal-800")}>
@@ -137,7 +138,7 @@ export default function ContactMessagesPage({
                                 reset: ['currentPage', 'hasMorePages'],
                                 preserveUrl: true
                             }}/>) : ''}
-                    </>
+                    </div>
                 ) : (
                     <Nothing>
                         No Contact Messages received.
