@@ -1,4 +1,4 @@
-import { Bar, BarChart, ResponsiveContainer } from 'recharts';
+import { Bar, BarChart } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
@@ -50,22 +50,21 @@ export const ViewportsAnalytics: React.FC<Props> = ({ days = 7 }) => {
             <LoadingOverlay isLoading={isLoading}>
 
                 {chartData && (
-                    <ResponsiveContainer aspect={3} width="100%" maxHeight={300}>
-                        <BarChart data={chartData.data} height={300}>
-                            <ChartDateXAxis/>
-                            <ChartYAxis label="Views"/>
+                    <BarChart data={chartData.data} style={{ width: '100%', maxHeight: '300px', aspectRatio: 3 }}
+                              responsive>
+                        <ChartDateXAxis/>
+                        <ChartYAxis label="Views"/>
 
-                            {chartData.keys.map(key => (
-                                <Bar
-                                    key={key}
-                                    dataKey={key}
-                                    stackId="sections"
-                                    fill={stringToColor(key)}
-                                />
-                            ))}
-                            <ChartRoundReferences/>
-                        </BarChart>
-                    </ResponsiveContainer>
+                        {chartData.keys.map(key => (
+                            <Bar
+                                key={key}
+                                dataKey={key}
+                                stackId="sections"
+                                fill={stringToColor(key)}
+                            />
+                        ))}
+                        <ChartRoundReferences/>
+                    </BarChart>
                 )}
 
                 <table className="data-table">

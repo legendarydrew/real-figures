@@ -1,10 +1,11 @@
-import { Bar, BarChart, ResponsiveContainer } from 'recharts';
+import { Bar, BarChart } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
+import { stringToChartColour } from '@/lib/utils';
 
 
 interface Props {
@@ -43,31 +44,20 @@ export const CollapseOpenAnalytics: React.FC<Props> = ({ days = 7 }) => {
         'stage-1-knockout-stage': 'var(--chart-1-5)',
         'stage-2-finals': 'var(--chart-1-6)',
         'how-votes-are-calculated': 'var(--chart-1-7)',
-        'the-golden-buzzer': 'var(--chart-1-8)',
-        'special-situations': 'var(--chart-1-9)',
-        'advice-for-visitors': 'var(--chart-1-10)',
+        'the-golden-buzzer': 'var(--gold-light)',
+        'special-situations': 'var(--chart-1-8)',
+        'advice-for-visitors': 'var(--chart-1-9)',
 
         // About
         'about-catawol-records': 'var(--chart-4-1)',
         'about-the-song': 'var(--chart-4-2)',
-        'what-is-fold': 'var(--chart-4-3)',
-        'who-is-silentmode': 'var(--chart-4-4)',
-        'credits': 'var(--chart-4-5)',
-
-        'Other': "var(--chart-3-5)"
+        'what-is-fold': 'var(--destructive)',
+        'who-is-silentmode': 'var(--primary)',
+        'credits': 'var(--chart-4-5)'
     };
 
     function getColor(key) {
-        return fixedColors[key] ?? stringToColor(key);
-    }
-
-    function stringToColor(str) {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const hue = Math.abs(hash % 360);
-        return `hsl(${hue}, 65%, 55%)`;
+        return fixedColors[key] ?? stringToChartColour(key);
     }
 
     return (
@@ -77,22 +67,22 @@ export const CollapseOpenAnalytics: React.FC<Props> = ({ days = 7 }) => {
             <LoadingOverlay isLoading={isLoading}>
 
                 {chartData && (
-                    <ResponsiveContainer aspect={3} width="100%" maxHeight={300}>
-                        <BarChart data={chartData.data} height={300}>
-                            <ChartDateXAxis/>
-                            <ChartYAxis label="Opens"/>
+                    <BarChart data={chartData.data} style={{ width: '100%', maxHeight: '300px', aspectRatio: 3 }}
+                              responsive
+                              margin={2}>
+                        <ChartDateXAxis/>
+                        <ChartYAxis label="Opened count"/>
 
-                            {chartData.keys.map(key => (
-                                <Bar
-                                    key={key}
-                                    dataKey={key}
-                                    stackId="sections"
-                                    fill={getColor(key)}
-                                />
-                            ))}
-                            <ChartRoundReferences/>
-                        </BarChart>
-                    </ResponsiveContainer>
+                        {chartData.keys.map(key => (
+                            <Bar
+                                key={key}
+                                dataKey={key}
+                                stackId="sections"
+                                fill={getColor(key)}
+                            />
+                        ))}
+                        <ChartRoundReferences/>
+                    </BarChart>
                 )}
 
                 <table className="data-table">
