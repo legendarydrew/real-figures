@@ -2,34 +2,31 @@
 
 namespace App\Http\Controllers\API\Analytics;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\API\AnalyticsAPIController;
+use Illuminate\Support\Collection;
 use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
 /**
- * PageViewsController
+ * PagesViewedController
  * This returns analytics data for pages viewed over the specified period.
  *
  * @package App\Http\Controllers\API\Analytics
  */
-class PagesController extends Controller
+class PagesViewedController extends AnalyticsAPIController
 {
+    const string CACHE_KEY = 'pages_viewed';
 
-    public function index(): JsonResponse
+    protected function analyticsQuery(int $days): Collection
     {
-        $days = request('days', 7);
+        return Analytics::fetchMostVisitedPages(
+            period: Period::days($days),
+            maxResults: 12
+        );
+    }
 
-        if (!$rows = \Cache::get('analytics.pages.' . $days))
-        {
-            $rows = Analytics::fetchMostVisitedPages(
-                period: Period::days($days),
-                maxResults: 12
-            );
-
-            \Cache::set('analytics.pages.' . $days, $rows, now()->plus(minutes: config('contest.analytics.cache', 60)));
-        }
-
+    protected function analyticsProcessed(?Collection $rows, int $days): array
+    {
         $data = $rows->map(fn($row) => [
             'title' => trim(explode('—', $row['pageTitle'])[0]),
             'url'   => $row['fullPageUrl'],
@@ -39,7 +36,7 @@ class PagesController extends Controller
         // For a pie chart, create a list of top-level pages along with their view count.
         // Subpages will be grouped with their parent (eg. News and articles).
         $grouped = $data->map(fn($item) => [
-            'url'   => implode('/', explode('/', $item['url'], 2)),
+            'url'   => implode('/', array_slice(explode('/', $item['url']), 0, 2)),
             'count' => $item['count']
         ])
                         ->groupBy(fn($item) => $item['url'])
@@ -48,9 +45,9 @@ class PagesController extends Controller
                             'count' => $item->sum('count')
                         ]);
 
-        return response()->json([
+        return [
             'grouped' => $grouped->values(),
             'data'    => $data->values()
-        ]);
+        ];
     }
 }

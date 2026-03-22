@@ -13,7 +13,7 @@ use App\Http\Controllers\API\Analytics\DonationsTotalController;
 use App\Http\Controllers\API\Analytics\GoldenBuzzersMadeController;
 use App\Http\Controllers\API\Analytics\OperatingSystemsController;
 use App\Http\Controllers\API\Analytics\OutboundController;
-use App\Http\Controllers\API\Analytics\PagesController;
+use App\Http\Controllers\API\Analytics\PagesViewedController;
 use App\Http\Controllers\API\Analytics\PageViewsController;
 use App\Http\Controllers\API\Analytics\PlatformController;
 use App\Http\Controllers\API\Analytics\PlaysController;
@@ -79,7 +79,7 @@ Route::prefix('/api')->group(function ()
         Route::get('analytics/os', [OperatingSystemsController::class, 'index'])->name('analytics.os');
         Route::get('analytics/outbound', [OutboundController::class, 'index'])->name('analytics.outbound');
         Route::get('analytics/page-views', [PageViewsController::class, 'index'])->name('analytics.page-views');
-        Route::get('analytics/pages', [PagesController::class, 'index'])->name('analytics.pages');
+        Route::get('analytics/pages', [PagesViewedController::class, 'index'])->name('analytics.pages');
         Route::get('analytics/platform', [PlatformController::class, 'index'])->name('analytics.platform');
         Route::get('analytics/plays', [PlaysController::class, 'index'])->name('analytics.plays');
         Route::get('analytics/referrers', [ReferrersController::class, 'index'])->name('analytics.referrers');
