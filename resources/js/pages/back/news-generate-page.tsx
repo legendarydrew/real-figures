@@ -8,7 +8,7 @@ import { LoadingButton } from '@/components/mode/loading-button';
 import { titleCase } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Textarea } from '@/components/ui/textarea';
+import { ExpandingTextarea } from '@/components/ui/textarea';
 import axios from 'axios';
 import { NewsPromptDialog } from '@/components/admin/news-prompt-dialog';
 import { Alert } from '@/components/mode/alert';
@@ -126,7 +126,9 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
             <div className="admin-content">
 
-                <AdminHeader title="Generate a News Post" />
+                <AdminHeader title="Generate a News Post"/>
+
+                <p>The following information will be used to generate a prompt for OpenAI to create a News Post.</p>
 
                 <form className="flex-grow flex flex-col justify-between gap-5 px-5" onSubmit={generatePromptHandler}>
 
@@ -142,6 +144,8 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                             </SelectContent>
                         </Select>
                     </div>
+
+                    {/* Depending on what was selected... */}
 
                     {/* A list of Stages (if available). */}
                     {(data.type === 'stage' && stages) && (
@@ -194,10 +198,12 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     {/* A list of existing published News Posts. */}
                     {posts && (
                         <div>
-                            <Label htmlFor="postPrevious">Refer to previous News Post (optional)</Label>
+                            <Label htmlFor="postPrevious">Reference to a previous News Post (optional)</Label>
                             <Select id="postPrevious" onValueChange={selectPreviousHandler} disabled={!posts.length}>
-                                <SelectTrigger>{selectedNewsPost ? `${selectedNewsPost.published_at} - ${selectedNewsPost.title}` :
-                                    <i>none</i>}</SelectTrigger>
+                                <SelectTrigger>
+                                    {selectedNewsPost ? `${selectedNewsPost.published_at} - ${selectedNewsPost.title}` :
+                                        <i>none</i>}
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value={undefined}>
                                         <i>none</i>
@@ -216,7 +222,8 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     {data.type && (
                         <div>
                             <Label htmlFor="postPrompt">Additional prompt</Label>
-                            <Textarea id="postPrompt" placeholder="Information that could help the generator." rows={6}
+                            <ExpandingTextarea id="postPrompt" placeholder="Information that could help the generator."
+                                      className="max-h-40"
                                       onChange={(e) => setData('prompt', e.target.value)}/>
                         </div>
                     )}
@@ -224,9 +231,10 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     <div className="bg-white border-t-1 flex flex-wrap justify-between sticky bottom-0 py-3 -mx-5 px-5">
                         {error && <Alert className="w-full" type="error" message={error}/>}
 
-                        <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
-                        <LoadingButton size="lg" disabled={!data.type} isLoading={isSaving}>Generate News
-                            Post</LoadingButton>
+                        <Button variant="ghost" type="button" onClick={cancelHandler}>Cancel</Button>
+                        <LoadingButton variant="secondary" disabled={!data.type} isLoading={isSaving}>
+                            Create prompt...
+                        </LoadingButton>
                     </div>
                 </form>
 
@@ -234,5 +242,5 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                                   onOpenChange={closePromptHandler}/>
             </div>
         </AppLayout>
-);
+    );
 };

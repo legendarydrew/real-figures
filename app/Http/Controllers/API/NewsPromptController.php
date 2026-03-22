@@ -26,13 +26,13 @@ class NewsPromptController extends Controller
         $data = $request->validated();
 
         // Here's where things get complicated!
-        $prompt_lines = [];
+        $prompt_lines   = [Lang::get('press-release.role')];
         $replace_values = [];
 
         // Include a reference to a previous News Post, if specified.
         if (isset($data['previous']))
         {
-            $prompt_lines                       = Lang::get('press-release.previous');
+            $prompt_lines                       = array_merge($prompt_lines, Lang::get('press-release.previous'));
             $previous_post                      = NewsPost::findOrFail($data['previous']);
             $replace_values['previous_title']   = $previous_post->title;
             $replace_values['previous_content'] = $previous_post->content;
@@ -55,7 +55,7 @@ class NewsPromptController extends Controller
                 $prompt_lines = array_merge($prompt_lines, $this->buildStagePrompt($stage, $data));
                 break;
             case NewsPostType::ROUND_POST_TYPE->value:
-                $round = Round::whereHas('songs')->findOrFail($data['references'][0]);
+                $round                        = Round::whereHas('songs')->findOrFail($data['references'][0]);
                 $prompt_lines                 = array_merge($prompt_lines, $this->buildRoundPrompt($round, $data));
                 $replace_values['round_name'] = $round->full_title;
                 break;

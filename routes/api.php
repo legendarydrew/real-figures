@@ -29,6 +29,7 @@ use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\GoldenBuzzerBreakdownController;
 use App\Http\Controllers\API\GoldenBuzzerController;
 use App\Http\Controllers\API\LanguagesController;
+use App\Http\Controllers\API\NewsGenerateController;
 use App\Http\Controllers\API\NewsPromptController;
 use App\Http\Controllers\API\SongController;
 use App\Http\Controllers\API\SongPlayController;
@@ -91,7 +92,7 @@ Route::prefix('/api')->group(function ()
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
 
-        Route::post('news/generate', [\App\Http\Controllers\API\NewsGenerateController::class, 'store'])->name('news.generate');
+        Route::post('news/generate', [NewsGenerateController::class, 'store'])->name('news.generate');
         Route::post('news/prompt', [NewsPromptController::class, 'store'])->name('news.prompt');
 
         Route::post('news', [NewsController::class, 'store'])->name('news.store');
