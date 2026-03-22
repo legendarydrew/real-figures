@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Mail;
  *
  * @package App\Http\Controllers\API
  */
-class BuzzerController extends DonationController
+class GoldenBuzzerController extends DonationController
 {
 
     protected function getRequestData(): Request

@@ -23,11 +23,11 @@ use App\Http\Controllers\API\Analytics\SubscribersController;
 use App\Http\Controllers\API\Analytics\UserTypesController;
 use App\Http\Controllers\API\Analytics\ViewportController;
 use App\Http\Controllers\API\Analytics\VotesController;
-use App\Http\Controllers\API\BuzzerController;
 use App\Http\Controllers\API\ContactMessagesController;
 use App\Http\Controllers\API\ContactMessagesRespondController;
 use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\GoldenBuzzerBreakdownController;
+use App\Http\Controllers\API\GoldenBuzzerController;
 use App\Http\Controllers\API\LanguagesController;
 use App\Http\Controllers\API\NewsPromptController;
 use App\Http\Controllers\API\SongController;
@@ -50,7 +50,7 @@ Route::prefix('/api')->group(function ()
 {
     // Routes accessible without authentication.
     Route::post('donation', [DonationController::class, 'store']);
-    Route::post('golden-buzzer', [BuzzerController::class, 'store']);
+    Route::post('golden-buzzer', [GoldenBuzzerController::class, 'store']);
     Route::get('languages', [LanguagesController::class, 'index'])->name('languages');
     Route::post('messages', [ContactMessagesController::class, 'store']);
     Route::put('songs/{id}/play', [SongPlayController::class, 'update'])->name('play');
