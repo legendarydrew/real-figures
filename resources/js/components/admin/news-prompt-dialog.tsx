@@ -5,6 +5,7 @@ import { ExpandingTextarea } from '@/components/ui/textarea';
 import { router } from '@inertiajs/react';
 import { Alert } from '@/components/mode/alert';
 import { titleCase } from '@/lib/utils';
+import { MicrochipIcon } from 'lucide-react';
 
 interface NewsPromptDialogProps {
     open: boolean;
@@ -63,13 +64,16 @@ export const NewsPromptDialog: FC<NewsPromptDialogProps> = ({ open, onOpenChange
                 </DialogDescription>
 
                 <form onSubmit={saveHandler}>
-                    <ExpandingTextarea value={updatedPrompt} onChange={changeHandler} className="font-mono h-50"/>
+                    <ExpandingTextarea value={updatedPrompt} onChange={changeHandler} className="font-mono max-h-50"/>
 
                     <DialogFooter className="flex-wrap">
                         {error && (<Alert className="w-full" type="error">{error}</Alert>)}
-                        <LoadingButton variant="default" type="submit" onClick={saveHandler}
+                        <LoadingButton variant="primary" type="submit" onClick={saveHandler}
                                        disabled={!canGenerate}
-                                       isLoading={isGenerating}>Generate News Post</LoadingButton>
+                                       isLoading={isGenerating}>
+                            <MicrochipIcon/>
+                            Generate News Post
+                        </LoadingButton>
                     </DialogFooter>
                 </form>
             </DialogContent>

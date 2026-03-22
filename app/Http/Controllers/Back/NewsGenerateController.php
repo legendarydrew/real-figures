@@ -55,8 +55,9 @@ class NewsGenerateController extends Controller
                                                        ])),
             'acts'   => Inertia::optional(fn() => Act::whereHas('songs')->orderBy('name')->get()
                                                      ->map(fn(Act $act) => [
-                                                         'id'   => $act->id,
-                                                         'name' => $act->name
+                                                         'id'       => $act->id,
+                                                         'name'     => $act->name,
+                                                         'subtitle' => $act->subtitle
                                                      ]))
         ]);
     }

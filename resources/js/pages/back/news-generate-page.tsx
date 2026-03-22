@@ -7,12 +7,12 @@ import { Button } from '@/components/ui/button';
 import { LoadingButton } from '@/components/mode/loading-button';
 import { titleCase } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
 import { ExpandingTextarea } from '@/components/ui/textarea';
 import axios from 'axios';
 import { NewsPromptDialog } from '@/components/admin/news-prompt-dialog';
 import { Alert } from '@/components/mode/alert';
 import { AdminHeader } from '@/components/admin/admin-header';
+import { NewsActSelect } from '@/components/admin/news-act-select';
 
 interface NewsGeneratePageProps {
     types: string[];
@@ -53,7 +53,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
     };
 
     const selectTypeHandler = (type: string): void => {
-        setData('type', type);
+        setData((prev) => ({ ...prev, type }));
 
         const additionalInfo = ['posts'];
         switch (type) {
@@ -72,27 +72,22 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
             only: additionalInfo,
             showProgress: true,
             onSuccess: () => {
-                setData('references', []);
+                setData((prev) => ({ ...prev, references: [] }));
             }
         });
     };
 
     const selectSingleReferenceHandler = (value: number): void => {
-        setData('references', [value]);
+        setData((prev) => ({ ...prev, references: [value] }));
     };
 
-    const selectActHandler = (actId: number, state: boolean): void => {
-        let updatedIds = data.references;
-        if (state) {
-            updatedIds.push(actId);
-        } else {
-            updatedIds = updatedIds.filter((id) => id !== actId);
-        }
-        setData('references', [...new Set(updatedIds)]);
+    const selectActHandler = (actIds: number[]): void => {
+        setData((prev) => ({ ...prev, references: actIds }));
+
     };
 
     const selectPreviousHandler = (value: number): void => {
-        setData('previous', value);
+        setData((prev) => ({ ...prev, previous: value }));
     };
 
     const generatePromptHandler = (e): void => {
@@ -184,15 +179,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     {/* A list of Acts (if available). */}
                     {/* We would like to be able to select one or more Acts. */}
                     {(data.type === 'act' && acts) && (
-                        <fieldset className="grid gap-3 grid-cols-1 md:grid-cols-3 lg:grid-cols-6">
-                            <legend className="font-normal text-sm mb-3">Select one or more Acts...</legend>
-                            {acts.map((act) => (
-                                <Label key={act.id} className="flex items-center gap-2">
-                                    <Checkbox value={act.id}
-                                              onCheckedChange={(state) => selectActHandler(act.id, state)}/> {act.name}
-                                </Label>
-                            ))}
-                        </fieldset>
+                        <NewsActSelect acts={acts} onChange={selectActHandler}/>
                     )}
 
                     {/* A list of existing published News Posts. */}
@@ -223,8 +210,8 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                         <div>
                             <Label htmlFor="postPrompt">Additional prompt</Label>
                             <ExpandingTextarea id="postPrompt" placeholder="Information that could help the generator."
-                                      className="max-h-40"
-                                      onChange={(e) => setData('prompt', e.target.value)}/>
+                                               className="max-h-40"
+                                               onChange={(e) => setData('prompt', e.target.value)}/>
                         </div>
                     )}
 

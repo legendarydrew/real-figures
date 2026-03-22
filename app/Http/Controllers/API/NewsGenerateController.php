@@ -53,7 +53,7 @@ class NewsGenerateController extends Controller
         ]);
 
         $usage = $result->usage;
-        $json = json_decode($result->choices[0]->message->content, true);
+        $json  = json_decode($result->choices[0]->message->content, true);
 
         $post = NewsPost::factory()
                         ->unpublished()
@@ -81,7 +81,6 @@ class NewsGenerateController extends Controller
 
         return to_route('admin.news.edit', ['id' => $post->id]);
     }
-
 
     protected function setupTestResponse(): void
     {

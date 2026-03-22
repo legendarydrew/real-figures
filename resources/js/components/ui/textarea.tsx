@@ -22,7 +22,7 @@ const ExpandingTextarea: React.FC = ({ className, ...props }: React.ComponentPro
         <div className={cn('textarea-expand', className)}>
             <textarea
                 data-slot="input"
-                className="input-field"
+                className={cn("input-field", className)}
                 onInput={changeResponseHandler}
                 {...props}
             />

@@ -246,7 +246,7 @@ class NewsPromptController extends Controller
             $output[] = "  Personality traits:";
             foreach ($act->traits as $trait)
             {
-                $output[] = $trait->trait;
+                $output[] = "    $trait->trait";
             }
         }
         if ($act->notes->isNotEmpty())
@@ -254,7 +254,7 @@ class NewsPromptController extends Controller
             $output[] = "  Notes:";
             foreach ($act->notes as $note)
             {
-                $output[] = $note->note;
+                $output[] = "    $note->note";
             }
         }
 
