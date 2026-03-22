@@ -88,10 +88,10 @@ export const ChartYAxis: React.FC = ({ label, ...props }) => {
     const labelProps: LabelProps = {
         value: label,
         angle: -90,
-        dx: -12,
+        dx: props.orientation === 'right' ? 12 : -12,
         fontSize: 12,
         fontWeight: 'bold',
-        fill: 'var(--foreground)'
+        fill: props.fill ?? 'var(--foreground)'
     };
     return (<YAxis fontSize={10} allowDecimals={false} label={labelProps} {...props} />)
 };

@@ -5,8 +5,9 @@ import axios from 'axios';
 import { AnalyticsData } from '@/types';
 import { Nothing } from '@/components/mode/nothing';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
-import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
-import { formatDate } from '@/lib/utils';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
+import { cssVar, formatDate } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
 
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 }
 
 export const PageViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
-
+    const {locale } = usePage().props;
     const [chartData, setChartData] = useState<AnalyticsData>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -42,12 +43,14 @@ export const PageViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
         if (active && payload?.length) {
             return (
                 <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-3">
-                    <span className="display-text">{formatDate(label)}</span>
-                    <span className="text-sm">
+                    <span className="display-text">{formatDate(locale, label)}</span>
+                    <span className="text-sm flex gap-1 items-center">
+                        <span className="size-3 inline-block bg-(--primary)"></span>
                         {payload[0].value ? payload[0].value.toLocaleString() : 'No'} {payload[0].value === 1 ? 'page view' : 'page views'}
                     </span>
-                    <span className="text-sm">
-                        {payload[1].value ? payload[1].value.toLocaleString() : 'No'} {payload[0].value === 1 ? 'Visitor' : 'Visitors'}
+                    <span className="text-sm flex gap-1 items-center">
+                        <span className="size-3 inline-block bg-(--secondary)"></span>
+                        {payload[1].value ? payload[1].value.toLocaleString() : 'No'} {payload[1].value === 1 ? 'Visitor' : 'Visitors'}
                     </span>
                 </div>
             );
@@ -57,7 +60,7 @@ export const PageViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
     };
 
     return (
-        <section id="analyticsVotes" className="analytics-section">
+        <section id="analyticsPageViews" className="analytics-section">
             <h2 className="analytics-section-title">Page views</h2>
 
             <LoadingOverlay isLoading={isLoading}>
@@ -67,13 +70,14 @@ export const PageViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                margin={2}>
                         <CartesianGrid strokeDasharray="3 3"/>
                         <ChartDateXAxis/>
-                        <ChartYAxis yAxisId="visitorsAxis" label="Page views"/>
-                        <ChartYAxis yAxisId="viewsAxis" label="Visitors" orientation="right"/>
+                        <ChartYAxis yAxisId="visitorsAxis" label="Page views" fill={cssVar('--primary')}/>
+                        <ChartYAxis yAxisId="viewsAxis" label="Visitors" orientation="right" fill={cssVar('--secondary')}/>
                         <Tooltip content={tooltipContent} isAnimationActive={false}/>
-                        <Line dataKey="views" label="Page views" dot={false} strokeWidth={2}
-                              stroke="var(--primary)" yAxisId="viewsAxis"/>
-                        <Line dataKey="visitors" label="Visitors" dot={false} strokeWidth={2}
-                              stroke="var(--secondary)" yAxisId="visitorsAxis"/>
+                        <Line dataKey="screenPageViews" label="Page views" dot={false} strokeWidth={2}
+                              stroke={cssVar('--primary')} yAxisId="viewsAxis"/>
+                        <Line dataKey="activeUsers" label="Visitors" dot={false} strokeWidth={2}
+                              stroke={cssVar('--secondary')} yAxisId="visitorsAxis"/>
+                        <ChartRoundReferences/>
                     </LineChart>
                 ) : (
                     <Nothing>
