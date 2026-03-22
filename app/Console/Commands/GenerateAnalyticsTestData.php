@@ -116,8 +116,8 @@ class GenerateAnalyticsTestData extends Command
         foreach (range(1, $event_count) as $ignored)
         {
             $this->postEvent('donation', [
-                'value' => fake()->randomFloat(1, 100),
-                'anonymous'  => fake()->boolean
+                'value'     => fake()->randomFloat(2, 1, 100),
+                'anonymous' => fake()->boolean
             ]);
         }
     }
