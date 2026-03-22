@@ -1,5 +1,5 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
@@ -7,13 +7,14 @@ import { Button } from '@/components/ui/button';
 import { LoadingButton } from '@/components/mode/loading-button';
 import { titleCase } from '@/lib/utils';
 import { ExpandingTextarea } from '@/components/ui/textarea';
-import axios from 'axios';
 import { NewsPromptDialog } from '@/components/admin/news-prompt-dialog';
 import { Alert } from '@/components/mode/alert';
 import { AdminHeader } from '@/components/admin/admin-header';
 import { NewsActSelect } from '@/components/admin/news-act-select';
 import { NewsStageSelect } from '@/components/admin/news-stage-select';
 import { NewsPostSelect } from '@/components/admin/news-post-select';
+import { NewsRoundSelect } from '@/components/admin/news-round-select';
+import axios from 'axios';
 
 interface NewsGeneratePageProps {
     types: string[];
@@ -36,12 +37,6 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
     const [isPromptOpen, setIsPromptOpen] = useState<boolean>(false);
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [prompt, setPrompt] = useState<string>();
-
-    const selectedRound = useMemo((): never => {
-        if (data.references.length) {
-            return rounds?.find((round) => round.id == data.references[0]);
-        }
-    }, [rounds, data.references]);
 
     const cancelHandler = (): void => {
         router.visit(route('admin.news'));
@@ -85,6 +80,10 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         setData((prev) => ({ ...prev, previous: value }));
     };
 
+    const promptHandler = (e): void => {
+        setData((prev) => ({ ...prev, prompt: e.target.value }));
+    };
+
     const generatePromptHandler = (e): void => {
         e.preventDefault();
 
@@ -120,7 +119,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
                 <p>The following information will be used to generate a prompt for OpenAI to create a News Post.</p>
 
-                <form className="flex-grow flex flex-col justify-between gap-5 px-5" onSubmit={generatePromptHandler}>
+                <form className="flex-grow flex flex-col justify-between gap-4 px-8" onSubmit={generatePromptHandler}>
 
                     {/* Select the News Post type. */}
                     <div>
@@ -144,19 +143,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
                     {/* A list of Rounds (if available). */}
                     {(data.type === 'round' && rounds) && (
-                        <div>
-                            <Label className="sr-only" htmlFor="postReference">Select a Round</Label>
-                            <Select id="postReference" onValueChange={selectSingleReferenceHandler}>
-                                <SelectTrigger>{selectedRound?.title ?? 'Select a Round...'}</SelectTrigger>
-                                <SelectContent>
-                                    {rounds.map((round) => (
-                                        <SelectItem key={round.id} value={round.id}>
-                                            {round.title}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        <NewsRoundSelect rounds={rounds} onChange={selectSingleReferenceHandler}/>
                     )}
 
                     {/* A list of Acts (if available). */}
@@ -166,7 +153,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     )}
 
                     {/* A list of existing published News Posts. */}
-                    {posts && (<NewsPostSelect posts={posts} onChange={selectPreviousHandler} />)}
+                    {posts && (<NewsPostSelect posts={posts} onChange={selectPreviousHandler}/>)}
 
                     {/* Additional prompt. */}
                     {data.type && (
@@ -174,7 +161,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                             <Label htmlFor="postPrompt">Additional prompt</Label>
                             <ExpandingTextarea id="postPrompt" placeholder="Information that could help the generator."
                                                className="max-h-40"
-                                               onChange={(e) => setData('prompt', e.target.value)}/>
+                                               onChange={promptHandler}/>
                         </div>
                     )}
 
