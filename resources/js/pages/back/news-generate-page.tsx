@@ -1,18 +1,20 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { LoadingButton } from '@/components/mode/loading-button';
 import { titleCase } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Textarea } from '@/components/ui/textarea';
-import axios from 'axios';
+import { ExpandingTextarea } from '@/components/ui/textarea';
 import { NewsPromptDialog } from '@/components/admin/news-prompt-dialog';
 import { Alert } from '@/components/mode/alert';
 import { AdminHeader } from '@/components/admin/admin-header';
+import { NewsActSelect } from '@/components/admin/news-act-select';
+import { NewsStageSelect } from '@/components/admin/news-stage-select';
+import { NewsPostSelect } from '@/components/admin/news-post-select';
+import { NewsRoundSelect } from '@/components/admin/news-round-select';
+import axios from 'axios';
 
 interface NewsGeneratePageProps {
     types: string[];
@@ -36,24 +38,12 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [prompt, setPrompt] = useState<string>();
 
-    const selectedRound = useMemo((): never => {
-        if (data.references.length) {
-            return rounds?.find((round) => round.id == data.references[0]);
-        }
-    }, [rounds, data.references]);
-
-    const selectedNewsPost = useMemo((): never => {
-        if (data.previous) {
-            return posts?.find((post) => post.id == data.previous);
-        }
-    }, [posts, data.previous]);
-
     const cancelHandler = (): void => {
         router.visit(route('admin.news'));
     };
 
     const selectTypeHandler = (type: string): void => {
-        setData('type', type);
+        setData((prev) => ({ ...prev, type }));
 
         const additionalInfo = ['posts'];
         switch (type) {
@@ -72,27 +62,26 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
             only: additionalInfo,
             showProgress: true,
             onSuccess: () => {
-                setData('references', []);
+                setData((prev) => ({ ...prev, references: [] }));
             }
         });
     };
 
     const selectSingleReferenceHandler = (value: number): void => {
-        setData('references', [value]);
+        setData((prev) => ({ ...prev, references: [value] }));
     };
 
-    const selectActHandler = (actId: number, state: boolean): void => {
-        let updatedIds = data.references;
-        if (state) {
-            updatedIds.push(actId);
-        } else {
-            updatedIds = updatedIds.filter((id) => id !== actId);
-        }
-        setData('references', [...new Set(updatedIds)]);
+    const selectActHandler = (actIds: number[]): void => {
+        setData((prev) => ({ ...prev, references: actIds }));
+
     };
 
     const selectPreviousHandler = (value: number): void => {
-        setData('previous', value);
+        setData((prev) => ({ ...prev, previous: value }));
+    };
+
+    const promptHandler = (e): void => {
+        setData((prev) => ({ ...prev, prompt: e.target.value }));
     };
 
     const generatePromptHandler = (e): void => {
@@ -126,9 +115,11 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
             <div className="admin-content">
 
-                <AdminHeader title="Generate a News Post" />
+                <AdminHeader title="Generate a News Post"/>
 
-                <form className="flex-grow flex flex-col justify-between gap-5 px-5" onSubmit={generatePromptHandler}>
+                <p>The following information will be used to generate a prompt for OpenAI to create a News Post.</p>
+
+                <form className="flex-grow flex flex-col justify-between gap-4 px-8" onSubmit={generatePromptHandler}>
 
                     {/* Select the News Post type. */}
                     <div>
@@ -143,90 +134,44 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                         </Select>
                     </div>
 
+                    {/* Depending on what was selected... */}
+
                     {/* A list of Stages (if available). */}
                     {(data.type === 'stage' && stages) && (
-                        <div>
-                            <Label className="sr-only" htmlFor="postReference">Select a Stage</Label>
-                            <Select id="postReference" onValueChange={selectSingleReferenceHandler}>
-                                <SelectTrigger>{data.reference_id ?? 'Select a Stage...'}</SelectTrigger>
-                                <SelectContent>
-                                    {stages.map((stage) => (
-                                        <SelectItem key={stage.id} value={stage.id}>
-                                            {stage.title} <Badge>{stage.status}</Badge>
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        <NewsStageSelect stages={stages} onChange={selectSingleReferenceHandler}/>
                     )}
 
                     {/* A list of Rounds (if available). */}
                     {(data.type === 'round' && rounds) && (
-                        <div>
-                            <Label className="sr-only" htmlFor="postReference">Select a Round</Label>
-                            <Select id="postReference" onValueChange={selectSingleReferenceHandler}>
-                                <SelectTrigger>{selectedRound?.title ?? 'Select a Round...'}</SelectTrigger>
-                                <SelectContent>
-                                    {rounds.map((round) => (
-                                        <SelectItem key={round.id} value={round.id}>
-                                            {round.title}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        <NewsRoundSelect rounds={rounds} onChange={selectSingleReferenceHandler}/>
                     )}
 
                     {/* A list of Acts (if available). */}
                     {/* We would like to be able to select one or more Acts. */}
                     {(data.type === 'act' && acts) && (
-                        <fieldset className="grid gap-3 grid-cols-1 md:grid-cols-3 lg:grid-cols-6">
-                            <legend className="font-normal text-sm mb-3">Select one or more Acts...</legend>
-                            {acts.map((act) => (
-                                <Label key={act.id} className="flex items-center gap-2">
-                                    <Checkbox value={act.id}
-                                              onCheckedChange={(state) => selectActHandler(act.id, state)}/> {act.name}
-                                </Label>
-                            ))}
-                        </fieldset>
+                        <NewsActSelect acts={acts} onChange={selectActHandler}/>
                     )}
 
                     {/* A list of existing published News Posts. */}
-                    {posts && (
-                        <div>
-                            <Label htmlFor="postPrevious">Refer to previous News Post (optional)</Label>
-                            <Select id="postPrevious" onValueChange={selectPreviousHandler} disabled={!posts.length}>
-                                <SelectTrigger>{selectedNewsPost ? `${selectedNewsPost.published_at} - ${selectedNewsPost.title}` :
-                                    <i>none</i>}</SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value={undefined}>
-                                        <i>none</i>
-                                    </SelectItem>
-                                    {posts?.map((post) => (
-                                        <SelectItem key={post.id} value={post.id}>
-                                            {post.published_at} &mdash; {post.title}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    )}
+                    {posts && (<NewsPostSelect posts={posts} onChange={selectPreviousHandler}/>)}
 
                     {/* Additional prompt. */}
                     {data.type && (
                         <div>
                             <Label htmlFor="postPrompt">Additional prompt</Label>
-                            <Textarea id="postPrompt" placeholder="Information that could help the generator." rows={6}
-                                      onChange={(e) => setData('prompt', e.target.value)}/>
+                            <ExpandingTextarea id="postPrompt" placeholder="Information that could help the generator."
+                                               className="max-h-40"
+                                               onChange={promptHandler}/>
                         </div>
                     )}
 
                     <div className="bg-white border-t-1 flex flex-wrap justify-between sticky bottom-0 py-3 -mx-5 px-5">
                         {error && <Alert className="w-full" type="error" message={error}/>}
 
-                        <Button variant="ghost" type="button" size="lg" onClick={cancelHandler}>Cancel</Button>
-                        <LoadingButton size="lg" disabled={!data.type} isLoading={isSaving}>Generate News
-                            Post</LoadingButton>
+                        <Button variant="ghost" type="button" onClick={cancelHandler}>Cancel</Button>
+                        <LoadingButton variant="secondary" disabled={!data.type} isLoading={isSaving}>
+                            Create prompt...
+                        </LoadingButton>
                     </div>
                 </form>
 
@@ -234,5 +179,5 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                                   onOpenChange={closePromptHandler}/>
             </div>
         </AppLayout>
-);
+    );
 };

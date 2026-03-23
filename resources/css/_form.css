@@ -20,7 +20,7 @@ textarea.input-field {
     @apply after:px-3.5 after:py-2.5 after:text-inherit after:[grid-area:1/1/2/2] after:whitespace-pre-wrap after:invisible after:content-[attr(data-cloned-val)_'_'] after:border;
 
     textarea {
-        @apply h-full resize-none overflow-hidden [grid-area:1/1/2/2];
+        @apply h-full resize-none overflow-auto [grid-area:1/1/2/2];
     }
 }
 

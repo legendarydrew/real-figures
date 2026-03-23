@@ -35,12 +35,12 @@ class NewsGenerateController extends Controller
          */
         return Inertia::render('back/news-generate-page', [
             'types'  => NewsPostType::cases(),
-            'posts' => Inertia::optional(fn() => NewsPost::published()->orderByDesc('id')->get()
-                                                         ->map(fn(NewsPost $post) => [
-                                                             'id'           => $post->id,
-                                                             'title'        => $post->title,
-                                                             'published_at' => $post->published_at->format(config('contest.format.full-date')),
-                                                         ])),
+            'posts'  => Inertia::optional(fn() => NewsPost::published()->orderByDesc('id')->get()
+                                                          ->map(fn(NewsPost $post) => [
+                                                              'id'           => $post->id,
+                                                              'title'        => $post->title,
+                                                              'published_at' => $post->published_at->format(config('contest.format.full-date')),
+                                                          ])),
             'stages' => Inertia::optional(fn() => Stage::all()
                                                        ->filter(fn(Stage $stage) => !$stage->isInactive())
                                                        ->map(fn(Stage $stage) => [
@@ -55,8 +55,9 @@ class NewsGenerateController extends Controller
                                                        ])),
             'acts'   => Inertia::optional(fn() => Act::whereHas('songs')->orderBy('name')->get()
                                                      ->map(fn(Act $act) => [
-                                                         'id'   => $act->id,
-                                                         'name' => $act->name
+                                                         'id'       => $act->id,
+                                                         'name'     => $act->name,
+                                                         'subtitle' => $act->subtitle
                                                      ]))
         ]);
     }
