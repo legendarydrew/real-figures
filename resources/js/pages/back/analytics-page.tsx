@@ -9,7 +9,7 @@ import { DonationsDailyAnalytics } from '@/components/analytics/donations-daily'
 import { DonationsMadeAnalytics } from '@/components/analytics/donations-made';
 import { DonationsAnonymousAnalytics } from '@/components/analytics/donations-anonymous';
 import { DonationsTotalAnalytics } from '@/components/analytics/donations-total';
-import { PagesAnalytics } from '@/components/analytics/pages';
+import { PagesViewedAnalytics } from '@/components/analytics/pages-viewed';
 import { PageViewsAnalytics } from '@/components/analytics/page-views';
 import { ViewportsAnalytics } from '@/components/analytics/viewports';
 import { NewVsReturningAnalytics } from '@/components/analytics/new-vs-returning';
@@ -75,7 +75,7 @@ export default function AnalyticsPage() {
                         {section === AnalyticsSection.VISITORS && (
                             <>
                                 <PageViewsAnalytics/>
-                                <PagesAnalytics/>
+                                <PagesViewedAnalytics/>
                                 <NewVsReturningAnalytics/>
                                 <BrowsersAnalytics/>
                                 <OperatingSystemsAnalytics/>
