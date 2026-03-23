@@ -5,13 +5,14 @@ import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
+import { SongBanner } from '@/components/mode/song-banner';
 
 
 interface Props {
     days?: number;
 }
 
-export const SongPlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
+export const SongsPlayedAnalytics: React.FC<Props> = ({ days = 7 }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [chartData, setChartData] = useState<AnalyticsData>();
 
@@ -66,31 +67,36 @@ export const SongPlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         </BarChart>
                     </ResponsiveContainer>
                 )}
-                <table className="data-table">
-                    <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col" className="text-left">Act</th>
-                        <th scope="col" className="text-right">Count</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {chartData?.table?.length ? chartData.table.map((row, index) => (
-                        <tr key={index}>
-                            <th scope="row">
+                <div className="overflow-auto max-h-60 px-4 border rounded-sm">
+                    <table className="data-table">
+                        <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col" className="text-left">Act</th>
+                            <th scope="col" className="text-right">Count</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {chartData?.table?.length ? chartData.table.map((row, index) => (
+                            <tr key={index}>
+                                <th scope="row">
                                 <span className="block size-4"
                                       style={{ backgroundColor: stringToColor(row.slug) }}></span>
-                            </th>
-                            <th className="text-left" scope="row">{row.act.name}</th>
-                            <td className="text-right">{row.count}</td>
-                        </tr>
-                    )) : (
-                        <tr>
-                            <td colSpan="4" className="nothing">No data recorded.</td>
-                        </tr>
-                    )}
-                    </tbody>
-                </table>
+                                </th>
+                                <th className="text-left" scope="row">
+                                    <SongBanner song={row}/>
+                                </th>
+                                <td className="text-right">{row.count}</td>
+                            </tr>
+                        )) : (
+                            <tr>
+                                <td colSpan="4" className="nothing">No data recorded.</td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
+
+                </div>
             </LoadingOverlay>
         </section>
     )

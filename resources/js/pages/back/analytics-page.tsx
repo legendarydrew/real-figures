@@ -19,7 +19,7 @@ import { PlatformAnalytics } from '@/components/analytics/platform';
 import { ReferrersAnalytics } from '@/components/analytics/referrers';
 import { CountriesAnalytics } from '@/components/analytics/countries';
 import { VotesAnalytics } from '@/components/analytics/votes';
-import { SongPlaysAnalytics } from '@/components/analytics/song-plays';
+import { SongsPlayedAnalytics } from '@/components/analytics/songs-played';
 import { GoldenBuzzersMadeAnalytics } from '@/components/analytics/golden-buzzers-made';
 import { PlaysAnalytics } from '@/components/analytics/plays';
 import { CollapseOpenAnalytics } from '@/components/analytics/collapse-open';
@@ -98,7 +98,7 @@ export default function AnalyticsPage() {
                             <>
                                 <VotesAnalytics/>
                                 <PlaysAnalytics/>
-                                <SongPlaysAnalytics/>
+                                <SongsPlayedAnalytics/>
                                 <GoldenBuzzersMadeAnalytics/>
                             </>
                         )}

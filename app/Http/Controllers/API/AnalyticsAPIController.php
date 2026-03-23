@@ -43,4 +43,27 @@ abstract class AnalyticsAPIController extends Controller
 
         return response()->json($data);
     }
+
+    /**
+     * Fill in any gaps for stacked chart data.
+     * @param array $stacked_data
+     * @param int   $days
+     * @return void
+     */
+    protected function fillDateGaps(array &$stacked_data, int $days): void
+    {
+        $data   = [];
+        $end    = now();
+        $cursor = $end->copy()->subDays($days);
+        $empty_row = array_fill_keys($stacked_data['keys'], 0); // nice!
+        while ($cursor->lte($end))
+        {
+            $current_date        = $cursor->format('Y-m-d');
+            $matching_row        = array_find($stacked_data['data'], fn($row) => $row['date'] === $current_date);
+            $data[$current_date] = ['date' => $cursor->toISOString(), ...($matching_row ?? $empty_row)];
+            $cursor->addDay();
+        }
+        ksort($data); // sort by ascending date.
+        $stacked_data['data'] = array_values($data);
+    }
 }
