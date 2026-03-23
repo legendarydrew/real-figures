@@ -1,6 +1,9 @@
 <?php
 return [
-    'role'     => 'You are an in-house journalist at CATAWOL Records, a globally influential record label, charged with writing company press releases.',
+    'role'     => [
+        'You are an in-house journalist at CATAWOL Records, a globally influential record label, charged with writing company press releases. ' .
+        'You are encouraged to sensationalise the news surrounding the Contest and the competing Acts, but the public image of CATAWOL Records must be preserved.'
+    ],
     'contest'  => [
         'announce'                => [
             "Write a press release summarising the announcement of \":contest_name\": a Song Contest hosted by :contest_host.",
@@ -20,7 +23,7 @@ return [
             "Write a press release summarising the outcome \":contest_name\": a Song Contest hosted by :contest_host.",
             "The following Acts had competed in the Song Contest:\n",
             ":acts",
-            "\nSummarise the outcome Song Contest with key highlights, surprises, and fan reactions. Mention Acts that stood out and any who were tipped to win.",
+            "\nSummarise the outcome of the Song Contest with key highlights, surprises, and fan reactions. Mention Acts that stood out and any who were tipped to win.",
             "If any donations were made, mention how much was raised as a result of the Song Contest.",
             "If there are any Golden Buzzers, mention which Acts were supported.",
         ],
@@ -46,12 +49,15 @@ return [
             "Consider any information about the Acts' performances in previous Stages."
         ],
         'ended'              => [
-            "Write a press release up to 400 words summarising the Current Stage of \":contest_name\": a Song Contest hosted by :contest_host.",
+            "Write a press release up to 400 words summarising the end of the current Stage of \":contest_name\": a Song Contest hosted by :contest_host.",
             "Summarise the current Round with key highlights, surprises, and fan reactions.",
             "Mention whether any of the Rounds will have to be judged, which occurs when a Round has no votes.",
             "Consider any information about the Acts' performances in previous Stages."
         ],
-        'over'               => 'This Stage has ended.',
+        'over'               => [
+            "Write a press release up to 400 words summarising the conclusion and results of \":stage_name\" of \":contest_name\": a Song Contest hosted by :contest_host.",
+            "Summarise the outcome of the Stage with key highlights, surprises, and fan reactions.",
+        ],
         'stage-acts'         => 'Acts participating in this Stage:',
         'round-breakdown'    => 'The Acts have been split into Rounds in this Stage as follows:',
         'current-round'      => 'The current Round is named :round_title.',
@@ -69,8 +75,10 @@ return [
         'ended'   => [
             "Write a 300-400 word press release summarising the results of a Round called \":round_name\" in \":contest_name\": a Song Contest hosted by :contest_host.",
             "Summarise the round with key highlights, surprises, and fan reactions. Mention Acts that stood out and any who were tipped to win.",
+            "If any of the Acts were judged, it means there were no public votes for the Round, and the winners were decided by an independent panel.",
             "Unless an Act has scored no points, do not disclose any of the scores.",
-        ]
+        ],
+        "acts" => "Some information about the Acts in this Round:"
     ],
     'act'      => [
         "prompt" => [

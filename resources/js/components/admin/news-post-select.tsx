@@ -34,7 +34,7 @@ export const NewsPostSelect: React.FC<Props> = ({
                     {selected ? postLabel(selected) : <i>none</i>}
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value={0}>
+                    <SelectItem value={null}>
                         <i>none</i>
                     </SelectItem>
                     {posts?.map((post) => (
