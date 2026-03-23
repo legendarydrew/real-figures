@@ -47,30 +47,7 @@ class OutboundController extends AnalyticsAPIController
     {
         $stacked_data = AnalyticsChartFormatter::stackedByDate($rows, 'linkUrl');
 
-        $data   = [];
-        $end    = now();
-        $cursor = $end->copy()->subDays($days);
-        while ($cursor->lte($end))
-        {
-            $current_date = $cursor->format('Y-m-d');
-            $matching_row = array_find($stacked_data['data'], fn($row) => $row['date'] === $current_date);
-            if ($matching_row)
-            {
-                $data[$current_date] = [...$matching_row];
-            }
-            else
-            {
-                $data[$current_date] = ['date' => $current_date];
-                foreach ($stacked_data['keys'] as $key)
-                {
-                    $data[$current_date][$key] = 0;
-                }
-            }
-            $cursor->addDay();
-        }
-        ksort($data); // sort by ascending date.
-
-        $stacked_data['data'] = array_values($data);
+        $this->fillDateGaps($stacked_data, $days);
 
         $stacked_data['table'] = $rows->groupBy('linkUrl')->map(fn($r) => [
             'url'   => $r->first()['linkUrl'],
