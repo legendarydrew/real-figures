@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head, WhenVisible } from '@inertiajs/react';
+import { Head, usePage, WhenVisible } from '@inertiajs/react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { GoldenBuzzer, GoldenBuzzerBreakdown } from '@/types';
 import { Nothing } from '@/components/mode/nothing';
@@ -13,6 +13,7 @@ import { BuzzerBreakdownDialog } from '@/components/admin/buzzer-breakdown-dialo
 import { AdminHeader } from '@/components/admin/admin-header';
 
 interface GoldenBuzzerPageProps {
+    total: number;
     count: number;
     rows: GoldenBuzzer[];
     isFirstPage: boolean;
@@ -20,8 +21,15 @@ interface GoldenBuzzerPageProps {
     hasMorePages: boolean;
 }
 
-export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePages }: Readonly<GoldenBuzzerPageProps>) {
+export default function GoldenBuzzersPage({
+                                              total,
+                                              count,
+                                              rows,
+                                              currentPage,
+                                              hasMorePages
+                                          }: Readonly<GoldenBuzzerPageProps>) {
 
+    const { donation } = usePage().props;
     const [isLoadingBreakdown, setIsLoadingBreakdown] = useState<boolean>(false);
     const [showBreakdown, setShowBreakdown] = useState<boolean>(false);
 
@@ -67,51 +75,66 @@ export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePag
                 </AdminHeader>
 
                 {count ? (
-                    <>
-                        {rows.map((row) => (
-                            <Collapsible className="my-1 mx-4" key={row.id}>
-                                <div
-                                    className="flex gap-2 items-center px-2 py-1 w-full bg-amber-400 hover:bg-amber-500 dark:bg-amber-800">
-                                    <CollapsibleTrigger
-                                        className="flex gap-3 w-full items-center cursor-pointer select-none">
-                                        <NotepadText
-                                            className={cn('text-sm', row.message ? 'text-current' : 'text-muted-foreground/20')}/>
-                                        <span
-                                            className={cn('flex-grow text-left', row.is_anonymous ? 'italic' : 'font-semibold')}>
+                    <div className="grid lg:grid-cols-4">
+                        <div className="lg:col-span-3">
+                            {rows.map((row) => (
+                                <Collapsible className="my-0.5 mx-4" key={row.id}>
+                                    <div
+                                        className="flex font-mono gap-2 items-center px-2 py-1 w-full bg-gold/50 hover:bg-gold">
+                                        <CollapsibleTrigger
+                                            className="flex gap-3 w-full items-center cursor-pointer select-none">
+                                            <NotepadText
+                                                className={cn('text-sm', row.message ? 'text-current' : 'text-muted-foreground/20')}/>
+                                            <span
+                                                className={cn('flex-grow text-left', row.is_anonymous ? 'italic' : 'font-semibold')}>
                                         {row.name}
                                     </span>
-                                        <span className="font-semibold text-sm w-2/5">
+                                            <span className="font-semibold text-sm w-2/5">
                                         {row.round}
                                     </span>
-                                        <time className="text-sm text-right">{row.created_at}</time>
-                                    </CollapsibleTrigger>
-                                </div>
-                                <CollapsibleContent className="py-1 px-3 bg-amber-100/50">
-                                    <div className="flex flex-col lg:flex-row gap-3 items-start">
-                                        <SongBanner className="lg:w-1/3 flex-shrink-0" song={row.song}/>
-                                        <div className="lg:flex-grow">
-                                            {row.message ?
-                                                <blockquote className="mb-2 py-1 text-sm">
-                                                    <b>Their message:</b><br/>
-                                                    &ldquo;{row.message}&rdquo;
-                                                </blockquote> :
-                                                <Nothing className="text-sm justify-start">No message.</Nothing>}
-                                        </div>
+                                            <time className="text-sm text-right">{row.created_at}</time>
+                                            <span className="w-24 text-right font-semibold">{row.amount}</span>
+                                        </CollapsibleTrigger>
                                     </div>
-                                </CollapsibleContent>
-                            </Collapsible>
-                        ))}
-                        {hasMorePages ? (
-                            <WhenVisible always params={{
-                                data: { page: currentPage + 1 },
-                                only: ['rows'],
-                                reset: ['currentPage', 'hasMorePages'],
-                                preserveUrl: true
-                            }}/>) : ''}
+                                    <CollapsibleContent className="py-1 px-3 bg-amber-100/50">
+                                        <div className="flex flex-col lg:flex-row gap-3 items-start">
+                                            <SongBanner className="lg:w-1/3 flex-shrink-0" song={row.song}/>
+                                            <div className="lg:flex-grow">
+                                                {row.message ?
+                                                    <blockquote className="mb-2 py-1 text-sm">
+                                                        <b>Their message:</b><br/>
+                                                        &ldquo;{row.message}&rdquo;
+                                                    </blockquote> :
+                                                    <Nothing className="text-sm">No message.</Nothing>}
+                                            </div>
+                                        </div>
+                                    </CollapsibleContent>
+                                </Collapsible>
+                            ))}
+                            {hasMorePages ? (
+                                <WhenVisible always params={{
+                                    data: { page: currentPage + 1 },
+                                    only: ['rows'],
+                                    reset: ['currentPage', 'hasMorePages'],
+                                    preserveUrl: true
+                                }}/>) : ''}
+                        </div>
+                        <div className="col-span-1">
+                            <p className="sticky top-0 px-8">
+                                <b className="text-3xl display-text block">
+                                    {donation.currency}&nbsp;
+                                    {total.toFixed(2)}
+                                </b>
+                                <span className="block text-sm">
+                                raised {count > 1 && `from ${count.toLocaleString()} Golden Buzzers`}.
+                                </span>
+                            </p>
+                        </div>
 
                         <BuzzerBreakdownDialog open={showBreakdown} onOpenChange={closeBreakdownHandler}
                                                data={breakdownData.current}/>
-                    </>
+
+                    </div>
                 ) : (
                     <Nothing>
                         No Golden Buzzers... yet.
@@ -119,5 +142,5 @@ export default function GoldenBuzzersPage({ count, rows, currentPage, hasMorePag
                 )}
             </div>
         </AppLayout>
-);
+    );
 }

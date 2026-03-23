@@ -32,8 +32,8 @@ class GoldenBuzzerFactory extends Factory
             'song_id'        => $round_song->song_id,
             'transaction_id' => fake()->unique()->uuid(),
             'amount'         => fake()->randomFloat(2, 1, 999),
-            'currency'       => fake()->boolean(80) ? config('contest.donation.currency') : fake()->currencyCode(),
-            'message'        => fake()->boolean(20) ? fake()->realText() : null,
+            'currency'       => config('contest.donation.currency'),
+            'message'        => fake()->boolean(40) ? fake()->realText() : null,
             'is_anonymous'   => fake()->boolean(20),
         ];
     }
