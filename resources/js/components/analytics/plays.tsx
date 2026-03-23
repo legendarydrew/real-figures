@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
-import { ChartTimeXAxis, ChartYAxis } from '@/components/chart-elements';
+import { ChartRoundReferences, ChartTimeXAxis, ChartYAxis } from '@/components/chart-elements';
+import { formatDate } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
 
 
 interface Props {
@@ -12,7 +14,7 @@ interface Props {
 }
 
 export const PlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
-
+    const {locale} = usePage().props;
     const [chartData, setChartData] = useState<AnalyticsData>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -33,8 +35,22 @@ export const PlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
             .finally(() => {
                 setIsLoading(false);
             });
-
     }
+
+    const tooltipContent = ({ active, payload, label }) => {
+        if (active && payload?.length) {
+            return (
+                <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-3">
+                    <span className="display-text">{formatDate(locale, label)}</span>
+                    <span className="text-sm flex gap-1 items-center">
+                        {payload[0].value ? payload[0].value.toLocaleString() : 'No'} {payload[0].value === 1 ? 'Song play' : 'Song plays'}
+                    </span>
+                </div>
+            );
+        }
+
+        return null;
+    };
 
     return (
         <section id="analyticsPlays" className="analytics-section">
@@ -49,9 +65,10 @@ export const PlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
                     >
                         <ChartTimeXAxis/>
                         <ChartYAxis label="Play count"/>
-                        <Tooltip/>
+                        <Tooltip content={tooltipContent} isAnimationActive={false}/>
 
                         <Bar dataKey="count" fill="var(--chart-2-6)"/>
+                        <ChartRoundReferences />
                     </BarChart>
                 )}
             </LoadingOverlay>
