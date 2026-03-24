@@ -91,10 +91,10 @@ class DonationsMadeController extends AnalyticsAPIController
     protected function analyticsProcessed(?Collection $rows, int $days): array
     {
         $data   = [];
-        $cursor = now()->subDays($days);
+        $cursor = now()->startOfDay()->subDays($days);
         do
         {
-            $date        = $cursor->format('Y-m-d');
+            $date        = $cursor->toISOString();
             $data[$date] = ['date' => $date, 'started' => 0, 'completed' => 0];
             $cursor->addDay();
         }
@@ -102,11 +102,11 @@ class DonationsMadeController extends AnalyticsAPIController
 
         $rows['started']->each(function ($row) use (&$data)
         {
-            $data[$row['date']->format('Y-m-d')]['started'] = $row['eventCount'];
+            $data[$row['date']->toISOString()]['started'] = $row['eventCount'];
         });
         $rows['completed']->each(function ($row) use (&$data)
         {
-            $data[$row['date']->format('Y-m-d')]['completed'] = $row['eventCount'];
+            $data[$row['date']->toISOString()]['completed'] = $row['eventCount'];
         });
 
         return array_values($data);

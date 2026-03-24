@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const PageViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
-    const {locale } = usePage().props;
+    const { locale } = usePage().props;
     const [chartData, setChartData] = useState<AnalyticsData>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -64,20 +64,21 @@ export const PageViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
             <h2 className="analytics-section-title">Page views</h2>
 
             <LoadingOverlay isLoading={isLoading}>
-                {chartData?.length ? (
-                    <LineChart data={chartData} style={{ width: '100%', maxHeight: '300px', aspectRatio: 3 }}
+                {chartData ? (
+                    <LineChart data={chartData} style={{ width: '100%', height: '240px', aspectRatio: 3 }}
                                responsive
                                margin={2}>
                         <CartesianGrid strokeDasharray="3 3"/>
                         <ChartDateXAxis/>
                         <ChartYAxis yAxisId="visitorsAxis" label="Page views" fill={cssVar('--primary')}/>
-                        <ChartYAxis yAxisId="viewsAxis" label="Visitors" orientation="right" fill={cssVar('--secondary')}/>
+                        <ChartYAxis yAxisId="viewsAxis" label="Visitors" orientation="right"
+                                    fill={cssVar('--secondary')}/>
                         <Tooltip content={tooltipContent} isAnimationActive={false}/>
-                        <Line dataKey="screenPageViews" label="Page views" dot={false} strokeWidth={2}
-                              stroke={cssVar('--primary')} yAxisId="viewsAxis"/>
                         <Line dataKey="activeUsers" label="Visitors" dot={false} strokeWidth={2}
                               stroke={cssVar('--secondary')} yAxisId="visitorsAxis"/>
-                        <ChartRoundReferences/>
+                        <Line dataKey="screenPageViews" label="Page views" dot={false} strokeWidth={2}
+                              stroke={cssVar('--primary')} yAxisId="viewsAxis"/>
+                        <ChartRoundReferences yAxis="visitorsAxis"/>
                     </LineChart>
                 ) : (
                     <Nothing>

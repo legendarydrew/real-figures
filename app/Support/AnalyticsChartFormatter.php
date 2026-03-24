@@ -20,14 +20,14 @@ class AnalyticsChartFormatter
     {
         $data = collect($rows)
             ->map(fn($row) => [
-                'time'  => Carbon::createFromFormat('YmdH', $row['dateHour'])->format('Y-m-d H:00'),
+                'time'  => Carbon::createFromFormat('YmdH', $row['dateHour'])->startOfHour()->toISOString(),
                 'count' => (int)$row['eventCount']
             ])
             ->sortBy('time')
             ->values();
 
         // Determine date range
-        $start = now()->subDays(7);
+        $start = now()->startOfDay()->subDays(7);
         $end   = now();
 
         $dates = $data->pluck('time');
@@ -35,7 +35,7 @@ class AnalyticsChartFormatter
         $cursor = $start->copy();
         while ($cursor->lte($end))
         {
-            $date = $cursor->format('Y-m-d H:00');
+            $date = $cursor->toISOString();
             if (!$dates->contains($date))
             {
                 $data->push(['time' => $date, 'count' => 0]);
@@ -49,7 +49,7 @@ class AnalyticsChartFormatter
     public static function byDate(array|Collection $rows, int $fromDays, array $keys): array
     {
         $data = collect($rows)
-            ->map(fn($row) => ['date' => $row['date']->toISOString(), ...$row])
+            ->map(fn($row) => ['date' => $row['date']->startOfHour()->toISOString(), ...$row])
             ->sortBy('date')
             ->values();
 
@@ -91,21 +91,18 @@ class AnalyticsChartFormatter
         $rows = collect($rows)->map(function ($row) use ($dimension, $metric, $interval)
         {
             $date = $row['date'];
+            $dateKey = $date->copy();
             if ($interval === 'week')
             {
-                $dateKey = $date->copy()->startOfWeek()->toDateString();
+                $dateKey->startOfWeek();
             }
             elseif ($interval === 'month')
             {
-                $dateKey = $date->copy()->startOfMonth()->toDateString();
-            }
-            else
-            {
-                $dateKey = $date->toDateString();
+                $dateKey->startOfMonth();
             }
 
             return [
-                'date'      => $dateKey,
+                'date'      => $dateKey->startOfDay()->toISOString(),
                 'dimension' => $row[$dimension] ?? 'unknown',
                 'value'     => (int)$row[$metric],
             ];
@@ -156,7 +153,7 @@ class AnalyticsChartFormatter
 
         while ($cursor->lte($end))
         {
-            $periods->push($cursor->toDateString());
+            $periods->push($cursor->startOfDay()->toISOString());
 
             match ($interval)
             {
@@ -169,11 +166,11 @@ class AnalyticsChartFormatter
         // Build chart rows
         $chartData = $periods->map(function ($date) use ($grouped, $keys)
         {
-            $row = ['date' => $date];
-
+            $row = ['date' => $date, 'total' => 0];
             foreach ($keys as $key)
             {
                 $row[$key] = $grouped[$date][$key] ?? 0;
+                $row['total'] += $row[$key];
             }
 
             return $row;

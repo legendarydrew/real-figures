@@ -54,11 +54,11 @@ class DonationsTotalController extends AnalyticsAPIController
         // For now, let's assume that the total donation amount will only increase over time.
 
         $data   = [];
-        $end    = now();
+        $end    = now()->startOfDay();
         $cursor = $end->copy()->subDays($days);
         while ($cursor->lte($end))
         {
-            $current_date        = $cursor->format('Y-m-d');
+            $current_date        = $cursor->toISOString();
             $matching_row        = array_find($stacked_data['data'], fn($row) => $row['date'] === $current_date);
             $data[$current_date] = ['date' => $current_date, 'd' => $matching_row['d'] ?? 0, 'b' => $matching_row['b'] ?? 0];
             $cursor->addDay();

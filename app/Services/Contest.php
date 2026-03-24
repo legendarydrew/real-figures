@@ -255,7 +255,7 @@ class Contest
 
         return [
             'stages' => $stages->map(fn(Stage $stage) => [
-                'start' => $stage->rounds->first()->starts_at->startOfDay()->toISOString(),
+                'start' => $stage->rounds->first()->created_at->startOfDay()->toISOString(),
                 'end'   => $stage->rounds->last()->ends_at->startOfDay()->toISOString(),
                 'name'  => $stage->title
             ]),
