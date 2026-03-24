@@ -1,4 +1,4 @@
-import { Bar, BarChart } from 'recharts';
+import { Bar, BarChart, CartesianGrid } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
@@ -52,6 +52,7 @@ export const ViewportsAnalytics: React.FC<Props> = ({ days = 7 }) => {
                 {chartData && (
                     <BarChart data={chartData.data} style={{ width: '100%', maxHeight: '300px', aspectRatio: 3 }}
                               responsive>
+                        <CartesianGrid strokeDasharray="3 3"/>
                         <ChartDateXAxis/>
                         <ChartYAxis label="Views"/>
 

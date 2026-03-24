@@ -2,7 +2,7 @@ import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AnalyticsData } from '@/types';
-import { Line, LineChart, Tooltip } from 'recharts';
+import { CartesianGrid, Line, LineChart, Tooltip } from 'recharts';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
 
@@ -47,6 +47,7 @@ export const DonationsMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         responsive
                         data={chartData}
                     >
+                        <CartesianGrid strokeDasharray="3 3"/>
                         <ChartDateXAxis/>
                         <ChartYAxis label="Count"/>
                         <Tooltip/>

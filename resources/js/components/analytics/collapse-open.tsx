@@ -1,4 +1,4 @@
-import { Bar, BarChart } from 'recharts';
+import { Bar, BarChart, CartesianGrid } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
@@ -70,6 +70,7 @@ export const CollapseOpenAnalytics: React.FC<Props> = ({ days = 7 }) => {
                     <BarChart data={chartData.data} style={{ width: '100%', maxHeight: '300px', aspectRatio: 3 }}
                               responsive
                               margin={2}>
+                        <CartesianGrid strokeDasharray="3 3"/>
                         <ChartDateXAxis/>
                         <ChartYAxis label="Opened count"/>
 

@@ -1,4 +1,4 @@
-import { Bar, BarChart, ReferenceLine, Tooltip } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ReferenceLine, Tooltip } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
@@ -46,6 +46,7 @@ export const SubscribersAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         responsive
                         data={chartData}
                         stackOffset="sign">
+                        <CartesianGrid strokeDasharray="3 3"/>
                         <ChartDateXAxis/>
                         <ChartYAxis label="Net subscriptions"/>
                         <ReferenceLine y={0} stroke={cssVar('--secondary')}/>

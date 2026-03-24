@@ -1,4 +1,4 @@
-import { Area, AreaChart, ReferenceLine, Tooltip } from 'recharts';
+import { Area, AreaChart, CartesianGrid, ReferenceLine, Tooltip } from 'recharts';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -79,6 +79,7 @@ export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
                     <AreaChart style={{ width: '100%', maxHeight: '300px', aspectRatio: 3 }}
                                responsive
                                data={chartData.data} margin={2}>
+                        <CartesianGrid strokeDasharray="3 3"/>
                         <ChartDateXAxis/>
                         <ChartYAxis label="Total raised"/>
                         <Area dataKey="b" dot={false} strokeWidth={2} stackId="1"

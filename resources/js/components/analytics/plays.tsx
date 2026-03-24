@@ -1,4 +1,4 @@
-import { Bar, BarChart, Tooltip } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Tooltip } from 'recharts';
 import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -63,6 +63,7 @@ export const PlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         responsive
                         data={chartData}
                     >
+                        <CartesianGrid strokeDasharray="3 3"/>
                         <ChartTimeXAxis/>
                         <ChartYAxis label="Play count"/>
                         <Tooltip content={tooltipContent} isAnimationActive={false}/>

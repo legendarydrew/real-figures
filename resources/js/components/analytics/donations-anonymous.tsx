@@ -1,4 +1,4 @@
-import { Bar, BarChart } from 'recharts';
+import { Bar, BarChart, CartesianGrid } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
@@ -59,6 +59,7 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                 responsive
                                 data={chartData.data}
                             >
+                                <CartesianGrid strokeDasharray="3 3"/>
                                 <ChartDateXAxis/>
                                 <ChartYAxis label="Donations"/>
 

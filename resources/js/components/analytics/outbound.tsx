@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
-import { Bar, BarChart } from 'recharts';
+import { Bar, BarChart, CartesianGrid } from 'recharts';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { Nothing } from '@/components/mode/nothing';
 import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
@@ -47,6 +47,7 @@ export const OutboundAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                   responsive
                                   data={chartData.data}
                         >
+                            <CartesianGrid strokeDasharray="3 3"/>
                             <ChartDateXAxis/>
                             <ChartYAxis label="Clicks" />
 
