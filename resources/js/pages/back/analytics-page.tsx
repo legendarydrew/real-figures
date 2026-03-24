@@ -26,6 +26,7 @@ import { CollapseOpenAnalytics } from '@/components/analytics/collapse-open';
 import { ActViewsAnalytics } from '@/components/analytics/act-views';
 import { OutboundAnalytics } from '@/components/analytics/outbound';
 import { SubscribersAnalytics } from '@/components/analytics/subscribers';
+import { DummyAnalytics } from '@/components/analytics/dummy';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -64,6 +65,8 @@ export default function AnalyticsPage() {
                     </menu>
 
                     <div className="md:w-5/6 flex flex-col gap-8">
+                        <DummyAnalytics />
+
                         {section === AnalyticsSection.DONATIONS && (
                             <>
                                 <DonationsTotalAnalytics/>

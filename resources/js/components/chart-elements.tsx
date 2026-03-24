@@ -41,7 +41,7 @@ function ChartReference(label, colour, props) {
         if (text.current) {
             boxWidth.current = text.current.scrollWidth + props.offset * 2;
         }
-    }, [text, props.offset]);
+    }, [text]);
 
     return (
         <g transform={`translate(${props.viewBox.x - props.offset},${props.viewBox.height - props.offset})rotate(${props.angle})`}>
@@ -93,6 +93,6 @@ export const ChartYAxis: React.FC = ({ label, ...props }) => {
         fontWeight: 'bold',
         fill: props.fill ?? 'var(--foreground)'
     };
-    return (<YAxis fontSize={10} allowDecimals={false} label={labelProps} {...props} />)
+    return (<YAxis type="number" fontSize={10} allowDecimals={false} label={labelProps} {...props} />)
 };
 

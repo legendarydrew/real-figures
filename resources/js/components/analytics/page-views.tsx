@@ -65,7 +65,7 @@ export const PageViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData?.length ? (
-                    <LineChart data={chartData} style={{ width: '100%', maxHeight: '300px', aspectRatio: 3 }}
+                    <LineChart data={chartData} style={{ width: '100%', height: '240px', aspectRatio: 3 }}
                                responsive
                                margin={2}>
                         <CartesianGrid strokeDasharray="3 3"/>
