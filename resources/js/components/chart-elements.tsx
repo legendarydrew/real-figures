@@ -36,9 +36,9 @@ function ChartReference(label, colour, props) {
         <g transform={`translate(${props.viewBox.x - props.offset},${props.viewBox.height - props.offset})rotate(${props.angle})`}>
             <text fontSize={props.fontSize} fontWeight="bold" fill={colour}>{label}</text>
         </g>);
-};
+}
 
-export const ChartRoundReferences: React.FC = () => {
+export const ChartRoundReferences: React.FC<{ yAxis?: string }> = ({ yAxis }) => {
     const { markers } = usePage().props;
 
     const formatReferenceLine = (label, colour) => ({
@@ -54,17 +54,17 @@ export const ChartRoundReferences: React.FC = () => {
 
     return markers && (<>
             {markers.stages.map((stage) => (
-                <ReferenceLine key={stage.name} x={stage.start} stroke="red" strokeWidth={2}
+                <ReferenceLine key={stage.name} x={stage.start} stroke="red" strokeWidth={2} yAxisId={yAxis}
                                label={formatReferenceLine(stage.name, 'red')}/>
             ))}
             {markers.rounds.map((round) => (
-                <ReferenceLine key={round.name} x={round.date}
+                <ReferenceLine key={round.name} x={round.date} yAxisId={yAxis}
                                stroke="var(--secondary)"
                                strokeWidth={2}
                                label={formatReferenceLine(round.name, cssVar('--secondary'))}></ReferenceLine>
             ))}
             {markers.over && (
-                <ReferenceLine x={markers.over} stroke="blue" strokeWidth={2}
+                <ReferenceLine x={markers.over} stroke="blue" strokeWidth={2} yAxisId={yAxis}
                                label={formatReferenceLine('Contest over', 'blue')}></ReferenceLine>
             )}
         </>
@@ -72,6 +72,7 @@ export const ChartRoundReferences: React.FC = () => {
 };
 
 export const ChartYAxis: React.FC = ({ label, ...props }) => {
+    console.log(label, props);
     const labelProps: LabelProps = {
         value: label,
         angle: -90,

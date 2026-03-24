@@ -16,18 +16,46 @@ export const DummyAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     const fetchData = () => {
         setChartData([
-            { date: '2026-03-13T00:00:00.000000Z', value: 6 },
-            { date: '2026-03-14T00:00:00.000000Z', value: 2 },
-            { date: '2026-03-15T00:00:00.000000Z', value: 7 },
-            { date: '2026-03-16T00:00:00.000000Z', value: 8 },
-            { date: '2026-03-17T00:00:00.000000Z', value: 2 },
-            { date: '2026-03-18T00:00:00.000000Z', value: 4 },
-            { date: '2026-03-19T00:00:00.000000Z', value: 5 },
-            { date: '2026-03-20T00:00:00.000000Z', value: 1 },
-            { date: '2026-03-21T00:00:00.000000Z', value: 3 },
-            { date: '2026-03-22T00:00:00.000000Z', value: 2 },
-            { date: '2026-03-23T00:00:00.000000Z', value: 5 },
-            { date: '2026-03-24T00:00:00.000000Z', value: 2 }
+            {
+                "date": "2026-03-17T00:00:00.000000Z",
+                "activeUsers": 1,
+                "screenPageViews": 48
+            },
+            {
+                "date": "2026-03-18T00:00:00.000000Z",
+                "activeUsers": 1,
+                "screenPageViews": 14
+            },
+            {
+                "date": "2026-03-19T00:00:00.000000Z",
+                "activeUsers": 1,
+                "screenPageViews": 6
+            },
+            {
+                "date": "2026-03-20T00:00:00.000000Z",
+                "activeUsers": 1,
+                "screenPageViews": 2
+            },
+            {
+                "date": "2026-03-21T00:00:00.000000Z",
+                "screenPageViews": 0,
+                "activeUsers": 0
+            },
+            {
+                "date": "2026-03-22T00:00:00.000000Z",
+                "screenPageViews": 0,
+                "activeUsers": 0
+            },
+            {
+                "date": "2026-03-23T00:00:00.000000Z",
+                "screenPageViews": 0,
+                "activeUsers": 0
+            },
+            {
+                "date": "2026-03-24T00:00:00.000000Z",
+                "screenPageViews": 0,
+                "activeUsers": 0
+            }
         ]);
     }
 
@@ -41,7 +69,7 @@ export const DummyAnalytics: React.FC<Props> = ({ days = 7 }) => {
                     <CartesianGrid strokeDasharray="3 3"/>
                     <ChartDateXAxis/>
                     <ChartYAxis/>
-                    <Line dataKey="value" label="Value"/>
+                    <Line dataKey="screenPageViews" label="Value"/>
                     <ChartRoundReferences/>
                 </LineChart>
         </section>
