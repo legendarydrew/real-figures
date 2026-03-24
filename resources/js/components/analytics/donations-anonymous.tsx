@@ -1,11 +1,12 @@
-import { Bar, BarChart, CartesianGrid } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Tooltip } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
-import { stringToChartColour } from '@/lib/utils';
+import { formatDate, stringToChartColour } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
 
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
+    const { locale } = usePage().props;
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [chartData, setChartData] = useState<AnalyticsData>();
 
@@ -34,6 +36,24 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
                 setIsLoading(false);
             });
     }
+
+    const tooltipContent = ({ active, payload, label }) => {
+        if (active && payload?.length) {
+            return (
+                <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-3">
+                    <span className="display-text">{formatDate(locale, label)}</span>
+                    {payload.map((row) => (
+                        <span className="text-sm flex gap-1 items-center">
+                            <span className="size-3 inline-block" style={{ backgroundColor: getColor(row.name) }}></span>
+                            {row.value ? row.value.toLocaleString() : 'No'} {row.value === 1 ? 'donation' : 'donations'}
+                        </span>
+                    ))}
+                </div>
+            );
+        }
+
+        return null;
+    };
 
     const fixedColors = {
         '1': 'var(--chart-1-1)',
@@ -71,6 +91,7 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                         fill={getColor(key)}
                                     />
                                 ))}
+                                <Tooltip content={tooltipContent} isAnimationActive={false}/>
                                 <ChartRoundReferences/>
                             </BarChart>
                         )}
