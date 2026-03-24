@@ -5,11 +5,11 @@ namespace Controllers\API\Analytics;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ViewportTest extends TestCase
+class CollapseTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT  = 'api/analytics/viewports';
+    protected const string ENDPOINT  = 'api/analytics/collapse';
     protected const int    DAY_COUNT = 7;
 
     public function test_as_guest()
@@ -26,7 +26,7 @@ class ViewportTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonCount(0, 'keys');
-        $response->assertJsonCount(0, 'data');
+        $response->assertJsonCount(self::DAY_COUNT + 1, 'data');
         $response->assertJsonCount(0, 'table');
         $response->assertJsonStructure([
             'keys',
@@ -38,8 +38,9 @@ class ViewportTest extends TestCase
             ],
             'table' => [
                 '*' => [
-                    'viewport',
-                    'views'
+                    'page',
+                    'section',
+                    'count'
                 ]
             ]
         ]);
@@ -49,28 +50,25 @@ class ViewportTest extends TestCase
     {
         \Analytics::fake(collect([
             [
-                'date'                         => now()->subDay(),
-                'customEvent:visitor_viewport' => '1280x900',
-                'screenPageViews'              => fake()->numberBetween(1, 200)
+                'date'                   => now()->subDay(),
+                'pageTitle'              => fake()->word,
+                'customEvent:section_id' => fake()->slug,
+                'eventCount'             => fake()->numberBetween(1, 200)
             ],
             [
-                'date'                         => now()->subDays(2),
-                'customEvent:visitor_viewport' => '1280x900',
-                'screenPageViews'              => fake()->numberBetween(1, 200)
+                'date'                   => now()->subDays(2),
+                'pageTitle'              => fake()->word,
+                'customEvent:section_id' => fake()->slug,
+                'eventCount'             => fake()->numberBetween(1, 200)
             ],
-            [
-                'date'                         => now()->subDay(),
-                'customEvent:visitor_viewport' => '320x640',
-                'screenPageViews'              => fake()->numberBetween(1, 200)
-            ]
         ]));
 
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
 
         $response->assertOk();
-        $response->assertJsonCount(2, 'keys');  // two sets of dimensions.
-        $response->assertJsonCount(2, 'data');  // two different dates.
-        $response->assertJsonCount(2, 'table'); // two sets of dimensions.
+        $response->assertJsonCount(2, 'keys');                    // two sets of dimensions.
+        $response->assertJsonCount(self::DAY_COUNT + 1, 'data');  // two different dates.
+        $response->assertJsonCount(2, 'table');                   // two sets of dimensions.
         $response->assertJsonStructure([
             'keys',
             'data'  => [
@@ -81,8 +79,9 @@ class ViewportTest extends TestCase
             ],
             'table' => [
                 '*' => [
-                    'viewport',
-                    'views'
+                    'page',
+                    'section',
+                    'count'
                 ]
             ]
         ]);

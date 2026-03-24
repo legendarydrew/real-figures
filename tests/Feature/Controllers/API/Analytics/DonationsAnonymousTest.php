@@ -32,7 +32,8 @@ class DonationsAnonymousTest extends TestCase
             'keys',
             'data'  => [
                 '*' => [
-                    'date'
+                    'date',
+                    'total'
                 ]
             ],
             'table' => [
@@ -69,7 +70,8 @@ class DonationsAnonymousTest extends TestCase
             'keys',
             'data'  => [
                 '*' => [
-                    'date'
+                    'date',
+                    'total'
                 ]
             ],
             'table' => [
