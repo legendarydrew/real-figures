@@ -44,16 +44,18 @@ class DonationsAnonymousController extends AnalyticsAPIController
     protected function analyticsProcessed(?Collection $rows, int $days): array
     {
         // Group the results by anonymous/not anonymous.
-        $data = AnalyticsChartFormatter::stackedByDate(
+        $stacked_data = AnalyticsChartFormatter::stackedByDate(
             $rows,
             'customEvent:anonymous'
         );
 
-        $data['table'] = $rows->groupBy('customEvent:anonymous')->map(fn($r, $key) => [
+        $this->fillDateGaps($stacked_data, $days);
+
+        $stacked_data['table'] = $rows->groupBy('customEvent:anonymous')->map(fn($r, $key) => [
             'name'  => $key ? 'Not anonymous' : 'Anonymous',
             'count' => $r->sum('eventCount'),
         ])->values();
 
-        return $data;
+        return $stacked_data;
     }
 }
