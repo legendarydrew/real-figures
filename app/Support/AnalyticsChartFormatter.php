@@ -20,14 +20,14 @@ class AnalyticsChartFormatter
     {
         $data = collect($rows)
             ->map(fn($row) => [
-                'time'  => Carbon::createFromFormat('YmdH', $row['dateHour'])->format('Y-m-d H:00'),
+                'time'  => Carbon::createFromFormat('YmdH', $row['dateHour'])->startOfHour()->toISOString(),
                 'count' => (int)$row['eventCount']
             ])
             ->sortBy('time')
             ->values();
 
         // Determine date range
-        $start = now()->subDays(7);
+        $start = now()->startOfDay()->subDays(7);
         $end   = now();
 
         $dates = $data->pluck('time');
@@ -35,7 +35,7 @@ class AnalyticsChartFormatter
         $cursor = $start->copy();
         while ($cursor->lte($end))
         {
-            $date = $cursor->format('Y-m-d H:00');
+            $date = $cursor->toISOString();
             if (!$dates->contains($date))
             {
                 $data->push(['time' => $date, 'count' => 0]);
@@ -49,7 +49,7 @@ class AnalyticsChartFormatter
     public static function byDate(array|Collection $rows, int $fromDays, array $keys): array
     {
         $data = collect($rows)
-            ->map(fn($row) => ['date' => $row['date']->toISOString(), ...$row])
+            ->map(fn($row) => ['date' => $row['date']->startOfHour()->toISOString(), ...$row])
             ->sortBy('date')
             ->values();
 
