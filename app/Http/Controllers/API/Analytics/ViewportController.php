@@ -51,6 +51,8 @@ class ViewportController extends AnalyticsAPIController
             metric: 'screenPageViews',
         );
 
+        $this->fillDateGaps($data, $days);
+
         $data['table'] = $rows->groupBy('customEvent:visitor_viewport')->map(fn($r) => [
             'viewport' => $r->first()['customEvent:visitor_viewport'],
             'views'    => $r->sum('screenPageViews'),

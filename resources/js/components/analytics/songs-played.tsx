@@ -1,11 +1,12 @@
-import { Bar, BarChart, ResponsiveContainer } from 'recharts';
+import { Bar, BarChart } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
-import { SongBanner } from '@/components/mode/song-banner';
+import { stringToChartColour } from '@/lib/utils';
+import { ActImage } from '@/components/mode/act-image';
 
 
 interface Props {
@@ -50,53 +51,73 @@ export const SongsPlayedAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
             <LoadingOverlay isLoading={isLoading}>
                 {chartData && (
-                    <ResponsiveContainer width="100%" aspect={1.618} maxHeight={300}>
-                        <BarChart data={chartData.data} height={300}>
-                            <ChartDateXAxis/>
-                            <ChartYAxis label="Play count"/>
+                    <div className="flex flex-col lg:flex-row gap-8">
+                        <div className="lg:w-2/3">
+                            <BarChart
+                                style={{ width: '100%', maxHeight: '320px', aspectRatio: 2 }}
+                                responsive
+                                data={chartData.data}
+                            >
+                                <ChartDateXAxis/>
+                                <ChartYAxis label="Play count"/>
 
-                            {chartData.keys.map(key => (
-                                <Bar
-                                    key={key}
-                                    dataKey={key}
-                                    stackId="sections"
-                                    fill={stringToColor(key)}
-                                />
-                            ))}
-                            <ChartRoundReferences/>
-                        </BarChart>
-                    </ResponsiveContainer>
+                                {chartData.keys.map(key => (
+                                    <Bar
+                                        key={key}
+                                        dataKey={key}
+                                        stackId="sections"
+                                        fill={stringToColor(key)}
+                                    />
+                                ))}
+                                <ChartRoundReferences/>
+                            </BarChart>
+                        </div>
+                        <div className="lg:w-1/3">
+                            <div className="analytics-section-scroll">
+                                <table className="data-table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col" colSpan={2} className="text-left">Act</th>
+                                        <th scope="col" className="text-right">Count</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {chartData.table?.length ? chartData.table.map((row, index) => (
+                                        <tr key={index}>
+                                            <th scope="row">
+                                    <span className="block size-4"
+                                          style={{ backgroundColor: stringToChartColour(row.act?.slug ?? 'Other') }}></span>
+                                            </th>
+                                            {row.act ? (
+                                                <>
+                                                    <th className="text-left" scope="row">
+                                                        {row.act && (<ActImage act={row.act} size={8}/>)}
+                                                    </th>
+                                                    <th className="text-left display-text" scope="row">
+                                                        {row.act.name}
+                                                        {row.act.subtitle && (<small
+                                                            className="ml-1 text-muted-foreground">{row.act.subtitle}</small>)}
+                                                    </th>
+                                                </>
+                                            ) : (
+                                                <th className="text-left display-text" colSpan={2}
+                                                    scope="row">Other</th>
+                                            )}
+                                            <td className="text-right">{row.count}</td>
+                                        </tr>
+                                    )) : (
+                                        <tr>
+                                            <td colSpan="3" className="nothing">No data recorded.</td>
+                                        </tr>
+                                    )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 )}
-                <div className="overflow-auto max-h-60 px-4 border rounded-sm">
-                    <table className="data-table">
-                        <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col" className="text-left">Act</th>
-                            <th scope="col" className="text-right">Count</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {chartData?.table?.length ? chartData.table.map((row, index) => (
-                            <tr key={index}>
-                                <th scope="row">
-                                <span className="block size-4"
-                                      style={{ backgroundColor: stringToColor(row.slug) }}></span>
-                                </th>
-                                <th className="text-left" scope="row">
-                                    <SongBanner song={row}/>
-                                </th>
-                                <td className="text-right">{row.count}</td>
-                            </tr>
-                        )) : (
-                            <tr>
-                                <td colSpan="4" className="nothing">No data recorded.</td>
-                            </tr>
-                        )}
-                        </tbody>
-                    </table>
 
-                </div>
             </LoadingOverlay>
         </section>
     )

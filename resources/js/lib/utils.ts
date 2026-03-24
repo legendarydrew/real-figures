@@ -22,6 +22,16 @@ export function formatDate(locale: unknown, timestamp: string): string {
     });
 }
 
+export function formatDateHour(locale: unknown, timestamp: string): string {
+    return new Date(timestamp).toLocaleDateString(locale as string, {
+        hour: '2-digit',
+        minute: '2-digit',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+}
+
 export function stringToChartColour(str: string|null): string {
     // A temporary solution (provided by ChatGPT), which results in some unusual colour combinations.
 

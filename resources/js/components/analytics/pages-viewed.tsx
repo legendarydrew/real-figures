@@ -53,7 +53,7 @@ export const PagesViewedAnalytics: React.FC<Props> = ({ days = 7 }) => {
                             />
                         </PieChart>
 
-                        <div className="overflow-auto border px-4 lg:col-span-2 lg:max-h-70">
+                        <div className="analytics-section-scroll">
                             <table className="data-table">
                                 <thead>
                                 <tr>

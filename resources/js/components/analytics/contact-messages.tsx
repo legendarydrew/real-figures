@@ -4,7 +4,6 @@ import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { Nothing } from '@/components/mode/nothing';
-import { usePage } from '@inertiajs/react';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
 
@@ -14,8 +13,6 @@ interface Props {
 }
 
 export const ContactMessagesAnalytics: React.FC<Props> = ({ days = 7 }) => {
-    const { locale } = usePage().props;
-
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [chartData, setChartData] = useState<AnalyticsData>();
 
@@ -45,14 +42,14 @@ export const ContactMessagesAnalytics: React.FC<Props> = ({ days = 7 }) => {
             <LoadingOverlay isLoading={isLoading}>
                 {chartData ? (
                     <BarChart
-                        style={{ width: '100%', maxHeight: '200px', aspectRatio: 3 }}
+                        style={{ width: '100%', height: '200px', aspectRatio: 3 }}
                         responsive
                         data={chartData}
                     >
                         <ChartDateXAxis/>
                         <ChartYAxis label="Messages sent"/>
 
-                        <Bar dataKey="eventValue" fill="var(--chart-3-5)"/>
+                        <Bar dataKey="eventCount" fill="var(--chart-3-5)"/>
                         <Tooltip/>
                         <ChartRoundReferences/>
                     </BarChart>

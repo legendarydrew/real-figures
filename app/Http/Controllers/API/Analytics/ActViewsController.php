@@ -75,6 +75,8 @@ class ActViewsController extends AnalyticsAPIController
             top: 10
         );
 
+        $this->fillDateGaps($data, $days);
+
         $data['table'] = array_map(fn($slug) => [
             'act'   => $slug !== 'Other' ? fractal(Act::whereSlug($slug)->first(), ActTransformer::class) : null,
             'count' => collect($data['data'])->pluck($slug)->sum(),

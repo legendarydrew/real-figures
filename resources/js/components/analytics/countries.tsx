@@ -3,6 +3,7 @@ import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { Pie, PieChart, PieSectorShapeProps, Sector } from 'recharts';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { stringToChartColour } from '@/lib/utils';
 
 interface Props {
     days?: number;
@@ -32,17 +33,8 @@ export const CountriesAnalytics: React.FC<Props> = ({ days = 7 }) => {
             });
     }
 
-    const stringToColor = (str: string) => {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const hue = Math.abs(hash % 360);
-        return `hsl(${hue}, 65%, 55%)`;
-    }
-
     const pieSector = (props: PieSectorShapeProps) => {
-        return <Sector {...props} fill={stringToColor(chartData.continents[props.index].continent)}/>;
+        return <Sector {...props} fill={stringToChartColour(chartData.continents[props.index].continent)}/>;
     };
 
     return (
@@ -62,32 +54,34 @@ export const CountriesAnalytics: React.FC<Props> = ({ days = 7 }) => {
                             />
                         </PieChart>
 
-                        <table className="data-table lg:col-span-2">
-                            <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col" className="text-left">Country</th>
-                                <th scope="col" className="text-left">Continent</th>
-                                <th scope="col" className="text-right">Count</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {chartData?.data.length ? chartData.data.map((row, index) => (
-                                <tr key={index}>
-                                    <th scope="row">
-                                        <span className={`flag flag:${row.flag}`}></span>
-                                    </th>
-                                    <th className="text-left" scope="row">{row.country}</th>
-                                    <td className="text-left" scope="row">{row.continent}</td>
-                                    <td className="text-right">{row.views}</td>
-                                </tr>
-                            )) : (
+                        <div className="analytics-section-scroll lg:col-span-2">
+                            <table className="data-table">
+                                <thead>
                                 <tr>
-                                    <td colSpan="4" className="nothing">No data recorded.</td>
+                                    <th scope="col"></th>
+                                    <th scope="col" className="text-left">Country</th>
+                                    <th scope="col" className="text-left">Continent</th>
+                                    <th scope="col" className="text-right">Count</th>
                                 </tr>
-                            )}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                {chartData?.data.length ? chartData.data.map((row, index) => (
+                                    <tr key={index}>
+                                        <th scope="row">
+                                            <span className={`flag flag:${row.flag}`}></span>
+                                        </th>
+                                        <th className="text-left" scope="row">{row.country}</th>
+                                        <td className="text-left" scope="row">{row.continent}</td>
+                                        <td className="text-right">{row.views}</td>
+                                    </tr>
+                                )) : (
+                                    <tr>
+                                        <td colSpan="4" className="nothing">No data recorded.</td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 )}
             </LoadingOverlay>

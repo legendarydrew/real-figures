@@ -64,44 +64,47 @@ export const ActViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
                             </BarChart>
                         </div>
                         <div className="lg:w-1/3">
-                            <table className="data-table">
-                                <thead>
-                                <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col" colSpan={2} className="text-left">Act</th>
-                                    <th scope="col" className="text-right">Count</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {chartData.table?.length ? chartData.table.map((row, index) => (
-                                    <tr key={index}>
-                                        <th scope="row">
+                            <div className="analytics-section-scroll">
+                                <table className="data-table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col" colSpan={2} className="text-left">Act</th>
+                                        <th scope="col" className="text-right">Count</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {chartData.table?.length ? chartData.table.map((row, index) => (
+                                        <tr key={index}>
+                                            <th scope="row">
                                     <span className="block size-4"
                                           style={{ backgroundColor: stringToChartColour(row.act?.slug ?? 'Other') }}></span>
-                                        </th>
-                                        {row.act ? (
-                                            <>
-                                                <th className="text-left" scope="row">
-                                                    {row.act && (<ActImage act={row.act} size={8}/>)}
-                                                </th>
-                                                <th className="text-left display-text" scope="row">
-                                                    {row.act.name}
-                                                    {row.act.subtitle && (<small
-                                                        className="ml-1 text-muted-foreground">{row.act.subtitle}</small>)}
-                                                </th>
-                                            </>
-                                        ) : (
-                                            <th className="text-left display-text" colSpan={2} scope="row">Other</th>
-                                        )}
-                                        <td className="text-right">{row.count}</td>
-                                    </tr>
-                                )) : (
-                                    <tr>
-                                        <td colSpan="3" className="nothing">No data recorded.</td>
-                                    </tr>
-                                )}
-                                </tbody>
-                            </table>
+                                            </th>
+                                            {row.act ? (
+                                                <>
+                                                    <th className="text-left" scope="row">
+                                                        {row.act && (<ActImage act={row.act} size={8}/>)}
+                                                    </th>
+                                                    <th className="text-left display-text" scope="row">
+                                                        {row.act.name}
+                                                        {row.act.subtitle && (<small
+                                                            className="ml-1 text-muted-foreground">{row.act.subtitle}</small>)}
+                                                    </th>
+                                                </>
+                                            ) : (
+                                                <th className="text-left display-text" colSpan={2}
+                                                    scope="row">Other</th>
+                                            )}
+                                            <td className="text-right">{row.count}</td>
+                                        </tr>
+                                    )) : (
+                                        <tr>
+                                            <td colSpan="3" className="nothing">No data recorded.</td>
+                                        </tr>
+                                    )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 )}

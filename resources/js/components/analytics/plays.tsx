@@ -5,7 +5,7 @@ import axios from 'axios';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ChartRoundReferences, ChartTimeXAxis, ChartYAxis } from '@/components/chart-elements';
-import { formatDate } from '@/lib/utils';
+import { formatDateHour } from '@/lib/utils';
 import { usePage } from '@inertiajs/react';
 
 
@@ -41,7 +41,7 @@ export const PlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
         if (active && payload?.length) {
             return (
                 <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-3">
-                    <span className="display-text">{formatDate(locale, label)}</span>
+                    <span className="display-text">{formatDateHour(locale, label)}</span>
                     <span className="text-sm flex gap-1 items-center">
                         {payload[0].value ? payload[0].value.toLocaleString() : 'No'} {payload[0].value === 1 ? 'Song play' : 'Song plays'}
                     </span>
@@ -59,7 +59,7 @@ export const PlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
             <LoadingOverlay isLoading={isLoading}>
                 {chartData && (
                     <BarChart
-                        style={{ width: '100%', maxHeight: '240px', aspectRatio: 3 }}
+                        style={{ width: '100%', height: '200px', aspectRatio: 3 }}
                         responsive
                         data={chartData}
                     >

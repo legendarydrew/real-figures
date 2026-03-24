@@ -1,7 +1,7 @@
 import { LabelProps, ReferenceLine, XAxis, YAxis } from 'recharts';
 import { usePage } from '@inertiajs/react';
 import { RefObject, useEffect, useRef } from 'react';
-import { cssVar, formatDate } from '@/lib/utils';
+import { cssVar, formatDate, formatDateHour } from '@/lib/utils';
 
 export const ChartDateXAxis: React.FC = () => {
     const { locale } = usePage().props;
@@ -17,7 +17,7 @@ export const ChartTimeXAxis: React.FC = () => {
 
     return (
         <XAxis dataKey="time" type="category"
-               tickFormatter={(ts) => formatDate(locale, ts)} fontSize={10}/>
+               tickFormatter={(ts) => formatDateHour(locale, ts)} fontSize={10}/>
     )
 };
 
