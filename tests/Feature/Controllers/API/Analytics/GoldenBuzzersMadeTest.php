@@ -2,15 +2,15 @@
 
 namespace Controllers\API\Analytics;
 
-use App\Http\Controllers\API\Analytics\DonationsMadeController;
+use App\Http\Controllers\API\Analytics\GoldenBuzzersMadeController;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DonationsMadeTest extends TestCase
+class GoldenBuzzersMadeTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT  = 'api/analytics/donations/made';
+    protected const string ENDPOINT  = 'api/analytics/golden-buzzers/made';
     protected const int    DAY_COUNT = 7;
 
     public function test_as_guest()
@@ -41,12 +41,12 @@ class DonationsMadeTest extends TestCase
             [
                 'date'             => $date,
                 'eventName'        => 'dialog_open',
-                'customEvent:type' => DonationsMadeController::DIALOG_ID,
+                'customEvent:type' => GoldenBuzzersMadeController::DIALOG_ID,
                 'eventCount'       => fake()->numberBetween(1, 60)
             ],
             [
                 'date'             => $date,
-                'eventName'        => DonationsMadeController::EVENT_NAME,
+                'eventName'        => GoldenBuzzersMadeController::EVENT_NAME,
                 'customEvent:type' => '(not set)',
                 'eventCount'       => fake()->numberBetween(1, 60)
             ]

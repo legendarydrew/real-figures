@@ -4,9 +4,7 @@ namespace App\Http\Controllers\API\Analytics;
 
 use App\Http\Controllers\API\AnalyticsAPIController;
 use Google\Analytics\Data\V1beta\Filter;
-use Google\Analytics\Data\V1beta\Filter\StringFilter;
 use Google\Analytics\Data\V1beta\FilterExpression;
-use Google\Analytics\Data\V1beta\FilterExpressionList;
 use Illuminate\Support\Collection;
 use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
@@ -29,59 +27,28 @@ class DonationsMadeController extends AnalyticsAPIController
 
     protected function analyticsQuery(int $days): Collection
     {
-        $rows = [];
-
-        // https://developers.google.com/analytics/devguides/reporting/data/v1/basics#php_4
-        $started_filter = new FilterExpression([
-            'and_group' => new FilterExpressionList([
-                'expressions' => [
-                    new FilterExpression([
-                        'filter' => new Filter([
-                            'field_name'    => 'eventName',
-                            'string_filter' => new Filter\StringFilter([
-                                'match_type' => Filter\StringFilter\MatchType::EXACT,
-                                'value'      => 'dialog_open',
-                            ])
-                        ]),
-                    ]),
-                    new FilterExpression([
-                        'filter' => new Filter([
-                            'field_name'    => 'customEvent:type',
-                            'string_filter' => new StringFilter([
-                                'match_type' => Filter\StringFilter\MatchType::EXACT,
-                                'value'      => static::DIALOG_ID,
-                            ])
-                        ]),
-                    ]),
-                ],
-            ])
-        ]);
-
-        $rows['started'] = Analytics::get(
-            Period::days($days),
-            metrics: ['eventCount'],
-            dimensions: ['date'],
-            maxResults: 1000,
-            dimensionFilter: $started_filter,
-            keepEmptyRows: true
-        );
-
-        $completed_filter = new FilterExpression([
+        // For these reports, we essentially want to fetch two sets of results.
+        // We can do this with two separate Analytics calls, but we ran into problems with testing:
+        // it's not possible to fake multiple calls.
+        // Instead, we will have to do some extra processing from consolidated results.
+        $filter = new FilterExpression([
             'filter' => new Filter([
-                'field_name'    => 'eventName',
-                'string_filter' => new Filter\StringFilter([
-                    'match_type' => Filter\StringFilter\MatchType::EXACT,
-                    'value'      => static::EVENT_NAME,
-                ])
+                'field_name'     => 'eventName',
+                'in_list_filter' => new Filter\InListFilter([
+                    'values' => [
+                        'dialog_open',      // looking for opened dialog events.
+                        static::EVENT_NAME, // looking for donation events.
+                    ],
+                ]),
             ]),
         ]);
 
-        $rows['completed'] = Analytics::get(
+        $rows = Analytics::get(
             Period::days($days),
             metrics: ['eventCount'],
-            dimensions: ['date'],
+            dimensions: ['date', 'eventName', 'customEvent:type'],
             maxResults: 1000,
-            dimensionFilter: $completed_filter,
+            dimensionFilter: $filter,
             keepEmptyRows: true
         );
 
@@ -90,23 +57,30 @@ class DonationsMadeController extends AnalyticsAPIController
 
     protected function analyticsProcessed(?Collection $rows, int $days): array
     {
+        // rows should contain:
+        // - date
+        // - eventName
+        // - customEvent:type
+        // - eventCount
+        $rows = $rows->filter(fn($row) => $row['eventName'] === static::EVENT_NAME || $row['customEvent:type'] === static::DIALOG_ID);
+
+        // Build a list of dates and corresponding values.
         $data   = [];
-        $cursor = now()->startOfDay()->subDays($days);
-        do
+        $end    = now()->startOfDay();
+        $cursor = $end->copy()->subDays($days);
+        while ($cursor->lte($end))
         {
             $date        = $cursor->toISOString();
             $data[$date] = ['date' => $date, 'started' => 0, 'completed' => 0];
             $cursor->addDay();
         }
-        while ($cursor < now());
 
-        $rows['started']->each(function ($row) use (&$data)
+        // Add the respective values for each date.
+        $rows->each(function ($row) use (&$data)
         {
-            $data[$row['date']->toISOString()]['started'] = $row['eventCount'];
-        });
-        $rows['completed']->each(function ($row) use (&$data)
-        {
-            $data[$row['date']->toISOString()]['completed'] = $row['eventCount'];
+            $date              = $row['date']->startOfDay()->toISOString();
+            $key               = $row['eventName'] === static::EVENT_NAME ? 'completed' : 'started';
+            $data[$date][$key] = $row['eventCount'];
         });
 
         return array_values($data);
