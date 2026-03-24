@@ -1,6 +1,5 @@
 import { LabelProps, ReferenceLine, XAxis, YAxis } from 'recharts';
 import { usePage } from '@inertiajs/react';
-import { RefObject, useEffect, useRef } from 'react';
 import { cssVar, formatDate, formatDateHour } from '@/lib/utils';
 
 export const ChartDateXAxis: React.FC = () => {
@@ -33,21 +32,9 @@ export const ChartTimeXAxis: React.FC = () => {
  * @constructor
  */
 function ChartReference(label, colour, props) {
-    const text = useRef(null);
-    const boxWidth: RefObject<number> = useRef<number>(0);
-    const boxHeight: RefObject<number> = useRef<number>(16);
-
-    useEffect(() => {
-        if (text.current) {
-            boxWidth.current = text.current.scrollWidth + props.offset * 2;
-        }
-    }, [text]);
-
     return (
         <g transform={`translate(${props.viewBox.x - props.offset},${props.viewBox.height - props.offset})rotate(${props.angle})`}>
-            <rect fill={colour} opacity={0.75} x={-props.offset} y={-props.offset * 2}
-                  width={boxWidth.current} height={boxHeight.current}></rect>
-            <text ref={text} fontSize={props.fontSize} fontWeight="bold" fill="#FFF">{label}</text>
+            <text fontSize={props.fontSize} fontWeight="bold" fill={colour}>{label}</text>
         </g>);
 };
 
