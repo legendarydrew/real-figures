@@ -16,8 +16,8 @@ use App\Http\Controllers\API\Analytics\OutboundController;
 use App\Http\Controllers\API\Analytics\PagesViewedController;
 use App\Http\Controllers\API\Analytics\PageViewsController;
 use App\Http\Controllers\API\Analytics\PlatformController;
-use App\Http\Controllers\API\Analytics\PlaysController;
 use App\Http\Controllers\API\Analytics\ReferrersController;
+use App\Http\Controllers\API\Analytics\SongPlaysController;
 use App\Http\Controllers\API\Analytics\SongsPlayedController;
 use App\Http\Controllers\API\Analytics\SubscribersController;
 use App\Http\Controllers\API\Analytics\UserTypesController;
@@ -82,7 +82,7 @@ Route::prefix('/api')->group(function ()
         Route::get('analytics/page-views', [PageViewsController::class, 'index'])->name('analytics.page-views');
         Route::get('analytics/pages', [PagesViewedController::class, 'index'])->name('analytics.pages');
         Route::get('analytics/platform', [PlatformController::class, 'index'])->name('analytics.platform');
-        Route::get('analytics/plays', [PlaysController::class, 'index'])->name('analytics.plays');
+        Route::get('analytics/plays', [SongPlaysController::class, 'index'])->name('analytics.plays');
         Route::get('analytics/referrers', [ReferrersController::class, 'index'])->name('analytics.referrers');
         Route::get('analytics/songs', [SongsPlayedController::class, 'index'])->name('analytics.songs');
         Route::get('analytics/subscribers', [SubscribersController::class, 'index'])->name('analytics.subscribers');
