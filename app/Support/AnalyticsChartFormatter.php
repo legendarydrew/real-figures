@@ -91,21 +91,18 @@ class AnalyticsChartFormatter
         $rows = collect($rows)->map(function ($row) use ($dimension, $metric, $interval)
         {
             $date = $row['date'];
+            $dateKey = $date->copy();
             if ($interval === 'week')
             {
-                $dateKey = $date->copy()->startOfWeek()->toDateString();
+                $dateKey->startOfWeek();
             }
             elseif ($interval === 'month')
             {
-                $dateKey = $date->copy()->startOfMonth()->toDateString();
-            }
-            else
-            {
-                $dateKey = $date->toDateString();
+                $dateKey->startOfMonth();
             }
 
             return [
-                'date'      => $dateKey,
+                'date'      => $dateKey->startOfDay()->toISOString(),
                 'dimension' => $row[$dimension] ?? 'unknown',
                 'value'     => (int)$row[$metric],
             ];
@@ -156,7 +153,7 @@ class AnalyticsChartFormatter
 
         while ($cursor->lte($end))
         {
-            $periods->push($cursor->toDateString());
+            $periods->push($cursor->startOfDay()->toISOString());
 
             match ($interval)
             {
@@ -169,11 +166,11 @@ class AnalyticsChartFormatter
         // Build chart rows
         $chartData = $periods->map(function ($date) use ($grouped, $keys)
         {
-            $row = ['date' => $date];
-
+            $row = ['date' => $date, 'total' => 0];
             foreach ($keys as $key)
             {
                 $row[$key] = $grouped[$date][$key] ?? 0;
+                $row['total'] += $row[$key];
             }
 
             return $row;

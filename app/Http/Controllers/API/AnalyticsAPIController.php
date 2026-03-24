@@ -24,7 +24,8 @@ abstract class AnalyticsAPIController extends Controller
 
     final public function index(): JsonResponse
     {
-        if (empty(static::CACHE_KEY)) {
+        if (empty(static::CACHE_KEY))
+        {
             abort(400, 'Undefined CACHE_KEY.');
         }
 
@@ -46,21 +47,26 @@ abstract class AnalyticsAPIController extends Controller
 
     /**
      * Fill in any gaps for stacked chart data.
+     *
      * @param array $stacked_data
      * @param int   $days
      * @return void
      */
     protected function fillDateGaps(array &$stacked_data, int $days): void
     {
-        $data   = [];
-        $end    = now();
-        $cursor = $end->copy()->subDays($days);
+        $data      = [];
+        $end       = now()->startOfDay();
+        $cursor    = $end->copy()->subDays($days);
         $empty_row = array_fill_keys($stacked_data['keys'], 0); // nice!
         while ($cursor->lte($end))
         {
-            $current_date        = $cursor->format('Y-m-d');
+            $current_date        = $cursor->toISOString();
             $matching_row        = array_find($stacked_data['data'], fn($row) => $row['date'] === $current_date);
-            $data[$current_date] = ['date' => $cursor->toISOString(), ...($matching_row ?? $empty_row)];
+            $data[$current_date] = [
+                'date'  => $cursor->toISOString(),
+                'total' => $matching_row['total'] ?? 0,
+                ...($matching_row ?? $empty_row)
+            ];
             $cursor->addDay();
         }
         ksort($data); // sort by ascending date.
