@@ -36,7 +36,7 @@ class ActImage
 
     public function rename(Act $act): void
     {
-        if ($this->exists($act))
+        if ($this->exists($act) && array_key_exists('slug', $act->getPrevious()))
         {
             $previous_path = sprintf('%s/%s.png', $this->getImageFolder(), $act->getPrevious()['slug']);
             rename($previous_path, $this->path($act));
