@@ -1,4 +1,3 @@
-import ReactCountryFlag from 'react-country-flag';
 import { LanguageCountries } from '@/lib/language-codes';
 import { useEffect, useState } from 'react';
 import { useLanguages } from '@/context/language-context';
@@ -21,6 +20,6 @@ export const LanguageFlag: React.FC<LanguageFlagProps> = ({ languageCode }) => {
     }, [languageCode]);
 
     return countryCode ? (
-        <ReactCountryFlag svg countryCode={countryCode} title={matchingLanguage(languageCode)?.name}/>
+        <span className={`flag flag:${countryCode}`} title={matchingLanguage(languageCode)?.name}></span>
     ) : null;
 }
