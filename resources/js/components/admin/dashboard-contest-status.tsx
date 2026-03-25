@@ -3,6 +3,7 @@ import { CountdownTimer } from '@/components/mode/countdown-timer';
 import { cn } from '@/lib/utils';
 import { Act } from '@/types';
 import { ActImage } from '@/components/mode/act-image';
+import { Link } from '@inertiajs/react';
 
 interface Props {
     data: {
@@ -24,6 +25,12 @@ export const DashboardContestStatus: React.FC<Props> = ({ data, className }) => 
             <CardContent>
                 {data.status === 'over' && (
                     <h2 className="display-text text-lg">The Contest is over.</h2>
+                )}
+                {data.status === 'judgement' && (
+                    <>
+                        <h2 className="display-text text-lg">{data.stage} has ended.</h2>
+                        <Link href={route('admin.stages')}>Go to Stages</Link>
+                    </>
                 )}
                 {data.status === 'coming-soon' && (
                     <h2 className="display-text text-lg">Contest has not yet started.</h2>

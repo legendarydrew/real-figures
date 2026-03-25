@@ -53,7 +53,7 @@ export const DashboardSongTotalPlays: React.FC<DashboardSongPlaysProps> = ({ dat
                         <Bar dataKey="play_count" label="Total song plays"
                              radius={[4, 4, 0, 0]}
                              fill={cssVar('--chart-1-4')}/>
-                        <ChartRoundReferences/>
+                        <ChartRoundReferences position="start"/>
                     </BarChart>
                 ) : (
                     <Nothing>No information about Songs played.</Nothing>

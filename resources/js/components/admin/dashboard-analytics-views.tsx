@@ -64,7 +64,7 @@ export const DashboardAnalyticsViews: React.FC<DashboardAnalyticsViewsProps> = (
                         <Line dataKey="visitors" yAxisId="pageVisitors" label="Visitors" dot={false} strokeWidth={2}
                               stroke={cssVar('--chart-2-3')}/>
 
-                        <ChartRoundReferences/>
+                        <ChartRoundReferences yAxis="pageViews"/>
                     </LineChart>
                 ) : (
                     <Nothing>

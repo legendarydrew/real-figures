@@ -14,7 +14,9 @@ use App\Models\RoundVote;
 use App\Models\Song;
 use App\Models\SongPlay;
 use App\Models\Subscriber;
+use App\Support\AnalyticsChartFormatter;
 use App\Transformers\ActTransformer;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -52,11 +54,10 @@ class DashboardController extends Controller
     {
         // Total Song plays for each day.
         $total_plays = SongPlay::where('played_on', '>', now()->subWeek())
-                               ->select([DB::raw('DATE(played_on) as date'), DB::raw('SUM(play_count) as play_count')])
-                               ->orderBy('date')
-                               ->groupBy('date')
-                               ->get()
-                               ->toArray();
+                               ->select(['played_on', DB::raw('SUM(play_count) as play_count')])
+                               ->orderBy('played_on')
+                               ->groupBy('played_on')
+                               ->get();
 
         // Songs played in the last day.
         $song_plays = SongPlay::where('played_on', '>', now()->subDay())
@@ -66,19 +67,9 @@ class DashboardController extends Controller
                               ->take(6)
                               ->get();
 
-        $dates              = $this->getDatesForLastWeek();
-        $total_play_results = [];
-        foreach ($dates as $day_date)
-        {
-            $matching_row         = array_filter($total_plays, fn($play) => $play['date'] === $day_date);
-            $total_play_results[] = [
-                'date'       => $day_date,
-                'play_count' => $matching_row ? reset($matching_row)['play_count'] : 0
-            ];
-        }
 
         return [
-            'days'  => $total_play_results,
+            'days'  => AnalyticsChartFormatter::byDate($total_plays, 7, ['play_count']),
             'songs' => $song_plays->map(fn($play) => [
                 'title'      => $play->song->full_title,
                 'play_count' => $play->play_count
@@ -96,31 +87,21 @@ class DashboardController extends Controller
         $vote_counts = RoundVote::where('created_at', '>', now()->subWeek())
                                 ->select([DB::raw('DATE(created_at) as date'), DB::raw('COUNT(id) as votes')])
                                 ->groupBy('date')
-                                ->get()
-                                ->toArray();
+                                ->get();
+        $rows = $vote_counts->map(fn($row)=> ['date' => Carbon::parse($row['date']), 'votes' => $row['votes']]);
 
-        // Fill in the blanks!
-        $dates  = $this->getDatesForLastWeek();
-        $output = [];
-        foreach ($dates as $day_date)
-        {
-            $matching_row = array_filter($vote_counts, fn($vote) => $vote['date'] === $day_date);
-            $output[]     = [
-                'date'  => $day_date,
-                'votes' => $matching_row ? reset($matching_row)['votes'] : 0
-            ];
-        }
-        return $output;
+        return AnalyticsChartFormatter::byDate($rows, 7, ['votes']);
     }
 
     protected function getDatesForLastWeek(): array
     {
-        $dates = [];
-        $date  = now()->subWeek();
-        while ($date < now())
+        $dates  = [];
+        $end    = now()->startOfDay();
+        $cursor = $end->copy()->subWeek();
+        while ($cursor->lte($end))
         {
-            $dates[] = $date->format('Y-m-d');
-            $date    = $date->addDay();
+            $dates[] = $cursor->toISOString();
+            $cursor->addDay();
         }
         return $dates;
     }
@@ -128,13 +109,12 @@ class DashboardController extends Controller
     protected function getPageViews(): array
     {
         $analyticsData = Analytics::fetchTotalVisitorsAndPageViews(Period::days(14));
-        $data          = $analyticsData->map(fn($row) => [
-            'date'     => $row['date']->startOfDay()->toISOString(),
+        $rows          = $analyticsData->map(fn($row) => [
+            'date'     => $row['date'],
             'views'    => $row['screenPageViews'],
             'visitors' => $row['activeUsers'],
-        ])->reverse();
-
-        return $data->values()->toArray();
+        ]);
+        return AnalyticsChartFormatter::byDate($rows, 14, ['views', 'visitors']);
     }
 
     /**
