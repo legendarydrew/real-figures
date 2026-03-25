@@ -93,19 +93,6 @@ class DashboardController extends Controller
         return AnalyticsChartFormatter::byDate($rows, 7, ['votes']);
     }
 
-    protected function getDatesForLastWeek(): array
-    {
-        $dates  = [];
-        $end    = now()->startOfDay();
-        $cursor = $end->copy()->subWeek();
-        while ($cursor->lte($end))
-        {
-            $dates[] = $cursor->toISOString();
-            $cursor->addDay();
-        }
-        return $dates;
-    }
-
     protected function getPageViews(): array
     {
         $analyticsData = Analytics::fetchTotalVisitorsAndPageViews(Period::days(14));
@@ -139,7 +126,7 @@ class DashboardController extends Controller
             {
                 $output = [
                     'status' => ContestStatus::JUDGEMENT,
-                    'round'  => $current_stage->name
+                    'round'  => $current_stage->title
                 ];
             }
             else

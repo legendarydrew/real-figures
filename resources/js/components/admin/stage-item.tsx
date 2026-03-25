@@ -101,8 +101,8 @@ export const StageItem: React.FC<StageItemProps> = ({
                             <Vote/>
                         </Button>}
                     {stage.winners.length ? (
-                        <Button type="button" variant="default" className="p-2 cursor-pointer"
-                                onClick={showResultsHandler}>
+                        <Button type="button" variant="primary" className="p-2 cursor-pointer"
+                                onClick={showResultsHandler} title="Results">
                             <Award/>
                         </Button>) : ''}
                 </div>

@@ -26,16 +26,13 @@ export const DashboardContestStatus: React.FC<Props> = ({ data, className }) => 
                 {data.status === 'over' && (
                     <h2 className="display-text text-lg">The Contest is over.</h2>
                 )}
-                {data.status === 'judgement' && (
-                    <>
-                        <h2 className="display-text text-lg">{data.stage} has ended.</h2>
-                        <Link href={route('admin.stages')}>Go to Stages</Link>
-                    </>
-                )}
                 {data.status === 'coming-soon' && (
                     <h2 className="display-text text-lg">Contest has not yet started.</h2>
                 )}
                 {data.round && (<h2 className="display-text text-2xl">{data.round}</h2>)}
+                {data.status === 'judgement' && (
+                    <Link className="button primary small mb-2" href={route('admin.stages')}>Voting and Judgement</Link>
+                )}
                 {data.countdown && (
                     <div className="flex gap-1">
                         {data.status === 'countdown' && (<b>begins in</b>)}
