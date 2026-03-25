@@ -80,4 +80,15 @@ class NotesTest extends TestCase
         self::assertCount(count($this->payload['meta']['notes']), $this->act->notes);
     }
 
+    public function test_removes_meta_notes()
+    {
+        $this->payload['meta'] = [
+            'notes' => []
+        ];
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+
+        $this->act->refresh();
+        self::assertCount(count($this->payload['meta']['notes']), $this->act->notes);
+    }
+
 }

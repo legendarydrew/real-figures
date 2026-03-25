@@ -43,6 +43,17 @@ class MembersTest extends TestCase
         self::assertCount(count($this->payload['meta']['members']), $this->act->members);
     }
 
+    public function test_removes_meta_members()
+    {
+        $this->payload['meta'] = [
+            'members' => []
+        ];
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+
+        $this->act->refresh();
+        self::assertCount(count($this->payload['meta']['members']), $this->act->members);
+    }
+
     public function test_replace_meta_members()
     {
         $this->act->members()->createMany([

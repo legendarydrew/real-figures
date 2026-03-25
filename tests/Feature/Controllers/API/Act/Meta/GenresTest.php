@@ -87,7 +87,7 @@ class GenresTest extends TestCase
         }
     }
 
-    public function test_preserve_meta_languages()
+    public function test_preserve_meta_genres()
     {
         $genre_ids = fake()->randomElements(Genre::pluck('id')->toArray(), 2);
         foreach ($genre_ids as $genre_id)
@@ -111,6 +111,17 @@ class GenresTest extends TestCase
         {
             self::assertContains($genre, $saved_genres);
         }
+    }
+
+    public function test_removes_meta_genres()
+    {
+        $this->payload['meta'] = [
+            'genres' => []
+        ];
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+
+        $this->act->refresh();
+        self::assertCount(count($this->payload['meta']['genres']), $this->act->genres);
     }
 
 }

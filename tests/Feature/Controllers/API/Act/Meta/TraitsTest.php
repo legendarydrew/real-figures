@@ -92,4 +92,15 @@ class TraitsTest extends TestCase
         }
     }
 
+    public function test_removes_meta_traits()
+    {
+        $this->payload['meta'] = [
+            'traits' => []
+        ];
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+
+        $this->act->refresh();
+        self::assertCount(count($this->payload['meta']['traits']), $this->act->traits);
+    }
+
 }

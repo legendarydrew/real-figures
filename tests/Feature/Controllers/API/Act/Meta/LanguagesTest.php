@@ -97,4 +97,15 @@ class LanguagesTest extends TestCase
         }
     }
 
+    public function test_removes_meta_languages()
+    {
+        $this->payload['meta'] = [
+            'languages' => []
+        ];
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+
+        $this->act->refresh();
+        self::assertCount(count($this->payload['meta']['languages']), $this->act->languages);
+    }
+
 }

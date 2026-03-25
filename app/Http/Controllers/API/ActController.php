@@ -147,7 +147,7 @@ class ActController extends Controller
     {
         if (isset($data['meta'][$relation]))
         {
-            $existing_ids = array_filter(array_map(fn($row) => $row['id'] ?? null, $data['meta'][$relation]));
+            $existing_ids = array_filter(array_map(fn($row) => $row['id'] ?? false, $data['meta'][$relation]));
             if (count($existing_ids))
             {
                 $act->$relation()->whereNotIn('id', $existing_ids)->delete();
