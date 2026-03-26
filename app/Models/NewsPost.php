@@ -8,14 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Spatie\Feed\Feedable;
+use Spatie\Feed\FeedItem;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class NewsPost extends Model
+class NewsPost extends Model implements Feedable
 {
     /** @use HasFactory<\Database\Factories\NewsPostFactory> */
-    use HasFactory;
     use HasSlug;
+    use HasFactory;
 
     public function getSlugOptions(): SlugOptions
     {
@@ -87,8 +89,29 @@ class NewsPost extends Model
                        ->get();
     }
 
+    /**
+     * Returns a list of Acts mentioned (by name) in this News post.
+     * @return Collection
+     */
     public function actsMentioned(): Collection
     {
         return Act::get()->filter(fn(Act $act) => str_contains(strtolower($this->content), strtolower($act->name)));
+    }
+
+    public function toFeedItem(): FeedItem
+    {
+        return FeedItem::create()
+                       ->id($this->id)
+                       ->title($this->title)
+                       ->summary($this->excerpt)
+                       ->updated($this->updated_at)
+                       ->link($this->url)
+                       ->authorName(config('contest.feed.author'))
+                       ->authorEmail(config('contest.feed.email'));
+    }
+
+    public static function getFeedItems()
+    {
+        return NewsPost::published()->get();
     }
 }

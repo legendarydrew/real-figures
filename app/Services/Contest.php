@@ -280,8 +280,7 @@ class Contest
     {
         if (app()->isProduction())
         {
-            PingerFacade::pingAll($post->title, $post->url);
-            // TODO add an RSS feed URL as the third parameter.
+            PingerFacade::pingAll($post->title, $post->url, route('feeds.main'));
         }
 
     }

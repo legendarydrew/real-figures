@@ -45,5 +45,11 @@ return [
     ],
     'analytics' => [
         'cache' => 10 // minutes
+    ],
+    'feed'      => [
+        'title'       => 'CATAWOL Records presents Real Figures Don\'t F.O.L.D',
+        'description' => 'The latest news from the CATAWOL Records Song Contest — announcements, round results, artist highlights, and behind-the-scenes stories.',
+        'author'      => 'CATAWOL Records',
+        'email'       => 'holla@silentmode.tv'
     ]
 ];
