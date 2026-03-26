@@ -11,6 +11,7 @@ use App\Models\RoundOutcome;
 use App\Models\Stage;
 use App\Models\StageWinner;
 use App\Transformers\SongTransformer;
+use Garf\LaravelPinger\PingerFacade;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -268,4 +269,20 @@ class Contest
         ];
     }
 
+    /**
+     * Ping search engines about the specified News post.
+     * This was added to the Contest service to be able to test whether pinging was done.
+     *
+     * @param NewsPost $post
+     * @return void
+     */
+    public function pingNewsPost(NewsPost $post): void
+    {
+        if (app()->isProduction())
+        {
+            PingerFacade::pingAll($post->title, $post->url);
+            // TODO add an RSS feed URL as the third parameter.
+        }
+
+    }
 }

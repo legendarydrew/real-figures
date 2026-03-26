@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Facades\ContestFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPostRequest;
 use App\Models\NewsPost;
@@ -55,8 +56,9 @@ class NewsController extends Controller
 
     public function update(int $id, NewsPostRequest $request): RedirectResponse
     {
-        $data = $request->validated();
-        $post = NewsPost::findOrFail($id);
+        $data          = $request->validated();
+        $post          = NewsPost::findOrFail($id);
+        $was_published = false;
 
         if (isset($data['publish']))
         {
@@ -64,6 +66,7 @@ class NewsController extends Controller
             {
                 // Mark the News Post as published.
                 $data['published_at'] = now();
+                $was_published        = true;
             }
             else
             {
@@ -72,6 +75,13 @@ class NewsController extends Controller
             }
         }
         $post->update($data);
+
+        // If the News Post was [newly] published, ping some search engines.
+        // We only want to do this if the site is live.
+        if ($was_published)
+        {
+            ContestFacade::pingNewsPost($post);
+        }
 
         return to_route('admin.news.edit', ['id' => $post->id]);
     }
