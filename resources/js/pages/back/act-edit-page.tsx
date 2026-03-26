@@ -143,7 +143,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
             router.patch(route('acts.update', { id: act.id }), formData, {
                 showProgress: true,
                 onSuccess: () => {
-                    RTToast.success(`Act "${act.name}" was updated.`);
+                    RTToast.success(`Act "${(act.name + " " + (act.subtitle ?? "")).trim()}" was updated.`);
                 },
                 onError: setError,
                 onFinish: () => {
@@ -155,7 +155,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
             router.post(route('acts.store'), formData, {
                 showProgress: true,
                 onSuccess: () => {
-                    RTToast.success(`Act "${data.name}" was created.`);
+                    RTToast.success(`Act "${(data.name + " " + (data.subtitle ?? "")).trim()}" was created.`);
                 },
                 onError: setError,
                 onFinish: () => {

@@ -105,18 +105,12 @@ class StoreTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_adds_meta_members()
+    public function test_create_with_same_name()
     {
-        $this->payload['meta'] = [
-            'members' => [
-                [ 'name' => 'Max Power', 'role' => 'Bad Boy' ],
-                [ 'name' => 'Jess Chillin', 'role' => 'Bad Girl' ],
-            ]
-        ];
-        $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        Act::create($this->payload);
 
-        $act = Act::first();
-        self::assertCount(count($this->payload['meta']['members']), $act->members);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertRedirectToRoute('admin.acts.edit', ['id' => 2]);
     }
 
 }

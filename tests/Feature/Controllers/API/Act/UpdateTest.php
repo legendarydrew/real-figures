@@ -134,4 +134,14 @@ class UpdateTest extends TestCase
         self::assertNull($this->act->image);
     }
 
+    #[Depends('test_as_user')]
+    public function test_update_with_same_name()
+    {
+        Act::create($this->payload);
+
+        $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+        $response->assertRedirectToRoute('admin.acts.edit', ['id' => $this->act->id]);
+    }
+
+
 }
