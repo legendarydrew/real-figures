@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Back\Dashboard;
+namespace Tests\Feature\Controllers\Back\Dashboard;
 
 use App\Enums\ContestStatus;
 use App\Facades\ContestFacade;

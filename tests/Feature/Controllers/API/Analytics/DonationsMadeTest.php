@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\API\Analytics;
+namespace Tests\Feature\Controllers\API\Analytics;
 
 use App\Http\Controllers\API\Analytics\DonationsMadeController;
 use Illuminate\Foundation\Testing\DatabaseMigrations;

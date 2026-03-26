@@ -1,6 +1,6 @@
 <?php
 
-namespace ActImage;
+namespace Tests\Feature\ActImage;
 
 use App\Facades\ActImageFacade;
 use App\Models\Act;

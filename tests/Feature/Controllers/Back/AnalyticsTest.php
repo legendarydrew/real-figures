@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Back;
+namespace Tests\Feature\Controllers\Back;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
