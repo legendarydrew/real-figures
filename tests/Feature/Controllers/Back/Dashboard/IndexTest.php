@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Back\Dashboard;
+namespace Tests\Feature\Controllers\Back\Dashboard;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;

@@ -40,6 +40,7 @@ use App\Http\Controllers\API\StageRoundsController;
 use App\Http\Controllers\API\StageVotesController;
 use App\Http\Controllers\API\StageWinnersController;
 use App\Http\Controllers\API\SubscriberPostController;
+use App\Http\Controllers\API\SubscribersController as SubscribersAPIController;
 use App\Http\Controllers\API\VoteController;
 use App\Http\Controllers\Back\NewsController;
 use Illuminate\Support\Facades\Route;
@@ -55,7 +56,7 @@ Route::prefix('/api')->group(function ()
     Route::get('languages', [LanguagesController::class, 'index'])->name('languages');
     Route::post('messages', [ContactMessagesController::class, 'store']);
     Route::put('songs/{id}/play', [SongPlayController::class, 'update'])->name('play');
-    Route::post('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'store'])->name('subscribe');
+    Route::post('subscribers', [SubscribersAPIController::class, 'store'])->name('subscribe');
     Route::post('vote', [VoteController::class, 'store'])->name('vote');
 
     // Routes accessible with authentication.
@@ -119,7 +120,7 @@ Route::prefix('/api')->group(function ()
         Route::get('stages/{id}/votes', [StageVotesController::class, 'show'])->name('stages.votes');
         Route::post('stages/{id}/winners', [StageWinnersController::class, 'store'])->name('stages.winners');
 
-        Route::delete('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'destroy'])->name('subscribers.destroy');
+        Route::delete('subscribers', [SubscribersAPIController::class, 'destroy'])->name('subscribers.destroy');
         Route::post('subscribers/post', [SubscriberPostController::class, 'store'])->name('subscribers.post');
     });
 });

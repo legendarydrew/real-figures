@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Back\Dashboard;
+namespace Tests\Feature\Controllers\Back\Dashboard;
 
 use App\Models\Act;
 use App\Models\ContactMessage;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Front;
+namespace Tests\Feature\Controllers\Front;
 
 use App\Models\Round;
 use App\Models\Stage;
