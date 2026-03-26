@@ -43,7 +43,10 @@ class StageFactory extends Factory
             else
             {
                 $round_count = fake()->numberBetween(1, 4);
-                Round::factory($round_count)->withSongs()->for($stage)->create();
+                Round::factory($round_count)->withSongs()->for($stage)->create([
+                    'starts_at' => fake()->dateTimeBetween(now()->addDay(), now()->addDays(3)),
+                    'ends_at'   => fake()->dateTimeBetween(now()->addDays(4), now()->addDays(7)),
+                ]);
             }
         });
     }

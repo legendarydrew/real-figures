@@ -54,19 +54,19 @@ class DashboardController extends Controller
     {
         // Total Song plays for each day.
         $total_plays = SongPlay::where('played_on', '>', now()->subWeek())
-                               ->select(['played_on', DB::raw('SUM(play_count) as play_count')])
-                               ->orderBy('played_on')
-                               ->groupBy('played_on')
-                               ->get();
+                               ->select(['played_on AS date', DB::raw('SUM(play_count) as play_count')])
+                               ->orderBy('date')
+                               ->groupBy('date')
+                               ->get()
+        ->map(fn( $row) => [ 'date' => Carbon::parse($row->date), 'play_count' => $row->play_count ]);
 
         // Songs played in the last day.
         $song_plays = SongPlay::where('played_on', '>', now()->subDay())
-                              ->select(['song_id', 'played_on', DB::raw('SUM(play_count) as play_count')])
+                              ->select(['song_id', 'played_on AS date', DB::raw('SUM(play_count) as play_count')])
                               ->orderByDesc('play_count')
-                              ->groupBy('song_id', 'played_on', 'play_count')
+                              ->groupBy('song_id', 'date', 'play_count')
                               ->take(6)
                               ->get();
-
 
         return [
             'days'  => AnalyticsChartFormatter::byDate($total_plays, 7, ['play_count']),
@@ -88,7 +88,7 @@ class DashboardController extends Controller
                                 ->select([DB::raw('DATE(created_at) as date'), DB::raw('COUNT(id) as votes')])
                                 ->groupBy('date')
                                 ->get();
-        $rows = $vote_counts->map(fn($row)=> ['date' => Carbon::parse($row['date']), 'votes' => $row['votes']]);
+        $rows        = $vote_counts->map(fn($row) => ['date' => Carbon::parse($row['date']), 'votes' => $row['votes']]);
 
         return AnalyticsChartFormatter::byDate($rows, 7, ['votes']);
     }

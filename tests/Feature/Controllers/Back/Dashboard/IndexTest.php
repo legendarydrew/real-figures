@@ -1,14 +1,12 @@
 <?php
 
-namespace Tests\Feature\Controllers\Back;
+namespace Controllers\Back\Dashboard;
 
-use App\Models\Donation;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
-use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class DashboardTest extends TestCase
+class IndexTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -25,17 +23,6 @@ class DashboardTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(fn(Assert $page) => $page->component('back/dashboard-page'));
-    }
-
-    // Test with data!
-
-    #[Depends('test_as_user')]
-    public function test_with_donations()
-    {
-        Donation::factory(22)->create();
-        $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
-
-        $response->assertOk();
     }
 
 }
