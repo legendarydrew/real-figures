@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Facades\ContestFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPostRequest;
 use App\Models\NewsPost;
 use App\Transformers\NewsPostTransformer;
-use Garf\LaravelPinger\PingerFacade;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -78,10 +78,9 @@ class NewsController extends Controller
 
         // If the News Post was [newly] published, ping some search engines.
         // We only want to do this if the site is live.
-        if ($was_published && app()->isProduction())
+        if ($was_published)
         {
-            PingerFacade::pingAll($post->title, $post->url);
-            // TODO add an RSS feed URL as the third parameter.
+            ContestFacade::pingNewsPost($post);
         }
 
         return to_route('admin.news.edit', ['id' => $post->id]);

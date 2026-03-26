@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\Back\News;
 
+use App\Facades\ContestFacade;
 use App\Models\NewsPost;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -16,7 +17,9 @@ class UpdateTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->post = NewsPost::factory()->unpublished()->createOne();
+        ContestFacade::partialMock();
+
+        $this->post    = NewsPost::factory()->unpublished()->createOne();
         $this->payload = [
             'id'      => $this->post->id,
             'title'   => fake()->sentence(),
@@ -26,6 +29,7 @@ class UpdateTest extends TestCase
 
     public function test_as_guest()
     {
+        ContestFacade::shouldReceive('pingNewsPost')->never();
         $response = $this->putJson(route('news.update', ['id' => $this->post->id]), $this->payload);
 
         $response->assertUnauthorized();
@@ -33,6 +37,7 @@ class UpdateTest extends TestCase
 
     public function test_as_user()
     {
+        ContestFacade::shouldReceive('pingNewsPost')->never();
         $response = $this->actingAs($this->user)->putJson(route('news.update', ['id' => $this->post->id]), $this->payload);
 
         $response->assertRedirectToRoute('admin.news.edit', ['id' => 1]);
@@ -40,6 +45,7 @@ class UpdateTest extends TestCase
 
     public function test_updates_post()
     {
+        ContestFacade::shouldReceive('pingNewsPost')->never();
         $this->actingAs($this->user)->putJson(route('news.update', ['id' => $this->post->id]), $this->payload);
 
         $this->post->refresh();
@@ -49,6 +55,7 @@ class UpdateTest extends TestCase
 
     public function test_preserve_published_date()
     {
+        ContestFacade::shouldReceive('pingNewsPost')->never();
         $this->actingAs($this->user)->putJson(route('news.update', ['id' => $this->post->id]), $this->payload);
         $this->post->refresh();
         self::assertNull($this->post->published_at);
@@ -64,6 +71,7 @@ class UpdateTest extends TestCase
 
     public function test_publish_post()
     {
+        ContestFacade::shouldReceive('pingNewsPost')->once();
         $this->payload['publish'] = true;
         $this->actingAs($this->user)->putJson(route('news.update', ['id' => $this->post->id]), $this->payload);
 
@@ -73,6 +81,7 @@ class UpdateTest extends TestCase
 
     public function test_unpublish_post()
     {
+        ContestFacade::shouldReceive('pingNewsPost')->never();
         $this->post->published_at = now();
         $this->post->save();
 
