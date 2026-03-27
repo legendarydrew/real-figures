@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Facades\ContestFacade as Contest;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
 use Inertia\Inertia;
@@ -36,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
             'markers' => app()->runningUnitTests() ? [] : Contest::getContestMarkers(),
         ]);
 
-        \View::composer('front.links', function (View $view) {
+        ViewFacade::composer('front.links', function (View $view) {
             // Determine the current route.
             $view->with('current', Route::currentRouteName());
         });

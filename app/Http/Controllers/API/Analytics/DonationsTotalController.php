@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AnalyticsAPIController;
 use App\Support\AnalyticsChartFormatter;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * DonationsTotalController
@@ -30,8 +31,8 @@ class DonationsTotalController extends AnalyticsAPIController
                     FROM %1$s t
                     WHERE DATE(t.created_at) > ?
                     GROUP BY date';
-        $donations_data = \DB::select(sprintf($query, 'donations', 'd'), [now()->subDays($days)]);
-        $buzzer_data = \DB::select(sprintf($query, 'golden_buzzers', 'b'), [now()->subDays($days)]);
+        $donations_data = DB::select(sprintf($query, 'donations', 'd'), [now()->subDays($days)]);
+        $buzzer_data = DB::select(sprintf($query, 'golden_buzzers', 'b'), [now()->subDays($days)]);
 
         return collect(['donations' => $donations_data, 'buzzers' => $buzzer_data]);
     }

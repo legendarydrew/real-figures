@@ -26,7 +26,7 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Str;
+use Illuminate\Support\Str;
 use Throwable;
 
 /**

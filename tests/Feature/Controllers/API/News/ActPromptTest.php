@@ -7,7 +7,7 @@ use App\Models\Act;
 use App\Models\NewsPost;
 use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Lang;
+use Illuminate\Support\Facades\Lang;
 use Tests\TestCase;
 
 final class ActPromptTest extends TestCase

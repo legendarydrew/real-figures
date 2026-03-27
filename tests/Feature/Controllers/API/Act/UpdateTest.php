@@ -5,10 +5,10 @@ namespace Tests\Feature\Controllers\API\Act;
 use App\Models\Act;
 use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
 use PHPUnit\Framework\Attributes\Depends;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
-use Str;
 use Tests\TestCase;
 
 final class UpdateTest extends TestCase

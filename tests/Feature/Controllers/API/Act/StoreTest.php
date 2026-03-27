@@ -5,9 +5,9 @@ namespace Tests\Feature\Controllers\API\Act;
 use App\Models\Act;
 use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Depends;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
-use Str;
 use Tests\TestCase;
 
 final class StoreTest extends TestCase
