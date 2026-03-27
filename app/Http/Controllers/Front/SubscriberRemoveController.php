@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Facades\AnalyticsEventsFacade;
 use App\Http\Controllers\Controller;
 use App\Models\Subscriber;
 use Illuminate\Contracts\View\View;
@@ -20,8 +21,7 @@ class SubscriberRemoveController extends Controller
         if ($subscriber) {
             $subscriber->delete();
             Session::flash('message', "{$subscriber->email} has been removed. Thank you for your time!");
-            app(GoogleAnalyticsService::class)->sendEvent('subscriber', ['value' => -1]);
-
+            AnalyticsEventsFacade::send('subscriber', ['value' => -1]);
             return view('front.subscriber-removed');
         }
 

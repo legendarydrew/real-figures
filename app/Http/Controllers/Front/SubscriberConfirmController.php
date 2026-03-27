@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Facades\AnalyticsEventsFacade;
 use App\Http\Controllers\Controller;
 use App\Mail\SubscriberConfirmation;
 use App\Models\Subscriber;
@@ -30,7 +31,7 @@ class SubscriberConfirmController extends Controller
             }
 
             // TRACK new subscriber.
-            app(GoogleAnalyticsService::class)->sendEvent('subscriber', ['value' => 1]);
+            AnalyticsEventsFacade::send('subscriber', ['value' => 1]);
 
             return view('front.subscriber-confirmed');
         }

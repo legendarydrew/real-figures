@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Facades\AnalyticsEventsFacade;
 use App\Models\Act;
 use App\Models\Round;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
-
 use function Laravel\Prompts\error;
 
 #[Signature('app:analytics-test-data')]
@@ -146,6 +146,6 @@ class GenerateAnalyticsTestData extends Command
 
     private function postEvent(string $eventName, array $dimensions): void
     {
-        app(GoogleAnalyticsService::class)->sendEvent($eventName, $dimensions);
+        AnalyticsEventsFacade::send($eventName, $dimensions);
     }
 }
