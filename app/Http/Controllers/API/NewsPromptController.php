@@ -108,7 +108,7 @@ class NewsPromptController extends Controller
     /**
      * Build a prompt to use for generating a News Post about the specified Stage.
      */
-    public function buildStagePrompt(Stage $stage, array $data): array
+    protected function buildStagePrompt(Stage $stage, array $data): array
     {
         $lines = [];
 
@@ -363,7 +363,7 @@ class NewsPromptController extends Controller
         return $lines;
     }
 
-    public function buildActsPrompt(Collection $acts, array $data): array
+    protected function buildActsPrompt(Collection $acts, array $data): array
     {
         if ($acts->isEmpty()) {
             abort(400, 'No valid Acts specified.');

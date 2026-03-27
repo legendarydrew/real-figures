@@ -25,8 +25,6 @@ class DonationController extends Controller
 
     /**
      * Capture the payment for a PayPal order.
-     *
-     * @param  DonationRequest  $request
      */
     public function store(): JsonResponse
     {
