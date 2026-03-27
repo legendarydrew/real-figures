@@ -4,8 +4,8 @@ import { Textarea } from '@/components/ui/textarea';
 import React, { ChangeEvent, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useForm } from '@inertiajs/react';
-import toast from 'react-hot-toast';
 import InputError from '@/components/input-error';
+import { RTToast } from '@/components/mode/toast-message';
 
 interface ContactMessageRespondProps {
     message: ContactMessage;
@@ -34,7 +34,7 @@ export const ContactMessageRespond: React.FC<ContactMessageRespondProps> = ({ me
             preserveScroll: true,
             onSuccess: () => {
                 setIsResponding(false);
-                toast.success('Response was sent.');
+                RTToast.success('Response was sent.');
             }
         });
     };
