@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
-#[Guarded('id')]
+#[Guarded(['id'])]
 class RoundVote extends Model
 {
     public function round(): BelongsTo

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
-#[Guarded('id', 'created_at', 'updated_at')]
+#[Guarded(['id', 'created_at', 'updated_at'])]
 class Song extends Model
 {
     use HasFactory;

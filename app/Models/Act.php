@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-#[Guarded('id', 'created_at', 'updated_at')]
+#[Guarded(['id', 'created_at', 'updated_at'])]
 class Act extends Model
 {
     use HasFactory;

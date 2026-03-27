@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Guarded('id')]
+#[Guarded(['id'])]
 class SongPlay extends Model
 {
     public function getDates(): array

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
-#[Guarded('id')]
+#[Guarded(['id'])]
 class Round extends Model
 {
     /** @use HasFactory<RoundFactory> */

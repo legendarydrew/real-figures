@@ -14,7 +14,7 @@ use Spatie\Feed\FeedItem;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-#[Guarded('id', 'created_at', 'updated_at')]
+#[Guarded(['id', 'created_at', 'updated_at'])]
 class NewsPost extends Model implements Feedable
 {
     use HasFactory;

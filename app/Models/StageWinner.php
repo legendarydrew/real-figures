@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Guarded('id', 'created_at', 'updated_at')]
+#[Guarded(['id', 'created_at', 'updated_at'])]
 class StageWinner extends Model
 {
     public function stage(): BelongsTo

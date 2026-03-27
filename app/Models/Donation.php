@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Guarded('id', 'created_at', 'updated_at')]
+#[Guarded(['id', 'created_at', 'updated_at'])]
 class Donation extends Model
 {
     /** @use HasFactory<DonationFactory> */
