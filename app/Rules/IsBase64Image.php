@@ -13,17 +13,14 @@ class IsBase64Image implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param Closure(string, ?string=): PotentiallyTranslatedString $fail
+     * @param  Closure(string, ?string=): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         // https://stackoverflow.com/a/39442808/4073160
-        try
-        {
+        try {
             Image::read($value);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $fail("$attribute is an invalid image: {$e->getMessage()}");
         }
     }

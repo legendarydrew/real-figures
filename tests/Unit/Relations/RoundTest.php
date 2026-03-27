@@ -20,40 +20,39 @@ class RoundTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $act   = Act::factory()->create();
+        $act = Act::factory()->create();
         $songs = Song::factory()->count(3)->create(['act_id' => $act->id]);
 
         $this->stage = Stage::factory()->create();
         $this->round = Round::factory()->for($this->stage)->create();
 
-
         RoundSongs::create([
             'round_id' => $this->round->id,
-            'song_id'  => $songs->get(0)->id
+            'song_id' => $songs->get(0)->id,
         ]);
         RoundSongs::create([
             'round_id' => $this->round->id,
-            'song_id'  => $songs->get(1)->id
+            'song_id' => $songs->get(1)->id,
         ]);
         RoundSongs::create([
             'round_id' => $this->round->id,
-            'song_id'  => $songs->get(2)->id
+            'song_id' => $songs->get(2)->id,
         ]);
 
         RoundVote::create([
-            'round_id'         => $this->round->id,
-            'first_choice_id'  => $songs->get(0)->id,
+            'round_id' => $this->round->id,
+            'first_choice_id' => $songs->get(0)->id,
             'second_choice_id' => $songs->get(1)->id,
-            'third_choice_id'  => $songs->get(2)->id,
+            'third_choice_id' => $songs->get(2)->id,
         ]);
 
         RoundOutcome::factory()->create([
             'round_id' => $this->round->id,
-            'song_id'  => new Sequence(
+            'song_id' => new Sequence(
                 $songs->get(0)->id,
                 $songs->get(1)->id,
                 $songs->get(2)->id
-            )
+            ),
         ]);
     }
 

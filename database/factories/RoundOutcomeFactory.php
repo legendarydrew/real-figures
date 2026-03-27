@@ -17,15 +17,15 @@ class RoundOutcomeFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_votes'  => fake()->numberBetween(0, 10),
+            'first_votes' => fake()->numberBetween(0, 10),
             'second_votes' => fake()->numberBetween(0, 10),
-            'third_votes'  => fake()->numberBetween(0, 10),
-            'was_manual'   => false,
+            'third_votes' => fake()->numberBetween(0, 10),
+            'was_manual' => false,
         ];
     }
 
     public function manualVote(): RoundOutcomeFactory
     {
-        return $this->state(fn() => ['was_manual' => true]);
+        return $this->state(fn () => ['was_manual' => true]);
     }
 }

@@ -24,16 +24,15 @@ class ConfirmTest extends TestCase
     public function test_confirm_unconfirmed_subscriber()
     {
         $subscriber = Subscriber::factory()->unconfirmed()->create();
-        $url        = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
-        $response   = $this->get($url);
+        $url = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
+        $response = $this->get($url);
         $response->assertOk();
         $response->assertViewIs('front.subscriber-confirmed');
 
         $subscriber->refresh();
-        self::assertTrue((bool)$subscriber->confirmed);
+        self::assertTrue((bool) $subscriber->confirmed);
 
-        Mail::assertSent(SubscriberConfirmation::class, function (Mailable $mail) use ($subscriber)
-        {
+        Mail::assertSent(SubscriberConfirmation::class, function (Mailable $mail) use ($subscriber) {
             return $mail->hasTo($subscriber->email);
         });
     }
@@ -42,13 +41,13 @@ class ConfirmTest extends TestCase
     {
         $subscriber = Subscriber::factory()->confirmed()->create();
 
-        $url      = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
+        $url = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
         $response = $this->get($url);
         $response->assertOk();
         $response->assertViewIs('front.subscriber-confirmed');
 
         $subscriber->refresh();
-        self::assertTrue((bool)$subscriber->confirmed);
+        self::assertTrue((bool) $subscriber->confirmed);
 
         Mail::assertNothingSent();
     }
@@ -56,19 +55,19 @@ class ConfirmTest extends TestCase
     public function test_invalid_id()
     {
         $subscriber = Subscriber::factory()->create();
-        $url        = route('subscriber.confirm', ['id' => 404, 'code' => $subscriber->confirmation_code]);
-        $response   = $this->get($url);
+        $url = route('subscriber.confirm', ['id' => 404, 'code' => $subscriber->confirmation_code]);
+        $response = $this->get($url);
         $response->assertNotFound();
     }
 
     public function test_invalid_code()
     {
         $subscriber = Subscriber::factory()->unconfirmed()->create();
-        $url        = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => 404]);
-        $response   = $this->get($url);
+        $url = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => 404]);
+        $response = $this->get($url);
         $response->assertNotFound();
 
         $subscriber->refresh();
-        self::assertFalse((bool)$subscriber->confirmed);
+        self::assertFalse((bool) $subscriber->confirmed);
     }
 }

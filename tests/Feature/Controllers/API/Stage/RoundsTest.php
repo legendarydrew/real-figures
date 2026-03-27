@@ -32,7 +32,7 @@ class RoundsTest extends TestCase
     public function test_as_user()
     {
         $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, $this->stage->id));
-        $response->assertInertia(fn(Assert $page) => $page->component('back/stages-page')->has('rounds'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/stages-page')->has('rounds'));
     }
 
     #[Depends('test_as_user')]
@@ -41,5 +41,4 @@ class RoundsTest extends TestCase
         $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, 404));
         $response->assertNotFound();
     }
-
 }

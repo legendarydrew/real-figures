@@ -7,12 +7,11 @@ use League\Fractal\TransformerAbstract;
 
 class SubscriberTransformer extends TransformerAbstract
 {
-
     public function transform(Subscriber $subscriber): array
     {
         return [
-            'id'         => (int)$subscriber->id,
-            'email'      => $subscriber->email,
+            'id' => (int) $subscriber->id,
+            'email' => $subscriber->email,
             'created_at' => $subscriber->created_at->format(config('contest.format.full-date')),
             'updated_at' => $subscriber->updated_at->format(config('contest.format.full-date')),
         ];

@@ -22,7 +22,7 @@ class SubscribersTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.subscribers'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/subscribers-page'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/subscribers-page'));
     }
 
     public function test_email_filter()
@@ -30,7 +30,6 @@ class SubscribersTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.subscribers', ['filter' => ['email' => fake()->email]]));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/subscribers-page'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/subscribers-page'));
     }
-
 }

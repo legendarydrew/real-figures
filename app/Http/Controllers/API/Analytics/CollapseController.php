@@ -17,8 +17,6 @@ use Spatie\Analytics\Period;
  * We would be interested in:
  * - opened sections per day
  * - which sections were opened, and how many times.
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class CollapseController extends AnalyticsAPIController
 {
@@ -38,10 +36,10 @@ class CollapseController extends AnalyticsAPIController
 
         $filter = new FilterExpression([
             'filter' => new Filter([
-                'field_name'    => 'eventName',
+                'field_name' => 'eventName',
                 'string_filter' => new Filter\StringFilter([
                     'match_type' => Filter\StringFilter\MatchType::EXACT,
-                    'value'      => 'collapse_open',
+                    'value' => 'collapse_open',
                 ]),
             ]),
         ]);
@@ -65,10 +63,10 @@ class CollapseController extends AnalyticsAPIController
         // Fill in the gaps (dates).
         $this->fillDateGaps($stacked_data, $days);
 
-        $stacked_data['table'] = $rows->groupBy('customEvent:section_id')->map(fn($r) => [
-            'page'    => $r->first()['pageTitle'],
+        $stacked_data['table'] = $rows->groupBy('customEvent:section_id')->map(fn ($r) => [
+            'page' => $r->first()['pageTitle'],
             'section' => $r->first()['customEvent:section_id'],
-            'count'   => $r->sum('eventCount'),
+            'count' => $r->sum('eventCount'),
         ])->sortByDesc('count')->values();
 
         return $stacked_data;

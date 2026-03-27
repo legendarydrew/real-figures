@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class SongUrlFactory extends Factory
 {
-
     public function definition(): array
     {
         // https://github.com/aalaap/faker-youtube
         fake()->addProvider(new \Faker\Provider\Youtube(fake()));
+
         return [
             'url' => fake()->youtubeUri(),
         ];

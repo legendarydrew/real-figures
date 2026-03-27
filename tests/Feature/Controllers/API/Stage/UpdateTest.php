@@ -14,6 +14,7 @@ class UpdateTest extends TestCase
     protected const string ENDPOINT = '/api/stages/%u';
 
     private Stage $stage;
+
     private array $payload;
 
     protected function setUp(): void
@@ -22,7 +23,7 @@ class UpdateTest extends TestCase
 
         $this->stage = Stage::factory()->createOne();
         $this->payload = [
-            'title'       => fake()->sentence(),
+            'title' => fake()->sentence(),
             'description' => fake()->paragraph(),
         ];
     }
@@ -55,5 +56,4 @@ class UpdateTest extends TestCase
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, 404), $this->payload);
         $response->assertNotFound();
     }
-
 }

@@ -24,7 +24,7 @@ class StoreTest extends TestCase
 
         $language = Language::inRandomOrder()->first();
         $this->payload = [
-            'title'  => fake()->sentence(),
+            'title' => fake()->sentence(),
             'act_id' => Act::factory()->createOne()->id,
             'language' => $language->code,
         ];
@@ -64,7 +64,6 @@ class StoreTest extends TestCase
         self::assertEquals($this->payload['url'], $song->url->url);
     }
 
-
     #[Depends('test_creates_song')]
     public function test_creates_song_without_url()
     {
@@ -75,5 +74,4 @@ class StoreTest extends TestCase
 
         self::assertNull($song->url);
     }
-
 }

@@ -16,49 +16,43 @@ use Illuminate\Support\Facades\Mail;
 /**
  * DonationController
  * This endpoint is for recording generous donations.
- *
- * @package App\Http\Controllers\API
  */
 class DonationController extends Controller
 {
-
     protected array $request_data;
+
     protected array $transaction;
 
     /**
      * Capture the payment for a PayPal order.
      *
-     * @param DonationRequest $request
-     * @return JsonResponse
+     * @param  DonationRequest  $request
      */
     public function store(): JsonResponse
     {
         $this->request_data = self::getRequestData()->all();
 
-        if ($this->verifyTransaction())
-        {
+        if ($this->verifyTransaction()) {
             // Success!
-            $name                = $this->transaction['payer']['name'];
-            $amount              = $this->transaction['purchase_units'][0]['payments']['captures'][0]['amount'];
+            $name = $this->transaction['payer']['name'];
+            $amount = $this->transaction['purchase_units'][0]['payments']['captures'][0]['amount'];
             $is_anonymous = isset($this->request_data['is_anonymous']) && $this->request_data['is_anonymous'];
             $transaction_details = [
                 'transaction_id' => $this->transaction['id'],
-                'name'         => $is_anonymous ? trans('contest.anonymous') : "{$name['given_name']} {$name['surname']}",
-                'email'          => $this->transaction['payer']['email_address'],
-                'amount'         => $amount['value'],
-                'currency'       => $amount['currency_code'],
-                'is_anonymous' => (bool)$is_anonymous,
-                'message'      => $this->request_data['message'] ?? null,
+                'name' => $is_anonymous ? trans('contest.anonymous') : "{$name['given_name']} {$name['surname']}",
+                'email' => $this->transaction['payer']['email_address'],
+                'amount' => $amount['value'],
+                'currency' => $amount['currency_code'],
+                'is_anonymous' => (bool) $is_anonymous,
+                'message' => $this->request_data['message'] ?? null,
             ];
             // To support refunds later, store capture_id as well — available in:
             // transaction.purchase_units[0].payments.captures[0].id
 
             $this->recordDonation($transaction_details);
 
-            return response()->json(['status' => "Verified!"], 201);
-        }
-        else
-        {
+            return response()->json(['status' => 'Verified!'], 201);
+        } else {
             return response()->json(['error' => 'Transaction is invalid or incomplete.'], 400);
         }
     }
@@ -81,8 +75,7 @@ class DonationController extends Controller
         $donation = Donation::create($transaction_details);
 
         // Send a thank-you email if we have an email address.
-        if ($transaction_details['email'])
-        {
+        if ($transaction_details['email']) {
             Mail::to($transaction_details['email'])->send(new DonationConfirmation($donation));
         }
     }

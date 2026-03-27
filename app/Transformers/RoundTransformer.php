@@ -17,17 +17,18 @@ class RoundTransformer extends TransformerAbstract
     {
 
         return [
-            'id'         => (int)$round->id,
-            'title'      => $round->title,
+            'id' => (int) $round->id,
+            'title' => $round->title,
             'full_title' => $round->full_title,
-            'deadline'   => $round->ends_at->toISOString(),
+            'deadline' => $round->ends_at->toISOString(),
         ];
     }
 
     public function includeSongs(Round $round): Collection
     {
         $round->loadMissing(['songs', 'songs.act']);
-        return $this->collection($round->songs, new SongTransformer(), '');
+
+        return $this->collection($round->songs, new SongTransformer, '');
     }
 
     public function includeFullTitle(Round $round): Primitive

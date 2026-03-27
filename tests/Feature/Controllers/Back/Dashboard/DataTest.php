@@ -30,7 +30,7 @@ class DataTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->where('donations.count', 10));
+        $response->assertInertia(fn (Assert $page) => $page->where('donations.count', 10));
     }
 
     public function test_with_golden_buzzers()
@@ -41,7 +41,7 @@ class DataTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->where('donations.golden_buzzers', 10));
+        $response->assertInertia(fn (Assert $page) => $page->where('donations.golden_buzzers', 10));
     }
 
     public function test_with_subscribers()
@@ -50,7 +50,7 @@ class DataTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->where('subscriber_count', 10));
+        $response->assertInertia(fn (Assert $page) => $page->where('subscriber_count', 10));
     }
 
     public function test_with_messages()
@@ -59,31 +59,31 @@ class DataTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->where('message_count', 10));
+        $response->assertInertia(fn (Assert $page) => $page->where('message_count', 10));
     }
 
     public function test_with_page_views_analytics()
     {
         \Analytics::fake(collect([
-            ['date' => now()->subDay(), 'screenPageViews' => fake()->numberBetween(0, 100), 'activeUsers' => fake()->numberBetween(0, 200)]
+            ['date' => now()->subDay(), 'screenPageViews' => fake()->numberBetween(0, 100), 'activeUsers' => fake()->numberBetween(0, 200)],
         ]));
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->has('analytics_views', 15));
+        $response->assertInertia(fn (Assert $page) => $page->has('analytics_views', 15));
     }
 
     public function test_with_song_plays_analytics()
     {
         $act = Act::factory()->createOne();
         Song::factory()->withPlays()->create([
-            'act_id' => $act->id
+            'act_id' => $act->id,
         ]);
 
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->has('analytics_views', 15));
+        $response->assertInertia(fn (Assert $page) => $page->has('analytics_views', 15));
     }
 
     public function test_with_votes_analytics()
@@ -94,7 +94,6 @@ class DataTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->has('votes', 8));
+        $response->assertInertia(fn (Assert $page) => $page->has('votes', 8));
     }
-
 }

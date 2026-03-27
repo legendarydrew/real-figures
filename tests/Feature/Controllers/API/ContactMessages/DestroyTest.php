@@ -14,13 +14,14 @@ class DestroyTest extends TestCase
     protected const string ENDPOINT = 'api/messages';
 
     private array $all_message_ids;
+
     private array $delete_message_ids;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->all_message_ids    = ContactMessage::factory(8)->create()->pluck('id')->toArray();
+        $this->all_message_ids = ContactMessage::factory(8)->create()->pluck('id')->toArray();
         $this->delete_message_ids = fake()->randomElements($this->all_message_ids);
     }
 

@@ -15,8 +15,6 @@ use Spatie\Analytics\Period;
  * This returns analytics data about navigations to external sites.
  * Enhanced measurement events must be enabled to record them like this.
  * https://support.google.com/analytics/answer/9216061?sjid=10952981861936825735-EU#enable_disable
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class OutboundController extends AnalyticsAPIController
 {
@@ -26,10 +24,10 @@ class OutboundController extends AnalyticsAPIController
     {
         $filter = new FilterExpression([
             'filter' => new Filter([
-                'field_name'    => 'eventName',
+                'field_name' => 'eventName',
                 'string_filter' => new Filter\StringFilter([
                     'match_type' => Filter\StringFilter\MatchType::EXACT,
-                    'value'      => 'click',
+                    'value' => 'click',
                 ]),
             ]),
         ]);
@@ -49,12 +47,11 @@ class OutboundController extends AnalyticsAPIController
 
         $this->fillDateGaps($stacked_data, $days);
 
-        $stacked_data['table'] = $rows->groupBy('linkUrl')->map(fn($r) => [
-            'url'   => $r->first()['linkUrl'],
+        $stacked_data['table'] = $rows->groupBy('linkUrl')->map(fn ($r) => [
+            'url' => $r->first()['linkUrl'],
             'count' => $r->sum('eventCount'),
         ])->sortByDesc('count')->values();
 
         return $stacked_data;
     }
-
 }

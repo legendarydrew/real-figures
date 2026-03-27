@@ -31,7 +31,7 @@ class EditTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.news.edit', ['id' => $this->post->id]));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/news-edit-page')->where('post.id', $this->post->id));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/news-edit-page')->where('post.id', $this->post->id));
     }
 
     public function test_invalid_post()
@@ -40,5 +40,4 @@ class EditTest extends TestCase
 
         $response->assertNotFound();
     }
-
 }

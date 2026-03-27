@@ -14,13 +14,14 @@ class DestroyTest extends TestCase
     protected const string ENDPOINT = 'api/subscribers';
 
     private array $all_ids;
+
     private array $delete_ids;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->all_ids    = Subscriber::factory(8)->create()->pluck('id')->toArray();
+        $this->all_ids = Subscriber::factory(8)->create()->pluck('id')->toArray();
         $this->delete_ids = fake()->randomElements($this->all_ids);
     }
 

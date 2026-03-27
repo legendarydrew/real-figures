@@ -10,23 +10,19 @@ use Illuminate\View\View;
 /**
  * ActsController
  * A page that displays information about each Act.
- *
- * @package App\Http\Controllers\Front
  */
 class ActsController extends Controller
 {
     public function index(): View
     {
         $acts = Act::whereHas('songs')->get();
-        if ($acts->isNotEmpty())
-        {
+        if ($acts->isNotEmpty()) {
             return view('front.acts', [
-                'acts' => fractal($acts->sortBy('name'), new ActTransformer(), '')
+                'acts' => fractal($acts->sortBy('name'), new ActTransformer, '')
                     ->parseIncludes(['genres', 'profileContent', 'accolades'])
-                    ->toArray()
+                    ->toArray(),
             ]);
         }
         abort(404);
     }
-
 }

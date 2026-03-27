@@ -16,7 +16,6 @@ class StoreTest extends TestCase
 
     private array $payload;
 
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -36,15 +35,15 @@ class StoreTest extends TestCase
         $subscriber = Subscriber::whereEmail($this->payload['email'])->first();
         self::assertInstanceOf(Subscriber::class, $subscriber);
         self::assertNotNull($subscriber->confirmation_code);
-        self::assertFalse((bool)$subscriber->confirmed);
+        self::assertFalse((bool) $subscriber->confirmed);
 
-        Mail::assertSent(SubscriberConfirm::class, fn(SubscriberConfirm $mail) => $mail->hasTo($this->payload['email']));
+        Mail::assertSent(SubscriberConfirm::class, fn (SubscriberConfirm $mail) => $mail->hasTo($this->payload['email']));
     }
 
     public function test_invalid_email()
     {
         $this->payload['email'] = fake()->word();
-        $response               = $this->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnprocessable();
 
         $subscriber = Subscriber::whereEmail($this->payload['email'])->first();
@@ -63,9 +62,9 @@ class StoreTest extends TestCase
         $subscriber = Subscriber::whereEmail($this->payload['email'])->first();
         self::assertInstanceOf(Subscriber::class, $subscriber);
         self::assertNotNull($subscriber->confirmation_code);
-        self::assertFalse((bool)$subscriber->confirmed);
+        self::assertFalse((bool) $subscriber->confirmed);
 
-        Mail::assertSent(SubscriberConfirm::class, fn(SubscriberConfirm $mail) => $mail->hasTo($this->payload['email']));
+        Mail::assertSent(SubscriberConfirm::class, fn (SubscriberConfirm $mail) => $mail->hasTo($this->payload['email']));
     }
 
     public function test_existing_confirmed_email()
@@ -78,7 +77,7 @@ class StoreTest extends TestCase
         $subscriber = Subscriber::whereEmail($this->payload['email'])->first();
         self::assertInstanceOf(Subscriber::class, $subscriber);
         self::assertNotNull($subscriber->confirmation_code);
-        self::assertTrue((bool)$subscriber->confirmed);
+        self::assertTrue((bool) $subscriber->confirmed);
 
         Mail::assertNothingSent();
     }

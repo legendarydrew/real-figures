@@ -10,8 +10,6 @@ use Spatie\Analytics\Period;
 /**
  * UserTypesController
  * This returns analytics data for new vs. returning Visitors over the specified period.
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class UserTypesController extends AnalyticsAPIController
 {
@@ -26,10 +24,9 @@ class UserTypesController extends AnalyticsAPIController
 
     protected function analyticsProcessed(?Collection $rows, int $days): array
     {
-        return $rows->map(fn($row) => [
+        return $rows->map(fn ($row) => [
             'type' => ucfirst($row['newVsReturning']),
-            'count' => $row['activeUsers']
+            'count' => $row['activeUsers'],
         ])->toArray();
     }
-
 }

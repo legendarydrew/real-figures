@@ -34,5 +34,4 @@ class ExistsTest extends TestCase
     {
         self::assertFalse(ActImageFacade::exists($this->act));
     }
-
 }

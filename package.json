@@ -54,7 +54,7 @@
         "concurrently": "^9.2.1",
         "country-flag-icons": "^1.6.15",
         "globals": "^17.4.0",
-        "laravel-vite-plugin": "^1.0",
+        "laravel-vite-plugin": "^2.0.0",
         "lucide-react": "^0.577.0",
         "marked": "^17.0.5",
         "react": "^19.2.4",
@@ -77,5 +77,6 @@
         "@rollup/rollup-linux-x64-gnu": "4.9.5",
         "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
         "lightningcss-linux-x64-gnu": "^1.29.1"
-    }
+    },
+    "$schema": "https://www.schemastore.org/package.json"
 }

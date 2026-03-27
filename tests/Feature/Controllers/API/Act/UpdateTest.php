@@ -17,16 +17,17 @@ class UpdateTest extends TestCase
 
     protected const string ENDPOINT = '/api/acts/%u';
 
-    private Act   $act;
+    private Act $act;
+
     private array $payload;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->act     = Act::factory()->withPicture()->createOne();
+        $this->act = Act::factory()->withPicture()->createOne();
         $this->payload = [
-            'name' => fake()->name
+            'name' => fake()->name,
         ];
     }
 
@@ -77,7 +78,6 @@ class UpdateTest extends TestCase
         $act = Act::first();
         self::assertEquals($this->payload['slug'], $act->slug);
     }
-
 
     #[Depends('test_updates_act')]
     public function test_updates_existing_profile()
@@ -142,6 +142,4 @@ class UpdateTest extends TestCase
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
         $response->assertRedirectToRoute('admin.acts.edit', ['id' => $this->act->id]);
     }
-
-
 }

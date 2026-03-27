@@ -17,25 +17,23 @@ class SubscribersController extends Controller
         $subscriber_count = Subscriber::confirmed()->count();
 
         $query = Subscriber::confirmed();
-        if ($filter = request()->query('filter'))
-        {
+        if ($filter = request()->query('filter')) {
             $query->whereLike('email', "%{$filter['email']}%");
         }
         $confirmed_subscribers = $query->orderByDesc('id')->paginate();
-        $is_first_page         = $confirmed_subscribers->currentPage() === 1;
-        $transformed_data      = fractal($confirmed_subscribers->items(), new SubscriberTransformer())->toArray();
-        $subscriber_posts = fractal(SubscriberPost::orderByDesc('id')->get(), new SubscriberPostTransformer())->toArray();
+        $is_first_page = $confirmed_subscribers->currentPage() === 1;
+        $transformed_data = fractal($confirmed_subscribers->items(), new SubscriberTransformer)->toArray();
+        $subscriber_posts = fractal(SubscriberPost::orderByDesc('id')->get(), new SubscriberPostTransformer)->toArray();
 
         return Inertia::render('back/subscribers-page', [
-            'subscriberCount' => fn() => $subscriber_count,
-            'subscribers'     => $is_first_page
+            'subscriberCount' => fn () => $subscriber_count,
+            'subscribers' => $is_first_page
                 ? $transformed_data
-                : Inertia::merge(fn() => $transformed_data),
-            'currentPage'     => fn() => $confirmed_subscribers->currentPage(),
-            'nextPage'        => fn() => $confirmed_subscribers->currentPage() + 1,
-            'hasMorePages'    => fn() => $confirmed_subscribers->hasMorePages(),
-            'posts'           => fn() => $subscriber_posts
+                : Inertia::merge(fn () => $transformed_data),
+            'currentPage' => fn () => $confirmed_subscribers->currentPage(),
+            'nextPage' => fn () => $confirmed_subscribers->currentPage() + 1,
+            'hasMorePages' => fn () => $confirmed_subscribers->hasMorePages(),
+            'posts' => fn () => $subscriber_posts,
         ]);
     }
-
 }

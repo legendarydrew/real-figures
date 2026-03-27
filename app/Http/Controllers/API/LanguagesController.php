@@ -8,7 +8,6 @@ use Illuminate\Http\JsonResponse;
 
 class LanguagesController extends Controller
 {
-
     public function index(): JsonResponse
     {
         $languages = Language::select(['name', 'code'])->orderBy('name')->get();

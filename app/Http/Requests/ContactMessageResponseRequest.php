@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ContactMessageResponseRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return auth()->check();

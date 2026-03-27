@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Unit\Contest;
 
 use App\Facades\ContestFacade;
@@ -29,5 +28,4 @@ class ShouldShowActsTest extends TestCase
         Act::factory(3)->withSong()->create();
         self::assertTrue(ContestFacade::shouldShowActs());
     }
-
 }

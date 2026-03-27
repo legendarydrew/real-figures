@@ -38,7 +38,7 @@ class CreateTest extends TestCase
         $image = fake()->image(width: 2000, height: 2000);
         ActImageFacade::create($this->act, $image);
 
-        $path      = ActImageFacade::path($this->act);
+        $path = ActImageFacade::path($this->act);
         $new_image = \Intervention\Image\Laravel\Facades\Image::read($path);
         self::assertLessThanOrEqual(config('contest.images.resize')[0], $new_image->width());
         self::assertLessThanOrEqual(config('contest.images.resize')[1], $new_image->height());

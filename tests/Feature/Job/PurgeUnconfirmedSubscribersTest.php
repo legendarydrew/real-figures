@@ -26,10 +26,10 @@ class PurgeUnconfirmedSubscribersTest extends TestCase
     public function test_purge_subscribers_after_time()
     {
         Subscriber::factory()->count(5)->confirmed()->create([
-            'created_at' => now()->subDay()
+            'created_at' => now()->subDay(),
         ]);
         Subscriber::factory()->count(5)->unconfirmed()->create([
-            'created_at' => now()->subDay()
+            'created_at' => now()->subDay(),
         ]);
 
         self::travel(1)->second();
@@ -37,6 +37,6 @@ class PurgeUnconfirmedSubscribersTest extends TestCase
 
         $subscribers = Subscriber::all();
         self::assertCount(5, $subscribers);
-        self::assertTrue($subscribers->every(fn(Subscriber $subscriber) => $subscriber->confirmed));
+        self::assertTrue($subscribers->every(fn (Subscriber $subscriber) => $subscriber->confirmed));
     }
 }

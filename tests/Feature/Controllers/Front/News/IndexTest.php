@@ -41,5 +41,4 @@ class IndexTest extends TestCase
         $response->assertViewIs('front.news.index');
         $response->assertViewHas('posts');
     }
-
 }

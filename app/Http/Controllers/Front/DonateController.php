@@ -11,17 +11,14 @@ use Illuminate\View\View;
 /**
  * DonateController
  * A (hopefully simple) page that displays a list of Donations and Golden Buzzers.
- *
- * @package App\Http\Controllers\Front
  */
 class DonateController extends Controller
 {
     public function index(): View
     {
         return view('front.donate', [
-            'donations' => fractal(Donation::orderByDesc('id')->get(), new DonationTransformer())->toArray(),
-            'buzzers'   => fractal(GoldenBuzzer::orderByDesc('id')->get(), new DonationTransformer())->toArray(),
+            'donations' => fractal(Donation::orderByDesc('id')->get(), new DonationTransformer)->toArray(),
+            'buzzers' => fractal(GoldenBuzzer::orderByDesc('id')->get(), new DonationTransformer)->toArray(),
         ]);
     }
-
 }

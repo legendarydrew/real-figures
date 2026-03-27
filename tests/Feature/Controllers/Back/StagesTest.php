@@ -22,7 +22,6 @@ class StagesTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.stages'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/stages-page'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/stages-page'));
     }
-
 }

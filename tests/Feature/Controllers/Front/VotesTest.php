@@ -22,9 +22,8 @@ class VotesTest extends TestCase
     {
         Stage::factory()->over()->create();
 
-        $response    = $this->get(route('votes'));
+        $response = $this->get(route('votes'));
         $response->assertOk();
         $response->assertViewHas('stages');
     }
-
 }

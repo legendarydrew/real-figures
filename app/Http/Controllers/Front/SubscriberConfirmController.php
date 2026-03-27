@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Facades\AnalyticsEventsFacade;
 use App\Http\Controllers\Controller;
 use App\Mail\SubscriberConfirmation;
 use App\Models\Subscriber;
@@ -12,8 +13,6 @@ use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
 /**
  * SubscriberConfirmController
  * A very simple endpoint for confirming Subscribers.
- *
- * @package App\Http\Controllers\Front
  */
 class SubscriberConfirmController extends Controller
 {
@@ -21,20 +20,18 @@ class SubscriberConfirmController extends Controller
     {
         $subscriber = Subscriber::whereConfirmationCode($code)->find($subscriber_id);
 
-        if ($subscriber)
-        {
+        if ($subscriber) {
             $previously_confirmed = $subscriber->confirmed;
             $subscriber->update([
-                'confirmed' => true
+                'confirmed' => true,
             ]);
 
-            if (!$previously_confirmed)
-            {
+            if (! $previously_confirmed) {
                 Mail::to($subscriber->email)->send(new SubscriberConfirmation($subscriber));
             }
 
             // TRACK new subscriber.
-            app(GoogleAnalyticsService::class)->sendEvent('subscriber', ['value' => 1]);
+            AnalyticsEventsFacade::send('subscriber', ['value' => 1]);
 
             return view('front.subscriber-confirmed');
         }

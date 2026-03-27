@@ -9,7 +9,8 @@ class CountriesTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT  = 'api/analytics/countries';
+    protected const string ENDPOINT = 'api/analytics/countries';
+
     protected const int    DAY_COUNT = 7;
 
     public function test_as_guest()
@@ -31,17 +32,17 @@ class CountriesTest extends TestCase
             'continents' => [
                 '*' => [
                     'continent',
-                    'views'
-                ]
+                    'views',
+                ],
             ],
-            'data'       => [
+            'data' => [
                 '*' => [
                     'flag',
                     'country',
                     'continent',
-                    'views'
-                ]
-            ]
+                    'views',
+                ],
+            ],
         ]);
     }
 
@@ -49,16 +50,16 @@ class CountriesTest extends TestCase
     {
         \Analytics::fake(collect([
             [
-                'country'         => fake()->country,
-                'countryId'       => fake()->countryISOAlpha3,
-                'continent'       => fake()->word,
-                'screenPageViews' => fake()->numberBetween(1, 200)
+                'country' => fake()->country,
+                'countryId' => fake()->countryISOAlpha3,
+                'continent' => fake()->word,
+                'screenPageViews' => fake()->numberBetween(1, 200),
             ],
             [
-                'country'         => fake()->country,
-                'countryId'       => fake()->countryISOAlpha3,
-                'continent'       => fake()->word,
-                'screenPageViews' => fake()->numberBetween(1, 200)
+                'country' => fake()->country,
+                'countryId' => fake()->countryISOAlpha3,
+                'continent' => fake()->word,
+                'screenPageViews' => fake()->numberBetween(1, 200),
             ],
         ]));
 
@@ -71,17 +72,17 @@ class CountriesTest extends TestCase
             'continents' => [
                 '*' => [
                     'continent',
-                    'views'
-                ]
+                    'views',
+                ],
             ],
-            'data'       => [
+            'data' => [
                 '*' => [
                     'flag',
                     'country',
                     'continent',
-                    'views'
-                ]
-            ]
+                    'views',
+                ],
+            ],
         ]);
     }
 }

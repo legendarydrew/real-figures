@@ -21,33 +21,31 @@ class EndOfRoundTest extends TestCase
         parent::setUp();
 
         $this->number_of_songs = 4;
-        $songs                 = Song::factory($this->number_of_songs)->withAct()->create();
-        $this->song_ids        = $songs->pluck('id')->toArray();
+        $songs = Song::factory($this->number_of_songs)->withAct()->create();
+        $this->song_ids = $songs->pluck('id')->toArray();
 
         $this->round = Round::factory()
-                            ->for(Stage::factory())
-                            ->create([
-                                'starts_at' => now()->subDay(),
-                                'ends_at'   => now()->subDay(),
-                            ]);
-        foreach ($this->song_ids as $song_id)
-        {
+            ->for(Stage::factory())
+            ->create([
+                'starts_at' => now()->subDay(),
+                'ends_at' => now()->subDay(),
+            ]);
+        foreach ($this->song_ids as $song_id) {
             RoundSongs::create([
                 'round_id' => $this->round->id,
-                'song_id'  => $song_id,
+                'song_id' => $song_id,
             ]);
         }
 
         // Create some votes.
         $number_of_votes = fake()->numberBetween(1, 10);
-        for ($i = 0; $i < $number_of_votes; $i++)
-        {
+        for ($i = 0; $i < $number_of_votes; $i++) {
             $picks = fake()->randomElements($this->song_ids, 3);
             RoundVote::create([
-                'round_id'         => $this->round->id,
-                'first_choice_id'  => $picks[0],
+                'round_id' => $this->round->id,
+                'first_choice_id' => $picks[0],
                 'second_choice_id' => $picks[1],
-                'third_choice_id'  => $picks[2]
+                'third_choice_id' => $picks[2],
             ]);
         }
 
@@ -64,8 +62,7 @@ class EndOfRoundTest extends TestCase
 
         // Each Song associated with the round should have an associated RoundOutcome.
         $outcome_song_ids = $this->round->outcomes()->pluck('song_id');
-        foreach ($this->round->songs as $song)
-        {
+        foreach ($this->round->songs as $song) {
             self::assertContains($song->id, $outcome_song_ids);
         }
     }
@@ -96,7 +93,7 @@ class EndOfRoundTest extends TestCase
     {
         $this->round->update([
             'starts_at' => now()->addDays(2),
-            'ends_at'   => now()->addDay(),
+            'ends_at' => now()->addDay(),
         ]);
         EndOfRound::dispatch($this->round);
 

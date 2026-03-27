@@ -29,11 +29,11 @@ class HasStartedTest extends TestCase
     public function test_has_started_rounds()
     {
         Round::factory(3)
-             ->for($this->stage)
-             ->create([
-                 'starts_at' => now(),
-                 'ends_at'   => now()->addDay()
-             ]);
+            ->for($this->stage)
+            ->create([
+                'starts_at' => now(),
+                'ends_at' => now()->addDay(),
+            ]);
 
         self::assertCount(3, $this->stage->rounds);
         self::assertTrue($this->stage->hasStarted());
@@ -42,14 +42,13 @@ class HasStartedTest extends TestCase
     public function test_has_no_started_rounds()
     {
         Round::factory(3)
-             ->for($this->stage)
-             ->create([
-                 'starts_at' => now()->addDay(),
-                 'ends_at'   => now()->addDays(2)
-             ]);
+            ->for($this->stage)
+            ->create([
+                'starts_at' => now()->addDay(),
+                'ends_at' => now()->addDays(2),
+            ]);
 
         self::assertCount(3, $this->stage->rounds);
         self::assertFalse($this->stage->hasStarted());
     }
-
 }

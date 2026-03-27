@@ -12,7 +12,7 @@ class ShowTest extends TestCase
 
     public function test_published_as_guest()
     {
-        $post     = NewsPost::factory()->published()->createOne();
+        $post = NewsPost::factory()->published()->createOne();
         $response = $this->get(route('news.show', ['slug' => $post->slug]));
 
         $response->assertOk();
@@ -22,7 +22,7 @@ class ShowTest extends TestCase
 
     public function test_published_as_user()
     {
-        $post     = NewsPost::factory()->published()->createOne();
+        $post = NewsPost::factory()->published()->createOne();
         $response = $this->actingAs($this->user)->get(route('news.show', ['slug' => $post->slug]));
 
         $response->assertOk();
@@ -32,7 +32,7 @@ class ShowTest extends TestCase
 
     public function test_unpublished_as_guest()
     {
-        $post     = NewsPost::factory()->unpublished()->createOne();
+        $post = NewsPost::factory()->unpublished()->createOne();
         $response = $this->get(route('news.show', ['slug' => $post->slug]));
 
         $response->assertNotFound();
@@ -40,7 +40,7 @@ class ShowTest extends TestCase
 
     public function test_unpublished_as_user()
     {
-        $post     = NewsPost::factory()->unpublished()->createOne();
+        $post = NewsPost::factory()->unpublished()->createOne();
         $response = $this->actingAs($this->user)->get(route('news.show', ['slug' => $post->slug]));
 
         $response->assertOk();
@@ -54,5 +54,4 @@ class ShowTest extends TestCase
 
         $response->assertNotFound();
     }
-
 }

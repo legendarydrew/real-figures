@@ -41,12 +41,12 @@ class IndexTest extends TestCase
                 '*' => [
                     'id',
                     'title',
-                    'description'
-                ]
+                    'description',
+                ],
             ],
             'meta' => [
-                'pagination'
-            ]
+                'pagination',
+            ],
         ]);
     }
 }

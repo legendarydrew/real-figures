@@ -20,10 +20,10 @@ class StagePromptTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $stage         = Stage::factory()->withRounds()->createOne();
+        $stage = Stage::factory()->withRounds()->createOne();
         $this->payload = [
-            'type'       => NewsPostType::STAGE_POST_TYPE->value,
-            'references' => [$stage->id]
+            'type' => NewsPostType::STAGE_POST_TYPE->value,
+            'references' => [$stage->id],
         ];
     }
 
@@ -41,9 +41,9 @@ class StagePromptTest extends TestCase
 
     public function test_stage_prompt_with_previous_post()
     {
-        $post                      = NewsPost::factory()->createOne();
+        $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
-        $response                  = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
 
         $prompt = $response->json('prompt');
@@ -55,7 +55,7 @@ class StagePromptTest extends TestCase
     public function test_stage_prompt_with_additional_prompt()
     {
         $this->payload['prompt'] = fake()->paragraph();
-        $response                = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
 
         $prompt = $response->json('prompt');
@@ -64,9 +64,9 @@ class StagePromptTest extends TestCase
 
     public function test_all_placeholders_filled()
     {
-        $post                      = NewsPost::factory()->createOne();
+        $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
-        $this->payload['prompt']   = fake()->paragraph();
+        $this->payload['prompt'] = fake()->paragraph();
 
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
@@ -79,14 +79,14 @@ class StagePromptTest extends TestCase
     public function test_invalid_stage()
     {
         $this->payload['references'] = [404];
-        $response                    = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertNotFound();
     }
 
     public function test_invalid_previous_post()
     {
         $this->payload['previous'] = [404];
-        $response                  = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnprocessable();
     }
 
@@ -106,7 +106,7 @@ class StagePromptTest extends TestCase
         $stage = Stage::factory()->createOne();
         Round::factory()->for($stage)->withSongs()->createOne([
             'starts_at' => now()->addDay(),
-            'ends_at'   => now()->addWeek(),
+            'ends_at' => now()->addWeek(),
         ]);
         self::assertTrue($stage->isReady());
         self::assertFalse($stage->isActive());
@@ -135,7 +135,7 @@ class StagePromptTest extends TestCase
         self::assertTrue($stage->isOver());
 
         $this->payload['references'] = [$stage->id];
-        $response                    = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
     }
 
@@ -150,5 +150,4 @@ class StagePromptTest extends TestCase
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
     }
-
 }

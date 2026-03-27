@@ -17,7 +17,8 @@ class RoundAllocateTest extends TestCase
 {
     use DatabaseMigrations;
 
-    private Stage                                    $stage;
+    private Stage $stage;
+
     private \Illuminate\Database\Eloquent\Collection $songs;
 
     protected function setUp(): void
@@ -31,7 +32,7 @@ class RoundAllocateTest extends TestCase
     public function test_no_songs()
     {
         $this->expectException(DataException::class);
-        RoundAllocateFacade::songs($this->stage, new Collection());
+        RoundAllocateFacade::songs($this->stage, new Collection);
 
         $rounds = Round::whereStageId($this->stage->id)->count();
         self::assertEquals(0, $rounds);
@@ -74,9 +75,8 @@ class RoundAllocateTest extends TestCase
         $rounds = Round::whereStageId($this->stage->id)->get();
         self::assertEquals(2, $rounds->count());
 
-        foreach ($rounds as $index => $round)
-        {
-            self::assertEquals('Round ' . ($index + 1), $round->title);
+        foreach ($rounds as $index => $round) {
+            self::assertEquals('Round '.($index + 1), $round->title);
             self::assertEquals(4, $round->songs()->count());
         }
     }
@@ -98,10 +98,8 @@ class RoundAllocateTest extends TestCase
 
         $rounds = Round::whereStageId($this->stage->id)->get();
         $last_round = null;
-        foreach ($rounds as $round)
-        {
-            if ($last_round)
-            {
+        foreach ($rounds as $round) {
+            if ($last_round) {
                 self::assertGreaterThan($last_round->starts_at, $round->starts_at);
                 self::assertGreaterThan($last_round->ends_at, $round->starts_at);
             }

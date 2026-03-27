@@ -11,7 +11,8 @@ class DonationsTotalTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT  = 'api/analytics/donations/total';
+    protected const string ENDPOINT = 'api/analytics/donations/total';
+
     protected const int    DAY_COUNT = 7;
 
     public function test_as_guest()
@@ -33,10 +34,10 @@ class DonationsTotalTest extends TestCase
                 '*' => [
                     'date',
                     'd',
-                    'b'
-                ]
+                    'b',
+                ],
             ],
-            'keys'
+            'keys',
         ]);
     }
 
@@ -55,10 +56,10 @@ class DonationsTotalTest extends TestCase
                 '*' => [
                     'date',
                     'd',
-                    'b'
-                ]
+                    'b',
+                ],
             ],
-            'keys'
+            'keys',
         ]);
     }
 }

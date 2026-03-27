@@ -5,12 +5,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-
+return new class extends Migration
+{
     public function up(): void
     {
-        Schema::create('news_posts', function (Blueprint $table)
-        {
+        Schema::create('news_posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('slug');
@@ -20,8 +19,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('news_post_references', function (Blueprint $table)
-        {
+        Schema::create('news_post_references', function (Blueprint $table) {
             $table->id();
             $table->foreignId('news_post_id')->constrained('news_posts')->cascadeOnDelete();
             $table->unsignedInteger('reference_id');

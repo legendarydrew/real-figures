@@ -17,5 +17,4 @@ class DonorWallTest extends TestCase
         $response->assertViewIs('front.donate');
         $response->assertViewHas(['donations', 'buzzers']);
     }
-
 }

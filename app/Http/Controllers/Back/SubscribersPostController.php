@@ -12,8 +12,7 @@ class SubscribersPostController extends Controller
     public function index(): Response
     {
         return Inertia::render('back/subscribers-post-page', [
-            'subscriberCount' => fn() => Subscriber::confirmed()->count()
+            'subscriberCount' => fn () => Subscriber::confirmed()->count(),
         ]);
     }
-
 }

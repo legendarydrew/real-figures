@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\RoundWinState;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,11 +12,10 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
+#[Guarded(['id', 'created_at', 'updated_at'])]
 class Song extends Model
 {
     use HasFactory;
-
-    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     public function accolades(): HasMany
     {
@@ -49,8 +49,6 @@ class Song extends Model
 
     /**
      * Returns the total number of times the Song was recorded as having been played.
-     *
-     * @return int
      */
     public function getPlayCountAttribute(): int
     {
@@ -59,7 +57,7 @@ class Song extends Model
 
     public function getFullTitleAttribute(): string
     {
-        return $this->act->name . " - " . $this->title;
+        return $this->act->name.' - '.$this->title;
     }
 
     public function outcomes(): HasMany
@@ -80,42 +78,31 @@ class Song extends Model
 
     /**
      * Returns TRUE if this Song can receive a Golden Buzzer.
-     *
-     * @return bool
      */
     public function canReceiveGoldenBuzzer(): bool
     {
         return DB::table('golden_buzzer_songs')
-                 ->where('song_id', $this->id)
-                 ->count() > 0;
+            ->where('song_id', $this->id)
+            ->count() > 0;
     }
 
     /**
      * Set whether the song can receive Golden Buzzers.
-     *
-     * @param bool $state
-     * @return void
      */
     public function setGoldenBuzzerStatus(bool $state): void
     {
-        if ($state)
-        {
+        if ($state) {
             DB::table('golden_buzzer_songs')
-              ->updateOrInsert(['song_id' => $this->id]);
-        }
-        else
-        {
+                ->updateOrInsert(['song_id' => $this->id]);
+        } else {
             DB::table('golden_buzzer_songs')
-              ->where('song_id', $this->id)
-              ->delete();
+                ->where('song_id', $this->id)
+                ->delete();
         }
     }
 
     /**
      * Returns TRUE if the Song received a Golden Buzzer in the specified Round.
-     *
-     * @param Round $round
-     * @return bool
      */
     public function hasGoldenBuzzer(Round $round): bool
     {
@@ -124,16 +111,12 @@ class Song extends Model
 
     /**
      * Determines whether this Song was a winner or a runner-up in the specified Round.
-     *
-     * @param Round $round
-     * @return RoundWinState
      */
     public function roundWinStatus(Round $round): RoundWinState
     {
         $win = $this->wins()->where('round_id', $round->id)->first();
 
-        if ($win)
-        {
+        if ($win) {
             return $win->is_winner ? RoundWinState::WINNER : RoundWinState::RUNNER_UP;
         }
 

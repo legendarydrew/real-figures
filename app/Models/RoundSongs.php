@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
+#[Guarded(['id'])]
 class RoundSongs extends Model
 {
-
-    protected $guarded = ['id'];
-
     public function stage(): HasOneThrough
     {
         return $this->hasOneThrough(Stage::class, Round::class, 'id', 'id', 'id', 'stage_id');

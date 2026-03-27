@@ -38,5 +38,4 @@ class DestroyTest extends TestCase
 
         $response->assertNotFound();
     }
-
 }

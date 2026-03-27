@@ -22,8 +22,7 @@ class SubscribersPostTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.subscribers-post'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/subscribers-post-page')
-                                                          ->has('subscriberCount'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/subscribers-post-page')
+            ->has('subscriberCount'));
     }
-
 }

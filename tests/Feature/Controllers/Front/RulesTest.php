@@ -16,5 +16,4 @@ class RulesTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('front.rules');
     }
-
 }

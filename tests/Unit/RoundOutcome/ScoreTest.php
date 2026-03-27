@@ -13,9 +13,9 @@ class ScoreTest extends TestCase
     public function test_no_votes()
     {
         $outcome = RoundOutcome::factory()->make([
-            'first_votes'  => 0,
+            'first_votes' => 0,
             'second_votes' => 0,
-            'third_votes'  => 0,
+            'third_votes' => 0,
         ]);
 
         self::assertEquals(0, $outcome->score);

@@ -18,12 +18,12 @@ class DonationFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'           => fake()->name(),
+            'name' => fake()->name(),
             'transaction_id' => fake()->unique()->uuid(),
-            'amount'         => fake()->randomFloat(2, 1, 999),
-            'currency'       => config('contest.donation.currency'),
-            'message'        => fake()->boolean(30) ? fake()->realText() : null,
-            'is_anonymous'   => fake()->boolean(20),
+            'amount' => fake()->randomFloat(2, 1, 999),
+            'currency' => config('contest.donation.currency'),
+            'message' => fake()->boolean(30) ? fake()->realText() : null,
+            'is_anonymous' => fake()->boolean(20),
         ];
     }
 }

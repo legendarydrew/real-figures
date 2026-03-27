@@ -4,14 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('donations', function (Blueprint $table)
-        {
+        Schema::create('donations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->decimal('amount');
@@ -22,8 +22,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('golden_buzzers', function (Blueprint $table)
-        {
+        Schema::create('golden_buzzers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('round_id')->constrained('rounds')->cascadeOnDelete();
             $table->foreignId('song_id')->constrained('songs')->cascadeOnDelete();

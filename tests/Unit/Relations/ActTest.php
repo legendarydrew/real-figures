@@ -16,8 +16,7 @@ class ActTest extends TestCase
     {
         $act = Act::factory()->withSong()->create();
         self::assertEquals(1, $act->songs()->count());
-        foreach ($act->songs as $song)
-        {
+        foreach ($act->songs as $song) {
             self::assertInstanceOf(Song::class, $song);
         }
     }

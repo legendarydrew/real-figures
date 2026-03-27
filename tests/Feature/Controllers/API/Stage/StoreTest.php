@@ -20,7 +20,7 @@ class StoreTest extends TestCase
         parent::setUp();
 
         $this->payload = [
-            'title'       => fake()->sentence(),
+            'title' => fake()->sentence(),
             'description' => fake()->paragraph(),
         ];
     }
@@ -44,5 +44,4 @@ class StoreTest extends TestCase
         $stage = Stage::whereTitle($this->payload['title'])->first();
         self::assertInstanceOf(Stage::class, $stage);
     }
-
 }

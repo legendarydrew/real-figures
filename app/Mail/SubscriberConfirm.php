@@ -21,7 +21,7 @@ class SubscriberConfirm extends Mailable
     public function __construct(Subscriber $subscriber)
     {
         $this->confirm_url = route('subscriber.confirm', [
-            'id'   => $subscriber->id,
+            'id' => $subscriber->id,
             'code' => $subscriber->confirmation_code,
         ]);
     }
@@ -46,5 +46,4 @@ class SubscriberConfirm extends Mailable
             with: ['confirm_url' => $this->confirm_url]
         );
     }
-
 }

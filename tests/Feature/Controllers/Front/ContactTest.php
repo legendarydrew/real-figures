@@ -16,5 +16,4 @@ class ContactTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('front.contact');
     }
-
 }

@@ -59,5 +59,4 @@ class IsOnLastStageTest extends TestCase
 
         self::assertFalse(ContestFacade::isOver());
     }
-
 }

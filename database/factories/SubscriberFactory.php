@@ -17,19 +17,19 @@ class SubscriberFactory extends Factory
     public function definition(): array
     {
         return [
-            'email'             => fake()->unique()->email(),
+            'email' => fake()->unique()->email(),
             'confirmation_code' => substr(fake()->uuid(), 0, 23),
-            'confirmed'         => true
+            'confirmed' => true,
         ];
     }
 
     public function unconfirmed(): SubscriberFactory|Factory
     {
-        return $this->state(fn() => ['confirmed' => false]);
+        return $this->state(fn () => ['confirmed' => false]);
     }
 
     public function confirmed(): SubscriberFactory|Factory
     {
-        return $this->state(fn() => ['confirmed' => true]);
+        return $this->state(fn () => ['confirmed' => true]);
     }
 }

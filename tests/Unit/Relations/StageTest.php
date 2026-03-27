@@ -17,10 +17,8 @@ class StageTest extends TestCase
         Round::factory(2)->for($stage)->create();
 
         self::assertEquals(2, $stage->rounds->count());
-        foreach ($stage->rounds as $round)
-        {
+        foreach ($stage->rounds as $round) {
             self::assertInstanceOf(Round::class, $round);
         }
     }
-
 }

@@ -16,7 +16,8 @@ class UpdateTest extends TestCase
 
     protected const string ENDPOINT = '/api/songs/%u';
 
-    private Song  $song;
+    private Song $song;
+
     private array $payload;
 
     protected function setUp(): void
@@ -24,10 +25,10 @@ class UpdateTest extends TestCase
         parent::setUp();
 
         $language = Language::inRandomOrder()->first();
-        $this->song    = Song::factory()->withAct()->withUrl()->createOne();
+        $this->song = Song::factory()->withAct()->withUrl()->createOne();
         $this->payload = [
-            'title'    => fake()->sentence(),
-            'act_id'   => Act::factory()->createOne()->id,
+            'title' => fake()->sentence(),
+            'act_id' => Act::factory()->createOne()->id,
             'language' => $language->code,
         ];
     }
@@ -82,5 +83,4 @@ class UpdateTest extends TestCase
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, 404), $this->payload);
         $response->assertNotFound();
     }
-
 }

@@ -15,8 +15,6 @@ use Spatie\Analytics\Period;
  * This returns analytics data for the viewport (not screen!) size the site was viewed in
  * over the specified period.
  * This requires a custom dimension to be set up, as well as JavaScript to record.
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class ViewportController extends AnalyticsAPIController
 {
@@ -26,10 +24,10 @@ class ViewportController extends AnalyticsAPIController
     {
         $filter = new FilterExpression([
             'filter' => new Filter([
-                'field_name'    => 'eventName',
+                'field_name' => 'eventName',
                 'string_filter' => new Filter\StringFilter([
                     'match_type' => Filter\StringFilter\MatchType::EXACT,
-                    'value'      => 'page_view',
+                    'value' => 'page_view',
                 ]),
             ]),
         ]);
@@ -53,12 +51,11 @@ class ViewportController extends AnalyticsAPIController
 
         $this->fillDateGaps($data, $days);
 
-        $data['table'] = $rows->groupBy('customEvent:visitor_viewport')->map(fn($r) => [
+        $data['table'] = $rows->groupBy('customEvent:visitor_viewport')->map(fn ($r) => [
             'viewport' => $r->first()['customEvent:visitor_viewport'],
-            'views'    => $r->sum('screenPageViews'),
+            'views' => $r->sum('screenPageViews'),
         ])->sortByDesc('screenPageViews')->values();
 
         return $data;
     }
-
 }

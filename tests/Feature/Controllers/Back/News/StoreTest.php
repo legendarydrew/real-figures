@@ -15,8 +15,8 @@ class StoreTest extends TestCase
     {
         parent::setUp();
         $this->payload = [
-            'title'   => fake()->sentence(),
-            'content' => fake()->paragraph()
+            'title' => fake()->sentence(),
+            'content' => fake()->paragraph(),
         ];
     }
 
@@ -33,5 +33,4 @@ class StoreTest extends TestCase
 
         $response->assertRedirectToRoute('admin.news.edit', ['id' => 1]);
     }
-
 }

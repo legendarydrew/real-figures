@@ -18,8 +18,11 @@ class ManualVoteStoreTest extends TestCase
     protected const string ENDPOINT = 'api/stages/%u/manual-vote';
 
     private Stage $stage;
+
     private Round $round;
+
     private array $song_ids;
+
     private array $payload;
 
     protected function setUp(): void
@@ -27,30 +30,29 @@ class ManualVoteStoreTest extends TestCase
         parent::setUp();
 
         // Set up a Stage requiring a manual vote.
-        $this->stage    = Stage::factory()->createOne();
-        $this->round    = Round::factory()->for($this->stage)->ended()->createOne();
+        $this->stage = Stage::factory()->createOne();
+        $this->round = Round::factory()->for($this->stage)->ended()->createOne();
         $this->song_ids = Song::factory(8)->withAct()->create()->pluck('id')->toArray();
 
-        foreach ($this->song_ids as $song_id)
-        {
+        foreach ($this->song_ids as $song_id) {
             RoundSongs::create([
                 'round_id' => $this->round->id,
-                'song_id'  => $song_id,
+                'song_id' => $song_id,
             ]);
         }
 
-        $song_ids      = fake()->randomElements($this->song_ids, 3);
+        $song_ids = fake()->randomElements($this->song_ids, 3);
         $this->payload = [
             'votes' => [
                 [
                     'round_id' => $this->round->id,
                     'song_ids' => [
-                        'first'  => $song_ids[0],
+                        'first' => $song_ids[0],
                         'second' => $song_ids[1],
-                        'third'  => $song_ids[2]
+                        'third' => $song_ids[2],
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
 
         config()->set('contest.judgement.panel-count', 0);
@@ -80,19 +82,19 @@ class ManualVoteStoreTest extends TestCase
 
         // a fake vote.
         RoundVote::create([
-            'round_id'         => $this->round->id,
-            'first_choice_id'  => $song_id,
+            'round_id' => $this->round->id,
+            'first_choice_id' => $song_id,
             'second_choice_id' => $song_id,
-            'third_choice_id'  => $song_id
+            'third_choice_id' => $song_id,
         ]);
 
         // a fake outcome.
         RoundOutcome::factory()->for($this->round)->create([
-            'round_id'     => $this->round->id,
-            'song_id'      => $song_id,
-            'first_votes'  => $song_id,
+            'round_id' => $this->round->id,
+            'song_id' => $song_id,
+            'first_votes' => $song_id,
             'second_votes' => $song_id,
-            'third_votes'  => $song_id
+            'third_votes' => $song_id,
         ]);
 
         self::assertFalse($this->stage->requiresManualVote());
@@ -152,7 +154,7 @@ class ManualVoteStoreTest extends TestCase
 
         $this->round->refresh();
         self::assertCount(count($this->song_ids), $this->round->outcomes);
-        self::assertTrue($this->round->outcomes->every(fn($outcome) => $outcome->was_manual));
+        self::assertTrue($this->round->outcomes->every(fn ($outcome) => $outcome->was_manual));
         self::assertCount(1, $this->round->votes);
 
         // Ensure the Songs received the correct vote.
@@ -169,12 +171,12 @@ class ManualVoteStoreTest extends TestCase
 
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
 
-        self::assertTrue($this->round->outcomes->every(fn($outcome) => $outcome->was_manual));
+        self::assertTrue($this->round->outcomes->every(fn ($outcome) => $outcome->was_manual));
 
         $this->round->refresh();
         self::assertCount(8, $this->round->votes);
 
         self::assertCount(count($this->song_ids), $this->round->outcomes);
-        self::assertTrue($this->round->outcomes->every(fn($outcome) => $outcome->was_manual));
+        self::assertTrue($this->round->outcomes->every(fn ($outcome) => $outcome->was_manual));
     }
 }
