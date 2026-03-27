@@ -10,7 +10,7 @@ class ShowTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_published_as_guest()
+    public function test_published_as_guest(): void
     {
         $post = NewsPost::factory()->published()->createOne();
         $response = $this->get(route('news.show', ['slug' => $post->slug]));
@@ -20,7 +20,7 @@ class ShowTest extends TestCase
         $response->assertViewHas('post');
     }
 
-    public function test_published_as_user()
+    public function test_published_as_user(): void
     {
         $post = NewsPost::factory()->published()->createOne();
         $response = $this->actingAs($this->user)->get(route('news.show', ['slug' => $post->slug]));
@@ -30,7 +30,7 @@ class ShowTest extends TestCase
         $response->assertViewHas('post');
     }
 
-    public function test_unpublished_as_guest()
+    public function test_unpublished_as_guest(): void
     {
         $post = NewsPost::factory()->unpublished()->createOne();
         $response = $this->get(route('news.show', ['slug' => $post->slug]));
@@ -38,7 +38,7 @@ class ShowTest extends TestCase
         $response->assertNotFound();
     }
 
-    public function test_unpublished_as_user()
+    public function test_unpublished_as_user(): void
     {
         $post = NewsPost::factory()->unpublished()->createOne();
         $response = $this->actingAs($this->user)->get(route('news.show', ['slug' => $post->slug]));
@@ -48,7 +48,7 @@ class ShowTest extends TestCase
         $response->assertViewHas('post');
     }
 
-    public function test_invalid_post()
+    public function test_invalid_post(): void
     {
         $response = $this->actingAs($this->user)->get(route('news.show', ['slug' => '404']));
 

@@ -42,13 +42,13 @@ class RankedTest extends TestCase
         }
     }
 
-    public function test_no_outcomes()
+    public function test_no_outcomes(): void
     {
         $results = RoundResultsFacade::ranked($this->round);
         self::assertNull($results);
     }
 
-    public function test_by_descending_score()
+    public function test_by_descending_score(): void
     {
         RoundOutcome::factory($this->number_of_songs)
             ->for($this->round)
@@ -68,7 +68,7 @@ class RankedTest extends TestCase
     }
 
     #[Depends('test_by_descending_score')]
-    public function test_by_first_votes()
+    public function test_by_first_votes(): void
     {
         // For this test to work, the scores for each song have to be the same.
         $first_votes_sequence = [];
@@ -106,7 +106,7 @@ class RankedTest extends TestCase
     }
 
     #[Depends('test_by_descending_score')]
-    public function test_by_second_votes()
+    public function test_by_second_votes(): void
     {
         // For this test to work, the scores and number of first votes for each song
         // have to be the same.

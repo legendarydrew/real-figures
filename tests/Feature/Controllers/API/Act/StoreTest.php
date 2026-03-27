@@ -27,20 +27,20 @@ class StoreTest extends TestCase
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertRedirectToRoute('admin.acts.edit', ['id' => 1]);
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_act_without_slug()
+    public function test_creates_act_without_slug(): void
     {
         $this->payload['slug'] = null;
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -50,7 +50,7 @@ class StoreTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_act_with_custom_slug()
+    public function test_creates_act_with_custom_slug(): void
     {
         $this->payload['slug'] = fake()->word;
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -60,7 +60,7 @@ class StoreTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_act_without_profile()
+    public function test_creates_act_without_profile(): void
     {
         unset($this->payload['profile']);
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -71,7 +71,7 @@ class StoreTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_act_with_profile()
+    public function test_creates_act_with_profile(): void
     {
         $this->payload['profile'] = ['description' => fake()->paragraph];
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -82,7 +82,7 @@ class StoreTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_act_with_image()
+    public function test_creates_act_with_image(): void
     {
         fake()->addProvider(new FakerPicsumImagesProvider(fake()));
         $this->payload['new_image'] = fake()->image();
@@ -95,7 +95,7 @@ class StoreTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_updates_and_removes_image()
+    public function test_updates_and_removes_image(): void
     {
         $this->payload['new_image'] = null;
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -105,7 +105,7 @@ class StoreTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_create_with_same_name()
+    public function test_create_with_same_name(): void
     {
         Act::create($this->payload);
 

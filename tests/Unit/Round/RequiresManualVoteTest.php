@@ -28,7 +28,7 @@ class RequiresManualVoteTest extends TestCase
         $this->song_ids = Song::factory(3)->withAct()->create()->pluck('id')->toArray();
     }
 
-    public function test_round_has_ended_with_votes()
+    public function test_round_has_ended_with_votes(): void
     {
         $round = Round::factory()->ended()->for($this->stage)->create();
         $this->createRoundOutcomes($round, no_votes: false);
@@ -36,7 +36,7 @@ class RequiresManualVoteTest extends TestCase
         self::assertFalse($round->requiresManualVote());
     }
 
-    public function test_round_has_ended_with_no_votes()
+    public function test_round_has_ended_with_no_votes(): void
     {
         $round = Round::factory()->ended()->for($this->stage)->create();
         $this->createRoundOutcomes($round, no_votes: true);
@@ -44,7 +44,7 @@ class RequiresManualVoteTest extends TestCase
         self::assertTrue($round->requiresManualVote());
     }
 
-    public function test_round_has_not_ended_with_votes()
+    public function test_round_has_not_ended_with_votes(): void
     {
         $round = Round::factory()->started()->for($this->stage)->create();
         $this->createRoundOutcomes($round, no_votes: false);
@@ -52,7 +52,7 @@ class RequiresManualVoteTest extends TestCase
         self::assertFalse($round->requiresManualVote());
     }
 
-    public function test_round_has_not_ended_with_no_votes()
+    public function test_round_has_not_ended_with_no_votes(): void
     {
         $round = Round::factory()->started()->for($this->stage)->create();
         $this->createRoundOutcomes($round, no_votes: true);
@@ -60,7 +60,7 @@ class RequiresManualVoteTest extends TestCase
         self::assertFalse($round->requiresManualVote());
     }
 
-    public function test_round_has_no_outcomes()
+    public function test_round_has_no_outcomes(): void
     {
         // Edge case!
         $round = Round::factory()->started()->for($this->stage)->create();
@@ -74,7 +74,7 @@ class RequiresManualVoteTest extends TestCase
         self::assertFalse($round->requiresManualVote());
     }
 
-    public function test_round_has_no_songs()
+    public function test_round_has_no_songs(): void
     {
         // Edge case!
         $round = Round::factory()->started()->for($this->stage)->create();

@@ -11,14 +11,14 @@ class ContestTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_access()
+    public function test_access(): void
     {
         $response = $this->get(route('contest'));
 
         $response->assertOk();
     }
 
-    public function test_before_contest_begins()
+    public function test_before_contest_begins(): void
     {
         $response = $this->get(route('contest'));
 
@@ -26,7 +26,7 @@ class ContestTest extends TestCase
         $response->assertViewIs('front.contest.inactive');
     }
 
-    public function test_contest_round_countdown()
+    public function test_contest_round_countdown(): void
     {
         $stage = Stage::factory()->create();
         Round::factory()->create([
@@ -41,7 +41,7 @@ class ContestTest extends TestCase
         $response->assertViewIs('front.contest.countdown');
     }
 
-    public function test_contest_has_active_round()
+    public function test_contest_has_active_round(): void
     {
         Stage::factory()->withRounds(1)->create();
         $response = $this->get(route('contest'));
@@ -50,7 +50,7 @@ class ContestTest extends TestCase
         $response->assertViewIs('front.contest.active-round');
     }
 
-    public function test_contest_stage_end()
+    public function test_contest_stage_end(): void
     {
         Stage::factory()->withRounds(0, 1)->create();
         $response = $this->get(route('contest'));
@@ -59,7 +59,7 @@ class ContestTest extends TestCase
         $response->assertViewIs('front.contest.stage-end');
     }
 
-    public function test_contest_is_over()
+    public function test_contest_is_over(): void
     {
         Stage::factory()->over()->createOne();
         $response = $this->get(route('contest'));

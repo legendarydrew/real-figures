@@ -22,20 +22,20 @@ class PlayTest extends TestCase
         $this->song = Song::factory()->withAct()->createOne();
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->putJson(sprintf(self::ENDPOINT, $this->song->id));
         $response->assertNoContent();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->putJson(sprintf(self::ENDPOINT, $this->song->id));
         $response->assertNoContent();
     }
 
     #[Depends('test_as_user')]
-    public function test_increments_play_count()
+    public function test_increments_play_count(): void
     {
         $this->actingAs($this->user)->putJson(sprintf(self::ENDPOINT, $this->song->id));
 
@@ -45,7 +45,7 @@ class PlayTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_multiple_increments_on_same_day()
+    public function test_multiple_increments_on_same_day(): void
     {
         $play_count = fake()->numberBetween(2, 10);
         foreach (range(1, $play_count) as $i) {
@@ -58,7 +58,7 @@ class PlayTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_increments_different_days()
+    public function test_increments_different_days(): void
     {
         $this->actingAs($this->user)->putJson(sprintf(self::ENDPOINT, $this->song->id));
 
@@ -71,7 +71,7 @@ class PlayTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_invalid_song()
+    public function test_invalid_song(): void
     {
         $response = $this->actingAs($this->user)->putJson(sprintf(self::ENDPOINT, 404));
         $response->assertNotFound();

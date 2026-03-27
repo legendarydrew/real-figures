@@ -11,7 +11,7 @@ class HasStartedTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_has_started()
+    public function test_has_started(): void
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->create([
@@ -23,7 +23,7 @@ class HasStartedTest extends TestCase
         self::assertTrue($round->hasStarted());
     }
 
-    public function test_has_not_started()
+    public function test_has_not_started(): void
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->create([

@@ -30,7 +30,7 @@ class NotesTest extends TestCase
         ];
     }
 
-    public function test_adds_meta_notes()
+    public function test_adds_meta_notes(): void
     {
         $this->payload['meta']['notes'] = [
             ['note' => fake()->sentence()],
@@ -42,7 +42,7 @@ class NotesTest extends TestCase
         self::assertCount(count($this->payload['meta']['notes']), $this->act->notes);
     }
 
-    public function test_replace_meta_notes()
+    public function test_replace_meta_notes(): void
     {
         $this->act->notes()->createMany([
             ['note' => fake()->sentence()],
@@ -59,7 +59,7 @@ class NotesTest extends TestCase
         self::assertCount(count($this->payload['meta']['notes']), $this->act->notes);
     }
 
-    public function test_preserve_meta_notes()
+    public function test_preserve_meta_notes(): void
     {
         $this->act->notes()->createMany([
             ['note' => fake()->sentence()],
@@ -81,7 +81,7 @@ class NotesTest extends TestCase
         self::assertCount(count($this->payload['meta']['notes']), $this->act->notes);
     }
 
-    public function test_removes_meta_notes()
+    public function test_removes_meta_notes(): void
     {
         $this->payload['meta'] = [
             'notes' => [],

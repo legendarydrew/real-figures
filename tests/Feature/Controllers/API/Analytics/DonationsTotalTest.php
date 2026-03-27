@@ -15,13 +15,13 @@ class DonationsTotalTest extends TestCase
 
     protected const int    DAY_COUNT = 7;
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
         $response->assertUnauthorized();
     }
 
-    public function test_no_data()
+    public function test_no_data(): void
     {
         Donation::truncate();
 
@@ -41,7 +41,7 @@ class DonationsTotalTest extends TestCase
         ]);
     }
 
-    public function test_with_data()
+    public function test_with_data(): void
     {
         Donation::factory(10)->create(new Sequence([
             'created_at' => fake()->dateTimeBetween('-7 days'),

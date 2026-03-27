@@ -40,13 +40,13 @@ class ManualVoteShowTest extends TestCase
         }
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->getJson(sprintf(self::ENDPOINT, $this->stage->id));
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         self::assertTrue($this->stage->requiresManualVote());
 
@@ -55,14 +55,14 @@ class ManualVoteShowTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_invalid_stage()
+    public function test_invalid_stage(): void
     {
         $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, 404));
         $response->assertNotFound();
     }
 
     #[Depends('test_as_user')]
-    public function test_no_manual_vote_required()
+    public function test_no_manual_vote_required(): void
     {
         $stage = Stage::factory()->over()->withResults()->createOne();
         self::assertFalse($stage->requiresManualVote());

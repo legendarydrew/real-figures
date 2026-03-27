@@ -11,19 +11,19 @@ class ShouldShowActsTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_no_acts()
+    public function test_no_acts(): void
     {
         Act::truncate();
         self::assertFalse(ContestFacade::shouldShowActs());
     }
 
-    public function test_no_acts_with_songs()
+    public function test_no_acts_with_songs(): void
     {
         Act::factory(3)->create();
         self::assertFalse(ContestFacade::shouldShowActs());
     }
 
-    public function test_acts_with_songs()
+    public function test_acts_with_songs(): void
     {
         Act::factory(3)->withSong()->create();
         self::assertTrue(ContestFacade::shouldShowActs());

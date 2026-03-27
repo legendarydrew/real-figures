@@ -28,19 +28,19 @@ class ActPromptTest extends TestCase
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_act_prompt()
+    public function test_act_prompt(): void
     {
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
     }
 
-    public function test_act_prompt_with_previous_post()
+    public function test_act_prompt_with_previous_post(): void
     {
         $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
@@ -53,7 +53,7 @@ class ActPromptTest extends TestCase
 
     }
 
-    public function test_act_prompt_with_additional_prompt()
+    public function test_act_prompt_with_additional_prompt(): void
     {
         $this->payload['prompt'] = fake()->paragraph();
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -63,7 +63,7 @@ class ActPromptTest extends TestCase
         self::assertTrue(str_contains($prompt, $this->payload['prompt']));
     }
 
-    public function test_all_placeholders_filled()
+    public function test_all_placeholders_filled(): void
     {
         $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
@@ -77,21 +77,21 @@ class ActPromptTest extends TestCase
         self::assertCount(0, $matches[0]);
     }
 
-    public function test_invalid_act()
+    public function test_invalid_act(): void
     {
         $this->payload['references'] = [404];
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertBadRequest();
     }
 
-    public function test_invalid_previous_post()
+    public function test_invalid_previous_post(): void
     {
         $this->payload['previous'] = [404];
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnprocessable();
     }
 
-    public function test_no_acts()
+    public function test_no_acts(): void
     {
         $this->payload['references'] = [];
 
@@ -99,7 +99,7 @@ class ActPromptTest extends TestCase
         $response->assertBadRequest();
     }
 
-    public function test_invalid_acts()
+    public function test_invalid_acts(): void
     {
         $acts = Act::factory(3)->create();
         $this->payload['references'] = $acts->pluck('id')->toArray();
@@ -108,7 +108,7 @@ class ActPromptTest extends TestCase
         $response->assertBadRequest();
     }
 
-    public function test_acts_with_previous_wins()
+    public function test_acts_with_previous_wins(): void
     {
         $stage = Stage::factory()->over()->create();
         $act_ids = $stage->getActsInvolved()->pluck('id')->toArray();

@@ -11,19 +11,19 @@ class OverallWinnersTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_no_stages()
+    public function test_no_stages(): void
     {
         self::assertNull(ContestFacade::overallWinners());
     }
 
-    public function test_contest_not_over()
+    public function test_contest_not_over(): void
     {
         Stage::factory()->withRounds()->create();
 
         self::assertNull(ContestFacade::overallWinners());
     }
 
-    public function test_contest_is_over()
+    public function test_contest_is_over(): void
     {
         Stage::factory()->over()->create();
 

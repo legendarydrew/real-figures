@@ -25,20 +25,20 @@ class DestroyTest extends TestCase
         $this->delete_message_ids = fake()->randomElements($this->all_message_ids);
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->deleteJson(self::ENDPOINT, ['message_ids' => $this->delete_message_ids]);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->deleteJson(self::ENDPOINT, ['message_ids' => $this->delete_message_ids]);
         $response->assertRedirectToRoute('admin.contact');
     }
 
     #[Depends('test_as_user')]
-    public function test_deletes_messages()
+    public function test_deletes_messages(): void
     {
         $this->actingAs($this->user)->deleteJson(self::ENDPOINT, ['message_ids' => $this->delete_message_ids]);
         $messages = ContactMessage::whereIn('id', $this->delete_message_ids)->get();

@@ -25,20 +25,20 @@ class StoreTest extends TestCase
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertRedirect(route('admin.stages'));
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_stage()
+    public function test_creates_stage(): void
     {
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $stage = Stage::whereTitle($this->payload['title'])->first();

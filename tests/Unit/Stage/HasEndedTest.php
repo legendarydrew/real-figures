@@ -18,13 +18,13 @@ class HasEndedTest extends TestCase
         $this->stage = Stage::factory()->create();
     }
 
-    public function test_no_rounds()
+    public function test_no_rounds(): void
     {
         self::assertCount(0, $this->stage->rounds);
         self::assertFalse($this->stage->hasEnded());
     }
 
-    public function test_has_all_ended_rounds()
+    public function test_has_all_ended_rounds(): void
     {
         Round::factory(3)
             ->for($this->stage)
@@ -38,7 +38,7 @@ class HasEndedTest extends TestCase
         self::assertTrue($this->stage->hasEnded());
     }
 
-    public function test_has_ongoing_rounds()
+    public function test_has_ongoing_rounds(): void
     {
         Round::factory()
             ->for($this->stage)

@@ -9,7 +9,7 @@ class RulesTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_access()
+    public function test_access(): void
     {
         $response = $this->get(route('rules'));
 

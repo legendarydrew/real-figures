@@ -12,7 +12,7 @@ class HomeTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_access()
+    public function test_access(): void
     {
         Stage::truncate();
         $response = $this->get(route('home'));

@@ -47,20 +47,20 @@ class WinnersTest extends TestCase
         }
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertRedirectToRoute('admin.stages');
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_winner_rows()
+    public function test_creates_winner_rows(): void
     {
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $winner_rows = StageWinner::whereIsWinner(true)->get();
@@ -68,7 +68,7 @@ class WinnersTest extends TestCase
     }
 
     //    #[Depends('test_as_user')]
-    public function test_creates_runner_up()
+    public function test_creates_runner_up(): void
     {
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $runner_up_rows = StageWinner::whereIsWinner(false)->get();
@@ -76,7 +76,7 @@ class WinnersTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_create_only_winners()
+    public function test_create_only_winners(): void
     {
         $this->payload['runners_up'] = 0;
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
@@ -88,7 +88,7 @@ class WinnersTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_multiple_runners_up()
+    public function test_creates_multiple_runners_up(): void
     {
         $this->payload['runners_up'] = 2;
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
@@ -99,7 +99,7 @@ class WinnersTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_no_winners()
+    public function test_no_winners(): void
     {
         // An edge case where everything is tied because there were absolutely no votes.
         // This should never happen!

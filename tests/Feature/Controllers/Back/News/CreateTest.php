@@ -10,14 +10,14 @@ class CreateTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->get(route('admin.news.create'));
 
         $response->assertRedirectToRoute('login');
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.news.create'));
 

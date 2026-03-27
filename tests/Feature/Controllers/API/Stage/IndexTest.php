@@ -20,13 +20,13 @@ class IndexTest extends TestCase
         Stage::factory(10)->create();
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->getJson(self::ENDPOINT);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT);
         $response->assertOk();

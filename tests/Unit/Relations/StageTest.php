@@ -11,7 +11,7 @@ class StageTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_rounds_relation()
+    public function test_rounds_relation(): void
     {
         $stage = Stage::factory()->create();
         Round::factory(2)->for($stage)->create();

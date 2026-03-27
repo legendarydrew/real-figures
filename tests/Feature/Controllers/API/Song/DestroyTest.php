@@ -23,13 +23,13 @@ class DestroyTest extends TestCase
         $this->song = Song::factory()->withAct()->create();
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->deleteJson(sprintf(self::ENDPOINT, $this->song->id));
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->deleteJson(sprintf(self::ENDPOINT, $this->song->id));
         $response->assertRedirect(route('admin.songs'));

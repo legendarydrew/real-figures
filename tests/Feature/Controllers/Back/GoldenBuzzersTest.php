@@ -13,14 +13,14 @@ class GoldenBuzzersTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->get(route('admin.golden-buzzers'));
 
         $response->assertRedirectToRoute('login');
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.golden-buzzers'));
 
@@ -29,7 +29,7 @@ class GoldenBuzzersTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_with_golden_buzzers()
+    public function test_with_golden_buzzers(): void
     {
         Stage::factory()->withRounds()->create();
         GoldenBuzzer::factory(21)->create();

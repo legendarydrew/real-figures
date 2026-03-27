@@ -11,7 +11,7 @@ class FullTitleTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_as_only_round()
+    public function test_as_only_round(): void
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->for($stage)->create();
@@ -23,7 +23,7 @@ class FullTitleTest extends TestCase
         self::assertEquals($expected_title, $round->full_title);
     }
 
-    public function test_as_one_of_many()
+    public function test_as_one_of_many(): void
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->for($stage)->create();

@@ -27,27 +27,27 @@ class VotesTest extends TestCase
         Round::factory(self::ROUND_COUNT)->ended()->withSongs()->withOutcomes()->for($this->stage)->create();
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->getJson(sprintf(self::ENDPOINT, $this->stage->id));
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, $this->stage->id));
         $response->assertOk();
     }
 
     #[Depends('test_as_user')]
-    public function test_includes_results_for_all_rounds()
+    public function test_includes_results_for_all_rounds(): void
     {
         $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, $this->stage->id));
         $response->assertJsonCount(self::ROUND_COUNT);
     }
 
     #[Depends('test_as_user')]
-    public function test_stage_not_ended()
+    public function test_stage_not_ended(): void
     {
         $this->stage = Stage::factory()->createOne();
         $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, $this->stage->id));
@@ -59,7 +59,7 @@ class VotesTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_invalid_stage()
+    public function test_invalid_stage(): void
     {
         $this->stage = Stage::factory()->createOne();
         $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, 404));

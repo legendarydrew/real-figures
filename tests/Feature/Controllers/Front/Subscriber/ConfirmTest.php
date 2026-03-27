@@ -21,7 +21,7 @@ class ConfirmTest extends TestCase
         Mail::fake();
     }
 
-    public function test_confirm_unconfirmed_subscriber()
+    public function test_confirm_unconfirmed_subscriber(): void
     {
         $subscriber = Subscriber::factory()->unconfirmed()->create();
         $url = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
@@ -37,7 +37,7 @@ class ConfirmTest extends TestCase
         });
     }
 
-    public function test_confirm_confirmed_subscriber()
+    public function test_confirm_confirmed_subscriber(): void
     {
         $subscriber = Subscriber::factory()->confirmed()->create();
 
@@ -52,7 +52,7 @@ class ConfirmTest extends TestCase
         Mail::assertNothingSent();
     }
 
-    public function test_invalid_id()
+    public function test_invalid_id(): void
     {
         $subscriber = Subscriber::factory()->create();
         $url = route('subscriber.confirm', ['id' => 404, 'code' => $subscriber->confirmation_code]);
@@ -60,7 +60,7 @@ class ConfirmTest extends TestCase
         $response->assertNotFound();
     }
 
-    public function test_invalid_code()
+    public function test_invalid_code(): void
     {
         $subscriber = Subscriber::factory()->unconfirmed()->create();
         $url = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => 404]);

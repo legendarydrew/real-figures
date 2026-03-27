@@ -25,20 +25,20 @@ class DestroyTest extends TestCase
         $this->delete_ids = fake()->randomElements($this->all_ids);
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->deleteJson(self::ENDPOINT, ['subscriber_ids' => $this->delete_ids]);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->deleteJson(self::ENDPOINT, ['subscriber_ids' => $this->delete_ids]);
         $response->assertRedirectToRoute('admin.subscribers');
     }
 
     #[Depends('test_as_user')]
-    public function test_deletes_subscribers()
+    public function test_deletes_subscribers(): void
     {
         $this->actingAs($this->user)->deleteJson(self::ENDPOINT, ['subscriber_ids' => $this->delete_ids]);
         $subscribers = Subscriber::whereIn('id', $this->delete_ids)->get();

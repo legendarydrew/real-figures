@@ -13,13 +13,13 @@ class CountriesTest extends TestCase
 
     protected const int    DAY_COUNT = 7;
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
         $response->assertUnauthorized();
     }
 
-    public function test_no_data()
+    public function test_no_data(): void
     {
         \Analytics::fake(collect());
 
@@ -46,7 +46,7 @@ class CountriesTest extends TestCase
         ]);
     }
 
-    public function test_with_data()
+    public function test_with_data(): void
     {
         \Analytics::fake(collect([
             [

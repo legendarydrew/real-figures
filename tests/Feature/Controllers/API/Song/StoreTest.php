@@ -30,20 +30,20 @@ class StoreTest extends TestCase
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertRedirect(route('admin.songs'));
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_song()
+    public function test_creates_song(): void
     {
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $song = Song::whereTitle($this->payload['title'])->first();
@@ -53,7 +53,7 @@ class StoreTest extends TestCase
     }
 
     #[Depends('test_creates_song')]
-    public function test_creates_song_with_url()
+    public function test_creates_song_with_url(): void
     {
         $this->payload['url'] = fake()->url();
 
@@ -65,7 +65,7 @@ class StoreTest extends TestCase
     }
 
     #[Depends('test_creates_song')]
-    public function test_creates_song_without_url()
+    public function test_creates_song_without_url(): void
     {
         $this->payload['url'] = null;
 

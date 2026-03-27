@@ -28,19 +28,19 @@ class ContestPromptTest extends TestCase
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_contest_prompt()
+    public function test_contest_prompt(): void
     {
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
     }
 
-    public function test_contest_prompt_with_previous_post()
+    public function test_contest_prompt_with_previous_post(): void
     {
         $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
@@ -53,7 +53,7 @@ class ContestPromptTest extends TestCase
 
     }
 
-    public function test_contest_prompt_with_additional_prompt()
+    public function test_contest_prompt_with_additional_prompt(): void
     {
         $this->payload['prompt'] = fake()->paragraph();
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -63,7 +63,7 @@ class ContestPromptTest extends TestCase
         self::assertTrue(str_contains($prompt, $this->payload['prompt']));
     }
 
-    public function test_while_contest_is_running_first_stage()
+    public function test_while_contest_is_running_first_stage(): void
     {
         Stage::factory()->withRounds()->create();
         Stage::factory()->create();
@@ -74,7 +74,7 @@ class ContestPromptTest extends TestCase
         self::assertFalse(str_contains($prompt, Lang::get('press-release.contest.last-stage')));
     }
 
-    public function test_while_contest_is_running_other_stages()
+    public function test_while_contest_is_running_other_stages(): void
     {
         Stage::factory()->over()->create();
         Stage::factory()->withRounds()->create();
@@ -90,7 +90,7 @@ class ContestPromptTest extends TestCase
         self::assertFalse(str_contains($prompt, Lang::get('press-release.contest.last-stage')));
     }
 
-    public function test_while_contest_is_running_last_stage()
+    public function test_while_contest_is_running_last_stage(): void
     {
         Stage::factory()->over()->create();
         Stage::factory()->withRounds()->create();
@@ -105,7 +105,7 @@ class ContestPromptTest extends TestCase
         self::assertTrue(str_contains($prompt, Lang::get('press-release.contest.last-stage')));
     }
 
-    public function test_when_contest_is_over()
+    public function test_when_contest_is_over(): void
     {
         Stage::factory()->over()->create();
         self::assertTrue(ContestFacade::isOver());
@@ -121,7 +121,7 @@ class ContestPromptTest extends TestCase
         self::assertFalse(str_contains($prompt, Lang::get('press-release.contest.golden-buzzer')));
     }
 
-    public function test_when_contest_is_over_with_donations()
+    public function test_when_contest_is_over_with_donations(): void
     {
         Stage::factory()->over()->create();
         Donation::factory(10)->create();
@@ -137,7 +137,7 @@ class ContestPromptTest extends TestCase
         ])));
     }
 
-    public function test_when_contest_is_over_with_golden_buzzers()
+    public function test_when_contest_is_over_with_golden_buzzers(): void
     {
         Stage::factory()->over()->create();
         GoldenBuzzer::factory(10)->create();
@@ -150,7 +150,7 @@ class ContestPromptTest extends TestCase
         self::assertTrue(str_contains($prompt, Lang::get('press-release.contest.golden-buzzers')));
     }
 
-    public function test_contest_announced_all_placeholders_filled()
+    public function test_contest_announced_all_placeholders_filled(): void
     {
         $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
@@ -164,7 +164,7 @@ class ContestPromptTest extends TestCase
         self::assertCount(0, $matches[0]);
     }
 
-    public function test_contest_running_all_placeholders_filled()
+    public function test_contest_running_all_placeholders_filled(): void
     {
         Stage::factory()->withRounds()->create();
 
@@ -180,7 +180,7 @@ class ContestPromptTest extends TestCase
         self::assertCount(0, $matches[0]);
     }
 
-    public function test_contest_over_all_placeholders_filled()
+    public function test_contest_over_all_placeholders_filled(): void
     {
         Stage::factory()->over()->create();
         Donation::factory(10)->create();

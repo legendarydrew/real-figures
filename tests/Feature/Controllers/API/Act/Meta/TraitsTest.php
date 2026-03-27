@@ -30,7 +30,7 @@ class TraitsTest extends TestCase
         ];
     }
 
-    public function test_adds_meta_traits()
+    public function test_adds_meta_traits(): void
     {
         $this->payload['meta']['traits'] = [
             ['trait' => fake()->words(2, true)],
@@ -45,7 +45,7 @@ class TraitsTest extends TestCase
         }
     }
 
-    public function test_replace_meta_traits()
+    public function test_replace_meta_traits(): void
     {
         $this->act->traits()->createMany([
             ['trait' => fake()->words(2, true)],
@@ -65,7 +65,7 @@ class TraitsTest extends TestCase
         }
     }
 
-    public function test_preserve_meta_traits()
+    public function test_preserve_meta_traits(): void
     {
         $this->act->traits()->createMany([
             ['trait' => fake()->words(2, true)],
@@ -90,7 +90,7 @@ class TraitsTest extends TestCase
         }
     }
 
-    public function test_removes_meta_traits()
+    public function test_removes_meta_traits(): void
     {
         $this->payload['meta'] = [
             'traits' => [],

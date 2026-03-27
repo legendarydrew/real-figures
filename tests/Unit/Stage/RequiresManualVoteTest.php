@@ -28,7 +28,7 @@ class RequiresManualVoteTest extends TestCase
         $this->song_ids = Song::factory(3)->withAct()->create()->pluck('id')->toArray();
     }
 
-    public function test_all_rounds_ended_with_votes()
+    public function test_all_rounds_ended_with_votes(): void
     {
         $rounds = Round::factory(4)->ended()->for($this->stage)->create();
         foreach ($rounds as $round) {
@@ -43,7 +43,7 @@ class RequiresManualVoteTest extends TestCase
         self::assertFalse($this->stage->requiresManualVote());
     }
 
-    public function test_some_rounds_ended_with_no_votes()
+    public function test_some_rounds_ended_with_no_votes(): void
     {
         $rounds = Round::factory(4)->ended()->for($this->stage)->create();
         foreach ($rounds as $index => $round) {
@@ -59,7 +59,7 @@ class RequiresManualVoteTest extends TestCase
         self::assertTrue($this->stage->requiresManualVote());
     }
 
-    public function test_no_rounds_ended_with_votes()
+    public function test_no_rounds_ended_with_votes(): void
     {
         $rounds = Round::factory(4)->started()->for($this->stage)->create();
         foreach ($rounds as $round) {
@@ -74,7 +74,7 @@ class RequiresManualVoteTest extends TestCase
         self::assertFalse($this->stage->requiresManualVote());
     }
 
-    public function test_no_rounds_ended_with_no_votes()
+    public function test_no_rounds_ended_with_no_votes(): void
     {
         $rounds = Round::factory(4)->started()->for($this->stage)->create();
         foreach ($rounds as $index => $round) {
@@ -86,7 +86,7 @@ class RequiresManualVoteTest extends TestCase
         self::assertFalse($this->stage->requiresManualVote());
     }
 
-    public function test_no_rounds()
+    public function test_no_rounds(): void
     {
         // Edge case!
         self::assertFalse($this->stage->requiresManualVote());

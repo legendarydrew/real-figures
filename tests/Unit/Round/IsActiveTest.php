@@ -11,7 +11,7 @@ class IsActiveTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_before_start_date()
+    public function test_before_start_date(): void
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->for($stage)
@@ -23,7 +23,7 @@ class IsActiveTest extends TestCase
         self::assertFalse($round->isActive());
     }
 
-    public function test_after_start_date()
+    public function test_after_start_date(): void
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->for($stage)
@@ -35,7 +35,7 @@ class IsActiveTest extends TestCase
         self::assertTrue($round->isActive());
     }
 
-    public function test_after_end_date()
+    public function test_after_end_date(): void
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->for($stage)

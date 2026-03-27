@@ -21,7 +21,7 @@ class ActProfileTest extends TestCase
         ]);
     }
 
-    public function test_act_relation()
+    public function test_act_relation(): void
     {
         self::assertInstanceOf(Act::class, $this->act_profile->act);
     }

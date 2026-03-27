@@ -56,12 +56,12 @@ class RoundTest extends TestCase
         ]);
     }
 
-    public function test_stage_relation()
+    public function test_stage_relation(): void
     {
         self::assertInstanceOf(Stage::class, $this->round->stage);
     }
 
-    public function test_songs_relation()
+    public function test_songs_relation(): void
     {
         self::assertEquals(3, $this->round->songs()->count());
         foreach ($this->round->songs as $song) {
@@ -69,7 +69,7 @@ class RoundTest extends TestCase
         }
     }
 
-    public function test_votes_relation()
+    public function test_votes_relation(): void
     {
         self::assertEquals(1, $this->round->votes()->count());
         foreach ($this->round->votes as $vote) {
@@ -77,7 +77,7 @@ class RoundTest extends TestCase
         }
     }
 
-    public function test_outcomes_relation()
+    public function test_outcomes_relation(): void
     {
         self::assertEquals(1, $this->round->outcomes()->count());
         foreach ($this->round->outcomes as $outcome) {

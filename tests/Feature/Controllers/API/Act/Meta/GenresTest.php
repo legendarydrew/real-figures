@@ -38,7 +38,7 @@ class GenresTest extends TestCase
         ]);
     }
 
-    public function test_adds_meta_genres()
+    public function test_adds_meta_genres(): void
     {
         $this->payload['meta']['genres'] = ['Pop', 'Rock'];
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
@@ -51,7 +51,7 @@ class GenresTest extends TestCase
         self::assertEquals(['Pop', 'Rock'], $genres);
     }
 
-    public function test_creates_new_genres()
+    public function test_creates_new_genres(): void
     {
         $this->payload['meta']['genres'] = ['latin', 'blues', 'hip hop'];
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
@@ -64,7 +64,7 @@ class GenresTest extends TestCase
         self::assertEquals(['Latin', 'Blues', 'Hip Hop'], $genres);
     }
 
-    public function test_replace_meta_genres()
+    public function test_replace_meta_genres(): void
     {
         $genre_ids = fake()->randomElements(Genre::pluck('id')->toArray(), 2);
         foreach ($genre_ids as $genre_id) {
@@ -86,7 +86,7 @@ class GenresTest extends TestCase
         }
     }
 
-    public function test_preserve_meta_genres()
+    public function test_preserve_meta_genres(): void
     {
         $genre_ids = fake()->randomElements(Genre::pluck('id')->toArray(), 2);
         foreach ($genre_ids as $genre_id) {
@@ -110,7 +110,7 @@ class GenresTest extends TestCase
         }
     }
 
-    public function test_removes_meta_genres()
+    public function test_removes_meta_genres(): void
     {
         $this->payload['meta'] = [
             'genres' => [],

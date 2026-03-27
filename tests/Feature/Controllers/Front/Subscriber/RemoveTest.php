@@ -20,7 +20,7 @@ class RemoveTest extends TestCase
         Mail::fake();
     }
 
-    public function test_remove_valid_unconfirmed_subscriber()
+    public function test_remove_valid_unconfirmed_subscriber(): void
     {
         $subscriber = Subscriber::factory()->unconfirmed()->create();
         $url = route('subscriber.remove', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
@@ -34,7 +34,7 @@ class RemoveTest extends TestCase
         Mail::assertNothingSent();
     }
 
-    public function test_remove_valid_confirmed_subscriber()
+    public function test_remove_valid_confirmed_subscriber(): void
     {
         $subscriber = Subscriber::factory()->confirmed()->create();
 
@@ -49,7 +49,7 @@ class RemoveTest extends TestCase
         Mail::assertNothingSent();
     }
 
-    public function test_invalid_id()
+    public function test_invalid_id(): void
     {
         $subscriber = Subscriber::factory()->create();
         $url = route('subscriber.remove', ['id' => 404, 'code' => $subscriber->confirmation_code]);
@@ -62,7 +62,7 @@ class RemoveTest extends TestCase
         Mail::assertNothingSent();
     }
 
-    public function test_invalid_code()
+    public function test_invalid_code(): void
     {
         $subscriber = Subscriber::factory()->unconfirmed()->create();
         $url = route('subscriber.remove', ['id' => $subscriber->id, 'code' => 404]);

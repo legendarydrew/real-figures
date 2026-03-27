@@ -22,7 +22,7 @@ class DeleteTest extends TestCase
         $this->act = Act::factory()->createOne();
     }
 
-    public function test_removes_existing_image()
+    public function test_removes_existing_image(): void
     {
         $path = ActImageFacade::path($this->act);
         touch($path);
@@ -31,7 +31,7 @@ class DeleteTest extends TestCase
         $this->assertFileDoesNotExist($path);
     }
 
-    public function test_non_existent_image()
+    public function test_non_existent_image(): void
     {
         $path = ActImageFacade::path($this->act);
 

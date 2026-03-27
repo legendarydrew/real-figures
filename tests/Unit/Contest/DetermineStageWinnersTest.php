@@ -29,7 +29,7 @@ class DetermineStageWinnersTest extends TestCase
         $this->song_ids = $this->round->songs()->pluck('songs.id')->toArray();
     }
 
-    public function test_stage_is_not_over()
+    public function test_stage_is_not_over(): void
     {
         $this->round->update([
             'starts_at' => now()->subDay(),
@@ -41,13 +41,13 @@ class DetermineStageWinnersTest extends TestCase
         self::assertNull($result);
     }
 
-    public function test_round_with_no_outcomes()
+    public function test_round_with_no_outcomes(): void
     {
         $result = ContestFacade::determineStageWinners($this->stage);
         self::assertNull($result);
     }
 
-    public function test_stage_with_outcomes()
+    public function test_stage_with_outcomes(): void
     {
         foreach ($this->song_ids as $song_id) {
             RoundOutcome::factory()->create([
@@ -60,7 +60,7 @@ class DetermineStageWinnersTest extends TestCase
         self::assertIsIterable($runners_up);
     }
 
-    public function test_stage_one_winner_with_ties_enabled()
+    public function test_stage_one_winner_with_ties_enabled(): void
     {
         config()->set('contest.judgement.allow-ties', true);
 
@@ -78,7 +78,7 @@ class DetermineStageWinnersTest extends TestCase
         self::assertCount(1, $winners);
     }
 
-    public function test_stage_multiple_winners_with_ties_enabled()
+    public function test_stage_multiple_winners_with_ties_enabled(): void
     {
         config()->set('contest.judgement.allow-ties', true);
 
@@ -109,7 +109,7 @@ class DetermineStageWinnersTest extends TestCase
         self::assertGreaterThanOrEqual(1, count($winners));
     }
 
-    public function test_stage_one_winner_with_ties_disabled()
+    public function test_stage_one_winner_with_ties_disabled(): void
     {
         config()->set('contest.judgement.allow-ties', false);
 
@@ -127,7 +127,7 @@ class DetermineStageWinnersTest extends TestCase
         self::assertCount(1, $winners);
     }
 
-    public function test_stage_multiple_winners_with_ties_disabled()
+    public function test_stage_multiple_winners_with_ties_disabled(): void
     {
         config()->set('contest.judgement.allow-ties', false);
         foreach ($this->song_ids as $song_id) {
@@ -144,7 +144,7 @@ class DetermineStageWinnersTest extends TestCase
         self::assertCount(1, $winners);
     }
 
-    public function test_stage_runners_up_count()
+    public function test_stage_runners_up_count(): void
     {
         foreach ($this->song_ids as $song_id) {
             RoundOutcome::factory()->create([
@@ -162,7 +162,7 @@ class DetermineStageWinnersTest extends TestCase
         }
     }
 
-    public function test_stage_runners_up_with_ties_enabled()
+    public function test_stage_runners_up_with_ties_enabled(): void
     {
         config()->set('contest.judgement.allow-ties', true);
 
@@ -197,7 +197,7 @@ class DetermineStageWinnersTest extends TestCase
         self::assertGreaterThanOrEqual(2, count($runners_up));
     }
 
-    public function test_stage_runners_up_with_ties_disabled()
+    public function test_stage_runners_up_with_ties_disabled(): void
     {
         config()->set('contest.judgement.allow-ties', false);
 

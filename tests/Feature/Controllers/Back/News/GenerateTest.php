@@ -42,19 +42,19 @@ class GenerateTest extends TestCase
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(route('news.generate'), $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->postJson(route('news.generate'), $this->payload);
         $response->assertRedirect(route('admin.news.edit', ['id' => 1]));
     }
 
-    public function test_creates_post()
+    public function test_creates_post(): void
     {
         $this->actingAs($this->user)->postJson(route('news.generate'), $this->payload);
         $post = NewsPost::orderByDesc('id')->first();
@@ -65,14 +65,14 @@ class GenerateTest extends TestCase
         self::assertNull($post->published_at);
     }
 
-    public function test_empty_prompt()
+    public function test_empty_prompt(): void
     {
         $this->payload['prompt'] = null;
         $response = $this->actingAs($this->user)->postJson(route('news.generate'), $this->payload);
         $response->assertBadRequest();
     }
 
-    public function test_non_json_response()
+    public function test_non_json_response(): void
     {
         $choice = CreateResponseFixture::ATTRIBUTES;
         $choice['choices'][0]['message']['content'] = fake()->paragraph();
@@ -92,7 +92,7 @@ class GenerateTest extends TestCase
         self::assertNull($post->published_at);
     }
 
-    public function test_contest_references()
+    public function test_contest_references(): void
     {
         $this->payload['type'] = NewsPostType::CONTEST_POST_TYPE->value;
         $this->actingAs($this->user)->postJson(route('news.generate'), $this->payload);
@@ -102,7 +102,7 @@ class GenerateTest extends TestCase
         self::assertCount(0, $post->references);
     }
 
-    public function test_stage_references()
+    public function test_stage_references(): void
     {
         $stage = Stage::factory()->withRounds()->create();
         $this->payload['type'] = NewsPostType::STAGE_POST_TYPE->value;
@@ -119,7 +119,7 @@ class GenerateTest extends TestCase
         }
     }
 
-    public function test_round_references()
+    public function test_round_references(): void
     {
         $stage = Stage::factory()->withRounds()->create();
         $round = Round::factory()->for($stage)->started()->createOne();
@@ -137,7 +137,7 @@ class GenerateTest extends TestCase
         }
     }
 
-    public function test_act_references()
+    public function test_act_references(): void
     {
         $acts = Act::factory(3)->withSong()->create();
         $this->payload['type'] = NewsPostType::ACT_POST_TYPE->value;
@@ -154,7 +154,7 @@ class GenerateTest extends TestCase
         }
     }
 
-    public function test_custom_references()
+    public function test_custom_references(): void
     {
         $this->payload['type'] = NewsPostType::CUSTOM_POST_TYPE->value;
         $this->actingAs($this->user)->postJson(route('news.generate'), $this->payload);

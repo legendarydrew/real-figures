@@ -10,7 +10,7 @@ class VotesTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_access_when_not_over()
+    public function test_access_when_not_over(): void
     {
         Stage::factory()->create();
 
@@ -18,7 +18,7 @@ class VotesTest extends TestCase
         $response->assertNotFound();
     }
 
-    public function test_access_when_over()
+    public function test_access_when_over(): void
     {
         Stage::factory()->over()->create();
 

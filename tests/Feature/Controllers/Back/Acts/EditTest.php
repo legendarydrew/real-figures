@@ -19,14 +19,14 @@ class EditTest extends TestCase
         $this->act = Act::factory()->create();
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->get(route('admin.acts.edit', ['id' => $this->act->id]));
 
         $response->assertRedirectToRoute('login');
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.acts.edit', ['id' => $this->act->id]));
 
