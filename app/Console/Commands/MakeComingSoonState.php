@@ -9,8 +9,6 @@ use Illuminate\Console\Command;
 /**
  * MakeComingSoonState
  * This command puts the site in a "coming soon" state, simply by removing all the Stages and Rounds.
- *
- * @package App\Console\Commands
  */
 class MakeComingSoonState extends Command
 {

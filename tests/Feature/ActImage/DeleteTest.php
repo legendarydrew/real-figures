@@ -38,5 +38,4 @@ class DeleteTest extends TestCase
         ActImageFacade::delete(act: $this->act);
         $this->assertFileDoesNotExist($path);
     }
-
 }

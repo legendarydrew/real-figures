@@ -20,7 +20,7 @@ class RenameTest extends TestCase
         fake()->addProvider(new FakerPicsumImagesProvider(fake()));
 
         $this->act = Act::factory()->createOne();
-        $image     = fake()->image();
+        $image = fake()->image();
         ActImageFacade::create($this->act, $image);
 
         $path = ActImageFacade::path($this->act);
@@ -32,7 +32,7 @@ class RenameTest extends TestCase
     public function test_renames_existing_image_from_name_change()
     {
         $this->act->update([
-            'name' => fake()->name
+            'name' => fake()->name,
         ]);
         ActImageFacade::rename($this->act);
         $this->act->refresh();
@@ -45,7 +45,7 @@ class RenameTest extends TestCase
     public function test_renames_existing_image_from_subtitle_change()
     {
         $this->act->update([
-            'subtitle' => fake()->sentence
+            'subtitle' => fake()->sentence,
         ]);
         ActImageFacade::rename($this->act);
 
@@ -69,11 +69,10 @@ class RenameTest extends TestCase
         $this->assertFileExists($path);
         @unlink($path);
 
-//        $this->expectException(FileNotFoundException::class);
+        //        $this->expectException(FileNotFoundException::class);
         ActImageFacade::rename($this->act);
 
         $path = ActImageFacade::path($this->act);
         $this->assertFileDoesNotExist($path);
     }
-
 }

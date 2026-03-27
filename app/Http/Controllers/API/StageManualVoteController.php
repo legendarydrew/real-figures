@@ -17,45 +17,35 @@ use Inertia\Inertia;
  * StageManualVoteController
  * This endpoint is for recording "manual votes" for Songs in a Round.
  * A "manual vote" takes place to determine a winner when and if a Round ends with no votes cast.
- *
- * @package App\Http\Controllers\API
  */
 class StageManualVoteController extends Controller
 {
-
     /**
      * Display the manual vote page, with only the Rounds in the specified Stage that require a manual vote.
-     *
-     * @param int $stage_id
-     * @return \Inertia\Response|RedirectResponse
      */
     public function show(int $stage_id): \Inertia\Response|RedirectResponse
     {
-        $stage  = Stage::findOrFail($stage_id);
-        $rounds = $stage->rounds->filter(fn(Round $round) => $round->requiresManualVote());
+        $stage = Stage::findOrFail($stage_id);
+        $rounds = $stage->rounds->filter(fn (Round $round) => $round->requiresManualVote());
 
-        if ($rounds->isEmpty())
-        {
+        if ($rounds->isEmpty()) {
             return to_route('admin.stages')->withErrors('Stage does not require manual votes.');
         }
 
         return Inertia::render('back/manual-vote-page', [
-            'stage'  => [
-                'id'    => $stage->id,
-                'title' => $stage->title
+            'stage' => [
+                'id' => $stage->id,
+                'title' => $stage->title,
             ],
-            'rounds' => fn() => fractal($rounds)->parseIncludes(['songs'])
-                                                ->transformWith(new RoundAdminTransformer())
-                                                ->toArray(),
+            'rounds' => fn () => fractal($rounds)->parseIncludes(['songs'])
+                ->transformWith(new RoundAdminTransformer)
+                ->toArray(),
         ]);
     }
 
     /**
      * Cast the manual votes for the specified Stage.
      *
-     * @param ManualVoteRequest $request
-     * @param int               $stage_id
-     * @return RedirectResponse
      * @throws \Throwable
      */
     public function store(ManualVoteRequest $request, int $stage_id): RedirectResponse
@@ -70,27 +60,23 @@ class StageManualVoteController extends Controller
         Stage::findOrFail($stage_id);
 
         $data = $request->validated();
-        DB::transaction(function () use ($data, $stage_id)
-        {
-            foreach ($data['votes'] as $vote)
-            {
+        DB::transaction(function () use ($data, $stage_id) {
+            foreach ($data['votes'] as $vote) {
                 $round = Round::whereStageId($stage_id)->findOrFail($vote['round_id']);
-                if ($round->requiresManualVote())
-                {
+                if ($round->requiresManualVote()) {
                     // Check that all the Songs being voted for are part of the Round.
                     $round_song_ids = $round->songs->pluck('id')->toArray();
                     $voted_song_ids = collect(array_values($vote['song_ids']));
-                    if (!$voted_song_ids->every(fn($song_id) => in_array($song_id, $round_song_ids)))
-                    {
+                    if (! $voted_song_ids->every(fn ($song_id) => in_array($song_id, $round_song_ids))) {
                         abort(400, "{$round->title}: An invalid Song was chosen.");
                     }
 
                     // Cast a vote for the Round, as directed.
                     RoundVote::create([
-                        'round_id'         => $round->id,
-                        'first_choice_id'  => $vote['song_ids']['first'],
+                        'round_id' => $round->id,
+                        'first_choice_id' => $vote['song_ids']['first'],
                         'second_choice_id' => $vote['song_ids']['second'],
-                        'third_choice_id'  => $vote['song_ids']['third']
+                        'third_choice_id' => $vote['song_ids']['third'],
                     ]);
 
                     // Cast panel member votes (if necessary).
@@ -109,27 +95,25 @@ class StageManualVoteController extends Controller
      * Create "independent panel" votes for the specified Round.
      * These votes are determined at random, but might be biased toward the user's choices.
      *
-     * @param int   $round_id the Round ID to vote on.
-     * @param array $song_ids a list of Song IDs.
-     * @param array $voted    how the user voted for this Round.
-     * @return void
+     * @param  int  $round_id  the Round ID to vote on.
+     * @param  array  $song_ids  a list of Song IDs.
+     * @param  array  $voted  how the user voted for this Round.
      */
     protected function castPanelVotes(int $round_id, array $song_ids, array $voted): void
     {
         $vote_count = max(0, config('contest.judgement.panel-count'));
-        $vote_bias  = max(0, min(100, config('contest.judgement.panel-bias')));
+        $vote_bias = max(0, min(100, config('contest.judgement.panel-bias')));
 
-        for ($i = 0; $i < $vote_count; $i++)
-        {
+        for ($i = 0; $i < $vote_count; $i++) {
             // Determine whether the panel member's vote matches the user's, or is completely random.
             $choices = fake()->boolean($vote_bias) ? array_values($voted) : fake()->randomElements($song_ids, 3);
 
             // Cast the vote!
             RoundVote::create([
-                'round_id'         => $round_id,
-                'first_choice_id'  => $choices[0],
+                'round_id' => $round_id,
+                'first_choice_id' => $choices[0],
                 'second_choice_id' => $choices[1],
-                'third_choice_id'  => $choices[2]
+                'third_choice_id' => $choices[2],
             ]);
 
         }

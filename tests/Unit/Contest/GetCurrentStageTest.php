@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Unit\Contest;
 
 use App\Facades\ContestFacade;

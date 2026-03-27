@@ -1,15 +1,17 @@
 <?php
+
 // ChatGPT
 
 namespace App\Services;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 
 class PaypalService
 {
     protected string $clientId;
+
     protected string $secret;
+
     protected string $baseUrl;
 
     public function __construct()
@@ -41,5 +43,4 @@ class PaypalService
 
         return $response->successful() ? $response->json() : null;
     }
-
 }

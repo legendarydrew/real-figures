@@ -10,8 +10,6 @@ use Spatie\Analytics\Period;
 /**
  * BrowsersController
  * This returns analytics data for browsers used to access the site over the specified period.
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class BrowsersController extends AnalyticsAPIController
 {
@@ -29,5 +27,4 @@ class BrowsersController extends AnalyticsAPIController
     {
         return $rows->toArray();
     }
-
 }

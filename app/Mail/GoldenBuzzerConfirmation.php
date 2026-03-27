@@ -9,14 +9,10 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-
 /**
  * GoldenBuzzerConfirmation
  * A thank-you email for supporting a Song with a Golden Buzzer.
- *
- * @package App\Mail
  */
-
 class GoldenBuzzerConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
@@ -28,7 +24,7 @@ class GoldenBuzzerConfirmation extends Mailable
         $this->$donation = $donation;
 
         $this->viewData = [
-            'donation' => $donation
+            'donation' => $donation,
         ];
     }
 

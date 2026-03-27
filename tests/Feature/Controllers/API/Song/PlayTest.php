@@ -48,8 +48,7 @@ class PlayTest extends TestCase
     public function test_multiple_increments_on_same_day()
     {
         $play_count = fake()->numberBetween(2, 10);
-        foreach (range(1, $play_count) as $i)
-        {
+        foreach (range(1, $play_count) as $i) {
             $this->actingAs($this->user)->putJson(sprintf(self::ENDPOINT, $this->song->id));
         }
 
@@ -77,5 +76,4 @@ class PlayTest extends TestCase
         $response = $this->actingAs($this->user)->putJson(sprintf(self::ENDPOINT, 404));
         $response->assertNotFound();
     }
-
 }

@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
  * MakeActiveStageState
  * To help with testing the site functionality, I've created this command to set up a Stage
  * with an active Round, and optionally some previous Rounds.
- *
- * @package App\Console\Commands
  */
 class MakeActiveStageState extends Command
 {
@@ -38,31 +36,29 @@ class MakeActiveStageState extends Command
         Stage::truncate();
 
         $this->comment('- creating a new Stage');
-        $stage              = Stage::factory()->createOne();
-        $past_round_count   = max(0, (int)$this->argument('past')) ?? fake()->numberBetween(0, 5);
-        $future_round_count = max(0, (int)$this->argument('future')) ?? fake()->numberBetween(0, 3);
+        $stage = Stage::factory()->createOne();
+        $past_round_count = max(0, (int) $this->argument('past')) ?? fake()->numberBetween(0, 5);
+        $future_round_count = max(0, (int) $this->argument('future')) ?? fake()->numberBetween(0, 3);
 
         // Past Rounds.
-        if ($past_round_count)
-        {
+        if ($past_round_count) {
             $this->comment('- creating past Rounds');
             Round::factory($past_round_count)->for($stage)->ended()->withSongs()->create([
-                'title' => new Sequence(...array_map(fn($index) => "Round $index", range(1, $past_round_count)))
+                'title' => new Sequence(...array_map(fn ($index) => "Round $index", range(1, $past_round_count))),
             ]);
         }
 
         // Current (active) Round.
         $this->comment('- creating current Round');
         Round::factory()->for($stage)->started()->withSongs()->create([
-            'title' => 'Round ' . ($past_round_count + 1),
+            'title' => 'Round '.($past_round_count + 1),
         ]);
 
         // Future Rounds.
-        if ($future_round_count)
-        {
+        if ($future_round_count) {
             $this->comment('- creating future Rounds');
             Round::factory($future_round_count)->for($stage)->ready()->withSongs()->create([
-                'title' => new Sequence(...array_map(fn($index) => "Round $index", range($past_round_count + 2, $past_round_count + 2 + $future_round_count)))
+                'title' => new Sequence(...array_map(fn ($index) => "Round $index", range($past_round_count + 2, $past_round_count + 2 + $future_round_count))),
             ]);
         }
 

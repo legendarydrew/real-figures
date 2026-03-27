@@ -17,8 +17,8 @@ class ContestStatusesTest extends TestCase
     {
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/dashboard-page')
-                                                          ->has('contest_status', fn(Assert $page) => $page->where('status', ContestStatus::COMING_SOON)));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/dashboard-page')
+            ->has('contest_status', fn (Assert $page) => $page->where('status', ContestStatus::COMING_SOON)));
     }
 
     public function test_when_contest_is_counting_down()
@@ -27,11 +27,11 @@ class ContestStatusesTest extends TestCase
 
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/dashboard-page')
-                                                          ->has('contest_status', fn(Assert $page) => $page
-                                                              ->where('status', ContestStatus::COUNTDOWN)
-                                                              ->has('round')
-                                                              ->has('countdown')));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/dashboard-page')
+            ->has('contest_status', fn (Assert $page) => $page
+                ->where('status', ContestStatus::COUNTDOWN)
+                ->has('round')
+                ->has('countdown')));
     }
 
     public function test_when_contest_has_current_round()
@@ -40,12 +40,12 @@ class ContestStatusesTest extends TestCase
 
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/dashboard-page')
-                                                          ->has('contest_status', fn(Assert $page) => $page
-                                                              ->where('status', ContestStatus::ACTIVE)
-                                                              ->has('round')
-                                                              ->has('countdown')
-                                                              ->has('acts')));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/dashboard-page')
+            ->has('contest_status', fn (Assert $page) => $page
+                ->where('status', ContestStatus::ACTIVE)
+                ->has('round')
+                ->has('countdown')
+                ->has('acts')));
     }
 
     public function test_when_contest_is_at_stage_end()
@@ -54,10 +54,10 @@ class ContestStatusesTest extends TestCase
 
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/dashboard-page')
-                                                          ->has('contest_status', fn(Assert $page) => $page
-                                                              ->where('status', ContestStatus::JUDGEMENT)
-                                                              ->has('round')));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/dashboard-page')
+            ->has('contest_status', fn (Assert $page) => $page
+                ->where('status', ContestStatus::JUDGEMENT)
+                ->has('round')));
     }
 
     public function test_when_contest_is_over()
@@ -67,9 +67,8 @@ class ContestStatusesTest extends TestCase
 
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/dashboard-page')
-                                                          ->has('contest_status', fn(Assert $page) => $page
-                                                              ->where('status', ContestStatus::OVER)));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/dashboard-page')
+            ->has('contest_status', fn (Assert $page) => $page
+                ->where('status', ContestStatus::OVER)));
     }
-
 }

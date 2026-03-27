@@ -13,19 +13,20 @@ class MembersTest extends TestCase
 
     protected const string ENDPOINT = '/api/acts/%u';
 
-    private Act   $act;
+    private Act $act;
+
     private array $payload;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->act     = Act::factory()->withPicture()->createOne();
+        $this->act = Act::factory()->withPicture()->createOne();
         $this->payload = [
             'name' => fake()->name,
             'meta' => [
-                'members' => []
-            ]
+                'members' => [],
+            ],
         ];
     }
 
@@ -35,7 +36,7 @@ class MembersTest extends TestCase
             'members' => [
                 ['name' => 'Max Power', 'role' => 'Bad Boy'],
                 ['name' => 'Jess Chillin', 'role' => 'Bad Girl'],
-            ]
+            ],
         ];
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
@@ -46,7 +47,7 @@ class MembersTest extends TestCase
     public function test_removes_meta_members()
     {
         $this->payload['meta'] = [
-            'members' => []
+            'members' => [],
         ];
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
@@ -64,7 +65,7 @@ class MembersTest extends TestCase
         $this->payload['meta'] = [
             'members' => [
                 ['name' => 'Phil McCracken', 'role' => 'Owner'],
-            ]
+            ],
         ];
 
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
@@ -84,18 +85,17 @@ class MembersTest extends TestCase
 
         $this->payload['meta'] = [
             'members' => [
-                ...$this->act->members->map(fn(ActMetaMember $member) => [
-                    'id'   => $member->id,
+                ...$this->act->members->map(fn (ActMetaMember $member) => [
+                    'id' => $member->id,
                     'name' => $member->name,
-                    'role' => $member->role
+                    'role' => $member->role,
                 ]),
                 ['name' => 'Phil McCracken', 'role' => 'Owner'],
-            ]
+            ],
         ];
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
         $this->act->refresh();
         self::assertCount(count($this->payload['meta']['members']), $this->act->members);
     }
-
 }

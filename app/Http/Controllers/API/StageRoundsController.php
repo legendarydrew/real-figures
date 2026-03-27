@@ -11,18 +11,15 @@ use Inertia\Response;
 /**
  * StageRoundsController
  * This endpoint will be used to fetch information about a Stage's Rounds.
- *
- * @package App\Http\Controllers\API
  */
 class StageRoundsController extends Controller
 {
-
     public function show(int $stage_id): Response
     {
         $stage = Stage::findOrFail($stage_id);
 
         return Inertia::render('back/stages-page', [
-            'rounds' => fn() => fractal($stage->rounds, new RoundAdminTransformer())->toArray()
+            'rounds' => fn () => fractal($stage->rounds, new RoundAdminTransformer)->toArray(),
         ]);
     }
 }

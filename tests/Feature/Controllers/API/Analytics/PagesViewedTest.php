@@ -9,7 +9,8 @@ class PagesViewedTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT  = 'api/analytics/pages';
+    protected const string ENDPOINT = 'api/analytics/pages';
+
     protected const int    DAY_COUNT = 7;
 
     public function test_as_guest()
@@ -31,16 +32,16 @@ class PagesViewedTest extends TestCase
             'grouped' => [
                 '*' => [
                     'url',
-                    'count'
-                ]
+                    'count',
+                ],
             ],
-            'data'    => [
+            'data' => [
                 '*' => [
                     'title',
                     'url',
-                    'count'
-                ]
-            ]
+                    'count',
+                ],
+            ],
         ]);
     }
 
@@ -48,15 +49,15 @@ class PagesViewedTest extends TestCase
     {
         \Analytics::fake(collect([
             [
-                'pageTitle'       => fake()->sentence,
-                'fullPageUrl'     => 'realfigures.local/news/some-article',
-                'screenPageViews' => fake()->numberBetween(1, 200)
+                'pageTitle' => fake()->sentence,
+                'fullPageUrl' => 'realfigures.local/news/some-article',
+                'screenPageViews' => fake()->numberBetween(1, 200),
             ],
             [
-                'pageTitle'       => fake()->sentence,
-                'fullPageUrl'     => 'realfigures.local/contest',
-                'screenPageViews' => fake()->numberBetween(1, 200)
-            ]
+                'pageTitle' => fake()->sentence,
+                'fullPageUrl' => 'realfigures.local/contest',
+                'screenPageViews' => fake()->numberBetween(1, 200),
+            ],
             // NOTE: GA provides the fullPageUrl *without* the protocol.
             // fake()->url sometimes gives us http instead of https.
         ]));
@@ -70,16 +71,16 @@ class PagesViewedTest extends TestCase
             'grouped' => [
                 '*' => [
                     'url',
-                    'count'
-                ]
+                    'count',
+                ],
             ],
-            'data'    => [
+            'data' => [
                 '*' => [
                     'title',
                     'url',
-                    'count'
-                ]
-            ]
+                    'count',
+                ],
+            ],
         ]);
     }
 }

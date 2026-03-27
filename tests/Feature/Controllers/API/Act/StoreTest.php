@@ -23,7 +23,7 @@ class StoreTest extends TestCase
         parent::setUp();
 
         $this->payload = [
-            'name' => fake()->name
+            'name' => fake()->name,
         ];
     }
 
@@ -86,7 +86,7 @@ class StoreTest extends TestCase
     {
         fake()->addProvider(new FakerPicsumImagesProvider(fake()));
         $this->payload['new_image'] = fake()->image();
-        $response               = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertRedirectToRoute('admin.acts.edit', ['id' => 1]);
 
         $act = Act::first();
@@ -112,5 +112,4 @@ class StoreTest extends TestCase
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertRedirectToRoute('admin.acts.edit', ['id' => 2]);
     }
-
 }

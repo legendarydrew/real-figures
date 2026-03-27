@@ -18,19 +18,19 @@ class RoundVoteTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $act   = Act::factory()->create();
+        $act = Act::factory()->create();
         $songs = Song::factory()->count(3)->create(['act_id' => $act->id]);
 
         $stage = Stage::factory()->create();
         $round = Round::factory()->create([
-            'stage_id' => $stage->id
+            'stage_id' => $stage->id,
         ]);
 
         $this->vote = RoundVote::create([
-            'round_id'         => $round->id,
-            'first_choice_id'  => $songs->get(0)->id,
+            'round_id' => $round->id,
+            'first_choice_id' => $songs->get(0)->id,
             'second_choice_id' => $songs->get(1)->id,
-            'third_choice_id'  => $songs->get(2)->id,
+            'third_choice_id' => $songs->get(2)->id,
         ]);
     }
 
@@ -39,7 +39,8 @@ class RoundVoteTest extends TestCase
         self::assertInstanceOf(Round::class, $this->vote->round);
     }
 
-    #[Depends('test_round_relation')] public function test_stage_relation()
+    #[Depends('test_round_relation')]
+    public function test_stage_relation()
     {
         self::assertInstanceOf(Stage::class, $this->vote->stage);
     }

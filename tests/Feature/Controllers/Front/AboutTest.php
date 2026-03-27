@@ -16,5 +16,4 @@ class AboutTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('front.about');
     }
-
 }

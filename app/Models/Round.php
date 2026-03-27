@@ -60,13 +60,11 @@ class Round extends Model
     public function scopeActive(Builder $builder): Builder
     {
         return $builder->where('starts_at', '<=', now())
-                       ->where('ends_at', '>', now());
+            ->where('ends_at', '>', now());
     }
 
     /**
      * Returns TRUE if the Round has started.
-     *
-     * @return bool
      */
     public function hasStarted(): bool
     {
@@ -75,19 +73,16 @@ class Round extends Model
 
     /**
      * Returns TRUE if the Round is active/underway.
-     *
-     * @return bool
      */
     public function isActive(): bool
     {
         $now = now();
+
         return $this->starts_at < $now && $this->ends_at > $now;
     }
 
     /**
      * Returns TRUE if the Round has ended.
-     *
-     * @return bool
      */
     public function hasEnded(): bool
     {
@@ -97,22 +92,21 @@ class Round extends Model
     /**
      * Returns TRUE if this Round requires a "manual vote".
      * This happens if the Round has RoundOutcomes, but all the Songs have zero points.
-     *
-     * @return bool
      */
     public function requiresManualVote(): bool
     {
         return $this->hasEnded() && $this->songs->isNotEmpty() &&
-            ($this->votes->isEmpty() || $this->outcomes->every(fn(RoundOutcome $outcome) => $outcome->score === 0));
+            ($this->votes->isEmpty() || $this->outcomes->every(fn (RoundOutcome $outcome) => $outcome->score === 0));
     }
 
     public function getFullTitleAttribute(): string
     {
         $stage_round_count = $this->stage->rounds()->count();
-        $key               = $stage_round_count === 1 ? 'contest.round.title.only_round' : 'contest.round.title.many_rounds';
+        $key = $stage_round_count === 1 ? 'contest.round.title.only_round' : 'contest.round.title.many_rounds';
+
         return trans($key, [
             'stage_title' => $this->stage->title,
-            'round_title' => $this->title
+            'round_title' => $this->title,
         ]);
     }
 }

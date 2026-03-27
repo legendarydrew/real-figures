@@ -16,19 +16,16 @@ use Inertia\Response;
  * This set of endpoints are used to manage "press releases" for the contest.
  * The primary way of creating these press releases is through the OpenAI API.
  * Yes, we're going to use AI.
- *
- * @package App\Http\Controllers\Back
  */
 class NewsController extends Controller
 {
-
     public function index(): Response
     {
         return Inertia::render('back/news-page', [
-            'posts' => fn() => fractal(NewsPost::orderByDesc('id')->paginate())
+            'posts' => fn () => fractal(NewsPost::orderByDesc('id')->paginate())
                 ->transformWith(NewsPostTransformer::class)
                 ->withResourceName('data')
-                ->toArray()
+                ->toArray(),
         ]);
     }
 
@@ -40,9 +37,9 @@ class NewsController extends Controller
     public function edit(int $id): Response
     {
         return Inertia::render('back/news-edit-page', [
-            'post' => fn() => fractal(NewsPost::findOrFail($id))
+            'post' => fn () => fractal(NewsPost::findOrFail($id))
                 ->transformWith(NewsPostTransformer::class)
-                ->toArray()
+                ->toArray(),
         ]);
     }
 
@@ -56,20 +53,16 @@ class NewsController extends Controller
 
     public function update(int $id, NewsPostRequest $request): RedirectResponse
     {
-        $data          = $request->validated();
-        $post          = NewsPost::findOrFail($id);
+        $data = $request->validated();
+        $post = NewsPost::findOrFail($id);
         $was_published = false;
 
-        if (isset($data['publish']))
-        {
-            if ($data['publish'] && is_null($post->published_at))
-            {
+        if (isset($data['publish'])) {
+            if ($data['publish'] && is_null($post->published_at)) {
                 // Mark the News Post as published.
                 $data['published_at'] = now();
-                $was_published        = true;
-            }
-            else
-            {
+                $was_published = true;
+            } else {
                 // Give ourselves the ability to unpublish, if necessary in the future.
                 $data['published_at'] = null;
             }
@@ -78,8 +71,7 @@ class NewsController extends Controller
 
         // If the News Post was [newly] published, ping some search engines.
         // We only want to do this if the site is live.
-        if ($was_published)
-        {
+        if ($was_published) {
             ContestFacade::pingNewsPost($post);
         }
 

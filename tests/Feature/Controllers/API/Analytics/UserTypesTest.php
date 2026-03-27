@@ -9,7 +9,8 @@ class UserTypesTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT  = 'api/analytics/user-types';
+    protected const string ENDPOINT = 'api/analytics/user-types';
+
     protected const int    DAY_COUNT = 7;
 
     public function test_as_guest()
@@ -29,8 +30,8 @@ class UserTypesTest extends TestCase
         $response->assertJsonStructure([
             '*' => [
                 'type',
-                'count'
-            ]
+                'count',
+            ],
         ]);
     }
 
@@ -39,12 +40,12 @@ class UserTypesTest extends TestCase
         \Analytics::fake(collect([
             [
                 'newVsReturning' => 'New',
-                'activeUsers'    => fake()->numberBetween(1, 200)
+                'activeUsers' => fake()->numberBetween(1, 200),
             ],
             [
                 'newVsReturning' => 'Returning',
-                'activeUsers'    => fake()->numberBetween(1, 200)
-            ]
+                'activeUsers' => fake()->numberBetween(1, 200),
+            ],
         ]));
 
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
@@ -54,8 +55,8 @@ class UserTypesTest extends TestCase
         $response->assertJsonStructure([
             '*' => [
                 'type',
-                'count'
-            ]
+                'count',
+            ],
         ]);
     }
 }

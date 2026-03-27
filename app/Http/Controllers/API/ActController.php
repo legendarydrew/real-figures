@@ -19,23 +19,22 @@ class ActController extends Controller
 {
     public function index(): JsonResponse
     {
-        return fractal(Act::paginate(), new ActTransformer())->withResourceName('data')->respond();
+        return fractal(Act::paginate(), new ActTransformer)->withResourceName('data')->respond();
     }
 
     public function show(int $act_id): JsonResponse
     {
-        return fractal(Act::findOrFail($act_id), new ActTransformer())->includeProfile()->respond();
+        return fractal(Act::findOrFail($act_id), new ActTransformer)->includeProfile()->respond();
     }
 
     public function store(ActRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $act  = DB::transaction(function () use ($data)
-        {
+        $act = DB::transaction(function () use ($data) {
             $act = Act::factory()->create([
-                'name'             => $data['name'],
-                'subtitle'         => $data['subtitle'] ?? null,
-                'slug'             => $data['slug'] ?? null,
+                'name' => $data['name'],
+                'subtitle' => $data['subtitle'] ?? null,
+                'slug' => $data['slug'] ?? null,
                 'is_fan_favourite' => $data['is_fan_favourite'] ?? false,
             ]);
             $this->updateActImage($act, $data);
@@ -50,15 +49,14 @@ class ActController extends Controller
 
     public function update(ActRequest $request, int $act_id): RedirectResponse
     {
-        $act  = Act::findOrFail($act_id);
+        $act = Act::findOrFail($act_id);
         $data = $request->validated();
 
-        DB::transaction(function () use ($act, $data)
-        {
+        DB::transaction(function () use ($act, $data) {
             $act->update([
-                'name'             => $data['name'],
-                'subtitle'         => $data['subtitle'] ?? null,
-                'slug'             => $data['slug'] ?? null,
+                'name' => $data['name'],
+                'subtitle' => $data['subtitle'] ?? null,
+                'slug' => $data['slug'] ?? null,
                 'is_fan_favourite' => $data['is_fan_favourite'] ?? false,
             ]);
             $this->updateActImage($act, $data);
@@ -71,29 +69,21 @@ class ActController extends Controller
 
     protected function updateActImage(Act $act, array $data): void
     {
-        if (!empty($data['new_image']))
-        {
+        if (! empty($data['new_image'])) {
             ActImageFacade::create($act, $data['new_image']);
-        }
-        elseif (isset($data['remove_image']) && $data['remove_image'])
-        {
+        } elseif (isset($data['remove_image']) && $data['remove_image']) {
             ActImageFacade::delete($act);
-        }
-        else
-        {
+        } else {
             ActImageFacade::rename($act);
         }
     }
 
     protected function updateActProfile(Act $act, array $data): void
     {
-        if (isset($data['profile']))
-        {
+        if (isset($data['profile'])) {
             $act->profile()->updateOrCreate(['act_id' => $act->id], $data['profile']);
             // https://stackoverflow.com/a/62489173/4073160
-        }
-        else
-        {
+        } else {
             $act->profile()->delete();
         }
     }
@@ -101,20 +91,17 @@ class ActController extends Controller
     protected function updateActMeta(Act $act, array $data): void
     {
         $meta = ['members', 'notes', 'traits'];
-        foreach ($meta as $meta_column)
-        {
+        foreach ($meta as $meta_column) {
             $this->updateActMetaRelation($act, $meta_column, $data);
         }
 
         // Languages are passed as a list of language codes.
-        if (isset($data['meta']['languages']))
-        {
+        if (isset($data['meta']['languages'])) {
             $language_ids = Language::whereIn('code', $data['meta']['languages'])->pluck('id')->toArray();
-            foreach ($language_ids as $language_id)
-            {
+            foreach ($language_ids as $language_id) {
                 ActMetaLanguage::updateOrCreate([
-                    'act_id'      => $act->id,
-                    'language_id' => $language_id
+                    'act_id' => $act->id,
+                    'language_id' => $language_id,
                 ]);
             }
             $act->languages()->whereNotIn('language_id', $language_ids)->delete();
@@ -122,43 +109,36 @@ class ActController extends Controller
 
         // Genres are passed as a list of names.
         // These might include newly-created ones.
-        if (isset($data['meta']['genres']))
-        {
+        if (isset($data['meta']['genres'])) {
             // Save the list of genres, using title case for the genre name.
-            $genres = array_map(fn($genre) => ucwords($genre), $data['meta']['genres']);
-            Genre::upsert(array_map(fn($genre) => ['name' => $genre], $genres), 'name');
+            $genres = array_map(fn ($genre) => ucwords($genre), $data['meta']['genres']);
+            Genre::upsert(array_map(fn ($genre) => ['name' => $genre], $genres), 'name');
 
             // Associate the Act with the genres.
             $genre_ids = Genre::whereIn('name', $genres)->pluck('id')->toArray();
-            foreach ($genre_ids as $genre_id)
-            {
+            foreach ($genre_ids as $genre_id) {
                 ActMetaGenre::updateOrCreate([
-                    'act_id'   => $act->id,
-                    'genre_id' => $genre_id
+                    'act_id' => $act->id,
+                    'genre_id' => $genre_id,
                 ]);
             }
             ActMetaGenre::whereActId($act->id)
-                        ->whereNotIn('genre_id', $genre_ids)
-                        ->delete();
+                ->whereNotIn('genre_id', $genre_ids)
+                ->delete();
         }
     }
 
     protected function updateActMetaRelation(Act $act, string $relation, array $data): void
     {
-        if (isset($data['meta'][$relation]))
-        {
-            $existing_ids = array_filter(array_map(fn($row) => $row['id'] ?? false, $data['meta'][$relation]));
-            if (count($existing_ids))
-            {
+        if (isset($data['meta'][$relation])) {
+            $existing_ids = array_filter(array_map(fn ($row) => $row['id'] ?? false, $data['meta'][$relation]));
+            if (count($existing_ids)) {
                 $act->$relation()->whereNotIn('id', $existing_ids)->delete();
-            }
-            else
-            {
+            } else {
                 $act->$relation()->delete();
             }
 
-            foreach ($data['meta'][$relation] as $row)
-            {
+            foreach ($data['meta'][$relation] as $row) {
                 $act->$relation()->updateOrCreate($row);
             }
         }

@@ -47,7 +47,7 @@ class DestroyTest extends TestCase
     public function test_deletes_stage_and_rounds(): void
     {
         $this->actingAs($this->user)->deleteJson(sprintf(self::ENDPOINT, $this->stage->id));
-        $stage  = Stage::find($this->stage->id);
+        $stage = Stage::find($this->stage->id);
         $rounds = Round::whereStageId($this->stage->id)->first();
 
         self::assertNull($stage);

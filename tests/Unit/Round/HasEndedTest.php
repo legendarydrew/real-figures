@@ -17,7 +17,7 @@ class HasEndedTest extends TestCase
         $round = Round::factory()->create([
             'stage_id' => $stage->id,
             'starts_at' => now()->subDay(),
-            'ends_at' => now()
+            'ends_at' => now(),
         ]);
 
         self::assertTrue($round->hasEnded());
@@ -29,10 +29,9 @@ class HasEndedTest extends TestCase
         $round = Round::factory()->create([
             'stage_id' => $stage->id,
             'starts_at' => now(),
-            'ends_at' => now()->addDay()
+            'ends_at' => now()->addDay(),
         ]);
 
         self::assertFalse($round->hasEnded());
     }
-
 }

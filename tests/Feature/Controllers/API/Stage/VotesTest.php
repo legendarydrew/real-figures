@@ -3,10 +3,7 @@
 namespace Tests\Feature\Controllers\API\Stage;
 
 use App\Models\Round;
-use App\Models\RoundOutcome;
 use App\Models\Stage;
-use App\Models\StageWinner;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
@@ -16,7 +13,9 @@ class VotesTest extends TestCase
     use DatabaseMigrations;
 
     protected const string ENDPOINT = 'api/stages/%u/votes';
+
     protected const int ROUND_COUNT = 4;
+
     private array $payload;
 
     private Stage $stage;
@@ -66,5 +65,4 @@ class VotesTest extends TestCase
         $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, 404));
         $response->assertNotFound();
     }
-
 }

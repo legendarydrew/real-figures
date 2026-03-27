@@ -12,18 +12,19 @@ class UpdateTest extends TestCase
     use DatabaseMigrations;
 
     private NewsPost $post;
-    private array    $payload;
+
+    private array $payload;
 
     protected function setUp(): void
     {
         parent::setUp();
         ContestFacade::partialMock();
 
-        $this->post    = NewsPost::factory()->unpublished()->createOne();
+        $this->post = NewsPost::factory()->unpublished()->createOne();
         $this->payload = [
-            'id'      => $this->post->id,
-            'title'   => fake()->sentence(),
-            'content' => fake()->paragraph()
+            'id' => $this->post->id,
+            'title' => fake()->sentence(),
+            'content' => fake()->paragraph(),
         ];
     }
 
@@ -60,7 +61,7 @@ class UpdateTest extends TestCase
         $this->post->refresh();
         self::assertNull($this->post->published_at);
 
-        $date                     = now()->microseconds(0);
+        $date = now()->microseconds(0);
         $this->post->published_at = $date;
         $this->post->save();
 
@@ -91,5 +92,4 @@ class UpdateTest extends TestCase
         $this->post->refresh();
         self::assertNull($this->post->published_at);
     }
-
 }

@@ -12,7 +12,7 @@ return [
     | and organization on your OpenAI dashboard, at https://openai.com.
     */
 
-    'api_key'      => env('OPENAI_API_KEY'),
+    'api_key' => env('OPENAI_API_KEY'),
     'organization' => env('OPENAI_ORGANIZATION'),
 
     /*
@@ -24,7 +24,7 @@ return [
     | situations where you are using a legacy user API key and need association
     | with a project. This is not required for the newer API keys.
     */
-    'project'      => env('OPENAI_PROJECT'),
+    'project' => env('OPENAI_PROJECT'),
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | Here you may specify your OpenAI API base URL used to make requests. This
     | is needed if using a custom API endpoint. Defaults to: api.openai.com/v1
     */
-    'base_uri'     => env('OPENAI_BASE_URL'),
+    'base_uri' => env('OPENAI_BASE_URL'),
 
     /*
     |--------------------------------------------------------------------------

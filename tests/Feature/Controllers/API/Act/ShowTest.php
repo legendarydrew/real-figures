@@ -51,8 +51,8 @@ class ShowTest extends TestCase
             'slug',
             'has_profile',
             'profile' => [
-                'description'
-            ]
+                'description',
+            ],
         ]);
     }
 }

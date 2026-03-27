@@ -19,7 +19,6 @@ class RespondTest extends TestCase
 
     private array $payload;
 
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -28,7 +27,7 @@ class RespondTest extends TestCase
 
         $this->message = ContactMessage::factory()->createOne();
         $this->payload = [
-            'response' => fake()->realText()
+            'response' => fake()->realText(),
         ];
     }
 
@@ -48,8 +47,7 @@ class RespondTest extends TestCase
     public function test_sends_mail()
     {
         $this->actingAs($this->user)->putJson(sprintf(self::ENDPOINT, $this->message->id), $this->payload);
-        Mail::assertSent(ContactMessageResponse::class, function (ContactMessageResponse $mail)
-        {
+        Mail::assertSent(ContactMessageResponse::class, function (ContactMessageResponse $mail) {
             return $mail->hasTo($this->message->email) && $mail->viewData['response'] === $this->payload['response'];
         });
 

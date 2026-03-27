@@ -12,23 +12,18 @@ use Illuminate\Support\Facades\Mail;
 
 class SubscribersController extends Controller
 {
-
     public function store(SubscriberRequest $request): JsonResponse
     {
         // If there is an existing Subscriber, but it has not been confirmed,
         // send another confirmation email.
         $subscriber = Subscriber::whereEmail($request->input('email'))->first();
-        if ($subscriber)
-        {
-            if ($subscriber->confirmed)
-            {
-                return response()->json([ 'message' => 'The email address is already subscribed.'], 422);
+        if ($subscriber) {
+            if ($subscriber->confirmed) {
+                return response()->json(['message' => 'The email address is already subscribed.'], 422);
             }
-        }
-        else
-        {
+        } else {
             $subscriber = Subscriber::factory()->unconfirmed()->createOne([
-                'email' => $request->input('email')
+                'email' => $request->input('email'),
             ]);
         }
 

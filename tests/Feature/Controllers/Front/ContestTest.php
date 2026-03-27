@@ -30,9 +30,9 @@ class ContestTest extends TestCase
     {
         $stage = Stage::factory()->create();
         Round::factory()->create([
-            'stage_id'  => $stage->id,
+            'stage_id' => $stage->id,
             'starts_at' => now()->addDay(),
-            'ends_at'   => now()->addWeek()
+            'ends_at' => now()->addWeek(),
         ]);
 
         $response = $this->get(route('contest'));
@@ -67,5 +67,4 @@ class ContestTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('front.contest.over');
     }
-
 }

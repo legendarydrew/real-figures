@@ -31,5 +31,4 @@ class LanguagesTest extends TestCase
         $response->assertJsonCount(10); // see TestCase
         $response->assertJsonStructure(['*' => ['code', 'name']]);
     }
-
 }

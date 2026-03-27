@@ -19,8 +19,8 @@ class CustomPromptTest extends TestCase
     {
         parent::setUp();
         $this->payload = [
-            'type'   => NewsPostType::CUSTOM_POST_TYPE->value,
-            'prompt' => fake()->sentence()
+            'type' => NewsPostType::CUSTOM_POST_TYPE->value,
+            'prompt' => fake()->sentence(),
         ];
     }
 
@@ -38,9 +38,9 @@ class CustomPromptTest extends TestCase
 
     public function test_custom_prompt_with_previous_post()
     {
-        $post                      = NewsPost::factory()->createOne();
+        $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
-        $response                  = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
 
         $prompt = $response->json('prompt');
@@ -52,7 +52,7 @@ class CustomPromptTest extends TestCase
     public function test_custom_prompt_contains_prompt()
     {
         $this->payload['prompt'] = fake()->paragraph();
-        $response                = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
 
         $prompt = $response->json('prompt');
         self::assertTrue(str_contains($prompt, $this->payload['prompt']));
@@ -60,7 +60,7 @@ class CustomPromptTest extends TestCase
 
     public function test_all_placeholders_filled()
     {
-        $post                      = NewsPost::factory()->createOne();
+        $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
 
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -74,18 +74,18 @@ class CustomPromptTest extends TestCase
     public function test_invalid_previous_post()
     {
         $this->payload['previous'] = [404];
-        $response                  = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnprocessable();
     }
 
     public function test_no_prompt()
     {
         $this->payload['prompt'] = null;
-        $response                = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertBadRequest();
 
         $this->payload['prompt'] = '';
-        $response                = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertBadRequest();
     }
 }

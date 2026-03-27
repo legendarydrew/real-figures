@@ -18,7 +18,7 @@ class FullTitleTest extends TestCase
 
         $expected_title = trans('contest.round.title.only_round', [
             'stage_title' => $stage->title,
-            'round_title' => $round->title
+            'round_title' => $round->title,
         ]);
         self::assertEquals($expected_title, $round->full_title);
     }
@@ -31,9 +31,8 @@ class FullTitleTest extends TestCase
 
         $expected_title = trans('contest.round.title.many_rounds', [
             'stage_title' => $stage->title,
-            'round_title' => $round->title
+            'round_title' => $round->title,
         ]);
         self::assertEquals($expected_title, $round->full_title);
     }
-
 }

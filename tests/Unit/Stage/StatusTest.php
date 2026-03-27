@@ -33,7 +33,7 @@ class StatusTest extends TestCase
     {
         Round::factory(3)->for($this->stage)->withSongs(2)->create([
             'starts_at' => now()->addDay(),
-            'ends_at'   => now()->addDays(2),
+            'ends_at' => now()->addDays(2),
         ]);
 
         self::assertEquals(trans('contest.stage.status.ready'), $this->stage->status);
@@ -62,11 +62,10 @@ class StatusTest extends TestCase
     public function test_stage_has_all_rounds_ended_with_outcomes()
     {
         $round = Round::factory()->for($this->stage)->withSongs(2)->ended()->create();
-        foreach ($round->songs as $song)
-        {
+        foreach ($round->songs as $song) {
             RoundOutcome::factory()->create([
                 'round_id' => $round->id,
-                'song_id'  => $song->id
+                'song_id' => $song->id,
             ]);
         }
         self::assertEquals(trans('contest.stage.status.judgement'), $this->stage->status);
@@ -75,12 +74,11 @@ class StatusTest extends TestCase
     public function test_stage_has_all_rounds_ended_with_winners()
     {
         $round = Round::factory()->for($this->stage)->withSongs(2)->ended()->create();
-        foreach ($round->songs as $song)
-        {
+        foreach ($round->songs as $song) {
             StageWinner::create([
                 'stage_id' => $round->stage->id,
                 'round_id' => $round->id,
-                'song_id'  => $song->id
+                'song_id' => $song->id,
             ]);
         }
         self::assertEquals(trans('contest.stage.status.ended'), $this->stage->status);

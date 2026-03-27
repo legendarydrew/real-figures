@@ -15,7 +15,6 @@ class UpdateTest extends TestCase
 
     private ContactMessage $message;
 
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -48,7 +47,7 @@ class UpdateTest extends TestCase
     public function test_already_read_message()
     {
         $this->message->update([
-            'read_at' => now()
+            'read_at' => now(),
         ]);
 
         $this->actingAs($this->user)->putJson(sprintf(self::ENDPOINT, $this->message->id));

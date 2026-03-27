@@ -43,12 +43,12 @@ class IndexTest extends TestCase
                     'id',
                     'name',
                     'slug',
-                    'has_profile'
-                ]
+                    'has_profile',
+                ],
             ],
             'meta' => [
-                'pagination'
-            ]
+                'pagination',
+            ],
         ]);
     }
 }

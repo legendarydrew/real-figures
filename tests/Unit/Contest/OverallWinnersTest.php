@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Unit\Contest;
 
 use App\Facades\ContestFacade;
@@ -33,5 +32,4 @@ class OverallWinnersTest extends TestCase
         self::assertArrayHasKey('winners', $results);
         self::assertArrayHasKey('runners_up', $results);
     }
-
 }

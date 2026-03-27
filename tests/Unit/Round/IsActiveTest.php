@@ -15,10 +15,10 @@ class IsActiveTest extends TestCase
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->for($stage)
-                      ->create([
-                          'starts_at' => now()->addDay(),
-                          'ends_at'   => now()->addDays(2)
-                      ]);
+            ->create([
+                'starts_at' => now()->addDay(),
+                'ends_at' => now()->addDays(2),
+            ]);
 
         self::assertFalse($round->isActive());
     }
@@ -27,10 +27,10 @@ class IsActiveTest extends TestCase
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->for($stage)
-                      ->create([
-                          'starts_at' => now(),
-                          'ends_at'   => now()->addDay()
-                      ]);
+            ->create([
+                'starts_at' => now(),
+                'ends_at' => now()->addDay(),
+            ]);
 
         self::assertTrue($round->isActive());
     }
@@ -39,12 +39,11 @@ class IsActiveTest extends TestCase
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->for($stage)
-                      ->create([
-                          'starts_at' => now()->subDay(),
-                          'ends_at'   => now()
-                      ]);
+            ->create([
+                'starts_at' => now()->subDay(),
+                'ends_at' => now(),
+            ]);
 
         self::assertFalse($round->isActive());
     }
-
 }

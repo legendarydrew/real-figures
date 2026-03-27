@@ -9,7 +9,8 @@ class ReferrersTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT  = 'api/analytics/referrers';
+    protected const string ENDPOINT = 'api/analytics/referrers';
+
     protected const int    DAY_COUNT = 7;
 
     public function test_as_guest()
@@ -29,8 +30,8 @@ class ReferrersTest extends TestCase
         $response->assertJsonStructure([
             '*' => [
                 'referrer',
-                'count'
-            ]
+                'count',
+            ],
         ]);
     }
 
@@ -38,13 +39,13 @@ class ReferrersTest extends TestCase
     {
         \Analytics::fake(collect([
             [
-                'pageReferrer'    => fake()->url,
-                'screenPageViews' => fake()->numberBetween(1, 200)
+                'pageReferrer' => fake()->url,
+                'screenPageViews' => fake()->numberBetween(1, 200),
             ],
             [
-                'pageReferrer'    => fake()->url,
-                'screenPageViews' => fake()->numberBetween(1, 200)
-            ]
+                'pageReferrer' => fake()->url,
+                'screenPageViews' => fake()->numberBetween(1, 200),
+            ],
         ]));
 
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
@@ -54,8 +55,8 @@ class ReferrersTest extends TestCase
         $response->assertJsonStructure([
             '*' => [
                 'referrer',
-                'count'
-            ]
+                'count',
+            ],
         ]);
     }
 }

@@ -22,7 +22,6 @@ class IndexTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/dashboard-page'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/dashboard-page'));
     }
-
 }

@@ -34,5 +34,4 @@ class RoundVote extends Model
     {
         return $this->belongsTo(Song::class, 'third_choice_id');
     }
-
 }

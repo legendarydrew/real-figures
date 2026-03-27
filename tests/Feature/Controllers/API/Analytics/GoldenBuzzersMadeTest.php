@@ -10,7 +10,8 @@ class GoldenBuzzersMadeTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT  = 'api/analytics/golden-buzzers/made';
+    protected const string ENDPOINT = 'api/analytics/golden-buzzers/made';
+
     protected const int    DAY_COUNT = 7;
 
     public function test_as_guest()
@@ -29,8 +30,8 @@ class GoldenBuzzersMadeTest extends TestCase
             '*' => [
                 'date',
                 'started',
-                'completed'
-            ]
+                'completed',
+            ],
         ]);
     }
 
@@ -39,17 +40,17 @@ class GoldenBuzzersMadeTest extends TestCase
         $date = now()->subDay();
         \Analytics::fake(collect([
             [
-                'date'             => $date,
-                'eventName'        => 'dialog_open',
+                'date' => $date,
+                'eventName' => 'dialog_open',
                 'customEvent:type' => GoldenBuzzersMadeController::DIALOG_ID,
-                'eventCount'       => fake()->numberBetween(1, 60)
+                'eventCount' => fake()->numberBetween(1, 60),
             ],
             [
-                'date'             => $date,
-                'eventName'        => GoldenBuzzersMadeController::EVENT_NAME,
+                'date' => $date,
+                'eventName' => GoldenBuzzersMadeController::EVENT_NAME,
                 'customEvent:type' => '(not set)',
-                'eventCount'       => fake()->numberBetween(1, 60)
-            ]
+                'eventCount' => fake()->numberBetween(1, 60),
+            ],
         ]));
 
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
@@ -60,8 +61,8 @@ class GoldenBuzzersMadeTest extends TestCase
             '*' => [
                 'date',
                 'started',
-                'completed'
-            ]
+                'completed',
+            ],
         ]);
     }
 }

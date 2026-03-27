@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
  * MakeReadyStageState
  * To help with testing the site functionality, I've created this command to set up a Stage
  * with a Round that hasn't yet started. This should display a countdown on the home page.
- *
- * @package App\Console\Commands
  */
 class MakeReadyStageState extends Command
 {
@@ -37,12 +35,12 @@ class MakeReadyStageState extends Command
         Stage::truncate();
 
         $this->comment('- creating a new Stage');
-        $stage              = Stage::factory()->createOne();
-        $round_count   = max(1, (int)$this->argument('rounds')) ?? fake()->numberBetween(1, 5);
+        $stage = Stage::factory()->createOne();
+        $round_count = max(1, (int) $this->argument('rounds')) ?? fake()->numberBetween(1, 5);
 
         $this->comment('- creating Rounds');
         Round::factory($round_count)->for($stage)->future()->withSongs()->create([
-            'title' => new Sequence(...array_map(fn($index) => "Round $index", range(1, $round_count)))
+            'title' => new Sequence(...array_map(fn ($index) => "Round $index", range(1, $round_count))),
         ]);
 
         $this->info("\nCompleted.");

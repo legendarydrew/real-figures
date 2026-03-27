@@ -9,8 +9,6 @@ use Illuminate\Console\Command;
 /**
  * MakeComingSoonState
  * This command puts the site in a "coming soon" state, simply by removing all the Stages and Rounds.
- *
- * @package App\Console\Commands
  */
 class NewsCreate extends Command
 {
@@ -28,7 +26,7 @@ class NewsCreate extends Command
         NewsPost::truncate();
 
         $this->comment('- creating NewsPosts');
-        $post_count = max(0, (int)$this->argument('count'));
+        $post_count = max(0, (int) $this->argument('count'));
         if ($post_count === 0) {
             $post_count = fake()->numberBetween(1, 30);
         }

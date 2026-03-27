@@ -48,8 +48,7 @@ use Illuminate\Support\Facades\Route;
 // ----------------------------------------------------------------------------
 // API endpoints.
 // ----------------------------------------------------------------------------
-Route::prefix('/api')->group(function ()
-{
+Route::prefix('/api')->group(function () {
     // Routes accessible without authentication.
     Route::post('donation', [DonationController::class, 'store']);
     Route::post('golden-buzzer', [GoldenBuzzerController::class, 'store']);
@@ -60,8 +59,7 @@ Route::prefix('/api')->group(function ()
     Route::post('vote', [VoteController::class, 'store'])->name('vote');
 
     // Routes accessible with authentication.
-    Route::middleware(['auth', 'verified'])->group(function ()
-    {
+    Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('acts', [ActController::class, 'index']);
         Route::get('acts/{id}', [ActController::class, 'show'])->name('acts.show');
         Route::post('acts', [ActController::class, 'store'])->name('acts.store');

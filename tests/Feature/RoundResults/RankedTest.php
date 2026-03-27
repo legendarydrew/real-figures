@@ -25,20 +25,19 @@ class RankedTest extends TestCase
     {
         parent::setUp();
 
-        $songs          = Song::factory($this->number_of_songs)->withAct()->create();
+        $songs = Song::factory($this->number_of_songs)->withAct()->create();
         $this->song_ids = $songs->pluck('id')->toArray();
 
         $this->round = Round::factory()
-                            ->for(Stage::factory())
-                            ->create([
-                                'starts_at' => now()->subDay(),
-                                'ends_at'   => now()->subDay(),
-                            ]);
-        foreach ($this->song_ids as $song_id)
-        {
+            ->for(Stage::factory())
+            ->create([
+                'starts_at' => now()->subDay(),
+                'ends_at' => now()->subDay(),
+            ]);
+        foreach ($this->song_ids as $song_id) {
             RoundSongs::create([
                 'round_id' => $this->round->id,
-                'song_id'  => $song_id,
+                'song_id' => $song_id,
             ]);
         }
     }
@@ -52,18 +51,16 @@ class RankedTest extends TestCase
     public function test_by_descending_score()
     {
         RoundOutcome::factory($this->number_of_songs)
-                    ->for($this->round)
-                    ->create([
-                        'song_id' => new Sequence(...$this->song_ids)
-                    ]);
+            ->for($this->round)
+            ->create([
+                'song_id' => new Sequence(...$this->song_ids),
+            ]);
 
         $results = RoundResultsFacade::ranked($this->round);
 
         $last_score = null;
-        foreach ($results as $index => $result)
-        {
-            if ($last_score)
-            {
+        foreach ($results as $index => $result) {
+            if ($last_score) {
                 self::assertLessThanOrEqual($last_score, $result->score, "position {$index}");
             }
             $last_score = $result->score;
@@ -74,36 +71,33 @@ class RankedTest extends TestCase
     public function test_by_first_votes()
     {
         // For this test to work, the scores for each song have to be the same.
-        $first_votes_sequence  = [];
+        $first_votes_sequence = [];
         $second_votes_sequence = [];
-        $third_votes_sequence  = [];
-        $total_score           = 100;
-        foreach (range(1, $this->number_of_songs) as $_)
-        {
-            $first_votes             = fake()->numberBetween(1, 10);
-            $second_votes            = fake()->numberBetween(1, 20);
-            $first_votes_sequence[]  = $first_votes;
+        $third_votes_sequence = [];
+        $total_score = 100;
+        foreach (range(1, $this->number_of_songs) as $_) {
+            $first_votes = fake()->numberBetween(1, 10);
+            $second_votes = fake()->numberBetween(1, 20);
+            $first_votes_sequence[] = $first_votes;
             $second_votes_sequence[] = $second_votes;
-            $third_votes_sequence[]  = $total_score
+            $third_votes_sequence[] = $total_score
                 - ($first_votes * config('contest.points.0'))
                 - ($second_votes * config('contest.points.1'));
         }
 
         RoundOutcome::factory($this->number_of_songs)
-                    ->for($this->round)
-                    ->create([
-                        'song_id'      => new Sequence(...$this->song_ids),
-                        'first_votes'  => new Sequence(...$first_votes_sequence),
-                        'second_votes' => new Sequence(...$second_votes_sequence),
-                        'third_votes'  => new Sequence(...$third_votes_sequence),
-                    ]);
+            ->for($this->round)
+            ->create([
+                'song_id' => new Sequence(...$this->song_ids),
+                'first_votes' => new Sequence(...$first_votes_sequence),
+                'second_votes' => new Sequence(...$second_votes_sequence),
+                'third_votes' => new Sequence(...$third_votes_sequence),
+            ]);
 
         $results = RoundResultsFacade::ranked($this->round);
         $last_outcome = null;
-        foreach ($results as $index => $result)
-        {
-            if ($last_outcome)
-            {
+        foreach ($results as $index => $result) {
+            if ($last_outcome) {
                 self::assertEquals($last_outcome->score, $result->score, "position {$index}");
                 self::assertLessThanOrEqual($last_outcome->first_votes, $result->first_votes, "position {$index}");
             }
@@ -116,36 +110,33 @@ class RankedTest extends TestCase
     {
         // For this test to work, the scores and number of first votes for each song
         // have to be the same.
-        $first_votes_sequence  = [];
+        $first_votes_sequence = [];
         $second_votes_sequence = [];
-        $third_votes_sequence  = [];
-        $total_score           = 100;
-        foreach (range(1, $this->number_of_songs) as $_)
-        {
-            $first_votes             = 5;
-            $second_votes            = fake()->numberBetween(1, 20);
-            $first_votes_sequence[]  = $first_votes;
+        $third_votes_sequence = [];
+        $total_score = 100;
+        foreach (range(1, $this->number_of_songs) as $_) {
+            $first_votes = 5;
+            $second_votes = fake()->numberBetween(1, 20);
+            $first_votes_sequence[] = $first_votes;
             $second_votes_sequence[] = $second_votes;
-            $third_votes_sequence[]  = $total_score
+            $third_votes_sequence[] = $total_score
                 - ($first_votes * config('contest.points.0'))
                 - ($second_votes * config('contest.points.1'));
         }
 
         RoundOutcome::factory($this->number_of_songs)
-                    ->for($this->round)
-                    ->create([
-                        'song_id'      => new Sequence(...$this->song_ids),
-                        'first_votes'  => new Sequence(...$first_votes_sequence),
-                        'second_votes' => new Sequence(...$second_votes_sequence),
-                        'third_votes'  => new Sequence(...$third_votes_sequence),
-                    ]);
+            ->for($this->round)
+            ->create([
+                'song_id' => new Sequence(...$this->song_ids),
+                'first_votes' => new Sequence(...$first_votes_sequence),
+                'second_votes' => new Sequence(...$second_votes_sequence),
+                'third_votes' => new Sequence(...$third_votes_sequence),
+            ]);
 
         $results = RoundResultsFacade::ranked($this->round);
         $last_outcome = null;
-        foreach ($results as $index => $result)
-        {
-            if ($last_outcome)
-            {
+        foreach ($results as $index => $result) {
+            if ($last_outcome) {
                 self::assertEquals($last_outcome->score, $result->score, "position {$index}");
                 self::assertEquals($last_outcome->first_votes, $result->first_votes, "position {$index}");
                 self::assertLessThanOrEqual($last_outcome->second_votes, $result->second_votes, "position {$index}");
@@ -153,5 +144,4 @@ class RankedTest extends TestCase
             $last_outcome = $result;
         }
     }
-
 }

@@ -18,37 +18,30 @@ class StageWinnersController extends Controller
      * If there are tied results, it is possible for there to be more than one "winner"
      * and more than the requested number of runners-up.
      *
-     * @param StageWinnerRequest $request
-     * @param int                $stage_id
-     * @return RedirectResponse
      * @throws \Throwable
      */
     public function store(StageWinnerRequest $request, int $stage_id): RedirectResponse
     {
         $runner_up_count = $request->input('runners_up', 0);
-        $stage           = Stage::findOrFail($stage_id);
+        $stage = Stage::findOrFail($stage_id);
 
         [$winners, $runners_up] = ContestFacade::determineStageWinners($stage, $runner_up_count);
 
-
-        DB::transaction(function () use ($stage, $winners, $runners_up)
-        {
-            foreach ($winners as $winner)
-            {
+        DB::transaction(function () use ($stage, $winners, $runners_up) {
+            foreach ($winners as $winner) {
                 StageWinner::create([
-                    'stage_id'  => $stage->id,
-                    'round_id'  => $winner->round_id,
-                    'song_id'   => $winner->song_id,
-                    'is_winner' => true
+                    'stage_id' => $stage->id,
+                    'round_id' => $winner->round_id,
+                    'song_id' => $winner->song_id,
+                    'is_winner' => true,
                 ]);
             }
-            foreach ($runners_up as $runner_up)
-            {
+            foreach ($runners_up as $runner_up) {
                 StageWinner::create([
-                    'stage_id'  => $stage->id,
-                    'round_id'  => $runner_up->round_id,
-                    'song_id'   => $runner_up->song_id,
-                    'is_winner' => false
+                    'stage_id' => $stage->id,
+                    'round_id' => $runner_up->round_id,
+                    'song_id' => $runner_up->song_id,
+                    'is_winner' => false,
                 ]);
             }
         });

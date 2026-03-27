@@ -34,5 +34,4 @@ class ActsTest extends TestCase
         $response->assertViewIs('front.acts');
         $response->assertViewHas('acts');
     }
-
 }

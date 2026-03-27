@@ -33,12 +33,9 @@ class CreateSuperuser extends Command
         $email = $this->argument('email');
         $password = $this->argument('password');
 
-        if (User::whereEmail($email)->exists())
-        {
+        if (User::whereEmail($email)->exists()) {
             $this->info("User for {$email} already exists.");
-        }
-        else
-        {
+        } else {
             User::factory()->create([
                 'name' => 'SilentMode',
                 'email' => $email,

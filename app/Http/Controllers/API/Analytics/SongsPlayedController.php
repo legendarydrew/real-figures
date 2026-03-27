@@ -18,8 +18,6 @@ use Spatie\Analytics\Period;
  * We would be interested in:
  * - Songs played per day
  * - which Songs were played, and how many times.
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class SongsPlayedController extends AnalyticsAPIController
 {
@@ -29,10 +27,10 @@ class SongsPlayedController extends AnalyticsAPIController
     {
         $filter = new FilterExpression([
             'filter' => new Filter([
-                'field_name'    => 'eventName',
+                'field_name' => 'eventName',
                 'string_filter' => new Filter\StringFilter([
                     'match_type' => Filter\StringFilter\MatchType::EXACT,
-                    'value'      => 'song_play',
+                    'value' => 'song_play',
                 ]),
             ]),
         ]);
@@ -56,9 +54,9 @@ class SongsPlayedController extends AnalyticsAPIController
         // Fill in the gaps (dates).
         $this->fillDateGaps($stacked_data, $days);
 
-        $stacked_data['table'] = $rows->groupBy('customEvent:act')->map(fn($r) => [
-            'slug'  => $r->first()['customEvent:act'],
-            'act'   => fractal(Act::whereSlug($r->first()['customEvent:act'])->first(), ActTransformer::class)->toArray(),
+        $stacked_data['table'] = $rows->groupBy('customEvent:act')->map(fn ($r) => [
+            'slug' => $r->first()['customEvent:act'],
+            'act' => fractal(Act::whereSlug($r->first()['customEvent:act'])->first(), ActTransformer::class)->toArray(),
             'count' => $r->sum('eventCount'),
         ])->values();
 

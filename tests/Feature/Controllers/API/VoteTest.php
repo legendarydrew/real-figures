@@ -19,36 +19,36 @@ class VoteTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $act         = Act::factory()->create();
+        $act = Act::factory()->create();
         $this->songs = Song::factory()->count(3)->create(['act_id' => $act->id]);
 
-        $stage       = Stage::factory()->create();
+        $stage = Stage::factory()->create();
         $this->round = Round::factory()->create([
-            'stage_id'  => $stage->id,
+            'stage_id' => $stage->id,
             'starts_at' => now(),
-            'ends_at'   => now()->addDay(),
+            'ends_at' => now()->addDay(),
         ]);
 
         RoundSongs::create([
             'round_id' => $this->round->id,
-            'song_id'  => $this->songs->get(0)->id
+            'song_id' => $this->songs->get(0)->id,
         ]);
         RoundSongs::create([
             'round_id' => $this->round->id,
-            'song_id'  => $this->songs->get(1)->id
+            'song_id' => $this->songs->get(1)->id,
         ]);
         RoundSongs::create([
             'round_id' => $this->round->id,
-            'song_id'  => $this->songs->get(2)->id
+            'song_id' => $this->songs->get(2)->id,
         ]);
 
         $this->payload = [
-            'round_id'         => $this->round->id,
-            'starts_at'        => now(),
-            'ends_at'          => now()->addDay(),
-            'first_choice_id'  => $this->songs->get(0)->id,
+            'round_id' => $this->round->id,
+            'starts_at' => now(),
+            'ends_at' => now()->addDay(),
+            'first_choice_id' => $this->songs->get(0)->id,
             'second_choice_id' => $this->songs->get(1)->id,
-            'third_choice_id'  => $this->songs->get(2)->id
+            'third_choice_id' => $this->songs->get(2)->id,
         ];
     }
 
@@ -77,7 +77,7 @@ class VoteTest extends TestCase
     public function test_invalid_round()
     {
         $this->payload['round_id'] = 404;
-        $response                  = $this->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnprocessable();
     }
 
@@ -92,7 +92,7 @@ class VoteTest extends TestCase
     {
         $this->round->update([
             'starts_at' => now()->addDay(),
-            'ends_at'   => now()->addDays(2)
+            'ends_at' => now()->addDays(2),
         ]);
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertBadRequest();
@@ -101,17 +101,17 @@ class VoteTest extends TestCase
     public function test_missing_song()
     {
         // First song.
-        $payload  = [...$this->payload, 'first_choice_id' => null];
+        $payload = [...$this->payload, 'first_choice_id' => null];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
 
         // Second song.
-        $payload  = [...$this->payload, 'second_choice_id' => null];
+        $payload = [...$this->payload, 'second_choice_id' => null];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
 
         // Third song.
-        $payload  = [...$this->payload, 'third_choice_id' => null];
+        $payload = [...$this->payload, 'third_choice_id' => null];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
     }
@@ -119,17 +119,17 @@ class VoteTest extends TestCase
     public function test_invalid_song()
     {
         // First song.
-        $payload  = [...$this->payload, 'first_choice_id' => 404];
+        $payload = [...$this->payload, 'first_choice_id' => 404];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
 
         // Second song.
-        $payload  = [...$this->payload, 'second_choice_id' => 404];
+        $payload = [...$this->payload, 'second_choice_id' => 404];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
 
         // Third song.
-        $payload  = [...$this->payload, 'third_choice_id' => 404];
+        $payload = [...$this->payload, 'third_choice_id' => 404];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
     }
@@ -137,50 +137,50 @@ class VoteTest extends TestCase
     public function test_same_songs()
     {
         // First song.
-        $payload  = [ ...$this->payload, 'second_choice_id' => $this->payload['first_choice_id']];
+        $payload = [...$this->payload, 'second_choice_id' => $this->payload['first_choice_id']];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
 
-        $payload  = [ ...$this->payload, 'third_choice_id' => $this->payload['first_choice_id']];
+        $payload = [...$this->payload, 'third_choice_id' => $this->payload['first_choice_id']];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
 
         // Second song.
-        $payload  = [ ...$this->payload, 'first_choice_id' => $this->payload['second_choice_id']];
+        $payload = [...$this->payload, 'first_choice_id' => $this->payload['second_choice_id']];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
 
-        $payload  = [ ...$this->payload, 'third_choice_id' => $this->payload['second_choice_id']];
+        $payload = [...$this->payload, 'third_choice_id' => $this->payload['second_choice_id']];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
 
         // Third song.
-        $payload  = [ ...$this->payload, 'first_choice_id' => $this->payload['third_choice_id']];
+        $payload = [...$this->payload, 'first_choice_id' => $this->payload['third_choice_id']];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
 
-        $payload  = [ ...$this->payload, 'second_choice_id' => $this->payload['third_choice_id']];
+        $payload = [...$this->payload, 'second_choice_id' => $this->payload['third_choice_id']];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
     }
 
     public function test_song_not_in_round()
     {
-        $act      = Act::factory()->withSong()->create();
+        $act = Act::factory()->withSong()->create();
         $new_song = $act->songs()->first();
 
         // First song.
-        $payload  = [...$this->payload, 'first_choice_id' => $new_song->id];
+        $payload = [...$this->payload, 'first_choice_id' => $new_song->id];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertBadRequest();
 
         // Second song.
-        $payload  = [...$this->payload, 'second_choice_id' => $new_song->id];
+        $payload = [...$this->payload, 'second_choice_id' => $new_song->id];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertBadRequest();
 
         // Third song.
-        $payload  = [...$this->payload, 'third_choice_id' => $new_song->id];
+        $payload = [...$this->payload, 'third_choice_id' => $new_song->id];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertBadRequest();
     }

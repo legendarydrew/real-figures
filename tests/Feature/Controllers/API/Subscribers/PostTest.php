@@ -19,7 +19,6 @@ class PostTest extends TestCase
 
     private array $payload;
 
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -29,7 +28,7 @@ class PostTest extends TestCase
 
         $this->payload = [
             'title' => fake()->sentence(),
-            'body'  => fake()->markdown(),
+            'body' => fake()->markdown(),
         ];
     }
 

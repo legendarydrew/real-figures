@@ -20,5 +20,4 @@ class HomeTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('front.home');
     }
-
 }

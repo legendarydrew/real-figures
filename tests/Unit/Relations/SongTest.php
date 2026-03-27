@@ -17,17 +17,17 @@ class SongTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $act        = Act::factory()->create();
+        $act = Act::factory()->create();
         $this->song = Song::factory()->create(['act_id' => $act->id]);
 
         $this->stage = Stage::factory()->create();
         $this->round = Round::factory()->create([
-            'stage_id' => $this->stage->id
+            'stage_id' => $this->stage->id,
         ]);
 
         RoundOutcome::factory()->create([
             'round_id' => $this->round->id,
-            'song_id'  => $this->song->id
+            'song_id' => $this->song->id,
         ]);
     }
 
@@ -39,8 +39,7 @@ class SongTest extends TestCase
     public function test_outcomes_relation()
     {
         self::assertEquals(1, $this->song->outcomes->count());
-        foreach ($this->song->outcomes as $outcome)
-        {
+        foreach ($this->song->outcomes as $outcome) {
             self::assertInstanceOf(RoundOutcome::class, $outcome);
         }
     }

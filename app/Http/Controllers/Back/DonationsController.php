@@ -10,22 +10,21 @@ use Inertia\Response;
 
 class DonationsController extends Controller
 {
-
     public function index(): Response
     {
-        $rows             = Donation::orderByDesc('id')->paginate();
-        $is_first_page    = $rows->currentPage() === 1;
-        $transformed_data = fractal($rows->items(), new DonationTransformer())->parseIncludes(['amount', 'message'])->toArray();
+        $rows = Donation::orderByDesc('id')->paginate();
+        $is_first_page = $rows->currentPage() === 1;
+        $transformed_data = fractal($rows->items(), new DonationTransformer)->parseIncludes(['amount', 'message'])->toArray();
 
         return Inertia::render('back/donations-page', [
-            'total'        => fn() => Donation::sum('amount'),
-            'count'        => fn() => Donation::count(),
-            'rows'         => $is_first_page
+            'total' => fn () => Donation::sum('amount'),
+            'count' => fn () => Donation::count(),
+            'rows' => $is_first_page
                 ? $transformed_data
-                : Inertia::merge(fn() => $transformed_data),
-            'isFirstPage'  => fn() => $is_first_page,
-            'currentPage'  => fn() => $rows->currentPage(),
-            'hasMorePages' => fn() => $rows->hasMorePages(),
+                : Inertia::merge(fn () => $transformed_data),
+            'isFirstPage' => fn () => $is_first_page,
+            'currentPage' => fn () => $rows->currentPage(),
+            'hasMorePages' => fn () => $rows->hasMorePages(),
         ]);
     }
 }

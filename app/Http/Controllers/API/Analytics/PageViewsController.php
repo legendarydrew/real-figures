@@ -11,8 +11,6 @@ use Spatie\Analytics\Period;
 /**
  * PageViewsController
  * This returns analytics data for page views over the specified period.
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class PageViewsController extends AnalyticsAPIController
 {

@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 class SitemapTest extends TestCase
 {
-
     use DatabaseMigrations;
 
     public function test_access()
@@ -30,7 +29,7 @@ class SitemapTest extends TestCase
 
     public function test_with_acts()
     {
-        $acts     = Act::factory(4)->withProfile()->withSong()->create();
+        $acts = Act::factory(4)->withProfile()->withSong()->create();
         $response = $this->get('/sitemap.xml');
         $response->assertOk();
 
@@ -40,7 +39,7 @@ class SitemapTest extends TestCase
     public function test_without_news()
     {
         NewsPost::truncate();
-        $response         = $this->get('/sitemap.xml');
+        $response = $this->get('/sitemap.xml');
         $response->assertOk();
 
         $response->assertDontSee(route('news'));
@@ -48,20 +47,18 @@ class SitemapTest extends TestCase
 
     public function test_with_news()
     {
-        $published_post   = NewsPost::factory(4)->published()->create();
+        $published_post = NewsPost::factory(4)->published()->create();
         $unpublished_post = NewsPost::factory(4)->unpublished()->create();
-        $response         = $this->get('/sitemap.xml');
+        $response = $this->get('/sitemap.xml');
         $response->assertOk();
 
         $response->assertSee(route('news'));
 
-        foreach ($published_post as $post)
-        {
+        foreach ($published_post as $post) {
             $response->assertSee($post->url);
         }
 
-        foreach ($unpublished_post as $post)
-        {
+        foreach ($unpublished_post as $post) {
             $response->assertDontSee($post->url);
         }
     }
@@ -87,5 +84,4 @@ class SitemapTest extends TestCase
 
         $response->assertSee(route('votes'));
     }
-
 }

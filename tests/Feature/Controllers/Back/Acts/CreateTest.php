@@ -22,9 +22,8 @@ class CreateTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.acts.new'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/act-edit-page')
-                                                          ->missing('act')
-                                                          ->has('genreList'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/act-edit-page')
+            ->missing('act')
+            ->has('genreList'));
     }
-
 }

@@ -9,7 +9,8 @@ class SubscribersTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT  = 'api/analytics/subscribers';
+    protected const string ENDPOINT = 'api/analytics/subscribers';
+
     protected const int    DAY_COUNT = 7;
 
     public function test_as_guest()
@@ -29,8 +30,8 @@ class SubscribersTest extends TestCase
         $response->assertJsonStructure([
             '*' => [
                 'date',
-                'eventValue'
-            ]
+                'eventValue',
+            ],
         ]);
     }
 
@@ -38,15 +39,15 @@ class SubscribersTest extends TestCase
     {
         \Analytics::fake(collect([
             [
-                'date'       => now()->subDays(2),
-                'eventName'  => 'subscriber',
-                'eventValue' => 1
+                'date' => now()->subDays(2),
+                'eventName' => 'subscriber',
+                'eventValue' => 1,
             ],
             [
-                'date'       => now()->subDay(),
-                'eventName'  => 'subscriber',
-                'eventValue' => -1
-            ]
+                'date' => now()->subDay(),
+                'eventName' => 'subscriber',
+                'eventValue' => -1,
+            ],
         ]));
 
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
@@ -56,8 +57,8 @@ class SubscribersTest extends TestCase
         $response->assertJsonStructure([
             '*' => [
                 'date',
-                'eventValue'
-            ]
+                'eventValue',
+            ],
         ]);
     }
 }

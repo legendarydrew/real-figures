@@ -22,7 +22,6 @@ class NewsGenerateTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.news-generate'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/news-generate-page'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/news-generate-page'));
     }
-
 }

@@ -16,8 +16,11 @@ class WinnersTest extends TestCase
     use DatabaseMigrations;
 
     protected const string ENDPOINT = 'api/stages/%u/winners';
+
     private Stage $stage;
+
     private array $payload;
+
     private const int  ROUND_COUNT = 3;
 
     protected function setUp(): void
@@ -26,21 +29,20 @@ class WinnersTest extends TestCase
         $this->stage = Stage::factory()->createOne();
 
         $this->payload = [
-            'runners_up' => 1
+            'runners_up' => 1,
         ];
 
         $rounds = Round::factory(self::ROUND_COUNT)
-                       ->for($this->stage)
-                       ->withSongs(8)
-                       ->ended()
-                       ->create();
-        foreach ($rounds as $round)
-        {
+            ->for($this->stage)
+            ->withSongs(8)
+            ->ended()
+            ->create();
+        foreach ($rounds as $round) {
             self::assertTrue($round->hasEnded());
             $song_ids = $round->songs->pluck('id');
             RoundOutcome::factory($song_ids->count())->create([
                 'round_id' => $round->id,
-                'song_id'  => new Sequence(...$song_ids)
+                'song_id' => new Sequence(...$song_ids),
             ]);
         }
     }
@@ -65,7 +67,7 @@ class WinnersTest extends TestCase
         self::assertGreaterThanOrEqual(self::ROUND_COUNT, count($winner_rows));
     }
 
-//    #[Depends('test_as_user')]
+    //    #[Depends('test_as_user')]
     public function test_creates_runner_up()
     {
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
@@ -79,7 +81,7 @@ class WinnersTest extends TestCase
         $this->payload['runners_up'] = 0;
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
 
-        $winner_rows    = StageWinner::whereIsWinner(true)->get();
+        $winner_rows = StageWinner::whereIsWinner(true)->get();
         $runner_up_rows = StageWinner::whereIsWinner(false)->get();
         self::assertGreaterThanOrEqual(self::ROUND_COUNT, count($winner_rows));
         self::assertEquals(0, count($runner_up_rows));
@@ -105,10 +107,9 @@ class WinnersTest extends TestCase
 
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
 
-        $winner_rows    = StageWinner::whereIsWinner(true)->get();
+        $winner_rows = StageWinner::whereIsWinner(true)->get();
         $runner_up_rows = StageWinner::whereIsWinner(false)->get();
         self::assertEquals(0, count($winner_rows));
         self::assertEquals(0, count($runner_up_rows));
     }
-
 }

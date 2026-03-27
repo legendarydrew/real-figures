@@ -18,17 +18,17 @@ class RoundOutcomeTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $act  = Act::factory()->create();
+        $act = Act::factory()->create();
         $song = Song::factory()->create(['act_id' => $act->id]);
 
         $stage = Stage::factory()->create();
         $round = Round::factory()->create([
-            'stage_id' => $stage->id
+            'stage_id' => $stage->id,
         ]);
 
         $this->outcome = RoundOutcome::factory()->create([
             'round_id' => $round->id,
-            'song_id'  => $song->id
+            'song_id' => $song->id,
         ]);
     }
 
@@ -37,7 +37,8 @@ class RoundOutcomeTest extends TestCase
         self::assertInstanceOf(Round::class, $this->outcome->round);
     }
 
-    #[Depends('test_round_relation')] public function test_stage_relation()
+    #[Depends('test_round_relation')]
+    public function test_stage_relation()
     {
         self::assertInstanceOf(Stage::class, $this->outcome->stage);
     }
@@ -46,5 +47,4 @@ class RoundOutcomeTest extends TestCase
     {
         self::assertInstanceOf(Song::class, $this->outcome->song);
     }
-
 }

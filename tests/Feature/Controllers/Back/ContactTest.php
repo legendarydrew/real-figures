@@ -22,7 +22,6 @@ class ContactTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.contact'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/messages-page'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/messages-page'));
     }
-
 }

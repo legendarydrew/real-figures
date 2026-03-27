@@ -6,7 +6,6 @@ use App\Models\NewsPost;
 use App\Models\NewsPostReference;
 use Illuminate\Console\Command;
 
-
 class NewsRemove extends Command
 {
     protected $signature = 'news:remove';

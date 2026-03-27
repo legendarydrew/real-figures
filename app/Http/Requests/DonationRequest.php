@@ -15,7 +15,7 @@ class DonationRequest extends FormRequest
     {
         return [
             'transaction_id' => ['required', 'string'],
-            'message'        => ['nullable', 'string'],
+            'message' => ['nullable', 'string'],
         ];
     }
 }

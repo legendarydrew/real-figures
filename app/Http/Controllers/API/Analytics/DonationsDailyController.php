@@ -13,8 +13,6 @@ use Spatie\Analytics\Period;
 /**
  * DonationsController
  * This returns analytics data for daily donations the specified period.
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class DonationsDailyController extends AnalyticsAPIController
 {
@@ -24,10 +22,10 @@ class DonationsDailyController extends AnalyticsAPIController
     {
         $filter = new FilterExpression([
             'filter' => new Filter([
-                'field_name'    => 'eventName',
+                'field_name' => 'eventName',
                 'string_filter' => new Filter\StringFilter([
                     'match_type' => Filter\StringFilter\MatchType::EXACT,
-                    'value'      => 'donation',
+                    'value' => 'donation',
                 ]),
             ]),
         ]);
@@ -46,5 +44,4 @@ class DonationsDailyController extends AnalyticsAPIController
     {
         return AnalyticsChartFormatter::byDate($rows, $days, ['eventValue']);
     }
-
 }

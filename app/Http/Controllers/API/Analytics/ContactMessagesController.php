@@ -13,8 +13,6 @@ use Spatie\Analytics\Period;
 /**
  * ContactMessagesController
  * This returns analytics data for messages sent through the Contact page for the specified period.
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class ContactMessagesController extends AnalyticsAPIController
 {
@@ -24,10 +22,10 @@ class ContactMessagesController extends AnalyticsAPIController
     {
         $filter = new FilterExpression([
             'filter' => new Filter([
-                'field_name'    => 'eventName',
+                'field_name' => 'eventName',
                 'string_filter' => new Filter\StringFilter([
                     'match_type' => Filter\StringFilter\MatchType::EXACT,
-                    'value'      => 'contact_sent',
+                    'value' => 'contact_sent',
                 ]),
             ]),
         ]);
@@ -46,5 +44,4 @@ class ContactMessagesController extends AnalyticsAPIController
     {
         return AnalyticsChartFormatter::byDate($rows, $days, ['eventCount']);
     }
-
 }

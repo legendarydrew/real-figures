@@ -9,7 +9,8 @@ class VotesTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT  = 'api/analytics/votes';
+    protected const string ENDPOINT = 'api/analytics/votes';
+
     protected const int    DAY_COUNT = 7;
 
     public function test_as_guest()
@@ -29,8 +30,8 @@ class VotesTest extends TestCase
         $response->assertJsonStructure([
             '*' => [
                 'time',
-                'count'
-            ]
+                'count',
+            ],
         ]);
     }
 
@@ -38,13 +39,13 @@ class VotesTest extends TestCase
     {
         \Analytics::fake(collect([
             [
-                'dateHour'    => now()->subDays(2)->format('YmdH'),
-                'eventCount' => fake()->numberBetween(1, 200)
+                'dateHour' => now()->subDays(2)->format('YmdH'),
+                'eventCount' => fake()->numberBetween(1, 200),
             ],
             [
-                'dateHour'    => now()->subDays(3)->format('YmdH'),
-                'eventCount' => fake()->numberBetween(1, 200)
-            ]
+                'dateHour' => now()->subDays(3)->format('YmdH'),
+                'eventCount' => fake()->numberBetween(1, 200),
+            ],
         ]));
 
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
@@ -54,8 +55,8 @@ class VotesTest extends TestCase
         $response->assertJsonStructure([
             '*' => [
                 'time',
-                'count'
-            ]
+                'count',
+            ],
         ]);
     }
 }

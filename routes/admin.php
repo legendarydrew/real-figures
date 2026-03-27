@@ -27,8 +27,7 @@ use Inertia\Inertia;
 // ----------------------------------------------------------------------------
 // Back office pages.
 // ----------------------------------------------------------------------------
-Route::middleware(['auth', 'verified'])->group(function ()
-{
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('admin', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/acts', [ActsController::class, 'index'])->name('admin.acts');
     Route::get('/admin/acts/new', [ActsController::class, 'create'])->name('admin.acts.new');
@@ -47,12 +46,10 @@ Route::middleware(['auth', 'verified'])->group(function ()
     Route::get('/admin/subscribers-post', [SubscribersPostController::class, 'index'])->name('admin.subscribers-post');
 });
 
-
 // ----------------------------------------------------------------------------
 // Authentication pages.
 // ----------------------------------------------------------------------------
-Route::middleware('guest')->group(function ()
-{
+Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
@@ -61,17 +58,16 @@ Route::middleware('guest')->group(function ()
     Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 });
 
-Route::middleware('auth')->group(function ()
-{
+Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)->name('verification.notice');
 
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-         ->middleware(['signed', 'throttle:6,1'])
-         ->name('verification.verify');
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
 
     Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-         ->middleware('throttle:6,1')
-         ->name('verification.send');
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])->name('password.confirm');
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
@@ -90,5 +86,5 @@ Route::middleware('auth')->group(function ()
     Route::get('settings/password', [PasswordController::class, 'edit'])->name('password.edit');
     Route::put('settings/password', [PasswordController::class, 'update'])->name('password.update');
 
-    Route::get('settings/appearance', fn() => Inertia::render('settings/appearance'))->name('appearance');
+    Route::get('settings/appearance', fn () => Inertia::render('settings/appearance'))->name('appearance');
 });

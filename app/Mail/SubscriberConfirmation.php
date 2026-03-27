@@ -13,9 +13,7 @@ class SubscriberConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(private readonly Subscriber $subscriber)
-    {
-    }
+    public function __construct(private readonly Subscriber $subscriber) {}
 
     /**
      * Get the message envelope.
@@ -37,5 +35,4 @@ class SubscriberConfirmation extends Mailable
             with: ['subscriber' => $this->subscriber],
         );
     }
-
 }

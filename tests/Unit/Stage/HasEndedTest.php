@@ -28,10 +28,10 @@ class HasEndedTest extends TestCase
     {
         Round::factory(3)
             ->for($this->stage)
-             ->create([
-                 'starts_at' => now()->subDay(),
-                 'ends_at'   => now()
-             ]);
+            ->create([
+                'starts_at' => now()->subDay(),
+                'ends_at' => now(),
+            ]);
 
         $this->stage->load('rounds');
         self::assertCount(3, $this->stage->rounds);
@@ -42,17 +42,16 @@ class HasEndedTest extends TestCase
     {
         Round::factory()
             ->for($this->stage)
-             ->create([
-                 'starts_at' => now()->addDay(),
-                 'ends_at'   => now()->addDays(2)
-             ]);
+            ->create([
+                'starts_at' => now()->addDay(),
+                'ends_at' => now()->addDays(2),
+            ]);
         Round::factory(2)
-             ->for($this->stage)
-             ->create();
+            ->for($this->stage)
+            ->create();
 
         $this->stage->load('rounds');
         self::assertCount(3, $this->stage->rounds);
         self::assertFalse($this->stage->hasEnded());
     }
-
 }

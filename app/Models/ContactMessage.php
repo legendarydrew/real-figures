@@ -20,6 +20,6 @@ class ContactMessage extends Model
 
     public function getWasReadAttribute(): bool
     {
-        return !is_null($this->read_at);
+        return ! is_null($this->read_at);
     }
 }

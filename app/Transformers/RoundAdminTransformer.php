@@ -13,17 +13,17 @@ class RoundAdminTransformer extends TransformerAbstract
     public function transform(Round $round): array
     {
         return [
-            'id'         => (int)$round->id,
-            'title'      => $round->title,
-            'starts_at'  => $round->starts_at->format('F d Y H:i'),
-            'ends_at'    => $round->ends_at->format('F d Y H:i'),
-            'vote_count' => $round->votes()->count()
+            'id' => (int) $round->id,
+            'title' => $round->title,
+            'starts_at' => $round->starts_at->format('F d Y H:i'),
+            'ends_at' => $round->ends_at->format('F d Y H:i'),
+            'vote_count' => $round->votes()->count(),
         ];
     }
 
     public function includeSongs(Round $round): Collection
     {
         // One way of getting around the "data" property for nested collections.
-        return $this->collection($round->songs, new SongAdminTransformer(), '');
+        return $this->collection($round->songs, new SongAdminTransformer, '');
     }
 }

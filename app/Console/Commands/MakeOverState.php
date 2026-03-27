@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Facades\ContestFacade;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\RoundSongs;
@@ -11,15 +10,11 @@ use App\Models\SongPlay;
 use App\Models\Stage;
 use App\Models\StageWinner;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Support\Facades\DB;
 
 /**
  * MakeOverState
  * To help with testing the site functionality, I've created this command to set up a Contest
  * that has ended, with winners and runners-up.
- *
- * @package App\Console\Commands
  */
 class MakeOverState extends Command
 {
@@ -64,14 +59,12 @@ class MakeOverState extends Command
 
         $this->comment('- creating Song plays');
         $song_ids = array_unique(RoundSongs::pluck('song_id')->toArray());
-        foreach (range(-6, 0) as $i)
-        {
-            foreach ($song_ids as $song_id)
-            {
+        foreach (range(-6, 0) as $i) {
+            foreach ($song_ids as $song_id) {
                 SongPlay::create([
-                    'played_on'  => now()->subDays(abs($i))->startOfDay(),
-                    'song_id'    => $song_id,
-                    'play_count' => fake()->numberBetween(1, 5000)
+                    'played_on' => now()->subDays(abs($i))->startOfDay(),
+                    'song_id' => $song_id,
+                    'play_count' => fake()->numberBetween(1, 5000),
                 ]);
             }
         }

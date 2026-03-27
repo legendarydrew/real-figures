@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class RoundSongs extends Model
 {
-
     protected $guarded = ['id'];
 
     public function stage(): HasOneThrough

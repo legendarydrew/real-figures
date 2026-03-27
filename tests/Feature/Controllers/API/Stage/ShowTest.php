@@ -48,7 +48,7 @@ class ShowTest extends TestCase
         $response->assertJsonStructure([
             'id',
             'title',
-            'description'
+            'description',
         ]);
     }
 }

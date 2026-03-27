@@ -9,7 +9,8 @@ class OperatingSystemsTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT  = 'api/analytics/os';
+    protected const string ENDPOINT = 'api/analytics/os';
+
     protected const int    DAY_COUNT = 7;
 
     public function test_as_guest()
@@ -29,8 +30,8 @@ class OperatingSystemsTest extends TestCase
         $response->assertJsonStructure([
             '*' => [
                 'operatingSystem',
-                'screenPageViews'
-            ]
+                'screenPageViews',
+            ],
         ]);
     }
 
@@ -39,12 +40,12 @@ class OperatingSystemsTest extends TestCase
         \Analytics::fake(collect([
             [
                 'operatingSystem' => fake()->unique()->word,
-                'screenPageViews' => fake()->numberBetween(1, 200)
+                'screenPageViews' => fake()->numberBetween(1, 200),
             ],
             [
                 'operatingSystem' => fake()->unique()->word,
-                'screenPageViews' => fake()->numberBetween(1, 200)
-            ]
+                'screenPageViews' => fake()->numberBetween(1, 200),
+            ],
         ]));
 
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
@@ -54,8 +55,8 @@ class OperatingSystemsTest extends TestCase
         $response->assertJsonStructure([
             '*' => [
                 'operatingSystem',
-                'screenPageViews'
-            ]
+                'screenPageViews',
+            ],
         ]);
     }
 }

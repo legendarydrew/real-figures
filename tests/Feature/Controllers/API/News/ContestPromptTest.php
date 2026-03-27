@@ -42,9 +42,9 @@ class ContestPromptTest extends TestCase
 
     public function test_contest_prompt_with_previous_post()
     {
-        $post                      = NewsPost::factory()->createOne();
+        $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
-        $response                  = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
 
         $prompt = $response->json('prompt');
@@ -56,7 +56,7 @@ class ContestPromptTest extends TestCase
     public function test_contest_prompt_with_additional_prompt()
     {
         $this->payload['prompt'] = fake()->paragraph();
-        $response                = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
 
         $prompt = $response->json('prompt');
@@ -116,7 +116,7 @@ class ContestPromptTest extends TestCase
         $prompt = $response->json('prompt');
         self::assertTrue(str_contains($prompt, Lang::get('press-release.contest.donations', [
             'currency' => config('contest.donation.currency'),
-            'total'    => Donation::sum('amount')
+            'total' => Donation::sum('amount'),
         ])));
         self::assertFalse(str_contains($prompt, Lang::get('press-release.contest.golden-buzzer')));
     }
@@ -133,7 +133,7 @@ class ContestPromptTest extends TestCase
         $prompt = $response->json('prompt');
         self::assertTrue(str_contains($prompt, Lang::get('press-release.contest.donations', [
             'currency' => config('contest.donation.currency'),
-            'total'    => Donation::sum('amount')
+            'total' => Donation::sum('amount'),
         ])));
     }
 
@@ -152,9 +152,9 @@ class ContestPromptTest extends TestCase
 
     public function test_contest_announced_all_placeholders_filled()
     {
-        $post                      = NewsPost::factory()->createOne();
+        $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
-        $this->payload['prompt']   = fake()->paragraph();
+        $this->payload['prompt'] = fake()->paragraph();
 
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
@@ -168,9 +168,9 @@ class ContestPromptTest extends TestCase
     {
         Stage::factory()->withRounds()->create();
 
-        $post                      = NewsPost::factory()->createOne();
+        $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
-        $this->payload['prompt']   = fake()->paragraph();
+        $this->payload['prompt'] = fake()->paragraph();
 
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
@@ -186,9 +186,9 @@ class ContestPromptTest extends TestCase
         Donation::factory(10)->create();
         GoldenBuzzer::factory(10)->create();
 
-        $post                      = NewsPost::factory()->createOne();
+        $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
-        $this->payload['prompt']   = fake()->paragraph();
+        $this->payload['prompt'] = fake()->paragraph();
 
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
@@ -197,5 +197,4 @@ class ContestPromptTest extends TestCase
         preg_match_all('(\:\w+)', $prompt, $matches);
         self::assertCount(0, $matches[0]);
     }
-
 }

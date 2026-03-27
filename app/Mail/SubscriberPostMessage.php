@@ -14,9 +14,7 @@ class SubscriberPostMessage extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(private readonly Subscriber $subscriber, private readonly SubscriberPost $post)
-    {
-    }
+    public function __construct(private readonly Subscriber $subscriber, private readonly SubscriberPost $post) {}
 
     public function envelope(): Envelope
     {
@@ -32,5 +30,4 @@ class SubscriberPostMessage extends Mailable
             with: ['subscriber' => $this->subscriber, 'post' => $this->post],
         );
     }
-
 }

@@ -16,7 +16,7 @@ class ByRoundTest extends TestCase
     public function test_round_with_no_songs()
     {
         $stage = Stage::factory()->createOne();
-        $round     = Round::factory()->for($stage)->createOne();
+        $round = Round::factory()->for($stage)->createOne();
         $breakdown = VoteBreakdownFacade::forRound($round);
 
         self::assertEquals($round->id, $breakdown['id']);
@@ -28,7 +28,7 @@ class ByRoundTest extends TestCase
     public function test_round_with_no_outcomes()
     {
         $stage = Stage::factory()->createOne();
-        $round     = Round::factory()->for($stage)->withSongs()->withVotes()->createOne();
+        $round = Round::factory()->for($stage)->withSongs()->withVotes()->createOne();
         $breakdown = VoteBreakdownFacade::forRound($round);
 
         self::assertEquals($round->id, $breakdown['id']);
@@ -40,7 +40,7 @@ class ByRoundTest extends TestCase
     public function test_round_with_outcomes()
     {
         $stage = Stage::factory()->createOne();
-        $round     = Round::factory()->for($stage)->withSongs()->withVotes()->createOne();
+        $round = Round::factory()->for($stage)->withSongs()->withVotes()->createOne();
         ContestFacade::buildRoundOutcomes($round);
         $breakdown = VoteBreakdownFacade::forRound($round);
 
