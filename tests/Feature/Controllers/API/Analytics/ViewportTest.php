@@ -26,7 +26,7 @@ class ViewportTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonCount(0, 'keys');
-        $response->assertJsonCount(0, 'data');
+        $response->assertJsonCount(self::DAY_COUNT + 1, 'data');
         $response->assertJsonCount(0, 'table');
         $response->assertJsonStructure([
             'keys',
@@ -69,7 +69,7 @@ class ViewportTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonCount(2, 'keys');  // two sets of dimensions.
-        $response->assertJsonCount(2, 'data');  // two different dates.
+        $response->assertJsonCount(self::DAY_COUNT + 1, 'data');  // two different dates.
         $response->assertJsonCount(2, 'table'); // two sets of dimensions.
         $response->assertJsonStructure([
             'keys',
