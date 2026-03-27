@@ -74,4 +74,15 @@ class PostTest extends TestCase
         Mail::assertSent(SubscriberPostMessage::class);
         Mail::assertOutgoingCount(10);
     }
+
+    #[Depends('test_as_user')]
+    public function test_only_confirmed_subscribers()
+    {
+        Subscriber::factory()->count(4)->unconfirmed()->create();
+        Subscriber::factory()->count(2)->confirmed()->create();
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertJsonPath('subscribers', 2);
+        Mail::assertSent(SubscriberPostMessage::class);
+        Mail::assertOutgoingCount(2);
+    }
 }
