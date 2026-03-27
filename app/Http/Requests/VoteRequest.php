@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * VoteRequest
- * For casting a vote, consisting of three songs in a specific round.
+ * For casting a vote, consisting of up to three Songs in a specific round.
  *
  * @package App\Http\Requests
  */
@@ -31,8 +31,8 @@ class VoteRequest extends FormRequest
         return [
             'round_id'         => ['required', 'exists:rounds,id'],
             'first_choice_id'  => ['required', 'exists:songs,id'],
-            'second_choice_id' => ['required', 'exists:songs,id', 'different:first_choice_id'],
-            'third_choice_id'  => ['required', 'exists:songs,id', 'different:first_choice_id', 'different:second_choice_id'],
+            'second_choice_id' => ['nullable', 'exists:songs,id', 'different:first_choice_id'],
+            'third_choice_id'  => ['nullable', 'exists:songs,id', 'different:first_choice_id', 'different:second_choice_id'],
         ];
     }
 }
