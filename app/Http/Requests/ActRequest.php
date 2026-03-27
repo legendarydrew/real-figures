@@ -16,10 +16,10 @@ class ActRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'                => ['required', 'string',
-                Rule::unique('acts', 'name')->ignore($this->id)],
+            'name'                => ['required', 'string'],
             'subtitle'            => ['nullable', 'string'],
-            'slug'                => ['nullable', 'string'],
+            'slug'                => ['nullable', 'string',
+                Rule::unique('acts', 'name')->ignore($this->id)],
             'profile'             => ['sometimes', 'array'],
             'profile.description' => ['nullable', 'string'],
             'new_image'           => ['nullable', new IsBase64Image()],
