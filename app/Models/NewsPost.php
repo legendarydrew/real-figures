@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ use Spatie\Feed\FeedItem;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
+#[Guarded('id', 'created_at', 'updated_at')]
 class NewsPost extends Model implements Feedable
 {
     use HasFactory;
@@ -26,8 +28,6 @@ class NewsPost extends Model implements Feedable
             ->generateSlugsFrom('title')
             ->saveSlugsTo('slug');
     }
-
-    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     public function getDates(): array
     {

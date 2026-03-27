@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use App\Models\Round;
 use App\Models\Stage;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
@@ -12,13 +14,10 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
  * To help with testing the site functionality, I've created this command to set up a Stage
  * with a Round that hasn't yet started. This should display a countdown on the home page.
  */
+#[Signature('state:ready-stage {rounds? : Number of Rounds to create.}')]
+#[Description('Create a ready Stage state (display a countdown).')]
 class MakeReadyStageState extends Command
 {
-    protected $signature = 'state:ready-stage
-    {rounds? : Number of Rounds to create.}';
-
-    protected $description = 'Create a ready Stage state (display a countdown).';
-
     public function handle(): void
     {
         // What we want to do:

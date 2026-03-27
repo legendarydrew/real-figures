@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,11 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
+#[Guarded('id', 'created_at', 'updated_at')]
 class Stage extends Model
 {
     use HasFactory;
-
-    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     /**
      * Rounds associated with this Stage.

@@ -3,28 +3,18 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
 /**
  * Class CreateSuperuser
  */
+#[Signature('rt:superuser {email} {password}')]
+#[Description('Create or update a superuser.')]
 class CreateSuperuser extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'rt:superuser {email} {password}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create or update a superuser.';
-
     /**
      * Execute the console command.
      */

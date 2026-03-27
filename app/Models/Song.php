@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\RoundWinState;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,11 +12,10 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
+#[Guarded('id', 'created_at', 'updated_at')]
 class Song extends Model
 {
     use HasFactory;
-
-    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     public function accolades(): HasMany
     {

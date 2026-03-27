@@ -4,19 +4,18 @@ namespace App\Console\Commands;
 
 use App\Models\NewsPost;
 use App\Models\NewsPostReference;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
 /**
  * MakeComingSoonState
  * This command puts the site in a "coming soon" state, simply by removing all the Stages and Rounds.
  */
+#[Signature('news:create {count? : Number of News posts to create.}')]
+#[Description('Creates News posts.')]
 class NewsCreate extends Command
 {
-    protected $signature = 'news:create
-    {count? : Number of News posts to create.}';
-
-    protected $description = 'Creates News posts.';
-
     public function handle(): void
     {
         $this->info("\nCreating news posts...");

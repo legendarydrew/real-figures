@@ -8,6 +8,8 @@ use App\Models\RoundSongs;
 use App\Models\RoundVote;
 use App\Models\SongPlay;
 use App\Models\Stage;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
@@ -16,13 +18,10 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
  * To help with testing the site functionality, I've created this command to set up a Stage
  * with an active Round, and optionally some previous Rounds.
  */
+#[Signature('state:ended-stage {rounds? : Number of Rounds to create.}')]
+#[Description('Create an ended Stage state.')]
 class MakeEndedStageState extends Command
 {
-    protected $signature = 'state:ended-stage
-    {rounds? : Number of Rounds to create.}';
-
-    protected $description = 'Create an ended Stage state.';
-
     public function handle(): void
     {
         // What we want to do:

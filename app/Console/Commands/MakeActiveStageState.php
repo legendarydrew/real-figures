@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use App\Models\Round;
 use App\Models\Stage;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
@@ -12,14 +14,10 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
  * To help with testing the site functionality, I've created this command to set up a Stage
  * with an active Round, and optionally some previous Rounds.
  */
+#[Signature('state:active-stage {past? : Number of previous Rounds to create.} {future? : Number of future Rounds to create.}')]
+#[Description('Create an active Stage state.')]
 class MakeActiveStageState extends Command
 {
-    protected $signature = 'state:active-stage
-    {past? : Number of previous Rounds to create.}
-    {future? : Number of future Rounds to create.}';
-
-    protected $description = 'Create an active Stage state.';
-
     public function handle(): void
     {
         // What we want to do:

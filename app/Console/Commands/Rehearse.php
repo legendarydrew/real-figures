@@ -20,6 +20,8 @@ use App\Models\StageWinner;
 use App\Support\RehearseData;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
@@ -32,24 +34,10 @@ use Throwable;
  * This command is used for setting up a "dress rehearsal" at different stages of the Contest,
  * using information more closely resembling the actual Contest.
  */
+#[Signature('app:rehearse '. '{state? : The state of the Contest to set up.} '. '{manual? : Require a manual vote.}')]
+#[Description('Set up a "dress rehearsal" for the Contest.')]
 class Rehearse extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:rehearse '.
-        '{state? : The state of the Contest to set up.} '.
-        '{manual? : Require a manual vote.}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Set up a "dress rehearsal" for the Contest.';
-
     /**
      * Execute the console command.
      */

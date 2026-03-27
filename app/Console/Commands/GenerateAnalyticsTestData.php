@@ -4,27 +4,17 @@ namespace App\Console\Commands;
 
 use App\Models\Act;
 use App\Models\Round;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
-use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
-
 use function Laravel\Prompts\error;
 
+use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
+
+#[Signature('app:analytics-test-data')]
+#[Description('Generate Analytics test events.')]
 class GenerateAnalyticsTestData extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:analytics-test-data';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Generate Analytics test events.';
-
     /**
      * Execute the console command.
      */

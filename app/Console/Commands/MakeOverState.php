@@ -9,6 +9,8 @@ use App\Models\RoundVote;
 use App\Models\SongPlay;
 use App\Models\Stage;
 use App\Models\StageWinner;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
 /**
@@ -16,12 +18,10 @@ use Illuminate\Console\Command;
  * To help with testing the site functionality, I've created this command to set up a Contest
  * that has ended, with winners and runners-up.
  */
+#[Signature('state:over')]
+#[Description('Create an ended Contest state.')]
 class MakeOverState extends Command
 {
-    protected $signature = 'state:over';
-
-    protected $description = 'Create an ended Contest state.';
-
     public function handle(): void
     {
         // What we want to do:
