@@ -10,5 +10,4 @@ use Illuminate\Database\Eloquent\Model;
 class SubscriberPost extends Model
 {
     use HasFactory;
-
 }

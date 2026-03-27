@@ -12,5 +12,4 @@ class Donation extends Model
 {
     /** @use HasFactory<DonationFactory> */
     use HasFactory;
-
 }

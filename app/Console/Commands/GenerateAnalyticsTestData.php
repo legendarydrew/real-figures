@@ -7,9 +7,9 @@ use App\Models\Round;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
-use function Laravel\Prompts\error;
-
 use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
+
+use function Laravel\Prompts\error;
 
 #[Signature('app:analytics-test-data')]
 #[Description('Generate Analytics test events.')]

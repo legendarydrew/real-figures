@@ -34,7 +34,7 @@ use Throwable;
  * This command is used for setting up a "dress rehearsal" at different stages of the Contest,
  * using information more closely resembling the actual Contest.
  */
-#[Signature('app:rehearse '. '{state? : The state of the Contest to set up.} '. '{manual? : Require a manual vote.}')]
+#[Signature('app:rehearse '.'{state? : The state of the Contest to set up.} '.'{manual? : Require a manual vote.}')]
 #[Description('Set up a "dress rehearsal" for the Contest.')]
 class Rehearse extends Command
 {
