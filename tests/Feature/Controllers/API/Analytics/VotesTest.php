@@ -5,7 +5,7 @@ namespace Tests\Feature\Controllers\API\Analytics;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class VotesTest extends TestCase
+final class VotesTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -13,13 +13,13 @@ class VotesTest extends TestCase
 
     protected const int    DAY_COUNT = 7;
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
         $response->assertUnauthorized();
     }
 
-    public function test_no_data()
+    public function test_no_data(): void
     {
         \Analytics::fake(collect());
 
@@ -35,7 +35,7 @@ class VotesTest extends TestCase
         ]);
     }
 
-    public function test_with_data()
+    public function test_with_data(): void
     {
         \Analytics::fake(collect([
             [

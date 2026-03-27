@@ -9,7 +9,7 @@ use App\Models\StageWinner;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class StatusTest extends TestCase
+final class StatusTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -22,14 +22,14 @@ class StatusTest extends TestCase
         $this->stage = Stage::factory()->createOne();
     }
 
-    public function test_stage_has_no_rounds()
+    public function test_stage_has_no_rounds(): void
     {
         $this->stage->rounds()->delete();
 
         self::assertEquals(trans('contest.stage.status.inactive'), $this->stage->status);
     }
 
-    public function test_stage_has_rounds_not_started()
+    public function test_stage_has_rounds_not_started(): void
     {
         Round::factory(3)->for($this->stage)->withSongs(2)->create([
             'starts_at' => now()->addDay(),
@@ -39,27 +39,27 @@ class StatusTest extends TestCase
         self::assertEquals(trans('contest.stage.status.ready'), $this->stage->status);
     }
 
-    public function test_stage_has_some_rounds_started()
+    public function test_stage_has_some_rounds_started(): void
     {
         Round::factory(3)->for($this->stage)->withSongs(2)->create();
         Round::factory(3)->for($this->stage)->withSongs(2)->started()->create();
         self::assertEquals(trans('contest.stage.status.started'), $this->stage->status);
     }
 
-    public function test_stage_has_some_rounds_ended()
+    public function test_stage_has_some_rounds_ended(): void
     {
         Round::factory(3)->for($this->stage)->withSongs(2)->started()->create();
         Round::factory(3)->for($this->stage)->withSongs(2)->ended()->create();
         self::assertEquals(trans('contest.stage.status.started'), $this->stage->status);
     }
 
-    public function test_stage_has_all_rounds_ended_without_outcomes()
+    public function test_stage_has_all_rounds_ended_without_outcomes(): void
     {
         Round::factory(3)->for($this->stage)->withSongs(2)->ended()->create();
         self::assertEquals(trans('contest.stage.status.judgement'), $this->stage->status);
     }
 
-    public function test_stage_has_all_rounds_ended_with_outcomes()
+    public function test_stage_has_all_rounds_ended_with_outcomes(): void
     {
         $round = Round::factory()->for($this->stage)->withSongs(2)->ended()->create();
         foreach ($round->songs as $song) {
@@ -71,7 +71,7 @@ class StatusTest extends TestCase
         self::assertEquals(trans('contest.stage.status.judgement'), $this->stage->status);
     }
 
-    public function test_stage_has_all_rounds_ended_with_winners()
+    public function test_stage_has_all_rounds_ended_with_winners(): void
     {
         $round = Round::factory()->for($this->stage)->withSongs(2)->ended()->create();
         foreach ($round->songs as $song) {

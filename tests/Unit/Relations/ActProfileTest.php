@@ -7,7 +7,7 @@ use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ActProfileTest extends TestCase
+final class ActProfileTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -21,7 +21,7 @@ class ActProfileTest extends TestCase
         ]);
     }
 
-    public function test_act_relation()
+    public function test_act_relation(): void
     {
         self::assertInstanceOf(Act::class, $this->act_profile->act);
     }

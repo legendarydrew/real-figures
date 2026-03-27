@@ -10,7 +10,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class VoteTest extends TestCase
+final class VoteTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -61,7 +61,7 @@ class VoteTest extends TestCase
         $response->assertCreated();
     }
 
-    public function test_casts_vote()
+    public function test_casts_vote(): void
     {
         self::assertEquals(0, $this->round->votes()->count());
         $this->postJson(self::ENDPOINT, $this->payload);
@@ -74,21 +74,21 @@ class VoteTest extends TestCase
         self::assertEquals($this->songs->get('2')->id, $vote->third_choice_id);
     }
 
-    public function test_invalid_round()
+    public function test_invalid_round(): void
     {
         $this->payload['round_id'] = 404;
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnprocessable();
     }
 
-    public function test_expired_round()
+    public function test_expired_round(): void
     {
         $this->round->update(['ends_at' => now()]);
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertBadRequest();
     }
 
-    public function test_later_round()
+    public function test_later_round(): void
     {
         $this->round->update([
             'starts_at' => now()->addDay(),
@@ -98,7 +98,7 @@ class VoteTest extends TestCase
         $response->assertBadRequest();
     }
 
-    public function test_missing_song()
+    public function test_missing_song(): void
     {
         // First song.
         $payload = [...$this->payload, 'first_choice_id' => null];
@@ -116,7 +116,7 @@ class VoteTest extends TestCase
         $response->assertUnprocessable();
     }
 
-    public function test_invalid_song()
+    public function test_invalid_song(): void
     {
         // First song.
         $payload = [...$this->payload, 'first_choice_id' => 404];
@@ -134,7 +134,7 @@ class VoteTest extends TestCase
         $response->assertUnprocessable();
     }
 
-    public function test_same_songs()
+    public function test_same_songs(): void
     {
         // First song.
         $payload = [...$this->payload, 'second_choice_id' => $this->payload['first_choice_id']];
@@ -164,7 +164,7 @@ class VoteTest extends TestCase
         $response->assertUnprocessable();
     }
 
-    public function test_song_not_in_round()
+    public function test_song_not_in_round(): void
     {
         $act = Act::factory()->withSong()->create();
         $new_song = $act->songs()->first();

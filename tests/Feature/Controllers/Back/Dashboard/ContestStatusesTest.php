@@ -9,11 +9,11 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
-class ContestStatusesTest extends TestCase
+final class ContestStatusesTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_when_contest_is_inactive()
+    public function test_when_contest_is_inactive(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
         $response->assertOk();
@@ -21,7 +21,7 @@ class ContestStatusesTest extends TestCase
             ->has('contest_status', fn (Assert $page) => $page->where('status', ContestStatus::COMING_SOON)));
     }
 
-    public function test_when_contest_is_counting_down()
+    public function test_when_contest_is_counting_down(): void
     {
         Stage::factory()->withRounds(0)->create();
 
@@ -34,7 +34,7 @@ class ContestStatusesTest extends TestCase
                 ->has('countdown')));
     }
 
-    public function test_when_contest_has_current_round()
+    public function test_when_contest_has_current_round(): void
     {
         Stage::factory()->withRounds(1)->create();
 
@@ -48,7 +48,7 @@ class ContestStatusesTest extends TestCase
                 ->has('acts')));
     }
 
-    public function test_when_contest_is_at_stage_end()
+    public function test_when_contest_is_at_stage_end(): void
     {
         Stage::factory()->withRounds(0, 1)->create();
 
@@ -60,7 +60,7 @@ class ContestStatusesTest extends TestCase
                 ->has('round')));
     }
 
-    public function test_when_contest_is_over()
+    public function test_when_contest_is_over(): void
     {
         ContestFacade::shouldReceive('isOver')->andReturn(true);
         ContestFacade::partialMock();

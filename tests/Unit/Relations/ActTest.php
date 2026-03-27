@@ -8,11 +8,11 @@ use App\Models\Song;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ActTest extends TestCase
+final class ActTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_songs_relation()
+    public function test_songs_relation(): void
     {
         $act = Act::factory()->withSong()->create();
         self::assertEquals(1, $act->songs()->count());
@@ -21,7 +21,7 @@ class ActTest extends TestCase
         }
     }
 
-    public function test_profile_relation()
+    public function test_profile_relation(): void
     {
         $act = Act::factory()->withProfile()->create();
         self::assertInstanceOf(ActProfile::class, $act->profile);

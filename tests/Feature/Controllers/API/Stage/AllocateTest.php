@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class AllocateTest extends TestCase
+final class AllocateTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -35,20 +35,20 @@ class AllocateTest extends TestCase
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertRedirectToRoute('admin.stages');
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_rounds()
+    public function test_creates_rounds(): void
     {
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $this->stage->refresh();
@@ -57,7 +57,7 @@ class AllocateTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_without_start_at()
+    public function test_without_start_at(): void
     {
         unset($this->payload['start_at']);
         $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
@@ -68,7 +68,7 @@ class AllocateTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_start_in_past()
+    public function test_start_in_past(): void
     {
         $this->payload['start_at'] = now()->subDay();
         $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
@@ -76,14 +76,14 @@ class AllocateTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_invalid_stage()
+    public function test_invalid_stage(): void
     {
         $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, 404), $this->payload);
         $response->assertNotFound();
     }
 
     #[Depends('test_as_user')]
-    public function test_without_enough_songs()
+    public function test_without_enough_songs(): void
     {
         $this->payload['song_ids'] = [];
         $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class CalculateTest extends TestCase
+final class CalculateTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -32,13 +32,13 @@ class CalculateTest extends TestCase
         $this->song_ids = $this->round->songs->pluck('id')->toArray();
     }
 
-    public function test_no_outcomes()
+    public function test_no_outcomes(): void
     {
         $results = RoundResultsFacade::calculate($this->round);
         self::assertNull($results);
     }
 
-    public function test_one_winner()
+    public function test_one_winner(): void
     {
         RoundOutcome::factory($this->number_of_songs)
             ->for($this->round)
@@ -62,7 +62,7 @@ class CalculateTest extends TestCase
         self::assertCount(1, $results['winners']);
     }
 
-    public function test_tied_winners()
+    public function test_tied_winners(): void
     {
         $tied_winner_count = fake()->numberBetween(2, ceil($this->number_of_songs / 2));
         RoundOutcome::factory($tied_winner_count)
@@ -92,7 +92,7 @@ class CalculateTest extends TestCase
         self::assertCount(1, $results['winners']);
     }
 
-    public function test_no_runners_up()
+    public function test_no_runners_up(): void
     {
         RoundOutcome::factory($this->number_of_songs)
             ->for($this->round)
@@ -107,7 +107,7 @@ class CalculateTest extends TestCase
         self::assertCount(0, $results['runners_up']);
     }
 
-    public function test_one_runner_up()
+    public function test_one_runner_up(): void
     {
         RoundOutcome::factory($this->number_of_songs)
             ->for($this->round)
@@ -122,7 +122,7 @@ class CalculateTest extends TestCase
         self::assertCount(1, $results['runners_up']);
     }
 
-    public function test_multiple_runners_up()
+    public function test_multiple_runners_up(): void
     {
         RoundOutcome::factory($this->number_of_songs)
             ->for($this->round)
@@ -138,7 +138,7 @@ class CalculateTest extends TestCase
         self::assertLessThanOrEqual($runner_up_count, $results['runners_up']->count());
     }
 
-    public function test_no_duplicates()
+    public function test_no_duplicates(): void
     {
         RoundOutcome::factory($this->number_of_songs)
             ->for($this->round)

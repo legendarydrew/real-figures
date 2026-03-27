@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-class StoreTest extends TestCase
+final class StoreTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -27,7 +27,7 @@ class StoreTest extends TestCase
         ];
     }
 
-    public function test_creates_subscriber()
+    public function test_creates_subscriber(): void
     {
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertCreated();
@@ -40,7 +40,7 @@ class StoreTest extends TestCase
         Mail::assertSent(SubscriberConfirm::class, fn (SubscriberConfirm $mail) => $mail->hasTo($this->payload['email']));
     }
 
-    public function test_invalid_email()
+    public function test_invalid_email(): void
     {
         $this->payload['email'] = fake()->word();
         $response = $this->postJson(self::ENDPOINT, $this->payload);
@@ -52,7 +52,7 @@ class StoreTest extends TestCase
         Mail::assertNothingSent();
     }
 
-    public function test_existing_unconfirmed_email()
+    public function test_existing_unconfirmed_email(): void
     {
         Subscriber::factory()->unconfirmed()->createOne(['email' => $this->payload['email']]);
 
@@ -67,7 +67,7 @@ class StoreTest extends TestCase
         Mail::assertSent(SubscriberConfirm::class, fn (SubscriberConfirm $mail) => $mail->hasTo($this->payload['email']));
     }
 
-    public function test_existing_confirmed_email()
+    public function test_existing_confirmed_email(): void
     {
         Subscriber::factory()->confirmed()->createOne(['email' => $this->payload['email']]);
 

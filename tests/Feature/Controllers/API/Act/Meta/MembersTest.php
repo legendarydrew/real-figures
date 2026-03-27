@@ -7,7 +7,7 @@ use App\Models\ActMetaMember;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class MembersTest extends TestCase
+final class MembersTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -30,7 +30,7 @@ class MembersTest extends TestCase
         ];
     }
 
-    public function test_adds_meta_members()
+    public function test_adds_meta_members(): void
     {
         $this->payload['meta'] = [
             'members' => [
@@ -44,7 +44,7 @@ class MembersTest extends TestCase
         self::assertCount(count($this->payload['meta']['members']), $this->act->members);
     }
 
-    public function test_removes_meta_members()
+    public function test_removes_meta_members(): void
     {
         $this->payload['meta'] = [
             'members' => [],
@@ -55,7 +55,7 @@ class MembersTest extends TestCase
         self::assertCount(count($this->payload['meta']['members']), $this->act->members);
     }
 
-    public function test_replace_meta_members()
+    public function test_replace_meta_members(): void
     {
         $this->act->members()->createMany([
             ['name' => 'Max Power', 'role' => 'Bad Boy'],
@@ -74,7 +74,7 @@ class MembersTest extends TestCase
         self::assertCount(count($this->payload['meta']['members']), $this->act->members);
     }
 
-    public function test_preserve_meta_members()
+    public function test_preserve_meta_members(): void
     {
         $this->act->members()->createMany([
             ['name' => 'Max Power', 'role' => 'Bad Boy'],

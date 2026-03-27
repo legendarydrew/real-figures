@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class GoldenBuzzerTest extends TestCase
+final class GoldenBuzzerTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -38,7 +38,7 @@ class GoldenBuzzerTest extends TestCase
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $this->mockSuccessfulCapture();
         $response = $this->postJson(self::ENDPOINT, $this->payload);
@@ -46,7 +46,7 @@ class GoldenBuzzerTest extends TestCase
     }
 
     #[Depends('test_as_guest')]
-    public function test_success_creates_donation()
+    public function test_success_creates_donation(): void
     {
         $this->mockSuccessfulCapture();
         $this->postJson(self::ENDPOINT, $this->payload);
@@ -61,7 +61,7 @@ class GoldenBuzzerTest extends TestCase
     }
 
     #[Depends('test_as_guest')]
-    public function test_success_sends_email()
+    public function test_success_sends_email(): void
     {
         $this->mockSuccessfulCapture();
         $this->postJson(self::ENDPOINT, $this->payload);
@@ -71,7 +71,7 @@ class GoldenBuzzerTest extends TestCase
     }
 
     #[Depends('test_as_guest')]
-    public function test_failed_denied()
+    public function test_failed_denied(): void
     {
         $this->mockDeniedCapture();
         $response = $this->postJson(self::ENDPOINT, $this->payload);
@@ -82,7 +82,7 @@ class GoldenBuzzerTest extends TestCase
         Mail::assertNotSent(GoldenBuzzerConfirmation::class);
     }
 
-    public function test_failed_unprocessable()
+    public function test_failed_unprocessable(): void
     {
         $this->mockUnprocessableCapture();
         $response = $this->postJson(self::ENDPOINT, $this->payload);

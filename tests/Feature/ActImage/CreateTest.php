@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use Tests\TestCase;
 
-class CreateTest extends TestCase
+final class CreateTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -22,7 +22,7 @@ class CreateTest extends TestCase
         $this->act = Act::factory()->createOne();
     }
 
-    public function test_creates_new_image()
+    public function test_creates_new_image(): void
     {
         $image = fake()->image();
         ActImageFacade::create($this->act, $image);
@@ -33,7 +33,7 @@ class CreateTest extends TestCase
         @unlink($path);
     }
 
-    public function test_resizes_image()
+    public function test_resizes_image(): void
     {
         $image = fake()->image(width: 2000, height: 2000);
         ActImageFacade::create($this->act, $image);
@@ -46,7 +46,7 @@ class CreateTest extends TestCase
         @unlink($path);
     }
 
-    public function test_overwrites_image()
+    public function test_overwrites_image(): void
     {
         $path = ActImageFacade::path($this->act);
 

@@ -9,7 +9,7 @@ use App\Models\StageWinner;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DescriptionTest extends TestCase
+final class DescriptionTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -29,7 +29,7 @@ class DescriptionTest extends TestCase
         ]);
     }
 
-    public function test_winner_description()
+    public function test_winner_description(): void
     {
         $this->row->update([
             'is_winner' => true,
@@ -43,7 +43,7 @@ class DescriptionTest extends TestCase
         self::assertEquals($expected_description, $this->row->description);
     }
 
-    public function test_runner_up_description()
+    public function test_runner_up_description(): void
     {
         $this->row->update([
             'is_winner' => false,

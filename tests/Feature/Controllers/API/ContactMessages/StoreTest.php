@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 use Spatie\LaravelPackageTools\Concerns\Package\HasInertia;
 use Tests\TestCase;
 
-class StoreTest extends TestCase
+final class StoreTest extends TestCase
 {
     use DatabaseMigrations;
     use HasInertia;
@@ -30,7 +30,7 @@ class StoreTest extends TestCase
         ];
     }
 
-    public function test_successful_verify()
+    public function test_successful_verify(): void
     {
         // https://stackoverflow.com/a/72342214/4073160
         // https://laravel.com/docs/9.x/http-client#faking-specific-urls
@@ -48,7 +48,7 @@ class StoreTest extends TestCase
         self::assertFalse((bool) $message->is_spam);
     }
 
-    public function test_failed_verify()
+    public function test_failed_verify(): void
     {
         Http::fake([
             'https://challenges.cloudflare.com/*' => Http::response(['success' => false]),
@@ -64,7 +64,7 @@ class StoreTest extends TestCase
         self::assertTrue((bool) $message->is_spam);
     }
 
-    public function test_subscribe_false()
+    public function test_subscribe_false(): void
     {
         Http::fake([
             'https://challenges.cloudflare.com/*' => Http::response(['success' => true]),
@@ -84,7 +84,7 @@ class StoreTest extends TestCase
         self::assertNull($subscription);
     }
 
-    public function test_subscribe_true()
+    public function test_subscribe_true(): void
     {
         Http::fake([
             'https://challenges.cloudflare.com/*' => Http::response(['success' => true]),
@@ -100,7 +100,7 @@ class StoreTest extends TestCase
         self::assertFalse((bool) $subscription->confirmed);
     }
 
-    public function test_already_subscribed()
+    public function test_already_subscribed(): void
     {
         Http::fake([
             'https://challenges.cloudflare.com/*' => Http::response(['success' => true]),

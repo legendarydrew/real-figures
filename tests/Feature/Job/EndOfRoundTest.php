@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class EndOfRoundTest extends TestCase
+final class EndOfRoundTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -53,7 +53,7 @@ class EndOfRoundTest extends TestCase
         self::assertEquals(0, $this->round->outcomes()->count());
     }
 
-    public function test_after_round_end()
+    public function test_after_round_end(): void
     {
         EndOfRound::dispatch($this->round);
 
@@ -68,7 +68,7 @@ class EndOfRoundTest extends TestCase
     }
 
     #[Depends('test_after_round_end')]
-    public function test_before_round_begins()
+    public function test_before_round_begins(): void
     {
         $this->round->update([
             'starts_at' => now()->addDay(),
@@ -79,7 +79,7 @@ class EndOfRoundTest extends TestCase
     }
 
     #[Depends('test_after_round_end')]
-    public function test_before_round_end()
+    public function test_before_round_end(): void
     {
         $this->round->update([
             'ends_at' => now()->addDay(),
@@ -89,7 +89,7 @@ class EndOfRoundTest extends TestCase
         self::assertEquals(0, $this->round->outcomes()->count());
     }
 
-    public function test_edge_round_start_after_round_end()
+    public function test_edge_round_start_after_round_end(): void
     {
         $this->round->update([
             'starts_at' => now()->addDays(2),
@@ -101,7 +101,7 @@ class EndOfRoundTest extends TestCase
     }
 
     #[Depends('test_after_round_end')]
-    public function test_if_no_votes()
+    public function test_if_no_votes(): void
     {
         RoundVote::truncate();
 
@@ -117,7 +117,7 @@ class EndOfRoundTest extends TestCase
     }
 
     #[Depends('test_after_round_end')]
-    public function test_duplicate()
+    public function test_duplicate(): void
     {
         EndOfRound::dispatch($this->round);
 

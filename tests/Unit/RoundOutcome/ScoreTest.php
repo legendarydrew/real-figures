@@ -6,11 +6,11 @@ use App\Models\RoundOutcome;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ScoreTest extends TestCase
+final class ScoreTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_no_votes()
+    public function test_no_votes(): void
     {
         $outcome = RoundOutcome::factory()->make([
             'first_votes' => 0,
@@ -21,7 +21,7 @@ class ScoreTest extends TestCase
         self::assertEquals(0, $outcome->score);
     }
 
-    public function test_with_votes()
+    public function test_with_votes(): void
     {
         $outcome = RoundOutcome::factory()->make();
 

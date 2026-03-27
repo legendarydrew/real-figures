@@ -7,7 +7,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class HasStartedTest extends TestCase
+final class HasStartedTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -20,13 +20,13 @@ class HasStartedTest extends TestCase
         $this->stage = Stage::factory()->create();
     }
 
-    public function test_no_rounds()
+    public function test_no_rounds(): void
     {
         self::assertCount(0, $this->stage->rounds);
         self::assertFalse($this->stage->hasStarted());
     }
 
-    public function test_has_started_rounds()
+    public function test_has_started_rounds(): void
     {
         Round::factory(3)
             ->for($this->stage)
@@ -39,7 +39,7 @@ class HasStartedTest extends TestCase
         self::assertTrue($this->stage->hasStarted());
     }
 
-    public function test_has_no_started_rounds()
+    public function test_has_no_started_rounds(): void
     {
         Round::factory(3)
             ->for($this->stage)

@@ -8,7 +8,7 @@ use App\Models\Language;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class LanguagesTest extends TestCase
+final class LanguagesTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -31,12 +31,12 @@ class LanguagesTest extends TestCase
         ];
     }
 
-    public function test_have_languages_in_payload()
+    public function test_have_languages_in_payload(): void
     {
         self::assertCount(3, $this->payload['meta']['languages']);
     }
 
-    public function test_adds_meta_languages()
+    public function test_adds_meta_languages(): void
     {
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
@@ -49,7 +49,7 @@ class LanguagesTest extends TestCase
         }
     }
 
-    public function test_replace_meta_languages()
+    public function test_replace_meta_languages(): void
     {
         $language_ids = fake()->randomElements(Language::pluck('id')->toArray(), 3);
         foreach ($language_ids as $language_id) {
@@ -70,7 +70,7 @@ class LanguagesTest extends TestCase
         }
     }
 
-    public function test_preserve_meta_languages()
+    public function test_preserve_meta_languages(): void
     {
         $language_ids = fake()->randomElements(Language::pluck('id')->toArray(), 3);
         foreach ($language_ids as $language_id) {
@@ -93,7 +93,7 @@ class LanguagesTest extends TestCase
         }
     }
 
-    public function test_removes_meta_languages()
+    public function test_removes_meta_languages(): void
     {
         $this->payload['meta'] = [
             'languages' => [],

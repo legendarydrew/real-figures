@@ -9,11 +9,11 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class BuildRoundOutcomeTest extends TestCase
+final class BuildRoundOutcomeTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_round_with_votes()
+    public function test_round_with_votes(): void
     {
         $stage = Stage::factory()->createOne();
         $round = Round::factory()->for($stage)->withSongs()->withVotes()->create();
@@ -23,7 +23,7 @@ class BuildRoundOutcomeTest extends TestCase
         self::assertCount($round->songs()->count(), $outcomes);
     }
 
-    public function test_round_with_no_votes()
+    public function test_round_with_no_votes(): void
     {
         $stage = Stage::factory()->createOne();
         $round = Round::factory()->for($stage)->withSongs()->create();

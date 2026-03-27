@@ -9,18 +9,18 @@ use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class DonationsTest extends TestCase
+final class DonationsTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->get(route('admin.donations'));
 
         $response->assertRedirectToRoute('login');
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.donations'));
 
@@ -29,7 +29,7 @@ class DonationsTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_with_donations()
+    public function test_with_donations(): void
     {
         Stage::factory()->withRounds()->create();
         Donation::factory(21)->create();

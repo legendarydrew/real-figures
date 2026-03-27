@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class UpdateTest extends TestCase
+final class UpdateTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -28,20 +28,20 @@ class UpdateTest extends TestCase
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->patchJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertRedirect(route('admin.stages'));
     }
 
     #[Depends('test_as_user')]
-    public function test_updates_act()
+    public function test_updates_act(): void
     {
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
 
@@ -51,7 +51,7 @@ class UpdateTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_invalid_act()
+    public function test_invalid_act(): void
     {
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, 404), $this->payload);
         $response->assertNotFound();

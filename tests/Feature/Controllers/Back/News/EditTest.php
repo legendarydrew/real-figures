@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
-class EditTest extends TestCase
+final class EditTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -19,14 +19,14 @@ class EditTest extends TestCase
         $this->post = NewsPost::factory()->createOne();
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->get(route('admin.news.edit', ['id' => $this->post->id]));
 
         $response->assertRedirectToRoute('login');
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.news.edit', ['id' => $this->post->id]));
 
@@ -34,7 +34,7 @@ class EditTest extends TestCase
         $response->assertInertia(fn (Assert $page) => $page->component('back/news-edit-page')->where('post.id', $this->post->id));
     }
 
-    public function test_invalid_post()
+    public function test_invalid_post(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.news.edit', ['id' => 404]));
 

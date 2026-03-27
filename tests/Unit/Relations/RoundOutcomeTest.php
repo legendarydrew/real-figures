@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class RoundOutcomeTest extends TestCase
+final class RoundOutcomeTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -32,18 +32,18 @@ class RoundOutcomeTest extends TestCase
         ]);
     }
 
-    public function test_round_relation()
+    public function test_round_relation(): void
     {
         self::assertInstanceOf(Round::class, $this->outcome->round);
     }
 
     #[Depends('test_round_relation')]
-    public function test_stage_relation()
+    public function test_stage_relation(): void
     {
         self::assertInstanceOf(Stage::class, $this->outcome->stage);
     }
 
-    public function test_song_relation()
+    public function test_song_relation(): void
     {
         self::assertInstanceOf(Song::class, $this->outcome->song);
     }

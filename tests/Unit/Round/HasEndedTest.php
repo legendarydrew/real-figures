@@ -7,11 +7,11 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class HasEndedTest extends TestCase
+final class HasEndedTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_has_ended()
+    public function test_has_ended(): void
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->create([
@@ -23,7 +23,7 @@ class HasEndedTest extends TestCase
         self::assertTrue($round->hasEnded());
     }
 
-    public function test_has_not_ended()
+    public function test_has_not_ended(): void
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->create([

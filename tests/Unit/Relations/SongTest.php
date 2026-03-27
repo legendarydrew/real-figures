@@ -10,7 +10,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class SongTest extends TestCase
+final class SongTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -31,12 +31,12 @@ class SongTest extends TestCase
         ]);
     }
 
-    public function test_act_relation()
+    public function test_act_relation(): void
     {
         self::assertInstanceOf(Act::class, $this->song->act);
     }
 
-    public function test_outcomes_relation()
+    public function test_outcomes_relation(): void
     {
         self::assertEquals(1, $this->song->outcomes->count());
         foreach ($this->song->outcomes as $outcome) {

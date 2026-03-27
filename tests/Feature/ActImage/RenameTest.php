@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use Tests\TestCase;
 
-class RenameTest extends TestCase
+final class RenameTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -29,7 +29,7 @@ class RenameTest extends TestCase
         Act::bootHasEvents();
     }
 
-    public function test_renames_existing_image_from_name_change()
+    public function test_renames_existing_image_from_name_change(): void
     {
         $this->act->update([
             'name' => fake()->name,
@@ -42,7 +42,7 @@ class RenameTest extends TestCase
         @unlink($path);
     }
 
-    public function test_renames_existing_image_from_subtitle_change()
+    public function test_renames_existing_image_from_subtitle_change(): void
     {
         $this->act->update([
             'subtitle' => fake()->sentence,
@@ -54,7 +54,7 @@ class RenameTest extends TestCase
         @unlink($path);
     }
 
-    public function test_preserve_existing_image_with_same_slug()
+    public function test_preserve_existing_image_with_same_slug(): void
     {
         ActImageFacade::rename($this->act);
 
@@ -63,7 +63,7 @@ class RenameTest extends TestCase
         @unlink($path);
     }
 
-    public function test_missing_image()
+    public function test_missing_image(): void
     {
         $path = ActImageFacade::path($this->act);
         $this->assertFileExists($path);

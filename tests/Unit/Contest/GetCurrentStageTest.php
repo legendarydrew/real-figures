@@ -7,17 +7,17 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetCurrentStageTest extends TestCase
+final class GetCurrentStageTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_no_stages()
+    public function test_no_stages(): void
     {
         $current_stage = ContestFacade::getCurrentStage();
         self::assertNull($current_stage);
     }
 
-    public function test_inactive_stage()
+    public function test_inactive_stage(): void
     {
         $stage = Stage::factory()->create();
 
@@ -25,7 +25,7 @@ class GetCurrentStageTest extends TestCase
         self::assertNull($current_stage);
     }
 
-    public function test_ready_stage()
+    public function test_ready_stage(): void
     {
         $stage = Stage::factory()->withRounds(started_count: 0, ended_count: 0)->create();
         Stage::factory(2)->withRounds()->create();
@@ -35,7 +35,7 @@ class GetCurrentStageTest extends TestCase
         self::assertEquals($stage->id, $current_stage->id);
     }
 
-    public function test_active_first_stage()
+    public function test_active_first_stage(): void
     {
         $stage = Stage::factory()->withRounds(started_count: 2, ended_count: 0)->create();
         Stage::factory(2)->withRounds(false)->create();
@@ -45,7 +45,7 @@ class GetCurrentStageTest extends TestCase
         self::assertEquals($stage->id, $current_stage->id);
     }
 
-    public function test_ended_stage()
+    public function test_ended_stage(): void
     {
         $stage = Stage::factory()->withRounds(started_count: 0, ended_count: 2)->create();
         Stage::factory(2)->withRounds(false)->create();
@@ -55,7 +55,7 @@ class GetCurrentStageTest extends TestCase
         self::assertEquals($stage->id, $current_stage->id);
     }
 
-    public function test_over_stages()
+    public function test_over_stages(): void
     {
         Stage::factory(2)->over()->create()->toArray();
         $stage = Stage::factory()->withRounds()->create();
@@ -65,7 +65,7 @@ class GetCurrentStageTest extends TestCase
         self::assertEquals($stage->id, $current_stage->id);
     }
 
-    public function test_contest_is_over()
+    public function test_contest_is_over(): void
     {
         $stages = Stage::factory(2)->over()->create()->toArray();
 

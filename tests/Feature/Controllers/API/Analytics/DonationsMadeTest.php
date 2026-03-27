@@ -6,7 +6,7 @@ use App\Http\Controllers\API\Analytics\DonationsMadeController;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DonationsMadeTest extends TestCase
+final class DonationsMadeTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -14,13 +14,13 @@ class DonationsMadeTest extends TestCase
 
     protected const int    DAY_COUNT = 7;
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
         $response->assertUnauthorized();
     }
 
-    public function test_no_data()
+    public function test_no_data(): void
     {
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
 
@@ -35,7 +35,7 @@ class DonationsMadeTest extends TestCase
         ]);
     }
 
-    public function test_with_data()
+    public function test_with_data(): void
     {
         $date = now()->subDay();
         \Analytics::fake(collect([

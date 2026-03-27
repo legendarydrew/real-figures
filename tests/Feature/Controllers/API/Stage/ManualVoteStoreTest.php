@@ -11,7 +11,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ManualVoteStoreTest extends TestCase
+final class ManualVoteStoreTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -58,7 +58,7 @@ class ManualVoteStoreTest extends TestCase
         config()->set('contest.judgement.panel-count', 0);
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertUnauthorized();
@@ -66,7 +66,7 @@ class ManualVoteStoreTest extends TestCase
         self::assertCount(0, $this->round->outcomes);
     }
 
-    public function test_cast_manual_vote_when_required()
+    public function test_cast_manual_vote_when_required(): void
     {
         self::assertTrue($this->stage->requiresManualVote());
 
@@ -76,7 +76,7 @@ class ManualVoteStoreTest extends TestCase
         self::assertCount(count($this->song_ids), $this->round->outcomes);
     }
 
-    public function test_cast_manual_vote_when_not_required()
+    public function test_cast_manual_vote_when_not_required(): void
     {
         $song_id = fake()->randomElement($this->song_ids);
 
@@ -106,7 +106,7 @@ class ManualVoteStoreTest extends TestCase
         self::assertCount(1, $this->round->outcomes); // the fake outcome created before.
     }
 
-    public function test_cast_manual_vote_for_invalid_stage()
+    public function test_cast_manual_vote_for_invalid_stage(): void
     {
         $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, 404), $this->payload);
         $response->assertNotFound();
@@ -115,7 +115,7 @@ class ManualVoteStoreTest extends TestCase
 
     }
 
-    public function test_cast_manual_vote_for_invalid_round()
+    public function test_cast_manual_vote_for_invalid_round(): void
     {
         $this->payload['votes'][0]['round_id'] = 404;
 
@@ -125,7 +125,7 @@ class ManualVoteStoreTest extends TestCase
         self::assertCount(0, $this->round->outcomes);
     }
 
-    public function test_cast_manual_vote_for_non_existent_song()
+    public function test_cast_manual_vote_for_non_existent_song(): void
     {
         $this->payload['votes'][0]['song_ids']['first'] = 404;
 
@@ -135,7 +135,7 @@ class ManualVoteStoreTest extends TestCase
         self::assertCount(0, $this->round->outcomes);
     }
 
-    public function test_cast_manual_vote_for_invalid_song()
+    public function test_cast_manual_vote_for_invalid_song(): void
     {
         $this->payload['votes'][0]['song_ids']['first'] = Song::factory()->withAct()->create()->id;
 
@@ -145,7 +145,7 @@ class ManualVoteStoreTest extends TestCase
         self::assertCount(0, $this->round->outcomes);
     }
 
-    public function test_manual_vote_creates_vote()
+    public function test_manual_vote_creates_vote(): void
     {
         // This test assumes there are no other panel members.
         self::assertEquals(0, config('contest.judgement.panel-count'));
@@ -165,7 +165,7 @@ class ManualVoteStoreTest extends TestCase
         self::assertEquals($this->payload['votes'][0]['song_ids']['third'], $vote->third_choice_id);
     }
 
-    public function test_manual_vote_with_panel_creates_votes()
+    public function test_manual_vote_with_panel_creates_votes(): void
     {
         config()->set('contest.judgement.panel-count', 7);
 

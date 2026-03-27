@@ -6,11 +6,11 @@ use App\Models\NewsPost;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class IndexTest extends TestCase
+final class IndexTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_no_news()
+    public function test_no_news(): void
     {
         NewsPost::truncate();
         $response = $this->get(route('news'));
@@ -18,7 +18,7 @@ class IndexTest extends TestCase
         $response->assertNotFound();
     }
 
-    public function test_no_published_news()
+    public function test_no_published_news(): void
     {
         NewsPost::factory()->count(10)->unpublished()->create();
         $response = $this->get(route('news'));
@@ -26,7 +26,7 @@ class IndexTest extends TestCase
         $response->assertNotFound();
     }
 
-    public function test_published_news()
+    public function test_published_news(): void
     {
         NewsPost::factory()->count(10)->published()->create();
         $response = $this->get(route('news'));

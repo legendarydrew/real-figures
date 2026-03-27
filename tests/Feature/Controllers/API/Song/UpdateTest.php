@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class UpdateTest extends TestCase
+final class UpdateTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -33,20 +33,20 @@ class UpdateTest extends TestCase
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->patchJson(sprintf(self::ENDPOINT, $this->song->id), $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->song->id), $this->payload);
         $response->assertRedirect(route('admin.songs'));
     }
 
     #[Depends('test_as_user')]
-    public function test_updates_song()
+    public function test_updates_song(): void
     {
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->song->id), $this->payload);
 
@@ -57,7 +57,7 @@ class UpdateTest extends TestCase
     }
 
     #[Depends('test_updates_song')]
-    public function test_updates_song_with_url()
+    public function test_updates_song_with_url(): void
     {
         $this->payload['url'] = fake()->url;
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->song->id), $this->payload);
@@ -68,7 +68,7 @@ class UpdateTest extends TestCase
     }
 
     #[Depends('test_updates_song')]
-    public function test_updates_song_without_url()
+    public function test_updates_song_without_url(): void
     {
         $this->payload['url'] = null;
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->song->id), $this->payload);
@@ -78,7 +78,7 @@ class UpdateTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_invalid_act()
+    public function test_invalid_act(): void
     {
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, 404), $this->payload);
         $response->assertNotFound();
