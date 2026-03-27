@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 use Spatie\LaravelPackageTools\Concerns\Package\HasInertia;
 use Tests\TestCase;
 
-class StoreTest extends TestCase
+final class StoreTest extends TestCase
 {
     use DatabaseMigrations;
     use HasInertia;

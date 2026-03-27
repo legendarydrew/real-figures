@@ -8,7 +8,7 @@ use App\Models\Genre;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GenresTest extends TestCase
+final class GenresTest extends TestCase
 {
     use DatabaseMigrations;
 

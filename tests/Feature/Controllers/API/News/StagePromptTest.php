@@ -9,7 +9,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class StagePromptTest extends TestCase
+final class StagePromptTest extends TestCase
 {
     use DatabaseMigrations;
 

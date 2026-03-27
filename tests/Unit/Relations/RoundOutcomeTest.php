@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class RoundOutcomeTest extends TestCase
+final class RoundOutcomeTest extends TestCase
 {
     use DatabaseMigrations;
 

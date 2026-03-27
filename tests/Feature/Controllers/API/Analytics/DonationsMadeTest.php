@@ -6,7 +6,7 @@ use App\Http\Controllers\API\Analytics\DonationsMadeController;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DonationsMadeTest extends TestCase
+final class DonationsMadeTest extends TestCase
 {
     use DatabaseMigrations;
 

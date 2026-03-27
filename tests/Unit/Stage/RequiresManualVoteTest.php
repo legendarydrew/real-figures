@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class RequiresManualVoteTest extends TestCase
+final class RequiresManualVoteTest extends TestCase
 {
     use DatabaseMigrations;
 

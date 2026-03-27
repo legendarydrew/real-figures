@@ -5,7 +5,7 @@ namespace Tests\Feature\Controllers\Front;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DonorWallTest extends TestCase
+final class DonorWallTest extends TestCase
 {
     use DatabaseMigrations;
 

@@ -7,7 +7,7 @@ use App\Models\ActMetaTrait;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class TraitsTest extends TestCase
+final class TraitsTest extends TestCase
 {
     use DatabaseMigrations;
 

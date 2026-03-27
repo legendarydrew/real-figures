@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 // see https://inertiajs.com/testing
 
-class HomeTest extends TestCase
+final class HomeTest extends TestCase
 {
     use DatabaseMigrations;
 

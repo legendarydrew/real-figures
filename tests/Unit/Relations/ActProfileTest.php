@@ -7,7 +7,7 @@ use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ActProfileTest extends TestCase
+final class ActProfileTest extends TestCase
 {
     use DatabaseMigrations;
 

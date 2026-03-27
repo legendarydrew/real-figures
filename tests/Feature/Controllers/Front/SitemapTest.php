@@ -8,7 +8,7 @@ use App\Models\NewsPost;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class SitemapTest extends TestCase
+final class SitemapTest extends TestCase
 {
     use DatabaseMigrations;
 

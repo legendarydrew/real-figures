@@ -6,7 +6,7 @@ use App\Models\NewsPost;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ShowTest extends TestCase
+final class ShowTest extends TestCase
 {
     use DatabaseMigrations;
 

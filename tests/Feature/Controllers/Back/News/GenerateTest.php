@@ -13,7 +13,7 @@ use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Testing\Responses\Fixtures\Chat\CreateResponseFixture;
 use Tests\TestCase;
 
-class GenerateTest extends TestCase
+final class GenerateTest extends TestCase
 {
     use DatabaseMigrations;
 

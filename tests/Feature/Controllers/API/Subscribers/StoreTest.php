@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-class StoreTest extends TestCase
+final class StoreTest extends TestCase
 {
     use DatabaseMigrations;
 

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class GoldenBuzzerTest extends TestCase
+final class GoldenBuzzerTest extends TestCase
 {
     use DatabaseMigrations;
 

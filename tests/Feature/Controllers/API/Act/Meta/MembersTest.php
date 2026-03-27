@@ -7,7 +7,7 @@ use App\Models\ActMetaMember;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class MembersTest extends TestCase
+final class MembersTest extends TestCase
 {
     use DatabaseMigrations;
 

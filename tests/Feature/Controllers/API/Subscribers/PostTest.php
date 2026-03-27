@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class PostTest extends TestCase
+final class PostTest extends TestCase
 {
     use DatabaseMigrations;
 

@@ -5,7 +5,7 @@ namespace Tests\Feature\Controllers\Back\News;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class StoreTest extends TestCase
+final class StoreTest extends TestCase
 {
     use DatabaseMigrations;
 

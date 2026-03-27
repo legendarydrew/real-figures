@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class RoundTest extends TestCase
+final class RoundTest extends TestCase
 {
     use DatabaseMigrations;
 

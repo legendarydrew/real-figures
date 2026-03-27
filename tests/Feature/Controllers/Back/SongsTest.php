@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
-class SongsTest extends TestCase
+final class SongsTest extends TestCase
 {
     use DatabaseMigrations;
 

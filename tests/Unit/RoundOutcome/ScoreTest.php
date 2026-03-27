@@ -6,7 +6,7 @@ use App\Models\RoundOutcome;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ScoreTest extends TestCase
+final class ScoreTest extends TestCase
 {
     use DatabaseMigrations;
 

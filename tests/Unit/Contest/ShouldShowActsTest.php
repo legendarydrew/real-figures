@@ -7,7 +7,7 @@ use App\Models\Act;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ShouldShowActsTest extends TestCase
+final class ShouldShowActsTest extends TestCase
 {
     use DatabaseMigrations;
 

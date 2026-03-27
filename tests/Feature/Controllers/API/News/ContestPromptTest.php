@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Lang;
 use Tests\TestCase;
 
-class ContestPromptTest extends TestCase
+final class ContestPromptTest extends TestCase
 {
     use DatabaseMigrations;
 

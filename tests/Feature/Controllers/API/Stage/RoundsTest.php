@@ -8,7 +8,7 @@ use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class RoundsTest extends TestCase
+final class RoundsTest extends TestCase
 {
     use DatabaseMigrations;
 

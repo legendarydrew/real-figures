@@ -13,7 +13,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class RankedTest extends TestCase
+final class RankedTest extends TestCase
 {
     use DatabaseMigrations;
 

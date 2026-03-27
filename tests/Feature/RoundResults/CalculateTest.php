@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class CalculateTest extends TestCase
+final class CalculateTest extends TestCase
 {
     use DatabaseMigrations;
 

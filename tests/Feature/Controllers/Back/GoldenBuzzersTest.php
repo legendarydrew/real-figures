@@ -9,7 +9,7 @@ use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class GoldenBuzzersTest extends TestCase
+final class GoldenBuzzersTest extends TestCase
 {
     use DatabaseMigrations;
 

@@ -9,7 +9,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class BuildRoundOutcomeTest extends TestCase
+final class BuildRoundOutcomeTest extends TestCase
 {
     use DatabaseMigrations;
 

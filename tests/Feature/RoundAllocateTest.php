@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class RoundAllocateTest extends TestCase
+final class RoundAllocateTest extends TestCase
 {
     use DatabaseMigrations;
 

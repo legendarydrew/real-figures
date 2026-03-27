@@ -8,7 +8,7 @@ use App\Models\Song;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ActTest extends TestCase
+final class ActTest extends TestCase
 {
     use DatabaseMigrations;
 

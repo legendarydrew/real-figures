@@ -5,7 +5,7 @@ namespace Tests\Feature\Controllers\API\Analytics;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ContactMessagesTest extends TestCase
+final class ContactMessagesTest extends TestCase
 {
     use DatabaseMigrations;
 

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class DonationTest extends TestCase
+final class DonationTest extends TestCase
 {
     use DatabaseMigrations;
 

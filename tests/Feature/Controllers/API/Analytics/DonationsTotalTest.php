@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DonationsTotalTest extends TestCase
+final class DonationsTotalTest extends TestCase
 {
     use DatabaseMigrations;
 

@@ -9,7 +9,7 @@ use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class DonationsTest extends TestCase
+final class DonationsTest extends TestCase
 {
     use DatabaseMigrations;
 

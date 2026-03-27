@@ -6,7 +6,7 @@ use App\Models\RoundOutcome;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class VoteCountTest extends TestCase
+final class VoteCountTest extends TestCase
 {
     use DatabaseMigrations;
 

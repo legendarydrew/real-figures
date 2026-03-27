@@ -7,7 +7,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class OverallWinnersTest extends TestCase
+final class OverallWinnersTest extends TestCase
 {
     use DatabaseMigrations;
 

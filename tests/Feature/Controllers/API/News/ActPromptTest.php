@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Lang;
 use Tests\TestCase;
 
-class ActPromptTest extends TestCase
+final class ActPromptTest extends TestCase
 {
     use DatabaseMigrations;
 

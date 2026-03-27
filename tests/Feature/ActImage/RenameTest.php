@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use Tests\TestCase;
 
-class RenameTest extends TestCase
+final class RenameTest extends TestCase
 {
     use DatabaseMigrations;
 

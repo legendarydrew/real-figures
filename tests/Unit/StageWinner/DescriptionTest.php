@@ -9,7 +9,7 @@ use App\Models\StageWinner;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DescriptionTest extends TestCase
+final class DescriptionTest extends TestCase
 {
     use DatabaseMigrations;
 

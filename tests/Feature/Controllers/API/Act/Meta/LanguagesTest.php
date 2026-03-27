@@ -8,7 +8,7 @@ use App\Models\Language;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class LanguagesTest extends TestCase
+final class LanguagesTest extends TestCase
 {
     use DatabaseMigrations;
 

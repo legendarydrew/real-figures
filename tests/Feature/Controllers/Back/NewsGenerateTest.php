@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
-class NewsGenerateTest extends TestCase
+final class NewsGenerateTest extends TestCase
 {
     use DatabaseMigrations;
 

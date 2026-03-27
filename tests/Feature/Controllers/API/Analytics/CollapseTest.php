@@ -5,7 +5,7 @@ namespace Tests\Feature\Controllers\API\Analytics;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class CollapseTest extends TestCase
+final class CollapseTest extends TestCase
 {
     use DatabaseMigrations;
 

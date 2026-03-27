@@ -5,7 +5,7 @@ namespace Tests\Feature\Controllers\API\Analytics;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DonationsDailyTest extends TestCase
+final class DonationsDailyTest extends TestCase
 {
     use DatabaseMigrations;
 

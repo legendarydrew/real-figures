@@ -6,7 +6,7 @@ use App\Http\Controllers\API\Analytics\GoldenBuzzersMadeController;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GoldenBuzzersMadeTest extends TestCase
+final class GoldenBuzzersMadeTest extends TestCase
 {
     use DatabaseMigrations;
 

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class RespondTest extends TestCase
+final class RespondTest extends TestCase
 {
     use DatabaseMigrations;
 

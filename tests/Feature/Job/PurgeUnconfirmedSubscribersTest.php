@@ -7,7 +7,7 @@ use App\Models\Subscriber;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class PurgeUnconfirmedSubscribersTest extends TestCase
+final class PurgeUnconfirmedSubscribersTest extends TestCase
 {
     use DatabaseMigrations;
 

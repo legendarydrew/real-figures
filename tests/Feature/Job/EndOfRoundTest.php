@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class EndOfRoundTest extends TestCase
+final class EndOfRoundTest extends TestCase
 {
     use DatabaseMigrations;
 

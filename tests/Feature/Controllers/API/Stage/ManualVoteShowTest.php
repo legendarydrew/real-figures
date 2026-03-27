@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class ManualVoteShowTest extends TestCase
+final class ManualVoteShowTest extends TestCase
 {
     use DatabaseMigrations;
 

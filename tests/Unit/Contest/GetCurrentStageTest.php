@@ -7,7 +7,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetCurrentStageTest extends TestCase
+final class GetCurrentStageTest extends TestCase
 {
     use DatabaseMigrations;
 

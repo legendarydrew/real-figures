@@ -14,7 +14,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
-class DataTest extends TestCase
+final class DataTest extends TestCase
 {
     use DatabaseMigrations;
 

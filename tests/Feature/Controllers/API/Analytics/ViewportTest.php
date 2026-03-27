@@ -5,7 +5,7 @@ namespace Tests\Feature\Controllers\API\Analytics;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ViewportTest extends TestCase
+final class ViewportTest extends TestCase
 {
     use DatabaseMigrations;
 

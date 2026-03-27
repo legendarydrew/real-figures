@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class StoreTest extends TestCase
+final class StoreTest extends TestCase
 {
     use DatabaseMigrations;
 

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use Tests\TestCase;
 
-class CreateTest extends TestCase
+final class CreateTest extends TestCase
 {
     use DatabaseMigrations;
 

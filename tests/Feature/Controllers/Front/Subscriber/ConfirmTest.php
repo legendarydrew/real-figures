@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-class ConfirmTest extends TestCase
+final class ConfirmTest extends TestCase
 {
     use DatabaseMigrations;
 

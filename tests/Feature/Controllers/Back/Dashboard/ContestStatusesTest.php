@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
-class ContestStatusesTest extends TestCase
+final class ContestStatusesTest extends TestCase
 {
     use DatabaseMigrations;
 

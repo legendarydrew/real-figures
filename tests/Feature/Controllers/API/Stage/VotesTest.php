@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class VotesTest extends TestCase
+final class VotesTest extends TestCase
 {
     use DatabaseMigrations;
 

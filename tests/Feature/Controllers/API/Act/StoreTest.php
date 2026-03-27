@@ -10,7 +10,7 @@ use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use Str;
 use Tests\TestCase;
 
-class StoreTest extends TestCase
+final class StoreTest extends TestCase
 {
     use DatabaseMigrations;
 

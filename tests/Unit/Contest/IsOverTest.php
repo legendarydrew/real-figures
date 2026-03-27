@@ -7,7 +7,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class IsOverTest extends TestCase
+final class IsOverTest extends TestCase
 {
     use DatabaseMigrations;
 

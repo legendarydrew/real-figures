@@ -7,7 +7,7 @@ use App\Models\ActMetaNote;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class NotesTest extends TestCase
+final class NotesTest extends TestCase
 {
     use DatabaseMigrations;
 

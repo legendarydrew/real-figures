@@ -11,7 +11,7 @@ use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use Str;
 use Tests\TestCase;
 
-class UpdateTest extends TestCase
+final class UpdateTest extends TestCase
 {
     use DatabaseMigrations;
 

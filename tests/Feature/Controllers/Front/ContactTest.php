@@ -5,7 +5,7 @@ namespace Tests\Feature\Controllers\Front;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ContactTest extends TestCase
+final class ContactTest extends TestCase
 {
     use DatabaseMigrations;
 

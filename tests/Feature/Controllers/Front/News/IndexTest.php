@@ -6,7 +6,7 @@ use App\Models\NewsPost;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class IndexTest extends TestCase
+final class IndexTest extends TestCase
 {
     use DatabaseMigrations;
 

@@ -10,7 +10,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class VoteTest extends TestCase
+final class VoteTest extends TestCase
 {
     use DatabaseMigrations;
 
