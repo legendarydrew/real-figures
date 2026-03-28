@@ -21,12 +21,9 @@ use Spatie\Analytics\Period;
  * We would be interested in:
  * - viewed Acts per day
  * - which Acts were viewed, and how many times.
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class ActViewsController extends AnalyticsAPIController
 {
-
     const string CACHE_KEY = 'acts-viewed';
 
     protected function analyticsQuery(int $days): Collection
@@ -36,24 +33,24 @@ class ActViewsController extends AnalyticsAPIController
                 'expressions' => [
                     new FilterExpression([
                         'filter' => new Filter([
-                            'field_name'    => 'eventName',
+                            'field_name' => 'eventName',
                             'string_filter' => new Filter\StringFilter([
                                 'match_type' => Filter\StringFilter\MatchType::EXACT,
-                                'value'      => 'dialog_open',
-                            ])
+                                'value' => 'dialog_open',
+                            ]),
                         ]),
                     ]),
                     new FilterExpression([
                         'filter' => new Filter([
-                            'field_name'    => 'customEvent:type',
+                            'field_name' => 'customEvent:type',
                             'string_filter' => new StringFilter([
                                 'match_type' => Filter\StringFilter\MatchType::EXACT,
-                                'value'      => 'act',
-                            ])
+                                'value' => 'act',
+                            ]),
                         ]),
                     ]),
                 ],
-            ])
+            ]),
         ]);
 
         return Analytics::get(
@@ -77,22 +74,19 @@ class ActViewsController extends AnalyticsAPIController
 
         $this->fillDateGaps($data, $days);
 
-        $data['table'] = array_map(fn($slug) => [
-            'act'   => $slug !== 'Other' ? fractal(Act::whereSlug($slug)->first(), ActTransformer::class) : null,
+        $data['table'] = array_map(fn ($slug) => [
+            'act' => $slug !== 'Other' ? fractal(Act::whereSlug($slug)->first(), ActTransformer::class) : null,
             'count' => collect($data['data'])->pluck($slug)->sum(),
         ], $data['keys']);
 
         // Sort the table results in descending count order.
-        usort($data['table'], function ($a, $b)
-        {
-            if (is_null($a['act']))
-            {
+        usort($data['table'], function ($a, $b) {
+            if (is_null($a['act'])) {
                 return 1;
-            }
-            elseif (is_null($b['act']))
-            {
+            } elseif (is_null($b['act'])) {
                 return -1;
             }
+
             return $a['count'] > $b['count'] ? -1 : 1;
         });
 

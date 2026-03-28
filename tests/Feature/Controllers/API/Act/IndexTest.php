@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class IndexTest extends TestCase
+final class IndexTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -43,12 +43,12 @@ class IndexTest extends TestCase
                     'id',
                     'name',
                     'slug',
-                    'has_profile'
-                ]
+                    'has_profile',
+                ],
             ],
             'meta' => [
-                'pagination'
-            ]
+                'pagination',
+            ],
         ]);
     }
 }

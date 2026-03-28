@@ -8,8 +8,6 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * VoteRequest
  * For casting a vote, consisting of up to three Songs in a specific round.
- *
- * @package App\Http\Requests
  */
 class VoteRequest extends FormRequest
 {

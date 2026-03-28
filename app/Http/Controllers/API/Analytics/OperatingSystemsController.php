@@ -10,8 +10,6 @@ use Spatie\Analytics\Period;
 /**
  * OperatingSystemsController
  * This returns analytics data for operating systems used to access the site the specified period.
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class OperatingSystemsController extends AnalyticsAPIController
 {
@@ -29,5 +27,4 @@ class OperatingSystemsController extends AnalyticsAPIController
     {
         return $rows->toArray();
     }
-
 }

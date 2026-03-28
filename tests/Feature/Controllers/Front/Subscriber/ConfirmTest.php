@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-class ConfirmTest extends TestCase
+final class ConfirmTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -21,54 +21,53 @@ class ConfirmTest extends TestCase
         Mail::fake();
     }
 
-    public function test_confirm_unconfirmed_subscriber()
+    public function test_confirm_unconfirmed_subscriber(): void
     {
         $subscriber = Subscriber::factory()->unconfirmed()->create();
-        $url        = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
-        $response   = $this->get($url);
-        $response->assertOk();
-        $response->assertViewIs('front.subscriber-confirmed');
-
-        $subscriber->refresh();
-        self::assertTrue((bool)$subscriber->confirmed);
-
-        Mail::assertSent(SubscriberConfirmation::class, function (Mailable $mail) use ($subscriber)
-        {
-            return $mail->hasTo($subscriber->email);
-        });
-    }
-
-    public function test_confirm_confirmed_subscriber()
-    {
-        $subscriber = Subscriber::factory()->confirmed()->create();
-
-        $url      = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
+        $url = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
         $response = $this->get($url);
         $response->assertOk();
         $response->assertViewIs('front.subscriber-confirmed');
 
         $subscriber->refresh();
-        self::assertTrue((bool)$subscriber->confirmed);
+        self::assertTrue((bool) $subscriber->confirmed);
+
+        Mail::assertSent(SubscriberConfirmation::class, function (Mailable $mail) use ($subscriber) {
+            return $mail->hasTo($subscriber->email);
+        });
+    }
+
+    public function test_confirm_confirmed_subscriber(): void
+    {
+        $subscriber = Subscriber::factory()->confirmed()->create();
+
+        $url = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
+        $response = $this->get($url);
+        $response->assertOk();
+        $response->assertViewIs('front.subscriber-confirmed');
+
+        $subscriber->refresh();
+        self::assertTrue((bool) $subscriber->confirmed);
 
         Mail::assertNothingSent();
     }
 
-    public function test_invalid_id()
+    public function test_invalid_id(): void
     {
         $subscriber = Subscriber::factory()->create();
-        $url        = route('subscriber.confirm', ['id' => 404, 'code' => $subscriber->confirmation_code]);
-        $response   = $this->get($url);
+        $url = route('subscriber.confirm', ['id' => 404, 'code' => $subscriber->confirmation_code]);
+        $response = $this->get($url);
         $response->assertNotFound();
     }
 
-    public function test_invalid_code()
+    public function test_invalid_code(): void
     {
         $subscriber = Subscriber::factory()->unconfirmed()->create();
-        $url        = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => 404]);
-        $response   = $this->get($url);
+        $url = route('subscriber.confirm', ['id' => $subscriber->id, 'code' => 404]);
+        $response = $this->get($url);
         $response->assertNotFound();
 
         $subscriber->refresh();
-        self::assertFalse((bool)$subscriber->confirmed);
+        self::assertFalse((bool) $subscriber->confirmed);
     }
 }

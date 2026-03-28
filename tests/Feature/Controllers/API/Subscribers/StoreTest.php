@@ -8,14 +8,13 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-class StoreTest extends TestCase
+final class StoreTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected const string ENDPOINT = 'api/subscribers';
 
     private array $payload;
-
 
     protected function setUp(): void
     {
@@ -28,7 +27,7 @@ class StoreTest extends TestCase
         ];
     }
 
-    public function test_creates_subscriber()
+    public function test_creates_subscriber(): void
     {
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertCreated();
@@ -36,15 +35,15 @@ class StoreTest extends TestCase
         $subscriber = Subscriber::whereEmail($this->payload['email'])->first();
         self::assertInstanceOf(Subscriber::class, $subscriber);
         self::assertNotNull($subscriber->confirmation_code);
-        self::assertFalse((bool)$subscriber->confirmed);
+        self::assertFalse((bool) $subscriber->confirmed);
 
-        Mail::assertSent(SubscriberConfirm::class, fn(SubscriberConfirm $mail) => $mail->hasTo($this->payload['email']));
+        Mail::assertSent(SubscriberConfirm::class, fn (SubscriberConfirm $mail) => $mail->hasTo($this->payload['email']));
     }
 
-    public function test_invalid_email()
+    public function test_invalid_email(): void
     {
         $this->payload['email'] = fake()->word();
-        $response               = $this->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnprocessable();
 
         $subscriber = Subscriber::whereEmail($this->payload['email'])->first();
@@ -53,7 +52,7 @@ class StoreTest extends TestCase
         Mail::assertNothingSent();
     }
 
-    public function test_existing_unconfirmed_email()
+    public function test_existing_unconfirmed_email(): void
     {
         Subscriber::factory()->unconfirmed()->createOne(['email' => $this->payload['email']]);
 
@@ -63,12 +62,12 @@ class StoreTest extends TestCase
         $subscriber = Subscriber::whereEmail($this->payload['email'])->first();
         self::assertInstanceOf(Subscriber::class, $subscriber);
         self::assertNotNull($subscriber->confirmation_code);
-        self::assertFalse((bool)$subscriber->confirmed);
+        self::assertFalse((bool) $subscriber->confirmed);
 
-        Mail::assertSent(SubscriberConfirm::class, fn(SubscriberConfirm $mail) => $mail->hasTo($this->payload['email']));
+        Mail::assertSent(SubscriberConfirm::class, fn (SubscriberConfirm $mail) => $mail->hasTo($this->payload['email']));
     }
 
-    public function test_existing_confirmed_email()
+    public function test_existing_confirmed_email(): void
     {
         Subscriber::factory()->confirmed()->createOne(['email' => $this->payload['email']]);
 
@@ -78,7 +77,7 @@ class StoreTest extends TestCase
         $subscriber = Subscriber::whereEmail($this->payload['email'])->first();
         self::assertInstanceOf(Subscriber::class, $subscriber);
         self::assertNotNull($subscriber->confirmation_code);
-        self::assertTrue((bool)$subscriber->confirmed);
+        self::assertTrue((bool) $subscriber->confirmed);
 
         Mail::assertNothingSent();
     }

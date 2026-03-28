@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
+#[Guarded(['id'])]
 class RoundVote extends Model
 {
-    protected $guarded = ['id'];
-
     public function round(): BelongsTo
     {
         return $this->belongsTo(Round::class);
@@ -34,5 +34,4 @@ class RoundVote extends Model
     {
         return $this->belongsTo(Song::class, 'third_choice_id');
     }
-
 }

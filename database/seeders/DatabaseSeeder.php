@@ -26,12 +26,11 @@ class DatabaseSeeder extends Seeder
         $this->call(LanguagesSeeder::class);
 
         // Test data for non-live environments.
-        if (!app()->isProduction())
-        {
+        if (! app()->isProduction()) {
             $this->command->comment('Creating test user...');
             User::factory()->create([
-                'name'     => 'Test User',
-                'email'    => 'holla@silentmode.tv',
+                'name' => 'Test User',
+                'email' => 'holla@silentmode.tv',
                 'password' => Hash::make('temp'),
             ]);
 

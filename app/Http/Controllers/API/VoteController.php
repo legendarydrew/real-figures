@@ -26,8 +26,7 @@ class VoteController extends Controller
         // Perform additional checks!
 
         $round = Round::with('songs')->findOrFail($data['round_id']);
-        if (!$round->hasStarted() || $round->hasEnded())
-        {
+        if (! $round->hasStarted() || $round->hasEnded()) {
             abort(400, 'Invalid round.');
         }
 

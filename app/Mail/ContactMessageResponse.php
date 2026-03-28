@@ -4,7 +4,6 @@ namespace App\Mail;
 
 use App\Models\ContactMessage;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -14,7 +13,8 @@ class ContactMessageResponse extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private string         $response;
+    private string $response;
+
     private ContactMessage $message;
 
     /**
@@ -22,12 +22,12 @@ class ContactMessageResponse extends Mailable
      */
     public function __construct(ContactMessage $message, string $response)
     {
-        $this->message  = $message;
+        $this->message = $message;
         $this->response = $response;
 
         $this->viewData = [
             'original_message' => $this->message,
-            'response'         => $response,
+            'response' => $response,
         ];
     }
 
@@ -50,5 +50,4 @@ class ContactMessageResponse extends Mailable
             view: 'email.contact-message-response',
         );
     }
-
 }

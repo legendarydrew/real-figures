@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-class RemoveTest extends TestCase
+final class RemoveTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -20,25 +20,10 @@ class RemoveTest extends TestCase
         Mail::fake();
     }
 
-    public function test_remove_valid_unconfirmed_subscriber()
+    public function test_remove_valid_unconfirmed_subscriber(): void
     {
         $subscriber = Subscriber::factory()->unconfirmed()->create();
-        $url        = route('subscriber.remove', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
-        $response   = $this->get($url);
-        $response->assertOk();
-        $response->assertViewIs('front.subscriber-removed');
-
-        $this->expectException(ModelNotFoundException::class);
-        $subscriber->refresh();
-
-        Mail::assertNothingSent();
-    }
-
-    public function test_remove_valid_confirmed_subscriber()
-    {
-        $subscriber = Subscriber::factory()->confirmed()->create();
-
-        $url        = route('subscriber.remove', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
+        $url = route('subscriber.remove', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
         $response = $this->get($url);
         $response->assertOk();
         $response->assertViewIs('front.subscriber-removed');
@@ -49,11 +34,26 @@ class RemoveTest extends TestCase
         Mail::assertNothingSent();
     }
 
-    public function test_invalid_id()
+    public function test_remove_valid_confirmed_subscriber(): void
+    {
+        $subscriber = Subscriber::factory()->confirmed()->create();
+
+        $url = route('subscriber.remove', ['id' => $subscriber->id, 'code' => $subscriber->confirmation_code]);
+        $response = $this->get($url);
+        $response->assertOk();
+        $response->assertViewIs('front.subscriber-removed');
+
+        $this->expectException(ModelNotFoundException::class);
+        $subscriber->refresh();
+
+        Mail::assertNothingSent();
+    }
+
+    public function test_invalid_id(): void
     {
         $subscriber = Subscriber::factory()->create();
-        $url        = route('subscriber.remove', ['id' => 404, 'code' => $subscriber->confirmation_code]);
-        $response   = $this->get($url);
+        $url = route('subscriber.remove', ['id' => 404, 'code' => $subscriber->confirmation_code]);
+        $response = $this->get($url);
         $response->assertNotFound();
 
         $subscriber->refresh();
@@ -62,11 +62,11 @@ class RemoveTest extends TestCase
         Mail::assertNothingSent();
     }
 
-    public function test_invalid_code()
+    public function test_invalid_code(): void
     {
         $subscriber = Subscriber::factory()->unconfirmed()->create();
-        $url        = route('subscriber.remove', ['id' => $subscriber->id, 'code' => 404]);
-        $response   = $this->get($url);
+        $url = route('subscriber.remove', ['id' => $subscriber->id, 'code' => 404]);
+        $response = $this->get($url);
         $response->assertNotFound();
 
         $subscriber->refresh();
@@ -74,5 +74,4 @@ class RemoveTest extends TestCase
 
         Mail::assertNothingSent();
     }
-
 }

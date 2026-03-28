@@ -7,23 +7,23 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class FullTitleTest extends TestCase
+final class FullTitleTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_as_only_round()
+    public function test_as_only_round(): void
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->for($stage)->create();
 
         $expected_title = trans('contest.round.title.only_round', [
             'stage_title' => $stage->title,
-            'round_title' => $round->title
+            'round_title' => $round->title,
         ]);
         self::assertEquals($expected_title, $round->full_title);
     }
 
-    public function test_as_one_of_many()
+    public function test_as_one_of_many(): void
     {
         $stage = Stage::factory()->create();
         $round = Round::factory()->for($stage)->create();
@@ -31,9 +31,8 @@ class FullTitleTest extends TestCase
 
         $expected_title = trans('contest.round.title.many_rounds', [
             'stage_title' => $stage->title,
-            'round_title' => $round->title
+            'round_title' => $round->title,
         ]);
         self::assertEquals($expected_title, $round->full_title);
     }
-
 }

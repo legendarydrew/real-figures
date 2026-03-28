@@ -8,11 +8,11 @@ use Tests\TestCase;
 
 // see https://inertiajs.com/testing
 
-class HomeTest extends TestCase
+final class HomeTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_access()
+    public function test_access(): void
     {
         Stage::truncate();
         $response = $this->get(route('home'));
@@ -20,5 +20,4 @@ class HomeTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('front.home');
     }
-
 }

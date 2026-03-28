@@ -5,45 +5,46 @@ namespace Tests\Feature\Controllers\API\Act;
 use App\Models\Act;
 use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
 use PHPUnit\Framework\Attributes\Depends;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
-use Str;
 use Tests\TestCase;
 
-class UpdateTest extends TestCase
+final class UpdateTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected const string ENDPOINT = '/api/acts/%u';
 
-    private Act   $act;
+    private Act $act;
+
     private array $payload;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->act     = Act::factory()->withPicture()->createOne();
+        $this->act = Act::factory()->withPicture()->createOne();
         $this->payload = [
-            'name' => fake()->name
+            'name' => fake()->name,
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
         $response->assertRedirectToRoute('admin.acts.edit', ['id' => $this->act->id]);
     }
 
     #[Depends('test_as_user')]
-    public function test_updates_act()
+    public function test_updates_act(): void
     {
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
@@ -52,14 +53,14 @@ class UpdateTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_invalid_act()
+    public function test_invalid_act(): void
     {
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, 404), $this->payload);
         $response->assertNotFound();
     }
 
     #[Depends('test_as_user')]
-    public function test_updates_act_without_slug()
+    public function test_updates_act_without_slug(): void
     {
         $this->payload['slug'] = null;
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
@@ -69,7 +70,7 @@ class UpdateTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_updates_act_with_custom_slug()
+    public function test_updates_act_with_custom_slug(): void
     {
         $this->payload['slug'] = fake()->word;
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
@@ -78,9 +79,8 @@ class UpdateTest extends TestCase
         self::assertEquals($this->payload['slug'], $act->slug);
     }
 
-
     #[Depends('test_updates_act')]
-    public function test_updates_existing_profile()
+    public function test_updates_existing_profile(): void
     {
         ActProfile::factory()->for($this->act)->createOne();
         $this->payload['profile'] = ['description' => fake()->paragraph];
@@ -91,7 +91,7 @@ class UpdateTest extends TestCase
     }
 
     #[Depends('test_updates_act')]
-    public function test_updates_and_creates_profile()
+    public function test_updates_and_creates_profile(): void
     {
         $this->payload['profile'] = ['description' => fake()->paragraph];
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
@@ -102,7 +102,7 @@ class UpdateTest extends TestCase
     }
 
     #[Depends('test_updates_act')]
-    public function test_updates_and_deletes_profile()
+    public function test_updates_and_deletes_profile(): void
     {
         ActProfile::factory()->for($this->act)->createOne();
         unset($this->payload['profile']);
@@ -113,7 +113,7 @@ class UpdateTest extends TestCase
     }
 
     #[Depends('test_updates_act')]
-    public function test_updates_and_adds_image()
+    public function test_updates_and_adds_image(): void
     {
         fake()->addProvider(new FakerPicsumImagesProvider(fake()));
         $this->payload['new_image'] = Image::read(fake()->image())->encode()->toDataUri();
@@ -125,7 +125,7 @@ class UpdateTest extends TestCase
     }
 
     #[Depends('test_updates_act')]
-    public function test_updates_and_removes_image()
+    public function test_updates_and_removes_image(): void
     {
         $this->payload['remove_image'] = true;
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
@@ -135,13 +135,11 @@ class UpdateTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_update_with_same_name()
+    public function test_update_with_same_name(): void
     {
         Act::create($this->payload);
 
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
         $response->assertRedirectToRoute('admin.acts.edit', ['id' => $this->act->id]);
     }
-
-
 }

@@ -10,29 +10,25 @@ use League\Fractal\TransformerAbstract;
 
 class NewsPostTransformer extends TransformerAbstract
 {
-
     protected array $availableIncludes = ['content', 'acts', 'pages'];
 
     public function transform(NewsPost $post): array
     {
         return [
-            'id'           => (int)$post->id,
-            'title'        => $post->title,
-            'url'          => $post->url,
-            'content'      => $post->content,
-            'excerpt'      => $post->excerpt,
-            'created_at'   => $post->created_at->format(config('contest.format.full-date')),
+            'id' => (int) $post->id,
+            'title' => $post->title,
+            'url' => $post->url,
+            'content' => $post->content,
+            'excerpt' => $post->excerpt,
+            'created_at' => $post->created_at->format(config('contest.format.full-date')),
             'published_at' => $post->published_at?->format(config('contest.format.full-date')) ?? null,
-            'timestamp'    => $post->published_at?->toISOString() ?? null,
-            'updated_at'   => $post->updated_at->format(config('contest.format.full-date')),
+            'timestamp' => $post->published_at?->toISOString() ?? null,
+            'updated_at' => $post->updated_at->format(config('contest.format.full-date')),
         ];
     }
 
     /**
      * Include the News Post's content as HTML for display on the main site.
-     *
-     * @param NewsPost $post
-     * @return Primitive|null
      */
     public function includeContent(NewsPost $post): ?Primitive
     {
@@ -41,35 +37,31 @@ class NewsPostTransformer extends TransformerAbstract
 
     public function includeActs(NewsPost $post): ?Collection
     {
-        return $this->collection($post->actsMentioned(), new ActTransformer());
+        return $this->collection($post->actsMentioned(), new ActTransformer);
     }
 
     /**
      * Include the News Post's previous and next pages, along with other News posts, if available.
-     *
-     * @param NewsPost $post
-     * @return Primitive|null
      */
     public function includePages(NewsPost $post): ?Primitive
     {
         $previous_post = $post->previousPost();
-        $next_post     = $post->nextPost();
-        $other_posts   = $post->otherRecentPosts();
+        $next_post = $post->nextPost();
+        $other_posts = $post->otherRecentPosts();
 
         return $this->primitive([
             'previous' => $previous_post ? [
                 'title' => $previous_post->title,
-                'url'   => $previous_post->url
+                'url' => $previous_post->url,
             ] : null,
-            'next'     => $next_post ? [
+            'next' => $next_post ? [
                 'title' => $next_post->title,
-                'url'   => $next_post->url
+                'url' => $next_post->url,
             ] : null,
-            'others'   => $other_posts?->map(fn($post) => [
-                    'title' => $post->title,
-                    'url'   => $post->url
-                ])->toArray() ?? null,
+            'others' => $other_posts?->map(fn ($post) => [
+                'title' => $post->title,
+                'url' => $post->url,
+            ])->toArray() ?? null,
         ]);
     }
-
 }

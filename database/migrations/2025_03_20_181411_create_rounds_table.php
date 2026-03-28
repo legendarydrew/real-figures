@@ -4,14 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('stages', function (Blueprint $table)
-        {
+        Schema::create('stages', function (Blueprint $table) {
             $table->comment('Individual stages of the contest.');
             $table->id();
             $table->string('title')->unique();
@@ -20,8 +20,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('rounds', function (Blueprint $table)
-        {
+        Schema::create('rounds', function (Blueprint $table) {
             $table->id();
             $table->foreignId('stage_id')->constrained('stages', 'id')->cascadeOnDelete();
             $table->string('title');
@@ -32,8 +31,7 @@ return new class extends Migration {
             $table->unique(['stage_id', 'title']);
         });
 
-        Schema::create('round_songs', function (Blueprint $table)
-        {
+        Schema::create('round_songs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('round_id')->constrained('rounds', 'id')->cascadeOnDelete();
             $table->foreignId('song_id')->constrained('songs', 'id')->cascadeOnDelete();
@@ -42,8 +40,7 @@ return new class extends Migration {
             $table->unique(['round_id', 'song_id']);
         });
 
-        Schema::create('round_outcomes', function (Blueprint $table)
-        {
+        Schema::create('round_outcomes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('round_id')->constrained('rounds', 'id')->cascadeOnDelete();
             $table->foreignId('song_id')->constrained('songs', 'id')->cascadeOnDelete();
@@ -57,14 +54,13 @@ return new class extends Migration {
             $table->unique(['round_id', 'song_id']);
         });
 
-        Schema::create('stage_winners', function (Blueprint $table)
-        {
+        Schema::create('stage_winners', function (Blueprint $table) {
             $table->id();
             $table->foreignId('stage_id')->constrained('stages', 'id')->cascadeOnDelete();
             $table->foreignId('round_id')->constrained('rounds', 'id')->cascadeOnDelete();
             $table->foreignId('song_id')->constrained('songs', 'id')->cascadeOnDelete();
             $table->boolean('is_winner')->default(false)->index()
-                  ->comment('Whether the Song came in first place.');
+                ->comment('Whether the Song came in first place.');
             $table->timestamps();
 
             $table->unique(['stage_id', 'round_id', 'song_id']);

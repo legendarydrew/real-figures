@@ -15,7 +15,6 @@ use Illuminate\Support\Carbon;
  */
 class RoundFactory extends Factory
 {
-
     /**
      * Define the model's default state.
      *
@@ -24,68 +23,65 @@ class RoundFactory extends Factory
     public function definition(): array
     {
         $start_date = Carbon::parse(fake()->dateTimeThisMonth());
-        $end_date   = $start_date->clone()->addWeek();
+        $end_date = $start_date->clone()->addWeek();
 
         return [
             'title' => fake()->sentence(2),
             'starts_at' => $start_date,
-            'ends_at'   => $end_date,
+            'ends_at' => $end_date,
         ];
     }
 
     public function ready(): RoundFactory|Factory
     {
-        return $this->state(fn(array $attributes) => ['starts_at' => now()->addDay(),
-                                                      'ends_at'   => now()->addWeek()]
+        return $this->state(fn (array $attributes) => ['starts_at' => now()->addDay(),
+            'ends_at' => now()->addWeek()]
         );
     }
 
     public function future(): RoundFactory|Factory
     {
         $start_at = now()->addDays(fake()->numberBetween(1, 6));
-        return $this->state(fn(array $attributes) => [
+
+        return $this->state(fn (array $attributes) => [
             'starts_at' => $start_at,
-            'ends_at'   => $start_at->clone()->addDays(fake()->numberBetween(1, 6))
+            'ends_at' => $start_at->clone()->addDays(fake()->numberBetween(1, 6)),
         ]);
     }
 
     public function started(): RoundFactory|Factory
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'starts_at' => now(),
-            'ends_at'   => fake()->dateTimeBetween('1 day', '1 week')
+            'ends_at' => fake()->dateTimeBetween('1 day', '1 week'),
         ]);
     }
 
     public function ended(): RoundFactory|Factory
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'starts_at' => fake()->dateTimeBetween('-1 week'),
-            'ends_at'   => now()->subSecond()
+            'ends_at' => now()->subSecond(),
         ]);
     }
 
-    public function withSongs(int $count = null): RoundFactory|Factory
+    public function withSongs(?int $count = null): RoundFactory|Factory
     {
-        if (!$count)
-        {
+        if (! $count) {
             $count = fake()->numberBetween(config('contest.rounds.minSongs'), config('contest.round.maxSongs'));
         }
         $count = max(config('contest.rounds.minSongs'), $count);
         $count = min(config('contest.rounds.maxSongs'), $count);
 
-        return $this->afterCreating(function (Round $round) use ($count)
-        {
+        return $this->afterCreating(function (Round $round) use ($count) {
             $songs = Song::inRandomOrder()->take($count)->get();
-            if ($songs->count() < $count)
-            {
+            if ($songs->count() < $count) {
                 $songs = $songs->merge(Song::factory($count - $songs->count())->withAct()->create());
             }
-            foreach ($songs as $song)
-            {
+            foreach ($songs as $song) {
                 RoundSongs::create([
                     'round_id' => $round->id,
-                    'song_id'  => $song->id,
+                    'song_id' => $song->id,
                 ]);
             }
         });
@@ -103,9 +99,9 @@ class RoundFactory extends Factory
     public function withOutcomes(): RoundFactory|Factory
     {
         return $this->afterCreating(function (Round $round) {
-           RoundOutcome::factory($round->songs()->count())->for($round)->create([
-               'song_id' => new Sequence(...$round->songs->pluck('id'))
-           ]);
+            RoundOutcome::factory($round->songs()->count())->for($round)->create([
+                'song_id' => new Sequence(...$round->songs->pluck('id')),
+            ]);
         });
     }
 }

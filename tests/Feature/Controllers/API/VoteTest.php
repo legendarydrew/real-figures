@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class VoteTest extends TestCase
+final class VoteTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -22,17 +22,17 @@ class VoteTest extends TestCase
         $this->round = Round::factory()->withSongs(4)->create([
             'stage_id'  => $stage->id,
             'starts_at' => now(),
-            'ends_at'   => now()->addDay(),
+            'ends_at' => now()->addDay(),
         ]);
         $this->songs = $this->round->songs;
 
         $this->payload = [
-            'round_id'         => $this->round->id,
-            'starts_at'        => now(),
-            'ends_at'          => now()->addDay(),
-            'first_choice_id'  => $this->songs->get(0)->id,
+            'round_id' => $this->round->id,
+            'starts_at' => now(),
+            'ends_at' => now()->addDay(),
+            'first_choice_id' => $this->songs->get(0)->id,
             'second_choice_id' => $this->songs->get(1)->id,
-            'third_choice_id'  => $this->songs->get(2)->id
+            'third_choice_id' => $this->songs->get(2)->id,
         ];
     }
 
@@ -60,7 +60,7 @@ class VoteTest extends TestCase
     public final function test_invalid_round(): void
     {
         $this->payload['round_id'] = 404;
-        $response                  = $this->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnprocessable();
     }
 
@@ -77,7 +77,7 @@ class VoteTest extends TestCase
     {
         $this->round->update([
             'starts_at' => now()->addDay(),
-            'ends_at'   => now()->addDays(2)
+            'ends_at' => now()->addDays(2),
         ]);
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertBadRequest();
@@ -96,17 +96,17 @@ class VoteTest extends TestCase
     public final function test_invalid_song(): void
     {
         // First song.
-        $payload  = [...$this->payload, 'first_choice_id' => 404];
+        $payload = [...$this->payload, 'first_choice_id' => 404];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
 
         // Second song.
-        $payload  = [...$this->payload, 'second_choice_id' => 404];
+        $payload = [...$this->payload, 'second_choice_id' => 404];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
 
         // Third song.
-        $payload  = [...$this->payload, 'third_choice_id' => 404];
+        $payload = [...$this->payload, 'third_choice_id' => 404];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertUnprocessable();
     }
@@ -145,21 +145,21 @@ class VoteTest extends TestCase
     #[Depends('test_request')]
     public final function test_song_not_in_round(): void
     {
-        $act      = Act::factory()->withSong()->create();
+        $act = Act::factory()->withSong()->create();
         $new_song = $act->songs()->first();
 
         // First song.
-        $payload  = [...$this->payload, 'first_choice_id' => $new_song->id];
+        $payload = [...$this->payload, 'first_choice_id' => $new_song->id];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertBadRequest();
 
         // Second song.
-        $payload  = [...$this->payload, 'second_choice_id' => $new_song->id];
+        $payload = [...$this->payload, 'second_choice_id' => $new_song->id];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertBadRequest();
 
         // Third song.
-        $payload  = [...$this->payload, 'third_choice_id' => $new_song->id];
+        $payload = [...$this->payload, 'third_choice_id' => $new_song->id];
         $response = $this->postJson(self::ENDPOINT, $payload);
         $response->assertBadRequest();
     }

@@ -18,7 +18,7 @@ class ActMetaMemberFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'role' => fake()->word()
+            'role' => fake()->word(),
         ];
     }
 }

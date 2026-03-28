@@ -2,28 +2,19 @@
 
 namespace App\Console\Commands;
 
+use App\Facades\AnalyticsEventsFacade;
 use App\Models\Act;
 use App\Models\Round;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
 use function Laravel\Prompts\error;
 
+#[Signature('app:analytics-test-data')]
+#[Description('Generate Analytics test events.')]
 class GenerateAnalyticsTestData extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:analytics-test-data';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Generate Analytics test events.';
-
     /**
      * Execute the console command.
      */
@@ -65,8 +56,7 @@ class GenerateAnalyticsTestData extends Command
         ];
 
         $event_count = fake()->numberBetween(40, 100);
-        foreach (range(1, $event_count) as $ignored)
-        {
+        foreach (range(1, $event_count) as $ignored) {
             $this->postEvent('collapse_open', $sections[array_rand($sections)]);
         }
     }
@@ -75,15 +65,11 @@ class GenerateAnalyticsTestData extends Command
     {
         $this->comment('- votes');
         $rounds = Round::get();
-        if ($rounds->isEmpty())
-        {
+        if ($rounds->isEmpty()) {
             error('No Rounds exist.');
-        }
-        else
-        {
+        } else {
             $event_count = fake()->numberBetween(10, 50);
-            foreach (range(1, $event_count) as $ignored)
-            {
+            foreach (range(1, $event_count) as $ignored) {
                 $this->postEvent('vote', ['round' => $rounds->random()->full_title]);
             }
         }
@@ -95,15 +81,14 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- song plays');
         $act_slugs = Act::whereHas('songs')->pluck('slug');
 
-        if ($act_slugs->isEmpty())
-        {
+        if ($act_slugs->isEmpty()) {
             error('No Acts with Songs available.');
+
             return;
         }
 
         $event_count = fake()->numberBetween(100, 500);
-        foreach (range(1, $event_count) as $ignored)
-        {
+        foreach (range(1, $event_count) as $ignored) {
             $this->postEvent('song_play', ['act' => $act_slugs->random()]);
         }
     }
@@ -113,11 +98,10 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- donations');
 
         $event_count = fake()->numberBetween(10, 50);
-        foreach (range(1, $event_count) as $ignored)
-        {
+        foreach (range(1, $event_count) as $ignored) {
             $this->postEvent('donation', [
-                'value'     => fake()->randomFloat(2, 1, 100),
-                'anonymous' => fake()->boolean
+                'value' => fake()->randomFloat(2, 1, 100),
+                'anonymous' => fake()->boolean,
             ]);
         }
     }
@@ -126,13 +110,12 @@ class GenerateAnalyticsTestData extends Command
     {
         $this->comment('- Act profile views');
 
-        $acts        = Act::all();
+        $acts = Act::all();
         $event_count = fake()->numberBetween(10, 100);
-        foreach (range(1, $event_count) as $ignored)
-        {
+        foreach (range(1, $event_count) as $ignored) {
             $this->postEvent('dialog_open', [
                 'type' => 'act',
-                'act'  => fake()->randomElement($acts)->slug
+                'act' => fake()->randomElement($acts)->slug,
             ]);
         }
     }
@@ -142,10 +125,9 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- Subscribers');
 
         $event_count = fake()->numberBetween(10, 100);
-        foreach (range(1, $event_count) as $ignored)
-        {
+        foreach (range(1, $event_count) as $ignored) {
             $this->postEvent('subscriber', [
-                'value' => fake()->boolean ? 1 : -1
+                'value' => fake()->boolean ? 1 : -1,
             ]);
         }
     }
@@ -155,17 +137,15 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- Contact messages');
 
         $event_count = fake()->numberBetween(10, 100);
-        foreach (range(1, $event_count) as $ignored)
-        {
+        foreach (range(1, $event_count) as $ignored) {
             $this->postEvent('contact_sent', [
-                'subscribed' => fake()->boolean
+                'subscribed' => fake()->boolean,
             ]);
         }
     }
 
-
     private function postEvent(string $eventName, array $dimensions): void
     {
-        app(GoogleAnalyticsService::class)->sendEvent($eventName, $dimensions);
+        AnalyticsEventsFacade::send($eventName, $dimensions);
     }
 }

@@ -5,20 +5,21 @@ namespace Tests\Feature\Controllers\API\Analytics;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DonationsDailyTest extends TestCase
+final class DonationsDailyTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT  = 'api/analytics/donations/daily';
+    protected const string ENDPOINT = 'api/analytics/donations/daily';
+
     protected const int    DAY_COUNT = 7;
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
         $response->assertUnauthorized();
     }
 
-    public function test_no_data()
+    public function test_no_data(): void
     {
         \Analytics::fake(collect());
 
@@ -29,26 +30,26 @@ class DonationsDailyTest extends TestCase
         $response->assertJsonStructure([
             '*' => [
                 'date',
-                'eventValue'
-            ]
+                'eventValue',
+            ],
         ]);
     }
 
-    public function test_with_data()
+    public function test_with_data(): void
     {
         \Analytics::fake(collect([
             [
-                'date'       => now()->subDays(3),
-                'eventValue' => fake()->numberBetween(1, 20)
+                'date' => now()->subDays(3),
+                'eventValue' => fake()->numberBetween(1, 20),
             ],
             [
-                'date'       => now()->subDays(2),
-                'eventValue' => fake()->numberBetween(1, 20)
+                'date' => now()->subDays(2),
+                'eventValue' => fake()->numberBetween(1, 20),
             ],
             [
-                'date'       => now()->subDay(),
-                'eventValue' => fake()->numberBetween(1, 20)
-            ]
+                'date' => now()->subDay(),
+                'eventValue' => fake()->numberBetween(1, 20),
+            ],
         ]));
 
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
@@ -58,8 +59,8 @@ class DonationsDailyTest extends TestCase
         $response->assertJsonStructure([
             '*' => [
                 'date',
-                'eventValue'
-            ]
+                'eventValue',
+            ],
         ]);
     }
 }

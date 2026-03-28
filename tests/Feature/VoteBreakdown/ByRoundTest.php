@@ -9,14 +9,14 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ByRoundTest extends TestCase
+final class ByRoundTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_round_with_no_songs()
+    public function test_round_with_no_songs(): void
     {
         $stage = Stage::factory()->createOne();
-        $round     = Round::factory()->for($stage)->createOne();
+        $round = Round::factory()->for($stage)->createOne();
         $breakdown = VoteBreakdownFacade::forRound($round);
 
         self::assertEquals($round->id, $breakdown['id']);
@@ -25,10 +25,10 @@ class ByRoundTest extends TestCase
         self::assertCount(0, $round->songs);
     }
 
-    public function test_round_with_no_outcomes()
+    public function test_round_with_no_outcomes(): void
     {
         $stage = Stage::factory()->createOne();
-        $round     = Round::factory()->for($stage)->withSongs()->withVotes()->createOne();
+        $round = Round::factory()->for($stage)->withSongs()->withVotes()->createOne();
         $breakdown = VoteBreakdownFacade::forRound($round);
 
         self::assertEquals($round->id, $breakdown['id']);
@@ -37,10 +37,10 @@ class ByRoundTest extends TestCase
         self::assertCount($round->songs()->count(), $round->songs);
     }
 
-    public function test_round_with_outcomes()
+    public function test_round_with_outcomes(): void
     {
         $stage = Stage::factory()->createOne();
-        $round     = Round::factory()->for($stage)->withSongs()->withVotes()->createOne();
+        $round = Round::factory()->for($stage)->withSongs()->withVotes()->createOne();
         ContestFacade::buildRoundOutcomes($round);
         $breakdown = VoteBreakdownFacade::forRound($round);
 

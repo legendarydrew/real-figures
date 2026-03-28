@@ -4,14 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('act_meta_genres', function (Blueprint $table)
-        {
+        Schema::create('act_meta_genres', function (Blueprint $table) {
             $table->id();
             $table->foreignId('act_id')->references('id')->on('acts')->onDelete('cascade');
             $table->string('genre');
@@ -20,8 +20,7 @@ return new class extends Migration {
             $table->unique(['act_id', 'genre']);
         });
 
-        Schema::create('act_meta_members', function (Blueprint $table)
-        {
+        Schema::create('act_meta_members', function (Blueprint $table) {
             $table->id();
             $table->foreignId('act_id')->references('id')->on('acts')->onDelete('cascade');
             $table->string('name');
@@ -29,16 +28,14 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('act_meta_traits', function (Blueprint $table)
-        {
+        Schema::create('act_meta_traits', function (Blueprint $table) {
             $table->id();
             $table->foreignId('act_id')->references('id')->on('acts')->onDelete('cascade');
             $table->string('trait');
             $table->timestamps();
         });
 
-        Schema::create('act_meta_languages', function (Blueprint $table)
-        {
+        Schema::create('act_meta_languages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('act_id')->references('id')->on('acts')->onDelete('cascade');
             $table->string('language', 2);
@@ -47,16 +44,14 @@ return new class extends Migration {
             $table->unique(['act_id', 'language']);
         });
 
-        Schema::create('act_meta_notes', function (Blueprint $table)
-        {
+        Schema::create('act_meta_notes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('act_id')->references('id')->on('acts')->onDelete('cascade');
             $table->string('note');
             $table->timestamps();
         });
 
-        Schema::table('acts', function (Blueprint $table)
-        {
+        Schema::table('acts', function (Blueprint $table) {
             $table->boolean('is_fan_favourite')->default(false)->after('slug');
         });
     }

@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class GoldenBuzzerFactory extends Factory
 {
-
     /**
      * The current password being used by the factory.
      */
@@ -27,14 +26,14 @@ class GoldenBuzzerFactory extends Factory
         $round_song = RoundSongs::inRandomOrder()->first();
 
         return [
-            'name'           => fake()->name(),
-            'round_id'       => $round_song->round_id,
-            'song_id'        => $round_song->song_id,
+            'name' => fake()->name(),
+            'round_id' => $round_song->round_id,
+            'song_id' => $round_song->song_id,
             'transaction_id' => fake()->unique()->uuid(),
-            'amount'         => fake()->randomFloat(2, 1, 999),
-            'currency'       => config('contest.donation.currency'),
-            'message'        => fake()->boolean(40) ? fake()->realText() : null,
-            'is_anonymous'   => fake()->boolean(20),
+            'amount' => fake()->randomFloat(2, 1, 999),
+            'currency' => config('contest.donation.currency'),
+            'message' => fake()->boolean(40) ? fake()->realText() : null,
+            'is_anonymous' => fake()->boolean(20),
         ];
     }
 }

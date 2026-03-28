@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Model;
 
-class NewsPostReference extends Model
-{
-    protected $guarded = ['id', 'created_at', 'updated_at'];
-}
+#[Guarded(['id', 'created_at', 'updated_at'])]
+class NewsPostReference extends Model {}

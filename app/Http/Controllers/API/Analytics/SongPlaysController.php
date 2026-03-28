@@ -13,8 +13,6 @@ use Spatie\Analytics\Period;
 /**
  * SongPlaysController
  * This returns analytics data for the number of Song plays (through this site) over the specified period.
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class SongPlaysController extends AnalyticsAPIController
 {
@@ -24,10 +22,10 @@ class SongPlaysController extends AnalyticsAPIController
     {
         $filter = new FilterExpression([
             'filter' => new Filter([
-                'field_name'    => 'eventName',
+                'field_name' => 'eventName',
                 'string_filter' => new Filter\StringFilter([
                     'match_type' => Filter\StringFilter\MatchType::EXACT,
-                    'value'      => 'song_play',
+                    'value' => 'song_play',
                 ]),
             ]),
         ]);
@@ -46,5 +44,4 @@ class SongPlaysController extends AnalyticsAPIController
     {
         return AnalyticsChartFormatter::byHour($rows);
     }
-
 }

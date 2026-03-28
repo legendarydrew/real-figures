@@ -11,13 +11,16 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class WinnersTest extends TestCase
+final class WinnersTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected const string ENDPOINT = 'api/stages/%u/winners';
+
     private Stage $stage;
+
     private array $payload;
+
     private const int  ROUND_COUNT = 3;
 
     protected function setUp(): void
@@ -26,47 +29,46 @@ class WinnersTest extends TestCase
         $this->stage = Stage::factory()->createOne();
 
         $this->payload = [
-            'runners_up' => 1
+            'runners_up' => 1,
         ];
 
         $rounds = Round::factory(self::ROUND_COUNT)
-                       ->for($this->stage)
-                       ->withSongs(8)
-                       ->ended()
-                       ->create();
-        foreach ($rounds as $round)
-        {
+            ->for($this->stage)
+            ->withSongs(8)
+            ->ended()
+            ->create();
+        foreach ($rounds as $round) {
             self::assertTrue($round->hasEnded());
             $song_ids = $round->songs->pluck('id');
             RoundOutcome::factory($song_ids->count())->create([
                 'round_id' => $round->id,
-                'song_id'  => new Sequence(...$song_ids)
+                'song_id' => new Sequence(...$song_ids),
             ]);
         }
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertRedirectToRoute('admin.stages');
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_winner_rows()
+    public function test_creates_winner_rows(): void
     {
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $winner_rows = StageWinner::whereIsWinner(true)->get();
         self::assertGreaterThanOrEqual(self::ROUND_COUNT, count($winner_rows));
     }
 
-//    #[Depends('test_as_user')]
-    public function test_creates_runner_up()
+    //    #[Depends('test_as_user')]
+    public function test_creates_runner_up(): void
     {
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $runner_up_rows = StageWinner::whereIsWinner(false)->get();
@@ -74,19 +76,19 @@ class WinnersTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_create_only_winners()
+    public function test_create_only_winners(): void
     {
         $this->payload['runners_up'] = 0;
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
 
-        $winner_rows    = StageWinner::whereIsWinner(true)->get();
+        $winner_rows = StageWinner::whereIsWinner(true)->get();
         $runner_up_rows = StageWinner::whereIsWinner(false)->get();
         self::assertGreaterThanOrEqual(self::ROUND_COUNT, count($winner_rows));
         self::assertEquals(0, count($runner_up_rows));
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_multiple_runners_up()
+    public function test_creates_multiple_runners_up(): void
     {
         $this->payload['runners_up'] = 2;
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
@@ -97,7 +99,7 @@ class WinnersTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_no_winners()
+    public function test_no_winners(): void
     {
         // An edge case where everything is tied because there were absolutely no votes.
         // This should never happen!
@@ -105,10 +107,9 @@ class WinnersTest extends TestCase
 
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
 
-        $winner_rows    = StageWinner::whereIsWinner(true)->get();
+        $winner_rows = StageWinner::whereIsWinner(true)->get();
         $runner_up_rows = StageWinner::whereIsWinner(false)->get();
         self::assertEquals(0, count($winner_rows));
         self::assertEquals(0, count($runner_up_rows));
     }
-
 }

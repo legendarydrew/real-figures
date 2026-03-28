@@ -24,13 +24,13 @@ class NewsPostFactory extends Factory
         $content = fake()->markdown();
         $acts->each(function (Act $act) use (&$content) {
             if (fake()->boolean(30)) {
-                $content .= "\n\n" . $act->name;
+                $content .= "\n\n".$act->name;
             }
         });
 
         return [
-            'title'        => fake()->sentence(),
-            'content'      => $content,
+            'title' => fake()->sentence(),
+            'content' => $content,
             'published_at' => fake()->boolean(30) ? fake()->dateTimeThisYear() : null,
         ];
     }
@@ -38,14 +38,14 @@ class NewsPostFactory extends Factory
     public function published(): NewsPostFactory
     {
         return $this->state([
-            'published_at' => fake()->dateTimeThisYear
+            'published_at' => fake()->dateTimeThisYear,
         ]);
     }
 
     public function unpublished(): NewsPostFactory
     {
         return $this->state([
-            'published_at' => null
+            'published_at' => null,
         ]);
     }
 }

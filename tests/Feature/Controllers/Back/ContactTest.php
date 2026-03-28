@@ -6,23 +6,22 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
-class ContactTest extends TestCase
+final class ContactTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->get(route('admin.contact'));
 
         $response->assertRedirectToRoute('login');
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.contact'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/messages-page'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/messages-page'));
     }
-
 }

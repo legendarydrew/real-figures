@@ -10,37 +10,36 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class SongTest extends TestCase
+final class SongTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $act        = Act::factory()->create();
+        $act = Act::factory()->create();
         $this->song = Song::factory()->create(['act_id' => $act->id]);
 
         $this->stage = Stage::factory()->create();
         $this->round = Round::factory()->create([
-            'stage_id' => $this->stage->id
+            'stage_id' => $this->stage->id,
         ]);
 
         RoundOutcome::factory()->create([
             'round_id' => $this->round->id,
-            'song_id'  => $this->song->id
+            'song_id' => $this->song->id,
         ]);
     }
 
-    public function test_act_relation()
+    public function test_act_relation(): void
     {
         self::assertInstanceOf(Act::class, $this->song->act);
     }
 
-    public function test_outcomes_relation()
+    public function test_outcomes_relation(): void
     {
         self::assertEquals(1, $this->song->outcomes->count());
-        foreach ($this->song->outcomes as $outcome)
-        {
+        foreach ($this->song->outcomes as $outcome) {
             self::assertInstanceOf(RoundOutcome::class, $outcome);
         }
     }
