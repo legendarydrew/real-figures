@@ -115,4 +115,23 @@ class Round extends Model
             'round_title' => $this->title
         ]);
     }
+
+    public function randomVote(int $count = 1): void
+    {
+        $song_ids = $this->songs->map(fn(Song $song) => $song->id);
+
+        for ($i = 0; $i < $count; $i++)
+        {
+            $choices = $song_ids->random(fake()->numberBetween(1, 3))
+                                ->toArray();
+
+            RoundVote::create([
+                'round_id'         => $this->id,
+                'first_choice_id'  => $choices[0],
+                'second_choice_id' => $choices[1] ?? null,
+                'third_choice_id'  => $choices[2] ?? null,
+            ]);
+
+        }
+    }
 }

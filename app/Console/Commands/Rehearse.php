@@ -409,17 +409,8 @@ class Rehearse extends Command
     {
         $vote_count = ($judgement || fake()->boolean(70)) ?
             fake()->numberBetween(1, 200) : 0;
-        for ($i = 0; $i < $vote_count; $i++)
-        {
-            $votes = fake()->randomElements($song_ids, 3);
-            RoundVote::create([
-                'round_id'         => $round->id,
-                'first_choice_id'  => $votes[0],
-                'second_choice_id' => $votes[1],
-                'third_choice_id'  => $votes[2],
-            ]);
-        }
-        return $i;
+        $round->randomVote($vote_count);
+        return $vote_count;
     }
 
     /**

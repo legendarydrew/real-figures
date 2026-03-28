@@ -75,15 +75,25 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
         const payload = {
             round_id: round.id
         };
+
+        // Shift any unused votes.
+        const choices = Object.values(userVotes).filter((v) => !!v);
+        const reorderedVotes = {
+            first: choices[0] ?? null,
+            second: choices[1] ?? null,
+            third: choices[2] ?? null
+        }
+        setUserVotes(reorderedVotes);
+
         votePositions.forEach((vp) => {
-            payload[`${vp.key}_choice_id`] = userVotes[vp.key];
+            payload[`${vp.key}_choice_id`] = reorderedVotes[vp.key];
         });
 
         setIsVoting(true);
         axios.post('/api/vote', payload)
             .then(() => {
                 setSuccessful(true);
-                globalThis.trackEvent('vote', { round: round.full_title });
+                globalThis.trackEvent('vote', { round: round.full_title, choices: choices.length });
             })
             .catch((error: AxiosError) => {
                 setErrors(error.response.data.errors);
@@ -95,7 +105,7 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
 
     return (
         <>
-            <p>Vote for your three favourite Songs in this Round, in the order that you like them.</p>
+            <p>Vote for <b>up to three</b> of your favourite Songs in this Round, in the order that you like them.</p>
 
             <div className="round-vote">
                 {round.songs.map((song) => (

@@ -80,18 +80,8 @@ class MakeEndedStageState extends Command
         {
             if (fake()->boolean(80))
             {
-                $song_ids   = $round->songs()->pluck('songs.id')->toArray();
                 $vote_count = fake()->numberBetween(1, 300);
-                foreach (range(1, $vote_count) as $_)
-                {
-                    $voted_for_songs = fake()->randomElements($song_ids, 3);
-                    RoundVote::create([
-                        'round_id'         => $round->id,
-                        'first_choice_id'  => $voted_for_songs[0],
-                        'second_choice_id' => $voted_for_songs[1],
-                        'third_choice_id'  => $voted_for_songs[2]
-                    ]);
-                }
+                $round->randomVote($vote_count);
             }
         }
 

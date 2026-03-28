@@ -6,7 +6,6 @@ use App\Facades\ContestFacade;
 use App\Jobs\EndOfRound;
 use App\Models\Round;
 use App\Models\RoundSongs;
-use App\Models\RoundVote;
 use App\Models\Song;
 use App\Models\Stage;
 use App\Models\StageWinner;
@@ -63,19 +62,7 @@ class StageFactory extends Factory
                 // Randomise the chance of a Stage having votes vs. resorting to a "manual vote".
                 if (fake()->boolean(80))
                 {
-                    $song_ids = $round->songs->pluck('id')->toArray();
-                    for ($i = 0; $i < 100; $i++)
-                    {
-                        $votes = fake()->randomElements($song_ids, 3);
-                        // Spotted an issue here: because all three choices are required,
-                        // a Round must have at least three Songs.
-                        RoundVote::create([
-                            'round_id'         => $round->id,
-                            'first_choice_id'  => $votes[0],
-                            'second_choice_id' => $votes[1],
-                            'third_choice_id'  => $votes[2],
-                        ]);
-                    }
+                    $round->randomVote(100);
                     EndOfRound::dispatchSync($round);
                 }
             }
