@@ -409,9 +409,7 @@ class Rehearse extends Command
     {
         $vote_count = ($judgement || fake()->boolean(70)) ?
             fake()->numberBetween(1, 200) : 0;
-        RoundVote::factory($vote_count)->create([
-            'round_id' => $round->id,
-        ]);
+        $round->randomVote($vote_count);
         return $vote_count;
     }
 
