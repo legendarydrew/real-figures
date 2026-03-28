@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Enums\NewsPostType;
+use App\Support\ActPressReleaseData;
+use App\Support\PressReleaseData;
 use OpenAI\Laravel\Facades\OpenAI;
 
 /**
@@ -18,17 +20,19 @@ class PressReleaseAgent
 
     $agent = app(PressReleaseAgent::class);
 
-    $press = $agent->spotlight([
-        'title' => 'Magenta Men',
-        'description' => 'A funk-based duo inspired by Prince and Morris Day',
-        'highlights' => [
-            'Dual male leads',
-            'Retro-funk aesthetic',
-            'High-energy performances',
-        ],
-        'cta' => 'Vote now on the official contest platform',
-    ]);
-
+    $result = $agent->spotlight(
+        new NewEntrySpotlightData(
+            title: 'Magenta Men',
+            description: 'A funk-based duo inspired by Prince and Morris Day',
+            highlights: [
+                'Dual male leads',
+                'Retro-funk aesthetic',
+                'High-energy performances',
+            ],
+            tone: 'playful',
+            voice: 'flamboyant, rhythmic, confident'
+        )
+    );
     return response()->json($press);
     */
 
@@ -74,14 +78,14 @@ Event Promotion:
 
 Return JSON with:
 - title
-- body
-- cta
-The body should be in Markdown format, using level 2 headings.
+- content (Markdown format with level 2 headings).
 PROMPT;
     }
 
-    protected function run(array $payload): array
+    protected function run(PressReleaseData $data): array
     {
+        $payload = $data->toArray();
+
         $response = OpenAI::chat()->create([
             'model'           => $this->model,
             'temperature'     => $this->temperature($payload['type']),
@@ -120,35 +124,15 @@ PROMPT;
 
     // Different types of press releases...
 
-    public function contestAnnouncement(array $data): array
+    /**
+     * Generate a press release about a specific Act.
+     *
+     * @param ActPressReleaseData $data
+     * @return array
+     */
+    public function actFeature(ActPressReleaseData $data): array
     {
-        return $this->run([
-            'type' => 'Contest Announcement',
-            ...$data,
-        ]);
+        return $this->run($data);
     }
 
-    public function results(array $data): array
-    {
-        return $this->run([
-            'type' => 'Results Announcement',
-            ...$data,
-        ]);
-    }
-
-    public function artistFeature(array $data): array
-    {
-        return $this->run([
-            'type' => 'Artist Feature',
-            ...$data,
-        ]);
-    }
-
-    public function eventPromotion(array $data): array
-    {
-        return $this->run([
-            'type' => 'Event Promotion',
-            ...$data,
-        ]);
-    }
 }
