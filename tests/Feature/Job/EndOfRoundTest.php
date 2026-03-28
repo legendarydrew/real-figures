@@ -39,17 +39,8 @@ class EndOfRoundTest extends TestCase
         }
 
         // Create some votes.
-        $number_of_votes = fake()->numberBetween(1, 10);
-        for ($i = 0; $i < $number_of_votes; $i++)
-        {
-            $picks = fake()->randomElements($this->song_ids, 3);
-            RoundVote::create([
-                'round_id'         => $this->round->id,
-                'first_choice_id'  => $picks[0],
-                'second_choice_id' => $picks[1],
-                'third_choice_id'  => $picks[2]
-            ]);
-        }
+        $vote_count = fake()->numberBetween(1, 10);
+        $this->round->randomVote($vote_count);
 
         // Check that there are no existing round outcomes.
         self::assertEquals(0, $this->round->outcomes()->count());

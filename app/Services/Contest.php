@@ -111,9 +111,9 @@ class Contest
                 $round->outcomes()->delete();
 
                 $votes          = $round->votes;
-                $first_choices  = array_count_values($votes->pluck('first_choice_id')->toArray());
-                $second_choices = array_count_values($votes->pluck('second_choice_id')->toArray());
-                $third_choices  = array_count_values($votes->pluck('third_choice_id')->toArray());
+                $first_choices  = array_count_values($votes->pluck('first_choice_id')->filter()->toArray());
+                $second_choices = array_count_values($votes->pluck('second_choice_id')->filter()->toArray());
+                $third_choices  = array_count_values($votes->pluck('third_choice_id')->filter()->toArray());
 
                 foreach ($round->songs as $song)
                 {

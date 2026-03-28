@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\RoundSongs;
-use App\Models\RoundVote;
 use App\Models\Song;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -96,19 +95,8 @@ class RoundFactory extends Factory
     {
         return $this->afterCreating(function (Round $round)
         {
-            $song_ids   = $round->songs()->pluck('songs.id')->toArray();
             $vote_count = fake()->numberBetween(1, 300);
-            foreach (range(1, $vote_count) as $_)
-            {
-                $voted_for_songs = fake()->randomElements($song_ids, 3);
-                RoundVote::create([
-                    'round_id'         => $round->id,
-                    'first_choice_id'  => $voted_for_songs[0],
-                    'second_choice_id' => $voted_for_songs[1],
-                    'third_choice_id'  => $voted_for_songs[2]
-                ]);
-            }
-
+            $round->randomVote($vote_count);
         });
     }
 

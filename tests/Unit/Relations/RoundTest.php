@@ -40,12 +40,7 @@ class RoundTest extends TestCase
             'song_id'  => $songs->get(2)->id
         ]);
 
-        RoundVote::create([
-            'round_id'         => $this->round->id,
-            'first_choice_id'  => $songs->get(0)->id,
-            'second_choice_id' => $songs->get(1)->id,
-            'third_choice_id'  => $songs->get(2)->id,
-        ]);
+        $this->round->randomVote();
 
         RoundOutcome::factory()->create([
             'round_id' => $this->round->id,
