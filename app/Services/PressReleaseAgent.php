@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\NewsPostType;
 use OpenAI\Laravel\Facades\OpenAI;
 
 /**
@@ -83,7 +84,7 @@ PROMPT;
     {
         $response = OpenAI::chat()->create([
             'model'           => $this->model,
-            'temperature'     => 0.7,
+            'temperature'     => $this->temperature($payload['type']),
             'response_format' => ['type' => 'json_object'],
             'messages'        => [
                 [
@@ -91,8 +92,9 @@ PROMPT;
                     'content' => $this->systemPrompt(),
                 ],
                 [
-                    'role' => 'user',
-                    'content' => "Generate a press release using this data:\n\n" . json_encode($payload, JSON_PRETTY_PRINT),
+                    'role'    => 'user',
+                    'content' => "Generate a press release using this data:\n\n"
+                        . json_encode($payload, JSON_PRETTY_PRINT),
                 ],
             ],
         ]);
@@ -101,6 +103,19 @@ PROMPT;
             $response->choices[0]->message->content,
             true
         );
+    }
+
+    /**
+     * Returns the "temperature" to use for the press release response.
+     * Temperature controls how "creative" the output is: 0 being restrained and 1 being risky.
+     *
+     * @param NewsPostType|null $type
+     * @return float
+     */
+    protected function temperature(?NewsPostType $type): float
+    {
+        $type = $type ?? NewsPostType::GENERAL;
+        return config("ai.temperature.$type->value", 0.7);
     }
 
     // Different types of press releases...
