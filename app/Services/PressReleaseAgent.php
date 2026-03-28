@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\NewsPostType;
 use App\Support\ActPressReleaseData;
 use App\Support\PressReleaseData;
+use App\Support\PressReleaseResponse;
 use OpenAI\Laravel\Facades\OpenAI;
 
 /**
@@ -21,19 +22,19 @@ class PressReleaseAgent
     $agent = app(PressReleaseAgent::class);
 
     $result = $agent->spotlight(
-        new NewEntrySpotlightData(
+        new ActPressReleaseData(
             title: 'Magenta Men',
             description: 'A funk-based duo inspired by Prince and Morris Day',
-            highlights: [
-                'Dual male leads',
-                'Retro-funk aesthetic',
-                'High-energy performances',
-            ],
-            tone: 'playful',
-            voice: 'flamboyant, rhythmic, confident'
+            highlights: ['Dual male leads', 'Retro-funk aesthetic'],
         )
     );
-    return response()->json($press);
+
+    // Clean access
+    echo $result->headline;
+    echo $result->body;
+
+    // Or convert if needed
+    return response()->json($result->toArray());
     */
 
     protected string $model = 'gpt-4.1-mini';
@@ -82,7 +83,7 @@ Return JSON with:
 PROMPT;
     }
 
-    protected function run(PressReleaseData $data): array
+    protected function run(PressReleaseData $data): PressReleaseResponse
     {
         $payload = $data->toArray();
 
@@ -103,10 +104,9 @@ PROMPT;
             ],
         ]);
 
-        return json_decode(
-            $response->choices[0]->message->content,
-            true
-        );
+        $decoded = json_decode($response->choices[0]->message->content, true);
+
+        return $this->mapToResult($decoded);
     }
 
     /**
@@ -122,15 +122,30 @@ PROMPT;
         return config("ai.temperature.$type->value", 0.7);
     }
 
-    // Different types of press releases...
+    /**
+     * Maps the data from the AI response to the properties of PressReleaseResponse.
+     *
+     * @param array $data
+     * @return PressReleaseResponse
+     */
+    protected function mapToResult(array $data): PressReleaseResponse
+    {
+        // Fallbacks (in case AI slightly deviates)
+        $normalized = [
+            'title'   => $data['title'] ?? '',
+            'content' => $data['content'] ?? ''
+        ];
+
+        return PressReleaseResponse::fromArray($normalized);
+    }
 
     /**
      * Generate a press release about a specific Act.
      *
      * @param ActPressReleaseData $data
-     * @return array
+     * @return PressReleaseResponse
      */
-    public function actFeature(ActPressReleaseData $data): array
+    public function actFeature(ActPressReleaseData $data): PressReleaseResponse
     {
         return $this->run($data);
     }
