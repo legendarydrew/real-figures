@@ -47,6 +47,10 @@ return [
             \App\Enums\NewsPostType::STAGE->value   => 0.4,
             \App\Enums\NewsPostType::ROUND->value   => 0.6,
         ],
+        'retry' => [
+            'attempts' => 3,
+            'backoff_ms' => 150, // small delay between retries
+        ],
     ],
     'images'    => [
         'subfolder' => 'act',

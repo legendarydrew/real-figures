@@ -6,7 +6,12 @@ use App\Enums\NewsPostType;
 use App\Support\ActPressReleaseData;
 use App\Support\PressReleaseData;
 use App\Support\PressReleaseResponse;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use OpenAI\Laravel\Facades\OpenAI;
+use OpenAI\Responses\Chat\CreateResponse;
+use RuntimeException;
+use Throwable;
 
 /**
  * PressReleaseAgent
@@ -44,69 +49,101 @@ class PressReleaseAgent
         $this->model = config('contest.ai.model', 'gpt-4.1-mini');
     }
 
-    protected function systemPrompt(): string
-    {
-        return <<<PROMPT
-You are a professional press officer for Song Contest by CATAWOL Records.
-
-Your role is to write compelling, polished press releases based on structured input.
-
-General rules:
-- Always include a strong, attention-grabbing headline
-- Open with a clear summary (who, what, why it matters)
-- Match tone to the press release type
-- Use vivid but controlled language (avoid fluff)
-- Include quotes when provided or generate one if missing
-- End with a clear call to action
-
-Press release types and styles:
-
-Contest Announcement:
-- Big, exciting, promotional
-- Focus on scale and participation
-
-Results Announcement:
-- Dramatic and celebratory
-- Emphasise winners and impact
-
-Artist Feature:
-- Personal and narrative
-- Explore background and artistic identity
-
-Event Promotion:
-- Urgent and time-sensitive
-- Focus on attendance
-
-Return JSON with:
-- title
-- content (Markdown format with level 2 headings).
-PROMPT;
-    }
-
     protected function run(PressReleaseData $data): PressReleaseResponse
     {
         $payload = $data->toArray();
 
-        $response = OpenAI::chat()->create([
-            'model'           => $this->model,
-            'temperature'     => $this->temperature($payload['type']),
+        $maxAttempts = config('ai.retry.attempts', 3);
+        $backoff     = config('ai.retry.backoff_ms', 150);
+
+        $lastError = null;
+
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++)
+        {
+            try
+            {
+                $response = $this->callOpenAI($payload, $attempt);
+
+                $decoded = json_decode(
+                    $response->choices[0]->message->content,
+                    true
+                );
+
+                if (!is_array($decoded))
+                {
+                    throw new RuntimeException('Invalid JSON response');
+                }
+
+                return $this->mapToResult($decoded);
+
+            }
+            catch (Throwable $e)
+            {
+                $lastError = $e;
+                Log::warning('PressReleaseAgent attempt failed', [
+                    'attempt' => $attempt,
+                    'error'   => $e->getMessage(),
+                ]);
+                // Small delay before retry
+                usleep($backoff * 1000);
+            }
+        }
+
+        throw new RuntimeException(
+            "PressReleaseAgent failed after $maxAttempts retries.",
+            previous: $lastError
+        );
+    }
+
+    protected function callOpenAI(array $payload, int $attempt): CreateResponse
+    {
+        // Lower temperature on retries (more deterministic).
+        $baseTemp    = $this->temperature($payload['type']);
+        $temperature = max(0.2, $baseTemp - (($attempt - 1) * 0.2));
+
+        return OpenAI::chat()->create([
+            'model'           => config('ai.model'),
+            'temperature'     => $temperature,
             'response_format' => ['type' => 'json_object'],
             'messages'        => [
                 [
                     'role'    => 'system',
-                    'content' => $this->systemPrompt(),
+                    'content' => Lang::get('press-release.prompt'),
                 ],
                 [
                     'role'    => 'user',
-                    'content' => "Generate a press release using this data:\n\n"
-                        . json_encode($payload, JSON_PRETTY_PRINT),
+                    'content' => $this->buildPrompt($payload, $attempt),
                 ],
             ],
         ]);
+    }
 
-        $decoded = json_decode($response->choices[0]->message->content, true);
+    protected function buildPrompt(array $payload, int $attempt): string
+    {
+        if ($attempt === 1)
+        {
+            return "Generate a press release using this data:\n\n"
+                . json_encode($payload, JSON_PRETTY_PRINT);
+        }
 
-        return $this->mapToResult($decoded);
+        return <<<PROMPT
+Your previous response was invalid or did not match the required JSON format.
+
+You MUST:
+- Return valid JSON only
+- Include exactly these fields: title, content
+- Ensure all fields are strings
+- Do not include any extra text outside JSON
+
+Try again using this data:
+
+{$this->prettyJson($payload)}
+PROMPT;
+    }
+
+    protected function prettyJson(array $data): string
+    {
+        return json_encode($data, JSON_PRETTY_PRINT);
     }
 
     /**
