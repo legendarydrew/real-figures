@@ -27,6 +27,7 @@ import { ActViewsAnalytics } from '@/components/analytics/act-views';
 import { OutboundAnalytics } from '@/components/analytics/outbound';
 import { SubscribersAnalytics } from '@/components/analytics/subscribers';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
+import { VoteChoicesAnalytics } from '@/components/analytics/vote-choices';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -59,7 +60,7 @@ export default function AnalyticsPage() {
                 <div className="flex flex-col md:flex-row gap-8">
 
                     <div className="md:w-1/6">
-                        <div className="sticky top-0 flex flex-col gap-2">
+                        <div className="sticky top-4 flex flex-col gap-2">
 
                             <Select onValueChange={setDayCount}>
                                 <SelectTrigger className="rounded-xs">Last {dayCount} days</SelectTrigger>
@@ -115,6 +116,7 @@ export default function AnalyticsPage() {
                         {section === AnalyticsSection.CONTEST && (
                             <>
                                 <VotesAnalytics days={dayCount}/>
+                                <VoteChoicesAnalytics days={dayCount}/>
                                 <PlaysAnalytics days={dayCount}/>
                                 <SongsPlayedAnalytics days={dayCount}/>
                                 <GoldenBuzzersMadeAnalytics days={dayCount}/>

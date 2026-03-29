@@ -70,7 +70,10 @@ class GenerateAnalyticsTestData extends Command
         } else {
             $event_count = fake()->numberBetween(10, 50);
             foreach (range(1, $event_count) as $ignored) {
-                $this->postEvent('vote', ['round' => $rounds->random()->full_title]);
+                $this->postEvent('vote', [
+                    'round' => $rounds->random()->full_title,
+                    'choices' => fake()->numberBetween(1, 3)
+                ]);
             }
         }
 
