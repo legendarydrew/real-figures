@@ -2,10 +2,12 @@
 
 namespace App\Support;
 
-class PressReleaseData
+use App\Enums\NewsPostType;
+
+abstract class PressReleaseData
 {
     public function __construct(
-        public string $type,
+        public NewsPostType $type,  // the type of generated News post
         public string $title,
         public string $description,
         public array $highlights = [],
@@ -18,7 +20,7 @@ class PressReleaseData
     public function toArray(): array
     {
         return array_filter([
-            'type' => $this->type,
+            'type' => $this->type->value,
             'title' => $this->title,
             'description' => $this->description,
             'highlights' => $this->highlights,

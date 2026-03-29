@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Enums\NewsPostType;
-use App\Support\ActPressReleaseData;
+use App\Support\PressRelease\ActPressReleaseData;
 use App\Support\PressReleaseData;
 use App\Support\PressReleaseResponse;
 use Illuminate\Support\Facades\Lang;
@@ -35,8 +35,8 @@ class PressReleaseAgent
     );
 
     // Clean access
-    echo $result->headline;
-    echo $result->body;
+    echo $result->title;
+    echo $result->content;
 
     // Or convert if needed
     return response()->json($result->toArray());
