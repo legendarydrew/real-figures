@@ -17,7 +17,7 @@ interface SongDialogProps {
     open: boolean;
     onOpenChange: () => void;
     song?: Song;
-    acts: { id: number, name: string }[];
+    acts: { id: number, name: string, subtitle?: string }[];
 }
 
 type SongForm = {
@@ -57,7 +57,7 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
     };
 
     const changeActHandler = (value: string) => {
-        setData('act_id', parseInt(value));
+        setData('act_id', Number.parseInt(value));
         setError('act_id', '');
     };
 
@@ -113,7 +113,7 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
                             <SelectTrigger>{getMatchingActName() ?? 'Select an Act'}</SelectTrigger>
                             <SelectContent>
                                 {acts.map((act) => (
-                                    <SelectItem key={act.id} value={act.id}>{act.name}</SelectItem>
+                                    <SelectItem key={act.id} value={act.id}>{act.name} {act.subtitle}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -159,9 +159,9 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
 
 
                     <DialogFooter>
-                        <LoadingButton variant="default" type="submit" onClick={saveHandler}
-                                       isLoading={processing}>Save</LoadingButton>
                         <Button variant="ghost" type="button" onClick={onOpenChange}>Cancel</Button>
+                        <LoadingButton variant="primary" type="submit" onClick={saveHandler}
+                                       isLoading={processing}>Save</LoadingButton>
                     </DialogFooter>
                 </form>
             </DialogContent>

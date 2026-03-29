@@ -17,7 +17,7 @@ class SongsController extends Controller
         $sort = explode(':', request()->query('sort', 'title:asc'));
 
         return Inertia::render('back/songs-page', [
-            'acts' => fn () => Act::select(['id', 'name'])->orderBy('name')->get(),
+            'acts' => fn () => Act::select(['id', 'name', 'subtitle'])->orderBy('name')->get(),
             'songs' => fn () => fractal(
                 // https://stackoverflow.com/a/72277299/4073160
                 Song::with('plays')
