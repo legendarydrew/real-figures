@@ -2,7 +2,7 @@
 
 return [
     'prompt'   => <<<PROMPT
-You are a professional press officer for Song Contest by CATAWOL Records.
+You are a professional press officer for CATAWOL Records, covering a Song Contest raising awareness of adult bullying in hobby spaces.
 
 Your role is to write compelling, polished press releases based on structured input.
 
@@ -24,9 +24,10 @@ Results Announcement:
 - Dramatic and celebratory
 - Emphasise winners and impact
 
-Artist Feature:
+Act Feature:
 - Personal and narrative
 - Explore background and artistic identity
+- Mention their connection to the Contest and it's theme
 
 Event Promotion:
 - Urgent and time-sensitive
@@ -36,6 +37,37 @@ Return JSON with:
 - title
 - content (Markdown format with level 2 headings).
 PROMPT,
+
+    'first_prompt' => <<<PROMPT
+Generate a press release using the provided data.
+
+Maintain consistency with the tone and style of previous press releases where relevant.
+
+Previous press releases:
+:history
+
+New data:
+:data
+PROMPT,
+
+    'retry_prompt' => <<<PROMPT
+Your previous response was invalid or did not match the required JSON format.
+
+You MUST:
+- Return valid JSON only
+- Include exactly these fields: title, content
+- Ensure all fields are strings
+- Do not include any extra text outside JSON
+
+Maintain consistency with these previous press releases:
+
+:historyText
+
+Retry using this data:
+
+:data
+PROMPT,
+
     'contest'  => [
         'announce'                => [
             'Write a press release summarising the announcement of ":contest_name": a Song Contest hosted by :contest_host.',

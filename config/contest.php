@@ -57,7 +57,7 @@ return [
         'resize'    => [1000, 1000],
     ],
     'analytics' => [
-        'cache' => 10, // minutes
+        'cache' => 30, // minutes
     ],
     'feed'      => [
         'title'       => 'CATAWOL Records presents Real Figures Don\'t F.O.L.D',

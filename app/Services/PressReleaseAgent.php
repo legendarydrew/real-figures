@@ -42,27 +42,32 @@ class PressReleaseAgent
     return response()->json($result->toArray());
     */
 
-    protected string $model = 'gpt-4.1-mini';
+    protected string $model;
 
     public function __construct()
     {
         $this->model = config('contest.ai.model', 'gpt-4.1-mini');
     }
 
-    protected function run(PressReleaseData $data): PressReleaseResponse
+    /**
+     * @param PressReleaseData $data
+     * @param array            $history a list of previous News posts to use for reference.
+     * @return PressReleaseResponse
+     */
+    protected function run(PressReleaseData $data, array $history = []): PressReleaseResponse
     {
         $payload = $data->toArray();
 
-        $maxAttempts = config('ai.retry.attempts', 3);
-        $backoff     = config('ai.retry.backoff_ms', 150);
+        $max_attempts = config('ai.retry.attempts', 3);
+        $backoff      = config('ai.retry.backoff_ms', 150);
 
-        $lastError = null;
+        $last_error = null;
 
-        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++)
+        for ($attempt = 1; $attempt <= $max_attempts; $attempt++)
         {
             try
             {
-                $response = $this->callOpenAI($payload, $attempt);
+                $response = $this->callOpenAI($payload, $attempt, $history);
 
                 $decoded = json_decode(
                     $response->choices[0]->message->content,
@@ -75,11 +80,10 @@ class PressReleaseAgent
                 }
 
                 return $this->mapToResult($decoded);
-
             }
             catch (Throwable $e)
             {
-                $lastError = $e;
+                $last_error = $e;
                 Log::warning('PressReleaseAgent attempt failed', [
                     'attempt' => $attempt,
                     'error'   => $e->getMessage(),
@@ -90,14 +94,14 @@ class PressReleaseAgent
         }
 
         throw new RuntimeException(
-            "PressReleaseAgent failed after $maxAttempts retries.",
-            previous: $lastError
+            "PressReleaseAgent failed after $max_attempts retries.",
+            previous: $last_error
         );
     }
 
-    protected function callOpenAI(array $payload, int $attempt): CreateResponse
+    protected function callOpenAI(array $payload, int $attempt, array $history): CreateResponse
     {
-        // Lower temperature on retries (more deterministic).
+        // Lower the temperature on retries (for a more deterministic response).
         $baseTemp    = $this->temperature($payload['type']);
         $temperature = max(0.2, $baseTemp - (($attempt - 1) * 0.2));
 
@@ -112,33 +116,41 @@ class PressReleaseAgent
                 ],
                 [
                     'role'    => 'user',
-                    'content' => $this->buildPrompt($payload, $attempt),
+                    'content' => $this->buildPrompt($payload, $attempt, $history),
                 ],
             ],
         ]);
     }
 
-    protected function buildPrompt(array $payload, int $attempt): string
+    protected function formatHistory(array $history): string
     {
-        if ($attempt === 1)
+        if (empty($history))
         {
-            return "Generate a press release using this data:\n\n"
-                . json_encode($payload, JSON_PRETTY_PRINT);
+            return 'No prior press releases.';
         }
 
-        return <<<PROMPT
-Your previous response was invalid or did not match the required JSON format.
+        return collect($history)
+            ->take(5)
+            ->map(function ($item, $index)
+            {
+                return sprintf(
+                    "Example %d:\nHeadline: %s\nSubheading: %s\nBody: %s\nCTA: %s",
+                    $index + 1,
+                    $item['headline'] ?? '',
+                    $item['subheading'] ?? '',
+                    $item['body'] ?? '',
+                    $item['cta'] ?? ''
+                );
+            })
+            ->implode("\n\n");
+    }
 
-You MUST:
-- Return valid JSON only
-- Include exactly these fields: title, content
-- Ensure all fields are strings
-- Do not include any extra text outside JSON
-
-Try again using this data:
-
-{$this->prettyJson($payload)}
-PROMPT;
+    protected function buildPrompt(array $payload, int $attempt, array $history): string
+    {
+        return Lang::get($attempt === 1 ? 'press-release.first_prompt' : 'press-release.retry_prompt', [
+            'history' => $this->formatHistory($history),
+            'data'    => $this->prettyJson($payload)
+        ]);
     }
 
     protected function prettyJson(array $data): string
@@ -180,11 +192,12 @@ PROMPT;
      * Generate a press release about a specific Act.
      *
      * @param ActPressReleaseData $data
+     * @param array               $history
      * @return PressReleaseResponse
      */
-    public function actFeature(ActPressReleaseData $data): PressReleaseResponse
+    public function actFeature(ActPressReleaseData $data, array $history = []): PressReleaseResponse
     {
-        return $this->run($data);
+        return $this->run($data, $history);
     }
 
 }
