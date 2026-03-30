@@ -9,24 +9,22 @@ use Illuminate\View\View;
 
 class NewsController extends Controller
 {
-
     public function index(): View
     {
-        if (NewsPost::published()->count() === 0)
-        {
+        if (NewsPost::published()->count() === 0) {
             abort(404);
         }
 
         $posts = NewsPost::published()
-                         ->orderByDesc('published_at')
-                         ->paginate(6);
+            ->orderByDesc('published_at')
+            ->paginate(6);
 
         return view('front.news.index', [
             'posts' => fractal($posts)
                 ->transformWith(NewsPostTransformer::class)
                 ->withResourceName('data')
                 ->toArray(),
-            'paginator' => $posts
+            'paginator' => $posts,
         ]);
     }
 
@@ -35,15 +33,14 @@ class NewsController extends Controller
         $post = NewsPost::whereSlug($slug)->firstOrFail();
 
         // If the News Post has not been published, only allow viewing it if we are logged in.
-        if (!$post->published_at && !auth()->check())
-        {
+        if (! $post->published_at && ! auth()->check()) {
             abort(404);
         }
 
         return view('front.news.show', [
-            'post' => fractal($post)->transformWith(new NewsPostTransformer())
-                                    ->parseIncludes(['content', 'acts', 'pages'])
-                                    ->toArray()
+            'post' => fractal($post)->transformWith(new NewsPostTransformer)
+                ->parseIncludes(['content', 'acts', 'pages'])
+                ->toArray(),
         ]);
     }
 }

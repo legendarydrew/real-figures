@@ -26,18 +26,18 @@ export default function DonationsPage({ total, count, rows, currentPage, hasMore
             <Head title="Donations"/>
 
             <div className="admin-content">
-                <AdminHeader title="Donations" />
+                <AdminHeader title="Donations"/>
 
                 {count ? (
-                    <div className="grid lg:grid-cols-3">
-                        <div className="lg:col-span-2">
+                    <div className="grid lg:grid-cols-4">
+                        <div className="lg:col-span-3">
                             {rows.map((row) => (
                                 <Collapsible className="my-0.5 mx-4" key={row.id}>
                                     <div
                                         className="flex font-mono gap-2 items-center px-2 py-1 w-full bg-donation/50 hover:bg-donation hover:text-donation-foreground">
                                         <CollapsibleTrigger
                                             disabled={!row.message}
-                                            className="flex gap-3 w-full items-center cursor-pointer select-none">
+                                            className={cn('flex gap-3 w-full items-center select-none', row.message ? 'cursor-pointer' : 'cursor-default')}>
                                             <NotepadText
                                                 className={cn('text-sm', row.message ? 'text-current' : 'text-muted-foreground/20')}/>
                                             <span

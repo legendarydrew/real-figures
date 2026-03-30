@@ -14,18 +14,15 @@ class StageTransformer extends TransformerAbstract
     public function transform(Stage $stage): array
     {
         return [
-            'id'          => (int)$stage->id,
-            'title'       => $stage->title,
+            'id' => (int) $stage->id,
+            'title' => $stage->title,
             'description' => $stage->description,
-            'status'      => $stage->status,
+            'status' => $stage->status,
         ];
     }
 
     /**
      * Using this include will give us the HTML for the Stage description.
-     *
-     * @param Stage $stage
-     * @return Primitive
      */
     public function includeDescription(Stage $stage): Primitive
     {
@@ -36,5 +33,4 @@ class StageTransformer extends TransformerAbstract
     {
         return $this->primitive($stage->golden_buzzer_perks ? Str::markdown($stage->golden_buzzer_perks) : null);
     }
-
 }

@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Stage, StageWinner } from '@/types';
-import toast from 'react-hot-toast';
 import { SongBanner } from '@/components/mode/song-banner';
+import { RTToast } from '@/components/mode/toast-message';
 
 interface StageResultsDialogProps {
     open: boolean;
@@ -15,7 +15,7 @@ export const StageResultsDialog: FC<StageResultsDialogProps> = ({ open, onOpenCh
     useEffect(() => {
         if (open && !stage?.winners) {
             onOpenChange();
-            toast.error('This Stage is not ready yet.');
+            RTToast.error('This Stage is not ready yet.');
         }
     }, [open]);
 

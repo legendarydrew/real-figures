@@ -2,28 +2,19 @@
 
 namespace App\Console\Commands;
 
+use App\Facades\AnalyticsEventsFacade;
 use App\Models\Act;
 use App\Models\Round;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
 use function Laravel\Prompts\error;
 
+#[Signature('app:analytics-test-data')]
+#[Description('Generate Analytics test events.')]
 class GenerateAnalyticsTestData extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:analytics-test-data';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Generate Analytics test events.';
-
     /**
      * Execute the console command.
      */
@@ -36,6 +27,7 @@ class GenerateAnalyticsTestData extends Command
         $this->generateDonationEvents();
         $this->generateActViewEvents();
         $this->generateSubscriberEvents();
+        $this->generateContactMessageEvents();
     }
 
     protected function generateCollapseEvents(): void
@@ -43,29 +35,28 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- collapse sections');
         $sections = [
             // Rules
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'terminology'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'contest-brief'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'eligibility'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'song-criteria'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'stage-1-knockout-stage'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'stage-2-finals'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'how-votes-are-calculated'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'the-golden-buzzer'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'special-situations'],
-            ['pageTitle' => 'Contest Rules', 'section_id' => 'advice-for-visitors'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'terminology'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'contest-brief'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'eligibility'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'song-criteria'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'stage-1-knockout-stage'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'stage-2-finals'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'how-votes-are-calculated'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'the-golden-buzzer'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'special-situations'],
+            ['page_title' => 'Contest Rules', 'section_id' => 'advice-for-visitors'],
 
             // About
-            ['pageTitle' => 'About the Project', 'section_id' => 'about-catawol-records'],
-            ['pageTitle' => 'About the Project', 'section_id' => 'about-the-song'],
-            ['pageTitle' => 'About the Project', 'section_id' => 'what-is-fold'],
-            ['pageTitle' => 'About the Project', 'section_id' => 'who-is-silentmode'],
-            ['pageTitle' => 'About the Project', 'section_id' => 'credits'],
+            ['page_title' => 'About the Project', 'section_id' => 'about-catawol-records'],
+            ['page_title' => 'About the Project', 'section_id' => 'about-the-song'],
+            ['page_title' => 'About the Project', 'section_id' => 'what-is-fold'],
+            ['page_title' => 'About the Project', 'section_id' => 'who-is-silentmode'],
+            ['page_title' => 'About the Project', 'section_id' => 'credits'],
 
         ];
 
         $event_count = fake()->numberBetween(40, 100);
-        foreach (range(1, $event_count) as $ignored)
-        {
+        foreach (range(1, $event_count) as $ignored) {
             $this->postEvent('collapse_open', $sections[array_rand($sections)]);
         }
     }
@@ -74,16 +65,15 @@ class GenerateAnalyticsTestData extends Command
     {
         $this->comment('- votes');
         $rounds = Round::get();
-        if ($rounds->isEmpty())
-        {
+        if ($rounds->isEmpty()) {
             error('No Rounds exist.');
-        }
-        else
-        {
+        } else {
             $event_count = fake()->numberBetween(10, 50);
-            foreach (range(1, $event_count) as $ignored)
-            {
-                $this->postEvent('vote', ['round' => $rounds->random()->full_title]);
+            foreach (range(1, $event_count) as $ignored) {
+                $this->postEvent('vote', [
+                    'round' => $rounds->random()->full_title,
+                    'choices' => fake()->numberBetween(1, 3)
+                ]);
             }
         }
 
@@ -94,15 +84,14 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- song plays');
         $act_slugs = Act::whereHas('songs')->pluck('slug');
 
-        if ($act_slugs->isEmpty())
-        {
+        if ($act_slugs->isEmpty()) {
             error('No Acts with Songs available.');
+
             return;
         }
 
         $event_count = fake()->numberBetween(100, 500);
-        foreach (range(1, $event_count) as $ignored)
-        {
+        foreach (range(1, $event_count) as $ignored) {
             $this->postEvent('song_play', ['act' => $act_slugs->random()]);
         }
     }
@@ -112,11 +101,10 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- donations');
 
         $event_count = fake()->numberBetween(10, 50);
-        foreach (range(1, $event_count) as $ignored)
-        {
+        foreach (range(1, $event_count) as $ignored) {
             $this->postEvent('donation', [
-                'value' => fake()->randomFloat(1, 100),
-                'anonymous'  => fake()->boolean
+                'value' => fake()->randomFloat(2, 1, 100),
+                'anonymous' => fake()->boolean,
             ]);
         }
     }
@@ -125,13 +113,12 @@ class GenerateAnalyticsTestData extends Command
     {
         $this->comment('- Act profile views');
 
-        $acts        = Act::all();
+        $acts = Act::all();
         $event_count = fake()->numberBetween(10, 100);
-        foreach (range(1, $event_count) as $ignored)
-        {
+        foreach (range(1, $event_count) as $ignored) {
             $this->postEvent('dialog_open', [
                 'type' => 'act',
-                'act'  => fake()->randomElement($acts)->slug
+                'act' => fake()->randomElement($acts)->slug,
             ]);
         }
     }
@@ -141,17 +128,27 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- Subscribers');
 
         $event_count = fake()->numberBetween(10, 100);
-        foreach (range(1, $event_count) as $ignored)
-        {
+        foreach (range(1, $event_count) as $ignored) {
             $this->postEvent('subscriber', [
-                'value' => fake()->boolean ? 1 : -1
+                'value' => fake()->boolean ? 1 : -1,
             ]);
         }
     }
 
+    protected function generateContactMessageEvents(): void
+    {
+        $this->comment('- Contact messages');
+
+        $event_count = fake()->numberBetween(10, 100);
+        foreach (range(1, $event_count) as $ignored) {
+            $this->postEvent('contact_sent', [
+                'subscribed' => fake()->boolean,
+            ]);
+        }
+    }
 
     private function postEvent(string $eventName, array $dimensions): void
     {
-        app(GoogleAnalyticsService::class)->sendEvent($eventName, $dimensions);
+        AnalyticsEventsFacade::send($eventName, $dimensions);
     }
 }

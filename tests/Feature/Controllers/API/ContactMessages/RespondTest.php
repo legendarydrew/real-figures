@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class RespondTest extends TestCase
+final class RespondTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -19,7 +19,6 @@ class RespondTest extends TestCase
 
     private array $payload;
 
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -28,28 +27,27 @@ class RespondTest extends TestCase
 
         $this->message = ContactMessage::factory()->createOne();
         $this->payload = [
-            'response' => fake()->realText()
+            'response' => fake()->realText(),
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->putJson(sprintf(self::ENDPOINT, $this->message->id), $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->putJson(sprintf(self::ENDPOINT, $this->message->id), $this->payload);
         $response->assertSuccessful();
     }
 
     #[Depends('test_as_user')]
-    public function test_sends_mail()
+    public function test_sends_mail(): void
     {
         $this->actingAs($this->user)->putJson(sprintf(self::ENDPOINT, $this->message->id), $this->payload);
-        Mail::assertSent(ContactMessageResponse::class, function (ContactMessageResponse $mail)
-        {
+        Mail::assertSent(ContactMessageResponse::class, function (ContactMessageResponse $mail) {
             return $mail->hasTo($this->message->email) && $mail->viewData['response'] === $this->payload['response'];
         });
 

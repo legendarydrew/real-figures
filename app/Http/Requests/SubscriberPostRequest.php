@@ -15,7 +15,7 @@ class SubscriberPostRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'min:4', 'max:240'],
-            'body'  => ['required', 'string', 'min:100'],
+            'body' => ['required', 'string', 'min:100'],
         ];
     }
 }

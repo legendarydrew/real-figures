@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Facades\ActImageFacade;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,27 +12,23 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
+#[Guarded(['id', 'created_at', 'updated_at'])]
 class Act extends Model
 {
     use HasFactory;
     use HasSlug;
-
-    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     public function getFullNameAttribute(): string
     {
         return $this->subtitle ? "{$this->name} {$this->subtitle}" : $this->name;
     }
 
-    /**
-     * @return SlugOptions
-     */
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-                          ->generateSlugsFrom(['name', 'subtitle'])
-                          ->saveSlugsTo('slug')
-                          ->usingSeparator('-');
+            ->generateSlugsFrom(['name', 'subtitle'])
+            ->saveSlugsTo('slug')
+            ->usingSeparator('-');
     }
 
     public function profile(): HasOne
@@ -76,12 +73,9 @@ class Act extends Model
 
     /**
      * A shortcut attribute for returning the Act's associated picture data.
-     *
-     * @return string|null
      */
-    public function getImageAttribute(): string|null
+    public function getImageAttribute(): ?string
     {
         return ActImageFacade::exists($this) ? ActImageFacade::url($this) : null;
     }
-
 }

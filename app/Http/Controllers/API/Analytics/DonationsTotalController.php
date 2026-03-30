@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\API\Analytics;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\AnalyticsAPIController;
 use App\Support\AnalyticsChartFormatter;
 use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * DonationsTotalController
@@ -16,43 +17,60 @@ use Illuminate\Http\JsonResponse;
  * We would be interested in:
  * - donations per day
  * - Golden Buzzer donations per day
- *
- * @package App\Http\Controllers\API\Analytics
  */
-class DonationsTotalController extends Controller
+class DonationsTotalController extends AnalyticsAPIController
 {
+    const string CACHE_KEY = 'donations_total';
 
-    public function index(): JsonResponse
+    protected function analyticsQuery(int $days): Collection
     {
-        $days = request('days', 7);
-
         // Thanks to https://stackoverflow.com/a/2563940
-
-        $query          = 'SELECT DATE(t.created_at) as date,
+        $query = 'SELECT DATE(t.created_at) as date,
                             "%2$s" as type,
                     (SELECT SUM(x.amount) FROM %1$s x WHERE x.id <= t.id) AS amount
                     FROM %1$s t
                     WHERE DATE(t.created_at) > ?
                     GROUP BY date';
-        $donations_data = \DB::select(sprintf($query, 'donations', 'd'), [now()->subDays($days)]);
-        $buzzer_data    = \DB::select(sprintf($query, 'golden_buzzers', 'b'), [now()->subDays($days)]);
-        $rows           = array_map(fn($row) => [
-            'date'   => Carbon::parse($row->date),
-            'type'   => $row->type,
-            'amount' => $row->amount
-        ], [...$donations_data, ...$buzzer_data]);
+        $donations_data = DB::select(sprintf($query, 'donations', 'd'), [now()->subDays($days)]);
+        $buzzer_data = DB::select(sprintf($query, 'golden_buzzers', 'b'), [now()->subDays($days)]);
 
-        $data = AnalyticsChartFormatter::stackedByDate($rows, 'type', 'amount');
+        return collect(['donations' => $donations_data, 'buzzers' => $buzzer_data]);
+    }
 
-        // Fill in the gaps, as we're after cumulative totals.
-        // For now let's assume that the total will only increase over time.
+    protected function analyticsProcessed(?Collection $rows, int $days): array
+    {
+        $data_rows = array_map(fn ($row) => [
+            'date' => Carbon::parse($row->date),
+            'type' => $row->type,
+            'amount' => $row->amount,
+        ], [...$rows['donations'], ...$rows['buzzers']]);
+
+        $stacked_data = AnalyticsChartFormatter::stackedByDate($data_rows, 'type', 'amount');
+
+        // We're after cumulative totals for these analytics, so we want to fill in the gaps between dates
+        // and include missing dates.
+        // For now, let's assume that the total donation amount will only increase over time.
+
+        $data = [];
+        $end = now()->startOfDay();
+        $cursor = $end->copy()->subDays($days);
+        while ($cursor->lte($end)) {
+            $current_date = $cursor->toISOString();
+            $matching_row = array_find($stacked_data['data'], fn ($row) => $row['date'] === $current_date);
+            $data[$current_date] = ['date' => $current_date, 'd' => $matching_row['d'] ?? 0, 'b' => $matching_row['b'] ?? 0];
+            $cursor->addDay();
+        }
+        ksort($data); // sort by ascending date.
+
         $last = [];
-        foreach ($data['data'] as &$row) {
-            foreach ($data['keys'] as $key) {
+        foreach ($data as &$row) {
+            foreach ($stacked_data['keys'] as $key) {
                 $row[$key] = max($row[$key], $last[$key] ?? 0);
                 $last[$key] = $row[$key];
             }
         }
-        return response()->json($data);
+        $stacked_data['data'] = array_values($data);
+
+        return $stacked_data;
     }
 }

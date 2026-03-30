@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class DestroyTest extends TestCase
+final class DestroyTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -46,7 +46,7 @@ class DestroyTest extends TestCase
     public function test_deletes_act_and_profile(): void
     {
         $this->actingAs($this->user)->deleteJson(sprintf(self::ENDPOINT, $this->act->id));
-        $act         = Act::find($this->act->id);
+        $act = Act::find($this->act->id);
         $act_profile = ActProfile::whereActId($this->act->id)->first();
 
         self::assertNull($act);

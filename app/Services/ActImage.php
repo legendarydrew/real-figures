@@ -7,10 +7,9 @@ use Intervention\Image\Laravel\Facades\Image;
 
 class ActImage
 {
-
     protected function getImageFolder(): string
     {
-        return public_path('img/' . config('contest.images.subfolder'));
+        return public_path('img/'.config('contest.images.subfolder'));
     }
 
     public function path(Act $act): string
@@ -30,16 +29,17 @@ class ActImage
 
         // Save the image.
         Image::read($image)
-             ->scaleDown(...config('contest.images.resize'))
-             ->save($this->path($act));
+            ->scaleDown(...config('contest.images.resize'))
+            ->save($this->path($act));
     }
 
     public function rename(Act $act): void
     {
-        if ($this->exists($act))
-        {
+        if (array_key_exists('slug', $act->getPrevious())) {
             $previous_path = sprintf('%s/%s.png', $this->getImageFolder(), $act->getPrevious()['slug']);
-            rename($previous_path, $this->path($act));
+            if (file_exists($previous_path)) {
+                rename($previous_path, $this->path($act));
+            }
         }
     }
 
@@ -52,5 +52,4 @@ class ActImage
     {
         return file_exists($this->path($act));
     }
-
 }

@@ -7,11 +7,11 @@ use App\Models\Subscriber;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class PurgeUnconfirmedSubscribersTest extends TestCase
+final class PurgeUnconfirmedSubscribersTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_purge_subscribers_before_time()
+    public function test_purge_subscribers_before_time(): void
     {
         Subscriber::factory()->count(5)->confirmed()->create();
         Subscriber::factory()->count(5)->unconfirmed()->create();
@@ -23,13 +23,13 @@ class PurgeUnconfirmedSubscribersTest extends TestCase
         self::assertCount(10, $subscribers);
     }
 
-    public function test_purge_subscribers_after_time()
+    public function test_purge_subscribers_after_time(): void
     {
         Subscriber::factory()->count(5)->confirmed()->create([
-            'created_at' => now()->subDay()
+            'created_at' => now()->subDay(),
         ]);
         Subscriber::factory()->count(5)->unconfirmed()->create([
-            'created_at' => now()->subDay()
+            'created_at' => now()->subDay(),
         ]);
 
         self::travel(1)->second();
@@ -37,6 +37,6 @@ class PurgeUnconfirmedSubscribersTest extends TestCase
 
         $subscribers = Subscriber::all();
         self::assertCount(5, $subscribers);
-        self::assertTrue($subscribers->every(fn(Subscriber $subscriber) => $subscriber->confirmed));
+        self::assertTrue($subscribers->every(fn (Subscriber $subscriber) => $subscriber->confirmed));
     }
 }

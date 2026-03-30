@@ -51,7 +51,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
             new_image: undefined,
             remove_image: false,
             meta: {
-                genres:act?.meta.genres ?? [],
+                genres: act?.meta.genres ?? [],
                 languages: act?.meta.languages ?? [],
                 members: act?.meta.members ?? [],
                 notes: act?.meta.notes ?? [],
@@ -70,22 +70,22 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
     };
 
     const changeSubtitleHandler = (e: ChangeEvent) => {
-        setData((previousData) => ({ ...previousData, subtitle: e.target.value}));
+        setData((previousData) => ({ ...previousData, subtitle: e.target.value }));
         setError({ subtitle: '' });
     };
 
     const changeSlugHandler = (e: ChangeEvent) => {
-        setData((previousData) => ({ ...previousData, slug: e.target.value}));
+        setData((previousData) => ({ ...previousData, slug: e.target.value }));
         setError({ slug: '' });
     };
 
     const fanFavouriteHandler = (checked: boolean) => {
-        setData((previousData) => ({ ...previousData, is_fan_favourite: checked}));
+        setData((previousData) => ({ ...previousData, is_fan_favourite: checked }));
         setError({ is_fan_favourite: '' });
     };
 
     const changeProfileDescriptionHandler = (value: string) => {
-        setData((previousData) => ({ ...previousData, profile: { ...previousData.profile, description: value }})); // a gotcha!
+        setData((previousData) => ({ ...previousData, profile: { ...previousData.profile, description: value } })); // a gotcha!
         setError({ 'profile.description': '' });
     };
 
@@ -95,8 +95,8 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
         // https://stackoverflow.com/a/53129416/4073160
         const reader: FileReader = new FileReader();
         reader.onload = () => {
-            setData((previousData) => ({ ...previousData, new_image: reader.result?.toString()}));
-            setData((previousData) => ({ ...previousData, remove_image: false}));
+            setData((previousData) => ({ ...previousData, new_image: reader.result?.toString() }));
+            setData((previousData) => ({ ...previousData, remove_image: false }));
             setError({ image: '' });
         };
         reader.readAsDataURL(file);
@@ -104,14 +104,15 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
     };
 
     const removeImageHandler = () => {
-        setData((previousData) => ({ ...previousData, image: undefined}));
-        setData((previousData) => ({ ...previousData, new_image: undefined}));
-        setData((previousData) => ({ ...previousData, remove_image: true}));
+        setData((previousData) => ({ ...previousData, image: undefined }));
+        setData((previousData) => ({ ...previousData, new_image: undefined }));
+        setData((previousData) => ({ ...previousData, remove_image: true }));
         setError({ image: '' });
     };
 
     const updateMetaHandler = (column: string, e: any): void => {
-        setData((previousData) => ({ ...previousData, [`meta.${column}`]: e}));
+        const newMeta = { ...data.meta, [column]: e };
+        setData((previousData) => ({  ...previousData, meta: newMeta }));
     };
 
     const cancelHandler = (): void => {
@@ -135,11 +136,6 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
 
         // Remove empty meta information.
         delete formData.image;
-        formData.meta.languages = formData.meta.languages.filter((row) => row?.length);
-        formData.meta.genres = formData.meta.genres.filter((row) => row?.length);
-        formData.meta.members = formData.meta.members.filter((row) => row?.length);
-        formData.meta.notes = formData.meta.notes.filter((row) => row?.length);
-        formData.meta.traits = formData.meta.traits.filter((row) => row?.length);
 
         setIsSaving(true);
 
@@ -147,7 +143,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
             router.patch(route('acts.update', { id: act.id }), formData, {
                 showProgress: true,
                 onSuccess: () => {
-                    RTToast.success(`Act "${act.name}" was updated.`);
+                    RTToast.success(`Act "${(act.name + " " + (act.subtitle ?? "")).trim()}" was updated.`);
                 },
                 onError: setError,
                 onFinish: () => {
@@ -159,7 +155,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
             router.post(route('acts.store'), formData, {
                 showProgress: true,
                 onSuccess: () => {
-                    RTToast.success(`Act "${data.name}" was created.`);
+                    RTToast.success(`Act "${(data.name + " " + (data.subtitle ?? "")).trim()}" was created.`);
                 },
                 onError: setError,
                 onFinish: () => {
@@ -176,7 +172,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
 
             <div className="admin-content">
 
-                <AdminHeader title={isEditing ? 'Edit Act' : 'Create Act'} />
+                <AdminHeader title={isEditing ? 'Edit Act' : 'Create Act'}/>
 
                 <form className="flex flex-col gap-3 px-5" onSubmit={saveHandler}>
 
@@ -193,7 +189,8 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
 
                             <div className="mb-3">
                                 <Label htmlFor="actSubtitle">Act subtitle</Label>
-                                <Input id="actSubtitle" type="text" className="font-bold text-muted-foreground" value={data.subtitle}
+                                <Input id="actSubtitle" type="text" className="font-bold text-muted-foreground"
+                                       value={data.subtitle}
                                        onChange={changeSubtitleHandler}/>
                                 <InputError message={errors.subtitle}/>
                             </div>
@@ -248,7 +245,8 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                     </div>
 
                     {/* Optional Meta information. */}
-                    <HeadingSmall title="Additional information (optional)" description="This information is mostly used to assist AI in generating content."/>
+                    <HeadingSmall title="Additional information (optional)"
+                                  description="This information is mostly used to assist AI in generating content."/>
 
                     <div>
                         <label className="flex gap-2 items-center text-sm font-semibold">
@@ -276,5 +274,5 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                 </form>
             </div>
         </AppLayout>
-);
+    );
 };

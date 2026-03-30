@@ -1,11 +1,13 @@
-import { Bar, BarChart, Tooltip } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Tooltip } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { Nothing } from '@/components/mode/nothing';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
-import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
+import { formatDate } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
 
 
 interface Props {
@@ -13,6 +15,7 @@ interface Props {
 }
 
 export const DonationsDailyAnalytics: React.FC<Props> = ({ days = 7 }) => {
+    const { donation, locale } = usePage().props;
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [chartData, setChartData] = useState<AnalyticsData>();
 
@@ -35,6 +38,21 @@ export const DonationsDailyAnalytics: React.FC<Props> = ({ days = 7 }) => {
             });
     }
 
+    const tooltipContent = ({ active, payload, label }) => {
+        if (active && payload?.length) {
+            return (
+                <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-2">
+                    <span className="display-text text-sm">{formatDate(locale as string, label)}</span>
+                    <span className="flex items-center gap-1 text-xs">
+                        Amount raised: {donation.currency} {payload[0].value.toLocaleString()}
+                    </span>
+                </div>
+            );
+        }
+
+        return null;
+    };
+
     return (
         <section id="analyticsDonationsDaily" className="analytics-section">
             <h2 className="analytics-section-title">Donations by day</h2>
@@ -46,12 +64,13 @@ export const DonationsDailyAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         responsive
                         data={chartData}
                     >
+                        <CartesianGrid strokeDasharray="3 3"/>
                         <ChartDateXAxis/>
-
                         <ChartYAxis label="Amount"/>
 
                         <Bar dataKey="eventValue" fill="var(--chart-3-5)"/>
-                        <Tooltip/>
+                        <ChartRoundReferences/>
+                        <Tooltip content={tooltipContent} isAnimationActive={false}/>
                     </BarChart>
                 ) : (<Nothing>No data available.</Nothing>)}
             </LoadingOverlay>

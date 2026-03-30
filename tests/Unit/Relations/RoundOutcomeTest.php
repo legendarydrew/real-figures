@@ -11,40 +11,40 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class RoundOutcomeTest extends TestCase
+final class RoundOutcomeTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $act  = Act::factory()->create();
+        $act = Act::factory()->create();
         $song = Song::factory()->create(['act_id' => $act->id]);
 
         $stage = Stage::factory()->create();
         $round = Round::factory()->create([
-            'stage_id' => $stage->id
+            'stage_id' => $stage->id,
         ]);
 
         $this->outcome = RoundOutcome::factory()->create([
             'round_id' => $round->id,
-            'song_id'  => $song->id
+            'song_id' => $song->id,
         ]);
     }
 
-    public function test_round_relation()
+    public function test_round_relation(): void
     {
         self::assertInstanceOf(Round::class, $this->outcome->round);
     }
 
-    #[Depends('test_round_relation')] public function test_stage_relation()
+    #[Depends('test_round_relation')]
+    public function test_stage_relation(): void
     {
         self::assertInstanceOf(Stage::class, $this->outcome->stage);
     }
 
-    public function test_song_relation()
+    public function test_song_relation(): void
     {
         self::assertInstanceOf(Song::class, $this->outcome->song);
     }
-
 }

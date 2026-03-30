@@ -9,12 +9,9 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-
 /**
  * DonationConfirmation
  * A thank-you email for making a donation.
- *
- * @package App\Mail
  */
 class DonationConfirmation extends Mailable
 {
@@ -27,7 +24,7 @@ class DonationConfirmation extends Mailable
         $this->$donation = $donation;
 
         $this->viewData = [
-            'donation' => $donation
+            'donation' => $donation,
         ];
     }
 
@@ -50,5 +47,4 @@ class DonationConfirmation extends Mailable
             view: 'email.donation-confirmation',
         );
     }
-
 }

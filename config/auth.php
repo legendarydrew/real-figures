@@ -45,7 +45,7 @@ return [
             'driver' => 'session',
             'provider' => 'users',
             'hash' => false,
-        ]
+        ],
     ],
 
     /*
@@ -100,6 +100,7 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            // something is setting AUTH_PASSWORD_RESET_TOKEN_TABLE to password_resets.
             'expire' => 60,
             'throttle' => 60,
         ],

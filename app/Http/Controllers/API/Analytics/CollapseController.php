@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\Analytics;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\AnalyticsAPIController;
 use App\Support\AnalyticsChartFormatter;
 use Google\Analytics\Data\V1beta\Filter;
 use Google\Analytics\Data\V1beta\FilterExpression;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
@@ -17,16 +17,13 @@ use Spatie\Analytics\Period;
  * We would be interested in:
  * - opened sections per day
  * - which sections were opened, and how many times.
- *
- * @package App\Http\Controllers\API\Analytics
  */
-class CollapseController extends Controller
+class CollapseController extends AnalyticsAPIController
 {
+    public const string CACHE_KEY = 'collapse';
 
-    public function index(): JsonResponse
+    protected function analyticsQuery(int $days): Collection
     {
-        $days = request('days', 7);
-
         // Building on ChatGPT's suggestion.
 
         // Filter results by the event name (in this case, we defined 'collapse_open').
@@ -37,40 +34,41 @@ class CollapseController extends Controller
         //    Event parameter: section_id
         //    Scope: Event
 
-        if (!$rows = \Cache::get('analytics.collapse'))
-        {
-            $filter = new FilterExpression([
-                'filter' => new Filter([
-                    'field_name'    => 'eventName',
-                    'string_filter' => new Filter\StringFilter([
-                        'match_type' => Filter\StringFilter\MatchType::EXACT,
-                        'value'      => 'collapse_open',
-                    ]),
+        $filter = new FilterExpression([
+            'filter' => new Filter([
+                'field_name' => 'eventName',
+                'string_filter' => new Filter\StringFilter([
+                    'match_type' => Filter\StringFilter\MatchType::EXACT,
+                    'value' => 'collapse_open',
                 ]),
-            ]);
+            ]),
+        ]);
 
-            $rows = Analytics::get(
-                period: Period::days($days),
-                metrics: ['eventCount'],
-                dimensions: ['date', 'pageTitle', 'customEvent:section_id'],
-                maxResults: 1000,
-                dimensionFilter: $filter
-            );
+        return Analytics::get(
+            period: Period::days($days),
+            metrics: ['eventCount'],
+            dimensions: ['date', 'pageTitle', 'customEvent:section_id'],
+            maxResults: 1000,
+            dimensionFilter: $filter
+        );
+    }
 
-            \Cache::set('analytics.collapse', $rows, now()->plus(minutes: config('contest.analytics.cache', 60)));
-        }
-
-        $data = AnalyticsChartFormatter::stackedByDate(
+    protected function analyticsProcessed(?Collection $rows, int $days): array
+    {
+        $stacked_data = AnalyticsChartFormatter::stackedByDate(
             $rows,
             'customEvent:section_id'
         );
 
-        $data['table'] = $rows->groupBy('customEvent:section_id')->map(fn($r) => [
-            'page'    => $r->first()['pageTitle'],
+        // Fill in the gaps (dates).
+        $this->fillDateGaps($stacked_data, $days);
+
+        $stacked_data['table'] = $rows->groupBy('customEvent:section_id')->map(fn ($r) => [
+            'page' => $r->first()['pageTitle'],
             'section' => $r->first()['customEvent:section_id'],
-            'count'   => $r->sum('eventCount'),
+            'count' => $r->sum('eventCount'),
         ])->sortByDesc('count')->values();
 
-        return response()->json($data);
+        return $stacked_data;
     }
 }

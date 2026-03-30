@@ -23,10 +23,10 @@ class SongRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'act_id'   => ['required', 'exists:acts,id'],
-            'title'    => ['required', 'string'],
+            'act_id' => ['required', 'exists:acts,id'],
+            'title' => ['required', 'string'],
             'language' => ['required', 'string', 'min:2', 'max:2', 'exists:languages,code'],
-            'url'      => ['nullable', 'string', 'url'],
+            'url' => ['nullable', 'string', 'url'],
         ];
     }
 }

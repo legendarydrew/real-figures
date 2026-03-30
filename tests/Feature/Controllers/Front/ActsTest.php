@@ -6,18 +6,18 @@ use App\Models\Act;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ActsTest extends TestCase
+final class ActsTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_no_acts()
+    public function test_no_acts(): void
     {
         $response = $this->get(route('acts'));
 
         $response->assertNotFound();
     }
 
-    public function test_no_acts_with_songs()
+    public function test_no_acts_with_songs(): void
     {
         Act::factory(2)->create();
         $response = $this->get(route('acts'));
@@ -25,7 +25,7 @@ class ActsTest extends TestCase
         $response->assertNotFound();
     }
 
-    public function test_acts_with_songs()
+    public function test_acts_with_songs(): void
     {
         Act::factory(2)->withSong('Test')->create();
         $response = $this->get(route('acts'));
@@ -34,5 +34,4 @@ class ActsTest extends TestCase
         $response->assertViewIs('front.acts');
         $response->assertViewHas('acts');
     }
-
 }

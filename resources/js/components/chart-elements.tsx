@@ -1,7 +1,6 @@
 import { LabelProps, ReferenceLine, XAxis, YAxis } from 'recharts';
 import { usePage } from '@inertiajs/react';
-import { RefObject, useEffect, useRef } from 'react';
-import { cssVar, formatDate } from '@/lib/utils';
+import { cssVar, formatDate, formatDateHour } from '@/lib/utils';
 
 export const ChartDateXAxis: React.FC = () => {
     const { locale } = usePage().props;
@@ -17,7 +16,7 @@ export const ChartTimeXAxis: React.FC = () => {
 
     return (
         <XAxis dataKey="time" type="category"
-               tickFormatter={(ts) => formatDate(locale, ts)} fontSize={10}/>
+               tickFormatter={(ts) => formatDateHour(locale, ts)} fontSize={10}/>
     )
 };
 
@@ -33,25 +32,16 @@ export const ChartTimeXAxis: React.FC = () => {
  * @constructor
  */
 function ChartReference(label, colour, props) {
-    const text = useRef(null);
-    const boxWidth: RefObject<number> = useRef<number>(0);
-    const boxHeight: RefObject<number> = useRef<number>(16);
-
-    useEffect(() => {
-        if (text.current) {
-            boxWidth.current = text.current.scrollWidth + props.offset * 2;
-        }
-    }, [text, props.offset]);
-
     return (
         <g transform={`translate(${props.viewBox.x - props.offset},${props.viewBox.height - props.offset})rotate(${props.angle})`}>
-            <rect fill={colour} opacity={0.75} x={-props.offset} y={-props.offset * 2}
-                  width={boxWidth.current} height={boxHeight.current}></rect>
-            <text ref={text} fontSize={props.fontSize} fontWeight="bold" fill="#FFF">{label}</text>
+            <text fontSize={props.fontSize} fontWeight="bold" fill={colour}>{label}</text>
         </g>);
-};
+}
 
-export const ChartRoundReferences: React.FC = () => {
+export const ChartRoundReferences: React.FC<{ yAxis?: string, position: 'start' | 'middle' | 'end' }> = ({
+                                                                                                             yAxis,
+                                                                                                             position = 'middle'
+                                                                                                         }) => {
     const { markers } = usePage().props;
 
     const formatReferenceLine = (label, colour) => ({
@@ -67,17 +57,20 @@ export const ChartRoundReferences: React.FC = () => {
 
     return markers && (<>
             {markers.stages.map((stage) => (
-                <ReferenceLine key={stage.name} x={stage.start} stroke="red" strokeWidth={2}
+                <ReferenceLine key={stage.name} x={stage.start} stroke="red" strokeWidth={2} yAxisId={yAxis}
+                               position={position}
                                label={formatReferenceLine(stage.name, 'red')}/>
             ))}
             {markers.rounds.map((round) => (
-                <ReferenceLine key={round.name} x={round.date}
+                <ReferenceLine key={round.name} x={round.date} yAxisId={yAxis}
+                               position={position}
                                stroke="var(--secondary)"
                                strokeWidth={2}
                                label={formatReferenceLine(round.name, cssVar('--secondary'))}></ReferenceLine>
             ))}
             {markers.over && (
-                <ReferenceLine x={markers.over} stroke="blue" strokeWidth={2}
+                <ReferenceLine x={markers.over} stroke="blue" strokeWidth={2} yAxisId={yAxis}
+                               position={position}
                                label={formatReferenceLine('Contest over', 'blue')}></ReferenceLine>
             )}
         </>
@@ -88,10 +81,11 @@ export const ChartYAxis: React.FC = ({ label, ...props }) => {
     const labelProps: LabelProps = {
         value: label,
         angle: -90,
+        dx: props.orientation === 'right' ? 12 : -12,
         fontSize: 12,
         fontWeight: 'bold',
-        fill: 'var(--foreground)'
+        fill: props.fill ?? 'var(--foreground)'
     };
-    return (<YAxis fontSize={10} allowDecimals={false} label={labelProps} {...props} />)
+    return (<YAxis type="number" fontSize={10} allowDecimals={false} label={labelProps} {...props} />)
 };
 

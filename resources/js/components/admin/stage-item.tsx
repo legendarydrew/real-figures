@@ -6,7 +6,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { StageStatusTag } from '@/components/mode/stage-status-tag';
 import { StageRoundItem } from '@/components/admin/stage-round-item';
 import { router } from '@inertiajs/react';
-import toast from 'react-hot-toast';
+import { RTToast } from '@/components/mode/toast-message';
 
 interface StageItemProps {
     stage: Stage;
@@ -37,7 +37,7 @@ export const StageItem: React.FC<StageItemProps> = ({
     const manualVoteHandler = () => {
         router.get(route('stages.manual-vote.show', { id: stage.id }), {}, {
             onError: (response) => {
-                toast.error(response[0]);
+                RTToast.error(response[0]);
             }
         });
     }
@@ -101,8 +101,8 @@ export const StageItem: React.FC<StageItemProps> = ({
                             <Vote/>
                         </Button>}
                     {stage.winners.length ? (
-                        <Button type="button" variant="default" className="p-2 cursor-pointer"
-                                onClick={showResultsHandler}>
+                        <Button type="button" variant="primary" className="p-2 cursor-pointer"
+                                onClick={showResultsHandler} title="Results">
                             <Award/>
                         </Button>) : ''}
                 </div>

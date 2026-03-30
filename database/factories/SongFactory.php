@@ -21,44 +21,37 @@ class SongFactory extends Factory
      */
     public function definition(): array
     {
-        if (fake()->boolean(80))
-        {
+        if (fake()->boolean(80)) {
             $language = Language::whereCode('en')->first();
-        }
-        else
-        {
+        } else {
             $language = Language::inRandomOrder()->first();
         }
         $language = $language ?? Language::factory()->createOne();
 
         return [
-            'title'       => config('contest.song.default-title'),
-            'language_id' => $language->id
+            'title' => config('contest.song.default-title'),
+            'language_id' => $language->id,
         ];
     }
 
     public function withAct(): SongFactory
     {
-        return $this->state(function ()
-        {
+        return $this->state(function () {
             return ['act_id' => Act::factory()];
         });
     }
 
     public function withGoldenBuzzer(): SongFactory
     {
-        return $this->afterCreating(function (Song $song)
-        {
+        return $this->afterCreating(function (Song $song) {
             $song->setGoldenBuzzerStatus(true);
         });
     }
 
     public function withUrl(int $chance = 100): SongFactory
     {
-        return $this->afterCreating(function (Song $song) use ($chance)
-        {
-            if (fake()->boolean($chance))
-            {
+        return $this->afterCreating(function (Song $song) use ($chance) {
+            if (fake()->boolean($chance)) {
                 SongUrl::factory()->for($song)->create();
             }
         });
@@ -66,14 +59,12 @@ class SongFactory extends Factory
 
     public function withPlays(): SongFactory
     {
-        return $this->afterCreating(function (Song $song)
-        {
+        return $this->afterCreating(function (Song $song) {
             $date = now()->subDays(fake()->numberBetween(1, 10));
-            while ($date <= now())
-            {
+            while ($date <= now()) {
                 SongPlay::create([
-                    'song_id'    => $song->id,
-                    'played_on'  => $date->format('Y-m-d'),
+                    'song_id' => $song->id,
+                    'played_on' => $date->format('Y-m-d'),
                     'play_count' => fake()->numberBetween(1, 100),
                 ]);
                 $date->addDay();

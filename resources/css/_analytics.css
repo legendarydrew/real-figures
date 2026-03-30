@@ -1,3 +1,7 @@
 .analytics-section-title {
     @apply display-text text-lg my-4;
 }
+
+.analytics-section-scroll {
+    @apply overflow-auto border px-4 lg:col-span-2 lg:max-h-70;
+}

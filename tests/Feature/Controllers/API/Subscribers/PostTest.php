@@ -11,14 +11,13 @@ use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class PostTest extends TestCase
+final class PostTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected const string ENDPOINT = 'api/subscribers/post';
 
     private array $payload;
-
 
     protected function setUp(): void
     {
@@ -29,24 +28,24 @@ class PostTest extends TestCase
 
         $this->payload = [
             'title' => fake()->sentence(),
-            'body'  => fake()->markdown(),
+            'body' => fake()->markdown(),
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertCreated();
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_subscriber_post()
+    public function test_creates_subscriber_post(): void
     {
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
 
@@ -58,7 +57,7 @@ class PostTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_without_subscribers()
+    public function test_without_subscribers(): void
     {
         self::assertEquals(0, Subscriber::count());
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -67,12 +66,23 @@ class PostTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_with_subscribers()
+    public function test_with_subscribers(): void
     {
         Subscriber::factory()->count(10)->confirmed()->create();
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertJsonPath('subscribers', 10);
         Mail::assertSent(SubscriberPostMessage::class);
         Mail::assertOutgoingCount(10);
+    }
+
+    #[Depends('test_as_user')]
+    public function test_only_confirmed_subscribers(): void
+    {
+        Subscriber::factory()->count(4)->unconfirmed()->create();
+        Subscriber::factory()->count(2)->confirmed()->create();
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response->assertJsonPath('subscribers', 2);
+        Mail::assertSent(SubscriberPostMessage::class);
+        Mail::assertOutgoingCount(2);
     }
 }

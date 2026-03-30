@@ -14,19 +14,19 @@ return [
      * may be left empty to use Fractal's default one. This can either be a
      * string or a League\Fractal\Paginator\PaginatorInterface subclass.
      */
-    'default_paginator'  => '',
+    'default_paginator' => '',
 
     /*
      * League\Fractal\Serializer\JsonApiSerializer will use this value
      * as a prefix for generated links. Set to `null` to disable this.
      */
-    'base_url'           => null,
+    'base_url' => null,
 
     /*
      * If you wish to override or extend the default Spatie\Fractal\Fractal
      * instance provide the name of the class you want to use.
      */
-    'fractal_class'      => Spatie\Fractal\Fractal::class,
+    'fractal_class' => Spatie\Fractal\Fractal::class,
 
     'auto_includes' => [
 
@@ -34,7 +34,7 @@ return [
          * If enabled Fractal will automatically add the includes who's
          * names are present in the `include` request parameter.
          */
-        'enabled'     => true,
+        'enabled' => true,
 
         /*
          * The name of key in the request to where we should look for the includes to include.
@@ -48,7 +48,7 @@ return [
          * If enabled Fractal will automatically add the excludes who's
          * names are present in the `exclude` request parameter.
          */
-        'enabled'     => true,
+        'enabled' => true,
 
         /*
          * The name of key in the request to where we should look for the excludes to exclude.
@@ -64,7 +64,7 @@ return [
          *
          * NOTE: This feature does not work if the "resource name" is not set.
          */
-        'enabled'     => false,
+        'enabled' => false,
 
         /*
          * The name of key in the request, where we should look for the fieldsets to parse.

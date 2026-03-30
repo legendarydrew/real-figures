@@ -2,29 +2,32 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Spatie\Feed\Feedable;
+use Spatie\Feed\FeedItem;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class NewsPost extends Model
+#[Guarded(['id', 'created_at', 'updated_at'])]
+class NewsPost extends Model implements Feedable
 {
-    /** @use HasFactory<\Database\Factories\NewsPostFactory> */
     use HasFactory;
+
+    /** @use HasFactory<\Database\Factories\NewsPostFactory> */
     use HasSlug;
 
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-                          ->generateSlugsFrom('title')
-                          ->saveSlugsTo('slug');
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug');
     }
-
-    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     public function getDates(): array
     {
@@ -39,6 +42,7 @@ class NewsPost extends Model
     public function getExcerptAttribute(): string
     {
         $text_content = strip_tags(Str::markdown($this->content));
+
         return Str::words($text_content, 20);
     }
 
@@ -54,20 +58,16 @@ class NewsPost extends Model
 
     /**
      * Returns the first published NewsPost before this one.
-     *
-     * @return NewsPost|null
      */
-    public function previousPost(): NewsPost|null
+    public function previousPost(): ?NewsPost
     {
         return NewsPost::published()->where('id', '<', $this->id)->orderByDesc('id')->first();
     }
 
     /**
      * Returns the first published NewsPost after this one.
-     *
-     * @return NewsPost|null
      */
-    public function nextPost(): NewsPost|null
+    public function nextPost(): ?NewsPost
     {
         return NewsPost::published()->where('id', '>', $this->id)->orderBy('id')->first();
     }
@@ -78,17 +78,37 @@ class NewsPost extends Model
      *
      * @return Collection<NewsPost>|null
      */
-    public function otherRecentPosts(): Collection|null
+    public function otherRecentPosts(): ?Collection
     {
         return NewsPost::published()
-                       ->wherenotIn('id', [$this->id, $this->previousPost()?->id, $this->nextPost()?->id])
-                       ->orderByDesc('id')
-                       ->take(4)
-                       ->get();
+            ->wherenotIn('id', [$this->id, $this->previousPost()?->id, $this->nextPost()?->id])
+            ->orderByDesc('id')
+            ->take(4)
+            ->get();
     }
 
+    /**
+     * Returns a list of Acts mentioned (by name) in this News post.
+     */
     public function actsMentioned(): Collection
     {
-        return Act::get()->filter(fn(Act $act) => str_contains(strtolower($this->content), strtolower($act->name)));
+        return Act::get()->filter(fn (Act $act) => str_contains(strtolower($this->content), strtolower($act->name)));
+    }
+
+    public function toFeedItem(): FeedItem
+    {
+        return FeedItem::create()
+            ->id($this->id)
+            ->title($this->title)
+            ->summary($this->excerpt)
+            ->updated($this->updated_at)
+            ->link($this->url)
+            ->authorName(config('contest.feed.author'))
+            ->authorEmail(config('contest.feed.email'));
+    }
+
+    public static function getFeedItems()
+    {
+        return NewsPost::published()->get();
     }
 }

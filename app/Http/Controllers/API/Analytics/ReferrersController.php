@@ -2,50 +2,44 @@
 
 namespace App\Http\Controllers\API\Analytics;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\API\AnalyticsAPIController;
+use Illuminate\Support\Collection;
 use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
 /**
  * ReferrersController
  * This returns analytics data about where Visitors came from, in terms of site links.
- *
- * @package App\Http\Controllers\API\Analytics
  */
-class ReferrersController extends Controller
+class ReferrersController extends AnalyticsAPIController
 {
+    const string CACHE_KEY = 'referrers';
 
-    public function index(): JsonResponse
+    protected function analyticsQuery(int $days): Collection
     {
-        $days = request('days', 7);
+        return Analytics::fetchTopReferrers(
+            period: Period::days($days),
+            maxResults: 1000
+        );
+    }
 
-        if (!$rows = \Cache::get('analytics.referrers'))
-        {
-            $rows = Analytics::fetchTopReferrers(
-                period: Period::days($days),
-                maxResults: 1000
-            );
-
-            \Cache::set('analytics.referrers', $rows, now()->plus(minutes: config('contest.analytics.cache', 60)));
-        }
-
+    protected function analyticsProcessed(?Collection $rows, int $days): array
+    {
         // Take the top x items, and group the others under 'Other'.
-        $top   = $rows->take(12);
+        $top = $rows->take(12);
         $other = $rows->slice($top->count());
 
-        $data = $top->map(fn($r) => [
+        $data = $top->map(fn ($r) => [
             'referrer' => $r['pageReferrer'],
-            'count'    => $r['screenPageViews'],
+            'count' => $r['screenPageViews'],
         ])->values();
-        if ($other->isNotEmpty())
-        {
+        if ($other->isNotEmpty()) {
             $data->add([
                 'referrer' => 'Other',
-                'count'    => $other->sum('screenPageViews'),
+                'count' => $other->sum('screenPageViews'),
             ]);
         }
 
-        return response()->json($data);
+        return $data->toArray();
     }
 }

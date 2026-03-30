@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use Tests\TestCase;
 
-class ExistsTest extends TestCase
+final class ExistsTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -22,7 +22,7 @@ class ExistsTest extends TestCase
         $this->act = Act::factory()->createOne();
     }
 
-    public function test_existing_image()
+    public function test_existing_image(): void
     {
         $path = ActImageFacade::path($this->act);
         touch($path);
@@ -30,9 +30,8 @@ class ExistsTest extends TestCase
         self::assertTrue(ActImageFacade::exists($this->act));
     }
 
-    public function test_non_existent_image()
+    public function test_non_existent_image(): void
     {
         self::assertFalse(ActImageFacade::exists($this->act));
     }
-
 }

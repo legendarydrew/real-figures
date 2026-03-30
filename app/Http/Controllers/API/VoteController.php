@@ -8,6 +8,13 @@ use App\Models\Round;
 use App\Models\RoundVote;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * VoteController
+ * Cast a vote for Songs in their respective Round.
+ * Originally Visitors would be asked for their top three Songs, but ChatGPT suggested
+ * a lower-friction option of voting for up to three Songs. The scoring will remain
+ * the same.
+ */
 class VoteController extends Controller
 {
     //
@@ -19,26 +26,25 @@ class VoteController extends Controller
         // Perform additional checks!
 
         $round = Round::with('songs')->findOrFail($data['round_id']);
-        if (!$round->hasStarted() || $round->hasEnded())
-        {
+        if (! $round->hasStarted() || $round->hasEnded()) {
             abort(400, 'Invalid round.');
         }
 
-        $song_votes     = [$data['first_choice_id'], $data['second_choice_id'], $data['third_choice_id']];
+        $song_votes     = collect([$data['first_choice_id'], $data['second_choice_id'], $data['third_choice_id']])
+            ->filter(fn($choice) => !is_null($choice));
         $round_song_ids = $round->songs->pluck('id')->toArray();
-        foreach ($song_votes as $song_vote)
+        if (!$song_votes->every(fn($song_vote) => in_array($song_vote, $round_song_ids)))
         {
-            if (!in_array($song_vote, $round_song_ids))
-            {
-                abort(400, 'An invalid song was chosen.');
-            }
+            abort(400, 'An invalid Song was chosen.');
         }
+
+        $choices = $song_votes->toArray();
 
         RoundVote::create([
             'round_id'         => $round->id,
-            'first_choice_id'  => $data['first_choice_id'],
-            'second_choice_id' => $data['second_choice_id'],
-            'third_choice_id'  => $data['third_choice_id'],
+            'first_choice_id'  => $choices[0],
+            'second_choice_id' => $choices[1] ?? null,
+            'third_choice_id'  => $choices[2] ?? null,
         ]);
 
         return response()->json(null, 201);

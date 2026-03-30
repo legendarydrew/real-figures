@@ -22,5 +22,4 @@ class ActProfileFactory extends Factory
             'description' => fake()->markdown(),
         ];
     }
-
 }

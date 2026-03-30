@@ -13,22 +13,24 @@ use App\Http\Controllers\API\Analytics\DonationsTotalController;
 use App\Http\Controllers\API\Analytics\GoldenBuzzersMadeController;
 use App\Http\Controllers\API\Analytics\OperatingSystemsController;
 use App\Http\Controllers\API\Analytics\OutboundController;
-use App\Http\Controllers\API\Analytics\PagesController;
+use App\Http\Controllers\API\Analytics\PagesViewedController;
 use App\Http\Controllers\API\Analytics\PageViewsController;
 use App\Http\Controllers\API\Analytics\PlatformController;
-use App\Http\Controllers\API\Analytics\PlaysController;
 use App\Http\Controllers\API\Analytics\ReferrersController;
 use App\Http\Controllers\API\Analytics\SongPlaysController;
+use App\Http\Controllers\API\Analytics\SongsPlayedController;
 use App\Http\Controllers\API\Analytics\SubscribersController;
 use App\Http\Controllers\API\Analytics\UserTypesController;
 use App\Http\Controllers\API\Analytics\ViewportController;
+use App\Http\Controllers\API\Analytics\VoteChoicesController;
 use App\Http\Controllers\API\Analytics\VotesController;
-use App\Http\Controllers\API\BuzzerController;
 use App\Http\Controllers\API\ContactMessagesController;
 use App\Http\Controllers\API\ContactMessagesRespondController;
 use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\GoldenBuzzerBreakdownController;
+use App\Http\Controllers\API\GoldenBuzzerController;
 use App\Http\Controllers\API\LanguagesController;
+use App\Http\Controllers\API\NewsGenerateController;
 use App\Http\Controllers\API\NewsPromptController;
 use App\Http\Controllers\API\SongController;
 use App\Http\Controllers\API\SongPlayController;
@@ -39,6 +41,7 @@ use App\Http\Controllers\API\StageRoundsController;
 use App\Http\Controllers\API\StageVotesController;
 use App\Http\Controllers\API\StageWinnersController;
 use App\Http\Controllers\API\SubscriberPostController;
+use App\Http\Controllers\API\SubscribersController as SubscribersAPIController;
 use App\Http\Controllers\API\VoteController;
 use App\Http\Controllers\Back\NewsController;
 use Illuminate\Support\Facades\Route;
@@ -46,20 +49,18 @@ use Illuminate\Support\Facades\Route;
 // ----------------------------------------------------------------------------
 // API endpoints.
 // ----------------------------------------------------------------------------
-Route::prefix('/api')->group(function ()
-{
+Route::prefix('/api')->group(function () {
     // Routes accessible without authentication.
     Route::post('donation', [DonationController::class, 'store']);
-    Route::post('golden-buzzer', [BuzzerController::class, 'store']);
+    Route::post('golden-buzzer', [GoldenBuzzerController::class, 'store']);
     Route::get('languages', [LanguagesController::class, 'index'])->name('languages');
     Route::post('messages', [ContactMessagesController::class, 'store']);
     Route::put('songs/{id}/play', [SongPlayController::class, 'update'])->name('play');
-    Route::post('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'store'])->name('subscribe');
+    Route::post('subscribers', [SubscribersAPIController::class, 'store'])->name('subscribe');
     Route::post('vote', [VoteController::class, 'store'])->name('vote');
 
     // Routes accessible with authentication.
-    Route::middleware(['auth', 'verified'])->group(function ()
-    {
+    Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('acts', [ActController::class, 'index']);
         Route::get('acts/{id}', [ActController::class, 'show'])->name('acts.show');
         Route::post('acts', [ActController::class, 'store'])->name('acts.store');
@@ -79,19 +80,20 @@ Route::prefix('/api')->group(function ()
         Route::get('analytics/os', [OperatingSystemsController::class, 'index'])->name('analytics.os');
         Route::get('analytics/outbound', [OutboundController::class, 'index'])->name('analytics.outbound');
         Route::get('analytics/page-views', [PageViewsController::class, 'index'])->name('analytics.page-views');
-        Route::get('analytics/pages', [PagesController::class, 'index'])->name('analytics.pages');
+        Route::get('analytics/pages', [PagesViewedController::class, 'index'])->name('analytics.pages');
         Route::get('analytics/platform', [PlatformController::class, 'index'])->name('analytics.platform');
-        Route::get('analytics/plays', [PlaysController::class, 'index'])->name('analytics.plays');
+        Route::get('analytics/plays', [SongPlaysController::class, 'index'])->name('analytics.plays');
         Route::get('analytics/referrers', [ReferrersController::class, 'index'])->name('analytics.referrers');
-        Route::get('analytics/songs', [SongPlaysController::class, 'index'])->name('analytics.songs');
+        Route::get('analytics/songs', [SongsPlayedController::class, 'index'])->name('analytics.songs');
         Route::get('analytics/subscribers', [SubscribersController::class, 'index'])->name('analytics.subscribers');
         Route::get('analytics/user-types', [UserTypesController::class, 'index'])->name('analytics.user-types');
         Route::get('analytics/viewports', [ViewportController::class, 'index'])->name('analytics.viewports');
         Route::get('analytics/votes', [VotesController::class, 'index'])->name('analytics.votes');
+        Route::get('analytics/votes/choices', [VoteChoicesController::class, 'index'])->name('analytics.vote-choices');
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
 
-        Route::post('news/generate', [\App\Http\Controllers\API\NewsGenerateController::class, 'store'])->name('news.generate');
+        Route::post('news/generate', [NewsGenerateController::class, 'store'])->name('news.generate');
         Route::post('news/prompt', [NewsPromptController::class, 'store'])->name('news.prompt');
 
         Route::post('news', [NewsController::class, 'store'])->name('news.store');
@@ -118,7 +120,7 @@ Route::prefix('/api')->group(function ()
         Route::get('stages/{id}/votes', [StageVotesController::class, 'show'])->name('stages.votes');
         Route::post('stages/{id}/winners', [StageWinnersController::class, 'store'])->name('stages.winners');
 
-        Route::delete('subscribers', [\App\Http\Controllers\API\SubscribersController::class, 'destroy'])->name('subscribers.destroy');
+        Route::delete('subscribers', [SubscribersAPIController::class, 'destroy'])->name('subscribers.destroy');
         Route::post('subscribers/post', [SubscriberPostController::class, 'store'])->name('subscribers.post');
     });
 });

@@ -8,36 +8,37 @@ use App\Models\Genre;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GenresTest extends TestCase
+final class GenresTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected const string ENDPOINT = '/api/acts/%u';
 
-    private Act   $act;
+    private Act $act;
+
     private array $payload;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->act     = Act::factory()->createOne();
+        $this->act = Act::factory()->createOne();
         $this->payload = [
             'name' => fake()->name,
             'meta' => [
-                'genres' => ['Pop', 'Rock']
-            ]
+                'genres' => ['Pop', 'Rock'],
+            ],
         ];
 
         // Create some genres.
         Genre::factory()->createMany([
             ['name' => 'Pop'],
             ['name' => 'Rock'],
-            ['name' => 'Jazz']
+            ['name' => 'Jazz'],
         ]);
     }
 
-    public function test_adds_meta_genres()
+    public function test_adds_meta_genres(): void
     {
         $this->payload['meta']['genres'] = ['Pop', 'Rock'];
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
@@ -50,7 +51,7 @@ class GenresTest extends TestCase
         self::assertEquals(['Pop', 'Rock'], $genres);
     }
 
-    public function test_creates_new_genres()
+    public function test_creates_new_genres(): void
     {
         $this->payload['meta']['genres'] = ['latin', 'blues', 'hip hop'];
         $response = $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
@@ -63,14 +64,13 @@ class GenresTest extends TestCase
         self::assertEquals(['Latin', 'Blues', 'Hip Hop'], $genres);
     }
 
-    public function test_replace_meta_genres()
+    public function test_replace_meta_genres(): void
     {
         $genre_ids = fake()->randomElements(Genre::pluck('id')->toArray(), 2);
-        foreach ($genre_ids as $genre_id)
-        {
+        foreach ($genre_ids as $genre_id) {
             ActMetaGenre::create([
-                'act_id'   => $this->act->id,
-                'genre_id' => $genre_id
+                'act_id' => $this->act->id,
+                'genre_id' => $genre_id,
             ]);
         }
 
@@ -81,20 +81,18 @@ class GenresTest extends TestCase
         self::assertCount(count($this->payload['meta']['genres']), $this->act->genres);
 
         $saved_genres = $this->act->genres->pluck('name')->toArray();
-        foreach ($this->payload['meta']['genres'] as $genre)
-        {
+        foreach ($this->payload['meta']['genres'] as $genre) {
             self::assertContains($genre, $saved_genres);
         }
     }
 
-    public function test_preserve_meta_languages()
+    public function test_preserve_meta_genres(): void
     {
         $genre_ids = fake()->randomElements(Genre::pluck('id')->toArray(), 2);
-        foreach ($genre_ids as $genre_id)
-        {
+        foreach ($genre_ids as $genre_id) {
             ActMetaGenre::create([
-                'act_id'   => $this->act->id,
-                'genre_id' => $genre_id
+                'act_id' => $this->act->id,
+                'genre_id' => $genre_id,
             ]);
         }
 
@@ -107,10 +105,19 @@ class GenresTest extends TestCase
         self::assertCount(count($this->payload['meta']['genres']), $this->act->genres);
 
         $saved_genres = $this->act->genres->pluck('name')->toArray();
-        foreach ($this->payload['meta']['genres'] as $genre)
-        {
+        foreach ($this->payload['meta']['genres'] as $genre) {
             self::assertContains($genre, $saved_genres);
         }
     }
 
+    public function test_removes_meta_genres(): void
+    {
+        $this->payload['meta'] = [
+            'genres' => [],
+        ];
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+
+        $this->act->refresh();
+        self::assertCount(count($this->payload['meta']['genres']), $this->act->genres);
+    }
 }

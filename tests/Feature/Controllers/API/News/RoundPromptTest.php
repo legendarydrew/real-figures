@@ -9,7 +9,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class RoundPromptTest extends TestCase
+final class RoundPromptTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -20,31 +20,31 @@ class RoundPromptTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $stage         = Stage::factory()->createOne();
+        $stage = Stage::factory()->createOne();
         $round = Round::factory()->for($stage)->withSongs()->started()->createOne();
         $this->payload = [
-            'type'       => NewsPostType::ROUND_POST_TYPE->value,
-            'references' => [$round->id]
+            'type' => NewsPostType::ROUND_POST_TYPE->value,
+            'references' => [$round->id],
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_round_prompt()
+    public function test_round_prompt(): void
     {
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
     }
 
-    public function test_round_prompt_with_previous_post()
+    public function test_round_prompt_with_previous_post(): void
     {
-        $post                      = NewsPost::factory()->createOne();
+        $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
-        $response                  = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
 
         $prompt = $response->json('prompt');
@@ -53,21 +53,21 @@ class RoundPromptTest extends TestCase
 
     }
 
-    public function test_round_prompt_with_additional_prompt()
+    public function test_round_prompt_with_additional_prompt(): void
     {
         $this->payload['prompt'] = fake()->paragraph();
-        $response                = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
 
         $prompt = $response->json('prompt');
         self::assertTrue(str_contains($prompt, $this->payload['prompt']));
     }
 
-    public function test_all_placeholders_filled()
+    public function test_all_placeholders_filled(): void
     {
-        $post                      = NewsPost::factory()->createOne();
+        $post = NewsPost::factory()->createOne();
         $this->payload['previous'] = $post->id;
-        $this->payload['prompt']   = fake()->paragraph();
+        $this->payload['prompt'] = fake()->paragraph();
 
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
@@ -77,56 +77,56 @@ class RoundPromptTest extends TestCase
         self::assertCount(0, $matches[0]);
     }
 
-    public function test_invalid_round()
+    public function test_invalid_round(): void
     {
         $this->payload['references'] = [404];
-        $response                    = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertNotFound();
     }
 
-    public function test_invalid_previous_post()
+    public function test_invalid_previous_post(): void
     {
         $this->payload['previous'] = [404];
-        $response                  = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnprocessable();
     }
 
-    public function test_round_with_no_songs()
+    public function test_round_with_no_songs(): void
     {
-        $stage                       = Stage::factory()->createOne();
-        $round                       = Round::factory()->for($stage)->createOne();
+        $stage = Stage::factory()->createOne();
+        $round = Round::factory()->for($stage)->createOne();
         $this->payload['references'] = [$round->id];
-        $response                    = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertNotFound();
     }
 
-    public function test_round_not_started()
+    public function test_round_not_started(): void
     {
-        $stage                       = Stage::factory()->createOne();
-        $round                       = Round::factory()->for($stage)->withSongs()->createOne([
+        $stage = Stage::factory()->createOne();
+        $round = Round::factory()->for($stage)->withSongs()->createOne([
             'starts_at' => now()->addDay(),
         ]);
         $this->payload['references'] = [$round->id];
-        $response                    = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
         // This should be okay, because we might want to announce a Round before it begins.
     }
 
-    public function test_ended_round_with_no_outcomes()
+    public function test_ended_round_with_no_outcomes(): void
     {
-        $stage                       = Stage::factory()->createOne();
-        $round                       = Round::factory()->for($stage)->withSongs()->ended()->createOne();
+        $stage = Stage::factory()->createOne();
+        $round = Round::factory()->for($stage)->withSongs()->ended()->createOne();
         $this->payload['references'] = [$round->id];
-        $response                    = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
     }
 
-    public function test_ended_round_with_outcomes()
+    public function test_ended_round_with_outcomes(): void
     {
-        $stage                       = Stage::factory()->createOne();
-        $round                       = Round::factory()->for($stage)->withSongs()->ended()->withOutcomes()->createOne();
+        $stage = Stage::factory()->createOne();
+        $round = Round::factory()->for($stage)->withSongs()->ended()->withOutcomes()->createOne();
         $this->payload['references'] = [$round->id];
-        $response                    = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $response->assertOk();
     }
 }

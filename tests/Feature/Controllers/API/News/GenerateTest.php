@@ -10,29 +10,30 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GenerateTest extends TestCase
+final class GenerateTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected const string ENDPOINT = 'api/news/generate';
+
     private array $payload;
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $this->payload = [
-            'type'   => NewsPostType::CUSTOM_POST_TYPE->value,
-            'prompt' => fake()->sentence()
+            'type' => NewsPostType::CUSTOM_POST_TYPE->value,
+            'prompt' => fake()->sentence(),
         ];
 
         $response = $this->postJson(self::ENDPOINT, $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_contest_prompt()
+    public function test_contest_prompt(): void
     {
         $this->payload = [
-            'type'   => NewsPostType::CONTEST_POST_TYPE->value,
-            'prompt' => fake()->sentence()
+            'type' => NewsPostType::CONTEST_POST_TYPE->value,
+            'prompt' => fake()->sentence(),
         ];
 
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -43,13 +44,13 @@ class GenerateTest extends TestCase
         self::assertCount(0, $post->references);
     }
 
-    public function test_stage_prompt()
+    public function test_stage_prompt(): void
     {
-        $stage         = Stage::factory()->createOne();
+        $stage = Stage::factory()->createOne();
         $this->payload = [
-            'type'       => NewsPostType::STAGE_POST_TYPE->value,
-            'prompt'     => fake()->sentence(),
-            'references' => [$stage->id]
+            'type' => NewsPostType::STAGE_POST_TYPE->value,
+            'prompt' => fake()->sentence(),
+            'references' => [$stage->id],
         ];
 
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -60,14 +61,14 @@ class GenerateTest extends TestCase
         self::assertCount(1, $post->references);
     }
 
-    public function test_round_prompt()
+    public function test_round_prompt(): void
     {
-        $stage         = Stage::factory()->createOne();
-        $round         = Round::factory()->for($stage)->createOne();
+        $stage = Stage::factory()->createOne();
+        $round = Round::factory()->for($stage)->createOne();
         $this->payload = [
-            'type'       => NewsPostType::ROUND_POST_TYPE->value,
-            'prompt'     => fake()->sentence(),
-            'references' => [$round->id]
+            'type' => NewsPostType::ROUND_POST_TYPE->value,
+            'prompt' => fake()->sentence(),
+            'references' => [$round->id],
         ];
 
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -78,13 +79,13 @@ class GenerateTest extends TestCase
         self::assertCount(1, $post->references);
     }
 
-    public function test_act_prompt()
+    public function test_act_prompt(): void
     {
-        $acts          = Act::factory(4)->create();
+        $acts = Act::factory(4)->create();
         $this->payload = [
-            'type'       => NewsPostType::ACT_POST_TYPE->value,
-            'prompt'     => fake()->sentence(),
-            'references' => $acts->pluck('id')->toArray()
+            'type' => NewsPostType::ACT_POST_TYPE->value,
+            'prompt' => fake()->sentence(),
+            'references' => $acts->pluck('id')->toArray(),
         ];
 
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -95,11 +96,11 @@ class GenerateTest extends TestCase
         self::assertCount(4, $post->references);
     }
 
-    public function test_custom_with_prompt()
+    public function test_custom_with_prompt(): void
     {
         $this->payload = [
-            'type'   => NewsPostType::CUSTOM_POST_TYPE->value,
-            'prompt' => fake()->sentence()
+            'type' => NewsPostType::CUSTOM_POST_TYPE->value,
+            'prompt' => fake()->sentence(),
         ];
 
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
@@ -110,11 +111,11 @@ class GenerateTest extends TestCase
         self::assertCount(0, $post->references);
     }
 
-    public function test_custom_with_empty_prompt()
+    public function test_custom_with_empty_prompt(): void
     {
         $this->payload = [
-            'type'   => NewsPostType::CUSTOM_POST_TYPE->value,
-            'prompt' => ''
+            'type' => NewsPostType::CUSTOM_POST_TYPE->value,
+            'prompt' => '',
         ];
 
         $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);

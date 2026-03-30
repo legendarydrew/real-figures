@@ -14,8 +14,6 @@ use Spatie\Analytics\Period;
  * SubscribersController
  * This returns analytics data for subscriber additions and removals over the specified period.
  * To keep things simple (because I was lazy), the net difference in subscribers is returned.
- *
- * @package App\Http\Controllers\API\Analytics
  */
 class SubscribersController extends AnalyticsAPIController
 {
@@ -25,10 +23,10 @@ class SubscribersController extends AnalyticsAPIController
     {
         $filter = new FilterExpression([
             'filter' => new Filter([
-                'field_name'    => 'eventName',
+                'field_name' => 'eventName',
                 'string_filter' => new Filter\StringFilter([
                     'match_type' => Filter\StringFilter\MatchType::EXACT,
-                    'value'      => 'subscriber',
+                    'value' => 'subscriber',
                 ]),
             ]),
         ]);
@@ -47,5 +45,4 @@ class SubscribersController extends AnalyticsAPIController
     {
         return AnalyticsChartFormatter::byDate($rows, $days, ['eventValue']);
     }
-
 }

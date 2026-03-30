@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Unit\Contest;
 
 use App\Facades\ContestFacade;
@@ -8,23 +7,23 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class OverallWinnersTest extends TestCase
+final class OverallWinnersTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_no_stages()
+    public function test_no_stages(): void
     {
         self::assertNull(ContestFacade::overallWinners());
     }
 
-    public function test_contest_not_over()
+    public function test_contest_not_over(): void
     {
         Stage::factory()->withRounds()->create();
 
         self::assertNull(ContestFacade::overallWinners());
     }
 
-    public function test_contest_is_over()
+    public function test_contest_is_over(): void
     {
         Stage::factory()->over()->create();
 
@@ -33,5 +32,4 @@ class OverallWinnersTest extends TestCase
         self::assertArrayHasKey('winners', $results);
         self::assertArrayHasKey('runners_up', $results);
     }
-
 }

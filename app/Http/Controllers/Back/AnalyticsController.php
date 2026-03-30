@@ -8,10 +8,8 @@ use Inertia\Response;
 
 class AnalyticsController extends Controller
 {
-
     public function index(): Response
     {
         return Inertia::render('back/analytics-page', []);
     }
-
 }

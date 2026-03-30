@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\Analytics;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\AnalyticsAPIController;
 use App\Support\AnalyticsChartFormatter;
 use Google\Analytics\Data\V1beta\Filter;
 use Google\Analytics\Data\V1beta\FilterExpression;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
@@ -16,41 +16,34 @@ use Spatie\Analytics\Period;
  * We would be interested in:
  * - votes cast per day
  * - votes cast per hour
- *
- * @package App\Http\Controllers\API\Analytics
  */
-class VotesController extends Controller
+class VotesController extends AnalyticsAPIController
 {
+    const string CACHE_KEY = 'votes';
 
-    public function index(): JsonResponse
+    protected function analyticsQuery(int $days): Collection
     {
-        $days = request('days', 7);
-
-        if (!$rows = \Cache::get('analytics.votes'))
-        {
-            $filter = new FilterExpression([
-                'filter' => new Filter([
-                    'field_name'    => 'eventName',
-                    'string_filter' => new Filter\StringFilter([
-                        'match_type' => Filter\StringFilter\MatchType::EXACT,
-                        'value'      => 'vote',
-                    ])
+        $filter = new FilterExpression([
+            'filter' => new Filter([
+                'field_name' => 'eventName',
+                'string_filter' => new Filter\StringFilter([
+                    'match_type' => Filter\StringFilter\MatchType::EXACT,
+                    'value' => 'vote',
                 ]),
-            ]);
+            ]),
+        ]);
 
-            $rows = Analytics::get(
-                Period::days($days),
-                metrics: ['eventCount'],
-                dimensions: ['dateHour'], // date and hour.
-                maxResults: 1000,
-                dimensionFilter: $filter
-            );
+        return Analytics::get(
+            Period::days($days),
+            metrics: ['eventCount'],
+            dimensions: ['dateHour'], // date and hour.
+            maxResults: 1000,
+            dimensionFilter: $filter
+        );
+    }
 
-            \Cache::set('analytics.votes', $rows, now()->plus(minutes: config('contest.analytics.cache', 60)));
-        }
-
-        $data = AnalyticsChartFormatter::byHour($rows);
-
-        return response()->json($data);
+    protected function analyticsProcessed(?Collection $rows, int $days): array
+    {
+        return AnalyticsChartFormatter::byHour($rows);
     }
 }

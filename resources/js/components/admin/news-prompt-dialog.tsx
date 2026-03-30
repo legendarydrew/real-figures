@@ -1,10 +1,11 @@
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from '@/components/ui/dialog';
 import { LoadingButton } from '@/components/mode/loading-button';
-import { Textarea } from '@/components/ui/textarea';
+import { ExpandingTextarea } from '@/components/ui/textarea';
 import { router } from '@inertiajs/react';
 import { Alert } from '@/components/mode/alert';
 import { titleCase } from '@/lib/utils';
+import { MicrochipIcon } from 'lucide-react';
 
 interface NewsPromptDialogProps {
     open: boolean;
@@ -39,7 +40,7 @@ export const NewsPromptDialog: FC<NewsPromptDialogProps> = ({ open, onOpenChange
         router.post(route('news.generate'), { type, references: reference_ids, prompt }, {
             preserveUrl: true,
             onError: (response) => {
-                console.log(response);
+                setError(response);
             },
             onFinish: () => {
                 setIsGenerating(false);
@@ -52,20 +53,27 @@ export const NewsPromptDialog: FC<NewsPromptDialogProps> = ({ open, onOpenChange
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="lg:w-5xl lg:max-w-[900px]">
-                <DialogTitle>News Post AI prompt <small>for {titleCase(type)}</small></DialogTitle>
+                <DialogTitle>
+                    <div className="flex gap-1">
+                        News Post AI prompt <small className="text-muted-foreground">for {titleCase(type)}</small>
+                    </div>
+                </DialogTitle>
                 <DialogDescription>
-                    This prompt will be used with OpenAI to generate the press release. You can make changes before it
+                    This prompt will be sent to OpenAI to generate the press release. You can make changes before it
                     is sent.
                 </DialogDescription>
 
                 <form onSubmit={saveHandler}>
-                    <Textarea value={updatedPrompt} onChange={changeHandler} className="font-mono h-[50dvh]"/>
+                    <ExpandingTextarea value={updatedPrompt} onChange={changeHandler} className="font-mono max-h-50"/>
 
                     <DialogFooter className="flex-wrap">
                         {error && (<Alert className="w-full" type="error">{error}</Alert>)}
-                        <LoadingButton variant="default" type="submit" onClick={saveHandler}
+                        <LoadingButton variant="primary" type="submit" onClick={saveHandler}
                                        disabled={!canGenerate}
-                                       isLoading={isGenerating}>Generate News Post</LoadingButton>
+                                       isLoading={isGenerating}>
+                            <MicrochipIcon/>
+                            Generate News Post
+                        </LoadingButton>
                     </DialogFooter>
                 </form>
             </DialogContent>

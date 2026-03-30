@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
-import { Bar, BarChart } from 'recharts';
+import { Bar, BarChart, CartesianGrid } from 'recharts';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { Nothing } from '@/components/mode/nothing';
-import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
+import { stringToChartColour } from '@/lib/utils';
 
 interface Props {
     days?: number;
@@ -33,15 +34,6 @@ export const OutboundAnalytics: React.FC<Props> = ({ days = 7 }) => {
             });
     }
 
-    const stringToColor = (str: string) => {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const hue = Math.abs(hash % 360);
-        return `hsl(${hue}, 65%, 55%)`;
-    }
-
     return (
         <section id="analyticsOutbound" className="analytics-section">
             <h2 className="analytics-section-title">Outbound links</h2>
@@ -55,6 +47,7 @@ export const OutboundAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                   responsive
                                   data={chartData.data}
                         >
+                            <CartesianGrid strokeDasharray="3 3"/>
                             <ChartDateXAxis/>
                             <ChartYAxis label="Clicks" />
 
@@ -63,9 +56,10 @@ export const OutboundAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                     key={key}
                                     dataKey={key}
                                     stackId="sections"
-                                    fill={stringToColor(key ?? 'Other')}
+                                    fill={stringToChartColour(key ?? 'Other')}
                                 />
                             ))}
+                            <ChartRoundReferences/>
                         </BarChart>
 
                         <table className="data-table lg:col-span-2">
@@ -81,7 +75,7 @@ export const OutboundAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                 <tr key={index}>
                                     <th scope="row">
                                 <span className="block size-4"
-                                      style={{ backgroundColor: stringToColor(row.url ?? 'Other') }}></span>
+                                      style={{ backgroundColor: stringToChartColour(row.url ?? 'Other') }}></span>
                                     </th>
                                     <th className="text-left" scope="row">{row.url}</th>
                                     <td className="text-right">{row.count}</td>

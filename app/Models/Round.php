@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\RoundFactory;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,12 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
+#[Guarded(['id'])]
 class Round extends Model
 {
     /** @use HasFactory<RoundFactory> */
     use HasFactory;
-
-    protected $guarded = ['id'];
 
     public function getDates(): array
     {
@@ -60,13 +60,11 @@ class Round extends Model
     public function scopeActive(Builder $builder): Builder
     {
         return $builder->where('starts_at', '<=', now())
-                       ->where('ends_at', '>', now());
+            ->where('ends_at', '>', now());
     }
 
     /**
      * Returns TRUE if the Round has started.
-     *
-     * @return bool
      */
     public function hasStarted(): bool
     {
@@ -75,19 +73,16 @@ class Round extends Model
 
     /**
      * Returns TRUE if the Round is active/underway.
-     *
-     * @return bool
      */
     public function isActive(): bool
     {
         $now = now();
+
         return $this->starts_at < $now && $this->ends_at > $now;
     }
 
     /**
      * Returns TRUE if the Round has ended.
-     *
-     * @return bool
      */
     public function hasEnded(): bool
     {
@@ -97,22 +92,40 @@ class Round extends Model
     /**
      * Returns TRUE if this Round requires a "manual vote".
      * This happens if the Round has RoundOutcomes, but all the Songs have zero points.
-     *
-     * @return bool
      */
     public function requiresManualVote(): bool
     {
         return $this->hasEnded() && $this->songs->isNotEmpty() &&
-            ($this->votes->isEmpty() || $this->outcomes->every(fn(RoundOutcome $outcome) => $outcome->score === 0));
+            ($this->votes->isEmpty() || $this->outcomes->every(fn (RoundOutcome $outcome) => $outcome->score === 0));
     }
 
     public function getFullTitleAttribute(): string
     {
         $stage_round_count = $this->stage->rounds()->count();
-        $key               = $stage_round_count === 1 ? 'contest.round.title.only_round' : 'contest.round.title.many_rounds';
+        $key = $stage_round_count === 1 ? 'contest.round.title.only_round' : 'contest.round.title.many_rounds';
+
         return trans($key, [
             'stage_title' => $this->stage->title,
-            'round_title' => $this->title
+            'round_title' => $this->title,
         ]);
+    }
+
+    public function randomVote(int $count = 1): void
+    {
+        $song_ids = $this->songs->map(fn(Song $song) => $song->id);
+
+        for ($i = 0; $i < $count; $i++)
+        {
+            $choices = $song_ids->random(fake()->numberBetween(1, 3))
+                                ->toArray();
+
+            RoundVote::create([
+                'round_id'         => $this->id,
+                'first_choice_id'  => $choices[0],
+                'second_choice_id' => $choices[1] ?? null,
+                'third_choice_id'  => $choices[2] ?? null,
+            ]);
+
+        }
     }
 }

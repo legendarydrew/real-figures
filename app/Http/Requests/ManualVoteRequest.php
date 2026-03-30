@@ -23,12 +23,12 @@ class ManualVoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'votes'                   => ['required', 'array', 'min:1'],
-            'votes.*.round_id'        => ['integer', 'exists:rounds,id'],
-            'votes.*.song_ids'        => ['required', 'array'],
-            'votes.*.song_ids.first'  => ['required', 'integer', 'exists:songs,id'],
+            'votes' => ['required', 'array', 'min:1'],
+            'votes.*.round_id' => ['integer', 'exists:rounds,id'],
+            'votes.*.song_ids' => ['required', 'array'],
+            'votes.*.song_ids.first' => ['required', 'integer', 'exists:songs,id'],
             'votes.*.song_ids.second' => ['required', 'integer', 'exists:songs,id', 'different:votes.*.song_ids.first'],
-            'votes.*.song_ids.third'  => ['required', 'integer', 'exists:songs,id', 'different:votes.*.song_ids.first', 'different:votes.*.song_ids.second'],
+            'votes.*.song_ids.third' => ['required', 'integer', 'exists:songs,id', 'different:votes.*.song_ids.first', 'different:votes.*.song_ids.second'],
         ];
     }
 }

@@ -13,11 +13,12 @@ use Illuminate\Support\Collection;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class RoundAllocateTest extends TestCase
+final class RoundAllocateTest extends TestCase
 {
     use DatabaseMigrations;
 
-    private Stage                                    $stage;
+    private Stage $stage;
+
     private \Illuminate\Database\Eloquent\Collection $songs;
 
     protected function setUp(): void
@@ -28,16 +29,16 @@ class RoundAllocateTest extends TestCase
         $this->songs = Song::factory(8)->withAct()->create();
     }
 
-    public function test_no_songs()
+    public function test_no_songs(): void
     {
         $this->expectException(DataException::class);
-        RoundAllocateFacade::songs($this->stage, new Collection());
+        RoundAllocateFacade::songs($this->stage, new Collection);
 
         $rounds = Round::whereStageId($this->stage->id)->count();
         self::assertEquals(0, $rounds);
     }
 
-    public function test_less_than_two_songs()
+    public function test_less_than_two_songs(): void
     {
         $this->expectException(DataException::class);
         RoundAllocateFacade::songs($this->stage, $this->songs->slice(0, 1));
@@ -46,7 +47,7 @@ class RoundAllocateTest extends TestCase
         self::assertEquals(0, $rounds);
     }
 
-    public function test_at_least_two_songs()
+    public function test_at_least_two_songs(): void
     {
         RoundAllocateFacade::songs($this->stage, $this->songs->slice(0, 2));
 
@@ -55,7 +56,7 @@ class RoundAllocateTest extends TestCase
     }
 
     #[Depends('test_at_least_two_songs')]
-    public function test_all_in_one_round()
+    public function test_all_in_one_round(): void
     {
         RoundAllocateFacade::songs($this->stage, $this->songs);
 
@@ -67,22 +68,21 @@ class RoundAllocateTest extends TestCase
     }
 
     #[Depends('test_at_least_two_songs')]
-    public function test_multiple_rounds()
+    public function test_multiple_rounds(): void
     {
         RoundAllocateFacade::songs($this->stage, $this->songs, 4);
 
         $rounds = Round::whereStageId($this->stage->id)->get();
         self::assertEquals(2, $rounds->count());
 
-        foreach ($rounds as $index => $round)
-        {
-            self::assertEquals('Round ' . ($index + 1), $round->title);
+        foreach ($rounds as $index => $round) {
+            self::assertEquals('Round '.($index + 1), $round->title);
             self::assertEquals(4, $round->songs()->count());
         }
     }
 
     #[Depends('test_at_least_two_songs')]
-    public function test_specific_start()
+    public function test_specific_start(): void
     {
         $round_start = new Carbon(fake()->dateTimeThisMonth());
         RoundAllocateFacade::songs($this->stage, $this->songs, null, $round_start);
@@ -92,16 +92,14 @@ class RoundAllocateTest extends TestCase
     }
 
     #[Depends('test_multiple_rounds')]
-    public function test_consecutive_rounds()
+    public function test_consecutive_rounds(): void
     {
         RoundAllocateFacade::songs($this->stage, $this->songs, 2);
 
         $rounds = Round::whereStageId($this->stage->id)->get();
         $last_round = null;
-        foreach ($rounds as $round)
-        {
-            if ($last_round)
-            {
+        foreach ($rounds as $round) {
+            if ($last_round) {
                 self::assertGreaterThan($last_round->starts_at, $round->starts_at);
                 self::assertGreaterThan($last_round->ends_at, $round->starts_at);
             }
@@ -109,7 +107,7 @@ class RoundAllocateTest extends TestCase
         }
     }
 
-    public function test_stage_has_started()
+    public function test_stage_has_started(): void
     {
         Round::factory()->for($this->stage)->withSongs(2)->started()->create();
 

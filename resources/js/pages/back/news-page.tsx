@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import React, { RefObject, useRef, useState } from 'react';
-import { Edit, NewspaperIcon, Trash } from 'lucide-react';
+import { Edit, MicrochipIcon, NewspaperIcon, Trash } from 'lucide-react';
 import { NewsPost, PaginatedResponse } from '@/types';
 import { Pagination } from '@/components/admin/pagination';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
@@ -80,7 +80,9 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
                         <Link href={route('admin.news.create')}>Create Post</Link>
                     </Button>
                     <Button asChild variant="secondary">
-                        <Link href={route('admin.news-generate')}>Generate</Link>
+                        <Link href={route('admin.news-generate')}>
+                            <MicrochipIcon className="size-4" /> Generate
+                        </Link>
                     </Button>
                 </AdminHeader>
 

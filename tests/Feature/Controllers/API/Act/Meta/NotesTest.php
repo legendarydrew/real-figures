@@ -7,29 +7,30 @@ use App\Models\ActMetaNote;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class NotesTest extends TestCase
+final class NotesTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected const string ENDPOINT = '/api/acts/%u';
 
-    private Act   $act;
+    private Act $act;
+
     private array $payload;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->act     = Act::factory()->withPicture()->createOne();
+        $this->act = Act::factory()->withPicture()->createOne();
         $this->payload = [
             'name' => fake()->name,
             'meta' => [
-                'notes' => []
-            ]
+                'notes' => [],
+            ],
         ];
     }
 
-    public function test_adds_meta_notes()
+    public function test_adds_meta_notes(): void
     {
         $this->payload['meta']['notes'] = [
             ['note' => fake()->sentence()],
@@ -41,7 +42,7 @@ class NotesTest extends TestCase
         self::assertCount(count($this->payload['meta']['notes']), $this->act->notes);
     }
 
-    public function test_replace_meta_notes()
+    public function test_replace_meta_notes(): void
     {
         $this->act->notes()->createMany([
             ['note' => fake()->sentence()],
@@ -49,7 +50,7 @@ class NotesTest extends TestCase
         ]);
 
         $this->payload['meta']['notes'] = [
-            ['note' => fake()->sentence()]
+            ['note' => fake()->sentence()],
         ];
 
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
@@ -58,19 +59,19 @@ class NotesTest extends TestCase
         self::assertCount(count($this->payload['meta']['notes']), $this->act->notes);
     }
 
-    public function test_preserve_meta_notes()
+    public function test_preserve_meta_notes(): void
     {
         $this->act->notes()->createMany([
             ['note' => fake()->sentence()],
-            ['note' => fake()->sentence()]
+            ['note' => fake()->sentence()],
         ]);
 
         $this->act->refresh();
 
         $this->payload['meta']['notes'] = [
-            ...$this->act->notes->map(fn(ActMetaNote $note) => [
-                'id'   => $note->id,
-                'note' => $note->note
+            ...$this->act->notes->map(fn (ActMetaNote $note) => [
+                'id' => $note->id,
+                'note' => $note->note,
             ]),
             ['note' => fake()->sentence()],
         ];
@@ -80,4 +81,14 @@ class NotesTest extends TestCase
         self::assertCount(count($this->payload['meta']['notes']), $this->act->notes);
     }
 
+    public function test_removes_meta_notes(): void
+    {
+        $this->payload['meta'] = [
+            'notes' => [],
+        ];
+        $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
+
+        $this->act->refresh();
+        self::assertCount(count($this->payload['meta']['notes']), $this->act->notes);
+    }
 }

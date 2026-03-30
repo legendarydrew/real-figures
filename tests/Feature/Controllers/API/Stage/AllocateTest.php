@@ -8,45 +8,47 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class AllocateTest extends TestCase
+final class AllocateTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected const string ENDPOINT = 'api/stages/%u/allocate';
 
     private Stage $stage;
+
     private array $song_ids;
+
     private array $payload;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->stage    = Stage::factory()->createOne();
+        $this->stage = Stage::factory()->createOne();
         $this->song_ids = Song::factory(6)->withAct()->create()->pluck('id')->toArray();
 
         $this->payload = [
-            'song_ids'  => $this->song_ids,
+            'song_ids' => $this->song_ids,
             'per_round' => 4,
-            'duration'  => 5,
-            'start_at'  => now()->addHour()->toISOString(),
+            'duration' => 5,
+            'start_at' => now()->addHour()->toISOString(),
         ];
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertRedirectToRoute('admin.stages');
     }
 
     #[Depends('test_as_user')]
-    public function test_creates_rounds()
+    public function test_creates_rounds(): void
     {
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $this->stage->refresh();
@@ -55,7 +57,7 @@ class AllocateTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_without_start_at()
+    public function test_without_start_at(): void
     {
         unset($this->payload['start_at']);
         $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
@@ -66,29 +68,29 @@ class AllocateTest extends TestCase
     }
 
     #[Depends('test_as_user')]
-    public function test_start_in_past()
+    public function test_start_in_past(): void
     {
         $this->payload['start_at'] = now()->subDay();
-        $response                  = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
+        $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertUnprocessable();
     }
 
     #[Depends('test_as_user')]
-    public function test_invalid_stage()
+    public function test_invalid_stage(): void
     {
         $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, 404), $this->payload);
         $response->assertNotFound();
     }
 
     #[Depends('test_as_user')]
-    public function test_without_enough_songs()
+    public function test_without_enough_songs(): void
     {
         $this->payload['song_ids'] = [];
-        $response                  = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
+        $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertUnprocessable();
 
         $this->payload['song_ids'] = [$this->song_ids[0]];
-        $response                  = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
+        $response = $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
         $response->assertUnprocessable();
     }
 }

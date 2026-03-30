@@ -29,20 +29,20 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            'name'     => config('app.name'),
-            'auth'     => [
+            'name' => config('app.name'),
+            'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy'    => fn(): array => [
+            'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
             'showActs' => ContestFacade::shouldShowActs(),
             'showNews' => ContestFacade::shouldShowNews(),
             'sidebarOpen' => $request->cookie('sidebar_state') === 'true',
-            'flash'    => [
-                'message' => fn() => $request->session()->get('message'),
-                'track'   => fn() => $request->session()->get('track')
+            'flash' => [
+                'message' => fn () => $request->session()->get('message'),
+                'track' => fn () => $request->session()->get('track'),
             ],
         ];
     }

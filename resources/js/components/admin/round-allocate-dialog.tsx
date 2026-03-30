@@ -6,10 +6,10 @@ import { Input } from '@/components/ui/input';
 import { useForm, usePage } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Song, Stage } from '@/types';
-import toast from 'react-hot-toast';
 import { RangeInput } from '@/components/ui/range-input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { LoadingButton } from '@/components/mode/loading-button';
+import { RTToast } from '@/components/mode/toast-message';
 
 interface RoundAllocateDialogProps {
     // Dialog properties.
@@ -46,7 +46,7 @@ export const RoundAllocateDialog: FC<RoundAllocateDialogProps> = ({ open, onOpen
         reset('song_ids', 'per_round', 'duration');
         if (open) {
             if (!(songs && songs.length > minSongs.current)) {
-                toast.error(`No Songs specified (minimum of ${minSongs.current} required).`);
+                RTToast.error(`No Songs specified (minimum of ${minSongs.current} required).`);
                 onOpenChange();
             } else {
                 maxSongs.current = Math.min(songs.length, maxSongs.current, props.roundConfig.maxSongs);

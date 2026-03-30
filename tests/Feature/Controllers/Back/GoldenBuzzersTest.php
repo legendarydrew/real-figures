@@ -9,27 +9,27 @@ use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class GoldenBuzzersTest extends TestCase
+final class GoldenBuzzersTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->get(route('admin.golden-buzzers'));
 
         $response->assertRedirectToRoute('login');
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.golden-buzzers'));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/golden-buzzers-page'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/golden-buzzers-page'));
     }
 
     #[Depends('test_as_user')]
-    public function test_with_golden_buzzers()
+    public function test_with_golden_buzzers(): void
     {
         Stage::factory()->withRounds()->create();
         GoldenBuzzer::factory(21)->create();
@@ -38,5 +38,4 @@ class GoldenBuzzersTest extends TestCase
 
         $response->assertOk();
     }
-
 }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { Pie, PieChart, PieSectorShapeProps, Sector } from 'recharts';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
+import { stringToChartColour } from '@/lib/utils';
 
 interface Props {
     days?: number;
@@ -32,17 +33,8 @@ export const PlatformAnalytics: React.FC<Props> = ({ days = 7 }) => {
             });
     }
 
-    const stringToColor = (str: string) => {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const hue = Math.abs(hash % 360);
-        return `hsl(${hue}, 65%, 55%)`;
-    }
-
     const pieSector = (props: PieSectorShapeProps) => {
-        return <Sector {...props} fill={stringToColor(chartData[props.index].platform)}/>;
+        return <Sector {...props} fill={stringToChartColour(chartData[props.index].platform)}/>;
     };
 
     return (
@@ -62,30 +54,32 @@ export const PlatformAnalytics: React.FC<Props> = ({ days = 7 }) => {
                             />
                         </PieChart>
 
-                        <table className="data-table lg:col-span-2">
-                            <thead>
-                            <tr>
-                                <th scope="col" colSpan={2} className="text-left">Platform</th>
-                                <th scope="col" className="text-right">Views</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {chartData?.length ? chartData.map((row, index) => (
-                                <tr key={index}>
-                                    <th scope="row">
-                                        <span className="block size-4"
-                                              style={{ backgroundColor: stringToColor(row.platform) }}></span>
-                                    </th>
-                                    <th className="text-left" scope="row">{row.platform}</th>
-                                    <td className="text-right">{row.views}</td>
-                                </tr>
-                            )) : (
+                        <div className="analytics-section-scroll lg:col-span-2">
+                            <table className="data-table">
+                                <thead>
                                 <tr>
-                                    <td colSpan="3" className="nothing">No data recorded.</td>
+                                    <th scope="col" colSpan={2} className="text-left">Platform</th>
+                                    <th scope="col" className="text-right">Views</th>
                                 </tr>
-                            )}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                {chartData?.length ? chartData.map((row, index) => (
+                                    <tr key={index}>
+                                        <th scope="row">
+                                        <span className="block size-4"
+                                              style={{ backgroundColor: stringToChartColour(row.platform) }}></span>
+                                        </th>
+                                        <th className="text-left" scope="row">{row.platform}</th>
+                                        <td className="text-right">{row.views}</td>
+                                    </tr>
+                                )) : (
+                                    <tr>
+                                        <td colSpan="3" className="nothing">No data recorded.</td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 )}
             </LoadingOverlay>

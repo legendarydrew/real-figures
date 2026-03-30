@@ -3,6 +3,7 @@ import { CountdownTimer } from '@/components/mode/countdown-timer';
 import { cn } from '@/lib/utils';
 import { Act } from '@/types';
 import { ActImage } from '@/components/mode/act-image';
+import { Link } from '@inertiajs/react';
 
 interface Props {
     data: {
@@ -29,6 +30,9 @@ export const DashboardContestStatus: React.FC<Props> = ({ data, className }) => 
                     <h2 className="display-text text-lg">Contest has not yet started.</h2>
                 )}
                 {data.round && (<h2 className="display-text text-2xl">{data.round}</h2>)}
+                {data.status === 'judgement' && (
+                    <Link className="button primary small mb-2" href={route('admin.stages')}>Voting and Judgement</Link>
+                )}
                 {data.countdown && (
                     <div className="flex gap-1">
                         {data.status === 'countdown' && (<b>begins in</b>)}

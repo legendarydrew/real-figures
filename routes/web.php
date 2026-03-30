@@ -30,3 +30,6 @@ Route::get('subscriber/{id}/{code}', [SubscriberConfirmController::class, 'show'
 Route::get('subscriber/remove/{id}/{code}', [SubscriberRemoveController::class, 'show'])->name('subscriber.remove');
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::get('votes', [VotesController::class, 'index'])->name('votes');
+
+// RSS feed.
+Route::feeds();

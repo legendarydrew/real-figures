@@ -14,27 +14,30 @@
 
         @if($current_round)
             {{-- The current round. --}}
-            <div class="contest-current-heading">
-                <h2 class="page-subheading">{{ $current_round['full_title'] }}</h2>
-                <div class="contest-round-countdown">
-                    <span class="text-sm">Voting ends in</span>
-                    <countdown timestamp="{{$countdown}}"></countdown>
+            <div class="contest-current-round">
+
+                <div class="contest-current-heading">
+                    <h2 class="page-subheading">{{ $current_round['full_title'] }}</h2>
+                    <div class="contest-round-countdown">
+                        <span class="text-sm">Voting ends in</span>
+                        <countdown timestamp="{{$countdown}}"></countdown>
+                    </div>
                 </div>
+
+                {{-- The Acts and their songs. --}}
+                <div class="contest-round">
+                    @foreach($current_round['songs'] as $song)
+                        @include('front.song-item', ['round' => $current_round, 'golden_buzzer' => true])
+                    @endforeach
+                </div>
+
+                {{-- A big button for casting a vote. --}}
+                <button type="button" class="button xl primary contest-vote-button"
+                        onclick="trackEvent('dialog_open', { type: 'vote', round: '{{ $current_round['full_title'] }}' })"
+                        command="show-modal" commandfor="vote-dialog" aria-controls="vote-dialog">Cast your Vote...
+                </button>
             </div>
         @endif
-
-        {{-- The Acts and their songs. --}}
-        <div class="contest-round">
-            @foreach($current_round['songs'] as $song)
-                @include('front.song-item', ['round' => $current_round, 'golden_buzzer' => true])
-            @endforeach
-        </div>
-
-        {{-- A big button for casting a vote. --}}
-        <button type="button" class="button xl primary contest-vote-button"
-                onclick="trackEvent('dialog_open', { type: 'vote', round: '{{ $current_round['full_title'] }}' })"
-                command="show-modal" commandfor="vote-dialog" aria-controls="vote-dialog">Cast your Vote...
-        </button>
 
         @if(count($previous_rounds))
             @include('front.advert')

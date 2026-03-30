@@ -6,7 +6,6 @@ use App\Facades\ContestFacade;
 use App\Jobs\EndOfRound;
 use App\Models\Round;
 use App\Models\RoundSongs;
-use App\Models\RoundVote;
 use App\Models\Song;
 use App\Models\Stage;
 use App\Models\StageWinner;
@@ -25,54 +24,39 @@ class StageFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'               => fake()->unique()->words(3, true),
-            'description'         => fake()->paragraph,
+            'title' => fake()->unique()->words(3, true),
+            'description' => fake()->paragraph,
             'golden_buzzer_perks' => fake()->boolean(20) ? null : fake()->paragraph,
         ];
     }
 
     public function withRounds(int $started_count = 2, int $ended_count = 0): StageFactory
     {
-        return $this->afterCreating(function (Stage $stage) use ($started_count, $ended_count)
-        {
-            if ($started_count + $ended_count > 0)
-            {
+        return $this->afterCreating(function (Stage $stage) use ($started_count, $ended_count) {
+            if ($started_count + $ended_count > 0) {
                 Round::factory($ended_count)->ended()->withSongs()->for($stage)->create();
                 Round::factory($started_count)->started()->withSongs()->for($stage)->create();
-            }
-            else
-            {
+            } else {
                 $round_count = fake()->numberBetween(1, 4);
-                Round::factory($round_count)->withSongs()->for($stage)->create();
+                Round::factory($round_count)->withSongs()->for($stage)->create([
+                    'starts_at' => fake()->dateTimeBetween(now()->addDay(), now()->addDays(3)),
+                    'ends_at' => fake()->dateTimeBetween(now()->addDays(4), now()->addDays(7)),
+                ]);
             }
         });
     }
 
     public function withResults(): StageFactory
     {
-        return $this->afterCreating(function (Stage $stage)
-        {
+        return $this->afterCreating(function (Stage $stage) {
             $this->ensureRoundsForStage($stage);
             $this->ensureSongsForStage($stage);
 
-            foreach ($stage->rounds as $round)
-            {
+            foreach ($stage->rounds as $round) {
                 // Randomise the chance of a Stage having votes vs. resorting to a "manual vote".
                 if (fake()->boolean(80))
                 {
-                    $song_ids = $round->songs->pluck('id')->toArray();
-                    for ($i = 0; $i < 100; $i++)
-                    {
-                        $votes = fake()->randomElements($song_ids, 3);
-                        // Spotted an issue here: because all three choices are required,
-                        // a Round must have at least three Songs.
-                        RoundVote::create([
-                            'round_id'         => $round->id,
-                            'first_choice_id'  => $votes[0],
-                            'second_choice_id' => $votes[1],
-                            'third_choice_id'  => $votes[2],
-                        ]);
-                    }
+                    $round->randomVote(100);
                     EndOfRound::dispatchSync($round);
                 }
             }
@@ -83,40 +67,34 @@ class StageFactory extends Factory
     /**
      * Create a Stage that is considered over.
      * A Stage is over when all Rounds have ended and winners have been chosen.
-     *
-     * @return StageFactory
      */
     public function over(): StageFactory
     {
-        return $this->afterCreating(function (Stage $stage)
-        {
+        return $this->afterCreating(function (Stage $stage) {
             // Create ended Rounds.
             $round_count = fake()->numberBetween(1, 4);
-            $rounds      = Round::factory($round_count)->ended()->withSongs(5)->withVotes()->for($stage)->create();
+            $rounds = Round::factory($round_count)->ended()->withSongs(5)->withVotes()->for($stage)->create();
 
-            $rounds->each(function (Round $round)
-            {
+            $rounds->each(function (Round $round) {
                 ContestFacade::buildRoundOutcomes($round);
             });
 
             // Create Stage winners.
             [$winners, $runners_up] = ContestFacade::determineStageWinners($stage);
-            foreach ($winners as $winner)
-            {
+            foreach ($winners as $winner) {
                 StageWinner::create([
-                    'stage_id'  => $stage->id,
-                    'round_id'  => $winner->round_id,
-                    'song_id'   => $winner->song_id,
-                    'is_winner' => true
+                    'stage_id' => $stage->id,
+                    'round_id' => $winner->round_id,
+                    'song_id' => $winner->song_id,
+                    'is_winner' => true,
                 ]);
             }
-            foreach ($runners_up as $runner_up)
-            {
+            foreach ($runners_up as $runner_up) {
                 StageWinner::create([
-                    'stage_id'  => $stage->id,
-                    'round_id'  => $runner_up->round_id,
-                    'song_id'   => $runner_up->song_id,
-                    'is_winner' => false
+                    'stage_id' => $stage->id,
+                    'round_id' => $runner_up->round_id,
+                    'song_id' => $runner_up->song_id,
+                    'is_winner' => false,
                 ]);
             }
         });
@@ -124,19 +102,14 @@ class StageFactory extends Factory
 
     protected function ensureRoundsForStage(Stage $stage): void
     {
-        if ($stage->rounds()->count() === 0)
-        {
+        if ($stage->rounds()->count() === 0) {
             Round::factory(fake()->numberBetween(1, 4))->withSongs()->ended()->for($stage)->create();
-        }
-        else
-        {
-            foreach ($stage->rounds as $round)
-            {
-                if (!$round->hasEnded())
-                {
+        } else {
+            foreach ($stage->rounds as $round) {
+                if (! $round->hasEnded()) {
                     $round->update([
                         'starts_at' => now()->subDay(),
-                        'ends_at'   => now(),
+                        'ends_at' => now(),
                     ]);
                 }
             }
@@ -145,16 +118,13 @@ class StageFactory extends Factory
 
     protected function ensureSongsForStage(Stage $stage): void
     {
-        foreach ($stage->rounds as $round)
-        {
-            if ($round->songs()->count() < config('contest.rounds.minSongs'))
-            {
+        foreach ($stage->rounds as $round) {
+            if ($round->songs()->count() < config('contest.rounds.minSongs')) {
                 $songs = Song::factory(config('contest.rounds.minSongs') + 1)->withAct()->create();
-                foreach ($songs as $song)
-                {
+                foreach ($songs as $song) {
                     RoundSongs::create([
                         'round_id' => $round->id,
-                        'song_id'  => $song->id,
+                        'song_id' => $song->id,
                     ]);
                 }
             }

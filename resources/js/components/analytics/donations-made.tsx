@@ -2,9 +2,11 @@ import { RTToast } from '@/components/mode/toast-message';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AnalyticsData } from '@/types';
-import { Line, LineChart, Tooltip } from 'recharts';
+import { CartesianGrid, Line, LineChart, Tooltip } from 'recharts';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
+import { formatDate } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
 
 
 interface Props {
@@ -12,7 +14,7 @@ interface Props {
 }
 
 export const DonationsMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
-
+    const {locale} = usePage().props;
     const [chartData, setChartData] = useState<AnalyticsData>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -33,8 +35,27 @@ export const DonationsMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
             .finally(() => {
                 setIsLoading(false);
             });
-
     }
+
+    const tooltipContent = ({ active, payload, label }) => {
+        if (active && payload?.length) {
+            return (
+                <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-2">
+                    <span className="display-text text-sm">{formatDate(locale, label)}</span>
+                    <span className="flex items-center gap-1 text-xs">
+                        <span className="size-3 inline-block bg-(--donation-light)"></span>
+                        {payload[1].value.toLocaleString()} started
+                    </span>
+                    <span className="flex items-center gap-1 text-xs">
+                        <span className="size-3 inline-block bg-(--donation)"></span>
+                        {payload[0].value.toLocaleString()} completed
+                    </span>
+                </div>
+            );
+        }
+
+        return null;
+    };
 
     return (
         <section id="analyticsDonations" className="analytics-section">
@@ -47,12 +68,13 @@ export const DonationsMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         responsive
                         data={chartData}
                     >
+                        <CartesianGrid strokeDasharray="3 3"/>
                         <ChartDateXAxis/>
                         <ChartYAxis label="Count"/>
-                        <Tooltip/>
 
                         <Line dataKey="started" stroke="var(--donation-light)"/>
                         <Line dataKey="completed" stroke="var(--donation)" strokeWidth={2}/>
+                        <Tooltip content={tooltipContent} isAnimationActive={false}/>
                         <ChartRoundReferences/>
                     </LineChart>
                 )}

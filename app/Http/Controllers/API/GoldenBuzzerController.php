@@ -14,12 +14,9 @@ use Illuminate\Support\Facades\Mail;
  * BuzzerController
  * This endpoint does the same thing as the Donation endpoint, but we want to specifically record
  * Golden Buzzer donations, which will require additional information.
- *
- * @package App\Http\Controllers\API
  */
-class BuzzerController extends DonationController
+class GoldenBuzzerController extends DonationController
 {
-
     protected function getRequestData(): Request
     {
         return GoldenBuzzerRequest::createFrom(request());
@@ -30,13 +27,11 @@ class BuzzerController extends DonationController
         $donation = GoldenBuzzer::create([
             ...$transaction_details,
             'round_id' => $this->request_data['round_id'],
-            'song_id'  => $this->request_data['song_id']
+            'song_id' => $this->request_data['song_id'],
         ]);
 
-        if ($transaction_details['email'])
-        {
+        if ($transaction_details['email']) {
             Mail::to($transaction_details['email'])->send(new GoldenBuzzerConfirmation($donation));
         }
     }
-
 }

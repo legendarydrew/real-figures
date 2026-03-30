@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
-class EditTest extends TestCase
+final class EditTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -19,21 +19,20 @@ class EditTest extends TestCase
         $this->act = Act::factory()->create();
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->get(route('admin.acts.edit', ['id' => $this->act->id]));
 
         $response->assertRedirectToRoute('login');
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.acts.edit', ['id' => $this->act->id]));
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component('back/act-edit-page')
-                                                          ->has('act')
-                                                          ->has('genreList'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/act-edit-page')
+            ->has('act')
+            ->has('genreList'));
     }
-
 }

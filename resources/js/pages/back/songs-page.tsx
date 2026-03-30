@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import React, { RefObject, useMemo, useRef, useState } from 'react';
-import { ChevronDown, ChevronUp, Edit, Music, Trash } from 'lucide-react';
+import { ChevronDown, ChevronUp, Edit, Trash, VideoIcon } from 'lucide-react';
 import { PaginatedResponse, Song } from '@/types';
 import { SongDialog } from '@/components/admin/song-dialog';
 import { LanguageFlag } from '@/components/mode/language-flag';
@@ -13,6 +13,7 @@ import { DialogTitle } from '@/components/ui/dialog';
 import { RTToast } from '@/components/mode/toast-message';
 import { Nothing } from '@/components/mode/nothing';
 import { AdminHeader } from '@/components/admin/admin-header';
+import { SongBanner } from '@/components/mode/song-banner';
 
 interface TableSort {
     column: string;
@@ -107,13 +108,14 @@ export default function SongsPage({ acts, songs }: Readonly<{ songs: PaginatedRe
 
                 {songs.meta.pagination.total ? (
                     <div className="overflow-x-auto">
-                        <table className="dashboard-table">
+                        <table className="admin-table">
                             <colgroup>
+                                <col style={{ width: '3em' }}/>
+                                <col/>
+                                <col/>
+                                <col/>
                                 <col style={{ width: '4em' }}/>
-                                <col/>
-                                <col/>
                                 <col style={{ width: '6em' }}/>
-                                <col style={{ width: '10em' }}/>
                             </colgroup>
                             <thead className="text-sm">
                             <tr className="border-b-2">
@@ -141,8 +143,10 @@ export default function SongsPage({ acts, songs }: Readonly<{ songs: PaginatedRe
                                     {currentSort.current.column === 'play_count' ? (
                                         <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
                                 </th>
-                                <th/>
-                                <th/>
+                                <th>
+                                    <VideoIcon/>
+                                </th>
+                                <th>&nbsp;</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -152,24 +156,26 @@ export default function SongsPage({ acts, songs }: Readonly<{ songs: PaginatedRe
                                         <LanguageFlag languageCode={song.language}/>
                                     </th>
                                     <th scope="row" className="font-bold text-left">{song.title}</th>
-                                    <td className="text-left">{song.act.name}</td>
+                                    <td className="text-left">
+                                        <SongBanner song={song}/>
+                                    </td>
                                     <td className="text-sm text-right">{song.play_count.toLocaleString()}</td>
                                     <td className="text-sm text-center">
                                         {song.url && <a href={song.url} target="_blank">
-                                            <Music/>
+                                            <VideoIcon/>
                                         </a>}
                                     </td>
                                     <td>
                                         <div className="toolbar">
-                                            <Button variant="secondary"
+                                            <Button variant="secondary" size="icon" className="p-2"
                                                     onClick={() => editHandler(song)}
                                                     title="Edit Song">
-                                                <Edit className="h-3 w-3"/>
+                                                <Edit className="size-4"/>
                                             </Button>
-                                            <Button variant="destructive"
+                                            <Button variant="destructive" size="icon" className="p-2"
                                                     onClick={() => deleteHandler(song)}
                                                     title="Delete Song">
-                                                <Trash className="h-3 w-3"/>
+                                                <Trash className="size-4"/>
                                             </Button>
                                         </div>
                                     </td>
@@ -196,5 +202,5 @@ export default function SongsPage({ acts, songs }: Readonly<{ songs: PaginatedRe
                 </DestructiveDialog>
             </div>
         </AppLayout>
-);
+    );
 }

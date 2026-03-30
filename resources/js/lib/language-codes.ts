@@ -101,7 +101,7 @@ export const LanguageCountries = {
     "da": "DK",  // Danish - Denmark
     "de": "DE",  // German - Germany
     "el": "GR",  // Greek - Greece
-    "en": "US",  // English - United States
+    "en": "GB",  // English - United States
     "eo": "UN",  // Esperanto - (no country, UN flag commonly used)
     "es": "ES",  // Spanish - Spain
     "et": "EE",  // Estonian - Estonia

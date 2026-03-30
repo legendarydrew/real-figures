@@ -8,7 +8,7 @@ use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
-class RoundsTest extends TestCase
+final class RoundsTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -23,16 +23,16 @@ class RoundsTest extends TestCase
         $this->stage = Stage::factory()->withRounds()->create();
     }
 
-    public function test_as_guest()
+    public function test_as_guest(): void
     {
         $response = $this->getJson(sprintf(self::ENDPOINT, $this->stage->id));
         $response->assertUnauthorized();
     }
 
-    public function test_as_user()
+    public function test_as_user(): void
     {
         $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, $this->stage->id));
-        $response->assertInertia(fn(Assert $page) => $page->component('back/stages-page')->has('rounds'));
+        $response->assertInertia(fn (Assert $page) => $page->component('back/stages-page')->has('rounds'));
     }
 
     #[Depends('test_as_user')]
@@ -41,5 +41,4 @@ class RoundsTest extends TestCase
         $response = $this->actingAs($this->user)->getJson(sprintf(self::ENDPOINT, 404));
         $response->assertNotFound();
     }
-
 }

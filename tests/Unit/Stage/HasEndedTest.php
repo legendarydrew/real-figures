@@ -7,7 +7,7 @@ use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class HasEndedTest extends TestCase
+final class HasEndedTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -18,41 +18,40 @@ class HasEndedTest extends TestCase
         $this->stage = Stage::factory()->create();
     }
 
-    public function test_no_rounds()
+    public function test_no_rounds(): void
     {
         self::assertCount(0, $this->stage->rounds);
         self::assertFalse($this->stage->hasEnded());
     }
 
-    public function test_has_all_ended_rounds()
+    public function test_has_all_ended_rounds(): void
     {
         Round::factory(3)
             ->for($this->stage)
-             ->create([
-                 'starts_at' => now()->subDay(),
-                 'ends_at'   => now()
-             ]);
+            ->create([
+                'starts_at' => now()->subDay(),
+                'ends_at' => now(),
+            ]);
 
         $this->stage->load('rounds');
         self::assertCount(3, $this->stage->rounds);
         self::assertTrue($this->stage->hasEnded());
     }
 
-    public function test_has_ongoing_rounds()
+    public function test_has_ongoing_rounds(): void
     {
         Round::factory()
             ->for($this->stage)
-             ->create([
-                 'starts_at' => now()->addDay(),
-                 'ends_at'   => now()->addDays(2)
-             ]);
+            ->create([
+                'starts_at' => now()->addDay(),
+                'ends_at' => now()->addDays(2),
+            ]);
         Round::factory(2)
-             ->for($this->stage)
-             ->create();
+            ->for($this->stage)
+            ->create();
 
         $this->stage->load('rounds');
         self::assertCount(3, $this->stage->rounds);
         self::assertFalse($this->stage->hasEnded());
     }
-
 }

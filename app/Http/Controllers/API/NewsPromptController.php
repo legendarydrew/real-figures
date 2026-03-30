@@ -16,34 +16,30 @@ use App\Models\StageWinner;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
-use Lang;
+use Illuminate\Support\Facades\Lang;
 
 class NewsPromptController extends Controller
 {
-
     public function store(NewsPromptRequest $request): JsonResponse
     {
         $data = $request->validated();
 
         // Here's where things get complicated!
-        $prompt_lines = [];
+        $prompt_lines = Lang::get('press-release.role');
         $replace_values = [];
 
         // Include a reference to a previous News Post, if specified.
-        if (isset($data['previous']))
-        {
-            $prompt_lines                       = Lang::get('press-release.previous');
-            $previous_post                      = NewsPost::findOrFail($data['previous']);
-            $replace_values['previous_title']   = $previous_post->title;
+        if (isset($data['previous'])) {
+            $prompt_lines = array_merge($prompt_lines, Lang::get('press-release.previous'));
+            $previous_post = NewsPost::findOrFail($data['previous']);
+            $replace_values['previous_title'] = $previous_post->title;
             $replace_values['previous_content'] = $previous_post->content;
         }
 
-        switch ($data['type'])
-        {
+        switch ($data['type']) {
             case NewsPostType::CUSTOM_POST_TYPE->value:
                 // Nothing to do, except ensure there is actually a prompt.
-                if (!isset($data['prompt']))
-                {
+                if (! isset($data['prompt'])) {
                     abort(400, 'A prompt is required for a custom post.');
                 }
                 break;
@@ -51,16 +47,16 @@ class NewsPromptController extends Controller
                 $prompt_lines = array_merge($prompt_lines, $this->buildContestPrompt($data));
                 break;
             case NewsPostType::STAGE_POST_TYPE->value:
-                $stage        = Stage::findOrFail($data['references'][0]);
+                $stage = Stage::findOrFail($data['references'][0]);
                 $prompt_lines = array_merge($prompt_lines, $this->buildStagePrompt($stage, $data));
                 break;
             case NewsPostType::ROUND_POST_TYPE->value:
                 $round = Round::whereHas('songs')->findOrFail($data['references'][0]);
-                $prompt_lines                 = array_merge($prompt_lines, $this->buildRoundPrompt($round, $data));
+                $prompt_lines = array_merge($prompt_lines, $this->buildRoundPrompt($round, $data));
                 $replace_values['round_name'] = $round->full_title;
                 break;
             case NewsPostType::ACT_POST_TYPE->value:
-                $acts         = Act::whereHas('songs')->whereIn('id', $data['references'])->get();
+                $acts = Act::whereHas('songs')->whereIn('id', $data['references'])->get();
                 $prompt_lines = array_merge($prompt_lines, $this->buildActsPrompt($acts, $data));
                 break;
             default:
@@ -68,8 +64,7 @@ class NewsPromptController extends Controller
         }
 
         // Add any additional prompts.
-        if (isset($data['prompt']))
-        {
+        if (isset($data['prompt'])) {
             $prompt_lines[] = $data['prompt'];
         }
 
@@ -82,7 +77,7 @@ class NewsPromptController extends Controller
         $prompt = __($prompt, [
             'contest_host' => 'CATAWOL Records',
             'contest_name' => 'Real Figures Don\'t F.O.L.D',
-            ...$replace_values
+            ...$replace_values,
         ]);
 
         return response()->json(['prompt' => $prompt]);
@@ -90,29 +85,20 @@ class NewsPromptController extends Controller
 
     /**
      * Build a prompt to use for generating a News Post about the Contest.
-     *
-     * @param array $data
-     * @return array
      */
     protected function buildContestPrompt(array $data): array
     {
-        if (ContestFacade::isOver())
-        {
+        if (ContestFacade::isOver()) {
             $lines = $this->buildContestOverPrompt();
-        }
-        elseif (ContestFacade::isRunning())
-        {
+        } elseif (ContestFacade::isRunning()) {
             $lines = $this->buildContestRunningPrompt();
-        }
-        else
-        {
+        } else {
             $lines = Lang::get('press-release.contest.announce');
         }
 
         // Insert Act information.
-        $competing_acts = Act::whereHas('songs')->get()->map(fn(Act $act) => $this->getActData($act))->toArray();
-        if ($index = array_search(':acts', $lines))
-        {
+        $competing_acts = Act::whereHas('songs')->get()->map(fn (Act $act) => $this->getActData($act))->toArray();
+        if ($index = array_search(':acts', $lines)) {
             array_splice($lines, $index, 1, $competing_acts);
         }
 
@@ -121,33 +107,20 @@ class NewsPromptController extends Controller
 
     /**
      * Build a prompt to use for generating a News Post about the specified Stage.
-     *
-     * @param Stage $stage
-     * @param array $data
-     * @return array
      */
-    public function buildStagePrompt(Stage $stage, array $data): array
+    protected function buildStagePrompt(Stage $stage, array $data): array
     {
         $lines = [];
 
-        if ($stage->isOver())
-        {
-            $lines = $this->getStageOverPrompt($lines, $stage);
-        }
-        elseif ($stage->hasEnded())
-        {
-            $lines = $this->getStageEndedPrompt($lines, $stage);
-        }
-        elseif ($stage->isActive())
-        {
-            $lines = $this->getStageActivePrompt($lines, $stage);
-        }
-        elseif ($stage->isReady())
-        {
-            $lines = $this->getStageReadyPrompt($lines, $stage);
-        }
-        else
-        {
+        if ($stage->isOver()) {
+            $lines = $this->getStageOverPrompt($stage);
+        } elseif ($stage->hasEnded()) {
+            $lines = $this->getStageEndedPrompt($stage);
+        } elseif ($stage->isActive()) {
+            $lines = $this->getStageActivePrompt($stage);
+        } elseif ($stage->isReady()) {
+            $lines = $this->getStageReadyPrompt($stage);
+        } else {
             abort(400, 'This Stage is inactive.');
         }
 
@@ -156,20 +129,17 @@ class NewsPromptController extends Controller
         // - any information about the involved Acts' performance in previous Stages.
 
         $lines[] = Lang::get('press-release.stage.stage-acts');
-        $acts    = $stage->getActsInvolved();
-        foreach ($acts as $act)
-        {
-            $lines[] = "- $act->name";
+        $acts = $stage->getActsInvolved();
+        foreach ($acts as $act) {
+            $lines[] = "- $act->full_name".($act->is_fan_favourite ? ' (favourite to win)' : '');
         }
 
         $previous_wins = StageWinner::where('stage_id', '<', $stage->id)->get();
-        if ($previous_wins->isNotEmpty())
-        {
+        if ($previous_wins->isNotEmpty()) {
             $lines[] = Lang::get('press-release.stage.previous-results');
-            foreach ($previous_wins as $row)
-            {
-                $rank    = $row->is_winner ? 'Winner' : 'Runner-up';
-                $lines[] = "- $row->song->act->name: $rank ($row->round->full_title)";
+            foreach ($previous_wins as $row) {
+                $rank = $row->is_winner ? 'Winner' : 'Runner-up';
+                $lines[] = "- {$row->song->act->full_name}: $rank ({$row->round->full_title})";
             }
         }
 
@@ -178,29 +148,22 @@ class NewsPromptController extends Controller
 
     /**
      * Build a prompt to use for generating a News Post about the specified Round.
-     *
-     * @param Round $round
-     * @param array $data
-     * @return array
      */
     protected function buildRoundPrompt(Round $round, array $data): array
     {
         $lines = [];
 
-        if ($round->hasEnded())
-        {
+        if ($round->hasEnded()) {
             // Include the outcomes of the Round.
-            $lines   = Lang::get('press-release.round.ended');
+            $lines = array_merge(Lang::get('press-release.round.ended'));
             $lines[] = $this->getRoundOutcomeData($round);
-        }
-        elseif ($round->hasStarted())
-        {
+        } elseif ($round->hasStarted()) {
             $lines = Lang::get('press-release.round.started');
         }
 
         // Act information.
-        foreach ($round->songs as $song)
-        {
+        $lines[] = Lang::get('press-release.round.acts');
+        foreach ($round->songs as $song) {
             $lines[] = $this->getActData($song->act);
         }
 
@@ -209,57 +172,45 @@ class NewsPromptController extends Controller
 
     /**
      * Returns information about an Act to include in the prompt.
-     *
-     * @param Act $act
-     * @return string
      */
     protected function getActData(Act $act, bool $with_wins = false): string
     {
         $act->loadMissing(['languages', 'traits', 'genres', 'members', 'notes']);
 
         $output = [
-            "- Act: $act->name",
-            "  Is a Fan Favourite: " . ($act->is_fan_favourite ? 'Yes' : 'No')
+            "- Act: $act->full_name",
+            '  Is a Fan Favourite: '.($act->is_fan_favourite ? 'Yes' : 'No'),
         ];
 
-        if ($act->members->isNotEmpty())
-        {
-            $output[] = "  Members:";
-            foreach ($act->members as $member)
-            {
+        if ($act->members->isNotEmpty()) {
+            $output[] = '  Members:';
+            foreach ($act->members as $member) {
                 $output[] = "$member->name ($member->role)";
             }
         }
 
-        if ($act->languages->isNotEmpty())
-        {
-            $output[] = "  Spoken languages: " . implode(', ', $act->languages()->pluck('name')->toArray());
+        if ($act->languages->isNotEmpty()) {
+            $output[] = '  Spoken languages: '.implode(', ', $act->languages()->pluck('name')->toArray());
         }
 
-        if ($act->genres->isNotEmpty())
-        {
-            $output[] = "  Genre(s): " . implode(', ', $act->genres()->pluck('name')->toArray());
+        if ($act->genres->isNotEmpty()) {
+            $output[] = '  Genre(s): '.implode(', ', $act->genres()->pluck('name')->toArray());
         }
 
-        if ($act->traits->isNotEmpty())
-        {
-            $output[] = "  Personality traits:";
-            foreach ($act->traits as $trait)
-            {
-                $output[] = $trait->trait;
+        if ($act->traits->isNotEmpty()) {
+            $output[] = '  Personality traits:';
+            foreach ($act->traits as $trait) {
+                $output[] = "    $trait->trait";
             }
         }
-        if ($act->notes->isNotEmpty())
-        {
-            $output[] = "  Notes:";
-            foreach ($act->notes as $note)
-            {
-                $output[] = $note->note;
+        if ($act->notes->isNotEmpty()) {
+            $output[] = '  Notes:';
+            foreach ($act->notes as $note) {
+                $output[] = "    $note->note";
             }
         }
 
-        if ($with_wins)
-        {
+        if ($with_wins) {
             $output = $this->generateActWins($act, $output);
         }
 
@@ -268,27 +219,26 @@ class NewsPromptController extends Controller
 
     /**
      * Returns a series of RoundOutcomes formatted for the prompt.
-     *
-     * @param Round $round
-     * @return string
      */
     protected function getRoundOutcomeData(Round $round): string
     {
         $outcomes = $round->outcomes
-            ->map(fn(RoundOutcome $outcome) => "  - Act: $outcome->song->act->name" . PHP_EOL .
-                "    Total score: $outcome->score" . PHP_EOL .
-                "    First choice votes: $outcome->first_votes" . PHP_EOL .
-                "    Second choice votes: $outcome->second_votes" . PHP_EOL .
-                "    Third choice votes: $outcome->third_votes" . PHP_EOL .
-                "    Was judged?: " . ($outcome->was_manual ? 'Yes' : 'No')
-            );
+            ->map(function (RoundOutcome $outcome) {
+                $lines = [
+                    "  - Act: {$outcome->song->act->full_name}",
+                    "    Total score: {$outcome->score}",
+                    "    First choice votes: {$outcome->first_votes}",
+                    "    Second choice votes: {$outcome->second_votes}",
+                    "    Third choice votes: {$outcome->third_votes}",
+                    '    Was judged?: '.($outcome->was_manual ? 'Yes' : 'No'),
+                ];
+
+                return implode(PHP_EOL, $lines);
+            });
 
         return implode(PHP_EOL, ['- Round outcomes:', ...$outcomes->toArray()]);
     }
 
-    /**
-     * @return array|string
-     */
     protected function buildContestOverPrompt(): string|array
     {
         $lines = Lang::get('press-release.contest.over');
@@ -300,42 +250,35 @@ class NewsPromptController extends Controller
 
         $results = ContestFacade::overallWinners();
         $lines[] = Lang::get('press-release.contest.overall-winners');
-        foreach ($results['winners'] as $row)
-        {
+        foreach ($results['winners'] as $row) {
             $lines[] = "- {$row['act']['name']}";
         }
         $lines[] = Lang::get('press-release.contest.runners-up');
-        foreach ($results['runners_up'] as $row)
-        {
+        foreach ($results['runners_up'] as $row) {
             $lines[] = "- {$row['act']['name']}";
         }
 
         $golden_buzzer_acts = Act::whereHas('goldenBuzzers')->get();
-        if ($golden_buzzer_acts->isNotEmpty())
-        {
+        if ($golden_buzzer_acts->isNotEmpty()) {
             $lines[] = Lang::get('press-release.contest.golden-buzzers');
-            foreach ($golden_buzzer_acts as $act)
-            {
-                $lines[] = "  - $act->name";
+            foreach ($golden_buzzer_acts as $act) {
+                $lines[] = "  - $act->full_name";
             }
         }
 
         $lines[] = Lang::get('press-release.contest.donations', [
             'currency' => config('contest.donation.currency'),
-            'total'    => Donation::sum('amount')
+            'total' => Donation::sum('amount'),
         ]);
+
         return $lines;
     }
 
-    /**
-     * @return array|string
-     */
     protected function buildContestRunningPrompt(): string|array
     {
         $lines = Lang::get('press-release.contest.running');
 
-        if (ContestFacade::isOnLastStage())
-        {
+        if (ContestFacade::isOnLastStage()) {
             $lines[] = Lang::get('press-release.contest.last-stage');
         }
 
@@ -343,145 +286,108 @@ class NewsPromptController extends Controller
         $current_round = ContestFacade::getCurrentStage()?->getCurrentRound();
         $stage_winners = StageWinner::whereIsWinner(true)->get();
 
-        if ($current_round)
-        {
+        if ($current_round) {
             $lines[] = Lang::get('press-release.contest.current-round', ['round_title' => $current_round->full_title]);
             $lines[] = Lang::get('press-release.contest.current-round-competing');
-            foreach ($current_round->songs as $song)
-            {
-                $lines[] = "- {$song->act->name}";
+            foreach ($current_round->songs as $song) {
+                $lines[] = "- {$song->act->full_name}";
             }
         }
 
-        if ($stage_winners->isNotEmpty())
-        {
+        if ($stage_winners->isNotEmpty()) {
             $lines[] = Lang::get('press-release.contest.previous-stage-winners');
-            foreach ($stage_winners as $row)
-            {
-                $lines[] = "- {$row->song->act->name} ({$row->round->full_title})";
+            foreach ($stage_winners as $row) {
+                $lines[] = "- {$row->song->act->full_name} ({$row->round->full_title})";
             }
         }
+
         return $lines;
     }
 
-    /**
-     * @param array $lines
-     * @param Stage $stage
-     * @return array|string
-     */
-    protected function getStageOverPrompt(array $lines, Stage $stage): string|array
+    protected function getStageOverPrompt(Stage $stage): string|array
     {
-        $lines = array_merge($lines, Lang::get('press-release.stage.over'));
+        $lines = Lang::get('press-release.stage.over', ['stage_name' => $stage->title]);
 
         // Include the winners and runners-up of the Stage.
         $lines[] = Lang::get('press-release.stage.outcome');
-        foreach ($stage->winners as $row)
-        {
-            $rank    = $row->is_winner ? 'Winner' : 'Runner-up';
-            $lines[] = "- {$row->song->act->name}: $rank ({$row->round->title})";
+        foreach ($stage->winners as $row) {
+            $rank = $row->is_winner ? 'Winner' : 'Runner-up';
+            $lines[] = "- {$row->song->act->full_name}: $rank ({$row->round->title})";
         }
+
         return $lines;
     }
 
-    /**
-     * @param array $lines
-     * @param Stage $stage
-     * @return array|string
-     */
-    protected function getStageEndedPrompt(array $lines, Stage $stage): string|array
+    protected function getStageEndedPrompt(Stage $stage): string|array
     {
-        $lines = array_merge($lines, Lang::get('press-release.stage.ended'));
+        $lines = Lang::get('press-release.stage.ended');
 
         // Include the number of votes in each Round.
         $lines[] = Lang::get('press-release.stage.round-votes');
-        foreach ($stage->rounds as $round)
-        {
+        foreach ($stage->rounds as $round) {
             $lines[] = "- {$round->title}: {$round->votes->count()}";
         }
+
         return $lines;
     }
 
-    /**
-     * @param array $lines
-     * @param Stage $stage
-     * @return array|string
-     */
-    protected function getStageActivePrompt(array $lines, Stage $stage): string|array
+    protected function getStageActivePrompt(Stage $stage): string|array
     {
-        $lines = array_merge($lines, Lang::get('press-release.stage.active'));
+        $lines = Lang::get('press-release.stage.active');
 
         // Include information about the current Round in this Stage.
         $current_round = $stage->getCurrentRound();
-        $lines[]       = Lang::get('press-release.stage.current-round', ['round_title' => $current_round->full_title]);
-        $lines[]       = Lang::get('press-release.stage.current-round-acts');
-        foreach ($current_round->songs as $song)
-        {
-            $lines[] = "- {$song->act->name}";
+        $lines[] = Lang::get('press-release.stage.current-round', ['round_title' => $current_round->full_title]);
+        $lines[] = Lang::get('press-release.stage.current-round-acts');
+        foreach ($current_round->songs as $song) {
+            $lines[] = "- {$song->act->full_name}";
         }
-        $lines[] = Lang::get('press-release.stage.current-round-ends', ['round_end' => $current_round->ends_at->toISOString()]);
+        $lines[] = Lang::get('press-release.stage.current-round-ends', ['round_end' => $current_round->ends_at->format(config('contest.format.full-date'))]);
+
         return $lines;
     }
 
-    /**
-     * @param array $lines
-     * @param Stage $stage
-     * @return array|string
-     */
-    protected function getStageReadyPrompt(array $lines, Stage $stage): string|array
+    protected function getStageReadyPrompt(Stage $stage): string|array
     {
-        $lines = array_merge($lines, Lang::get('press-release.stage.ready'));
+        $lines = Lang::get('press-release.stage.ready');
 
         // In this case, we would want to know which Acts are in each Stage.
         $lines[] = Lang::get('press-release.stage.round-breakdown');
-        foreach ($stage->rounds as $round)
-        {
+        foreach ($stage->rounds as $round) {
             $lines[] = "- $round->title";
-            foreach ($round->songs as $song)
-            {
-                $lines[] = "  - $song->act->name (performing $song->name)";
+            foreach ($round->songs as $song) {
+                $lines[] = "  - {$song->act->full_name} (performing {$song->title})";
             }
         }
+
         return $lines;
     }
 
-    /**
-     * @param Collection $acts
-     * @param array      $data
-     * @return array
-     */
-    public function buildActsPrompt(Collection $acts, array $data): array
+    protected function buildActsPrompt(Collection $acts, array $data): array
     {
-        if ($acts->isEmpty())
-        {
+        if ($acts->isEmpty()) {
             abort(400, 'No valid Acts specified.');
         }
 
-        $lines           = Lang::get('press-release.act.prompt');
-        $act_information = $acts->map(fn(Act $act) => $this->getActData($act, true));
+        $lines = Lang::get('press-release.act.prompt');
+        $act_information = $acts->map(fn (Act $act) => $this->getActData($act, true));
 
         return [...$lines, ...$act_information];
     }
 
-    /**
-     * @param Act   $act
-     * @param array $output
-     * @return array
-     */
     protected function generateActWins(Act $act, array $output): array
     {
-        $wins = StageWinner::whereHas('song', function (Builder $q) use ($act)
-        {
+        $wins = StageWinner::whereHas('song', function (Builder $q) use ($act) {
             $q->where('act_id', '=', $act->id);
         })->get();
-        if ($wins->isNotEmpty())
-        {
-            $output[] = Lang::get("press-release.act.wins");
-            foreach ($wins as $row)
-            {
-                $rank     = $row->is_winner ? 'Winner' : 'Runner-up';
-                $output[] = "    $rank in $row->round->full_title";
+        if ($wins->isNotEmpty()) {
+            $output[] = Lang::get('press-release.act.wins');
+            foreach ($wins as $row) {
+                $rank = $row->is_winner ? 'Winner' : 'Runner-up';
+                $output[] = "    $rank in {$row->round->full_title}";
             }
         }
+
         return $output;
     }
 }

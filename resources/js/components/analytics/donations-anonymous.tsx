@@ -1,10 +1,12 @@
-import { Bar, BarChart } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Tooltip } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
-import { ChartDateXAxis, ChartYAxis } from '@/components/chart-elements';
+import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
+import { formatDate, stringToChartColour } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
 
 
 interface Props {
@@ -12,6 +14,7 @@ interface Props {
 }
 
 export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
+    const { locale } = usePage().props;
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [chartData, setChartData] = useState<AnalyticsData>();
 
@@ -34,22 +37,33 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
             });
     }
 
+    const tooltipContent = ({ active, payload, label }) => {
+        if (active && payload?.length) {
+            return (
+                <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-3">
+                    <span className="display-text">{formatDate(locale, label)}</span>
+                    {payload.map((row) => (
+                        <span className="text-sm flex gap-1 items-center">
+                            <span className="size-3 inline-block" style={{ backgroundColor: getColor(row.name) }}></span>
+                            {row.value ? row.value.toLocaleString() : 'No'} {row.value === 1 ? 'donation' : 'donations'}
+                        </span>
+                    ))}
+                </div>
+            );
+        }
+
+        return null;
+    };
+
     const fixedColors = {
+        '1': 'var(--chart-1-1)',
         'Anonymous': 'var(--chart-1-1)',
+        '0': 'var(--chart-2-3)',
         'Not anonymous': 'var(--chart-2-3)'
     };
 
     function getColor(key) {
-        return fixedColors[key] ?? stringToColor(key);
-    }
-
-    function stringToColor(str) {
-        let hash = 0;
-        for (let i = 0; i < (str?.length ?? 0); i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const hue = Math.abs(hash % 360);
-        return `hsl(${hue}, 65%, 55%)`;
+        return fixedColors[key] ?? stringToChartColour(key);
     }
 
     return (
@@ -65,6 +79,7 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                 responsive
                                 data={chartData.data}
                             >
+                                <CartesianGrid strokeDasharray="3 3"/>
                                 <ChartDateXAxis/>
                                 <ChartYAxis label="Donations"/>
 
@@ -76,35 +91,39 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                         fill={getColor(key)}
                                     />
                                 ))}
+                                <Tooltip content={tooltipContent} isAnimationActive={false}/>
+                                <ChartRoundReferences/>
                             </BarChart>
                         )}
                     </div>
                     <div className="lg:w-1/3">
-                        <table className="data-table">
-                            <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col" className="text-left">Status</th>
-                                <th scope="col" className="text-right">Count</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {chartData ? chartData.table.map((row) => (
-                                <tr key={row.name}>
-                                    <th scope="row">
+                        <div className="analytics-section-scroll">
+                            <table className="data-table">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col" className="text-left">Status</th>
+                                    <th scope="col" className="text-right">Count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {chartData ? chartData.table.map((row) => (
+                                    <tr key={row.name}>
+                                        <th scope="row">
                                 <span className="block size-4"
                                       style={{ backgroundColor: getColor(row.name) }}></span>
-                                    </th>
-                                    <th className="text-left" scope="row">{row.name}</th>
-                                    <td className="text-right">{row.count}</td>
-                                </tr>
-                            )) : (
-                                <tr>
-                                    <td colSpan="3" className="nothing">No data recorded.</td>
-                                </tr>
-                            )}
-                            </tbody>
-                        </table>
+                                        </th>
+                                        <th className="text-left" scope="row">{row.name}</th>
+                                        <td className="text-right">{row.count}</td>
+                                    </tr>
+                                )) : (
+                                    <tr>
+                                        <td colSpan="3" className="nothing">No data recorded.</td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </LoadingOverlay>

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('round_id')->constrained('rounds', 'id')->cascadeOnDelete();
             $table->foreignId('first_choice_id')->references('id')->on('songs')->cascadeOnDelete();
-            $table->foreignId('second_choice_id')->references('id')->on('songs')->cascadeOnDelete();
-            $table->foreignId('third_choice_id')->references('id')->on('songs')->cascadeOnDelete();
+            $table->foreignId('second_choice_id')->nullable()->references('id')->on('songs')->cascadeOnDelete();
+            $table->foreignId('third_choice_id')->nullable()->references('id')->on('songs')->cascadeOnDelete();
             $table->timestamps();
         });
     }
