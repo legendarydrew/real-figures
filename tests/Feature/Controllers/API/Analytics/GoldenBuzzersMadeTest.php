@@ -4,6 +4,7 @@ namespace Tests\Feature\Controllers\API\Analytics;
 
 use App\Http\Controllers\API\Analytics\GoldenBuzzersMadeController;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Spatie\Analytics\Facades\Analytics;
 use Tests\TestCase;
 
 final class GoldenBuzzersMadeTest extends TestCase
@@ -22,6 +23,7 @@ final class GoldenBuzzersMadeTest extends TestCase
 
     public function test_no_data(): void
     {
+        Analytics::fake(collect());
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
 
         $response->assertOk();
@@ -38,7 +40,7 @@ final class GoldenBuzzersMadeTest extends TestCase
     public function test_with_data(): void
     {
         $date = now()->subDay();
-        \Analytics::fake(collect([
+        Analytics::fake(collect([
             [
                 'date' => $date,
                 'eventName' => 'dialog_open',

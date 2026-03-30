@@ -7,11 +7,18 @@ use App\Facades\ContestFacade;
 use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
+use Spatie\Analytics\Facades\Analytics;
 use Tests\TestCase;
 
 final class ContestStatusesTest extends TestCase
 {
     use DatabaseMigrations;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Analytics::fake(collect());
+    }
 
     public function test_when_contest_is_inactive(): void
     {
