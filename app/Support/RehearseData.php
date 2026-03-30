@@ -120,7 +120,8 @@ class RehearseData
             'traits' => [
                 'down to earth',
                 'results oriented',
-                'celebrity is a means to an end'
+                'celebrity is a means to an end',
+                'aware he might be an underdog'
             ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
@@ -136,12 +137,12 @@ class RehearseData
             'traits' => [
                 'quiet confidence',
                 'humble but aware of her abilities',
-                'noble and refined'
+                'noble, complimentary of other Acts'
             ],
             'languages' => ['en', 'ja'],
             'is_fan_favourite' => false,
             'notes' => [
-                'A mixed-race female classical singer in her early 20s.',
+                'A mixed-race female contemporary classical singer in her early 20s.',
                 'Most remembered for her plus-sized figure.',
                 'Does not often do interviews.'
             ],
@@ -152,7 +153,7 @@ class RehearseData
             'genres' => ['Latin', 'R&B'],
             'traits' => [
                 'Cielo Groove: laid-back, enthusiastic about the pairing and Latin music',
-                'Saima Gaines: somewhat sassy, resentful of Bryknii'
+                'Saima Gaines: somewhat sassy, resentful of Bryknii and her assured fame'
             ],
             'languages' => ['en', 'es'],
             'is_fan_favourite' => false,
@@ -161,80 +162,148 @@ class RehearseData
                 'Saima Gaines is an established R&B singer in her early 30s.',
                 'The pairing was formed through a mutual respect for music styles.',
                 'Cielo Groove is known for their catchy, self-styled "Latin persuasion" music.',
-                'Saima was previously known for being autotuned, now looking to establish herself as a bona fide singer.'
+                'Saima was previously associated with heavy autotuning, now looking to establish herself as a bona fide singer.'
             ],
         ],
         [
             'name' => 'Clémence Duval',
             'subtitle' => null,
-            'genres' => [],
-            'traits' => [],
+            'genres' => ['Pop'],
+            'traits' => [
+                'An almost too perfect public image',
+                'Emotionally distant in contrast to her performances',
+                'Very aware of her appeal as a singer'
+            ],
             'languages' => ['en', 'fr'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'A French female singer in her mid 20s.',
+                'Known for performing cinematic ballads in her native French and occasionally English.',
+                'Recognised as one of the industry\'s most beautiful people.',
+                'Speaks both English and French.'
+            ],
         ],
         [
             'name' => 'Coastliners, the',
             'subtitle' => null,
             'genres' => ['Barbershop'],
-            'traits' => [],
+            'traits' => [
+                'Does not see any other Act as competition',
+                'Liberal-minded',
+                'Generally laid back',
+                'Family oriented'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'West coast style barbershop quartet, ranging from mid 30s to mid 40s.',
+                'Music style inspired by The Beach Boys.',
+                'Relies solely on vocals and occasional human percussion.'
+            ],
         ],
         [
             'name' => 'Elora James',
             'subtitle' => null,
             'genres' => ['Soul'],
-            'traits' => [],
+            'traits' => [
+                'Identifies with the Contest theme on an intersectional level',
+                'Bold and authentic',
+                'Balanced in her speech',
+                'Looking to elevate her profile as a result of the Contest'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Female soul singer in her mid 30s.',
+                'Backed by female singers.',
+                'Excels in a capella singing, with minimal instrumentation.'
+            ],
         ],
         [
             'name' => 'Emma Finch',
             'subtitle' => null,
             'genres' => ['Americana', 'Folk'],
-            'traits' => [],
+            'traits' => [
+                'Very liberal and left leaning',
+                'Seeks male approval but is pro-woman',
+                'Most concerned about bullying toward girls'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Female folk singer in her early 30s.',
+                'Has been a songwriter since her childhood.',
+                'Skilled at playing acoustic guitar and piano.'
+            ],
         ],
         [
             'name' => 'Forty Twos, the',
             'subtitle' => null,
             'genres' => ['Barbershop'],
-            'traits' => [],
+            'traits' => [
+                'Perhaps overly confident about their chances of winning',
+                'Essentially competing with the Coastliners for dominance',
+                'Career oriented',
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'New York style barbershop quartet, all in their mid 30s.',
+                'Believe they destined for (and should be on) Broadway.',
+                'Experimental, sometimes including additional instruments and effects in their music.'
+            ],
         ],
         [
             'name' => 'GRMLN',
             'subtitle' => null,
             'genres' => ['EDM'],
-            'traits' => [],
+            'traits' => [
+                'Hard working and accomplished',
+                'Aware of social media sentiments and trends',
+                'Enjoys the party life while knowing his limits',
+                'Driven to give memorable performances'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Male EDM producer and performer in his late teens.',
+                'Already highly successful.',
+                'In tune with the youth through his music.'
+            ],
         ],
         [
             'name' => 'High School Dropout',
             'subtitle' => null,
             'genres' => ['Rock'],
-            'traits' => [],
+            'traits' => [
+                'Takes the F.O.L.D\'s treatment of the MODE Family personally',
+                'Confidently defiant',
+                'Motivated to win the Contest through their fans'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => true,
-            'notes' => ['Has the closest relationship to the MODE Family of all the Acts.'],
+            'notes' => [
+                'A rock band comprising a male lead and three female musicians, all in their mid 20s.',
+                'One of CATAWOL Records\' defining Acts.',
+                'Has the closest relationship to the MODE Family of all the Acts.'
+            ],
         ],
         [
             'name' => 'Kendra Blaze',
             'subtitle' => null,
             'genres' => ['Pop'],
-            'traits' => [],
+            'traits' => [
+                'Singing is all, not shy to re-record several times',
+                'Generally reclusive, only appearing if absolutely necessary',
+                'Very private and reserved'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Black female pop singer in her late 30s.',
+                'Known for her distinctive 80s style.',
+                'Influenced by predecessors including Whitney Houston and Donna Summer.'
+            ],
         ],
         [
             'name' => 'Loop Theory',
