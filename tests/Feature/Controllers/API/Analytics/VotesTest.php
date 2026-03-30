@@ -26,7 +26,7 @@ final class VotesTest extends TestCase
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
 
         $response->assertOk();
-        $response->assertJsonCount(self::DAY_COUNT * 24 + 1);
+        $response->assertJsonCount(now()->hour + self::DAY_COUNT * 24 + 1);
         $response->assertJsonStructure([
             '*' => [
                 'time',
@@ -39,11 +39,11 @@ final class VotesTest extends TestCase
     {
         \Analytics::fake(collect([
             [
-                'dateHour' => now()->subDays(2)->format('YmdH'),
+                'dateHour'   => now()->subDays(2)->format('YmdH'),
                 'eventCount' => fake()->numberBetween(1, 200),
             ],
             [
-                'dateHour' => now()->subDays(3)->format('YmdH'),
+                'dateHour'   => now()->subDays(3)->format('YmdH'),
                 'eventCount' => fake()->numberBetween(1, 200),
             ],
         ]));
@@ -51,7 +51,7 @@ final class VotesTest extends TestCase
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
 
         $response->assertOk();
-        $response->assertJsonCount(self::DAY_COUNT * 24 + 1);
+        $response->assertJsonCount(now()->hour + self::DAY_COUNT * 24 + 1);
         $response->assertJsonStructure([
             '*' => [
                 'time',

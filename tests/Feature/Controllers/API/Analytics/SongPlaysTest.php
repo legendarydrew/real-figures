@@ -27,7 +27,7 @@ final class SongPlaysTest extends TestCase
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
 
         $response->assertOk();
-        $response->assertJsonCount(self::DAY_COUNT * 24 + 1);
+        $response->assertJsonCount(now()->hour + self::DAY_COUNT * 24 + 1);
         $response->assertJsonStructure([
             '*' => [
                 'time',
@@ -56,7 +56,7 @@ final class SongPlaysTest extends TestCase
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
 
         $response->assertOk();
-        $response->assertJsonCount(self::DAY_COUNT * 24 + 1);
+        $response->assertJsonCount(now()->hour + self::DAY_COUNT * 24 + 1);
         $response->assertJsonStructure([
             '*' => [
                 'time',
