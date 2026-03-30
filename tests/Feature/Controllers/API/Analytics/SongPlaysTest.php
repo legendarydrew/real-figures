@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers\API\Analytics;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Spatie\Analytics\Facades\Analytics;
 use Tests\TestCase;
 
 final class SongPlaysTest extends TestCase
@@ -21,7 +22,7 @@ final class SongPlaysTest extends TestCase
 
     public function test_no_data(): void
     {
-        \Analytics::fake(collect());
+        Analytics::fake(collect());
 
         $response = $this->actingAs($this->user)->getJson(self::ENDPOINT, ['days' => self::DAY_COUNT]);
 
@@ -37,7 +38,7 @@ final class SongPlaysTest extends TestCase
 
     public function test_with_data(): void
     {
-        \Analytics::fake(collect([
+        Analytics::fake(collect([
             [
                 'dateHour' => now()->subDays(3)->format('YmdH'),
                 'eventCount' => fake()->numberBetween(1, 20),
