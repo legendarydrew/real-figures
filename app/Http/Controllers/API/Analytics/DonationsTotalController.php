@@ -30,7 +30,7 @@ class DonationsTotalController extends AnalyticsAPIController
                     (SELECT SUM(x.amount) FROM %1$s x WHERE x.id <= t.id) AS amount
                     FROM %1$s t
                     WHERE DATE(t.created_at) > ?
-                    GROUP BY date';
+                    GROUP BY t.id, date';
         $donations_data = DB::select(sprintf($query, 'donations', 'd'), [now()->subDays($days)]);
         $buzzer_data = DB::select(sprintf($query, 'golden_buzzers', 'b'), [now()->subDays($days)]);
 

@@ -19,7 +19,7 @@ use Spatie\Analytics\Period;
  */
 class VoteChoicesController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'viewport';
+    const string CACHE_KEY = 'vote-choices';
 
     protected function analyticsQuery(int $days): Collection
     {
@@ -46,7 +46,7 @@ class VoteChoicesController extends AnalyticsAPIController
     {
         $data = AnalyticsChartFormatter::stackedByDate(
             $rows,
-            'customEvent:choices',
+            'customEvent:choices'
         );
 
         $this->fillDateGaps($data, $days);
