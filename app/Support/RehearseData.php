@@ -34,70 +34,135 @@ class RehearseData
             'name' => 'Airi Kisaragi',
             'subtitle' => null,
             'genres' => ['J-Pop'],
-            'traits' => [],
-            'languages' => ['jp'],
+            'traits' => [
+                'giggly and coy when giving interviews',
+                'youthful',
+                'energentic'
+            ],
+            'languages' => ['ja'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Female J-Pop idol in her mid teens.',
+                'Known for her colourful hairstyles outfits.',
+                'Stylised high-energy metal music.'
+            ],
         ],
         [
             'name' => 'Axel King',
             'subtitle' => null,
             'genres' => ['Blues', 'Rock'],
-            'traits' => [],
+            'traits' => [
+                'serious about his craft',
+                'passionate about rock and roll',
+                'moody when questioned about non-music subjects'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'A gritty male rock and roller in his late 30s.',
+                'Expert guitar player.',
+                'Transitioning to blues rock, having discovered the genre.',
+                'Performing with his long-time backing band The Roses.'
+            ],
         ],
         [
             'name' => 'Bryknii',
             'subtitle' => null,
             'genres' => ['EDM', 'Pop'],
-            'traits' => [],
+            'traits' => [
+                'very much in control of her career',
+                'self-assured',
+                'wants for nothing',
+                'already thinking about future projects'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => true,
-            'notes' => ['Has a bitter rivalry with Saima Gaines.'],
+            'notes' => [
+                'Highly popular female pop icon in her early 30s.',
+                'Relies heavily on autotuning and other modern production values.',
+                'Has a bitter rivalry with Saima Gaines.'
+            ],
         ],
         [
             'name' => 'Bryknii',
             'subtitle' => 'ft. Kat Soo',
             'genres' => ['EDM', 'K-Pop', 'Pop'],
-            'traits' => [],
+            'traits' => [
+                'Kat Soo: sassy, unashamedly female, highly suggestive',
+                'Bryknii: admires Kat Soo but primarily sees the pairing as another chance to win'
+            ],
             'languages' => ['en', 'ko'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Bryknii is CATAWOL Records\' biggest and most popular Act, female in her early 30s.',
+                'Kat Soo is an up and coming K-Pop singer/rapper in her late teens.'
+            ],
         ],
         ['name' => 'Buck & Jeb',
             'subtitle' => null,
             'genres' => ['Country & Western'],
-            'traits' => [],
+            'traits' => [
+                'generally easygoing',
+                'do not take themselves too seriously',
+                'derives satisfaction from entertaining the crowd',
+                'rely on and compliment each other as a duo',
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Male country and western duo in their 40s.',
+                'Competent but known for their comedic take on the genre.'
+            ],
         ],
         ['name' => 'BZpeople',
             'subtitle' => null,
             'genres' => ['EDM'],
-            'traits' => [],
+            'traits' => [
+                'down to earth',
+                'results oriented',
+                'celebrity is a means to an end'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'A solo black male house producer in his late 30s.',
+                'Usually works entirely on his own.',
+                'Emphasise messages with catchy hooks in his songs.',
+            ],
         ],
         ['name' => 'Chelsea Chapel',
             'subtitle' => null,
             'genres' => ['Classical'],
-            'traits' => [],
-            'languages' => ['en', 'jp'],
+            'traits' => [
+                'quiet confidence',
+                'humble but aware of her abilities',
+                'noble and refined'
+            ],
+            'languages' => ['en', 'ja'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'A mixed-race female classical singer in her early 20s.',
+                'Most remembered for her plus-sized figure.',
+                'Does not often do interviews.'
+            ],
         ],
         [
             'name' => 'Cielo Groove',
             'subtitle' => 'ft. Saima Gaines',
             'genres' => ['Latin', 'R&B'],
-            'traits' => [],
+            'traits' => [
+                'Cielo Groove: laid-back, enthusiastic about the pairing and Latin music',
+                'Saima Gaines: somewhat sassy, resentful of Bryknii'
+            ],
             'languages' => ['en', 'es'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Cielo Groove is an all-male Latin group in their 30s.',
+                'Saima Gaines is an established R&B singer in her early 30s.',
+                'The pairing was formed through a mutual respect for music styles.',
+                'Cielo Groove is known for their catchy, self-styled "Latin persuasion" music.',
+                'Saima was previously known for being autotuned, now looking to establish herself as a bona fide singer.'
+            ],
         ],
         [
             'name' => 'Clémence Duval',
@@ -266,7 +331,7 @@ class RehearseData
             'subtitle' => null,
             'genres' => ['J-Pop'],
             'traits' => [],
-            'languages' => ['en', 'jp'],
+            'languages' => ['en', 'ja'],
             'is_fan_favourite' => false,
             'notes' => [],
         ],
