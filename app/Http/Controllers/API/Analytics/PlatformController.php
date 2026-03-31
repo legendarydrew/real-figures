@@ -14,8 +14,6 @@ use Spatie\Analytics\Period;
  */
 class PlatformController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'platform';
-
     protected function analyticsQuery(int $days): Collection
     {
         return Analytics::get(
@@ -30,9 +28,9 @@ class PlatformController extends AnalyticsAPIController
 
     protected function analyticsProcessed(?Collection $rows, int $days): array
     {
-        return $rows->map(fn ($row) => [
+        return $rows->map(fn($row) => [
             'platform' => ucwords($row['platform']),
-            'views' => $row['screenPageViews'],
+            'views'    => $row['screenPageViews'],
         ])->toArray();
     }
 }

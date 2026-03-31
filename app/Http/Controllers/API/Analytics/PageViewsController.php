@@ -14,8 +14,6 @@ use Spatie\Analytics\Period;
  */
 class PageViewsController extends AnalyticsAPIController
 {
-    public const string CACHE_KEY = 'page-views';
-
     protected function analyticsQuery(int $days): Collection
     {
         return Analytics::fetchTotalVisitorsAndPageViews(

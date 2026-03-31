@@ -82,7 +82,7 @@ export const CollapseOpenAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                 fill={getColor(key)}
                             />
                         ))}
-                        <ChartRoundReferences/>
+                        <ChartRoundReferences position="start"/>
                     </BarChart>
                 )}
 

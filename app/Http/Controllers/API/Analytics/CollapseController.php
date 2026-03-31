@@ -20,8 +20,6 @@ use Spatie\Analytics\Period;
  */
 class CollapseController extends AnalyticsAPIController
 {
-    public const string CACHE_KEY = 'collapse';
-
     protected function analyticsQuery(int $days): Collection
     {
         // Building on ChatGPT's suggestion.

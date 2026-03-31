@@ -34,7 +34,7 @@ export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
             .then((res) => {
                 setChartData(res.data);
             })
-            .catch((res) => RTToast.error(res.message))
+            .catch((error) => RTToast.error(error.message))
             .finally(() => {
                 setIsLoading(false);
             });
@@ -43,16 +43,17 @@ export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     const tooltipContent = ({ active, payload, label }) => {
         if (active && payload?.length) {
+            console.log(payload);
             return (
                 <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-2">
                     <span className="display-text text-sm">{formatDate(locale as string, label)}</span>
                     <span className="flex items-center gap-1 text-xs">
                         <span className="size-3 inline-block bg-(--donation-light)"></span>
-                        Donations: {donation.currency} {payload[0].value.toLocaleString()}
+                        Donations: {donation.currency} {payload[1].value.toLocaleString()}
                     </span>
                     <span className="flex items-center gap-1 text-xs">
                         <span className="size-3 inline-block bg-(--gold-light)"></span>
-                        Golden Buzzers: {donation.currency} {payload[1].value.toLocaleString()}
+                        Golden Buzzers: {donation.currency} {payload[0].value.toLocaleString()}
                     </span>
                 </div>
             );

@@ -31,7 +31,7 @@ export const GoldenBuzzersMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
             .then((res) => {
                 setChartData(res.data);
             })
-            .catch((res) => RTToast.error(res.message))
+            .catch((error) => RTToast.error(error.message))
             .finally(() => {
                 setIsLoading(false);
             });
@@ -42,8 +42,11 @@ export const GoldenBuzzersMadeAnalytics: React.FC<Props> = ({ days = 7 }) => {
             return (
                 <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-3">
                     <span className="display-text">{formatDate(locale, label)}</span>
-                    <span className="text-sm flex gap-1 items-center">
-                        {payload[0].value ? payload[0].value.toLocaleString() : 'No'} {payload[0].value === 1 ? 'Golden Buzzer awarded' : 'Golden Buzzers awarded'}
+                    <span className="text-xs flex gap-1 items-center">
+                        {payload[0].value ? payload[0].value.toLocaleString() : 'None'} started
+                    </span>
+                    <span className="text-xs flex gap-1 items-center">
+                        {payload[1].value ? payload[1].value.toLocaleString() : 'None'} awarded
                     </span>
                 </div>
             );

@@ -24,8 +24,6 @@ use Spatie\Analytics\Period;
  */
 class ActViewsController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'acts-viewed';
-
     protected function analyticsQuery(int $days): Collection
     {
         $filter = new FilterExpression([
@@ -33,19 +31,19 @@ class ActViewsController extends AnalyticsAPIController
                 'expressions' => [
                     new FilterExpression([
                         'filter' => new Filter([
-                            'field_name' => 'eventName',
+                            'field_name'    => 'eventName',
                             'string_filter' => new Filter\StringFilter([
                                 'match_type' => Filter\StringFilter\MatchType::EXACT,
-                                'value' => 'dialog_open',
+                                'value'      => 'dialog_open',
                             ]),
                         ]),
                     ]),
                     new FilterExpression([
                         'filter' => new Filter([
-                            'field_name' => 'customEvent:type',
+                            'field_name'    => 'customEvent:type',
                             'string_filter' => new StringFilter([
                                 'match_type' => Filter\StringFilter\MatchType::EXACT,
-                                'value' => 'act',
+                                'value'      => 'act',
                             ]),
                         ]),
                     ]),
@@ -74,16 +72,20 @@ class ActViewsController extends AnalyticsAPIController
 
         $this->fillDateGaps($data, $days);
 
-        $data['table'] = array_map(fn ($slug) => [
-            'act' => $slug !== 'Other' ? fractal(Act::whereSlug($slug)->first(), ActTransformer::class) : null,
+        $data['table'] = array_map(fn($slug) => [
+            'act'   => $slug !== 'Other' ? fractal(Act::whereSlug($slug)->first(), ActTransformer::class) : null,
             'count' => collect($data['data'])->pluck($slug)->sum(),
         ], $data['keys']);
 
         // Sort the table results in descending count order.
-        usort($data['table'], function ($a, $b) {
-            if (is_null($a['act'])) {
+        usort($data['table'], function ($a, $b)
+        {
+            if (is_null($a['act']))
+            {
                 return 1;
-            } elseif (is_null($b['act'])) {
+            }
+            elseif (is_null($b['act']))
+            {
                 return -1;
             }
 

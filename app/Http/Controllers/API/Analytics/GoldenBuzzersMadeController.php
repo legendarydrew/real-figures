@@ -12,9 +12,6 @@ namespace App\Http\Controllers\API\Analytics;
  */
 class GoldenBuzzersMadeController extends DonationsMadeController
 {
-    const string CACHE_KEY = 'golden-buzzers-made';
-
-    const string DIALOG_ID = 'golden_buzzer';
-
+    const string DIALOG_ID  = 'golden_buzzer';
     const string EVENT_NAME = 'golden_buzzer';
 }
