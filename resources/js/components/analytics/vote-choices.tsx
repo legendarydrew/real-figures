@@ -56,7 +56,7 @@ export const VoteChoicesAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                 fill={stringToChartColour(key)}
                             />
                         ))}
-                        <ChartRoundReferences/>
+                        <ChartRoundReferences position="start"/>
                     </BarChart>
                 )}
 

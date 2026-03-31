@@ -69,7 +69,7 @@ export const DonationsDailyAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         <ChartYAxis label="Amount"/>
 
                         <Bar dataKey="eventValue" fill="var(--chart-3-5)"/>
-                        <ChartRoundReferences/>
+                        <ChartRoundReferences position="start"/>
                         <Tooltip content={tooltipContent} isAnimationActive={false}/>
                     </BarChart>
                 ) : (<Nothing>No data available.</Nothing>)}

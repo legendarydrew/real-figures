@@ -69,7 +69,7 @@ export const PlaysAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         <Tooltip content={tooltipContent} isAnimationActive={false}/>
 
                         <Bar dataKey="count" fill="var(--chart-2-6)"/>
-                        <ChartRoundReferences />
+                        <ChartRoundReferences position="start"/>
                     </BarChart>
                 )}
             </LoadingOverlay>

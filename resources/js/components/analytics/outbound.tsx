@@ -59,7 +59,7 @@ export const OutboundAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                     fill={stringToChartColour(key ?? 'Other')}
                                 />
                             ))}
-                            <ChartRoundReferences/>
+                            <ChartRoundReferences position="start"/>
                         </BarChart>
 
                         <table className="data-table lg:col-span-2">

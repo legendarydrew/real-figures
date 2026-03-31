@@ -70,7 +70,7 @@ export const VotesAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         <Tooltip content={tooltipContent} isAnimationActive={false}/>
 
                         <Bar dataKey="count" fill="var(--chart-4-6)"/>
-                        <ChartRoundReferences/>
+                        <ChartRoundReferences position="start"/>
                     </BarChart>
                 )}
             </LoadingOverlay>
