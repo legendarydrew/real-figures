@@ -14,8 +14,6 @@ use Spatie\Analytics\Period;
  */
 class CountriesController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'countries';
-
     protected function analyticsQuery(int $days): Collection
     {
         // Same as fetchTopCountries, except we also want the countryId (ISO 3166-1 alpha-2 code).
@@ -32,18 +30,18 @@ class CountriesController extends AnalyticsAPIController
 
     protected function analyticsProcessed(?Collection $rows, int $days): array
     {
-        $continents = $rows->groupBy('continent')->map(fn ($row) => [
+        $continents = $rows->groupBy('continent')->map(fn($row) => [
             'continent' => $row->first()['continent'],
-            'views' => $row->sum('screenPageViews'),
+            'views'     => $row->sum('screenPageViews'),
         ])->sortBy('continent');
 
         return [
             'continents' => $continents->values(),
-            'data' => $rows->map(fn ($row) => [
-                'flag' => $row['countryId'],
-                'country' => $row['country'],
+            'data'       => $rows->map(fn($row) => [
+                'flag'      => $row['countryId'],
+                'country'   => $row['country'],
                 'continent' => $row['continent'],
-                'views' => $row['screenPageViews'],
+                'views'     => $row['screenPageViews'],
             ])->toArray(),
         ];
     }

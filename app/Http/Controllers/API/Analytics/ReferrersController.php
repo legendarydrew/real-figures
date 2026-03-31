@@ -13,8 +13,6 @@ use Spatie\Analytics\Period;
  */
 class ReferrersController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'referrers';
-
     protected function analyticsQuery(int $days): Collection
     {
         return Analytics::fetchTopReferrers(
@@ -26,17 +24,18 @@ class ReferrersController extends AnalyticsAPIController
     protected function analyticsProcessed(?Collection $rows, int $days): array
     {
         // Take the top x items, and group the others under 'Other'.
-        $top = $rows->take(12);
+        $top   = $rows->take(12);
         $other = $rows->slice($top->count());
 
-        $data = $top->map(fn ($r) => [
+        $data = $top->map(fn($r) => [
             'referrer' => $r['pageReferrer'],
-            'count' => $r['screenPageViews'],
+            'count'    => $r['screenPageViews'],
         ])->values();
-        if ($other->isNotEmpty()) {
+        if ($other->isNotEmpty())
+        {
             $data->add([
                 'referrer' => 'Other',
-                'count' => $other->sum('screenPageViews'),
+                'count'    => $other->sum('screenPageViews'),
             ]);
         }
 

@@ -13,8 +13,6 @@ use Spatie\Analytics\Period;
  */
 class UserTypesController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'user-types';
-
     protected function analyticsQuery(int $days): Collection
     {
         return Analytics::fetchUserTypes(
@@ -24,8 +22,8 @@ class UserTypesController extends AnalyticsAPIController
 
     protected function analyticsProcessed(?Collection $rows, int $days): array
     {
-        return $rows->map(fn ($row) => [
-            'type' => ucfirst($row['newVsReturning']),
+        return $rows->map(fn($row) => [
+            'type'  => ucfirst($row['newVsReturning']),
             'count' => $row['activeUsers'],
         ])->toArray();
     }

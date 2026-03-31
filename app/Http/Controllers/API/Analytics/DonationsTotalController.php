@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\DB;
  */
 class DonationsTotalController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'donations_total';
-
     protected function analyticsQuery(int $days): Collection
     {
         // Thanks to https://stackoverflow.com/a/2563940
