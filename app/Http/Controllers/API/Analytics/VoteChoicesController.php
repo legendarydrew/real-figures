@@ -42,6 +42,8 @@ class VoteChoicesController extends AnalyticsAPIController
 
     protected function analyticsProcessed(?Collection $rows, int $days): array
     {
+        // We had an issue here with the keys (number of Songs chosen) being interpreted as numbers.
+        $rows = $rows->map(fn($row) => [...$row, 'customEvent:choices' => "x{$row['customEvent:choices']}"]);
         $data = AnalyticsChartFormatter::stackedByDate(
             $rows,
             'customEvent:choices'

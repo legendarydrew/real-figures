@@ -19,8 +19,6 @@ use Spatie\Analytics\Period;
  */
 class VotesController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'votes';
-
     protected function analyticsQuery(int $days): Collection
     {
         $filter = new FilterExpression([
