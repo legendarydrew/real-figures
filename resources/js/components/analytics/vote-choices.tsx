@@ -1,11 +1,12 @@
-import { Bar, BarChart, CartesianGrid } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Tooltip } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
-import { stringToChartColour } from '@/lib/utils';
+import { formatDate } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
 
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export const VoteChoicesAnalytics: React.FC<Props> = ({ days = 7 }) => {
+    const {locale} = usePage().props;
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [chartData, setChartData] = useState<AnalyticsData>();
 
@@ -35,6 +37,36 @@ export const VoteChoicesAnalytics: React.FC<Props> = ({ days = 7 }) => {
             });
     }
 
+    const tooltipContent = ({ active, payload, label }) => {
+        if (active && payload?.length) {
+            return (
+                <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-3">
+                    <span className="display-text">{formatDate(locale, label)}</span>
+                    { payload.map((row) => (
+                        <span className="text-xs flex gap-1 items-center">
+                            <b>{row.value.toLocaleString()}&times;</b> {row.name} {row.value === 1 ? 'Song' : 'Songs'} chosen
+                        </span>
+                    ))}
+                </div>
+            );
+        }
+
+        return null;
+    };
+
+    const optionColour = (option): string => {
+        switch (option) {
+            case '1':
+                return 'var(--chart-3-2)';
+            case '2':
+                return 'var(--chart-3-4)';
+            case '3':
+                return 'var(--chart-3-6)';
+            default:
+                return 'var(--chart-1-1)';
+        }
+    }
+
     return (
         <section id="analyticsVotesChoices" className="analytics-section">
             <h2 className="analytics-section-title">Songs per vote</h2>
@@ -53,9 +85,10 @@ export const VoteChoicesAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                 key={key}
                                 dataKey={key}
                                 stackId="sections"
-                                fill={stringToChartColour(key)}
+                                fill={optionColour(key)}
                             />
                         ))}
+                        <Tooltip content={tooltipContent} isAnimationActive={false}/>
                         <ChartRoundReferences position="start"/>
                     </BarChart>
                 )}
@@ -73,10 +106,10 @@ export const VoteChoicesAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         <tr key={index}>
                             <th scope="row">
                                     <span className="block size-4"
-                                          style={{ backgroundColor: stringToChartColour(row.choices) }}></span>
+                                          style={{ backgroundColor: optionColour(row.choices) }}></span>
                             </th>
                             <th className="text-left"
-                                scope="row">{row.choices} {row.choices === 1 ? 'Song' : 'Songs'}</th>
+                                scope="row">{row.choices ?? (<em className="text-muted-foreground">not set</em>)}</th>
                             <td className="text-right">{row.count}</td>
                         </tr>
                     )) : (

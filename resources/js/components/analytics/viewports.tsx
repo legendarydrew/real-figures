@@ -72,8 +72,8 @@ export const ViewportsAnalytics: React.FC<Props> = ({ days = 7 }) => {
                     {chartData ? chartData.table.map((row, index) => (
                         <tr key={index}>
                             <th scope="row">
-                                    <span className="block size-4"
-                                          style={{ backgroundColor: stringToChartColour(row.viewport) }}></span>
+                                <span className="block size-4"
+                                      style={{ backgroundColor: stringToChartColour(row.viewport) }}></span>
                             </th>
                             <th className="text-left" scope="row">{row.viewport}</th>
                             <td className="text-right">{row.views}</td>
