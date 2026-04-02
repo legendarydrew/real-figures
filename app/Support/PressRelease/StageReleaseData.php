@@ -38,6 +38,7 @@ class StageReleaseData extends PressReleaseData
     {
         // TODO first Stage of the Contest (mention that Rounds were drawn at random).
         // TODO second Stage of the Contest (the finals).
+        // TODO a description of the Stage.
 
         return '';
     }

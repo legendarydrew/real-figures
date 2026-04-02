@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\NewsPostType;
 use App\Support\PressRelease\ActPressReleaseData;
+use App\Support\PressRelease\GeneralReleaseData;
 use App\Support\PressReleaseData;
 use App\Support\PressReleaseResponse;
 use Illuminate\Support\Facades\Lang;
@@ -112,7 +113,7 @@ class PressReleaseAgent
             'messages'        => [
                 [
                     'role'    => 'system',
-                    'content' => Lang::get('press-release.prompt'),
+                    'content' => Lang::get('press-release.prompt.system'),
                 ],
                 [
                     'role'    => 'user',
@@ -147,7 +148,7 @@ class PressReleaseAgent
 
     protected function buildPrompt(array $payload, int $attempt, array $history): string
     {
-        return Lang::get($attempt === 1 ? 'press-release.first_prompt' : 'press-release.retry_prompt', [
+        return Lang::get($attempt === 1 ? 'press-release.prompt.begin' : 'press-release.prompt.retry', [
             'history' => $this->formatHistory($history),
             'data'    => $this->prettyJson($payload)
         ]);
@@ -196,6 +197,11 @@ class PressReleaseAgent
      * @return PressReleaseResponse
      */
     public function actFeature(ActPressReleaseData $data, array $history = []): PressReleaseResponse
+    {
+        return $this->run($data, $history);
+    }
+
+    public function generalPressRelease(GeneralReleaseData $data, array $history = []): PressReleaseResponse
     {
         return $this->run($data, $history);
     }

@@ -10,11 +10,24 @@ import { ExpandingTextarea } from '@/components/ui/textarea';
 import { NewsPromptDialog } from '@/components/admin/news-prompt-dialog';
 import { Alert } from '@/components/mode/alert';
 import { AdminHeader } from '@/components/admin/admin-header';
-import { NewsActSelect } from '@/components/admin/news-act-select';
-import { NewsStageSelect } from '@/components/admin/news-stage-select';
-import { NewsPostSelect } from '@/components/admin/news-post-select';
-import { NewsRoundSelect } from '@/components/admin/news-round-select';
 import axios from 'axios';
+import { Input } from '@/components/ui/input';
+import InputError from '@/components/input-error';
+import { PlusIcon, TrashIcon } from 'lucide-react';
+
+/**
+ * NEW APPROACH
+ * Display these fields for each press release type:
+ *
+ * General: title, description, quote, highlights
+ * Contest: nothing
+ * Stage: select a Stage
+ * Round: select a Round
+ * Results: nothing
+ * Act: select an Act
+ *
+ * On confirming the prompt information, we send the same information to the generate endpoint.
+ */
 
 interface NewsGeneratePageProps {
     types: string[];
@@ -28,12 +41,14 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
     const { data, setData } = useForm({
         type: undefined, // the type of News Post to create.
-        references: [], // ID(s) of the Stage/Round/Acts to refer to.
-        previous: undefined,  // [optional] previous News Post ID to reference.
-        prompt: "" // user-entered information to help OpenAI.
+        title: "",
+        prompt: "", // user-entered information to help OpenAI.
+        quote: "",
+        highlights: []
     });
 
     const [error, setError] = useState<string>();
+    const [validation, setValidation] = useState();
     const [isPromptOpen, setIsPromptOpen] = useState<boolean>(false);
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [prompt, setPrompt] = useState<string>();
@@ -67,21 +82,32 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         });
     };
 
-    const selectSingleReferenceHandler = (value: number): void => {
-        setData((prev) => ({ ...prev, references: [value] }));
-    };
-
-    const selectActHandler = (actIds: number[]): void => {
-        setData((prev) => ({ ...prev, references: actIds }));
-
-    };
-
-    const selectPreviousHandler = (value: number): void => {
-        setData((prev) => ({ ...prev, previous: value }));
+    const titleHandler = (e): void => {
+        setData((prev) => ({ ...prev, title: e.target.value }));
     };
 
     const promptHandler = (e): void => {
         setData((prev) => ({ ...prev, prompt: e.target.value }));
+    };
+
+    const quoteHandler = (e): void => {
+        setData((prev) => ({ ...prev, quote: e.target.value }));
+    };
+
+    const addHighlightHandler = (): void => {
+        setData((prev) => ({ ...prev, highlights: [...prev.highlights, ''] }));
+    };
+
+    const removeHightlightHandler = (index: number): void => {
+        const highlights = [...data.highlights];
+        highlights.splice(index, 1);
+        setData((prev) => ({ ...prev, highlights }));
+    };
+
+    const highlightHandler = (e, index: number): void => {
+        const highlights = [...data.highlights];
+        highlights[index] = e.target.value;
+        setData((prev) => ({ ...prev, highlights }));
     };
 
     const generatePromptHandler = (e): void => {
@@ -91,13 +117,18 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
         setIsSaving(true);
         setError(undefined);
+        setValidation(undefined);
         axios.post(route('news.prompt'), data)
             .then((response) => {
                 setPrompt(response.data.prompt);
                 setIsPromptOpen(true);
             })
-            .catch((response) => {
-                setError(response.response.data.message);
+            .catch((err) => {
+                if (err.response.status === 422) {
+                    setValidation(err.response.data.errors);
+                } else {
+                    setError(err.response.data.message);
+                }
             })
             .finally(() => {
                 setIsSaving(false);
@@ -119,7 +150,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
                 <p>The following information will be used to generate a prompt for OpenAI to create a News Post.</p>
 
-                <form className="flex-grow flex flex-col justify-between gap-4 px-8" onSubmit={generatePromptHandler}>
+                <form className="flex-grow flex flex-col gap-4 px-8" onSubmit={generatePromptHandler}>
 
                     {/* Select the News Post type. */}
                     <div>
@@ -136,33 +167,46 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
                     {/* Depending on what was selected... */}
 
-                    {/* A list of Stages (if available). */}
-                    {(data.type === 'stage' && stages) && (
-                        <NewsStageSelect stages={stages} onChange={selectSingleReferenceHandler}/>
-                    )}
-
-                    {/* A list of Rounds (if available). */}
-                    {(data.type === 'round' && rounds) && (
-                        <NewsRoundSelect rounds={rounds} onChange={selectSingleReferenceHandler}/>
-                    )}
-
-                    {/* A list of Acts (if available). */}
-                    {/* We would like to be able to select one or more Acts. */}
-                    {(data.type === 'act' && acts) && (
-                        <NewsActSelect acts={acts} onChange={selectActHandler}/>
-                    )}
-
-                    {/* A list of existing published News Posts. */}
-                    {posts && (<NewsPostSelect posts={posts} onChange={selectPreviousHandler}/>)}
-
                     {/* Additional prompt. */}
                     {data.type && (
-                        <div>
-                            <Label htmlFor="postPrompt">Additional prompt</Label>
-                            <ExpandingTextarea id="postPrompt" placeholder="Information that could help the generator."
-                                               className="max-h-40"
-                                               onChange={promptHandler}/>
-                        </div>
+                        <>
+                            <div>
+                                <Label htmlFor="postTitle">Post title</Label>
+                                <Input id="postTitle" placeholder="Suggested title" onChange={titleHandler}/>
+                                <InputError message={validation?.title}/>
+                            </div>
+                            <div>
+                                <Label htmlFor="postPrompt">Prompt</Label>
+                                <ExpandingTextarea id="postPrompt"
+                                                   placeholder="Information that could help the generator."
+                                                   className="max-h-40"
+                                                   onChange={promptHandler}/>
+                                <InputError message={validation?.prompt}/>
+                            </div>
+                            <div>
+                                <Label htmlFor="postQuote">Quote</Label>
+                                <ExpandingTextarea id="postQuote" className="max-h-20" onChange={quoteHandler}/>
+                                <InputError message={validation?.quote}/>
+                            </div>
+
+                            <div>
+                                <Label>Highlights <span className="text-muted-foreground">(optional)</span></Label>
+                                <ul className="flex flex-col gap-2">
+                                    {data.highlights.map((highlight, i) => (
+                                        <li key={i} className="flex gap-1 items-stretch">
+                                            <Input value={highlight} onChange={(e) => highlightHandler(e, i)}/>
+                                            <Button type="button" size="icon"
+                                                    onClick={() => removeHightlightHandler(i)}>
+                                                <TrashIcon className="size-3"/>
+                                            </Button>
+                                        </li>
+                                    ))}
+                                </ul>
+                                <Button type="button" size="sm" onClick={addHighlightHandler}>
+                                    <PlusIcon /> Add
+                                </Button>
+                            </div>
+                        </>
                     )}
 
                     <div className="bg-white border-t-1 flex flex-wrap justify-between sticky bottom-0 py-3 -mx-5 px-5">

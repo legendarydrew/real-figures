@@ -12,9 +12,6 @@ abstract class PressReleaseData
         public string $description,
         public array $highlights = [],
         public ?string $quote = null,
-        public ?string $cta = null,
-        public ?string $tone = null,
-        public ?string $voice = null,
     ) {}
 
     public function toArray(): array
@@ -22,12 +19,31 @@ abstract class PressReleaseData
         return array_filter([
             'type' => $this->type->value,
             'title' => $this->title,
-            'description' => $this->description,
+            'description' => $this->buildDescription(),
             'highlights' => $this->highlights,
             'quote' => $this->quote,
-            'cta' => $this->cta,
-            'tone' => $this->tone,
-            'voice' => $this->voice,
         ], fn ($value) => $value !== null);
     }
+
+    /**
+     * Returns the description to use for the press release.
+     * Here we can automatically add any necessary information.
+     *
+     * @return string
+     */
+    protected function buildDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * Returns a list of significant bits of information for shaping the content of the press release.
+     *
+     * @return array
+     */
+    protected function buildHighlights(): array
+    {
+        return [];
+    }
+
 }
