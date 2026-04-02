@@ -10,6 +10,7 @@ use App\Models\RoundVote;
 use App\Models\Stage;
 use App\Transformers\RoundAdminTransformer;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -68,7 +69,7 @@ class StageManualVoteController extends Controller
                     $round_song_ids = $round->songs->pluck('id')->toArray();
                     $voted_song_ids = collect(array_values($vote['song_ids']));
                     if (! $voted_song_ids->every(fn ($song_id) => in_array($song_id, $round_song_ids))) {
-                        abort(400, "{$round->title}: An invalid Song was chosen.");
+                        abort(Response::HTTP_BAD_REQUEST, "{$round->title}: An invalid Song was chosen.");
                     }
 
                     // Cast a vote for the Round, as directed.

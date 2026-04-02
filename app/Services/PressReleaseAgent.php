@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\NewsPostType;
+use App\Exceptions\PressReleaseException;
 use App\Support\PressRelease\ActPressReleaseData;
 use App\Support\PressRelease\GeneralReleaseData;
 use App\Support\PressReleaseData;
@@ -11,7 +12,6 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse;
-use RuntimeException;
 use Throwable;
 
 /**
@@ -77,7 +77,7 @@ class PressReleaseAgent
 
                 if (!is_array($decoded))
                 {
-                    throw new RuntimeException('Invalid JSON response');
+                    throw new PressReleaseException('Invalid JSON response');
                 }
 
                 logger()->info(
@@ -101,7 +101,7 @@ class PressReleaseAgent
             }
         }
 
-        throw new RuntimeException(
+        throw new PressReleaseException(
             "PressReleaseAgent failed after $max_attempts retries.",
             previous: $last_error
         );

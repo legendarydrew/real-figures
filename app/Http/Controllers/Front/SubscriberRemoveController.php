@@ -6,6 +6,7 @@ use App\Facades\AnalyticsEventsFacade;
 use App\Http\Controllers\Controller;
 use App\Models\Subscriber;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Session;
 use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
 
@@ -25,6 +26,6 @@ class SubscriberRemoveController extends Controller
             return view('front.subscriber-removed');
         }
 
-        abort(404);
+        abort(Response::HTTP_NOT_FOUND);
     }
 }

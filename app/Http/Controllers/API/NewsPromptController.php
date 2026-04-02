@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPromptRequest;
 use App\Support\PressRelease\GeneralReleaseData;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class NewsPromptController extends Controller
 {
@@ -31,10 +32,10 @@ class NewsPromptController extends Controller
             case NewsPostType::STAGE->value:
             case NewsPostType::ROUND->value:
             case NewsPostType::RESULTS->value:
-                abort(412, 'No, not yet.');
+                abort(Response::HTTP_PRECONDITION_FAILED, 'No, not yet.');
                 break;
             default:
-                abort(400, 'Unsupported News Post type.');
+                abort(Response::HTTP_BAD_REQUEST, 'Unsupported News Post type.');
         }
 
         return response()->json(['prompt' => $prompt->toArray()]);

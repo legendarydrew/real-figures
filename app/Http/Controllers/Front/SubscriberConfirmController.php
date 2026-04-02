@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\SubscriberConfirmation;
 use App\Models\Subscriber;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Redaelfillali\GoogleAnalyticsEvents\GoogleAnalyticsService;
 
@@ -36,6 +37,6 @@ class SubscriberConfirmController extends Controller
             return view('front.subscriber-confirmed');
         }
 
-        abort(404);
+        abort(Response::HTTP_NOT_FOUND);
     }
 }

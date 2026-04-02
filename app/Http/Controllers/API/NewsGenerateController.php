@@ -9,6 +9,7 @@ use App\Models\NewsPost;
 use App\Services\PressReleaseAgent;
 use App\Support\PressRelease\GeneralReleaseData;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 
 /**
  * NewsGenerateController
@@ -39,7 +40,7 @@ class NewsGenerateController extends Controller
                 break;
 
             default:
-                abort(400, 'Unsupported News Post type.');
+                abort(Response::HTTP_BAD_REQUEST, 'Unsupported News Post type.');
         }
 
         // Based on the configured prompt, $result should have:

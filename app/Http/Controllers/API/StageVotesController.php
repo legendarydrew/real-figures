@@ -6,6 +6,7 @@ use App\Facades\VoteBreakdownFacade;
 use App\Http\Controllers\Controller;
 use App\Models\Stage;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 /**
  * StageVotesController
@@ -23,6 +24,6 @@ class StageVotesController extends Controller
             );
         }
 
-        abort(412, 'Stage has not yet ended.');
+        abort(Response::HTTP_PRECONDITION_FAILED, 'Stage has not yet ended.');
     }
 }
