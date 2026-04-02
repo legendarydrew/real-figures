@@ -8,7 +8,7 @@ use App\Http\Requests\NewsPromptRequest;
 use App\Models\NewsPost;
 use App\Services\PressReleaseAgent;
 use App\Support\PressRelease\GeneralReleaseData;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 /**
@@ -21,7 +21,7 @@ class NewsGenerateController extends Controller
      * Using the provided information, ask OpenAI to generate content for a News Post.
      * If successful, we will create a new News Post and begin editing it.
      */
-    public function store(NewsPromptRequest $request): RedirectResponse
+    public function store(NewsPromptRequest $request): JsonResponse
     {
         $data  = $request->validated();
         $agent = new PressReleaseAgent;
@@ -50,7 +50,7 @@ class NewsGenerateController extends Controller
 
         $post = NewsPost::create($result);
 
-        return to_route('admin.news.edit', ['id' => $post->id]);
+        return response()->json(['id' => $post->id]);
     }
 
 }
