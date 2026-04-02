@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import {
     Dialog,
     DialogClose,
@@ -13,23 +13,18 @@ import { Alert } from '@/components/mode/alert';
 import { titleCase } from '@/lib/utils';
 import { MicrochipIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { NewsGeneratePayload } from '@/interfaces';
 
 interface NewsPromptDialogProps {
     open: boolean;
     onOpenChange: () => void;
-    type?: string;
-    reference_ids?: number[];
-    prompt?: string;
+    payload: NewsGeneratePayload;
+    prompt?: { [key: string]: string|string[]|null };
 }
 
-export const NewsPromptDialog: FC<NewsPromptDialogProps> = ({ open, onOpenChange, type, reference_ids, prompt }) => {
-    const [updatedPrompt, setUpdatedPrompt] = useState<string>();
+export const NewsPromptDialog: FC<NewsPromptDialogProps> = ({ open, onOpenChange, payload, reference_ids, prompt }) => {
     const [isGenerating, setIsGenerating] = useState<boolean>();
     const [error, setError] = useState<string>();
-
-    useEffect(() => {
-        setUpdatedPrompt(prompt);
-    }, [prompt]);
 
     const keyOutput = (value: any): string => {
         if (typeof value === 'object') {
@@ -39,18 +34,17 @@ export const NewsPromptDialog: FC<NewsPromptDialogProps> = ({ open, onOpenChange
         }
     }
 
-    const canGenerate = useCallback(() => {
-        return updatedPrompt?.length && type;
-    }, [updatedPrompt, type]);
-
     const saveHandler = () => {
-        if (!canGenerate || isGenerating) return;
+        if (isGenerating) {
+            return;
+        }
 
         setIsGenerating(true);
 
-        router.post(route('news.generate'), { type, references: reference_ids, prompt }, {
+        router.post(route('news.generate'), payload, {
             preserveUrl: true,
             onError: (response) => {
+                console.log(response);
                 setError(response);
             },
             onFinish: () => {
@@ -66,7 +60,7 @@ export const NewsPromptDialog: FC<NewsPromptDialogProps> = ({ open, onOpenChange
             <DialogContent className="lg:w-5xl lg:max-w-[900px]">
                 <DialogTitle>
                     <div className="flex gap-1 items-baseline">
-                        News Post AI prompt <small className="text-muted-foreground">for {titleCase(type)}</small>
+                        News Post AI prompt <small className="text-muted-foreground">for {titleCase(payload.type!)}</small>
                     </div>
                 </DialogTitle>
                 <DialogDescription>
@@ -90,7 +84,6 @@ export const NewsPromptDialog: FC<NewsPromptDialogProps> = ({ open, onOpenChange
                         </DialogClose>
 
                         <LoadingButton variant="primary" type="submit" onClick={saveHandler}
-                                       disabled={!canGenerate}
                                        isLoading={isGenerating}>
                             <MicrochipIcon/>
                             Generate News Post

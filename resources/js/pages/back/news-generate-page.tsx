@@ -14,6 +14,7 @@ import axios from 'axios';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
 import { PlusIcon, TrashIcon } from 'lucide-react';
+import { NewsGeneratePayload } from '@/interfaces';
 
 /**
  * NEW APPROACH
@@ -39,7 +40,7 @@ interface NewsGeneratePageProps {
 
 export default function NewsGeneratePage({ types, acts, rounds, stages, posts }: Readonly<NewsGeneratePageProps>) {
 
-    const { data, setData } = useForm({
+    const { data, setData } = useForm<NewsGeneratePayload>({
         type: undefined, // the type of News Post to create.
         title: "",
         prompt: "", // user-entered information to help OpenAI.
@@ -219,7 +220,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     </div>
                 </form>
 
-                <NewsPromptDialog type={data.type} reference_ids={data.references} prompt={prompt} open={isPromptOpen}
+                <NewsPromptDialog payload={data} prompt={prompt} open={isPromptOpen}
                                   onOpenChange={closePromptHandler}/>
             </div>
         </AppLayout>

@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\NewsPostType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPromptRequest;
 use App\Models\NewsPost;
-use App\Models\NewsPostReference;
-use DavidBadura\FakerMarkdownGenerator\FakerProvider;
+use App\Services\PressReleaseAgent;
+use App\Support\PressRelease\GeneralReleaseData;
 use Illuminate\Http\RedirectResponse;
-use OpenAI\Laravel\Facades\OpenAI;
-use OpenAI\Responses\Chat\CreateResponse;
-use OpenAI\Testing\Responses\Fixtures\Chat\CreateResponseFixture;
 
 /**
  * NewsGenerateController
@@ -24,67 +22,34 @@ class NewsGenerateController extends Controller
      */
     public function store(NewsPromptRequest $request): RedirectResponse
     {
-        $data = $request->validated();
+        $data  = $request->validated();
+        $agent = new PressReleaseAgent;
 
-        // Ensure we have a prompt.
-        if (empty($data['prompt'])) {
-            abort(400, 'A prompt is required.');
+        switch ($data['type'])
+        {
+            case NewsPostType::GENERAL->value:
+                $result = $agent->generalPressRelease(
+                    new GeneralReleaseData(
+                        title: $data['title'],
+                        description: $data['prompt'],
+                        quote: $data['quote'],
+                        highlights: $data['highlights'],
+                    )
+                );
+                break;
+
+            default:
+                abort(400, 'Unsupported News Post type.');
         }
 
-        // Unless we are in production, use test data.
-        if (! app()->isProduction()) {
-            $this->setupTestResponse();
-        }
+        // Based on the configured prompt, $result should have:
+        // - title (the title of the News post)
+        // - content (in Markdown format).
+        // We use these to create a new News Post, then redirect to its edit page for scrutiny.
 
-        // Let's go!
-        $result = OpenAI::chat()->create([
-            'model' => config('contest.ai.model'),
-            'messages' => [
-                'role' => 'user',
-                'content' => $data['prompt'],
-            ],
-        ]);
-
-        $usage = $result->usage;
-        $json = json_decode($result->choices[0]->message->content, true);
-
-        $post = NewsPost::factory()
-            ->unpublished()
-            ->createOne([
-                'type' => $data['type'],
-                'title' => $json['title'],
-                'content' => $json['content'],
-            ]);
-        if (isset($data['references'])) {
-            foreach ($data['references'] as $reference_id) {
-                NewsPostReference::create([
-                    'news_post_id' => $post->id,
-                    'reference_id' => $reference_id,
-                ]);
-            }
-        }
-        logger()->info(
-            "OpenAI token usage for News Post id $post->id:\n".
-            "  prompt:     {$usage->promptTokens}\n".
-            "  completion: {$usage->completionTokens}\n".
-            "  total:      {$usage->totalTokens}"
-        );
+        $post = NewsPost::create($result);
 
         return to_route('admin.news.edit', ['id' => $post->id]);
     }
 
-    protected function setupTestResponse(): void
-    {
-        fake()->addProvider(new FakerProvider(fake()));
-
-        // https://github.com/openai-php/laravel/issues/95
-        $choice = CreateResponseFixture::ATTRIBUTES;
-        $choice['choices'][0]['message']['content'] = json_encode([
-            'title' => fake()->sentence(),
-            'content' => fake()->markdown(),
-        ]);
-        OpenAI::fake([
-            CreateResponse::fake($choice),
-        ]);
-    }
 }

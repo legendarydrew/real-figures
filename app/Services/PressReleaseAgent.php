@@ -80,6 +80,13 @@ class PressReleaseAgent
                     throw new RuntimeException('Invalid JSON response');
                 }
 
+                logger()->info(
+                    "OpenAI token usage:\n".
+                    "  prompt:     {$response->usage->promptTokens}\n".
+                    "  completion: {$response->usage->completionTokens}\n".
+                    "  total:      {$response->usage->totalTokens}"
+                );
+
                 return $this->mapToResult($decoded);
             }
             catch (Throwable $e)
@@ -103,7 +110,7 @@ class PressReleaseAgent
     protected function callOpenAI(array $payload, int $attempt, array $history): CreateResponse
     {
         // Lower the temperature on retries (for a more deterministic response).
-        $baseTemp    = $this->temperature($payload['type']);
+        $baseTemp    = $this->temperature(NewsPostType::from($payload['type']));
         $temperature = max(0.2, $baseTemp - (($attempt - 1) * 0.2));
 
         return OpenAI::chat()->create([
