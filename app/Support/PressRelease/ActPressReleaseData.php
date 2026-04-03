@@ -52,13 +52,17 @@ class ActPressReleaseData extends PressReleaseData
         $rounds = Round::get()
                        ->filter(fn(Round $round) => $round->stage->hasEnded())
                        ->filter(fn(Round $round) => $round->songs->whereIn('act_id', $this->acts->pluck('id'))->count());
-        if ($rounds->isNotEmpty()) {
-            $output[] = "Outcome of Rounds they were involved in:\n".
+        if ($rounds->isNotEmpty())
+        {
+            $output[] = Lang::get('press-release.act.outcomes.heading') . "\n" .
                 $rounds->map(function (Round $round)
                 {
                     $outcomes = $round->outcomes()->scoreOrder()->get();
-                    return "  {$round->full_title}\n"  .
-                        $outcomes->map(fn($outcome) => "    {$outcome->song->act->full_name} scored $outcome->score point(s)")->implode("\n");
+                    return Lang::get('press-release.act.outcomes.round', ['round' => $round->full_title]) . "\n" .
+                        $outcomes->map(fn($outcome) => Lang::get('press-release.act.outcomes.result', [
+                            'name'  => $outcome->song->act->full_name,
+                            'score' => $outcome->score
+                        ]))->implode("\n");
                 })->implode("\n\n");
         }
 
@@ -69,7 +73,11 @@ class ActPressReleaseData extends PressReleaseData
             // Accolades.
             $act->accolades->each(function ($accolade) use (&$highlights)
             {
-                $highlights .= "  " . ($accolade->is_winner ? "Winner of" : "Runner-up in") . " {$accolade->round->full_title}\n";
+                $highlights .= Lang::get(
+                        $accolade->is_winner ?
+                            'press-release.act.accolades.winner' :
+                            'press-release.act.accolades.runner-up',
+                        ['round' => $accolade->round->full_title]) . "\n";
             });
 
             // Any awarded Golden Buzzers (but only for ended Stages).
@@ -77,11 +85,15 @@ class ActPressReleaseData extends PressReleaseData
             $grouped_buzzers = $buzzers->groupBy(fn($buzzer) => $buzzer->stage->id);
             $grouped_buzzers->each(function ($group) use (&$highlights)
             {
-                $highlights .= "  Was awarded {$group->count()} Golden Buzzers in {$group->first()->stage->title}.\n";
+                $highlights .= Lang::get('press-release.act.buzzers', [
+                        'count' => $group->count(),
+                        'stage' => $group->first()->stage->title
+                    ]) . "\n";
             });
 
-            if (!empty($highlights)) {
-                $output[] = "For $act->full_name:\n" . $highlights;
+            if (!empty($highlights))
+            {
+                $output[] = Lang::get('press-release.act.highlight', ['name' => $act->full_name]) . "\n" . $highlights;
             }
         });
 
@@ -102,30 +114,30 @@ class ActPressReleaseData extends PressReleaseData
 
         if ($act->genres->count())
         {
-            $output[] = "- Genres: " . $act->genres->implode('name', ', ');
+            $output[] = Lang::get('press-release.act.genres', ['genres' => $act->genres->implode('name', ', ')]);
         }
         if ($act->languages->count())
         {
-            $output[] = "- Languages spoken: " . $act->languages->implode('name', ', ');
+            $output[] = Lang::get('press-release.act.languages', ['languages' => $act->languages->implode('name', ', ')]);
         }
         if ($act->members->count())
         {
-            $output[] = "- Members: ";
+            $output[] = Lang::get('press-release.act.members');
             $output[] = $act->members->map(fn($member) => "  - $member->name ($member->role)")->join("\n");
         }
         if ($act->traits->count())
         {
-            $output[] = "- Traits: ";
+            $output[] = Lang::get('press-release.act.traits');
             $output[] = $act->traits->map(fn($trait) => "  - $trait->trait")->join("\n");
         }
         if ($act->notes->count())
         {
-            $output[] = "- Notes: ";
+            $output[] = Lang::get('press-release.act.notes');
             $output[] = $act->notes->map(fn($note) => "  - $note->note")->join("\n");
         }
         if ($act->profile)
         {
-            $output[] = "- Profile: ";
+            $output[] = Lang::get('press-release.act.profile');
             $output[] = $act->profile->description;
         }
 

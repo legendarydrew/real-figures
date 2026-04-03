@@ -91,7 +91,24 @@ The Song Contest is a collaboration between CATAWOL Records and an independent g
 The Contest aims to raise money for charity, particularly those involved in addressing bullying and mental health issues.
 INFO,
     ],
-    'act' => [
-        'prefix' => 'Act information:'
+    'act'     => [
+        'prefix'    => 'Act information:',
+        'genres'    => '- Genres: :genres',
+        'languages' => '- Languages spoken: :languages',
+        'members'   => '- Members:',
+        'traits'    => '- Traits:',
+        'notes'     => '- Notes:',
+        'profile'   => '- Profile:',
+        'highlight' => 'For :name:',
+        'outcomes'  => [
+            'heading' => "Outcome of Rounds they were involved in:",
+            'round'  => "  :round",
+            'result'  => "    :name scored :score point(s)"
+        ],
+        "accolades" => [
+            "winner"    => "  Winner in :round",
+            "runner-up" => "  Runner-up in :round",
+        ],
+        "buzzers"   => "  Was awarded :count Golden Buzzer(s) in :stage."
     ]
 ];
