@@ -309,73 +309,138 @@ class RehearseData
             'name' => 'Loop Theory',
             'subtitle' => null,
             'genres' => ['Hip Hop'],
-            'traits' => [],
+            'traits' => [
+                'Hyper focused on music and production methods',
+                'Has a passing interest in female Acts, including Chelsea Chapel and Raya Vibes',
+                'Does not talk very much'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Male hip hop producer in his mid 20s.',
+                'Inspired by Madlib and J Dilla.',
+                'Close to releasing his first album signed to CATAWOL Records.'
+            ],
         ],
         [
             'name' => 'Lorien',
             'subtitle' => null,
             'genres' => ['Downtempo', 'EDM'],
-            'traits' => [],
+            'traits' => [
+                'Reveals her emotions through her music rather than in interviews',
+                'Focused on maintaining her public image',
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Female producer and vocalist in her mid 20s.',
+                'Specialises in downtempo and trip hop music.',
+                'Known for her bright purple hair and understated yet flamboyant fashion sense.'
+            ],
         ],
         [
             'name' => 'Magenta Men',
             'subtitle' => null,
             'genres' => ['Funk', 'Soul'],
-            'traits' => [],
+            'traits' => [
+                'Very rarely rehearses their performances',
+                'Try to outdo each other during performances',
+                'An overall respect for each other, despite some rivalry'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Male retro funk duo in their late 30s.',
+                'Heavily influenced by Prince and Morris Day.',
+                'Only interested in Acts they deem to be equally or more talented.'
+            ],
         ],
         [
             'name' => 'Marissa Wild',
             'subtitle' => null,
             'genres' => ['Pop'],
-            'traits' => [],
+            'traits' => [
+                'Eager to show the younger Acts how it\'s done',
+                'Aware her time in the spotlight is over',
+                'Wants one more opportunity to shine',
+                'At peace with her former fame and retirement'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => ['Came out of retirement to enter the Contest.'],
+            'notes' => [
+                'Female pop star in her late 50s.',
+                'Formerly one of CATAWOL Records\' most high profile Acts.',
+                'Came out of retirement to enter the Contest.'
+            ],
         ],
         [
             'name' => 'Max Bellamy',
             'subtitle' => 'and The Moonlight Swingers',
             'genres' => ['Big Band', 'Swing'],
-            'traits' => [],
+            'traits' => [
+                'Focused on optimism and happiness',
+                'Ambitious for his career',
+                'Wants to succeed for the Moonlight Swingers as much as for himself',
+                'Believes in the power of big band and swing music'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Male crooner in his late 30s.',
+                'Inspired by Frank Sinatra, Dean Martin and others.',
+                'Backed by the Moonlight Swingers: a mixed band of singers and musicians.'
+            ],
         ],
         [
             'name' => 'Miles Everly',
             'subtitle' => null,
             'genres' => ['Soft Rock'],
-            'traits' => [],
+            'traits' => [
+                'Extremely laid back',
+                'Does not care about winning the Contest',
+                'Somewhat liberal minded',
+                'Not looking to impress anyone'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Male acoustic guitarist in his early 40s.',
+                'Nostalgic for the 60s and 70s, when soft rock as at its peak.'
+            ],
         ],
         [
             'name' => 'Raya Vibes',
             'subtitle' => null,
             'genres' => ['Reggae', 'R&B'],
-            'traits' => [],
+            'traits' => [
+                'Generally cheerful and passionate about her performances',
+                'Rarely expresses anything other than optimism',
+                'Always looking for her next musical vibe',
+                'Destined to be a star, but aware of the work involved'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Female reggae/R&B Act in her early 20s.',
+                'From the [Caribbean] islands.'
+            ],
         ],
         [
             'name' => 'RJ "Hound" Mercer',
             'subtitle' => null,
             'genres' => ['Blues'],
-            'traits' => [],
+            'traits' => [
+                'Faithful to his electric guitar',
+                'Traditional, perhaps old-fashioned',
+                'Sees the blues as the one authentic genre of music',
+                'Matter of fact, does not like indirectness'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Experienced male blues musician in his 50s.',
+                'Inspired by Bruce Springsteen, Eric Clapton and BB King.'
+            ],
         ],
         [
             'name' => 'Soline Bellefort',
