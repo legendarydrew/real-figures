@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
 import { PlusIcon, TrashIcon } from 'lucide-react';
 import { NewsGeneratePayload } from '@/interfaces';
+import { NewsActSelect } from '@/components/admin/news-act-select';
 
 /**
  * NEW APPROACH
@@ -25,7 +26,7 @@ import { NewsGeneratePayload } from '@/interfaces';
  * Stage: select a Stage
  * Round: select a Round
  * Results: nothing
- * Act: select an Act
+ * Act: select one or more Acts
  *
  * On confirming the prompt information, we send the same information to the generate endpoint.
  */
@@ -45,7 +46,8 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         title: "",
         prompt: "", // user-entered information to help OpenAI.
         quote: "",
-        highlights: []
+        highlights: [],
+        acts: []
     });
 
     const [error, setError] = useState<string>();
@@ -83,6 +85,10 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         });
     };
 
+    const showHighlightsField = (): boolean => {
+        return data.type !== 'act';
+    }
+
     const titleHandler = (e): void => {
         setData((prev) => ({ ...prev, title: e.target.value }));
     };
@@ -109,6 +115,10 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         const highlights = [...data.highlights];
         highlights[index] = e.target.value;
         setData((prev) => ({ ...prev, highlights }));
+    };
+
+    const updateActHandler = (acts): void => {
+        setData((prev) => ({ ...prev, acts }));
     };
 
     const generatePromptHandler = (e): void => {
@@ -168,6 +178,10 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
                     {/* Depending on what was selected... */}
 
+                    {data.type === 'act' && (
+                        <NewsActSelect acts={acts} onChange={updateActHandler}/>
+                    )}
+
                     {/* Additional prompt. */}
                     {data.type && (
                         <>
@@ -190,23 +204,25 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                                 <InputError message={validation?.quote}/>
                             </div>
 
-                            <div>
-                                <Label>Highlights <span className="text-muted-foreground">(optional)</span></Label>
-                                <ul className="flex flex-col gap-2">
-                                    {data.highlights.map((highlight, i) => (
-                                        <li key={i} className="flex gap-1 items-stretch">
-                                            <Input value={highlight} onChange={(e) => highlightHandler(e, i)}/>
-                                            <Button type="button" size="icon"
-                                                    onClick={() => removeHightlightHandler(i)}>
-                                                <TrashIcon className="size-3"/>
-                                            </Button>
-                                        </li>
-                                    ))}
-                                </ul>
-                                <Button type="button" size="sm" onClick={addHighlightHandler}>
-                                    <PlusIcon /> Add
-                                </Button>
-                            </div>
+                            {showHighlightsField() && (
+                                <div>
+                                    <Label>Highlights <span className="text-muted-foreground">(optional)</span></Label>
+                                    <ul className="flex flex-col gap-2">
+                                        {data.highlights.map((highlight, i) => (
+                                            <li key={i} className="flex gap-1 items-stretch">
+                                                <Input value={highlight} onChange={(e) => highlightHandler(e, i)}/>
+                                                <Button type="button" size="icon"
+                                                        onClick={() => removeHightlightHandler(i)}>
+                                                    <TrashIcon className="size-3"/>
+                                                </Button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <Button type="button" size="sm" onClick={addHighlightHandler}>
+                                        <PlusIcon/> Add
+                                    </Button>
+                                </div>
+                            )}
                         </>
                     )}
 

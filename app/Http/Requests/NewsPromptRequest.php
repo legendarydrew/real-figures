@@ -22,6 +22,8 @@ class NewsPromptRequest extends FormRequest
             'quote'        => ['nullable', 'string'],
             'highlights'   => ['array'],
             'highlights.*' => ['string'],
+            'acts'         => ['required_if:type,'. NewsPostType::ACT->value, 'array'],
+            'acts.*'       => ['exists:acts,id'],
         ];
     }
 }

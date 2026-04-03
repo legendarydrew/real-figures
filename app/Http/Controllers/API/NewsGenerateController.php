@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPromptRequest;
 use App\Models\NewsPost;
 use App\Services\PressReleaseAgent;
+use App\Support\PressRelease\ActPressReleaseData;
 use App\Support\PressRelease\GeneralReleaseData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -35,6 +36,17 @@ class NewsGenerateController extends Controller
                         description: $data['prompt'],
                         quote: $data['quote'],
                         highlights: $data['highlights'],
+                    )
+                );
+                break;
+
+            case NewsPostType::ACT->value:
+                $result = $agent->actFeature(
+                    new ActPressReleaseData(
+                        $data['acts'],
+                        title: $data['title'],
+                        description: $data['prompt'] ?? '',
+                        quote: $data['quote']
                     )
                 );
                 break;

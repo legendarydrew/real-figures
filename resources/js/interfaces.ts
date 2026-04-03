@@ -4,4 +4,5 @@ export interface NewsGeneratePayload {
     prompt: string;
     quote?: string;
     highlights: string[];
+    acts: number[];
 }

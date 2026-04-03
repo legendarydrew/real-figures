@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const NewsActSelect: React.FC<Props> = ({
-                                                   acts, onChange = (ids) => {
+                                                   acts = [], onChange = (ids) => {
     }
                                                }) => {
 

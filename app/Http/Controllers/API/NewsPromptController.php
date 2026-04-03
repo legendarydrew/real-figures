@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Enums\NewsPostType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPromptRequest;
+use App\Support\PressRelease\ActPressReleaseData;
 use App\Support\PressRelease\GeneralReleaseData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -28,6 +29,14 @@ class NewsPromptController extends Controller
                 break;
 
             case NewsPostType::ACT->value:
+                $prompt = new ActPressReleaseData(
+                    $data['acts'],
+                    title: $data['title'],
+                    description: $data['prompt'] ?? '',
+                    quote: $data['quote'],
+                );
+                break;
+
             case NewsPostType::CONTEST->value:
             case NewsPostType::STAGE->value:
             case NewsPostType::ROUND->value:

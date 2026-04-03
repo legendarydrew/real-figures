@@ -5,6 +5,8 @@ namespace App\Support\PressRelease;
 use App\Enums\NewsPostType;
 use App\Models\Act;
 use App\Support\PressReleaseData;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Lang;
 
 /**
  * ActPressReleaseData
@@ -13,29 +15,31 @@ use App\Support\PressReleaseData;
  */
 class ActPressReleaseData extends PressReleaseData
 {
-    public function __construct(
-        public Act $act,
-        public string $title,
-        public string $description,
-        public array $highlights = [],
-        public ?string $quote = null,
-    ) {
 
+    protected Collection $acts;
+
+    public function __construct(
+        public array   $act_ids,
+        public string  $title,
+        public string  $description,
+        public ?string $quote = null,
+    )
+    {
+        $this->acts = Act::whereIn('id', $this->act_ids)->get();
         parent::__construct(
             type: NewsPostType::ACT,
-            title: $this->act->full_name,
-            description: $this->buildDescription(),
-            highlights: $this->buildHighlights(),
+            title: $this->title ?? $this->acts->implode('full_name', ', '),
+            description: $this->description,
             quote: $quote,
         );
     }
 
     protected function buildDescription(): string
     {
-        // TODO relevant meta data (languages, traits, genres, members, notes).
-        // TODO use the profile if available.
-
-        return '';
+        $output = Lang::get('press-release.act.prefix') . "\n\n";
+        $output .= $this->acts->map(fn($act) => $this->getActInformation($act))->implode("\n\n");
+        $output .= "\n\n" . $this->description;
+        return trim($output);
     }
 
     protected function buildHighlights(): array
@@ -45,6 +49,49 @@ class ActPressReleaseData extends PressReleaseData
         // TODO mention any accolades (winner/runner-up status).
 
         return [];
+    }
+
+    /**
+     * Returns available information about the specified Act.
+     *
+     * @param Act $act
+     * @return string
+     */
+    protected function getActInformation(Act $act): string
+    {
+        $act->loadMissing(['profile', 'genres', 'languages', 'members', 'traits', 'notes']);
+
+        $output = [$act->full_name];
+
+        if ($act->genres->count())
+        {
+            $output[] = "- Genres: " . $act->genres->implode('name', ', ');
+        }
+        if ($act->languages->count())
+        {
+            $output[] = "- Languages spoken: " . $act->languages->implode('name', ', ');
+        }
+        if ($act->members->count())
+        {
+            $output[] = "- Members: ";
+            $output[] = $act->members->map(fn($member) => "  - $member->name ($member->role)")->join("\n");
+        }
+        if ($act->traits->count())
+        {
+            $output[] = "- Traits: ";
+            $output[] = $act->traits->map(fn($trait) => "  - $trait->trait")->join("\n");
+        }
+        if ($act->notes->count())
+        {
+            $output[] = "- Notes: ";
+            $output[] = $act->notes->map(fn($note) => "  - $note->note")->join("\n");
+        }
+        if ($act->profile)
+        {
+            $output[] = $act->profile->description;
+        }
+
+        return implode("\n", $output);
     }
 
 }
