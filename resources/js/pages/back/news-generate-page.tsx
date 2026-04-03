@@ -161,7 +161,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
                 <p>The following information will be used to generate a prompt for OpenAI to create a News Post.</p>
 
-                <form className="flex-grow flex flex-col gap-4 px-8" onSubmit={generatePromptHandler}>
+                <form className="flex-grow flex flex-col justify-between gap-4 px-8" onSubmit={generatePromptHandler}>
 
                     {/* Select the News Post type. */}
                     <div>

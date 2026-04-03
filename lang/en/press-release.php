@@ -43,6 +43,7 @@ Act:
 - Personal and narrative
 - Explore background and artistic identity
 - Mention their connection to the Contest and it's theme
+- Do not mention exact scores, unless they have 0 points
 
 Return JSON with:
 - title

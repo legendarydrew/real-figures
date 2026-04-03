@@ -4,6 +4,7 @@ namespace App\Support\PressRelease;
 
 use App\Enums\NewsPostType;
 use App\Models\Act;
+use App\Models\Round;
 use App\Support\PressReleaseData;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Lang;
@@ -30,7 +31,8 @@ class ActPressReleaseData extends PressReleaseData
             type: NewsPostType::ACT,
             title: $this->title ?? $this->acts->implode('full_name', ', '),
             description: $this->description,
-            quote: $quote,
+            highlights: $this->buildHighlights(),
+            quote: $quote
         );
     }
 
@@ -44,11 +46,46 @@ class ActPressReleaseData extends PressReleaseData
 
     protected function buildHighlights(): array
     {
-        // TODO mention how they fared in each Stage.
-        // TODO mention any Golden Buzzers awarded.
-        // TODO mention any accolades (winner/runner-up status).
+        $output = [];
 
-        return [];
+        // Rounds the Acts were involved in. (No duplication.)
+        $rounds = Round::get()
+                       ->filter(fn(Round $round) => $round->stage->hasEnded())
+                       ->filter(fn(Round $round) => $round->songs->whereIn('act_id', $this->acts->pluck('id'))->count());
+        if ($rounds->isNotEmpty()) {
+            $output[] = "Outcome of Rounds they were involved in:\n".
+                $rounds->map(function (Round $round)
+                {
+                    $outcomes = $round->outcomes()->scoreOrder()->get();
+                    return "  {$round->full_title}\n"  .
+                        $outcomes->map(fn($outcome) => "    {$outcome->song->act->full_name} scored $outcome->score point(s)")->implode("\n");
+                })->implode("\n\n");
+        }
+
+        $this->acts->each(function ($act) use (&$output)
+        {
+            $highlights = "";
+
+            // Accolades.
+            $act->accolades->each(function ($accolade) use (&$highlights)
+            {
+                $highlights .= "  " . ($accolade->is_winner ? "Winner of" : "Runner-up in") . " {$accolade->round->full_title}\n";
+            });
+
+            // Any awarded Golden Buzzers (but only for ended Stages).
+            $buzzers         = $act->goldenBuzzers->filter(fn($buzzer) => $buzzer->stage->hasEnded());
+            $grouped_buzzers = $buzzers->groupBy(fn($buzzer) => $buzzer->stage->id);
+            $grouped_buzzers->each(function ($group) use (&$highlights)
+            {
+                $highlights .= "  Was awarded {$group->count()} Golden Buzzers in {$group->first()->stage->title}.\n";
+            });
+
+            if (!empty($highlights)) {
+                $output[] = "For $act->full_name:\n" . $highlights;
+            }
+        });
+
+        return $output;
     }
 
     /**
@@ -88,6 +125,7 @@ class ActPressReleaseData extends PressReleaseData
         }
         if ($act->profile)
         {
+            $output[] = "- Profile: ";
             $output[] = $act->profile->description;
         }
 

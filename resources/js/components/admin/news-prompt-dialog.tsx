@@ -79,7 +79,7 @@ export const NewsPromptDialog: FC<NewsPromptDialogProps> = ({ open, onOpenChange
                 <form onSubmit={saveHandler}>
                     <div className="font-mono text-sm max-h-50 overflow-y-auto">
                         {prompt && Object.keys(prompt).map((key) => (
-                            <p key={key} className="mb-2 whitespace-pre-line">
+                            <p key={key} className="mb-2 whitespace-break-spaces">
                                 <b>{key}: </b> {keyOutput(prompt[key])}
                             </p>
                         ))}
