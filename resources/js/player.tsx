@@ -26,9 +26,11 @@ function playSong(song: any) {
 
 globalThis.openSongPlayer = (el: HTMLElement): void => {
     const song = JSON.parse(el.dataset.song);
+
+    // Show or hide playlist buttons, based on if there's playlist data available.
     playlistID = Number.parseInt(el.dataset.round);
+    playerElement.querySelector('.song-player-banner-playlist').classList.toggle('hidden', Number.isNaN(playlistID));
     playlistIndex = globalThis.playlist[playlistID]?.findIndex((s) => s.id === song.id) ?? 0;
-    console.log('Playlist index: ', playlistIndex);
 
     playSong(song);
 

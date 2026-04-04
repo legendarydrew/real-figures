@@ -1,5 +1,5 @@
 <div class="song-item">
-    <button class="song-item-image" type="button" title="Play Song by {{ $song['act']['name'] }}" onclick="openSongPlayer(this)" data-round="{{ $round['id'] }}" data-song="{{ json_encode($song) }}">
+    <button class="song-item-image" type="button" title="Play Song by {{ $song['act']['name'] }}" onclick="openSongPlayer(this)" data-round="{{ $round['id'] ?? null }}" data-song="{{ json_encode($song) }}">
         @include('front.act-image', ['act' => $song['act'], 'size' => 'full'])
         <i class="song-item-play fas fa-play"></i>
     </button>
