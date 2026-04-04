@@ -7,6 +7,9 @@
 @endsection
 
 @section('content')
+    <script>
+        globalThis.playlist = {};
+    </script>
     <div class="contest" style="background-image: url({{ asset('img/bg-stage.jpg') }})">
 
         <header class="contest-header">

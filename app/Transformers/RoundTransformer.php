@@ -11,7 +11,7 @@ class RoundTransformer extends TransformerAbstract
 {
     protected array $defaultIncludes = ['songs'];
 
-    protected array $availableIncludes = ['full_title'];
+    protected array $availableIncludes = ['full_title', 'playlist'];
 
     public function transform(Round $round): array
     {
@@ -34,5 +34,10 @@ class RoundTransformer extends TransformerAbstract
     public function includeFullTitle(Round $round): Primitive
     {
         return $this->primitive($round->full_title);
+    }
+
+    public function includePlaylist(Round $round): Primitive
+    {
+        return $this->primitive($round->playlist());
     }
 }

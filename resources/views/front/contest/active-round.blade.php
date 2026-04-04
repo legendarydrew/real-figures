@@ -26,6 +26,10 @@
 
                 {{-- The Acts and their songs. --}}
                 <div class="contest-round">
+                    {{-- Build a playlist for the song player. --}}
+                    <script>
+                        globalThis.playlist[{{ $current_round['id'] }}] = {!! json_encode($current_round['playlist']) !!};
+                    </script>
                     @foreach($current_round['songs'] as $song)
                         @include('front.song-item', ['round' => $current_round, 'golden_buzzer' => true])
                     @endforeach
