@@ -142,7 +142,7 @@ class RehearseData
             'languages' => ['en', 'ja'],
             'is_fan_favourite' => false,
             'notes' => [
-                'A mixed-race female contemporary classical singer in her early 20s.',
+                'An English/Japanese female contemporary classical singer in her mid 20s.',
                 'Most remembered for her plus-sized figure.',
                 'Does not often do interviews.'
             ],

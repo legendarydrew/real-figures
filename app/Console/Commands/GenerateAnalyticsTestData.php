@@ -24,6 +24,7 @@ class GenerateAnalyticsTestData extends Command
         $this->generateCollapseEvents();
         $this->generateVoteEvents();
         $this->generateSongPlayEvents();
+        $this->generatePlaylistEvents();
         $this->generateDonationEvents();
         $this->generateActViewEvents();
         $this->generateSubscriberEvents();
@@ -56,7 +57,8 @@ class GenerateAnalyticsTestData extends Command
         ];
 
         $event_count = fake()->numberBetween(40, 100);
-        foreach (range(1, $event_count) as $ignored) {
+        for ($i = 1; $i <= $event_count; $i++)
+        {
             $this->postEvent('collapse_open', $sections[array_rand($sections)]);
         }
     }
@@ -65,13 +67,17 @@ class GenerateAnalyticsTestData extends Command
     {
         $this->comment('- votes');
         $rounds = Round::get();
-        if ($rounds->isEmpty()) {
+        if ($rounds->isEmpty())
+        {
             error('No Rounds exist.');
-        } else {
+        }
+        else
+        {
             $event_count = fake()->numberBetween(10, 50);
-            foreach (range(1, $event_count) as $ignored) {
+            for ($i = 1; $i <= $event_count; $i++)
+            {
                 $this->postEvent('vote', [
-                    'round' => $rounds->random()->full_title,
+                    'round'   => $rounds->random()->full_title,
                     'choices' => fake()->numberBetween(1, 3)
                 ]);
             }
@@ -84,14 +90,16 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- song plays');
         $act_slugs = Act::whereHas('songs')->pluck('slug');
 
-        if ($act_slugs->isEmpty()) {
+        if ($act_slugs->isEmpty())
+        {
             error('No Acts with Songs available.');
 
             return;
         }
 
         $event_count = fake()->numberBetween(100, 500);
-        foreach (range(1, $event_count) as $ignored) {
+        for ($i = 1; $i <= $event_count; $i++)
+        {
             $this->postEvent('song_play', ['act' => $act_slugs->random()]);
         }
     }
@@ -101,9 +109,10 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- donations');
 
         $event_count = fake()->numberBetween(10, 50);
-        foreach (range(1, $event_count) as $ignored) {
+        for ($i = 1; $i <= $event_count; $i++)
+        {
             $this->postEvent('donation', [
-                'value' => fake()->randomFloat(2, 1, 100),
+                'value'     => fake()->randomFloat(2, 1, 100),
                 'anonymous' => fake()->boolean,
             ]);
         }
@@ -113,12 +122,13 @@ class GenerateAnalyticsTestData extends Command
     {
         $this->comment('- Act profile views');
 
-        $acts = Act::all();
+        $acts        = Act::all();
         $event_count = fake()->numberBetween(10, 100);
-        foreach (range(1, $event_count) as $ignored) {
+        for ($i = 1; $i <= $event_count; $i++)
+        {
             $this->postEvent('dialog_open', [
                 'type' => 'act',
-                'act' => fake()->randomElement($acts)->slug,
+                'act'  => fake()->randomElement($acts)->slug,
             ]);
         }
     }
@@ -128,7 +138,8 @@ class GenerateAnalyticsTestData extends Command
         $this->comment('- Subscribers');
 
         $event_count = fake()->numberBetween(10, 100);
-        foreach (range(1, $event_count) as $ignored) {
+        for ($i = 1; $i <= $event_count; $i++)
+        {
             $this->postEvent('subscriber', [
                 'value' => fake()->boolean ? 1 : -1,
             ]);
@@ -137,12 +148,28 @@ class GenerateAnalyticsTestData extends Command
 
     protected function generateContactMessageEvents(): void
     {
-        $this->comment('- Contact messages');
+        $this->comment('- contact messages');
 
         $event_count = fake()->numberBetween(10, 100);
-        foreach (range(1, $event_count) as $ignored) {
+        for ($i = 1; $i <= $event_count; $i++)
+        {
             $this->postEvent('contact_sent', [
                 'subscribed' => fake()->boolean,
+            ]);
+        }
+    }
+
+    protected function generatePlaylistEvents(): void
+    {
+        $this->comment('- playlist');
+
+        $rounds      = Round::pluck('id');
+        $event_count = fake()->numberBetween(10, 50);
+        for ($i = 1; $i <= $event_count; $i++)
+        {
+            $this->postEvent('playlist', [
+                'round_id' => fake()->randomElement($rounds),
+                'button'   => fake()->randomElement(['prev', 'next']),
             ]);
         }
     }
