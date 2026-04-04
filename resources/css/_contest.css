@@ -171,6 +171,12 @@
 
 .song-item {
     @apply relative overflow-hidden;
+
+    &:not(:hover, :focus) {
+        .song-item-play {
+            @apply opacity-0;
+        }
+    }
 }
 
 .song-item-image {
@@ -180,6 +186,11 @@
 
 .song-item-act {
     @apply bg-secondary/90 absolute bottom-0 left-0 w-full flex items-center gap-3 min-h-10;
+}
+
+.song-item-play {
+    @apply transition-opacity;
+    @apply absolute top-1/2 left-1/2 -translate-1/2 text-[4rem] opacity-80 mix-blend-overlay;
 }
 
 .song-item-flag {
