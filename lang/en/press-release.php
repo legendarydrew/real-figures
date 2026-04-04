@@ -102,7 +102,7 @@ INFO,
         'highlight' => 'For :name:',
         'outcomes'  => [
             'heading' => "Outcome of Rounds they were involved in:",
-            'round'  => "  :round",
+            'round'   => "  :round",
             'result'  => "    :name scored :score point(s)"
         ],
         "accolades" => [
@@ -110,5 +110,23 @@ INFO,
             "runner-up" => "  Runner-up in :round",
         ],
         "buzzers"   => "  Was awarded :count Golden Buzzer(s) in :stage."
+    ],
+    'results' => [
+        'title'      => 'Real Figures Don\'t F.O.L.D - Results',
+        'stage'      => [
+            'ended'    => ':name is over.',
+            'started'  => ':name is currently running.',
+            'inactive' => ':name has yet to start.'
+        ],
+        'favourites' => [
+            'heading' => 'Favourites to win:',
+            'name'    => '  :name'
+        ],
+        'outcomes'   => [
+            'heading' => "Results of :name:",
+            'round'   => "  :round",
+            'result'  => "    :name - :score point(s) from :votes votes",
+            'manual'  => "  (decided by an independent panel)"
+        ]
     ]
 ];

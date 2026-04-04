@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Lang;
  * Data used for generating a general press release.
  * This is basically a barebones DTO, where we enter the information to use ourselves.
  */
-class GeneralReleaseData extends PressReleaseData
+class GeneralPressReleaseData extends PressReleaseData
 {
     public function __construct(
         public string  $title,

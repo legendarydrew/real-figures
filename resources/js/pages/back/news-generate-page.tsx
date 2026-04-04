@@ -85,8 +85,16 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         });
     };
 
+    const showBasicFields = (): boolean => {
+        return data.type && !['results'].includes(data.type);
+    }
+
+    const showActsField = (): boolean => {
+        return ['act'].includes(data.type);
+    }
+
     const showHighlightsField = (): boolean => {
-        return data.type !== 'act';
+        return ['general'].includes(data.type);
     }
 
     const titleHandler = (e): void => {
@@ -178,12 +186,12 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
                     {/* Depending on what was selected... */}
 
-                    {data.type === 'act' && (
-                        <NewsActSelect acts={acts} onChange={updateActHandler}/>
+                    {showActsField() && (
+                         <NewsActSelect acts={acts} onChange={updateActHandler}/>
                     )}
 
                     {/* Additional prompt. */}
-                    {data.type && (
+                    {showBasicFields() && (
                         <>
                             <div>
                                 <Label htmlFor="postTitle">Post title</Label>
@@ -203,27 +211,27 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                                 <ExpandingTextarea id="postQuote" className="max-h-20" onChange={quoteHandler}/>
                                 <InputError message={validation?.quote}/>
                             </div>
-
-                            {showHighlightsField() && (
-                                <div>
-                                    <Label>Highlights <span className="text-muted-foreground">(optional)</span></Label>
-                                    <ul className="flex flex-col gap-2">
-                                        {data.highlights.map((highlight, i) => (
-                                            <li key={i} className="flex gap-1 items-stretch">
-                                                <Input value={highlight} onChange={(e) => highlightHandler(e, i)}/>
-                                                <Button type="button" size="icon"
-                                                        onClick={() => removeHightlightHandler(i)}>
-                                                    <TrashIcon className="size-3"/>
-                                                </Button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    <Button type="button" size="sm" onClick={addHighlightHandler}>
-                                        <PlusIcon/> Add
-                                    </Button>
-                                </div>
-                            )}
                         </>
+                    )}
+
+                    {showHighlightsField() && (
+                        <div>
+                            <Label>Highlights <span className="text-muted-foreground">(optional)</span></Label>
+                            <ul className="flex flex-col gap-2">
+                                {data.highlights.map((highlight, i) => (
+                                    <li key={i} className="flex gap-1 items-stretch">
+                                        <Input value={highlight} onChange={(e) => highlightHandler(e, i)}/>
+                                        <Button type="button" size="icon"
+                                                onClick={() => removeHightlightHandler(i)}>
+                                            <TrashIcon className="size-3"/>
+                                        </Button>
+                                    </li>
+                                ))}
+                            </ul>
+                            <Button type="button" size="sm" onClick={addHighlightHandler}>
+                                <PlusIcon/> Add
+                            </Button>
+                        </div>
                     )}
 
                     <div className="bg-white border-t-1 flex flex-wrap justify-between sticky bottom-0 py-3 -mx-5 px-5">

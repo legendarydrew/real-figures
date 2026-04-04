@@ -5,7 +5,8 @@ namespace App\Services;
 use App\Enums\NewsPostType;
 use App\Exceptions\PressReleaseException;
 use App\Support\PressRelease\ActPressReleaseData;
-use App\Support\PressRelease\GeneralReleaseData;
+use App\Support\PressRelease\GeneralPressReleaseData;
+use App\Support\PressRelease\ResultsPressReleaseData;
 use App\Support\PressReleaseData;
 use App\Support\PressReleaseResponse;
 use Illuminate\Support\Facades\Lang;
@@ -54,6 +55,7 @@ class PressReleaseAgent
      * @param PressReleaseData $data
      * @param array            $history a list of previous News posts to use for reference.
      * @return PressReleaseResponse
+     * @throws PressReleaseException
      */
     protected function run(PressReleaseData $data, array $history = []): PressReleaseResponse
     {
@@ -202,15 +204,35 @@ class PressReleaseAgent
      * @param ActPressReleaseData $data
      * @param array               $history
      * @return PressReleaseResponse
+     * @throws PressReleaseException
      */
-    public function actFeature(ActPressReleaseData $data, array $history = []): PressReleaseResponse
+    public function actPressRelease(ActPressReleaseData $data, array $history = []): PressReleaseResponse
     {
         return $this->run($data, $history);
     }
 
-    public function generalPressRelease(GeneralReleaseData $data, array $history = []): PressReleaseResponse
+    /**
+     * Generate a general/custom press release.
+     *
+     * @param GeneralPressReleaseData $data
+     * @param array                   $history
+     * @return PressReleaseResponse
+     * @throws PressReleaseException
+     */
+    public function generalPressRelease(GeneralPressReleaseData $data, array $history = []): PressReleaseResponse
     {
         return $this->run($data, $history);
+    }
+
+    /**
+     * Generate a press release about the current results of the Contest.
+     *
+     * @return PressReleaseResponse
+     * @throws PressReleaseException
+     */
+    public function resultsPressRelease(): PressReleaseResponse
+    {
+        return $this->run(new ResultsPressReleaseData());
     }
 
 }
