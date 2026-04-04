@@ -47,7 +47,7 @@
     }
 
     &.ghost {
-        @apply shadow-none;
+        @apply bg-transparent shadow-none;
         @apply not-disabled:hover:bg-accent not-disabled:hover:text-accent-foreground;
     }
 

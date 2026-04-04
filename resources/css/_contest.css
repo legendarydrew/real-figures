@@ -228,15 +228,19 @@
     }
 
     .song-player-banner-act {
-        @apply text-base leading-none;
+        @apply text-base leading-none truncate;
 
         small {
-            @apply text-sm ml-1 text-muted-foreground;
+            @apply text-sm leading-none ml-1 text-muted-foreground;
         }
     }
 
     .song-player-banner-title {
         @apply text-xs leading-none;
+    }
+
+    .song-player-banner-playlist {
+        @apply flex gap-1 mr-1;
     }
 }
 

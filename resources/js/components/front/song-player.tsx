@@ -34,5 +34,6 @@ export const SongPlayer: React.FC = ({ currentSong }) => {
             title={`YouTube video player: ${currentSong.title} by ${currentSong.act.name}`}
             opts={playerOptions}
             onPlay={songPlayHandler}
+            onEnd={globalThis.nextInSongPlayer}
         /> : '');
 };
