@@ -179,7 +179,7 @@ class AnalyticsChartFormatter
             $date = Carbon::createFromFormat('YmdH', $row['dateHour']);
             $dateKey = $date->copy();
             return [
-                'date' => $dateKey->startOfHour()->toISOString(),
+                'time' => $dateKey->startOfHour()->toISOString(),
                 'dimension' => $row[$dimension] ?? 'unknown',
                 'value' => (int) $row[$metric],
             ];
@@ -215,12 +215,12 @@ class AnalyticsChartFormatter
         // Sum values per date + dimension
         // ChatGPT made an error here: grouping by date and dimension produces
         // a collection of collections, so we have to map at both levels.
-        $grouped = $rows->groupBy(['date', 'dimension'])
+        $grouped = $rows->groupBy(['time', 'dimension'])
             ->map(fn ($d) => $d->map(fn ($g) => $g->sum('value')));
 
         // Determine date range
-        $start = Carbon::parse($rows->min('date'));
-        $end = Carbon::parse($rows->max('date'));
+        $start = Carbon::parse($rows->min('time'));
+        $end = Carbon::parse($rows->max('time'));
 
         $periods = collect();
         $cursor = $start->copy();
@@ -232,7 +232,7 @@ class AnalyticsChartFormatter
 
         // Build chart rows
         $chartData = $periods->map(function ($date) use ($grouped, $keys) {
-            $row = ['date' => $date, 'total' => 0];
+            $row = ['time' => $date, 'total' => 0];
             foreach ($keys as $key) {
                 $row[$key] = $grouped[$date][$key] ?? 0;
                 $row['total'] += $row[$key];

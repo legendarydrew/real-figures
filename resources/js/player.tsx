@@ -43,6 +43,9 @@ globalThis.openSongPlayer = (el: HTMLElement): void => {
 }
 
 globalThis.prevInSongPlayer = (): void => {
+    if (Number.isNaN(playlistID)) {
+        return;
+    }
     playlistIndex = (playlistIndex - 1) % globalThis.playlist[playlistID].length;
     playSong(globalThis.playlist[playlistID][playlistIndex]);
     globalThis.trackEvent("playlist", {
@@ -52,6 +55,9 @@ globalThis.prevInSongPlayer = (): void => {
 }
 
 globalThis.nextInSongPlayer = (): void => {
+    if (Number.isNaN(playlistID)) {
+        return;
+    }
     playlistIndex = (playlistIndex + 1) % globalThis.playlist[playlistID].length;
     playSong(globalThis.playlist[playlistID][playlistIndex]);
     globalThis.trackEvent("playlist", {

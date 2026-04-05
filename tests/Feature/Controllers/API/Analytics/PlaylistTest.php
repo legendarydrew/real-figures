@@ -35,7 +35,7 @@ final class PlaylistTest extends TestCase
             'keys',
             'data'  => [
                 '*' => [
-                    'date',
+                    'time',
                 ],
             ],
             'table' => [
@@ -88,7 +88,7 @@ final class PlaylistTest extends TestCase
             'keys',
             'data'  => [
                 '*' => [
-                    'date',
+                    'time',
                 ],
             ],
             'table' => [

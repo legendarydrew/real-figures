@@ -169,7 +169,7 @@ class GenerateAnalyticsTestData extends Command
         {
             $this->postEvent('playlist', [
                 'round_id' => fake()->randomElement($rounds),
-                'button'   => fake()->randomElement(['prev', 'next']),
+                'label'    => fake()->randomElement(['prev', 'next']),
             ]);
         }
     }

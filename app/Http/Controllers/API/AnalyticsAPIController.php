@@ -58,9 +58,9 @@ abstract class AnalyticsAPIController extends Controller
         while ($cursor->lte($end))
         {
             $current_date        = $cursor->toISOString();
-            $matching_row        = array_find($stacked_data['data'], fn($row) => $row['date'] === $current_date);
+            $matching_row        = array_find($stacked_data['data'], fn($row) => $row['time'] === $current_date);
             $data[$current_date] = [
-                'date'  => $cursor->toISOString(),
+                'time'  => $cursor->toISOString(),
                 'total' => $matching_row['total'] ?? 0,
                 ...($matching_row ?? $empty_row),
             ];

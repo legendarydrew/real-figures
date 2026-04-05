@@ -43,7 +43,6 @@ export const DonationsTotalAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
     const tooltipContent = ({ active, payload, label }) => {
         if (active && payload?.length) {
-            console.log(payload);
             return (
                 <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-2">
                     <span className="display-text text-sm">{formatDate(locale as string, label)}</span>
