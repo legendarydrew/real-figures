@@ -163,4 +163,91 @@ class AnalyticsChartFormatter
             'data' => $chartData->values()->toArray(),
         ];
     }
+
+    public static function stackedByTime(
+        array|Collection|null $rows,
+        string $dimension,
+        string $metric = 'eventCount',
+        ?int $top = null
+    ): array {
+        if (is_null($rows)) {
+            return ['data' => [], 'keys' => []];
+        }
+
+        // Organise the data into combinations of date and dimension values.
+        $rows = collect($rows)->map(function ($row) use ($dimension, $metric) {
+            $date = Carbon::createFromFormat('YmdH', $row['dateHour']);
+            $dateKey = $date->copy();
+            return [
+                'time' => $dateKey->startOfHour()->toISOString(),
+                'dimension' => $row[$dimension] ?? 'unknown',
+                'value' => (int) $row[$metric],
+            ];
+        });
+
+        if ($rows->isEmpty()) {
+            return ['data' => [], 'keys' => []];
+        }
+
+        // Determine top dimensions if requested
+        if (! is_null($top)) {
+            $topKeys = $rows
+                ->groupBy('dimension')
+                ->map(fn ($g) => $g->sum('value'))
+                ->sortDesc()
+                ->take($top)
+                ->keys();
+
+            $rows = $rows->map(function ($row) use ($topKeys) {
+                if (! $topKeys->contains($row['dimension'])) {
+                    $row['dimension'] = 'Other';
+                }
+
+                return $row;
+            });
+        }
+
+        /**
+         * @var Collection $keys
+         */
+        $keys = $rows->pluck('dimension')->unique()->values();
+
+        // Sum values per date + dimension
+        // ChatGPT made an error here: grouping by date and dimension produces
+        // a collection of collections, so we have to map at both levels.
+        $grouped = $rows->groupBy(['time', 'dimension'])
+            ->map(fn ($d) => $d->map(fn ($g) => $g->sum('value')));
+
+        // Determine date range
+        $start = Carbon::parse($rows->min('time'));
+        $end = Carbon::parse($rows->max('time'));
+
+        $periods = collect();
+        $cursor = $start->copy();
+
+        while ($cursor->lte($end)) {
+            $periods->push($cursor->startOfHour()->toISOString());
+            $cursor->addHour();
+        }
+
+        // Build chart rows
+        $chartData = $periods->map(function ($date) use ($grouped, $keys) {
+            $row = ['time' => $date, 'total' => 0];
+            foreach ($keys as $key) {
+                $row[$key] = $grouped[$date][$key] ?? 0;
+                $row['total'] += $row[$key];
+            }
+
+            return $row;
+        });
+
+        // Ensure 'Other' is the last item in both lists, if present.
+        $keys = $keys->sort(fn ($key) => $key === 'Other' ? 1 : 0);
+
+        return [
+            'keys' => $keys->values()->toArray(),
+            'data' => $chartData->values()->toArray(),
+        ];
+    }
+
 }

@@ -28,6 +28,7 @@ import { OutboundAnalytics } from '@/components/analytics/outbound';
 import { SubscribersAnalytics } from '@/components/analytics/subscribers';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import { VoteChoicesAnalytics } from '@/components/analytics/vote-choices';
+import { PlaylistAnalytics } from '@/components/analytics/playlist';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -49,6 +50,11 @@ export default function AnalyticsPage() {
     const [dayCount, setDayCount] = useState<number>(7);
 
     const dayOptions = [3, 7, 14, 30, 60, 90];
+
+    const sectionHandler = (section: string) => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setSection(AnalyticsSection[section]);
+    }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -76,7 +82,7 @@ export default function AnalyticsPage() {
                                     <Button key={key} type="button" size="sm"
                                             variant={section === AnalyticsSection[key] ? 'primary' : 'default'}
                                             className="justify-start text-sm"
-                                            onClick={() => setSection(AnalyticsSection[key])}>{AnalyticsSection[key]}</Button>
+                                            onClick={() => sectionHandler(key)}>{AnalyticsSection[key]}</Button>
                                 ))}
                             </menu>
                         </div>
@@ -119,6 +125,7 @@ export default function AnalyticsPage() {
                                 <VoteChoicesAnalytics days={dayCount}/>
                                 <PlaysAnalytics days={dayCount}/>
                                 <SongsPlayedAnalytics days={dayCount}/>
+                                <PlaylistAnalytics days={dayCount}/>
                                 <GoldenBuzzersMadeAnalytics days={dayCount}/>
                             </>
                         )}

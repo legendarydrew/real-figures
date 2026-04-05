@@ -7,6 +7,9 @@
 @endsection
 
 @section('content')
+    <script>
+        globalThis.playlist = {};
+    </script>
     <div class="contest" style="background-image: url({{ asset('img/bg-stage.jpg') }})">
 
         <header class="contest-header">
@@ -20,6 +23,7 @@
         </div>
     </div>
 
+    {{-- Song player dialog. --}}
     <dialog id="song-player" popover="manual">
         <div class="song-player-video"></div>
         <div class="song-player-banner">
@@ -28,6 +32,14 @@
                 <div class="song-player-banner-act"></div>
                 <div class="song-player-banner-title"></div>
             </div>
+            <nav class="song-player-banner-playlist">
+                <button class="button ghost icon" type="button" title="Previous Song" onclick="prevInSongPlayer()">
+                    <i class="fas fa-backward-step"></i>
+                </button>
+                <button class="button ghost icon" type="button" title="Next Song" onclick="nextInSongPlayer()">
+                    <i class="fas fa-forward-step"></i>
+                </button>
+            </nav>
             @if (!\App\Facades\ContestFacade::isOver())
             <button class="button gold icon" type="button" title="Award a Golden Buzzer" onclick="awardGoldenBuzzer()">
                 <i class="fa-solid fa-star"></i>

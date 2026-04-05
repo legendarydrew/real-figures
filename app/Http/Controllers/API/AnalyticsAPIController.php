@@ -48,4 +48,25 @@ abstract class AnalyticsAPIController extends Controller
         ksort($data); // sort by ascending date.
         $stacked_data['data'] = array_values($data);
     }
+
+    protected function fillTimeGaps(array &$stacked_data, int $days): void
+    {
+        $data      = [];
+        $end       = now()->startOfHour();
+        $cursor    = $end->copy()->subDays($days);
+        $empty_row = array_fill_keys($stacked_data['keys'], 0); // nice!
+        while ($cursor->lte($end))
+        {
+            $current_date        = $cursor->toISOString();
+            $matching_row        = array_find($stacked_data['data'], fn($row) => $row['time'] === $current_date);
+            $data[$current_date] = [
+                'time'  => $cursor->toISOString(),
+                'total' => $matching_row['total'] ?? 0,
+                ...($matching_row ?? $empty_row),
+            ];
+            $cursor->addHour();
+        }
+        ksort($data); // sort by ascending date.
+        $stacked_data['data'] = array_values($data);
+    }
 }
