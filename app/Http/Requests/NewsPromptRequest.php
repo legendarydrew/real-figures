@@ -22,8 +22,9 @@ class NewsPromptRequest extends FormRequest
             'quote'        => ['nullable', 'string'],
             'highlights'   => ['array'],
             'highlights.*' => ['string'],
-            'acts'         => ['required_if:type,'. NewsPostType::ACT->value, 'array'],
+            'acts'         => ['required_if:type,' . NewsPostType::ACT->value, 'array'],
             'acts.*'       => ['exists:acts,id'],
+            'stage'        => ['required_if:type,' . NewsPostType::STAGE->value, 'int', 'exists:stages,id'],
         ];
     }
 }

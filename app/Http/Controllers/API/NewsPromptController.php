@@ -8,6 +8,7 @@ use App\Http\Requests\NewsPromptRequest;
 use App\Support\PressRelease\ActPressReleaseData;
 use App\Support\PressRelease\GeneralPressReleaseData;
 use App\Support\PressRelease\ResultsPressReleaseData;
+use App\Support\PressRelease\StagePressReleaseData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -39,9 +40,14 @@ class NewsPromptController extends Controller
                 break;
 
             case NewsPostType::CONTEST->value:
-            case NewsPostType::STAGE->value:
             case NewsPostType::ROUND->value:
                 abort(Response::HTTP_PRECONDITION_FAILED, 'No, not yet.');
+                break;
+
+            case NewsPostType::STAGE->value:
+                $prompt = new StagePressReleaseData(
+                    $data['stage']
+                );
                 break;
 
             case NewsPostType::RESULTS->value:

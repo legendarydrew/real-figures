@@ -9,6 +9,7 @@ use App\Models\NewsPost;
 use App\Services\PressReleaseAgent;
 use App\Support\PressRelease\ActPressReleaseData;
 use App\Support\PressRelease\GeneralPressReleaseData;
+use App\Support\PressRelease\StagePressReleaseData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -48,6 +49,12 @@ class NewsGenerateController extends Controller
                         description: $data['prompt'] ?? '',
                         quote: $data['quote']
                     )
+                );
+                break;
+
+            case NewsPostType::STAGE->value:
+                $result = $agent->stagePressRelease(
+                    new StagePressReleaseData($data['stage'])
                 );
                 break;
 

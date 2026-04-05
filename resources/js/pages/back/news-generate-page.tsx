@@ -47,7 +47,8 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         prompt: "", // user-entered information to help OpenAI.
         quote: "",
         highlights: [],
-        acts: []
+        acts: [],
+        stage: undefined,
     });
 
     const [error, setError] = useState<string>();
@@ -55,6 +56,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
     const [isPromptOpen, setIsPromptOpen] = useState<boolean>(false);
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [prompt, setPrompt] = useState<string>();
+    const [stageName, setStageName] = useState<string>();
 
     const cancelHandler = (): void => {
         router.visit(route('admin.news'));
@@ -86,11 +88,15 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
     };
 
     const showBasicFields = (): boolean => {
-        return data.type && !['results'].includes(data.type);
+        return data.type && ['general', 'acts'].includes(data.type);
     }
 
     const showActsField = (): boolean => {
         return ['act'].includes(data.type);
+    }
+
+    const showStageField = (): boolean => {
+        return ['stage'].includes(data.type);
     }
 
     const showHighlightsField = (): boolean => {
@@ -127,6 +133,12 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
     const updateActHandler = (acts): void => {
         setData((prev) => ({ ...prev, acts }));
+    };
+
+    const selectStageHandler = (stage: number): void => {
+        setData((prev) => ({ ...prev, stage }));
+        const matchingStage = stages?.find((s) => s.id.toString() === stage);
+        setStageName(matchingStage ? `${ matchingStage.title } [${ matchingStage.status }]` : undefined);
     };
 
     const generatePromptHandler = (e): void => {
@@ -187,8 +199,23 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     {/* Depending on what was selected... */}
 
                     {showActsField() && (
-                         <NewsActSelect acts={acts} onChange={updateActHandler}/>
+                        <NewsActSelect acts={acts} onChange={updateActHandler}/>
                     )}
+
+                    {showStageField() && (
+                    <div>
+                        <Label htmlFor="postType">Which Stage?</Label>
+                        <Select id="postStage" onValueChange={selectStageHandler}>
+                            <SelectTrigger>{ stageName ?? 'Select a Stage...' }</SelectTrigger>
+                            <SelectContent>
+                                {stages?.map((stage) => (
+                                    <SelectItem key={stage.id} value={stage.id}>{stage.title} ({stage.status})</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    )}
+
 
                     {/* Additional prompt. */}
                     {showBasicFields() && (

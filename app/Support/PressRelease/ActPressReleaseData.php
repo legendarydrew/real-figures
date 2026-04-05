@@ -100,48 +100,4 @@ class ActPressReleaseData extends PressReleaseData
         return $output;
     }
 
-    /**
-     * Returns available information about the specified Act.
-     *
-     * @param Act $act
-     * @return string
-     */
-    protected function getActInformation(Act $act): string
-    {
-        $act->loadMissing(['profile', 'genres', 'languages', 'members', 'traits', 'notes']);
-
-        $output = [$act->full_name];
-
-        if ($act->genres->count())
-        {
-            $output[] = Lang::get('press-release.act.genres', ['genres' => $act->genres->implode('name', ', ')]);
-        }
-        if ($act->languages->count())
-        {
-            $output[] = Lang::get('press-release.act.languages', ['languages' => $act->languages->implode('name', ', ')]);
-        }
-        if ($act->members->count())
-        {
-            $output[] = Lang::get('press-release.act.members');
-            $output[] = $act->members->map(fn($member) => "  - $member->name ($member->role)")->join("\n");
-        }
-        if ($act->traits->count())
-        {
-            $output[] = Lang::get('press-release.act.traits');
-            $output[] = $act->traits->map(fn($trait) => "  - $trait->trait")->join("\n");
-        }
-        if ($act->notes->count())
-        {
-            $output[] = Lang::get('press-release.act.notes');
-            $output[] = $act->notes->map(fn($note) => "  - $note->note")->join("\n");
-        }
-        if ($act->profile)
-        {
-            $output[] = Lang::get('press-release.act.profile');
-            $output[] = $act->profile->description;
-        }
-
-        return implode("\n", $output);
-    }
-
 }

@@ -7,6 +7,7 @@ use App\Exceptions\PressReleaseException;
 use App\Support\PressRelease\ActPressReleaseData;
 use App\Support\PressRelease\GeneralPressReleaseData;
 use App\Support\PressRelease\ResultsPressReleaseData;
+use App\Support\PressRelease\StagePressReleaseData;
 use App\Support\PressReleaseData;
 use App\Support\PressReleaseResponse;
 use Illuminate\Support\Facades\Lang;
@@ -220,6 +221,19 @@ class PressReleaseAgent
      * @throws PressReleaseException
      */
     public function generalPressRelease(GeneralPressReleaseData $data, array $history = []): PressReleaseResponse
+    {
+        return $this->run($data, $history);
+    }
+
+    /**
+     * Generate a press release about a specific Stage.
+     *
+     * @param StagePressReleaseData $data
+     * @param array                 $history
+     * @return PressReleaseResponse
+     * @throws PressReleaseException
+     */
+    public function stagePressRelease(StagePressReleaseData $data, array $history = []): PressReleaseResponse
     {
         return $this->run($data, $history);
     }

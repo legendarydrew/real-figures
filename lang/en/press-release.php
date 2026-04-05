@@ -128,5 +128,23 @@ INFO,
             'result'  => "    :name - :score point(s) from :votes votes",
             'manual'  => "  (decided by an independent panel)"
         ]
+    ],
+    'stage'   => [
+        'title'       => 'About :stage',
+        'description' => [
+            'title'        => 'A description of :stage:',
+            'buzzer-perks' => 'Golden Buzzer perks: :perks',
+            'first-stage'  => 'Acts were allocated to Rounds at random.',
+            'last-stage'   => 'This is the last Stage, which is expected to have ten Acts.'
+        ],
+        'highlight'   => [
+            'not-started'       => 'The Stage has not yet started.',
+            'started'       => 'The Stage has started.',
+            'ended'       => 'The Stage has ended.',
+            'manual-vote' => 'No votes were cast, so an independent panel will judge.',
+            'acts'        => 'Act information:',
+            'favourites'  => 'Favourites to win:',
+            'no-favourites'  => 'No Acts are favourites to win.'
+        ]
     ]
 ];

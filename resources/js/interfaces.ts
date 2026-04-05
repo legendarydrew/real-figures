@@ -5,4 +5,5 @@ export interface NewsGeneratePayload {
     quote?: string;
     highlights: string[];
     acts: number[];
+    stage: number;
 }
