@@ -27,6 +27,7 @@ class NewsPromptRequest extends FormRequest
             'acts'         => ['required_if:type,' . NewsPostType::ACT->value, 'array'],
             'acts.*'       => ['exists:acts,id'],
             'stage'        => ['required_if:type,' . NewsPostType::STAGE->value, 'int', 'exists:stages,id'],
+            'round'        => ['required_if:type,' . NewsPostType::ROUND->value, 'int', 'exists:rounds,id'],
         ];
     }
 }

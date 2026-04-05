@@ -9,6 +9,7 @@ use App\Models\NewsPost;
 use App\Support\PressRelease\ActPressReleaseData;
 use App\Support\PressRelease\GeneralPressReleaseData;
 use App\Support\PressRelease\ResultsPressReleaseData;
+use App\Support\PressRelease\RoundPressReleaseData;
 use App\Support\PressRelease\StagePressReleaseData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -41,8 +42,13 @@ class NewsPromptController extends Controller
                 break;
 
             case NewsPostType::CONTEST->value:
-            case NewsPostType::ROUND->value:
                 abort(Response::HTTP_PRECONDITION_FAILED, 'No, not yet.');
+                break;
+
+            case NewsPostType::ROUND->value:
+                $prompt = new RoundPressReleaseData(
+                    $data['round']
+                );
                 break;
 
             case NewsPostType::STAGE->value:

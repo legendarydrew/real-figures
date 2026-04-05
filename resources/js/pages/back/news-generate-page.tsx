@@ -66,6 +66,7 @@ export default function NewsGeneratePage({
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [prompt, setPrompt] = useState<string>();
     const [stageName, setStageName] = useState<string>();
+    const [roundName, setRoundName] = useState<string>();
 
     const cancelHandler = (): void => {
         router.visit(route('admin.news'));
@@ -109,6 +110,10 @@ export default function NewsGeneratePage({
 
     const showStageField = (): boolean => {
         return ['stage'].includes(data.type);
+    }
+
+    const showRoundField = (): boolean => {
+        return ['round'].includes(data.type);
     }
 
     const showHighlightsField = (): boolean => {
@@ -159,6 +164,12 @@ export default function NewsGeneratePage({
         setData((prev) => ({ ...prev, stage }));
         const matchingStage = stages?.find((s) => s.id.toString() === stage);
         setStageName(matchingStage ? `${matchingStage.title} [${matchingStage.status}]` : undefined);
+    };
+
+    const selectRoundHandler = (round: number): void => {
+        setData((prev) => ({ ...prev, round }));
+        const matchingRound = rounds?.find((r) => r.id.toString() === round);
+        setRoundName(matchingRound?.title ?? undefined);
     };
 
     const generatePromptHandler = (e): void => {
@@ -224,13 +235,28 @@ export default function NewsGeneratePage({
 
                     {showStageField() && (
                         <div>
-                            <Label htmlFor="postType">Which Stage?</Label>
+                            <Label htmlFor="postStage">Which Stage?</Label>
                             <Select id="postStage" onValueChange={selectStageHandler}>
                                 <SelectTrigger>{stageName ?? 'Select a Stage...'}</SelectTrigger>
                                 <SelectContent>
                                     {stages?.map((stage) => (
                                         <SelectItem key={stage.id}
                                                     value={stage.id}>{stage.title} ({stage.status})</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    )}
+
+                    {showRoundField() && (
+                        <div>
+                            <Label htmlFor="postRound">Which Round?</Label>
+                            <Select id="postRound" onValueChange={selectRoundHandler}>
+                                <SelectTrigger>{roundName ?? 'Select a Round...'}</SelectTrigger>
+                                <SelectContent>
+                                    {rounds?.map((round) => (
+                                        <SelectItem key={round.id}
+                                                    value={round.id}>{round.title}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -286,7 +312,8 @@ export default function NewsGeneratePage({
                         <NewsPostSelect posts={news} onChange={updateHistoryHandler}/>
                     )}
 
-                    <div className="bg-white border-t-1 flex flex-wrap justify-between sticky bottom-0 mt-auto py-3 -mx-5 px-5">
+                    <div
+                        className="bg-white border-t-1 flex flex-wrap justify-between sticky bottom-0 mt-auto py-3 -mx-5 px-5">
                         {error && <Alert className="w-full" type="error" message={error}/>}
 
                         <Button variant="ghost" type="button" onClick={cancelHandler}>Cancel</Button>

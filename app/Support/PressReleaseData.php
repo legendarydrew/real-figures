@@ -10,21 +10,23 @@ abstract class PressReleaseData
 {
     public function __construct(
         public NewsPostType $type,  // the type of generated News post
-        public string $title,
-        public string $description,
-        public array $highlights = [],
-        public ?string $quote = null,
-    ) {}
+        public string       $title,
+        public string       $description,
+        public array        $highlights = [],
+        public ?string      $quote = null,
+    )
+    {
+    }
 
     public function toArray(): array
     {
         return array_filter([
-            'type' => $this->type->value,
-            'title' => $this->title,
+            'type'        => $this->type->value,
+            'title'       => $this->title,
             'description' => $this->buildDescription(),
-            'highlights' => $this->highlights,
-            'quote' => $this->quote,
-        ], fn ($value) => $value !== null);
+            'highlights'  => $this->highlights,
+            'quote'       => $this->quote,
+        ], fn($value) => $value !== null);
     }
 
     /**
@@ -51,16 +53,16 @@ abstract class PressReleaseData
     /**
      * Returns available information about the specified Act.
      *
-     * @param Act  $act
-     * @param bool $with_profile
+     * @param Act $act
+     * @param int $indent
      * @return string
      */
-    protected function getActInformation(Act $act, bool $with_profile = true, int $indent = 0): string
+    protected function getActInformation(Act $act, int $indent = 0): string
     {
         $act->loadMissing(['profile', 'genres', 'languages', 'members', 'traits', 'notes']);
 
         $indent_spaces = str_repeat('  ', $indent);
-        $output = [$indent_spaces . $act->full_name];
+        $output        = [$indent_spaces . $act->full_name];
 
         if ($act->genres->count())
         {
@@ -84,11 +86,6 @@ abstract class PressReleaseData
         {
             $output[] = $indent_spaces . Lang::get('press-release.act.notes');
             $output[] = $act->notes->map(fn($note) => $indent_spaces . "  - $note->note")->join("\n");
-        }
-        if ($with_profile && $act->profile)
-        {
-            $output[] = $indent_spaces . Lang::get('press-release.act.profile');
-            $output[] = $indent_spaces . $act->profile->description;
         }
 
         return implode("\n", $output);

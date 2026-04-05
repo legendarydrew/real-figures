@@ -138,13 +138,27 @@ INFO,
             'last-stage'   => 'This is the last Stage, which is expected to have ten Acts.'
         ],
         'highlight'   => [
-            'not-started'       => 'The Stage has not yet started.',
+            'not-started'   => 'The Stage has not yet started.',
             'started'       => 'The Stage has started.',
-            'ended'       => 'The Stage has ended.',
-            'manual-vote' => 'No votes were cast, so an independent panel will judge.',
-            'acts'        => 'Act information:',
-            'favourites'  => 'Favourites to win:',
-            'no-favourites'  => 'No Acts are favourites to win.'
+            'ended'         => 'The Stage has ended.',
+            'manual-vote'   => 'No votes were cast, so an independent panel will judge.',
+            'acts'          => 'Act information:',
+            'favourites'    => 'Favourites to win:',
+            'no-favourites' => 'No Acts are favourites to win.'
+        ]
+    ],
+    'round'   => [
+        'title'       => 'About :round',
+        'acts'       => 'Acts in this Round:',
+        'favourites' => 'Favourites to win the Contest:',
+        'outcome'   => [
+            'heading' => "The outcome was as follows:",
+            'result'  => "  :name - :score point(s) from :votes votes",
+            'manual'  => "(decided by an independent panel)"
+        ],
+        'accolades' => [
+            'winner' => ":name was the winner of :round.",
+            'runner-up' => ":name was a runner-up in :stage."
         ]
     ]
 ];

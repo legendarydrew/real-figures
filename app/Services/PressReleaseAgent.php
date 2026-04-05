@@ -7,6 +7,7 @@ use App\Exceptions\PressReleaseException;
 use App\Support\PressRelease\ActPressReleaseData;
 use App\Support\PressRelease\GeneralPressReleaseData;
 use App\Support\PressRelease\ResultsPressReleaseData;
+use App\Support\PressRelease\RoundPressReleaseData;
 use App\Support\PressRelease\StagePressReleaseData;
 use App\Support\PressReleaseData;
 use App\Support\PressReleaseResponse;
@@ -246,6 +247,17 @@ class PressReleaseAgent
     public function resultsPressRelease(): PressReleaseResponse
     {
         return $this->run(new ResultsPressReleaseData());
+    }
+
+    /**
+     * Generate a press release about a specific Round of the Contest.
+     *
+     * @return PressReleaseResponse
+     * @throws PressReleaseException
+     */
+    public function roundPressRelease(RoundPressReleaseData $data, array $history = []): PressReleaseResponse
+    {
+        return $this->run($data, $history);
     }
 
 }

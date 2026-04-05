@@ -91,7 +91,7 @@ class StagePressReleaseData extends PressReleaseData
         $favourites = $acts->filter(fn(Act $act) => $act->is_fan_favourite);
 
         $highlights[] = Lang::get('press-release.stage.highlight.acts') . "\n" .
-            $acts->map(fn(Act $act) => $this->getActInformation($act, false, 1))
+            $acts->map(fn(Act $act) => $this->getActInformation($act,1))
                  ->implode("\n");
 
         if ($favourites->isNotEmpty())

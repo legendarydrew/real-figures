@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Enums\NewsPostType;
+use App\Exceptions\PressReleaseException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPromptRequest;
 use App\Models\NewsPost;
 use App\Services\PressReleaseAgent;
 use App\Support\PressRelease\ActPressReleaseData;
 use App\Support\PressRelease\GeneralPressReleaseData;
+use App\Support\PressRelease\RoundPressReleaseData;
 use App\Support\PressRelease\StagePressReleaseData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -22,6 +24,8 @@ class NewsGenerateController extends Controller
     /**
      * Using the provided information, ask OpenAI to generate content for a News Post.
      * If successful, we will create a new News Post and begin editing it.
+     *
+     * @throws PressReleaseException
      */
     public function store(NewsPromptRequest $request): JsonResponse
     {
@@ -64,13 +68,18 @@ class NewsGenerateController extends Controller
 
             case NewsPostType::STAGE->value:
                 $result = $agent->stagePressRelease(
-                    new StagePressReleaseData($data['stage']),
-                    $history
+                    new StagePressReleaseData($data['stage']), $history
                 );
                 break;
 
             case NewsPostType::RESULTS->value:
                 $result = $agent->resultsPressRelease();
+                break;
+
+            case NewsPostType::ROUND->value:
+                $result = $agent->roundPressRelease(
+                    new RoundPressReleaseData($data['round'], $history),
+                );
                 break;
 
             default:
