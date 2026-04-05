@@ -1,10 +1,11 @@
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import React, { useState } from 'react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Subscriber } from '@/types';
 
 interface Props {
-    posts: { id: number, title: string, published_at: string }[];
-    onChange: (id: number) => void;
+    posts: { id: number, type: string, title: string, published: string }[];
+    onChange: (id: number[]) => void;
 }
 
 export const NewsPostSelect: React.FC<Props> = ({
@@ -12,38 +13,37 @@ export const NewsPostSelect: React.FC<Props> = ({
     }
                                                 }) => {
 
-    const [selected, setSelected] = useState<number>();
+    const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
-    const postLabel = (stageId: number) => {
-        const matchingPost = posts.find((stage) => stage.id == stageId);
-        return matchingPost ? (<span>
-            {matchingPost.published_at} &mdash; {matchingPost.title}
-        </span>) : 'none';
-    };
+    const selectHandler = (subscriber: Subscriber): void => {
+        const updated = [...new Set([...selectedIds, subscriber.id])];
+        setSelectedIds(updated);
+        onChange(updated);
+    }
 
-    const selectHandler = (id: number): void => {
-        setSelected(id);
-        onChange(id);
-    };
+    const deselectHandler = (subscriber: Subscriber): void => {
+        const updated = selectedIds.filter((id) => id !== subscriber.id);
+        setSelectedIds(updated);
+        onChange(updated);
+    }
 
     return (
         <section>
-            <Label htmlFor="postPrevious">Reference to a previous News Post (optional)</Label>
-            <Select id="postPrevious" onValueChange={selectHandler} disabled={!posts.length}>
-                <SelectTrigger>
-                    {selected ? postLabel(selected) : <i>none</i>}
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value={null}>
-                        <i>none</i>
-                    </SelectItem>
-                    {posts?.map((post) => (
-                        <SelectItem key={post.id} value={post.id}>
-                            {postLabel(post.id)}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
+            <Label>News Post references <span className="text-muted-foreground">(optional)</span></Label>
+            <ul className="border max-h-48 overflow-y-auto">
+                {posts?.map((post) => (
+                    <li key={post.id}
+                        className="hover-bg flex items-center gap-2 py-1 px-2 select-none">
+                        <Checkbox id={`post-${post.id}`} className="bg-white"
+                                  checked={selectedIds.includes(post.id)}
+                                  onCheckedChange={(state) => state ? selectHandler(post) : deselectHandler(post)}/>
+                        <Label htmlFor={`post-${post.id}`}
+                               className="flex-grow truncate font-semibold select-none">
+                            <span className="font-mono">[{post.published}]</span> [{post.type}] {post.title}
+                        </Label>
+                    </li>
+                ))}
+            </ul>
         </section>
     );
 };

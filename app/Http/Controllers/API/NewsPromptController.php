@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Enums\NewsPostType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPromptRequest;
+use App\Models\NewsPost;
 use App\Support\PressRelease\ActPressReleaseData;
 use App\Support\PressRelease\GeneralPressReleaseData;
 use App\Support\PressRelease\ResultsPressReleaseData;
@@ -58,7 +59,13 @@ class NewsPromptController extends Controller
                 abort(Response::HTTP_BAD_REQUEST, 'Unsupported News Post type.');
         }
 
-        return response()->json(['prompt' => $prompt->toArray()]);
+        $history = NewsPost::published()->whereIn('id', $data['history'])
+                           ->get()
+                           ->map(fn(NewsPost $post) => sprintf('%s - %s',
+                               $post->published_at->format(config('contest.format.full-date')),
+                               $post->title));
+
+        return response()->json(['prompt' => [...$prompt->toArray(), 'history' => $history]]);
     }
 
 }

@@ -65,7 +65,7 @@ export const NewsPromptDialog: FC<NewsPromptDialogProps> = ({ open, onOpenChange
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="lg:w-5xl lg:max-w-[900px]">
+            <DialogContent className="md:w-5xl md:max-w-3xl lg:max-w-[900px]">
                 <DialogTitle>
                     <div className="flex gap-1 items-baseline">
                         News Post AI prompt <small

@@ -25,8 +25,16 @@ class NewsGenerateController extends Controller
      */
     public function store(NewsPromptRequest $request): JsonResponse
     {
-        $data  = $request->validated();
-        $agent = new PressReleaseAgent;
+        $data    = $request->validated();
+        $history = NewsPost::published()->whereIn('id', $data['history'])
+                           ->get()
+                           ->map(fn(NewsPost $post) => [
+                               'title'     => $post->title,
+                               'published' => $post->published_at->format('Y-m-d H:i'),
+                               'content'   => $post->content
+                           ])
+                           ->toArray();
+        $agent   = new PressReleaseAgent;
 
         switch ($data['type'])
         {
@@ -37,7 +45,8 @@ class NewsGenerateController extends Controller
                         description: $data['prompt'],
                         quote: $data['quote'],
                         highlights: $data['highlights'],
-                    )
+                    ),
+                    $history
                 );
                 break;
 
@@ -48,13 +57,15 @@ class NewsGenerateController extends Controller
                         title: $data['title'],
                         description: $data['prompt'] ?? '',
                         quote: $data['quote']
-                    )
+                    ),
+                    $history
                 );
                 break;
 
             case NewsPostType::STAGE->value:
                 $result = $agent->stagePressRelease(
-                    new StagePressReleaseData($data['stage'])
+                    new StagePressReleaseData($data['stage']),
+                    $history
                 );
                 break;
 

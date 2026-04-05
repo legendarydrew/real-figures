@@ -16,6 +16,7 @@ import InputError from '@/components/input-error';
 import { PlusIcon, TrashIcon } from 'lucide-react';
 import { NewsGeneratePayload } from '@/interfaces';
 import { NewsActSelect } from '@/components/admin/news-act-select';
+import { NewsPostSelect } from '@/components/admin/news-post-select';
 
 /**
  * NEW APPROACH
@@ -39,16 +40,24 @@ interface NewsGeneratePageProps {
     posts?: { id: number; title: string; published_at: string; }[];
 }
 
-export default function NewsGeneratePage({ types, acts, rounds, stages, posts }: Readonly<NewsGeneratePageProps>) {
+export default function NewsGeneratePage({
+                                             types,
+                                             acts,
+                                             rounds,
+                                             stages,
+                                             posts,
+                                             news
+                                         }: Readonly<NewsGeneratePageProps>) {
 
     const { data, setData } = useForm<NewsGeneratePayload>({
         type: undefined, // the type of News Post to create.
         title: "",
         prompt: "", // user-entered information to help OpenAI.
         quote: "",
+        history: [],
         highlights: [],
         acts: [],
-        stage: undefined,
+        stage: undefined
     });
 
     const [error, setError] = useState<string>();
@@ -67,14 +76,17 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
         const additionalInfo = ['posts'];
         switch (type) {
+            case 'general':
+                additionalInfo.push('news');
+                break;
             case 'stage':
-                additionalInfo.push('stages');
+                additionalInfo.push('stages', 'news');
                 break;
             case 'act':
-                additionalInfo.push('acts');
+                additionalInfo.push('acts', 'news');
                 break;
             case 'round':
-                additionalInfo.push('rounds');
+                additionalInfo.push('rounds', 'news');
                 break;
         }
 
@@ -101,6 +113,10 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
     const showHighlightsField = (): boolean => {
         return ['general'].includes(data.type);
+    }
+
+    const showHistoryField = (): boolean => {
+        return data.type && !['results'].includes(data.type);
     }
 
     const titleHandler = (e): void => {
@@ -131,6 +147,10 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         setData((prev) => ({ ...prev, highlights }));
     };
 
+    const updateHistoryHandler = (history): void => {
+        setData((prev) => ({ ...prev, history }));
+    };
+
     const updateActHandler = (acts): void => {
         setData((prev) => ({ ...prev, acts }));
     };
@@ -138,7 +158,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
     const selectStageHandler = (stage: number): void => {
         setData((prev) => ({ ...prev, stage }));
         const matchingStage = stages?.find((s) => s.id.toString() === stage);
-        setStageName(matchingStage ? `${ matchingStage.title } [${ matchingStage.status }]` : undefined);
+        setStageName(matchingStage ? `${matchingStage.title} [${matchingStage.status}]` : undefined);
     };
 
     const generatePromptHandler = (e): void => {
@@ -181,7 +201,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
                 <p>The following information will be used to generate a prompt for OpenAI to create a News Post.</p>
 
-                <form className="flex-grow flex flex-col justify-between gap-4 px-8" onSubmit={generatePromptHandler}>
+                <form className="flex-grow flex flex-col justify-start gap-4 px-8" onSubmit={generatePromptHandler}>
 
                     {/* Select the News Post type. */}
                     <div>
@@ -203,17 +223,18 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     )}
 
                     {showStageField() && (
-                    <div>
-                        <Label htmlFor="postType">Which Stage?</Label>
-                        <Select id="postStage" onValueChange={selectStageHandler}>
-                            <SelectTrigger>{ stageName ?? 'Select a Stage...' }</SelectTrigger>
-                            <SelectContent>
-                                {stages?.map((stage) => (
-                                    <SelectItem key={stage.id} value={stage.id}>{stage.title} ({stage.status})</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
+                        <div>
+                            <Label htmlFor="postType">Which Stage?</Label>
+                            <Select id="postStage" onValueChange={selectStageHandler}>
+                                <SelectTrigger>{stageName ?? 'Select a Stage...'}</SelectTrigger>
+                                <SelectContent>
+                                    {stages?.map((stage) => (
+                                        <SelectItem key={stage.id}
+                                                    value={stage.id}>{stage.title} ({stage.status})</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
                     )}
 
 
@@ -261,7 +282,11 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                         </div>
                     )}
 
-                    <div className="bg-white border-t-1 flex flex-wrap justify-between sticky bottom-0 py-3 -mx-5 px-5">
+                    {showHistoryField() && (
+                        <NewsPostSelect posts={news} onChange={updateHistoryHandler}/>
+                    )}
+
+                    <div className="bg-white border-t-1 flex flex-wrap justify-between sticky bottom-0 mt-auto py-3 -mx-5 px-5">
                         {error && <Alert className="w-full" type="error" message={error}/>}
 
                         <Button variant="ghost" type="button" onClick={cancelHandler}>Cancel</Button>

@@ -145,12 +145,11 @@ class PressReleaseAgent
             ->map(function ($item, $index)
             {
                 return sprintf(
-                    "Example %d:\nHeadline: %s\nSubheading: %s\nBody: %s\nCTA: %s",
+                    "Example %d:\nHeadline: %s\nPublished on %s\nBody: %s",
                     $index + 1,
-                    $item['headline'] ?? '',
-                    $item['subheading'] ?? '',
-                    $item['body'] ?? '',
-                    $item['cta'] ?? ''
+                    $item['title'],
+                    $item['published'],
+                    $item['content']
                 );
             })
             ->implode("\n\n");
