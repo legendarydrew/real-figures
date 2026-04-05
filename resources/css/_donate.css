@@ -6,6 +6,15 @@
     }
 }
 
+.donate-charities {
+    @apply grid grid-cols-2 gap-8 max-w-4xl mx-auto my-8;
+    @apply text-sm leading-tight;
+
+    a {
+        @apply display-text text-base font-normal!;
+    }
+}
+
 .donations-list,
 .golden-buzzers-list {
     @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
