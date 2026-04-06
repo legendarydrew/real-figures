@@ -226,12 +226,16 @@ export default function NewsGeneratePage({
                                 ))}
                             </SelectContent>
                         </Select>
+                        <InputError message={validation?.type}/>
                     </div>
 
                     {/* Depending on what was selected... */}
 
                     {showActsField() && (
-                        <NewsActSelect acts={acts} onChange={updateActHandler}/>
+                        <>
+                            <NewsActSelect acts={acts} onChange={updateActHandler}/>
+                            <InputError message={validation?.acts}/>
+                        </>
                     )}
 
                     {showStageField() && (
@@ -246,6 +250,7 @@ export default function NewsGeneratePage({
                                     ))}
                                 </SelectContent>
                             </Select>
+                            <InputError message={validation?.stage}/>
                         </div>
                     )}
 
@@ -261,6 +266,7 @@ export default function NewsGeneratePage({
                                     ))}
                                 </SelectContent>
                             </Select>
+                            <InputError message={validation?.round}/>
                         </div>
                     )}
 
@@ -282,7 +288,8 @@ export default function NewsGeneratePage({
                                 <InputError message={validation?.prompt}/>
                             </div>
                             <div>
-                                <Label htmlFor="postQuote">Quote</Label>
+                                <Label htmlFor="postQuote">Quote <span
+                                    className="text-muted-foreground">(optional)</span></Label>
                                 <ExpandingTextarea id="postQuote" className="max-h-20" onChange={quoteHandler}/>
                                 <InputError message={validation?.quote}/>
                             </div>
@@ -303,6 +310,7 @@ export default function NewsGeneratePage({
                                     </li>
                                 ))}
                             </ul>
+                            <InputError message={validation?.highlights}/>
                             <Button type="button" size="sm" onClick={addHighlightHandler}>
                                 <PlusIcon/> Add
                             </Button>
@@ -310,7 +318,10 @@ export default function NewsGeneratePage({
                     )}
 
                     {showHistoryField() && (
-                        <NewsPostSelect posts={news} onChange={updateHistoryHandler}/>
+                        <>
+                            <NewsPostSelect posts={news} onChange={updateHistoryHandler}/>
+                            <InputError message={validation?.history}/>
+                        </>
                     )}
 
                     <div
