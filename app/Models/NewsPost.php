@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
@@ -49,11 +48,6 @@ class NewsPost extends Model implements Feedable
     public function getUrlAttribute(): string
     {
         return route('news.show', ['slug' => $this->slug]);
-    }
-
-    public function references(): HasMany
-    {
-        return $this->hasMany(NewsPostReference::class);
     }
 
     /**
