@@ -26,9 +26,9 @@ class Act extends Model
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom(['name', 'subtitle'])
-            ->saveSlugsTo('slug')
-            ->usingSeparator('-');
+                          ->generateSlugsFrom(['name', 'subtitle'])
+                          ->saveSlugsTo('slug')
+                          ->usingSeparator('-');
     }
 
     public function profile(): HasOne
@@ -77,5 +77,10 @@ class Act extends Model
     public function getImageAttribute(): ?string
     {
         return ActImageFacade::exists($this) ? ActImageFacade::url($this) : null;
+    }
+
+    public function accolades(): hasManyThrough
+    {
+        return $this->hasManyThrough(StageWinner::class, Song::class, 'act_id', 'song_id', 'id', 'id');
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\VoteRequest;
 use App\Models\Round;
 use App\Models\RoundVote;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 /**
  * VoteController
@@ -27,7 +28,7 @@ class VoteController extends Controller
 
         $round = Round::with('songs')->findOrFail($data['round_id']);
         if (! $round->hasStarted() || $round->hasEnded()) {
-            abort(400, 'Invalid round.');
+            abort(Response::HTTP_BAD_REQUEST, 'Invalid round.');
         }
 
         $song_votes     = collect([$data['first_choice_id'], $data['second_choice_id'], $data['third_choice_id']])
@@ -35,7 +36,7 @@ class VoteController extends Controller
         $round_song_ids = $round->songs->pluck('id')->toArray();
         if (!$song_votes->every(fn($song_vote) => in_array($song_vote, $round_song_ids)))
         {
-            abort(400, 'An invalid Song was chosen.');
+            abort(Response::HTTP_BAD_REQUEST, 'An invalid Song was chosen.');
         }
 
         $choices = $song_votes->toArray();

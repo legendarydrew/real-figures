@@ -9,6 +9,7 @@ use App\Models\ActMetaGenre;
 use App\Models\ActMetaLanguage;
 use App\Models\ActMetaNote;
 use App\Models\ActMetaTrait;
+use App\Models\ActProfile;
 use App\Models\Genre;
 use App\Models\GoldenBuzzer;
 use App\Models\Language;
@@ -34,7 +35,7 @@ use Throwable;
  * This command is used for setting up a "dress rehearsal" at different stages of the Contest,
  * using information more closely resembling the actual Contest.
  */
-#[Signature('app:rehearse '.'{state? : The state of the Contest to set up.} '.'{manual? : Require a manual vote.}')]
+#[Signature('app:rehearse ' . '{state? : The state of the Contest to set up.} ' . '{manual? : Require a manual vote.}')]
 #[Description('Set up a "dress rehearsal" for the Contest.')]
 class Rehearse extends Command
 {
@@ -43,7 +44,7 @@ class Rehearse extends Command
      */
     public function handle(): void
     {
-        $state = $this->argument('state');
+        $state       = $this->argument('state');
         $manual_vote = $this->argument('manual');
         $this->info("\nSetting up a dress rehearsal...");
 
@@ -51,12 +52,14 @@ class Rehearse extends Command
         $this->createStages();
         $this->createActs();
 
-        if (! ($state || array_key_exists($state, RehearseData::STATES))) {
+        if (!($state || array_key_exists($state, RehearseData::STATES)))
+        {
             $answer = $this->choice('Which state of the Contest should be set up?', RehearseData::STATES);
-            $state = array_search($answer, RehearseData::STATES);
+            $state  = array_search($answer, RehearseData::STATES);
             // NOTE: choice() returns the text corresponding to the selected option.
         }
-        if (is_null($manual_vote) && in_array($state, [4, 7])) {
+        if (is_null($manual_vote) && in_array($state, [4, 7]))
+        {
             $manual_vote = $this->confirm('Set up manual voting?');
         }
         $this->setupState($state, $manual_vote);
@@ -104,42 +107,43 @@ class Rehearse extends Command
         (new Filesystem)->copyDirectory(resource_path('rehearsal/img'), public_path('img/act'));
 
         // Create the Acts with their respective information.
-        foreach (RehearseData::ACTS as $act) {
+        foreach (RehearseData::ACTS as $act)
+        {
             $row = Act::factory()->withSong()->createOne([
-                'name' => $act['name'],
-                'subtitle' => $act['subtitle'],
-                'slug' => Str::slug("{$act['name']} {$act['subtitle']}"),
+                'name'             => $act['name'],
+                'subtitle'         => $act['subtitle'],
+                'slug'             => Str::slug("{$act['name']} {$act['subtitle']}"),
                 'is_fan_favourite' => $act['is_fan_favourite'],
             ]);
 
             // languages
             $languages = Language::whereIn('code', $act['languages'])->pluck('id');
             ActMetaLanguage::factory()->createMany(
-                $languages->map(fn ($language_id) => [
-                    'act_id' => $row->id,
+                $languages->map(fn($language_id) => [
+                    'act_id'      => $row->id,
                     'language_id' => $language_id,
                 ]));
 
             // genres
-            $act['genres'] = array_map(fn ($genre) => ucwords($genre), $act['genres']);
-            Genre::upsert(array_map(fn ($genre) => ['name' => $genre], $act['genres']), 'name');
+            $act['genres'] = array_map(fn($genre) => ucwords($genre), $act['genres']);
+            Genre::upsert(array_map(fn($genre) => ['name' => $genre], $act['genres']), 'name');
             $genres = Genre::whereIn('name', $act['genres'])->pluck('id');
             ActMetaGenre::factory()->createMany(
-                $genres->map(fn ($genre_id) => [
-                    'act_id' => $row->id,
+                $genres->map(fn($genre_id) => [
+                    'act_id'   => $row->id,
                     'genre_id' => $genre_id,
                 ]));
 
             // traits
-            ActMetaTrait::factory()->createMany(collect($act['traits'])->map(fn ($trait) => [
+            ActMetaTrait::factory()->createMany(collect($act['traits'])->map(fn($trait) => [
                 'act_id' => $row->id,
-                'trait' => $trait,
+                'trait'  => $trait,
             ]));
 
             // notes
-            ActMetaNote::factory()->createMany(collect($act['notes'])->map(fn ($note) => [
+            ActMetaNote::factory()->createMany(collect($act['notes'])->map(fn($note) => [
                 'act_id' => $row->id,
-                'note' => $note,
+                'note'   => $note,
             ]));
         }
     }
@@ -151,18 +155,23 @@ class Rehearse extends Command
      */
     protected function setupState(int $state, ?bool $manual_vote): void
     {
-        if (array_key_exists($state, RehearseData::STATES)) {
-            $this->info('Setting up '.RehearseData::STATES[$state]);
-            if ($manual_vote) {
+        if (array_key_exists($state, RehearseData::STATES))
+        {
+            $this->info('Setting up ' . RehearseData::STATES[$state]);
+            if ($manual_vote)
+            {
                 $this->info('- manual voting required');
             }
-        } else {
+        }
+        else
+        {
             $this->error('No such state.');
 
             return;
         }
 
-        match ($state) {
+        match ($state)
+        {
             2 => $this->stateStage1Countdown(),
             3 => $this->stateStage1Active(),
             4 => $this->stateStage1Ended($manual_vote),
@@ -181,7 +190,7 @@ class Rehearse extends Command
      */
     protected function stateStage1Countdown(): void
     {
-        $songs = Song::all();
+        $songs  = Song::all();
         $stage1 = Stage::first();
 
         $this->allocateStage($stage1, $songs, now()->addDay(), judgement: false);
@@ -194,7 +203,7 @@ class Rehearse extends Command
      */
     protected function stateStage1Active(): void
     {
-        $songs = Song::all();
+        $songs  = Song::all();
         $stage1 = Stage::first();
 
         $this->allocateStage($stage1, $songs, now());
@@ -207,7 +216,7 @@ class Rehearse extends Command
      */
     protected function stateStage1Ended(bool $manual_vote): void
     {
-        $songs = Song::all();
+        $songs  = Song::all();
         $stage1 = Stage::first();
 
         $this->allocateStage($stage1, $songs, now()->subDays(12), judgement: true, manual_vote: $manual_vote);
@@ -221,12 +230,13 @@ class Rehearse extends Command
      */
     protected function stateStage2Countdown(): void
     {
-        $songs = Song::all();
+        $songs  = Song::all();
         $stage1 = Stage::first();
         $stage2 = Stage::skip(1)->first();
 
         $this->allocateStage($stage1, $songs, now()->subDays(12), judgement: true);
         $finalists = $this->getWinningSongs($stage1, 3);
+        $this->createProfiles($finalists);
 
         $this->allocateStage($stage2, $finalists, now()->addDay(), songs_per_round: 32, round_duration: 7, judgement: false);
     }
@@ -239,12 +249,13 @@ class Rehearse extends Command
      */
     protected function stateStage2Active(): void
     {
-        $songs = Song::all();
+        $songs  = Song::all();
         $stage1 = Stage::first();
         $stage2 = Stage::skip(1)->first();
 
         $this->allocateStage($stage1, $songs, now()->subDays(12), judgement: true);
         $finalists = $this->getWinningSongs($stage1, 3);
+        $this->createProfiles($finalists);
 
         $this->allocateStage($stage2, $finalists, now(), songs_per_round: 32, round_duration: 7, judgement: false);
     }
@@ -257,12 +268,13 @@ class Rehearse extends Command
      */
     protected function stateStage2Ended(bool $manual_vote): void
     {
-        $songs = Song::all();
+        $songs  = Song::all();
         $stage1 = Stage::first();
         $stage2 = Stage::skip(1)->first();
 
         $this->allocateStage($stage1, $songs, now()->subDays(12), judgement: true);
         $finalists = $this->getWinningSongs($stage1, 3);
+        $this->createProfiles($finalists);
 
         $this->allocateStage($stage2, $finalists, now()->subDays(8), songs_per_round: 32, round_duration: 7, judgement: false, manual_vote: $manual_vote);
     }
@@ -275,12 +287,13 @@ class Rehearse extends Command
      */
     protected function stateOver(): void
     {
-        $songs = Song::all();
+        $songs  = Song::all();
         $stage1 = Stage::first();
         $stage2 = Stage::skip(1)->first();
 
         $this->allocateStage($stage1, $songs, now()->subDays(12), judgement: true);
         $finalists = $this->getWinningSongs($stage1, 3);
+        $this->createProfiles($finalists);
 
         $this->allocateStage($stage2, $finalists, now()->subDays(8), songs_per_round: 32, round_duration: 7, judgement: true, runner_up_count: 3);
     }
@@ -288,17 +301,17 @@ class Rehearse extends Command
     /**
      * A convenience method for populating a Stage with Song entries.
      *
-     * @param  Carbon  $start_time
-     * @param  int  $round_duration  in days.
-     * @param  bool  $judgement  if the Stage has ended, whether to determine the winners.
-     * @param  int  $runner_up_count  the number of runner-ups to choose.
+     * @param Carbon $start_time
+     * @param int    $round_duration  in days.
+     * @param bool   $judgement       if the Stage has ended, whether to determine the winners.
+     * @param int    $runner_up_count the number of runner-ups to choose.
      *
      * @throws Throwable
      */
     protected function allocateStage(Stage $stage, Collection $songs, CarbonInterface $start_time,
-        int $songs_per_round = 4, int $round_duration = 1, bool $judgement = false,
-        bool $manual_vote = false,
-        int $runner_up_count = 2): void
+                                     int   $songs_per_round = 4, int $round_duration = 1, bool $judgement = false,
+                                     bool  $manual_vote = false,
+                                     int   $runner_up_count = 2): void
     {
         // Allocate Songs to Rounds for the specified stage.
         RoundAllocateFacade::songs(
@@ -310,13 +323,15 @@ class Rehearse extends Command
 
         // For each Round in the Stage...
         $stage->rounds
-            ->filter(fn (Round $round) => $round->hasStarted())
-            ->each(function (Round $round) use ($judgement, $manual_vote) {
+            ->filter(fn(Round $round) => $round->hasStarted())
+            ->each(function (Round $round) use ($judgement, $manual_vote)
+            {
                 $song_ids = $round->songs->pluck('id')->toArray();
 
                 // Potentially cast some votes for a random selection of Songs.
                 // This should always happen if we want to determine which Songs qualify.
-                if (! $manual_vote) {
+                if (!$manual_vote)
+                {
                     $this->castVotes($judgement, $song_ids, $round);
                 }
 
@@ -324,15 +339,18 @@ class Rehearse extends Command
                 $this->awardGoldenBuzzers($song_ids, $round);
             });
 
-        if ($stage->hasEnded()) {
+        if ($stage->hasEnded())
+        {
             // Calculate scores for each Song.
-            $stage->rounds()->each(function ($round) {
+            $stage->rounds()->each(function ($round)
+            {
                 ContestFacade::buildRoundOutcomes($round);
             });
             $stage->refresh();
 
             // Determine the winner and runner(s)-up, if requested.
-            if ($judgement && ! $stage->requiresManualVote()) {
+            if ($judgement && !$stage->requiresManualVote())
+            {
                 $this->createStageWinners($stage, $runner_up_count);
             }
         }
@@ -342,14 +360,14 @@ class Rehearse extends Command
     /**
      * Returns a list of Songs that have qualified from the specified Stage.
      *
-     * @param  int  $runners_up  the number of runners-up to choose.
+     * @param int $runners_up the number of runners-up to choose.
      */
     protected function getWinningSongs(Stage $stage, int $runners_up): Collection
     {
         [$winners, $runners_up] = ContestFacade::determineStageWinners($stage, $runners_up);
 
-        return $winners->map(fn ($winner) => $winner->song)
-            ->concat($runners_up->map(fn ($runner) => $runner->song));
+        return $winners->map(fn($winner) => $winner->song)
+                       ->concat($runners_up->map(fn($runner) => $runner->song));
 
     }
 
@@ -363,12 +381,14 @@ class Rehearse extends Command
 
     protected function awardGoldenBuzzers(array $song_ids, Round $round): void
     {
-        for ($i = 0; $i < 30; $i++) {
-            if (fake()->boolean(10)) {
+        for ($i = 0; $i < 30; $i++)
+        {
+            if (fake()->boolean(10))
+            {
                 $song_id = fake()->randomElement($song_ids);
                 GoldenBuzzer::factory()->create([
                     'round_id' => $round->id,
-                    'song_id' => $song_id,
+                    'song_id'  => $song_id,
                 ]);
             }
         }
@@ -380,23 +400,38 @@ class Rehearse extends Command
     protected function createStageWinners(Stage $stage, int $runner_up_count): void
     {
         [$winners, $runners_up] = ContestFacade::determineStageWinners($stage, $runner_up_count);
-        DB::transaction(function () use ($stage, $winners, $runners_up) {
-            $winners->each(function ($winner) use ($stage) {
+        DB::transaction(function () use ($stage, $winners, $runners_up)
+        {
+            $winners->each(function ($winner) use ($stage)
+            {
                 StageWinner::create([
-                    'stage_id' => $stage->id,
-                    'round_id' => $winner->round_id,
-                    'song_id' => $winner->song_id,
+                    'stage_id'  => $stage->id,
+                    'round_id'  => $winner->round_id,
+                    'song_id'   => $winner->song_id,
                     'is_winner' => true,
                 ]);
             });
-            $runners_up->each(function ($winner) use ($stage) {
+            $runners_up->each(function ($winner) use ($stage)
+            {
                 StageWinner::create([
-                    'stage_id' => $stage->id,
-                    'round_id' => $winner->round_id,
-                    'song_id' => $winner->song_id,
+                    'stage_id'  => $stage->id,
+                    'round_id'  => $winner->round_id,
+                    'song_id'   => $winner->song_id,
                     'is_winner' => false,
                 ]);
             });
+        });
+    }
+
+    /**
+     * @param Collection $acts
+     * @return void
+     */
+    protected function createProfiles(Collection $acts): void
+    {
+        $acts->each(function (Song $song)
+        {
+            ActProfile::factory()->for($song->act)->create();
         });
     }
 }

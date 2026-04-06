@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\NewsPost;
 use App\Transformers\NewsPostTransformer;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class NewsController extends Controller
@@ -12,7 +13,7 @@ class NewsController extends Controller
     public function index(): View
     {
         if (NewsPost::published()->count() === 0) {
-            abort(404);
+            abort(Response::HTTP_NOT_FOUND);
         }
 
         $posts = NewsPost::published()
@@ -34,7 +35,7 @@ class NewsController extends Controller
 
         // If the News Post has not been published, only allow viewing it if we are logged in.
         if (! $post->published_at && ! auth()->check()) {
-            abort(404);
+            abort(Response::HTTP_NOT_FOUND);
         }
 
         return view('front.news.show', [

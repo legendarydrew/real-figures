@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\NewsPostType;
+use App\Exceptions\PressReleaseException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPromptRequest;
 use App\Models\NewsPost;
-use App\Models\NewsPostReference;
-use DavidBadura\FakerMarkdownGenerator\FakerProvider;
-use Illuminate\Http\RedirectResponse;
-use OpenAI\Laravel\Facades\OpenAI;
-use OpenAI\Responses\Chat\CreateResponse;
-use OpenAI\Testing\Responses\Fixtures\Chat\CreateResponseFixture;
+use App\Services\PressReleaseAgent;
+use App\Support\PressRelease\ActPressReleaseData;
+use App\Support\PressRelease\GeneralPressReleaseData;
+use App\Support\PressRelease\RoundPressReleaseData;
+use App\Support\PressRelease\StagePressReleaseData;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 /**
  * NewsGenerateController
@@ -21,70 +24,80 @@ class NewsGenerateController extends Controller
     /**
      * Using the provided information, ask OpenAI to generate content for a News Post.
      * If successful, we will create a new News Post and begin editing it.
+     *
+     * @throws PressReleaseException
      */
-    public function store(NewsPromptRequest $request): RedirectResponse
+    public function store(NewsPromptRequest $request): JsonResponse
     {
-        $data = $request->validated();
+        $data    = $request->validated();
+        $history = NewsPost::published()->whereIn('id', $data['history'])
+                           ->get()
+                           ->map(fn(NewsPost $post) => [
+                               'title'     => $post->title,
+                               'published' => $post->published_at->format('Y-m-d H:i'),
+                               'content'   => $post->content
+                           ])
+                           ->toArray();
+        $agent   = new PressReleaseAgent;
 
-        // Ensure we have a prompt.
-        if (empty($data['prompt'])) {
-            abort(400, 'A prompt is required.');
+        switch ($data['type'])
+        {
+            case NewsPostType::GENERAL->value:
+                $result = $agent->generalPressRelease(
+                    new GeneralPressReleaseData(
+                        title: $data['title'],
+                        description: $data['prompt'],
+                        quote: $data['quote'],
+                        highlights: $data['highlights'],
+                    ),
+                    $history
+                );
+                break;
+
+            case NewsPostType::ACT->value:
+                $result = $agent->actPressRelease(
+                    new ActPressReleaseData(
+                        $data['acts'],
+                        title: $data['title'],
+                        description: $data['prompt'] ?? '',
+                        quote: $data['quote']
+                    ),
+                    $history
+                );
+                break;
+
+            case NewsPostType::STAGE->value:
+                $result = $agent->stagePressRelease(
+                    new StagePressReleaseData($data['stage']), $history
+                );
+                break;
+
+            case NewsPostType::RESULTS->value:
+                $result = $agent->resultsPressRelease();
+                break;
+
+            case NewsPostType::ROUND->value:
+                $result = $agent->roundPressRelease(
+                    new RoundPressReleaseData($data['round']), $history
+                );
+                break;
+
+            case NewsPostType::CONTEST->value:
+                $result = $agent->contestPressRelease($history);
+                break;
+
+            default:
+                abort(Response::HTTP_BAD_REQUEST, 'Unsupported News Post type.');
         }
 
-        // Unless we are in production, use test data.
-        if (! app()->isProduction()) {
-            $this->setupTestResponse();
-        }
+        // Based on the configured prompt, $result should have:
+        // - title (the title of the News post)
+        // - content (in Markdown format).
+        // We use these to create a new News Post, then redirect to its edit page for scrutiny.
 
-        // Let's go!
-        $result = OpenAI::chat()->create([
-            'model' => config('contest.ai.model'),
-            'messages' => [
-                'role' => 'user',
-                'content' => $data['prompt'],
-            ],
-        ]);
+        $post = NewsPost::create($result);
 
-        $usage = $result->usage;
-        $json = json_decode($result->choices[0]->message->content, true);
-
-        $post = NewsPost::factory()
-            ->unpublished()
-            ->createOne([
-                'type' => $data['type'],
-                'title' => $json['title'],
-                'content' => $json['content'],
-            ]);
-        if (isset($data['references'])) {
-            foreach ($data['references'] as $reference_id) {
-                NewsPostReference::create([
-                    'news_post_id' => $post->id,
-                    'reference_id' => $reference_id,
-                ]);
-            }
-        }
-        logger()->info(
-            "OpenAI token usage for News Post id $post->id:\n".
-            "  prompt:     {$usage->promptTokens}\n".
-            "  completion: {$usage->completionTokens}\n".
-            "  total:      {$usage->totalTokens}"
-        );
-
-        return to_route('admin.news.edit', ['id' => $post->id]);
+        return response()->json(['id' => $post->id]);
     }
 
-    protected function setupTestResponse(): void
-    {
-        fake()->addProvider(new FakerProvider(fake()));
-
-        // https://github.com/openai-php/laravel/issues/95
-        $choice = CreateResponseFixture::ATTRIBUTES;
-        $choice['choices'][0]['message']['content'] = json_encode([
-            'title' => fake()->sentence(),
-            'content' => fake()->markdown(),
-        ]);
-        OpenAI::fake([
-            CreateResponse::fake($choice),
-        ]);
-    }
 }

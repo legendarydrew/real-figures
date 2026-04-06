@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Act;
 use App\Transformers\ActTransformer;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 /**
@@ -23,6 +24,6 @@ class ActsController extends Controller
                     ->toArray(),
             ]);
         }
-        abort(404);
+        abort(Response::HTTP_NOT_FOUND);
     }
 }

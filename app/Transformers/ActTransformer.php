@@ -78,9 +78,7 @@ class ActTransformer extends TransformerAbstract
     public function includeAccolades(Act $act): Primitive
     {
         $buzzers = $act->goldenBuzzers->map(fn (GoldenBuzzer $buzzer) => $buzzer->round->full_title)->unique();
-        $wins = StageWinner::whereHas('song', function ($query) use ($act) {
-            $query->where('act_id', $act->id);
-        })->get()->map(fn (StageWinner $winner) => [
+        $wins = $act->accolades()->get()->map(fn (StageWinner $winner) => [
             'is_winner' => $winner->is_winner,
             'text' => $winner->is_winner ? "Winner {$winner->round->full_title}" : "{$winner->stage->title} Runner-Up",
         ]);

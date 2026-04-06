@@ -4,9 +4,10 @@ namespace App\Enums;
 
 enum NewsPostType: string
 {
-    case CONTEST_POST_TYPE = 'contest';
-    case STAGE_POST_TYPE = 'stage';
-    case ROUND_POST_TYPE = 'round';
-    case ACT_POST_TYPE = 'act';
-    case CUSTOM_POST_TYPE = 'custom';
+    case GENERAL = 'general';
+    case CONTEST = 'contest';
+    case STAGE = 'stage';
+    case ROUND = 'round';
+    case ACT = 'act';
+    case RESULTS = 'results';
 }

@@ -10,11 +10,27 @@ import { ExpandingTextarea } from '@/components/ui/textarea';
 import { NewsPromptDialog } from '@/components/admin/news-prompt-dialog';
 import { Alert } from '@/components/mode/alert';
 import { AdminHeader } from '@/components/admin/admin-header';
-import { NewsActSelect } from '@/components/admin/news-act-select';
-import { NewsStageSelect } from '@/components/admin/news-stage-select';
-import { NewsPostSelect } from '@/components/admin/news-post-select';
-import { NewsRoundSelect } from '@/components/admin/news-round-select';
 import axios from 'axios';
+import { Input } from '@/components/ui/input';
+import InputError from '@/components/input-error';
+import { PlusIcon, TrashIcon } from 'lucide-react';
+import { NewsGeneratePayload } from '@/interfaces';
+import { NewsActSelect } from '@/components/admin/news-act-select';
+import { NewsPostSelect } from '@/components/admin/news-post-select';
+
+/**
+ * NEW APPROACH
+ * Display these fields for each press release type:
+ *
+ * General: title, description, quote, highlights
+ * Contest: nothing
+ * Stage: select a Stage
+ * Round: select a Round
+ * Results: nothing
+ * Act: select one or more Acts
+ *
+ * On confirming the prompt information, we send the same information to the generate endpoint.
+ */
 
 interface NewsGeneratePageProps {
     types: string[];
@@ -24,19 +40,33 @@ interface NewsGeneratePageProps {
     posts?: { id: number; title: string; published_at: string; }[];
 }
 
-export default function NewsGeneratePage({ types, acts, rounds, stages, posts }: Readonly<NewsGeneratePageProps>) {
+export default function NewsGeneratePage({
+                                             types,
+                                             acts,
+                                             rounds,
+                                             stages,
+                                             posts,
+                                             news
+                                         }: Readonly<NewsGeneratePageProps>) {
 
-    const { data, setData } = useForm({
+    const { data, setData } = useForm<NewsGeneratePayload>({
         type: undefined, // the type of News Post to create.
-        references: [], // ID(s) of the Stage/Round/Acts to refer to.
-        previous: undefined,  // [optional] previous News Post ID to reference.
-        prompt: "" // user-entered information to help OpenAI.
+        title: "",
+        prompt: "", // user-entered information to help OpenAI.
+        quote: "",
+        history: [],
+        highlights: [],
+        acts: [],
+        stage: undefined
     });
 
     const [error, setError] = useState<string>();
+    const [validation, setValidation] = useState();
     const [isPromptOpen, setIsPromptOpen] = useState<boolean>(false);
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [prompt, setPrompt] = useState<string>();
+    const [stageName, setStageName] = useState<string>();
+    const [roundName, setRoundName] = useState<string>();
 
     const cancelHandler = (): void => {
         router.visit(route('admin.news'));
@@ -47,14 +77,18 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
         const additionalInfo = ['posts'];
         switch (type) {
+            case 'general':
+            case 'contest':
+                additionalInfo.push('news');
+                break;
             case 'stage':
-                additionalInfo.push('stages');
+                additionalInfo.push('stages', 'news');
                 break;
             case 'act':
-                additionalInfo.push('acts');
+                additionalInfo.push('acts', 'news');
                 break;
             case 'round':
-                additionalInfo.push('rounds');
+                additionalInfo.push('rounds', 'news');
                 break;
         }
 
@@ -67,21 +101,76 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
         });
     };
 
-    const selectSingleReferenceHandler = (value: number): void => {
-        setData((prev) => ({ ...prev, references: [value] }));
-    };
+    const showBasicFields = (): boolean => {
+        return data.type && ['general', 'acts'].includes(data.type);
+    }
 
-    const selectActHandler = (actIds: number[]): void => {
-        setData((prev) => ({ ...prev, references: actIds }));
+    const showActsField = (): boolean => {
+        return ['act'].includes(data.type);
+    }
 
-    };
+    const showStageField = (): boolean => {
+        return ['stage'].includes(data.type);
+    }
 
-    const selectPreviousHandler = (value: number): void => {
-        setData((prev) => ({ ...prev, previous: value }));
+    const showRoundField = (): boolean => {
+        return ['round'].includes(data.type);
+    }
+
+    const showHighlightsField = (): boolean => {
+        return ['general'].includes(data.type);
+    }
+
+    const showHistoryField = (): boolean => {
+        return data.type && !['results'].includes(data.type);
+    }
+
+    const titleHandler = (e): void => {
+        setData((prev) => ({ ...prev, title: e.target.value }));
     };
 
     const promptHandler = (e): void => {
         setData((prev) => ({ ...prev, prompt: e.target.value }));
+    };
+
+    const quoteHandler = (e): void => {
+        setData((prev) => ({ ...prev, quote: e.target.value }));
+    };
+
+    const addHighlightHandler = (): void => {
+        setData((prev) => ({ ...prev, highlights: [...prev.highlights, ''] }));
+    };
+
+    const removeHightlightHandler = (index: number): void => {
+        const highlights = [...data.highlights];
+        highlights.splice(index, 1);
+        setData((prev) => ({ ...prev, highlights }));
+    };
+
+    const highlightHandler = (e, index: number): void => {
+        const highlights = [...data.highlights];
+        highlights[index] = e.target.value;
+        setData((prev) => ({ ...prev, highlights }));
+    };
+
+    const updateHistoryHandler = (history): void => {
+        setData((prev) => ({ ...prev, history }));
+    };
+
+    const updateActHandler = (acts): void => {
+        setData((prev) => ({ ...prev, acts }));
+    };
+
+    const selectStageHandler = (stage: number): void => {
+        setData((prev) => ({ ...prev, stage }));
+        const matchingStage = stages?.find((s) => s.id.toString() === stage);
+        setStageName(matchingStage ? `${matchingStage.title} [${matchingStage.status}]` : undefined);
+    };
+
+    const selectRoundHandler = (round: number): void => {
+        setData((prev) => ({ ...prev, round }));
+        const matchingRound = rounds?.find((r) => r.id.toString() === round);
+        setRoundName(matchingRound?.title ?? undefined);
     };
 
     const generatePromptHandler = (e): void => {
@@ -91,13 +180,18 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
         setIsSaving(true);
         setError(undefined);
+        setValidation(undefined);
         axios.post(route('news.prompt'), data)
             .then((response) => {
                 setPrompt(response.data.prompt);
                 setIsPromptOpen(true);
             })
-            .catch((response) => {
-                setError(response.response.data.message);
+            .catch((err) => {
+                if (err.response.status === 422) {
+                    setValidation(err.response.data.errors);
+                } else {
+                    setError(err.response.data.message);
+                }
             })
             .finally(() => {
                 setIsSaving(false);
@@ -119,7 +213,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
 
                 <p>The following information will be used to generate a prompt for OpenAI to create a News Post.</p>
 
-                <form className="flex-grow flex flex-col justify-between gap-4 px-8" onSubmit={generatePromptHandler}>
+                <form className="flex-grow flex flex-col justify-start gap-4 px-8" onSubmit={generatePromptHandler}>
 
                     {/* Select the News Post type. */}
                     <div>
@@ -132,40 +226,106 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                                 ))}
                             </SelectContent>
                         </Select>
+                        <InputError message={validation?.type}/>
                     </div>
 
                     {/* Depending on what was selected... */}
 
-                    {/* A list of Stages (if available). */}
-                    {(data.type === 'stage' && stages) && (
-                        <NewsStageSelect stages={stages} onChange={selectSingleReferenceHandler}/>
+                    {showActsField() && (
+                        <>
+                            <NewsActSelect acts={acts} onChange={updateActHandler}/>
+                            <InputError message={validation?.acts}/>
+                        </>
                     )}
 
-                    {/* A list of Rounds (if available). */}
-                    {(data.type === 'round' && rounds) && (
-                        <NewsRoundSelect rounds={rounds} onChange={selectSingleReferenceHandler}/>
-                    )}
-
-                    {/* A list of Acts (if available). */}
-                    {/* We would like to be able to select one or more Acts. */}
-                    {(data.type === 'act' && acts) && (
-                        <NewsActSelect acts={acts} onChange={selectActHandler}/>
-                    )}
-
-                    {/* A list of existing published News Posts. */}
-                    {posts && (<NewsPostSelect posts={posts} onChange={selectPreviousHandler}/>)}
-
-                    {/* Additional prompt. */}
-                    {data.type && (
+                    {showStageField() && (
                         <div>
-                            <Label htmlFor="postPrompt">Additional prompt</Label>
-                            <ExpandingTextarea id="postPrompt" placeholder="Information that could help the generator."
-                                               className="max-h-40"
-                                               onChange={promptHandler}/>
+                            <Label htmlFor="postStage">Which Stage?</Label>
+                            <Select id="postStage" onValueChange={selectStageHandler}>
+                                <SelectTrigger>{stageName ?? 'Select a Stage...'}</SelectTrigger>
+                                <SelectContent>
+                                    {stages?.map((stage) => (
+                                        <SelectItem key={stage.id}
+                                                    value={stage.id}>{stage.title} ({stage.status})</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <InputError message={validation?.stage}/>
                         </div>
                     )}
 
-                    <div className="bg-white border-t-1 flex flex-wrap justify-between sticky bottom-0 py-3 -mx-5 px-5">
+                    {showRoundField() && (
+                        <div>
+                            <Label htmlFor="postRound">Which Round?</Label>
+                            <Select id="postRound" onValueChange={selectRoundHandler}>
+                                <SelectTrigger>{roundName ?? 'Select a Round...'}</SelectTrigger>
+                                <SelectContent>
+                                    {rounds?.map((round) => (
+                                        <SelectItem key={round.id}
+                                                    value={round.id}>{round.title}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <InputError message={validation?.round}/>
+                        </div>
+                    )}
+
+
+                    {/* Additional prompt. */}
+                    {showBasicFields() && (
+                        <>
+                            <div>
+                                <Label htmlFor="postTitle">Post title</Label>
+                                <Input id="postTitle" placeholder="Suggested title" onChange={titleHandler}/>
+                                <InputError message={validation?.title}/>
+                            </div>
+                            <div>
+                                <Label htmlFor="postPrompt">Prompt</Label>
+                                <ExpandingTextarea id="postPrompt"
+                                                   placeholder="Information that could help the generator."
+                                                   className="max-h-40"
+                                                   onChange={promptHandler}/>
+                                <InputError message={validation?.prompt}/>
+                            </div>
+                            <div>
+                                <Label htmlFor="postQuote">Quote <span
+                                    className="text-muted-foreground">(optional)</span></Label>
+                                <ExpandingTextarea id="postQuote" className="max-h-20" onChange={quoteHandler}/>
+                                <InputError message={validation?.quote}/>
+                            </div>
+                        </>
+                    )}
+
+                    {showHighlightsField() && (
+                        <div>
+                            <Label>Highlights <span className="text-muted-foreground">(optional)</span></Label>
+                            <ul className="flex flex-col gap-2">
+                                {data.highlights.map((highlight, i) => (
+                                    <li key={i} className="flex gap-1 items-stretch">
+                                        <Input value={highlight} onChange={(e) => highlightHandler(e, i)}/>
+                                        <Button type="button" size="icon"
+                                                onClick={() => removeHightlightHandler(i)}>
+                                            <TrashIcon className="size-3"/>
+                                        </Button>
+                                    </li>
+                                ))}
+                            </ul>
+                            <InputError message={validation?.highlights}/>
+                            <Button type="button" size="sm" onClick={addHighlightHandler}>
+                                <PlusIcon/> Add
+                            </Button>
+                        </div>
+                    )}
+
+                    {showHistoryField() && (
+                        <>
+                            <NewsPostSelect posts={news} onChange={updateHistoryHandler}/>
+                            <InputError message={validation?.history}/>
+                        </>
+                    )}
+
+                    <div
+                        className="bg-white border-t-1 flex flex-wrap justify-between sticky bottom-0 mt-auto py-3 -mx-5 px-5">
                         {error && <Alert className="w-full" type="error" message={error}/>}
 
                         <Button variant="ghost" type="button" onClick={cancelHandler}>Cancel</Button>
@@ -175,7 +335,7 @@ export default function NewsGeneratePage({ types, acts, rounds, stages, posts }:
                     </div>
                 </form>
 
-                <NewsPromptDialog type={data.type} reference_ids={data.references} prompt={prompt} open={isPromptOpen}
+                <NewsPromptDialog payload={data} prompt={prompt} open={isPromptOpen}
                                   onOpenChange={closePromptHandler}/>
             </div>
         </AppLayout>
