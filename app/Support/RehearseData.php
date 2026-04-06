@@ -445,74 +445,150 @@ class RehearseData
         [
             'name' => 'Soline Bellefort',
             'subtitle' => null,
-            'genres' => [],
-            'traits' => [],
+            'genres' => ['Pop', 'Classical'],
+            'traits' => [
+                'Insists on speaking French, refuses to speak English',
+                'Effortlessly dominant',
+                'Very rarely gives interviews',
+                'Sees the other Acts as beneath her'
+            ],
             'languages' => ['fr'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Female French singer in her mid 30s.',
+                'Has a powerful singing voice.',
+                'Very successful in her native country, elevated to diva status.'
+            ],
         ],
         [
             'name' => 'Sonder Drift',
             'subtitle' => null,
             'genres' => ['Downtempo', 'EDM'],
-            'traits' => [],
+            'traits' => [
+                'Brother is highly protective of his sister',
+                'Sister is focused on purity',
+                'Representing the independent side of music production',
+                'Socially conscious',
+                'Their music is a voice for the free-spirited'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => ['Only recently signed to CATAWOL Records after success as an independent Act.'],
+            'notes' => [
+                'Brother and sister duo in their early 20s.',
+                'The male is the elder of the two.',
+                'Known for a unique brand of ambient, ethereal and experimental electronic music.',
+                'The male specialises in sound engineering and graphics, while the female provides vocals.',
+                'Only recently signed to CATAWOL Records after success as an independent Act.'
+            ],
         ],
         [
             'name' => 'SoraNami',
             'subtitle' => null,
             'genres' => ['J-Pop'],
-            'traits' => [],
+            'traits' => [
+                'Somewhat shy, having has a sheltered upbringing',
+                'Takes her performances very seriously'
+            ],
             'languages' => ['en', 'ja'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Female J-Pop star in her early 20s.',
+                'Famous for providing vocals for hit anime series and OVA movies.',
+                'Rejected "idol" status to focus on a music career.',
+                'Her end goal is to travel the world.'
+            ],
         ],
         [
             'name' => 'Synth & Son',
             'subtitle' => null,
             'genres' => ['EDM', 'Pop'],
-            'traits' => [],
+            'traits' => [
+                'Both enjoy the collaboration',
+                'Sees the Contest as a means to discover potential collaborations with other Acts',
+                'Hopes to do well in the Contest, win or lose'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Father and son duo: father in his late 40s and son in his mid 20s.',
+                'Specialising in synth pop, recreating the sounds of the 80s.',
+                'Both are talented musicians, enjoying working together.',
+                'Have yet to release their first album.'
+            ],
         ],
         [
             'name' => 'Vexon',
             'subtitle' => null,
             'genres' => ['EDM'],
-            'traits' => [],
+            'traits' => [
+                'Most of the talking is done through the older members',
+                'The youngest is only consulted for soundbites',
+                'Generally easygoing and calm',
+                'Lets the music do the talking',
+                'Somewhat at odds with GRMLN'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Male trio comprising two college friends in their late teens, and a younger brother in his mid teens.',
+                'Inspired by Disclosure',
+                'The youngest member wears a plain, nondescript mask as part of their image.',
+                'The other two members appear in "purpleface".'
+            ],
         ],
         [
             'name' => 'Violet Riot',
             'subtitle' => null,
             'genres' => ['Punk', 'Rock'],
-            'traits' => [],
+            'traits' => [
+                'Extroverted, particularly the lead',
+                'Confident without being overly aggressive',
+                'On the surface, appears to be all about female autonomy',
+                'Will speak fondly of one or two of the male Acts in the Contest',
+                'Will show appreciation for other female Acts'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'All-female punk rock group in their early 20s.',
+                'Is entirely staffed and managed by females.',
+                'Each member has a distinctive appearance, which somehow works cohesively.'
+            ],
         ],
         [
             'name' => 'Violeta Montenegro',
             'subtitle' => null,
             'genres' => ['Latin'],
-            'traits' => [],
+            'traits' => [
+                'Proud of her genre',
+                'In her mind, has something to prove',
+                'Only respects genuine musicians and singers',
+                'More focused on her performance than the essence of the Contest'
+            ],
             'languages' => ['en', 'es'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Female Latin/Caribbean singer in her 40s.',
+                'Looking to revive classic Latin music as a genre.',
+                'Very much against modern production techniques, especially autotune and computer-generated music.'
+            ],
         ],
         [
             'name' => 'Westbound',
             'subtitle' => null,
             'genres' => ['Pop', 'Rock'],
-            'traits' => [],
+            'traits' => [
+                'Entered the Contest to expand their fan base, particularly internationally',
+                'Plays on their appeal to female fans',
+                'Confident they will at least make it to the finals'
+            ],
             'languages' => ['en'],
             'is_fan_favourite' => false,
-            'notes' => [],
+            'notes' => [
+                'Irish boy band in their early to mid 20s.',
+                'Specialising in "teen pop rock", catering to the high school and college crowd.',
+                'Grew up together in high school.'
+            ],
         ],
     ];
 }
