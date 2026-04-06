@@ -32,7 +32,7 @@ Stage:
 
 Round:
 - Urgent and time-sensitive if the Round is active
-- Focus on potential rivalries
+- Focus on potential rivalries and favourites
 
 Results:
 - Dramatic and celebratory
@@ -81,7 +81,7 @@ Retry using this data:
 PROMPT,
     ],
 
-    'contest' => [
+    'about'   => [
         'information' => <<<INFO
 
 About the Contest:
@@ -119,7 +119,7 @@ INFO,
             'inactive' => ':name has yet to start.'
         ],
         'favourites' => [
-            'heading' => 'Favourites to win:',
+            'heading' => 'Fan favourites:',
             'name'    => '  :name'
         ],
         'outcomes'   => [
@@ -143,22 +143,42 @@ INFO,
             'ended'         => 'The Stage has ended.',
             'manual-vote'   => 'No votes were cast, so an independent panel will judge.',
             'acts'          => 'Act information:',
-            'favourites'    => 'Favourites to win:',
+            'favourites'    => 'Fan favourites to win:',
             'no-favourites' => 'No Acts are favourites to win.'
         ]
     ],
     'round'   => [
-        'title'       => 'About :round',
+        'title'      => 'About :round',
         'acts'       => 'Acts in this Round:',
         'favourites' => 'Favourites to win the Contest:',
-        'outcome'   => [
+        'outcome'    => [
             'heading' => "The outcome was as follows:",
             'result'  => "  :name - :score point(s) from :votes votes",
             'manual'  => "(decided by an independent panel)"
         ],
-        'accolades' => [
-            'winner' => ":name was the winner of :round.",
+        'accolades'  => [
+            'winner'    => ":name was the winner of :round.",
             'runner-up' => ":name was a runner-up in :stage."
+        ]
+    ],
+    'contest' => [
+        'title'      => 'Current state of the Song Contest',
+        'status'     => [
+            'not-started'   => 'The Contest has not yet started.',
+            'started'       => 'The Contest is underway.',
+            'last-stage'    => 'The Contest is on its last Stage.',
+            'over'          => 'The Contest is over.',
+            'current-stage' => 'The current Stage is :stage',
+            'acts'          => 'Participating Acts:',
+        ],
+        'highlights' => [
+            'favourites' => 'Fan favourites to win:',
+            'outcome'   => 'The outcome of the Contest:',
+            'accolades'  => [
+                'winner'    => "  :name was the winner of :round.",
+                'runner-up' => "  :name was a runner-up in :stage."
+            ],
+            'votes'      => ':votes vote(s) were cast.',
         ]
     ]
 ];

@@ -25,13 +25,13 @@ class GeneralPressReleaseData extends PressReleaseData
             type: NewsPostType::GENERAL,
             title: $title,
             description: $this->description,
-            quote: $quote,
-            highlights: $this->highlights
+            highlights: $this->highlights,
+            quote: $quote
         );
     }
 
     protected function buildDescription(): string
     {
-        return $this->description . "\n" . Lang::get('press-release.contest.information');
+        return $this->description . "\n" . Lang::get('press-release.about.information');
     }
 }

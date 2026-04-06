@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\NewsPostType;
 use App\Exceptions\PressReleaseException;
 use App\Support\PressRelease\ActPressReleaseData;
+use App\Support\PressRelease\ContestPressReleaseData;
 use App\Support\PressRelease\GeneralPressReleaseData;
 use App\Support\PressRelease\ResultsPressReleaseData;
 use App\Support\PressRelease\RoundPressReleaseData;
@@ -85,9 +86,9 @@ class PressReleaseAgent
                 }
 
                 logger()->info(
-                    "OpenAI token usage:\n".
-                    "  prompt:     {$response->usage->promptTokens}\n".
-                    "  completion: {$response->usage->completionTokens}\n".
+                    "OpenAI token usage:\n" .
+                    "  prompt:     {$response->usage->promptTokens}\n" .
+                    "  completion: {$response->usage->completionTokens}\n" .
                     "  total:      {$response->usage->totalTokens}"
                 );
 
@@ -252,12 +253,26 @@ class PressReleaseAgent
     /**
      * Generate a press release about a specific Round of the Contest.
      *
+     * @param RoundPressReleaseData $data
+     * @param array                 $history
      * @return PressReleaseResponse
      * @throws PressReleaseException
      */
     public function roundPressRelease(RoundPressReleaseData $data, array $history = []): PressReleaseResponse
     {
         return $this->run($data, $history);
+    }
+
+    /**
+     * Generate a press release about the current state of the Contest.
+     *
+     * @param array $history
+     * @return PressReleaseResponse
+     * @throws PressReleaseException
+     */
+    public function contestPressRelease(array $history = []): PressReleaseResponse
+    {
+        return $this->run(new ContestPressReleaseData(), $history);
     }
 
 }

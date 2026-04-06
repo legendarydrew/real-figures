@@ -78,8 +78,12 @@ class NewsGenerateController extends Controller
 
             case NewsPostType::ROUND->value:
                 $result = $agent->roundPressRelease(
-                    new RoundPressReleaseData($data['round'], $history),
+                    new RoundPressReleaseData($data['round']), $history
                 );
+                break;
+
+            case NewsPostType::CONTEST->value:
+                $result = $agent->contestPressRelease($history);
                 break;
 
             default:

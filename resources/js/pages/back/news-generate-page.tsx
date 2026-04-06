@@ -78,6 +78,7 @@ export default function NewsGeneratePage({
         const additionalInfo = ['posts'];
         switch (type) {
             case 'general':
+            case 'contest':
                 additionalInfo.push('news');
                 break;
             case 'stage':

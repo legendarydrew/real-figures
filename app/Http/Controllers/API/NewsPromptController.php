@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPromptRequest;
 use App\Models\NewsPost;
 use App\Support\PressRelease\ActPressReleaseData;
+use App\Support\PressRelease\ContestPressReleaseData;
 use App\Support\PressRelease\GeneralPressReleaseData;
 use App\Support\PressRelease\ResultsPressReleaseData;
 use App\Support\PressRelease\RoundPressReleaseData;
@@ -42,7 +43,7 @@ class NewsPromptController extends Controller
                 break;
 
             case NewsPostType::CONTEST->value:
-                abort(Response::HTTP_PRECONDITION_FAILED, 'No, not yet.');
+                $prompt = new ContestPressReleaseData();
                 break;
 
             case NewsPostType::ROUND->value:
