@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Lang;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -82,5 +83,10 @@ class Act extends Model
     public function accolades(): hasManyThrough
     {
         return $this->hasManyThrough(StageWinner::class, Song::class, 'act_id', 'song_id', 'id', 'id');
+    }
+
+    public function getRankTextAttribute(): string
+    {
+        return Lang::get('contest.act.rank')[$this->rank];
     }
 }

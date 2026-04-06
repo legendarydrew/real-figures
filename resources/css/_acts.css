@@ -1,3 +1,27 @@
+.act-rank-bar {
+    @apply flex h-4 w-full;
+
+    span {
+        @apply block h-full;
+
+        &.dominant {
+            @apply bg-(--rank-dominant) text-(--rank-dominant-foreground);
+        }
+        &.loved {
+            @apply bg-(--rank-loved) text-(--rank-loved-foreground);
+        }
+        &.divisive {
+            @apply bg-(--rank-divisive) text-(--rank-divisive-foreground);
+        }
+        &.underdog {
+            @apply bg-(--rank-underdog) text-(--rank-underdog-foreground);
+        }
+        &.wildcard {
+            @apply bg-(--rank-wildcard) text-(--rank-wildcard-foreground);
+        }
+    }
+}
+
 .act-item {
     @apply relative flex aspect-square w-full items-center flex-col justify-end overflow-hidden;
     @apply bg-gray-200 dark:bg-gray-700;
@@ -40,6 +64,26 @@
 
     small {
         @apply inline-block text-sm leading-none;
+    }
+}
+
+.act-item-rank {
+    @apply bg-muted text-muted-foreground font-semibold rounded-lg text-xs leading-tight px-2 py-1;
+
+    &.dominant {
+        @apply bg-(--rank-dominant) text-(--rank-dominant-foreground);
+    }
+    &.loved {
+        @apply bg-(--rank-loved) text-(--rank-loved-foreground);
+    }
+    &.divisive {
+        @apply bg-(--rank-divisive) text-(--rank-divisive-foreground);
+    }
+    &.underdog {
+        @apply bg-(--rank-underdog) text-(--rank-underdog-foreground);
+    }
+    &.wildcard {
+        @apply bg-(--rank-wildcard) text-(--rank-wildcard-foreground);
     }
 }
 

@@ -51,6 +51,7 @@ export const ActItem: React.FC<ActItemProps> = ({ act, onEdit, onDelete, classNa
 
             {/* Management buttons. */}
             <div className="act-item-toolbar">
+                <span className={`act-item-rank ${act.rank_text.toLowerCase()}`}>{act.rank_text}</span>
                 {act.has_profile && (
                     <span className="act-item-toolbar-profile" title="Has a profile.">
                         <Info/>

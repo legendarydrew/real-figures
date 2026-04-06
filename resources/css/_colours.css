@@ -96,6 +96,17 @@
 
     --winner: var(--gold-foreground);
     --runner-up: #b0b0fb;
+
+    --rank-dominant: var(--gold);
+    --rank-dominant-foreground: var(--foreground);
+    --rank-loved: var(--chart-2-5);
+    --rank-loved-foreground: var(--background);
+    --rank-divisive: var(--chart-4-4);
+    --rank-divisive-foreground: var(--background);
+    --rank-underdog: var(--chart-3-4);
+    --rank-underdog-foreground: var(--background);
+    --rank-wildcard: var(--secondary);
+    --rank-wildcard-foreground: var(--background);
 }
 
 .dark {
