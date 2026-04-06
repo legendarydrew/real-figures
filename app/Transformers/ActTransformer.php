@@ -27,6 +27,7 @@ class ActTransformer extends TransformerAbstract
             'has_profile' => (bool)$act->profile,
             'image'       => $act->image,
             'rank'        => $act->rank,
+            'rank_text'   => $act->rank_text,
         ];
     }
 

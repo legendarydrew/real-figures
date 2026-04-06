@@ -87,6 +87,6 @@ class Act extends Model
 
     public function getRankTextAttribute(): string
     {
-        return Lang::get('contest.act.rank')[$this->rank->value];
+        return Lang::get('contest.act.rank')[$this->rank];
     }
 }
