@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\API\Act\Meta;
 
+use App\Enums\ActRank;
 use App\Models\Act;
 use App\Models\ActMetaTrait;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -27,6 +28,7 @@ final class TraitsTest extends TestCase
             'meta' => [
                 'traits' => [],
             ],
+            'rank' => fake()->randomElement(ActRank::cases())
         ];
     }
 

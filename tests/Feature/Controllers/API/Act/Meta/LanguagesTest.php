@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\API\Act\Meta;
 
+use App\Enums\ActRank;
 use App\Models\Act;
 use App\Models\ActMetaLanguage;
 use App\Models\Language;
@@ -28,6 +29,7 @@ final class LanguagesTest extends TestCase
             'meta' => [
                 'languages' => fake()->randomElements(Language::pluck('code')->toArray(), 3),
             ],
+            'rank' => fake()->randomElement(ActRank::cases())
         ];
     }
 

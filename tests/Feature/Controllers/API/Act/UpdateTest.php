@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\API\Act;
 
+use App\Enums\ActRank;
 use App\Models\Act;
 use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -28,6 +29,7 @@ final class UpdateTest extends TestCase
         $this->act = Act::factory()->withPicture()->createOne();
         $this->payload = [
             'name' => fake()->name,
+            'rank' => fake()->randomElement(ActRank::cases())
         ];
     }
 
