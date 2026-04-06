@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use App\Enums\ActRank;
+
 class RehearseData
 {
     const array STATES = [
@@ -40,6 +42,7 @@ class RehearseData
                 'energentic'
             ],
             'languages'        => ['ja'],
+            'rank'             => ActRank::UNDERDOG,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Female J-Pop idol in her mid teens.',
@@ -57,6 +60,7 @@ class RehearseData
                 'moody when questioned about non-music subjects'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::DIVISIVE,
             'is_fan_favourite' => false,
             'notes'            => [
                 'A gritty male rock and roller in his late 30s.',
@@ -79,6 +83,7 @@ class RehearseData
                 'rarely acknowledges competitors unless necessary'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::DOMINANT,
             'is_fan_favourite' => true,
             'notes'            => [
                 'Highly popular female pop icon in her early 30s.',
@@ -95,6 +100,7 @@ class RehearseData
                 'Bryknii: admires Kat Soo but primarily sees the pairing as another chance to win'
             ],
             'languages'        => ['en', 'ko'],
+            'rank'             => ActRank::LOVED,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Bryknii is CATAWOL Records\' biggest and most popular Act, female in her early 30s.',
@@ -111,6 +117,7 @@ class RehearseData
              'rely on and compliment each other as a duo',
          ],
          'languages'        => ['en'],
+         'rank'             => ActRank::DIVISIVE,
          'is_fan_favourite' => false,
          'notes'            => [
              'Male country and western duo in their 40s.',
@@ -130,6 +137,7 @@ class RehearseData
              'measures success differently from mainstream Acts'
          ],
          'languages'        => ['en'],
+         'rank'             => ActRank::UNDERDOG,
          'is_fan_favourite' => false,
          'notes'            => [
              'A solo black male house producer in his late 30s.',
@@ -146,6 +154,7 @@ class RehearseData
              'noble, complimentary of other Acts'
          ],
          'languages'        => ['en', 'ja'],
+         'rank'             => ActRank::LOVED,
          'is_fan_favourite' => false,
          'notes'            => [
              'An English/Japanese female contemporary classical singer in her mid 20s.',
@@ -165,6 +174,7 @@ class RehearseData
                 'Saima Gaines: takes Bryknii rivalry personally, even when unspoken'
             ],
             'languages'        => ['en', 'es'],
+            'rank'             => ActRank::LOVED,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Cielo Groove is an all-male Latin group in their 30s.',
@@ -188,6 +198,7 @@ class RehearseData
                 'treats vulnerability as part of performance rather than reality'
             ],
             'languages'        => ['en', 'fr'],
+            'rank'             => ActRank::LOVED,
             'is_fan_favourite' => false,
             'notes'            => [
                 'A French female singer in her mid 20s.',
@@ -213,6 +224,7 @@ class RehearseData
                 'quietly amused by the Forty Twos\' intensity'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::WILDCARD,
             'is_fan_favourite' => false,
             'notes'            => [
                 'West coast style barbershop quartet, ranging from mid 30s to mid 40s.',
@@ -231,6 +243,7 @@ class RehearseData
                 'Looking to elevate her profile as a result of the Contest'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::WILDCARD,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Female soul singer in her mid 30s.',
@@ -248,6 +261,7 @@ class RehearseData
                 'Most concerned about bullying toward girls'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::LOVED,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Female folk singer in her early 30s.',
@@ -267,6 +281,7 @@ class RehearseData
                 'views the Coastliners as outdated competition'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::DIVISIVE,
             'is_fan_favourite' => false,
             'notes'            => [
                 'New York style barbershop quartet, all in their mid 30s.',
@@ -288,6 +303,7 @@ class RehearseData
                 'sometimes questioned for being too calculated'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::LOVED,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Male EDM producer and performer in his late teens.',
@@ -308,6 +324,7 @@ class RehearseData
                 'leans into controversy when necessary'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::DOMINANT,
             'is_fan_favourite' => true,
             'notes'            => [
                 'A rock band comprising a male lead and three female musicians, all in their mid 20s.',
@@ -328,6 +345,7 @@ class RehearseData
                 'avoids industry politics entirely'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::DIVISIVE,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Black female pop singer in her late 30s.',
@@ -348,6 +366,7 @@ class RehearseData
                 'respects craft over popularity'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::UNDERDOG,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Male hip hop producer in his mid 20s.',
@@ -366,6 +385,7 @@ class RehearseData
                 'values aesthetic and control'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::WILDCARD,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Female producer and vocalist in her mid 20s.',
@@ -387,6 +407,7 @@ class RehearseData
                 'uses charm to mask competitiveness'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::DIVISIVE,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Male retro funk duo in their late 30s.',
@@ -409,6 +430,7 @@ class RehearseData
                 'At peace with her former fame and retirement'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::UNDERDOG,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Female pop star in her late 50s.',
@@ -427,6 +449,7 @@ class RehearseData
                 'Believes in the power of big band and swing music'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::WILDCARD,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Male crooner in his late 30s.',
@@ -449,6 +472,7 @@ class RehearseData
                 'downplays his own ability'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::WILDCARD,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Male acoustic guitarist in his early 40s.',
@@ -470,6 +494,7 @@ class RehearseData
                 'Destined to be a star, but aware of the work involved'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::UNDERDOG,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Female reggae/R&B Act in her early 20s.',
@@ -487,6 +512,7 @@ class RehearseData
                 'Matter of fact, does not like indirectness'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::DIVISIVE,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Experienced male blues musician in his 50s.',
@@ -508,6 +534,7 @@ class RehearseData
                 'unintentionally intimidating presence'
             ],
             'languages'        => ['fr'],
+            'rank'             => ActRank::DOMINANT,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Female French singer in her mid 30s.',
@@ -533,6 +560,7 @@ class RehearseData
                 'values purity and independence'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::WILDCARD,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Brother and sister duo in their early 20s.',
@@ -551,6 +579,7 @@ class RehearseData
                 'Takes her performances very seriously'
             ],
             'languages'        => ['en', 'ja'],
+            'rank'             => ActRank::WILDCARD,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Female J-Pop star in her early 20s.',
@@ -569,6 +598,7 @@ class RehearseData
                 'Hopes to do well in the Contest, win or lose'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::LOVED,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Father and son duo: father in his late 40s and son in his mid 20s.',
@@ -592,6 +622,7 @@ class RehearseData
                 'internal hierarchy influences decision-making'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::WILDCARD,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Male trio comprising two college friends in their late teens, and a younger brother in his mid teens.',
@@ -615,6 +646,7 @@ class RehearseData
                 'selective about who they respect'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::DIVISIVE,
             'is_fan_favourite' => false,
             'notes'            => [
                 'All-female punk rock group in their early 20s.',
@@ -637,6 +669,7 @@ class RehearseData
                 'carries herself like an established legend'
             ],
             'languages'        => ['en', 'es'],
+            'rank'             => ActRank::WILDCARD,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Female Latin/Caribbean singer in her 40s.',
@@ -658,6 +691,7 @@ class RehearseData
                 'Confident they will at least make it to the finals'
             ],
             'languages'        => ['en'],
+            'rank'             => ActRank::LOVED,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Irish boy band in their early to mid 20s.',

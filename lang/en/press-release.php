@@ -96,6 +96,7 @@ INFO,
         'genres'    => '- Genres: :genres',
         'languages' => '- Languages spoken: :languages',
         'members'   => '- Members:',
+        'rank'      => '- Rank: :rank',
         'traits'    => '- Traits:',
         'notes'     => '- Notes:',
         'profile'   => '- Profile:',
@@ -173,7 +174,7 @@ INFO,
         ],
         'highlights' => [
             'favourites' => 'Fan favourites to win:',
-            'outcome'   => 'The outcome of the Contest:',
+            'outcome'    => 'The outcome of the Contest:',
             'accolades'  => [
                 'winner'    => "  :name was the winner of :round.",
                 'runner-up' => "  :name was a runner-up in :stage."

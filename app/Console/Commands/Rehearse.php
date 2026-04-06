@@ -114,6 +114,7 @@ class Rehearse extends Command
                 'subtitle'         => $act['subtitle'],
                 'slug'             => Str::slug("{$act['name']} {$act['subtitle']}"),
                 'is_fan_favourite' => $act['is_fan_favourite'],
+                'rank'             => $act['rank'],
             ]);
 
             // languages

@@ -99,6 +99,7 @@ export interface Act {
             trait: string;
         }[];
     };
+    rank: number;
 }
 
 export interface Song {

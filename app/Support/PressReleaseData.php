@@ -87,6 +87,7 @@ abstract class PressReleaseData
             $output[] = $indent_spaces . Lang::get('press-release.act.notes');
             $output[] = $act->notes->map(fn($note) => $indent_spaces . "  - $note->note")->join("\n");
         }
+        $output[] = $indent_spaces . Lang::get('press-release.act.rank', ['rank' => $act->rank_text]);
 
         return implode("\n", $output);
     }
