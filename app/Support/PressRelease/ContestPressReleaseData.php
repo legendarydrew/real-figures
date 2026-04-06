@@ -37,7 +37,7 @@ class ContestPressReleaseData extends PressReleaseData
         {
             $output[] = Lang::get('press-release.contest.status.over');
         }
-        elseif (ContestFacade::hasStarted())
+        elseif (ContestFacade::isRunning())
         {
             $output[] = Lang::get(ContestFacade::isOnLastStage() ? 'press-release.contest.status.last-stage' : 'press-release.contest.status.started');
             $output[] = Lang::get('press-release.contest.status.current-stage', ['stage' => ContestFacade::getCurrentStage()->title]);
@@ -73,7 +73,7 @@ class ContestPressReleaseData extends PressReleaseData
 
             $highlights[] = Lang::get('press-release.contest.highlights.votes', ['votes' => RoundVote::count()]);
         }
-        elseif (ContestFacade::hasStarted())
+        elseif (ContestFacade::isRunning())
         {
             $favourites = ContestFacade::getCurrentStage()->getActsInvolved()->filter(fn(Act $act) => $act->is_fan_favourite);
             if ($favourites->isNotEmpty())
