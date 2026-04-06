@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Act;
 use App\Models\Genre;
 use App\Transformers\ActTransformer;
+use Illuminate\Support\Facades\Lang;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -14,11 +15,18 @@ class ActsController extends Controller
 {
     public function index(): Response
     {
+        // We want to display a measure of how many Acts have specific ranks.
+        $ranks = Act::all()->map(fn(Act $act) => $act->rank_text);
         return Inertia::render('back/acts-page', [
-            'acts' => fn() => fractal(Act::with(['profile'])->paginate(20))
+            'acts'  => fn() => fractal(Act::with(['profile'])->paginate(20))
                 ->transformWith(ActTransformer::class)
                 ->withResourceName('data')
                 ->toArray(),
+            'ranks' => fn() => [
+                'total' => $ranks->count(),
+                'list'  => Lang::get('contest.act.rank'),
+                'count' => array_count_values($ranks->toArray())
+            ]
             // "lazy loading" of data by using a callback.
         ]);
     }
