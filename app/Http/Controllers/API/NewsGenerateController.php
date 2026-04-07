@@ -95,7 +95,10 @@ class NewsGenerateController extends Controller
         // - content (in Markdown format).
         // We use these to create a new News Post, then redirect to its edit page for scrutiny.
 
-        $post = NewsPost::create($result);
+        $post = NewsPost::create([
+            'type' => $data['type'],
+            ...$result->toArray()
+        ]);
 
         return response()->json(['id' => $post->id]);
     }

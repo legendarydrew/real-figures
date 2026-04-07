@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\API\Act;
 
+use App\Enums\ActRank;
 use App\Models\Act;
 use App\Models\ActProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -24,6 +25,7 @@ final class StoreTest extends TestCase
 
         $this->payload = [
             'name' => fake()->name,
+            'rank' => fake()->randomElement(ActRank::cases())
         ];
     }
 
