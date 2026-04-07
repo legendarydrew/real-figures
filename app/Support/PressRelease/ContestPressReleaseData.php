@@ -46,7 +46,7 @@ class ContestPressReleaseData extends PressReleaseData
         {
             $output[] = Lang::get('press-release.contest.status.not-started');
             $output[] = Lang::get('press-release.contest.status.acts');
-            $acts     = ContestFacade::getCurrentStage()->getActsInvolved();
+            $acts     = Act::all();
             foreach ($acts as $act)
             {
                 $output[] = $this->getActInformation($act, 1);

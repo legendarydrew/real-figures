@@ -49,7 +49,6 @@ final class ContestTest extends TestCase
                 'type',
                 'title',
                 'description',
-                'quote',
                 'highlights',
                 'history'
             ]

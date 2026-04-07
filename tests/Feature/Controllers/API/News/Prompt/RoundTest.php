@@ -54,7 +54,6 @@ final class RoundTest extends TestCase
                 'type',
                 'title',
                 'description',
-                'quote',
                 'highlights',
                 'history'
             ]
