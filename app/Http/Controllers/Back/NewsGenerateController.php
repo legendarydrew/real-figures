@@ -31,31 +31,32 @@ class NewsGenerateController extends Controller
          * We want to ensure that we only fetch information we need.
          */
         return Inertia::render('back/news-generate-page', [
-            'types' => NewsPostType::cases(),
-            'posts' => Inertia::optional(fn () => NewsPost::published()->orderByDesc('id')->get()
-                ->map(fn (NewsPost $post) => [
-                    'id' => $post->id,
-                    'title' => $post->title,
-                    'published_at' => $post->published_at->format(config('contest.format.full-date')),
-                ])),
-            'stages' => Inertia::optional(fn () => Stage::all()
-                ->filter(fn (Stage $stage) => ! $stage->isInactive())
-                ->map(fn (Stage $stage) => [
-                    'id' => $stage->id,
-                    'title' => $stage->title,
-                    'status' => $stage->status,
-                ])),
-            'rounds' => Inertia::optional(fn () => Round::started()->whereHas('songs')->get()
-                ->map(fn (Round $round) => [
-                    'id' => $round->id,
-                    'title' => $round->full_title,
-                ])),
-            'acts' => Inertia::optional(fn () => Act::whereHas('songs')->orderBy('name')->get()
-                ->map(fn (Act $act) => [
-                    'id' => $act->id,
-                    'name' => $act->name,
-                    'subtitle' => $act->subtitle,
-                ])),
+            'types'  => NewsPostType::cases(),
+            'stages' => Inertia::optional(fn() => Stage::all()
+                                                       ->filter(fn(Stage $stage) => !$stage->isInactive())
+                                                       ->map(fn(Stage $stage) => [
+                                                           'id'     => $stage->id,
+                                                           'title'  => $stage->title,
+                                                           'status' => $stage->status,
+                                                       ])),
+            'rounds' => Inertia::optional(fn() => Round::started()->whereHas('songs')->get()
+                                                       ->map(fn(Round $round) => [
+                                                           'id'    => $round->id,
+                                                           'title' => $round->full_title,
+                                                       ])),
+            'acts'   => Inertia::optional(fn() => Act::whereHas('songs')->orderBy('name')->get()
+                                                     ->map(fn(Act $act) => [
+                                                         'id'       => $act->id,
+                                                         'name'     => $act->name,
+                                                         'subtitle' => $act->subtitle,
+                                                     ])),
+            'news'   => Inertia::optional(fn() => NewsPost::published()->latest()->get()
+                                                          ->map(fn(NewsPost $post) => [
+                                                              'id'        => $post->id,
+                                                              'type'      => $post->type,
+                                                              'title'     => $post->title,
+                                                              'published' => $post->published_at->format(config('contest.format.full-date')),
+                                                          ])),
         ]);
     }
 }

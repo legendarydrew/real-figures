@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Transformers\SongTransformer;
 use Database\Factories\RoundFactory;
 use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Builder;
@@ -127,5 +128,14 @@ class Round extends Model
             ]);
 
         }
+    }
+
+    /**
+     * Returns a "playlist" of Songs in this Round, for use in the Song player.
+     * @return array
+     */
+    public function playlist(): array
+    {
+        return fractal($this->songs, new SongTransformer())->toArray();
     }
 }

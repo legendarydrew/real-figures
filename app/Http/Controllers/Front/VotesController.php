@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Stage;
 use App\Transformers\StageVoteBreakdownTransformer;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 /**
@@ -27,6 +28,6 @@ class VotesController extends Controller
             ]);
         }
 
-        abort(404);
+        abort(Response::HTTP_NOT_FOUND);
     }
 }

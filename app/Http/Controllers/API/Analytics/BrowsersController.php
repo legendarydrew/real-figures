@@ -13,8 +13,6 @@ use Spatie\Analytics\Period;
  */
 class BrowsersController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'browsers';
-
     protected function analyticsQuery(int $days): Collection
     {
         return Analytics::fetchTopBrowsers(

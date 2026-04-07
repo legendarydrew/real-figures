@@ -4,10 +4,12 @@ import { SongPlayer } from '@/components/front/song-player';
 const playerElement = document.getElementById('song-player');
 const player = playerElement.querySelector('.song-player-video');
 const playerRoot = createRoot(player);
+let playlistID: number = 0;
+let playlistIndex: number = 0;
+
 playerRoot.render(<SongPlayer/>);
 
-globalThis.openSongPlayer = (el: HTMLElement): void => {
-    const song = JSON.parse(el.dataset.song);
+function playSong(song: any) {
     playerElement.dataset.songId = song.id;
     playerElement.dataset.actSlug = song.act.slug;
     playerElement.querySelector('.song-player-banner-flag').classList = `song-player-banner-flag flag flag:${song.language.flag}`;
@@ -20,12 +22,47 @@ globalThis.openSongPlayer = (el: HTMLElement): void => {
     }
 
     playerRoot.render(<SongPlayer currentSong={song}/>);
+}
+
+globalThis.openSongPlayer = (el: HTMLElement): void => {
+    const song = JSON.parse(el.dataset.song);
+
+    // Show or hide playlist buttons, based on if there's playlist data available.
+    playlistID = Number.parseInt(el.dataset.round);
+    playerElement.querySelector('.song-player-banner-playlist').classList.toggle('hidden', Number.isNaN(playlistID));
+    playlistIndex = globalThis.playlist[playlistID]?.findIndex((s) => s.id === song.id) ?? 0;
+
+    playSong(song);
 
     playerElement?.showPopover();
 
     globalThis.trackEvent("dialog_open", {
         type: 'song',
         act: song.act.slug
+    });
+}
+
+globalThis.prevInSongPlayer = (): void => {
+    if (Number.isNaN(playlistID)) {
+        return;
+    }
+    playlistIndex = (playlistIndex - 1) % globalThis.playlist[playlistID].length;
+    playSong(globalThis.playlist[playlistID][playlistIndex]);
+    globalThis.trackEvent("playlist", {
+        round_id: playlistID,
+        label: 'prev'
+    });
+}
+
+globalThis.nextInSongPlayer = (): void => {
+    if (Number.isNaN(playlistID)) {
+        return;
+    }
+    playlistIndex = (playlistIndex + 1) % globalThis.playlist[playlistID].length;
+    playSong(globalThis.playlist[playlistID][playlistIndex]);
+    globalThis.trackEvent("playlist", {
+        round_id: playlistID,
+        label: 'next'
     });
 }
 

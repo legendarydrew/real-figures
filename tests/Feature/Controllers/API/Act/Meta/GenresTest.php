@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\API\Act\Meta;
 
+use App\Enums\ActRank;
 use App\Models\Act;
 use App\Models\ActMetaGenre;
 use App\Models\Genre;
@@ -28,6 +29,7 @@ final class GenresTest extends TestCase
             'meta' => [
                 'genres' => ['Pop', 'Rock'],
             ],
+            'rank' => fake()->randomElement(ActRank::cases())
         ];
 
         // Create some genres.

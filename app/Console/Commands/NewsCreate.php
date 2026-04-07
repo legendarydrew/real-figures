@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\NewsPost;
-use App\Models\NewsPostReference;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
@@ -21,12 +20,12 @@ class NewsCreate extends Command
         $this->info("\nCreating news posts...");
 
         $this->comment('- removing existing NewsPosts');
-        NewsPostReference::truncate();
         NewsPost::truncate();
 
         $this->comment('- creating NewsPosts');
-        $post_count = max(0, (int) $this->argument('count'));
-        if ($post_count === 0) {
+        $post_count = max(0, (int)$this->argument('count'));
+        if ($post_count === 0)
+        {
             $post_count = fake()->numberBetween(1, 30);
         }
         NewsPost::factory($post_count)->published()->create();

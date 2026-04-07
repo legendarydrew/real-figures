@@ -5,6 +5,7 @@ import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
+import { stringToChartColour } from '@/lib/utils';
 
 
 interface Props {
@@ -34,15 +35,6 @@ export const ViewportsAnalytics: React.FC<Props> = ({ days = 7 }) => {
             });
     }
 
-    function stringToColor(str) {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const hue = Math.abs(hash % 360);
-        return `hsl(${hue}, 65%, 55%)`;
-    }
-
     return (
         <section id="analyticsViewports" className="analytics-section">
             <h2 className="analytics-section-title">Viewports</h2>
@@ -61,10 +53,10 @@ export const ViewportsAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                 key={key}
                                 dataKey={key}
                                 stackId="sections"
-                                fill={stringToColor(key)}
+                                fill={stringToChartColour(key)}
                             />
                         ))}
-                        <ChartRoundReferences/>
+                        <ChartRoundReferences position="start"/>
                     </BarChart>
                 )}
 
@@ -80,8 +72,8 @@ export const ViewportsAnalytics: React.FC<Props> = ({ days = 7 }) => {
                     {chartData ? chartData.table.map((row, index) => (
                         <tr key={index}>
                             <th scope="row">
-                                    <span className="block size-4"
-                                          style={{ backgroundColor: stringToColor(row.viewport) }}></span>
+                                <span className="block size-4"
+                                      style={{ backgroundColor: stringToChartColour(row.viewport) }}></span>
                             </th>
                             <th className="text-left" scope="row">{row.viewport}</th>
                             <td className="text-right">{row.views}</td>

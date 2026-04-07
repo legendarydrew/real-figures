@@ -85,8 +85,8 @@ class ContestController extends Controller
 
             return view($template, [
                 'stage' => fractal($current_stage, StageTransformer::class)->parseIncludes(['description', 'goldenBuzzerPerks'])->toArray(),
-                'current_round' => fractal($current_round, RoundTransformer::class, '')->parseIncludes(['full_title'])->toArray(),
-                'previous_rounds' => fractal($previous_rounds?->sortByDesc('id'), RoundTransformer::class, '')->toArray(),
+                'current_round' => fractal($current_round, RoundTransformer::class, '')->parseIncludes(['full_title', 'playlist'])->toArray(),
+                'previous_rounds' => fractal($previous_rounds?->sortByDesc('id'), RoundTransformer::class, '')->parseIncludes(['playlist'])->toArray(),
                 'countdown' => $countdown,
                 'last_stage' => ContestFacade::isOnLastStage(),
             ]);

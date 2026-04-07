@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@hasSection('page-title')
             @yield('page-title') &mdash;
@@ -44,6 +44,9 @@
     @endif
     {{-- General recommendation: 2:1 ratio, 1200px wide. (https://www.opengraph.io/open-graph-meta-tags) --}}
     @yield('open-graph')
+
+    {{-- Bing site validation. --}}
+    <meta name="msvalidate.01" content="6EF506199F935F844CDF54B7754CDB68" />
 
     {{-- Google Analytics. --}}
     <meta name="analytics-testing" content="{{ config('services.analytics.testMode')}}"/>

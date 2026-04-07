@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\API\Act\Meta;
 
+use App\Enums\ActRank;
 use App\Models\Act;
 use App\Models\ActMetaNote;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -27,6 +28,7 @@ final class NotesTest extends TestCase
             'meta' => [
                 'notes' => [],
             ],
+            'rank' => fake()->randomElement(ActRank::cases())
         ];
     }
 

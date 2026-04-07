@@ -31,7 +31,7 @@ export const VotesAnalytics: React.FC<Props> = ({ days = 7 }) => {
             .then((res) => {
                 setChartData(res.data);
             })
-            .catch((res) => RTToast.error(res.message))
+            .catch((error) => RTToast.error(error.message))
             .finally(() => {
                 setIsLoading(false);
             });
@@ -42,7 +42,7 @@ export const VotesAnalytics: React.FC<Props> = ({ days = 7 }) => {
             return (
                 <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-3">
                     <span className="display-text">{formatDateHour(locale, label)}</span>
-                    <span className="text-sm flex gap-1 items-center">
+                    <span className="text-xs flex gap-1 items-center">
                         {payload[0].value ? payload[0].value.toLocaleString() : 'No'} {payload[0].value === 1 ? 'vote cast' : 'votes cast'}
                     </span>
                 </div>
@@ -70,7 +70,7 @@ export const VotesAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         <Tooltip content={tooltipContent} isAnimationActive={false}/>
 
                         <Bar dataKey="count" fill="var(--chart-4-6)"/>
-                        <ChartRoundReferences/>
+                        <ChartRoundReferences position="start"/>
                     </BarChart>
                 )}
             </LoadingOverlay>

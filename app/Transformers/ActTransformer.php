@@ -20,12 +20,14 @@ class ActTransformer extends TransformerAbstract
     public function transform(Act $act): array
     {
         return [
-            'id' => (int) $act->id,
-            'name' => $act->name,
-            'subtitle' => $act->subtitle,
-            'slug' => $act->slug,
-            'has_profile' => (bool) $act->profile,
-            'image' => $act->image,
+            'id'          => (int)$act->id,
+            'name'        => $act->name,
+            'subtitle'    => $act->subtitle,
+            'slug'        => $act->slug,
+            'has_profile' => (bool)$act->profile,
+            'image'       => $act->image,
+            'rank'        => $act->rank,
+            'rank_text'   => $act->rank_text,
         ];
     }
 
@@ -39,7 +41,8 @@ class ActTransformer extends TransformerAbstract
      */
     public function includeProfileContent(Act $act): ?Primitive
     {
-        if ($act->profile) {
+        if ($act->profile)
+        {
             return $this->primitive([
                 'description' => Str::markdown($act->profile->description),
             ]);
@@ -57,19 +60,19 @@ class ActTransformer extends TransformerAbstract
     {
         return $this->primitive([
             'is_fan_favourite' => $act->is_fan_favourite,
-            'genres' => $act->genres()->pluck('name')->toArray(),
-            'languages' => $act->languages()->pluck('code')->toArray(),
-            'members' => $act->members->map(fn (ActMetaMember $member) => [
-                'id' => $member->id,
+            'genres'           => $act->genres()->pluck('name')->toArray(),
+            'languages'        => $act->languages()->pluck('code')->toArray(),
+            'members'          => $act->members->map(fn(ActMetaMember $member) => [
+                'id'   => $member->id,
                 'name' => $member->name,
                 'role' => $member->role,
             ]),
-            'traits' => $act->traits->map(fn (ActMetaTrait $trait) => [
-                'id' => $trait->id,
+            'traits'           => $act->traits->map(fn(ActMetaTrait $trait) => [
+                'id'    => $trait->id,
                 'trait' => $trait->trait,
             ]),
-            'notes' => $act->notes->map(fn (ActMetaNote $note) => [
-                'id' => $note->id,
+            'notes'            => $act->notes->map(fn(ActMetaNote $note) => [
+                'id'   => $note->id,
                 'note' => $note->note,
             ]),
         ]);
@@ -77,17 +80,15 @@ class ActTransformer extends TransformerAbstract
 
     public function includeAccolades(Act $act): Primitive
     {
-        $buzzers = $act->goldenBuzzers->map(fn (GoldenBuzzer $buzzer) => $buzzer->round->full_title)->unique();
-        $wins = StageWinner::whereHas('song', function ($query) use ($act) {
-            $query->where('act_id', $act->id);
-        })->get()->map(fn (StageWinner $winner) => [
+        $buzzers = $act->goldenBuzzers->map(fn(GoldenBuzzer $buzzer) => $buzzer->round->full_title)->unique();
+        $wins    = $act->accolades()->get()->map(fn(StageWinner $winner) => [
             'is_winner' => $winner->is_winner,
-            'text' => $winner->is_winner ? "Winner {$winner->round->full_title}" : "{$winner->stage->title} Runner-Up",
+            'text'      => $winner->is_winner ? "Winner {$winner->round->full_title}" : "{$winner->stage->title} Runner-Up",
         ]);
 
         return $this->primitive([
             'buzzers' => $buzzers->toArray(),
-            'wins' => $wins->toArray(),
+            'wins'    => $wins->toArray(),
         ]);
     }
 }

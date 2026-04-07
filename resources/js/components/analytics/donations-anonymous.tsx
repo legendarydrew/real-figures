@@ -31,7 +31,7 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
             .then((res) => {
                 setChartData(res.data);
             })
-            .catch((res) => RTToast.error(res.message))
+            .catch((error) => RTToast.error(error.message))
             .finally(() => {
                 setIsLoading(false);
             });
@@ -43,7 +43,7 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
                 <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-3">
                     <span className="display-text">{formatDate(locale, label)}</span>
                     {payload.map((row) => (
-                        <span className="text-sm flex gap-1 items-center">
+                        <span key={row.name} className="text-xs flex gap-1 items-center">
                             <span className="size-3 inline-block" style={{ backgroundColor: getColor(row.name) }}></span>
                             {row.value ? row.value.toLocaleString() : 'No'} {row.value === 1 ? 'donation' : 'donations'}
                         </span>
@@ -92,7 +92,7 @@ export const DonationsAnonymousAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                     />
                                 ))}
                                 <Tooltip content={tooltipContent} isAnimationActive={false}/>
-                                <ChartRoundReferences/>
+                                <ChartRoundReferences position="start"/>
                             </BarChart>
                         )}
                     </div>

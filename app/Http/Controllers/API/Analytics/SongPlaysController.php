@@ -16,16 +16,14 @@ use Spatie\Analytics\Period;
  */
 class SongPlaysController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'plays';
-
     protected function analyticsQuery(int $days): Collection
     {
         $filter = new FilterExpression([
             'filter' => new Filter([
-                'field_name' => 'eventName',
+                'field_name'    => 'eventName',
                 'string_filter' => new Filter\StringFilter([
                     'match_type' => Filter\StringFilter\MatchType::EXACT,
-                    'value' => 'song_play',
+                    'value'      => 'song_play',
                 ]),
             ]),
         ]);

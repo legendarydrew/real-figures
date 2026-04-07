@@ -1,11 +1,12 @@
-import { Bar, BarChart, CartesianGrid } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Tooltip } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RTToast } from '@/components/mode/toast-message';
 import { AnalyticsData } from '@/types';
 import { LoadingOverlay } from '@/components/mode/loading-overlay';
 import { ChartDateXAxis, ChartRoundReferences, ChartYAxis } from '@/components/chart-elements';
-import { stringToChartColour } from '@/lib/utils';
+import { formatDate } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
 
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export const VoteChoicesAnalytics: React.FC<Props> = ({ days = 7 }) => {
+    const {locale} = usePage().props;
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [chartData, setChartData] = useState<AnalyticsData>();
 
@@ -29,10 +31,40 @@ export const VoteChoicesAnalytics: React.FC<Props> = ({ days = 7 }) => {
             .then((res) => {
                 setChartData(res.data);
             })
-            .catch((res) => RTToast.error(res.message))
+            .catch((error) => RTToast.error(error.message))
             .finally(() => {
                 setIsLoading(false);
             });
+    }
+
+    const tooltipContent = ({ active, payload, label }) => {
+        if (active && payload?.length) {
+            return (
+                <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-3">
+                    <span className="display-text">{formatDate(locale, label)}</span>
+                    { payload.map((row) => row.value ? (
+                        <span key={row.name} className="text-xs flex gap-1 items-center">
+                            <b>{row.value.toLocaleString()}&times;</b> {row.name.slice(1)} {row.name === 'x1' ? 'Song' : 'Songs'} chosen
+                        </span>
+                    ) : '')}
+                </div>
+            );
+        }
+
+        return null;
+    };
+
+    const optionColour = (option): string => {
+        switch (option) {
+            case 'x1':
+                return 'var(--chart-3-2)';
+            case 'x2':
+                return 'var(--chart-3-4)';
+            case 'x3':
+                return 'var(--chart-3-6)';
+            default:
+                return 'var(--chart-1-1)';
+        }
     }
 
     return (
@@ -53,10 +85,11 @@ export const VoteChoicesAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                 key={key}
                                 dataKey={key}
                                 stackId="sections"
-                                fill={stringToChartColour(key)}
+                                fill={optionColour(key)}
                             />
                         ))}
-                        <ChartRoundReferences/>
+                        <Tooltip content={tooltipContent} isAnimationActive={false}/>
+                        <ChartRoundReferences position="start"/>
                     </BarChart>
                 )}
 
@@ -70,13 +103,13 @@ export const VoteChoicesAnalytics: React.FC<Props> = ({ days = 7 }) => {
                     </thead>
                     <tbody>
                     {chartData ? chartData.table.map((row, index) => (
-                        <tr key={index}>
+                        <tr key={row.choices}>
                             <th scope="row">
                                     <span className="block size-4"
-                                          style={{ backgroundColor: stringToChartColour(row.choices) }}></span>
+                                          style={{ backgroundColor: optionColour(row.choices) }}></span>
                             </th>
                             <th className="text-left"
-                                scope="row">{row.choices} {row.choices === 1 ? 'Song' : 'Songs'}</th>
+                                scope="row">{row.choices.slice(1) ?? (<em className="text-muted-foreground">not set</em>)}</th>
                             <td className="text-right">{row.count}</td>
                         </tr>
                     )) : (

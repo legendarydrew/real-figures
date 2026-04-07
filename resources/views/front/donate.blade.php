@@ -24,29 +24,24 @@
                     onclick="trackEvent('dialog_open', { type: 'donate' })">Donate to us (PayPal)
             </button>
 
-            <a class="button secondary" href="https://www.justgiving.com/kidscape/donate" rel="external"
-               target="_blank">Donate to Kidscape</a>
+            <a class="button secondary" href="https://www.justgiving.com/team/real-figures?utm_medium=TE&utm_source=CL" rel="external"
+               target="_blank">Donate to charity</a>
         </div>
 
         <div class="content">
             <p class="content-intro">
                 If you're enjoying the Contest, please consider <b>making a donation:</b> either to us,
-                or to <a href="https://kidscape.org.uk" rel="external" target="_blank">Kidscape</a>, our chosen
-                charity.
+                or to one of our selected charities.
             </p>
-            <p>Donations made to us will go toward the costs associated with building and maintaining the site,
-                supporting our Acts and their music production, and aiding the MODE Family in their time of need.
-            </p>
-            <p><a href="https://kidscape.org.uk" rel="external" target="_blank">Kidscape</a>
-                provides telephone advice and works directly with parents, children and carers experiencing bullying,
-                across the United Kingdom.</p>
-            <p>You can also <a href="{{route('contact')}}">contact us</a> directly with other suggestions for supporting
-                the Contest.</p>
+        </div>
+
+        <div class="my-8">
+            @include('front.collapse', ['title' => 'Supporting us', 'content' => 'front.donate.us'])
+            @include('front.collapse', ['title' => 'Supporting mental health and anti-bullying initiatives', 'content' => 'front.donate.charities'])
         </div>
 
         <!-- Donations -->
         @if (isset($donations) && count($donations))
-            <hr>
             <h2 class="page-subheading">Generous Donations</h2>
             <p>
                 <b>A huge thank you</b> for these generous donations:

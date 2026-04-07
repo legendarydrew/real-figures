@@ -36,15 +36,6 @@ export const SongsPlayedAnalytics: React.FC<Props> = ({ days = 7 }) => {
             });
     }
 
-    function stringToColor(str) {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const hue = Math.abs(hash % 360);
-        return `hsl(${hue}, 65%, 55%)`;
-    }
-
     return (
         <section id="analyticsSongPlays" className="analytics-section">
             <h2 className="analytics-section-title">Songs played</h2>
@@ -67,10 +58,10 @@ export const SongsPlayedAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                         key={key}
                                         dataKey={key}
                                         stackId="sections"
-                                        fill={stringToColor(key)}
+                                        fill={stringToChartColour(key)}
                                     />
                                 ))}
-                                <ChartRoundReferences/>
+                                <ChartRoundReferences position="start"/>
                             </BarChart>
                         </div>
                         <div className="lg:w-1/3">

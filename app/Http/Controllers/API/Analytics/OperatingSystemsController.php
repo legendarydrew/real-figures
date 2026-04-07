@@ -13,8 +13,6 @@ use Spatie\Analytics\Period;
  */
 class OperatingSystemsController extends AnalyticsAPIController
 {
-    const string CACHE_KEY = 'os';
-
     protected function analyticsQuery(int $days): Collection
     {
         return Analytics::fetchTopOperatingSystems(

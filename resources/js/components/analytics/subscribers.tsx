@@ -69,7 +69,7 @@ export const SubscribersAnalytics: React.FC<Props> = ({ days = 7 }) => {
                         <ReferenceLine y={0} stroke={cssVar('--secondary')}/>
                         <Bar dataKey="eventValue" fill="var(--chart-2-5)"/>
                         <Tooltip content={tooltipContent} isAnimationActive={false}/>
-                        <ChartRoundReferences/>
+                        <ChartRoundReferences position="start"/>
                     </BarChart>
                 )}
             </LoadingOverlay>

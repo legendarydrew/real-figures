@@ -70,7 +70,7 @@ export const ContactMessagesAnalytics: React.FC<Props> = ({ days = 7 }) => {
 
                         <Bar dataKey="eventCount" fill="var(--chart-3-5)"/>
                         <Tooltip content={tooltipContent} isAnimationActive={false}/>
-                        <ChartRoundReferences/>
+                        <ChartRoundReferences position="start"/>
                     </BarChart>
                 ) : (<Nothing>No data available.</Nothing>)}
             </LoadingOverlay>

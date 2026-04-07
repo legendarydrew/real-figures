@@ -64,7 +64,7 @@
                 <span class="home-grid-title">Contest Rules</span>
                 <span class="home-grid-subtitle">How it all works</span>
             </a>
-            <a class="home-grid-youtube" href="https://youtube.com/@silentmodetv" target="_blank">
+            <a class="home-grid-youtube" href="https://youtube.com/@CATAWOLRecords" target="_blank">
                 <span class="home-grid-small-title">CATAWOL on YouTube</span>
             </a>
             <a class="home-grid-about" href="{{ route('about') }}">

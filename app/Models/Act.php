@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Lang;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -26,9 +27,9 @@ class Act extends Model
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom(['name', 'subtitle'])
-            ->saveSlugsTo('slug')
-            ->usingSeparator('-');
+                          ->generateSlugsFrom(['name', 'subtitle'])
+                          ->saveSlugsTo('slug')
+                          ->usingSeparator('-');
     }
 
     public function profile(): HasOne
@@ -77,5 +78,15 @@ class Act extends Model
     public function getImageAttribute(): ?string
     {
         return ActImageFacade::exists($this) ? ActImageFacade::url($this) : null;
+    }
+
+    public function accolades(): hasManyThrough
+    {
+        return $this->hasManyThrough(StageWinner::class, Song::class, 'act_id', 'song_id', 'id', 'id');
+    }
+
+    public function getRankTextAttribute(): string
+    {
+        return Lang::get('contest.act.rank')[$this->rank];
     }
 }

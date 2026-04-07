@@ -61,7 +61,7 @@ export const ActViewsAnalytics: React.FC<Props> = ({ days = 7 }) => {
                                         fill={stringToChartColour(key)}
                                     />
                                 ))}
-                                <ChartRoundReferences/>
+                                <ChartRoundReferences position="start"/>
                             </BarChart>
                         </div>
                         <div className="lg:w-1/3">

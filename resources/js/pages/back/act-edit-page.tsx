@@ -17,8 +17,9 @@ import { ActMetaLanguages } from '@/components/admin/act-meta-languages';
 import { ActMetaTraits } from '@/components/admin/act-meta-traits';
 import { ActMetaGenres } from '@/components/admin/act-meta-genres';
 import { AdminHeader } from '@/components/admin/admin-header';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 
-export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, genreList: string[] }>) {
+export default function ActEditPage({ act, genreList, ranks }: Readonly<{ act: Act, genreList: string[] }>) {
 
     const { data, setData, errors, setError } = useForm<Required<ActForm>>({
         name: '',
@@ -28,6 +29,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
             description: ''
         },
         is_fan_favourite: false,
+        rank: undefined,
         image: '',
         new_image: undefined,
         remove_image: false,
@@ -47,6 +49,7 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                 description: act?.profile?.description ?? ''
             },
             is_fan_favourite: !!act?.meta.is_fan_favourite,
+            rank: act?.rank,
             image: act?.image,
             new_image: undefined,
             remove_image: false,
@@ -59,10 +62,12 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
             }
         });
         setIsEditing(!!act?.id);
+        updateRankLabel(act?.rank);
     }, [act]);
 
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [rankLabel, setRankLabel] = useState<boolean>(false);
 
     const changeNameHandler = (e: ChangeEvent) => {
         setData((previousData) => ({ ...previousData, name: e.target.value }));
@@ -82,6 +87,16 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
     const fanFavouriteHandler = (checked: boolean) => {
         setData((previousData) => ({ ...previousData, is_fan_favourite: checked }));
         setError({ is_fan_favourite: '' });
+    };
+
+    const rankHandler = (value: number) => {
+        setData((previousData) => ({ ...previousData, rank: value }));
+        setError({ rank: '' });
+        updateRankLabel(value);
+    };
+
+    const updateRankLabel = (rankID: number): void => {
+       setRankLabel(ranks.find((r) => r.id == rankID)?.label ?? 'Select a rank...');
     };
 
     const changeProfileDescriptionHandler = (value: string) => {
@@ -179,15 +194,15 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                     <div className="flex gap-10">
 
                         {/* Left side */}
-                        <div className="w-2/5">
-                            <div className="mb-3">
+                        <div className="w-2/5 flex flex-col gap-2">
+                            <div>
                                 <Label htmlFor="actName">Act's name</Label>
                                 <Input id="actName" type="text" className="font-bold text-lg" value={data.name}
                                        onChange={changeNameHandler}/>
                                 <InputError message={errors.name}/>
                             </div>
 
-                            <div className="mb-3">
+                            <div>
                                 <Label htmlFor="actSubtitle">Act subtitle</Label>
                                 <Input id="actSubtitle" type="text" className="font-bold text-muted-foreground"
                                        value={data.subtitle}
@@ -195,11 +210,25 @@ export default function ActEditPage({ act, genreList }: Readonly<{ act: Act, gen
                                 <InputError message={errors.subtitle}/>
                             </div>
 
-                            <div className="mb-3">
+                            <div>
                                 <Label htmlFor="actSlug">Slug</Label>
                                 <Input id="actSlug" type="text" className="text-sm" value={data.slug}
                                        onChange={changeSlugHandler} placeholder="Generated from the Act name"/>
                                 <InputError message={errors.slug}/>
+                            </div>
+
+                            <div>
+                                <Label htmlFor="actRank">Rank</Label>
+                                <Select id="actRank" onValueChange={rankHandler}>
+                                    <SelectTrigger>{rankLabel}</SelectTrigger>
+                                    <SelectContent>
+                                        {ranks?.map((rank) => (
+                                            <SelectItem key={rank.id}
+                                                        value={rank.id}>{rank.label}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <InputError message={errors['rank']}/>
                             </div>
 
                             <div className="mb-2 flex gap-2">

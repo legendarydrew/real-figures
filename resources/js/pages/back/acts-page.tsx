@@ -12,7 +12,7 @@ import { DialogTitle } from '@/components/ui/dialog';
 import { Nothing } from '@/components/mode/nothing';
 import { AdminHeader } from '@/components/admin/admin-header';
 
-export default function ActsPage({ acts }: Readonly<{ acts: PaginatedResponse<Act> }>) {
+export default function ActsPage({ acts, ranks }: Readonly<{ acts: PaginatedResponse<Act> }>) {
 
     const [currentAct, setCurrentAct] = useState<Act>();
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
@@ -70,6 +70,15 @@ export default function ActsPage({ acts }: Readonly<{ acts: PaginatedResponse<Ac
 
                 <Pagination results={acts} onPageChange={pageHandler}/>
 
+                {ranks.total && (
+                    <div className="act-rank-bar">
+                        {ranks.list.map((rank) => (
+                            <span key={rank} className={rank.toLowerCase()} title={rank}
+                                  style={{ width: (ranks.count[rank] / ranks.total * 100) + '%' }}></span>
+                        ))}
+                    </div>
+                )}
+
                 {acts.meta.pagination.total ? (
                     <div className="grid p-4 auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
                         {acts.data.map((act) => (
@@ -95,5 +104,5 @@ export default function ActsPage({ acts }: Readonly<{ acts: PaginatedResponse<Ac
                 </DestructiveDialog>
             </div>
         </AppLayout>
-);
+    );
 }
