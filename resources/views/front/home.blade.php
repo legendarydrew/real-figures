@@ -4,6 +4,10 @@
 @section('page-image', asset('img/og/og-home.jpg'))
 @section('event-category', 'Home')
 
+@section('meta')
+    <meta name="google-site-verification" content="1AtlqzGfdE1ytR5fh2kwVsR2SP_hNJ3KsGqu8yDNYHo" />
+@endsection
+
 @section('content')
 
     <div
