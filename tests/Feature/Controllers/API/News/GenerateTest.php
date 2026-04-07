@@ -21,8 +21,12 @@ final class GenerateTest extends TestCase
     public function test_as_guest(): void
     {
         $this->payload = [
-            'type' => NewsPostType::CUSTOM_POST_TYPE->value,
-            'prompt' => fake()->sentence(),
+            'type'       => NewsPostType::GENERAL->value,
+            'title'      => fake()->sentence(),
+            'prompt'     => fake()->sentence(),
+            'quote'      => fake()->sentence(),
+            'history'    => [],
+            'highlights' => fake()->sentences()
         ];
 
         $response = $this->postJson(self::ENDPOINT, $this->payload);
