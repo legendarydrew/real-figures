@@ -47,6 +47,8 @@ use App\Http\Controllers\API\VoteController;
 use App\Http\Controllers\Back\NewsController;
 use Illuminate\Support\Facades\Route;
 
+Route::pattern('id', '[0-9]+');
+
 // ----------------------------------------------------------------------------
 // API endpoints.
 // ----------------------------------------------------------------------------

@@ -72,8 +72,12 @@ class ActViewsController extends AnalyticsAPIController
 
         $this->fillDateGaps($data, $days);
 
+        // Prefetch Acts (to prevent N+1 queries).
+        $acts          = Act::whereIn('slug', $data['keys'])->with(['profile'])->get();
         $data['table'] = array_map(fn($slug) => [
-            'act'   => $slug !== 'Other' ? fractal(Act::whereSlug($slug)->first(), ActTransformer::class) : null,
+            'act'   => $slug !== 'Other' ?
+                fractal($acts->first(fn(Act $act) => $act->slug === $slug), ActTransformer::class) :
+                null,
             'count' => collect($data['data'])->pluck($slug)->sum(),
         ], $data['keys']);
 

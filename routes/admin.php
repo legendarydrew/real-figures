@@ -24,6 +24,8 @@ use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+Route::pattern('id', '[0-9]+');
+
 // ----------------------------------------------------------------------------
 // Back office pages.
 // ----------------------------------------------------------------------------
