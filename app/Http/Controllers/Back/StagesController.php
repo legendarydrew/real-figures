@@ -16,7 +16,7 @@ class StagesController extends Controller
     {
         return Inertia::render('back/stages-page', [
             'stages' => fn () => fractal(Stage::all())->transformWith(StageAdminTransformer::class)->toArray(),
-            'songs' => fn () => fractal(Song::with(['act', 'url'])
+            'songs' => fn () => fractal(Song::with(['act', 'language', 'url'])
                 ->withAggregate('act', 'name')
                 ->orderBy('act_name')
                 ->orderBy('title')

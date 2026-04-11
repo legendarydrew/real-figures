@@ -20,7 +20,7 @@ class SongsController extends Controller
             'acts' => fn () => Act::select(['id', 'name', 'subtitle'])->orderBy('name')->get(),
             'songs' => fn () => fractal(
                 // https://stackoverflow.com/a/72277299/4073160
-                Song::with(['act', 'plays'])
+                Song::with(['act', 'plays', 'language'])
                     ->withAggregate('act', 'name')
                     // creates an additional column called act_name, also prevents conflicting IDs.
                     ->orderBy(...$sort)->paginate()
