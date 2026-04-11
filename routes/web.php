@@ -14,6 +14,9 @@ use App\Http\Controllers\Front\SubscriberRemoveController;
 use App\Http\Controllers\Front\VotesController;
 use Illuminate\Support\Facades\Route;
 
+Route::pattern('id', '[0-9]+');
+Route::pattern('slug', '[a-z0-9-]+');
+
 // ----------------------------------------------------------------------------
 // Front-facing pages.
 // ----------------------------------------------------------------------------
