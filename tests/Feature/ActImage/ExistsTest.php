@@ -22,6 +22,12 @@ final class ExistsTest extends TestCase
         $this->act = Act::factory()->createOne();
     }
 
+    protected function tearDown(): void
+    {
+        @unlink(ActImageFacade::path($this->act));
+        parent::tearDown();
+    }
+
     public function test_existing_image(): void
     {
         $path = ActImageFacade::path($this->act);

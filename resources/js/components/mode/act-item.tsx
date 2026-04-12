@@ -1,6 +1,6 @@
 import { Act } from '@/types';
 import { Button } from '@/components/ui/button';
-import { Edit, Info, Trash } from 'lucide-react';
+import { Edit, Info, StarIcon, Trash } from 'lucide-react';
 import React from 'react';
 import { cn } from '@/lib/utils';
 
@@ -52,6 +52,7 @@ export const ActItem: React.FC<ActItemProps> = ({ act, onEdit, onDelete, classNa
             {/* Management buttons. */}
             <div className="act-item-toolbar">
                 <span className={`act-item-rank ${act.rank_text.toLowerCase()}`}>{act.rank_text}</span>
+                {act.is_favourite && (<StarIcon className="ml-1 text-gold" title="Fan favourite" />)}
                 {act.has_profile && (
                     <span className="act-item-toolbar-profile" title="Has a profile.">
                         <Info/>

@@ -20,14 +20,15 @@ class ActTransformer extends TransformerAbstract
     public function transform(Act $act): array
     {
         return [
-            'id'          => (int)$act->id,
-            'name'        => $act->name,
-            'subtitle'    => $act->subtitle,
-            'slug'        => $act->slug,
-            'has_profile' => (bool)$act->profile,
-            'image'       => $act->image,
-            'rank'        => $act->rank,
-            'rank_text'   => $act->rank_text,
+            'id'           => (int)$act->id,
+            'name'         => $act->name,
+            'subtitle'     => $act->subtitle,
+            'slug'         => $act->slug,
+            'is_favourite' => (bool)$act->is_fan_favourite,
+            'has_profile'  => (bool)$act->profile,
+            'image'        => $act->image,
+            'rank'         => $act->rank,
+            'rank_text'    => $act->rank_text,
         ];
     }
 

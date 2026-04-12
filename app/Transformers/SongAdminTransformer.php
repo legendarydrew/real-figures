@@ -9,6 +9,7 @@ class SongAdminTransformer extends TransformerAbstract
 {
     public function transform(Song $song): array
     {
+        $song->act->loadMissing(['languages']);
         return [
             'id' => (int) $song->id,
             'title' => $song->title,

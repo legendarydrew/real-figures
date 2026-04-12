@@ -46,7 +46,9 @@ class ContestPressReleaseData extends PressReleaseData
         {
             $output[] = Lang::get('press-release.contest.status.not-started');
             $output[] = Lang::get('press-release.contest.status.acts');
-            $acts     = Act::all();
+            $acts     = Act::whereHas('songs')
+                           ->with(['profile', 'genres', 'languages', 'members', 'traits', 'notes'])
+                           ->get();
             foreach ($acts as $act)
             {
                 $output[] = $this->getActInformation($act, 1);

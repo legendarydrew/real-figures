@@ -39,7 +39,7 @@ class RehearseData
             'traits'           => [
                 'giggly and coy when giving interviews',
                 'youthful',
-                'energentic'
+                'energetic'
             ],
             'languages'        => ['ja'],
             'rank'             => ActRank::UNDERDOG,

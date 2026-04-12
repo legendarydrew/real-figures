@@ -29,7 +29,7 @@ export const CollapseOpenAnalytics: React.FC<Props> = ({ days = 7 }) => {
             .then((res) => {
                 setChartData(res.data);
             })
-            .catch((res) => RTToast.error(res.message))
+            .catch((error) => RTToast.error(error.message))
             .finally(() => {
                 setIsLoading(false);
             });
@@ -53,7 +53,11 @@ export const CollapseOpenAnalytics: React.FC<Props> = ({ days = 7 }) => {
         'about-the-song': 'var(--chart-4-2)',
         'what-is-fold': 'var(--destructive)',
         'who-is-silentmode': 'var(--primary)',
-        'credits': 'var(--chart-4-5)'
+        'credits': 'var(--chart-4-5)',
+
+        // Donate
+        'supporting-mental-health-and-anti-bullying-initiatives': 'var(--chart-3-2)',
+        'supporting-us': 'var(--chart-3-5)'
     };
 
     function getColor(key) {
