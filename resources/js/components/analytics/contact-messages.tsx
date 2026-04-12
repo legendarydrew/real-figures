@@ -32,7 +32,7 @@ export const ContactMessagesAnalytics: React.FC<Props> = ({ days = 7 }) => {
             .then((res) => {
                 setChartData(res.data);
             })
-            .catch((res) => RTToast.error(res.message))
+            .catch((error) => RTToast.error(error.message))
             .finally(() => {
                 setIsLoading(false);
             });
@@ -44,7 +44,7 @@ export const ContactMessagesAnalytics: React.FC<Props> = ({ days = 7 }) => {
                 <div className="bg-white flex flex-col gap-0 shadow-md leading-tight rounded-sm p-2">
                     <span className="display-text text-sm">{formatDate(locale, label)}</span>
                     <span className="flex items-center gap-1 text-xs">
-                        {payload[0].value.toLocaleString()} {payload[0].value === 1 ? 'message' : 'messages'} sent
+                        {payload[0].value.toLocaleString()} {payload[0].value === '1' ? 'message' : 'messages'} sent
                     </span>
                 </div>
             );
