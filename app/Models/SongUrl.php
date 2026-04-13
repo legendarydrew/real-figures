@@ -25,9 +25,9 @@ class SongUrl extends Model
     public function getVideoIdAttribute(): ?string
     {
         $urls = [
-            'tiny' => '/^https:\/\/youtu\.be\/(\w+)\S*/',
-            'shorts' => '/^https?:\/\/(?:www.)?youtube\.com\/shorts\/(\w+)\S*/',
-            'normal' => '/^https?:\/\/(?:www.)?youtube\.com\/watch\?v=(\w+)\S*/',
+            'tiny' => '/^https:\/\/youtu\.be\/([\w-]+)\S*/',
+            'shorts' => '/^https?:\/\/(?:www.)?youtube\.com\/shorts\/([\w-]+)\S*/',
+            'normal' => '/^https?:\/\/(?:www.)?youtube\.com\/watch\?v=([\w-]+)\S*/',
         ];
         // NOTE: the (?:www.)? part of the regex denotes a non-capturing group.
 
