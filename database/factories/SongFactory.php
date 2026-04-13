@@ -48,12 +48,12 @@ class SongFactory extends Factory
         });
     }
 
-    public function withUrl(int $chance = 100): SongFactory
+    public function withUrl(string $url): SongFactory
     {
-        return $this->afterCreating(function (Song $song) use ($chance) {
-            if (fake()->boolean($chance)) {
-                SongUrl::factory()->for($song)->create();
-            }
+        return $this->afterCreating(function (Song $song) use ($url) {
+            SongUrl::factory()->for($song)->create([
+                'url' => $url
+            ]);
         });
     }
 

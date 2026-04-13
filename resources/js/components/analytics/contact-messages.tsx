@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const ContactMessagesAnalytics: React.FC<Props> = ({ days = 7 }) => {
-    const {locale} = usePage().props;
+    const { locale } = usePage().props;
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [chartData, setChartData] = useState<AnalyticsData>();
 

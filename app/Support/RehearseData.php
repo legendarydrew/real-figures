@@ -110,6 +110,9 @@ class RehearseData
         ['name'             => 'Buck & Jeb',
          'subtitle'         => null,
          'genres'           => ['Country & Western'],
+         'song'             => [
+             'url' => 'https://youtu.be/XaRc36LRhio',
+         ],
          'traits'           => [
              'generally easygoing',
              'do not take themselves too seriously',
@@ -127,6 +130,9 @@ class RehearseData
         ['name'             => 'BZpeople',
          'subtitle'         => null,
          'genres'           => ['EDM'],
+         'song'             => [
+             'url' => 'https://youtu.be/_OghkKOfT88',
+         ],
          'traits'           => [
              'down to earth',
              'results oriented',
@@ -148,6 +154,7 @@ class RehearseData
         ['name'             => 'Chelsea Chapel',
          'subtitle'         => null,
          'genres'           => ['Classical'],
+         'url'              => '',
          'traits'           => [
              'quiet confidence',
              'humble but aware of her abilities',
@@ -215,6 +222,9 @@ class RehearseData
             'name'             => 'Coastliners, the',
             'subtitle'         => null,
             'genres'           => ['Barbershop'],
+            'song'             => [
+                'url' => 'https://youtu.be/_3weTrkDw9s',
+            ],
             'traits'           => [
                 'Does not see any other Act as competition',
                 'Liberal-minded',
@@ -357,6 +367,9 @@ class RehearseData
             'name'             => 'Loop Theory',
             'subtitle'         => null,
             'genres'           => ['Hip Hop'],
+            'song'             => [
+                'url' => 'https://youtu.be/pCzGsl4Rem0',
+            ],
             'traits'           => [
                 'Hyper focused on music and production methods',
                 'Has a passing interest in female Acts, including Chelsea Chapel and Raya Vibes',
@@ -523,6 +536,11 @@ class RehearseData
             'name'             => 'Soline Bellefort',
             'subtitle'         => null,
             'genres'           => ['Pop', 'Classical'],
+            'song'             => [
+                'language' => 'fr',
+                'title'    => 'Les Vraies Figures Ne Plient Pas',
+                'url'      => 'https://youtu.be/mmmz5m5iR78',
+            ],
             'traits'           => [
                 'Insists on speaking French, refuses to speak English',
                 'Effortlessly dominant',
@@ -574,6 +592,11 @@ class RehearseData
             'name'             => 'SoraNami',
             'subtitle'         => null,
             'genres'           => ['J-Pop'],
+            'song'             => [
+                'title'    => 'Shin no Jinbutsu Wa Kusshinai',
+                'language' => 'ja',
+                'url'      => 'https://youtu.be/egAJXeP5Mpc',
+            ],
             'traits'           => [
                 'Somewhat shy, having has a sheltered upbringing',
                 'Takes her performances very seriously'
@@ -592,6 +615,9 @@ class RehearseData
             'name'             => 'Synth & Son',
             'subtitle'         => null,
             'genres'           => ['EDM', 'Pop'],
+            'song'             => [
+                'url' => 'https://youtu.be/Uv5H1twkw2Y',
+            ],
             'traits'           => [
                 'Both enjoy the collaboration',
                 'Sees the Contest as a means to discover potential collaborations with other Acts',
@@ -685,6 +711,9 @@ class RehearseData
             'name'             => 'Westbound',
             'subtitle'         => null,
             'genres'           => ['Pop', 'Rock'],
+            'song'             => [
+                'url' => 'https://youtu.be/aV-SuEhPg9Y',
+            ],
             'traits'           => [
                 'Entered the Contest to expand their fan base, particularly internationally',
                 'Plays on their appeal to female fans',
