@@ -97,7 +97,6 @@ class Rehearse extends Command
 
     /**
      * Create the participating Acts, each with a Song.
-     * At the moment there isn't an actual video associated with each Song.
      */
     protected function createActs(): void
     {
@@ -109,13 +108,26 @@ class Rehearse extends Command
         // Create the Acts with their respective information.
         foreach (RehearseData::ACTS as $act)
         {
-            $row = Act::factory()->withSong()->createOne([
+            $row = Act::factory()->createOne([
                 'name'             => $act['name'],
                 'subtitle'         => $act['subtitle'],
                 'slug'             => Str::slug("{$act['name']} {$act['subtitle']}"),
                 'is_fan_favourite' => $act['is_fan_favourite'],
                 'rank'             => $act['rank'],
             ]);
+
+            // Song (if available).
+            if (isset($act['song']))
+            {
+
+                Song::factory()->for($row)
+                    ->withUrl($act['song']['url'])
+                    ->createOne([
+                        'title'       => $act['song']['title'] ?? config('contest.song.default-title'),
+                        'act_id'      => $row->id,
+                        'language_id' => Language::whereCode($act['song']['language'] ?? 'en')->first()->id,
+                    ]);
+            }
 
             // languages
             $languages = Language::whereIn('code', $act['languages'])->pluck('id');
