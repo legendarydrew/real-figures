@@ -60,8 +60,8 @@ final class StoreTest extends TestCase
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
         $song = Song::whereTitle($this->payload['title'])->first();
 
-        self::assertInstanceOf(SongUrl::class, $song->url);
-        self::assertEquals($this->payload['url'], $song->url->url);
+        self::assertInstanceOf(SongUrl::class, $song->latestVersion());
+        self::assertEquals($this->payload['url'], $song->latestVersion()->url);
     }
 
     #[Depends('test_creates_song')]

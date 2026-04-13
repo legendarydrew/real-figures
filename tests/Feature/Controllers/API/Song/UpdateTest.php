@@ -25,7 +25,7 @@ final class UpdateTest extends TestCase
         parent::setUp();
 
         $language = Language::inRandomOrder()->first();
-        $this->song = Song::factory()->withAct()->withUrl()->createOne();
+        $this->song = Song::factory()->withAct()->withUrl(fake()->url)->createOne();
         $this->payload = [
             'title' => fake()->sentence(),
             'act_id' => Act::factory()->createOne()->id,
@@ -63,8 +63,8 @@ final class UpdateTest extends TestCase
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->song->id), $this->payload);
 
         $this->song->refresh();
-        self::assertInstanceOf(SongUrl::class, $this->song->url);
-        self::assertEquals($this->payload['url'], $this->song->url->url);
+        self::assertInstanceOf(SongUrl::class, $this->song->latestVersion());
+        self::assertEquals($this->payload['url'], $this->song->latestVersion()->url);
     }
 
     #[Depends('test_updates_song')]

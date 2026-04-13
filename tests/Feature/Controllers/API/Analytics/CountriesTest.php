@@ -52,13 +52,13 @@ final class CountriesTest extends TestCase
             [
                 'country' => fake()->country,
                 'countryId' => fake()->countryISOAlpha3,
-                'continent' => fake()->word,
+                'continent' => fake()->unique()->word,
                 'screenPageViews' => fake()->numberBetween(1, 200),
             ],
             [
                 'country' => fake()->country,
                 'countryId' => fake()->countryISOAlpha3,
-                'continent' => fake()->word,
+                'continent' => fake()->unique()->word,
                 'screenPageViews' => fake()->numberBetween(1, 200),
             ],
         ]));
