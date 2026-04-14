@@ -21,10 +21,11 @@ class SongController extends Controller
             'language_id' => Language::whereCode($data['language'])->first()->id,
         ]);
 
-        if (!empty($data['url']))
+        if (!empty($data['urls']))
         {
-            $payloads = array_map(fn($url) => ['url' => $url], $data['url']);
-            SongUrl::factory()->for($song)->create(new Sequence($payloads));
+            SongUrl::factory(count($data['urls']))->for($song)->create([
+                'url' => new Sequence(...array_map(fn($row) => $row['url'], $data['urls']))
+            ]);
         }
 
         return to_route('admin.songs');
@@ -37,7 +38,8 @@ class SongController extends Controller
         Song::findOrFail($song_id)->update($data);
 
         // Update any Song URLs, preserving IDs.
-        $existing_ids = array_filter(array_map(fn($row) => $row['id'] ?? false, $data['urls']));
+        $urls = $data['urls'] ?? [];
+        $existing_ids = array_filter(array_map(fn($row) => $row['id'] ?? false, $urls));
         if (count($existing_ids))
         {
             SongUrl::whereSongId($song_id)->whereNotIn('id', $existing_ids)->delete();
@@ -47,7 +49,7 @@ class SongController extends Controller
             SongUrl::whereSongId($song_id)->delete();
         }
 
-        foreach ($data['urls'] as $row)
+        foreach ($urls as $row)
         {
             SongUrl::updateOrCreate([...$row, 'song_id' => $song_id]);
         }

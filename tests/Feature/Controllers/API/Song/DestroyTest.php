@@ -4,6 +4,7 @@ namespace Tests\Feature\Controllers\API\Song;
 
 use App\Models\Act;
 use App\Models\Song;
+use App\Models\SongUrl;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
@@ -20,7 +21,7 @@ final class DestroyTest extends TestCase
     {
         parent::setUp();
 
-        $this->song = Song::factory()->withAct()->create();
+        $this->song = Song::factory()->withAct()->withUrl(fake()->url)->create();
     }
 
     public function test_as_guest(): void
@@ -49,5 +50,14 @@ final class DestroyTest extends TestCase
         $act = Act::find($this->song->act_id);
 
         self::assertInstanceOf(Act::class, $act);
+    }
+
+    #[Depends('test_as_user')]
+    public function test_deletes_urls(): void
+    {
+        $this->actingAs($this->user)->deleteJson(sprintf(self::ENDPOINT, $this->song->id));
+        $urls = SongUrl::whereSongId($this->song->id)->get();
+
+        self::assertEmpty($urls);
     }
 }
