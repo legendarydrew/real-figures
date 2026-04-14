@@ -20,7 +20,7 @@ class SongTransformer extends TransformerAbstract
                 'slug' => $song->act->slug,
                 'image' => $song->act->image,
             ],
-            'video_id' => $song->url ? $song->url->video_id : null,
+            'video_id' => $song->latestVersion()?->video_id ?? null,
         ];
     }
 }

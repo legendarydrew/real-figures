@@ -53,25 +53,29 @@ final class StoreTest extends TestCase
     }
 
     #[Depends('test_creates_song')]
-    public function test_creates_song_with_url(): void
+    public function test_creates_song_with_urls(): void
     {
-        $this->payload['url'] = fake()->url();
+        $this->payload['urls'] = [
+            ['url' => fake()->url],
+            ['url' => fake()->url],
+        ];
 
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
-        $song = Song::whereTitle($this->payload['title'])->first();
+        $song = Song::whereTitle($this->payload['title'])->with(['urls'])->first();
 
-        self::assertInstanceOf(SongUrl::class, $song->url);
-        self::assertEquals($this->payload['url'], $song->url->url);
+        self::assertCount(2, $song->urls);
+        self::assertInstanceOf(SongUrl::class, $song->latestVersion());
     }
 
     #[Depends('test_creates_song')]
     public function test_creates_song_without_url(): void
     {
-        $this->payload['url'] = null;
+        $this->payload['urls'] = null;
 
         $this->actingAs($this->user)->postJson(self::ENDPOINT, $this->payload);
-        $song = Song::whereTitle($this->payload['title'])->first();
+        $song = Song::whereTitle($this->payload['title'])->with(['urls'])->first();
 
-        self::assertNull($song->url);
+        self::assertEmpty($song->urls);
+        self::assertNull($song->latestVersion());
     }
 }

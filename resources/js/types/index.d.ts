@@ -115,6 +115,7 @@ export interface Song {
         image?: string;
     };
     url: string;
+    urls: string[];
     video_id?: string;
 }
 
