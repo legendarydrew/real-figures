@@ -7,6 +7,7 @@ use App\Http\Requests\SongRequest;
 use App\Models\Language;
 use App\Models\Song;
 use App\Models\SongUrl;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Http\RedirectResponse;
 
 class SongController extends Controller
@@ -15,13 +16,15 @@ class SongController extends Controller
     {
         $data = $request->validated();
         $song = Song::factory()->create([
-            'title' => $data['title'],
-            'act_id' => $data['act_id'],
+            'title'       => $data['title'],
+            'act_id'      => $data['act_id'],
             'language_id' => Language::whereCode($data['language'])->first()->id,
         ]);
 
-        if (! empty($data['url'])) {
-            SongUrl::factory()->for($song)->create(['url' => $data['url']]);
+        if (!empty($data['url']))
+        {
+            $payloads = array_map(fn($url) => ['url' => $url], $data['url']);
+            SongUrl::factory()->for($song)->create(new Sequence($payloads));
         }
 
         return to_route('admin.songs');
@@ -29,14 +32,24 @@ class SongController extends Controller
 
     public function update(SongRequest $request, int $song_id): RedirectResponse
     {
-        $data = $request->validated();
+        $data                = $request->validated();
         $data['language_id'] = Language::whereCode($data['language'])->first()->id;
         Song::findOrFail($song_id)->update($data);
 
-        if (! empty($data['url'])) {
-            SongUrl::updateOrCreate(['song_id' => $song_id], ['url' => $data['url']]);
-        } else {
+        // Update any Song URLs, preserving IDs.
+        $existing_ids = array_filter(array_map(fn($row) => $row['id'] ?? false, $data['urls']));
+        if (count($existing_ids))
+        {
+            SongUrl::whereSongId($song_id)->whereNotIn('id', $existing_ids)->delete();
+        }
+        else
+        {
             SongUrl::whereSongId($song_id)->delete();
+        }
+
+        foreach ($data['urls'] as $row)
+        {
+            SongUrl::updateOrCreate([...$row, 'song_id' => $song_id]);
         }
 
         return to_route('admin.songs');

@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/u
 import { LanguageFlag } from '@/components/mode/language-flag';
 import { LoadingButton } from '@/components/mode/loading-button';
 import { useLanguages } from '@/context/language-context';
+import { SongUrls } from '@/components/admin/song-urls';
 
 interface SongDialogProps {
     // Dialog properties.
@@ -31,7 +32,7 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
         act_id: '',
         title: '',
         language: 'en',
-        url: ''
+        urls: []
     });
 
     const { languageList, matchingLanguage } = useLanguages();
@@ -41,7 +42,7 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
             title: song?.title ?? '',
             act_id: song?.act_id ?? '',
             language: song?.language ?? 'en',
-            url: song?.url ?? ''
+            urls: song?.urls ?? []
         });
         clearErrors();
     }, [song]);
@@ -66,9 +67,9 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
         setError('language', '');
     };
 
-    const changeUrlHandler = (e: ChangeEvent) => {
-        setData('url', e.target.value);
-        setError('url', '');
+    const updateUrlsHandler = (value: string[]) => {
+        setData('urls', value);
+        setError('urls', '');
     };
 
     const getMatchingActName = (): string | null => {
@@ -150,11 +151,9 @@ export const SongDialog: FC<SongDialogProps> = ({ open, onOpenChange, song, acts
                     </div>
 
                     <div className="mb-2">
-                        <Label htmlFor="songUrl">URL</Label>
-                        <Input id="songUrl" type="text" value={data.url}
-                               placeholder="YouTube video embed URL"
-                               onChange={changeUrlHandler}/>
-                        <InputError message={errors.url}/>
+                        <Label>Video URLs</Label>
+                        <SongUrls urls={data.urls} onChange={updateUrlsHandler}/>
+                        <InputError message={errors.urls}/>
                     </div>
 
 

@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\Models\Song;
+use App\Models\SongUrl;
 use League\Fractal\TransformerAbstract;
 
 class SongAdminTransformer extends TransformerAbstract
@@ -23,6 +24,7 @@ class SongAdminTransformer extends TransformerAbstract
             'play_count' => (int)$song->play_count,
             'url'        => $song->latestVersion()?->url ?? null,
             'video_id'   => $song->latestVersion()?->video_id ?? null,
+            'urls'       => $song->urls->map(fn(SongUrl $url) => ['id' => $url->id, 'url' => $url->url])
         ];
     }
 }
