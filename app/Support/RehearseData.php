@@ -54,6 +54,9 @@ class RehearseData
             'name'             => 'Axel King',
             'subtitle'         => null,
             'genres'           => ['Blues', 'Rock'],
+            'song'             => [
+                'url' => 'https://youtu.be/cvLOkscTVLU',
+            ],
             'traits'           => [
                 'serious about his craft',
                 'passionate about rock and roll',
@@ -95,6 +98,9 @@ class RehearseData
             'name'             => 'Bryknii',
             'subtitle'         => 'ft. Kat Soo',
             'genres'           => ['EDM', 'K-Pop', 'Pop'],
+            'song'             => [
+                'url' => 'https://youtu.be/ZlpnKdnDl6I',
+            ],
             'traits'           => [
                 'Kat Soo: sassy, unashamedly female, highly suggestive',
                 'Bryknii: admires Kat Soo but primarily sees the pairing as another chance to win'
@@ -282,6 +288,9 @@ class RehearseData
         [
             'name'             => 'Forty Twos, the',
             'subtitle'         => null,
+            'song'             => [
+                'url' => 'https://youtu.be/PN9IODfFUag',
+            ],
             'genres'           => ['Barbershop'],
             'traits'           => [
                 'Perhaps overly confident about their chances of winning',
@@ -325,6 +334,9 @@ class RehearseData
             'name'             => 'High School Dropout',
             'subtitle'         => null,
             'genres'           => ['Rock'],
+            'song'             => [
+                'url' => 'https://youtu.be/48UnuOmf87w',
+            ],
             'traits'           => [
                 'Takes the F.O.L.D\'s treatment of the MODE Family personally',
                 'Confidently defiant',
@@ -436,6 +448,9 @@ class RehearseData
             'name'             => 'Marissa Wild',
             'subtitle'         => null,
             'genres'           => ['Pop'],
+            'song'             => [
+                'url' => 'https://youtu.be/PdvOFNFjXXc',
+            ],
             'traits'           => [
                 'Eager to show the younger Acts how it\'s done',
                 'Aware her time in the spotlight is over',
@@ -518,6 +533,9 @@ class RehearseData
             'name'             => 'RJ "Hound" Mercer',
             'subtitle'         => null,
             'genres'           => ['Blues'],
+            'song'             => [
+                'url' => 'https://youtu.be/4wzmAueMIzE',
+            ],
             'traits'           => [
                 'Faithful to his electric guitar',
                 'Traditional, perhaps old-fashioned',
@@ -637,6 +655,9 @@ class RehearseData
             'name'             => 'Vexon',
             'subtitle'         => null,
             'genres'           => ['EDM'],
+            'song'             => [
+                'url' => 'https://youtu.be/vqHHUuoeYrA',
+            ],
             'traits'           => [
                 'Most of the talking is done through the older members',
                 'The youngest is only consulted for soundbites',
@@ -661,6 +682,9 @@ class RehearseData
             'name'             => 'Violet Riot',
             'subtitle'         => null,
             'genres'           => ['Punk', 'Rock'],
+            'song'             => [
+                'url' => 'https://youtu.be/TvDHwelexFk',
+            ],
             'traits'           => [
                 'Extroverted, particularly the lead',
                 'Confident without being overly aggressive',
