@@ -17,7 +17,7 @@ class RoundAdminTransformer extends TransformerAbstract
             'title' => $round->title,
             'starts_at' => $round->starts_at->format('F d Y H:i'),
             'ends_at' => $round->ends_at->format('F d Y H:i'),
-            'vote_count' => $round->votes()->count(),
+            'vote_count' => $round->votes_count,
         ];
     }
 

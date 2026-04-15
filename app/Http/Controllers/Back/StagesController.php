@@ -15,8 +15,8 @@ class StagesController extends Controller
     public function index(): Response
     {
         return Inertia::render('back/stages-page', [
-            'stages' => fn () => fractal(Stage::all())->transformWith(StageAdminTransformer::class)->toArray(),
-            'songs' => fn () => fractal(Song::with(['act', 'language', 'urls'])
+            'stages' => fn () => fractal(Stage::with(['winners.round', 'winners.song.act', 'rounds' => fn($q) => $q->withCount('votes')])->get())->transformWith(StageAdminTransformer::class)->toArray(),
+            'songs' => fn () => fractal(Song::with(['act', 'language', 'urls', 'act.languages'])
                 ->withAggregate('act', 'name')
                 ->orderBy('act_name')
                 ->orderBy('title')

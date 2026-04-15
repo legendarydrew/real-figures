@@ -10,7 +10,7 @@ class SongAdminTransformer extends TransformerAbstract
 {
     public function transform(Song $song): array
     {
-        $song->act->loadMissing(['languages']);
+        $latestUrl = $song->urls->sortByDesc('id')->first();
         return [
             'id'         => (int)$song->id,
             'title'      => $song->title,
@@ -22,8 +22,8 @@ class SongAdminTransformer extends TransformerAbstract
                 'image'    => $song->act->image,
             ],
             'play_count' => (int)$song->play_count,
-            'url'        => $song->latestVersion()?->url ?? null,
-            'video_id'   => $song->latestVersion()?->video_id ?? null,
+            'url'        => $latestUrl?->url ?? null,
+            'video_id'   => $latestUrl?->video_id ?? null,
             'urls'       => $song->urls->map(fn(SongUrl $url) => ['id' => $url->id, 'url' => $url->url])
         ];
     }

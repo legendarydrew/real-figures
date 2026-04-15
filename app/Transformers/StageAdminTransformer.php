@@ -24,7 +24,7 @@ class StageAdminTransformer extends TransformerAbstract
                 'has_ended' => $stage->hasEnded(),
                 'manual_vote' => $stage->requiresManualVote(),
             ],
-            'winners' => fractal($stage->winners()->orderByDesc('is_winner')->orderByDesc('id')->get(), new StageWinnerTransformer),
+            'winners' => fractal($stage->winners->sortByDesc('is_winner')->sortByDesc('id'), new StageWinnerTransformer),
         ];
     }
 
