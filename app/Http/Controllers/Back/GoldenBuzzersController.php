@@ -12,7 +12,7 @@ class GoldenBuzzersController extends Controller
 {
     public function index(): Response
     {
-        $rows = GoldenBuzzer::orderByDesc('id')->paginate();
+        $rows = GoldenBuzzer::with(['round', 'song', 'song.act', 'song.language'])->orderByDesc('id')->paginate();
         $is_first_page = $rows->currentPage() === 1;
         $transformed_data = fractal($rows->items(), new GoldenBuzzerTransformer)->toArray();
 
