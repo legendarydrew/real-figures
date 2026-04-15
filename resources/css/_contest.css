@@ -22,6 +22,10 @@
     }
 }
 
+.contest-hype {
+    @apply aspect-video mx-auto my-12 w-full md:max-w-lg;
+}
+
 .contest-current-round {
     @apply p-4 bg-primary/50;
     @apply flex flex-col gap-4;

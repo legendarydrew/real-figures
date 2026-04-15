@@ -15,4 +15,11 @@
         <p>Your email address will only be used for sending notifications, and will
             not be shared with anyone else.</p>
     </div>
+
+    {{-- "Hype" video. --}}
+    <iframe class="contest-hype"
+            src="https://www.youtube-nocookie.com/embed/kyVJc9Q01AY?si=L1969HLY3PrJRT1o&amp;controls=0"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 @endsection
