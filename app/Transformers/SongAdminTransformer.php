@@ -4,10 +4,13 @@ namespace App\Transformers;
 
 use App\Models\Song;
 use App\Models\SongUrl;
+use League\Fractal\Resource\Primitive;
 use League\Fractal\TransformerAbstract;
 
 class SongAdminTransformer extends TransformerAbstract
 {
+    protected array $availableIncludes = ['play_count'];
+
     public function transform(Song $song): array
     {
         $latestUrl = $song->urls->sortByDesc('id')->first();
@@ -21,10 +24,14 @@ class SongAdminTransformer extends TransformerAbstract
                 'subtitle' => $song->act->subtitle,
                 'image'    => $song->act->image,
             ],
-            'play_count' => (int)$song->play_count,
             'url'        => $latestUrl?->url ?? null,
             'video_id'   => $latestUrl?->video_id ?? null,
             'urls'       => $song->urls->map(fn(SongUrl $url) => ['id' => $url->id, 'url' => $url->url])
         ];
+    }
+
+    public function includePlayCount(Song $song): Primitive
+    {
+       return $this->primitive((int)$song->play_count);
     }
 }

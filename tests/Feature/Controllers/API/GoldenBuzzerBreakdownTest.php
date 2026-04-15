@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\API;
+namespace Tests\Feature\Controllers\API;
 
 use App\Models\GoldenBuzzer;
 use App\Models\Stage;
