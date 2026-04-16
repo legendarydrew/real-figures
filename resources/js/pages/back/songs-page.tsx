@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import React, { RefObject, useMemo, useRef, useState } from 'react';
-import { ChevronDown, ChevronUp, Edit, Trash, VideoIcon } from 'lucide-react';
+import { ChevronDown, ChevronUp, Edit, MonitorPlayIcon, PlayIcon, Trash } from 'lucide-react';
 import { PaginatedResponse, Song } from '@/types';
 import { SongDialog } from '@/components/admin/song-dialog';
 import { LanguageFlag } from '@/components/mode/language-flag';
@@ -144,7 +144,7 @@ export default function SongsPage({ acts, songs }: Readonly<{ songs: PaginatedRe
                                         <Icon iconNode={sortIcon} className="h-3 inline"/>) : ''}
                                 </th>
                                 <th>
-                                    <VideoIcon/>
+                                    <PlayIcon/>
                                 </th>
                                 <th>&nbsp;</th>
                             </tr>
@@ -162,7 +162,7 @@ export default function SongsPage({ acts, songs }: Readonly<{ songs: PaginatedRe
                                     <td className="text-sm text-right">{song.play_count.toLocaleString()}</td>
                                     <td className="text-sm text-center">
                                         {song.url && <a href={song.url} target="_blank">
-                                            <VideoIcon/>
+                                            <MonitorPlayIcon/>
                                         </a>}
                                     </td>
                                     <td>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\API\Analytics;
+namespace Tests\Feature\Controllers\API\Analytics;
 
 use App\Models\Stage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;

@@ -55,20 +55,24 @@ class Song extends Model
         return $this->plays()->sum('play_count');
     }
 
-    public function getFullTitleAttribute(): string
-    {
-        return $this->act->name.' - '.$this->title;
-    }
-
     public function outcomes(): HasMany
     {
         return $this->hasMany(RoundOutcome::class);
     }
 
-    public function url(): HasOne
+    /**
+     * Returns the most recent URL associated with this Song.
+     *
+     * @return SongUrl|null
+     */
+    public function latestVersion(): SongUrl|null
     {
-        // We should be able to switch to HasMany without rebuilding the database.
-        return $this->hasOne(SongUrl::class);
+        return $this->urls()->latest()->first();
+    }
+
+    public function urls(): HasMany
+    {
+        return $this->hasMany(SongUrl::class);
     }
 
     public function goldenBuzzers(): HasMany
@@ -77,27 +81,20 @@ class Song extends Model
     }
 
     /**
-     * Returns TRUE if this Song can receive a Golden Buzzer.
-     */
-    public function canReceiveGoldenBuzzer(): bool
-    {
-        return DB::table('golden_buzzer_songs')
-            ->where('song_id', $this->id)
-            ->count() > 0;
-    }
-
-    /**
      * Set whether the song can receive Golden Buzzers.
      */
     public function setGoldenBuzzerStatus(bool $state): void
     {
-        if ($state) {
+        if ($state)
+        {
             DB::table('golden_buzzer_songs')
-                ->updateOrInsert(['song_id' => $this->id]);
-        } else {
+              ->updateOrInsert(['song_id' => $this->id]);
+        }
+        else
+        {
             DB::table('golden_buzzer_songs')
-                ->where('song_id', $this->id)
-                ->delete();
+              ->where('song_id', $this->id)
+              ->delete();
         }
     }
 
@@ -116,7 +113,8 @@ class Song extends Model
     {
         $win = $this->wins()->where('round_id', $round->id)->first();
 
-        if ($win) {
+        if ($win)
+        {
             return $win->is_winner ? RoundWinState::WINNER : RoundWinState::RUNNER_UP;
         }
 

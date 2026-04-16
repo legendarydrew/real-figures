@@ -74,7 +74,7 @@ class LanguagesSeeder extends Seeder
             ['code' => 'is', 'flag' => 'is', 'name' => 'Icelandic'],
             ['code' => 'it', 'flag' => 'it', 'name' => 'Italian'],
             ['code' => 'iw', 'flag' => 'iw', 'name' => 'Hebrew'],
-            ['code' => 'ja', 'flag' => 'ja', 'name' => 'Japanese'],
+            ['code' => 'ja', 'flag' => 'jp', 'name' => 'Japanese'],
             ['code' => 'ji', 'flag' => 'ji', 'name' => 'Yiddish'],
             ['code' => 'jw', 'flag' => 'jw', 'name' => 'Javanese'],
             ['code' => 'ka', 'flag' => 'ka', 'name' => 'Georgian'],
