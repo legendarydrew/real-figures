@@ -16,8 +16,11 @@ class ActsController extends Controller
 {
     public function index(): View
     {
-        $acts = Act::whereHas('songs')->get();
-        if ($acts->isNotEmpty()) {
+        $acts = Act::whereHas('songs')
+                   ->with(['profile', 'genres', 'goldenBuzzers', 'accolades', 'accolades.round', 'accolades.stage'])
+                   ->get();
+        if ($acts->isNotEmpty())
+        {
             return view('front.acts', [
                 'acts' => fractal($acts->sortBy('name'), new ActTransformer, '')
                     ->parseIncludes(['genres', 'profileContent', 'accolades'])
