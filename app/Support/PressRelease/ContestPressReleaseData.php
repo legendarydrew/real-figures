@@ -45,14 +45,14 @@ class ContestPressReleaseData extends PressReleaseData
         else
         {
             $output[] = Lang::get('press-release.contest.status.not-started');
-            $output[] = Lang::get('press-release.contest.status.acts');
-            $acts     = Act::whereHas('songs')
-                           ->with(['profile', 'genres', 'languages', 'members', 'traits', 'notes'])
-                           ->get();
-            foreach ($acts as $act)
-            {
-                $output[] = $this->getActInformation($act, 1);
-            }
+        }
+        $output[] = Lang::get('press-release.contest.status.acts');
+        $acts     = Act::whereHas('songs')
+                       ->with(['profile', 'genres', 'languages', 'members', 'traits', 'notes'])
+                       ->get();
+        foreach ($acts as $act)
+        {
+            $output[] = $this->getActInformation($act, 1);
         }
 
         $output[] = Lang::get('press-release.about.information');
@@ -65,7 +65,7 @@ class ContestPressReleaseData extends PressReleaseData
         $highlights = [];
         if (ContestFacade::isOver())
         {
-            $accolades    = StageWinner::get();
+            $accolades    = StageWinner::with(['song.act', 'round', 'stage'])->get();
             $highlights[] = Lang::get('press-release.contest.highlights.outcome') . "\n" .
                 $accolades->map(fn(StageWinner $accolade) => Lang::get('press-release.contest.highlights.accolades.' . ($accolade->is_winner ? 'winner' : 'runner-up'), [
                     'name'  => $accolade->song->act->full_name,

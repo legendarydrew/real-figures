@@ -102,27 +102,27 @@ export default function NewsGeneratePage({
     };
 
     const showBasicFields = (): boolean => {
-        return data.type && ['general', 'acts'].includes(data.type);
+        return data.type !== undefined && ['general', 'act'].includes(data.type);
     }
 
     const showActsField = (): boolean => {
-        return ['act'].includes(data.type);
+        return data.type !== undefined && ['act'].includes(data.type);
     }
 
     const showStageField = (): boolean => {
-        return ['stage'].includes(data.type);
+        return data.type !== undefined && ['stage'].includes(data.type);
     }
 
     const showRoundField = (): boolean => {
-        return ['round'].includes(data.type);
+        return data.type !== undefined && ['round'].includes(data.type);
     }
 
     const showHighlightsField = (): boolean => {
-        return ['general'].includes(data.type);
+        return data.type !== undefined && ['general'].includes(data.type);
     }
 
     const showHistoryField = (): boolean => {
-        return data.type && !['results'].includes(data.type);
+        return data.type !== undefined && !['results'].includes(data.type);
     }
 
     const titleHandler = (e): void => {

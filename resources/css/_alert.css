@@ -23,7 +23,7 @@
     }
 
     .alert-icon {
-        @apply text-lg;
+        @apply flex-shrink-0 text-lg;
     }
 
     .alert-text {

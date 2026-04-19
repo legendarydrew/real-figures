@@ -17,8 +17,12 @@ class NewsPromptRequest extends FormRequest
     {
         return [
             'type'         => ['required', Rule::enum(NewsPostType::class)],
-            'prompt'       => ['nullable', 'required_if:type,' . NewsPostType::GENERAL->value, 'string'], // required in some instances.
-            'title'        => ['nullable', 'required_if:type,' . NewsPostType::GENERAL->value, 'string'],
+            'title'        => ['nullable',
+                Rule::requiredIf(fn() => in_array($this->type, [NewsPostType::GENERAL->value, NewsPostType::ACT->value])),
+                'string'],
+            'prompt'       => ['nullable',
+                Rule::requiredIf(fn() => in_array($this->type, [NewsPostType::GENERAL->value, NewsPostType::ACT->value])),
+                'string'],
             'quote'        => ['nullable', 'string'],
             'highlights'   => ['array'],
             'highlights.*' => ['string'],

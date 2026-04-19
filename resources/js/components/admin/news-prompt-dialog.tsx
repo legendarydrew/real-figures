@@ -51,11 +51,10 @@ export const NewsPromptDialog: FC<NewsPromptDialogProps> = ({ open, onOpenChange
         axios.post(route('news.generate'), payload)
             .then((response) => {
                 // If successful, we should automatically go to the edit page for the News Post.
-                router.visit(route('news.edit', { id: response.data.id }));
+                router.visit(route('admin.news.edit', { id: response.data.id }));
             })
             .catch((err) => {
-                console.log(err.response.data.message);
-                setError(err.response.data.message);
+                setError(err.response?.data.message);
             })
             .finally(() => {
                 setIsGenerating(false);

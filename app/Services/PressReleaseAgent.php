@@ -51,7 +51,7 @@ class PressReleaseAgent
 
     public function __construct()
     {
-        $this->model = config('contest.ai.model', 'gpt-4.1-mini');
+        $this->model = config('contest.ai.model');
     }
 
     /**
@@ -64,8 +64,8 @@ class PressReleaseAgent
     {
         $payload = $data->toArray();
 
-        $max_attempts = config('ai.retry.attempts', 3);
-        $backoff      = config('ai.retry.backoff_ms', 150);
+        $max_attempts = config('contest.ai.retry.attempts', 3);
+        $backoff      = config('contest.ai.retry.backoff_ms', 150);
 
         $last_error = null;
 
@@ -94,6 +94,9 @@ class PressReleaseAgent
 
                 return $this->mapToResult($decoded);
             }
+            catch (\OpenAI\Exceptions\ErrorException $e) {
+                abort(500, 'PressReleaseAgent failed: ' . $e->getMessage());
+            }
             catch (Throwable $e)
             {
                 $last_error = $e;
@@ -119,7 +122,7 @@ class PressReleaseAgent
         $temperature = max(0.2, $baseTemp - (($attempt - 1) * 0.2));
 
         return OpenAI::chat()->create([
-            'model'           => config('ai.model'),
+            'model'           => config('contest.ai.model'),
             'temperature'     => $temperature,
             'response_format' => ['type' => 'json_object'],
             'messages'        => [

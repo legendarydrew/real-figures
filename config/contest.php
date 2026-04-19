@@ -37,7 +37,7 @@ return [
         // 0-100 for how biased the "panel" will be toward the manual vote.
     ],
     'ai'        => [
-        'model'       => 'gpt-4o-mini',
+        'model'       => env('OPENAI_MODEL', 'gpt-4.1-mini'),
         'temperature' => [
             // controls the level of "creativity"/"weirdness" in responses (0 = restrained, 1 = risky).
             \App\Enums\NewsPostType::GENERAL->value => 0.6,
