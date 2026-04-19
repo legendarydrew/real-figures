@@ -51,7 +51,7 @@ class PressReleaseAgent
 
     public function __construct()
     {
-        $this->model = config('contest.ai.model', 'gpt-4.1-mini');
+        $this->model = config('contest.ai.model');
     }
 
     /**
