@@ -12,9 +12,15 @@ General rules:
 - Open with a clear summary (who, what, why it matters)
 - Match tone to the press release type
 - Use vivid but controlled language (avoid fluff)
-- Include quotes when provided or generate one if missing
+- Include quotes when provided, or generate one if missing
 - End with a clear call to action
 - Capitalise references to the Contest, Stages, Rounds and Acts
+- Do not mention Act ranks, but assume the following:
+    - Dominant: the Act is one of CATAWOL Records' most prominent signings
+    - Loved: the Act has a very strong fan following
+    - Divisive: the Act has an equal amount of fans and critics
+    - Underdog: the Act is not as popular as the others
+    - Wildcard: the Act is relatively unknown.
 
 Press release types and styles:
 
