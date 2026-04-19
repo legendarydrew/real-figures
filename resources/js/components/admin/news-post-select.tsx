@@ -27,7 +27,7 @@ export const NewsPostSelect: React.FC<Props> = ({
         onChange(updated);
     }
 
-    return posts?.length && (
+    return posts?.length ? (
         <section>
             <Label>News Post references <span className="text-muted-foreground">(optional)</span></Label>
             <ul className="border max-h-48 overflow-y-auto">
@@ -45,5 +45,5 @@ export const NewsPostSelect: React.FC<Props> = ({
                 ))}
             </ul>
         </section>
-    );
+    ) : '';
 };

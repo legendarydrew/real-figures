@@ -52,6 +52,8 @@ abstract class PressReleaseData
 
     /**
      * Returns available information about the specified Act.
+     * To avoid N+1 query issues, it's important to ensure that the necessary relations are prefetched.
+     * ['profile', 'genres', 'languages', 'members', 'traits', 'notes']
      *
      * @param Act $act
      * @param int $indent
@@ -59,8 +61,6 @@ abstract class PressReleaseData
      */
     protected function getActInformation(Act $act, int $indent = 0): string
     {
-        $act->loadMissing(['profile', 'genres', 'languages', 'members', 'traits', 'notes']);
-
         $indent_spaces = str_repeat('  ', $indent);
         $output        = [$indent_spaces . $act->full_name];
 
