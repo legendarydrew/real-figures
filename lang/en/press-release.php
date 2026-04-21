@@ -92,7 +92,7 @@ PROMPT,
 
 About the Contest:
 
-CATAWOL Records is hosting Real Figures Don't F.O.L.D: a Song Contest featuring Acts signed to the label, to raise awareness of adult bullying in hobby spaces.
+CATAWOL Records is hosting "Real Figures Don't F.O.L.D", a Song Contest featuring Acts signed to the label, to raise awareness of adult bullying in hobby spaces.
 The Song Contest is a collaboration between CATAWOL Records and an independent group called the MODE Family, which has been under attack by a group known as the F.O.L.D.
 The Contest aims to raise money for charity, particularly those involved in addressing bullying and mental health issues.
 INFO,
