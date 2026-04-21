@@ -44,7 +44,7 @@
     }
 
     blockquote {
-        @apply border-l-4 border-secondary p-5 font-display text-lg text-secondary leading-1.5 my-8;
+        @apply border-l-4 border-secondary p-5 font-display text-lg text-secondary leading-1.5 mt-2 mb-8;
 
         > p {
             @apply m-0 lg:max-w-4/5;
