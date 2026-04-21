@@ -1,6 +1,6 @@
 /* CONTENT styles: used for controlling converted markdown content. */
 
-.content {
+@utility content {
     @apply leading-tight;
 
     .content-intro {
