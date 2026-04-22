@@ -58,7 +58,7 @@ export default function ManualVotePage({ stage, rounds }: Readonly<ManualVotePag
 
     const submitHandler = (e): void => {
         e.preventDefault();
-        post(route('stages.manual-vote.store', { id: stage.id }));
+        post(route('admin.manual-vote.store', { id: stage.id }));
     };
 
     return (
