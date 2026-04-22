@@ -109,6 +109,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     }, [markdown]);
 
     useEffect(() => {
+        document.getElementById(id).parentNode.dataset.clonedVal = value;
         setMarkdown(value);
     }, [value]);
 
@@ -121,7 +122,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     return (
         <>
             {/* Toolbar. */}
-            <div className="flex justify-between mb-1">
+            <div className="flex justify-between mb-1 sticky top-4">
 
                 <div className="flex gap-1">
                     <Button className="p-1" type="button" size="icon"
@@ -181,7 +182,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                         disabled={disabled}
                         value={markdown}
                         onChange={changeHandler}
-                        className="min-h-32 font-mono"
+                        className="min-h-32 max-h-120 font-mono"
                     />
                 </div>
             )
