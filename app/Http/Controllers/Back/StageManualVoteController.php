@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Back;
 
 use App\Facades\ContestFacade;
 use App\Http\Controllers\Controller;
