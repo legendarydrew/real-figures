@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Job;
 
+use App\Facades\ContestFacade;
 use App\Jobs\EndOfRound;
 use App\Models\Round;
 use App\Models\RoundSongs;
@@ -45,6 +46,15 @@ final class EndOfRoundTest extends TestCase
         self::assertEquals(0, $this->round->outcomes()->count());
     }
 
+    public function test_builds_outcomes(): void
+    {
+        $spy = ContestFacade::spy();
+        EndOfRound::dispatch($this->round);
+
+        $spy->shouldHaveReceived('buildRoundOutcomes');
+    }
+
+    #[Depends('test_builds_outcomes')]
     public function test_after_round_end(): void
     {
         EndOfRound::dispatch($this->round);

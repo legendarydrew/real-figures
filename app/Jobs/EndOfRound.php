@@ -17,7 +17,7 @@ class EndOfRound implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(private readonly Round $round) {}
+    public function __construct(public readonly Round $round) {}
 
     public function handle(): void
     {
@@ -31,7 +31,7 @@ class EndOfRound implements ShouldQueue
         }
 
         // Check for existing RoundOutcomes. If there are any, there is nothing to do.
-        if ($this->round->outcomes()->count()) {
+        if ($this->round->outcomes->isNotEmpty()) {
             $this->delete();
 
             return;
