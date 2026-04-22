@@ -17,21 +17,16 @@ class EndOfRound implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(private readonly Round $round) {}
+    public function __construct(public readonly Round $round) {}
 
     public function handle(): void
     {
         // Check that the Round has both started and ended.
         // This should also catch an edge case where the start time is after the end time.
-        $now = now();
-        if (! ($this->round->starts_at < $now && $this->round->ends_at < $now)) {
-            $this->delete();
-
-            return;
-        }
-
-        // Check for existing RoundOutcomes. If there are any, there is nothing to do.
-        if ($this->round->outcomes()->count()) {
+        // We also check whether RoundOutcomes already exist.
+        $round_is_over = $this->round->hasStarted() && $this->round->hasEnded();
+        $round_has_outcomes = $this->round->outcomes->isNotEmpty();
+        if (!$round_is_over || $round_has_outcomes) {
             $this->delete();
 
             return;
