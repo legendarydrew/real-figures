@@ -23,7 +23,8 @@ class CheckEndedRounds implements ShouldQueue
      */
     public function handle(): void
     {
-        Round::each(function (Round $round)
+        $rounds = Round::all();
+        $rounds->each(function (Round $round)
         {
             if ($round->hasEnded())
             {

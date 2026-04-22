@@ -38,8 +38,12 @@ return Application::configure(basePath: dirname(__DIR__))
                   ->withSchedule(function (\Illuminate\Console\Scheduling\Schedule $schedule)
                   {
                       // Define scheduled tasks here. (Don't forget to define a cron task.)
-                      $schedule->call(CheckEndedRounds::class)->everyMinute();
-                      $schedule->call(PurgeUnconfirmedSubscribers::class)->hourly();
+                      // To run/test these locally, you'll have to call
+                      //    artisan schedule:run
+                      // and then
+                      //    artisan queue:work.
+                      $schedule->job(CheckEndedRounds::class)->everyMinute();
+                      $schedule->job(PurgeUnconfirmedSubscribers::class)->hourly();
                   })
                   ->withExceptions(function (Exceptions $exceptions)
                   {
