@@ -17,10 +17,11 @@ class StageVotesController extends Controller
 {
     public function show(int $stage_id): JsonResponse
     {
-        $stage = Stage::findOrFail($stage_id);
-        if ($stage->hasEnded() && $stage->outcomes()->count()) {
+        $stage = Stage::with(['rounds', 'rounds.songs', 'rounds.songs.act', 'outcomes'])->findOrFail($stage_id);
+        if ($stage->hasEnded() && $stage->outcomes()->count())
+        {
             return response()->json(
-                $stage->rounds->map(fn ($round) => VoteBreakdownFacade::forRound($round))
+                $stage->rounds->map(fn($round) => VoteBreakdownFacade::forRound($round))
             );
         }
 
