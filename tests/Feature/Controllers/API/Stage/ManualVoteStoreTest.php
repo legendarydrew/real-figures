@@ -15,7 +15,7 @@ final class ManualVoteStoreTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected const string ENDPOINT = 'api/stages/%u/manual-vote';
+    protected const string ENDPOINT = 'admin/stages/%u/manual-vote';
 
     private Stage $stage;
 
