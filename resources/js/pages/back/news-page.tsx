@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import React, { RefObject, useRef, useState } from 'react';
-import { Edit, MicrochipIcon, NewspaperIcon, Trash } from 'lucide-react';
+import { Edit, MegaphoneIcon, MicrochipIcon, NewspaperIcon, Trash } from 'lucide-react';
 import { NewsPost, PaginatedResponse } from '@/types';
 import { Pagination } from '@/components/admin/pagination';
 import { DestructiveDialog } from '@/components/admin/destructive-dialog';
@@ -11,6 +11,7 @@ import { RTToast } from '@/components/mode/toast-message';
 import { Nothing } from '@/components/mode/nothing';
 import { Badge } from '@/components/ui/badge';
 import { AdminHeader } from '@/components/admin/admin-header';
+import axios from 'axios';
 
 export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<NewsPost> }>) {
 
@@ -42,6 +43,16 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
 
     const editHandler = (post: NewsPost): void => {
         router.visit(route('admin.news.edit', { id: post.id }));
+    }
+
+    const pingHandler = (post: NewsPost): void => {
+        axios.put(route('news.ping', { id: post.id }))
+            .then(() => {
+                RTToast.success('News post was pinged.');
+            })
+            .catch(() => {
+                RTToast.error('News post could not be pinged.');
+            });
     }
 
     const deleteHandler = (post: NewsPost): void => {
@@ -81,7 +92,7 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
                     </Button>
                     <Button asChild variant="secondary">
                         <Link href={route('admin.news-generate')}>
-                            <MicrochipIcon className="size-4" /> Generate
+                            <MicrochipIcon className="size-4"/> Generate
                         </Link>
                     </Button>
                 </AdminHeader>
@@ -91,7 +102,7 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
                         <table className="admin-table">
                             <thead>
                             <tr>
-                                <th scope="col" />
+                                <th scope="col"/>
                                 <th scope="col">Status</th>
                                 <th scope="col">Published</th>
                                 <th scope="col">Updated</th>
@@ -107,17 +118,25 @@ export default function NewsPage({ posts }: Readonly<{ posts: PaginatedResponse<
                                             className="font-normal text-sm text-wrap leading-tight">{post.excerpt}</div>}
                                     </th>
                                     <td className="text-center">
-                                        {post.published_at ? (<Badge variant="affirmative">Published</Badge>) : (<Badge variant="secondary">Draft</Badge>)}
+                                        {post.published_at ? (<Badge variant="affirmative">Published</Badge>) : (
+                                            <Badge variant="secondary">Draft</Badge>)}
                                     </td>
                                     <td className="text-center">{post.published_at ?? '-'}</td>
                                     <td className="text-center">{post.updated_at}</td>
                                     <td>
                                         <div className="toolbar">
-                                            <Button asChild size="sm" variant="outline" className="p-2" title="View Post">
+                                            <Button asChild size="sm" variant="outline" className="p-2"
+                                                    title="View Post">
                                                 <Link href={post.url}>
                                                     <NewspaperIcon className="size-4"/>
                                                 </Link>
                                             </Button>
+                                            {post.published_at && (
+                                                <Button size="sm" variant="checked" className="p-2" title="Ping! Post"
+                                                        onClick={() => pingHandler(post)}>
+                                                    <MegaphoneIcon className="size-4"/>
+                                                </Button>
+                                            )}
                                             <Button variant="secondary" size="sm" className="p-2"
                                                     onClick={() => editHandler(post)}
                                                     title="Edit Post">

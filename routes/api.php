@@ -32,6 +32,7 @@ use App\Http\Controllers\API\GoldenBuzzerBreakdownController;
 use App\Http\Controllers\API\GoldenBuzzerController;
 use App\Http\Controllers\API\LanguagesController;
 use App\Http\Controllers\API\NewsGenerateController;
+use App\Http\Controllers\API\NewsPostPingController;
 use App\Http\Controllers\API\NewsPromptController;
 use App\Http\Controllers\API\SongController;
 use App\Http\Controllers\API\SongPlayController;
@@ -51,7 +52,8 @@ Route::pattern('id', '[0-9]+');
 // ----------------------------------------------------------------------------
 // API endpoints.
 // ----------------------------------------------------------------------------
-Route::prefix('/api')->group(function () {
+Route::prefix('/api')->group(function ()
+{
     // Routes accessible without authentication.
     Route::post('donation', [DonationController::class, 'store']);
     Route::post('golden-buzzer', [GoldenBuzzerController::class, 'store']);
@@ -62,7 +64,8 @@ Route::prefix('/api')->group(function () {
     Route::post('vote', [VoteController::class, 'store'])->name('vote');
 
     // Routes accessible with authentication.
-    Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware(['auth', 'verified'])->group(function ()
+    {
         Route::get('acts', [ActController::class, 'index']);
         Route::get('acts/{id}', [ActController::class, 'show'])->name('acts.show');
         Route::post('acts', [ActController::class, 'store'])->name('acts.store');
@@ -97,6 +100,7 @@ Route::prefix('/api')->group(function () {
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
 
         Route::post('news/generate', [NewsGenerateController::class, 'store'])->name('news.generate');
+        Route::put('news/{id}/ping', [NewsPostPingController::class, 'update'])->name('news.ping');
         Route::post('news/prompt', [NewsPromptController::class, 'store'])->name('news.prompt');
 
         Route::post('news', [NewsController::class, 'store'])->name('news.store');
