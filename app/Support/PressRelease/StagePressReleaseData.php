@@ -22,6 +22,7 @@ class StagePressReleaseData extends PressReleaseData
 
     public function __construct(
         public int $stage_id,
+        string $description,
     )
     {
         $this->stage          = Stage::findOrFail($this->stage_id);
@@ -32,7 +33,7 @@ class StagePressReleaseData extends PressReleaseData
         parent::__construct(
             type: NewsPostType::STAGE,
             title: Lang::get('press-release.stage.title', ['stage' => $this->stage->title]),
-            description: $this->buildDescription(),
+            description: $this->buildDescription() . (!empty($description) ? "\n\n$description" : ''),
             highlights: $this->buildHighlights(),
         );
     }

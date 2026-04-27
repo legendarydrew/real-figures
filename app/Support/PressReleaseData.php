@@ -23,7 +23,7 @@ abstract class PressReleaseData
         return array_filter([
             'type'        => $this->type->value,
             'title'       => $this->title,
-            'description' => $this->buildDescription(),
+            'description' => $this->description,
             'highlights'  => $this->highlights,
             'quote'       => $this->quote,
         ], fn($value) => $value !== null);

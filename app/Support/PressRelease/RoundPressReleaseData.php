@@ -22,7 +22,8 @@ class RoundPressReleaseData extends PressReleaseData
     private Collection $acts;
 
     public function __construct(
-        public int $round_id
+        public int    $round_id,
+        public string $description
     )
     {
         $this->round = Round::findOrFail($this->round_id);
@@ -31,7 +32,7 @@ class RoundPressReleaseData extends PressReleaseData
         parent::__construct(
             type: NewsPostType::ROUND,
             title: Lang::get('press-release.round.title', ['round' => $this->round->full_title]),
-            description: $this->buildDescription(),
+            description: $this->buildDescription() . (!empty($description) ? "\n\n$description" : ''),
             highlights: $this->buildHighlights()
         );
     }

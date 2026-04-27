@@ -18,13 +18,13 @@ use Illuminate\Support\Facades\Lang;
  */
 class ContestPressReleaseData extends PressReleaseData
 {
-    public function __construct()
+    public function __construct(string $description)
     {
 
         parent::__construct(
             type: NewsPostType::CONTEST,
             title: Lang::get('press-release.contest.title'),
-            description: $this->buildDescription(),
+            description: $this->buildDescription() . (!empty($description) ? "\n\n$description" : ''),
             highlights: $this->buildHighlights()
         );
     }

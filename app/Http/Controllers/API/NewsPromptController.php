@@ -24,7 +24,6 @@ class NewsPromptController extends Controller
         switch ($data['type'])
         {
             case NewsPostType::GENERAL->value:
-                // Nothing to do, except ensure there is actually a prompt.
                 $prompt = new GeneralPressReleaseData(
                     title: $data['title'],
                     description: $data['prompt'],
@@ -43,23 +42,25 @@ class NewsPromptController extends Controller
                 break;
 
             case NewsPostType::CONTEST->value:
-                $prompt = new ContestPressReleaseData();
+                $prompt = new ContestPressReleaseData($data['prompt'] ?? '');
                 break;
 
             case NewsPostType::ROUND->value:
                 $prompt = new RoundPressReleaseData(
-                    $data['round']
+                    $data['round'],
+                    $data['prompt'] ?? ''
                 );
                 break;
 
             case NewsPostType::STAGE->value:
                 $prompt = new StagePressReleaseData(
-                    $data['stage']
+                    $data['stage'],
+                    $data['prompt'] ?? ''
                 );
                 break;
 
             case NewsPostType::RESULTS->value:
-                $prompt = new ResultsPressReleaseData();
+                $prompt = new ResultsPressReleaseData($data['prompt'] ?? '');
                 break;
 
             default:
