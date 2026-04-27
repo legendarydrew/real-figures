@@ -245,12 +245,13 @@ class PressReleaseAgent
     /**
      * Generate a press release about the current results of the Contest.
      *
+     * @param ResultsPressReleaseData $data
      * @return PressReleaseResponse
      * @throws PressReleaseException
      */
-    public function resultsPressRelease(): PressReleaseResponse
+    public function resultsPressRelease(ResultsPressReleaseData $data): PressReleaseResponse
     {
-        return $this->run(new ResultsPressReleaseData());
+        return $this->run($data);
     }
 
     /**
@@ -269,13 +270,14 @@ class PressReleaseAgent
     /**
      * Generate a press release about the current state of the Contest.
      *
-     * @param array $history
+     * @param string $description
+     * @param array  $history
      * @return PressReleaseResponse
      * @throws PressReleaseException
      */
-    public function contestPressRelease(array $history = []): PressReleaseResponse
+    public function contestPressRelease(string $description, array $history = []): PressReleaseResponse
     {
-        return $this->run(new ContestPressReleaseData(), $history);
+        return $this->run(new ContestPressReleaseData($description), $history);
     }
 
 }

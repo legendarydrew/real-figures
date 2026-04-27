@@ -105,6 +105,10 @@ export default function NewsGeneratePage({
         return data.type !== undefined && ['general', 'act'].includes(data.type);
     }
 
+    const showPromptField = (): boolean => {
+        return data.type !== undefined;
+    }
+
     const showActsField = (): boolean => {
         return data.type !== undefined && ['act'].includes(data.type);
     }
@@ -273,27 +277,29 @@ export default function NewsGeneratePage({
 
                     {/* Additional prompt. */}
                     {showBasicFields() && (
-                        <>
-                            <div>
-                                <Label htmlFor="postTitle">Post title</Label>
-                                <Input id="postTitle" placeholder="Suggested title" onChange={titleHandler}/>
-                                <InputError message={validation?.title}/>
-                            </div>
-                            <div>
-                                <Label htmlFor="postPrompt">Prompt</Label>
-                                <ExpandingTextarea id="postPrompt"
-                                                   placeholder="Information that could help the generator."
-                                                   className="max-h-40"
-                                                   onChange={promptHandler}/>
-                                <InputError message={validation?.prompt}/>
-                            </div>
-                            <div>
-                                <Label htmlFor="postQuote">Quote <span
-                                    className="text-muted-foreground">(optional)</span></Label>
-                                <ExpandingTextarea id="postQuote" className="max-h-20" onChange={quoteHandler}/>
-                                <InputError message={validation?.quote}/>
-                            </div>
-                        </>
+                        <div>
+                            <Label htmlFor="postTitle">Post title</Label>
+                            <Input id="postTitle" placeholder="Suggested title" onChange={titleHandler}/>
+                            <InputError message={validation?.title}/>
+                        </div>
+                    )}
+                    {showPromptField() && (
+                    <div>
+                        <Label htmlFor="postPrompt">Prompt</Label>
+                        <ExpandingTextarea id="postPrompt"
+                                           placeholder="Information that could help the generator."
+                                           className="max-h-40"
+                                           onChange={promptHandler}/>
+                        <InputError message={validation?.prompt}/>
+                    </div>
+                    )}
+                    {showBasicFields() && (
+                        <div>
+                            <Label htmlFor="postQuote">Quote <span
+                                className="text-muted-foreground">(optional)</span></Label>
+                            <ExpandingTextarea id="postQuote" className="max-h-20" onChange={quoteHandler}/>
+                            <InputError message={validation?.quote}/>
+                        </div>
                     )}
 
                     {showHighlightsField() && (

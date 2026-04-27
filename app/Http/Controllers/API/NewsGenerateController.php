@@ -10,6 +10,7 @@ use App\Models\NewsPost;
 use App\Services\PressReleaseAgent;
 use App\Support\PressRelease\ActPressReleaseData;
 use App\Support\PressRelease\GeneralPressReleaseData;
+use App\Support\PressRelease\ResultsPressReleaseData;
 use App\Support\PressRelease\RoundPressReleaseData;
 use App\Support\PressRelease\StagePressReleaseData;
 use Illuminate\Http\JsonResponse;
@@ -68,22 +69,31 @@ class NewsGenerateController extends Controller
 
             case NewsPostType::STAGE->value:
                 $result = $agent->stagePressRelease(
-                    new StagePressReleaseData($data['stage']), $history
+                    new StagePressReleaseData(
+                        $data['stage'],
+                        description: $data['prompt'] ?? '',
+                    ), $history
                 );
                 break;
 
             case NewsPostType::RESULTS->value:
-                $result = $agent->resultsPressRelease();
+                $result = $agent->resultsPressRelease(
+                    new ResultsPressReleaseData($data['prompt'] ?? '')
+                );
                 break;
 
             case NewsPostType::ROUND->value:
                 $result = $agent->roundPressRelease(
-                    new RoundPressReleaseData($data['round']), $history
+                    new RoundPressReleaseData(
+                        $data['round'],
+                        description: $data['prompt'] ?? '',
+                    ),
+                    history: $history
                 );
                 break;
 
             case NewsPostType::CONTEST->value:
-                $result = $agent->contestPressRelease($history);
+                $result = $agent->contestPressRelease($data['prompt'] ?? '',$history);
                 break;
 
             default:

@@ -18,12 +18,12 @@ use Illuminate\Support\Facades\Lang;
  */
 class ResultsPressReleaseData extends PressReleaseData
 {
-    public function __construct()
+    public function __construct(string $description)
     {
         parent::__construct(
             type: NewsPostType::RESULTS,
             title: Lang::get('press-release.results.title'),
-            description: $this->buildDescription(),
+            description: $this->buildDescription() . (!empty($description) ? "\n\n$description" : ''),
             highlights: $this->buildHighlights(),
         );
     }

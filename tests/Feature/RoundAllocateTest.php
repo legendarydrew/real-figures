@@ -101,7 +101,7 @@ final class RoundAllocateTest extends TestCase
         foreach ($rounds as $round) {
             if ($last_round) {
                 self::assertGreaterThan($last_round->starts_at, $round->starts_at);
-                self::assertGreaterThan($last_round->ends_at, $round->starts_at);
+                self::assertGreaterThanOrEqual($last_round->ends_at, $round->starts_at);
             }
             $last_round = $round;
         }

@@ -32,12 +32,12 @@ use App\Http\Controllers\API\GoldenBuzzerBreakdownController;
 use App\Http\Controllers\API\GoldenBuzzerController;
 use App\Http\Controllers\API\LanguagesController;
 use App\Http\Controllers\API\NewsGenerateController;
+use App\Http\Controllers\API\NewsPostPingController;
 use App\Http\Controllers\API\NewsPromptController;
 use App\Http\Controllers\API\SongController;
 use App\Http\Controllers\API\SongPlayController;
 use App\Http\Controllers\API\StageAllocateController;
 use App\Http\Controllers\API\StageController;
-use App\Http\Controllers\API\StageManualVoteController;
 use App\Http\Controllers\API\StageRoundsController;
 use App\Http\Controllers\API\StageVotesController;
 use App\Http\Controllers\API\StageWinnersController;
@@ -52,7 +52,8 @@ Route::pattern('id', '[0-9]+');
 // ----------------------------------------------------------------------------
 // API endpoints.
 // ----------------------------------------------------------------------------
-Route::prefix('/api')->group(function () {
+Route::prefix('/api')->group(function ()
+{
     // Routes accessible without authentication.
     Route::post('donation', [DonationController::class, 'store']);
     Route::post('golden-buzzer', [GoldenBuzzerController::class, 'store']);
@@ -63,7 +64,8 @@ Route::prefix('/api')->group(function () {
     Route::post('vote', [VoteController::class, 'store'])->name('vote');
 
     // Routes accessible with authentication.
-    Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware(['auth', 'verified'])->group(function ()
+    {
         Route::get('acts', [ActController::class, 'index']);
         Route::get('acts/{id}', [ActController::class, 'show'])->name('acts.show');
         Route::post('acts', [ActController::class, 'store'])->name('acts.store');
@@ -98,6 +100,7 @@ Route::prefix('/api')->group(function () {
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
 
         Route::post('news/generate', [NewsGenerateController::class, 'store'])->name('news.generate');
+        Route::put('news/{id}/ping', [NewsPostPingController::class, 'update'])->name('news.ping');
         Route::post('news/prompt', [NewsPromptController::class, 'store'])->name('news.prompt');
 
         Route::post('news', [NewsController::class, 'store'])->name('news.store');
@@ -118,8 +121,6 @@ Route::prefix('/api')->group(function () {
         Route::patch('stages/{id}', [StageController::class, 'update'])->name('stages.update');
         Route::delete('stages/{id}', [StageController::class, 'destroy'])->name('stages.destroy');
         Route::post('stages/{id}/allocate', [StageAllocateController::class, 'store'])->name('stages.allocate');
-        Route::get('stages/{id}/manual-vote', [StageManualVoteController::class, 'show'])->name('stages.manual-vote.show');
-        Route::post('stages/{id}/manual-vote', [StageManualVoteController::class, 'store'])->name('stages.manual-vote.store');
         Route::get('stages/{id}/rounds', [StageRoundsController::class, 'show'])->name('stages.rounds');
         Route::get('stages/{id}/votes', [StageVotesController::class, 'show'])->name('stages.votes');
         Route::post('stages/{id}/winners', [StageWinnersController::class, 'store'])->name('stages.winners');

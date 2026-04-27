@@ -35,7 +35,7 @@ export const StageItem: React.FC<StageItemProps> = ({
     }
 
     const manualVoteHandler = () => {
-        router.get(route('stages.manual-vote.show', { id: stage.id }), {}, {
+        router.get(route('admin.manual-vote.show', { id: stage.id }), {}, {
             onError: (response) => {
                 RTToast.error(response[0]);
             }
