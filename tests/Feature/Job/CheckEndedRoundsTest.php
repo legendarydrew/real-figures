@@ -1,6 +1,6 @@
 <?php
 
-namespace Job;
+namespace Tests\Feature\Job;
 
 use App\Jobs\CheckEndedRounds;
 use App\Jobs\EndOfRound;
