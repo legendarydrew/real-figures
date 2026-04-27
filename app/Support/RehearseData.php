@@ -20,12 +20,12 @@ class RehearseData
     const array STAGES = [
         [
             'title'               => 'Stage 1: Knockouts',
-            'description'         => 'Eight rounds with four Acts each, to determine which Songs go through to the finals.',
+            'description'         => 'Eight Rounds featuring four Acts each, competing to determine which Songs go through to the Finals.',
             'golden_buzzer_perks' => 'Acts will be given a profile and a new promotional image.',
         ],
         [
             'title'               => 'Stage 2: Finals',
-            'description'         => 'Qualifying Acts go head-to-head to determine a Grand Winner and three Runners-Up. ' .
+            'description'         => 'Qualifying Acts going head-to-head to determine a Grand Winner and three Runners-Up. ' .
                 'The winning Song becomes the official anthem of the Contest.',
             'golden_buzzer_perks' => 'Acts will be represented as 3D-printed figures in SilentMode\'s style.',
         ],
@@ -36,18 +36,28 @@ class RehearseData
             'name'             => 'Airi Kisaragi',
             'subtitle'         => null,
             'genres'           => ['J-Pop'],
+            'song'             => [
+                'title'    => 'Jinbutsu Wa Kusshinai',
+                'language' => 'ja',
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/dQriLqZRDks',
+                ]
+            ],
             'traits'           => [
                 'giggly and coy when giving interviews',
                 'youthful',
-                'energetic'
+                'energetic',
+                'admires SoraNami\'s independence'
             ],
             'languages'        => ['ja'],
             'rank'             => ActRank::UNDERDOG,
             'is_fan_favourite' => false,
             'notes'            => [
                 'Female J-Pop idol in her mid teens.',
-                'Known for her colourful hairstyles outfits.',
-                'Stylised high-energy metal music.'
+                'Known for her colourful hairstyles and outfits.',
+                'Stylised high-energy metal music.',
+                ''
             ],
         ],
         [
@@ -55,7 +65,10 @@ class RehearseData
             'subtitle'         => null,
             'genres'           => ['Blues', 'Rock'],
             'song'             => [
-                'url' => 'https://youtu.be/cvLOkscTVLU',
+                'url' => [
+                    'test' => 'https://youtu.be/cvLOkscTVLU',
+                    'live' => 'https://youtu.be/qANo6DHk9uM',
+                ]
             ],
             'traits'           => [
                 'serious about his craft',
@@ -76,6 +89,12 @@ class RehearseData
             'name'             => 'Bryknii',
             'subtitle'         => null,
             'genres'           => ['EDM', 'Pop'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/PPrxN0D20Aw',
+                ]
+            ],
             'traits'           => [
                 'very much in control of her career',
                 'self-assured',
@@ -99,7 +118,10 @@ class RehearseData
             'subtitle'         => 'ft. Kat Soo',
             'genres'           => ['EDM', 'K-Pop', 'Pop'],
             'song'             => [
-                'url' => 'https://youtu.be/ZlpnKdnDl6I',
+                'url' => [
+                    'test' => 'https://youtu.be/ZlpnKdnDl6I',
+                    'live' => 'https://youtu.be/jDzKh8OL2Hs',
+                ]
             ],
             'traits'           => [
                 'Kat Soo: sassy, unashamedly female, highly suggestive',
@@ -113,74 +135,98 @@ class RehearseData
                 'Kat Soo is an up and coming K-Pop singer/rapper in her late teens.'
             ],
         ],
-        ['name'             => 'Buck & Jeb',
-         'subtitle'         => null,
-         'genres'           => ['Country & Western'],
-         'song'             => [
-             'url' => 'https://youtu.be/XaRc36LRhio',
-         ],
-         'traits'           => [
-             'generally easygoing',
-             'do not take themselves too seriously',
-             'derives satisfaction from entertaining the crowd',
-             'rely on and compliment each other as a duo',
-         ],
-         'languages'        => ['en'],
-         'rank'             => ActRank::DIVISIVE,
-         'is_fan_favourite' => false,
-         'notes'            => [
-             'Male country and western duo in their 40s.',
-             'Competent but known for their comedic take on the genre.'
-         ],
+        [
+            'name'             => 'Buck & Jeb',
+            'subtitle'         => null,
+            'genres'           => ['Country & Western'],
+            'song'             => [
+                'url' => [
+                    'test' => 'https://youtu.be/XaRc36LRhio',
+                    'live' => 'https://youtu.be/DFYvL_Dji5s',
+                ]
+            ],
+            'traits'           => [
+                'generally easygoing',
+                'do not take themselves too seriously',
+                'derives satisfaction from entertaining the crowd',
+                'rely on and compliment each other as a duo',
+                'appreciation of Synth & Son for working as a pair'
+            ],
+            'languages'        => ['en'],
+            'rank'             => ActRank::DIVISIVE,
+            'is_fan_favourite' => false,
+            'notes'            => [
+                'Male country and western duo in their 40s.',
+                'Competent but known for their comedic take on the genre.'
+            ],
         ],
-        ['name'             => 'BZpeople',
-         'subtitle'         => null,
-         'genres'           => ['EDM'],
-         'song'             => [
-             'url' => 'https://youtu.be/_OghkKOfT88',
-         ],
-         'traits'           => [
-             'down to earth',
-             'results oriented',
-             'celebrity is a means to an end',
-             'aware he might be an underdog',
-             // Suggestions from ChatGPT.
-             'quietly confident in his process',
-             'measures success differently from mainstream Acts'
-         ],
-         'languages'        => ['en'],
-         'rank'             => ActRank::UNDERDOG,
-         'is_fan_favourite' => false,
-         'notes'            => [
-             'A solo black male house producer in his late 30s.',
-             'Usually works entirely on his own.',
-             'Emphasise messages with catchy hooks in his songs.',
-         ],
+        [
+            'name'             => 'BZpeople',
+            'subtitle'         => null,
+            'genres'           => ['EDM'],
+            'song'             => [
+                'url' => [
+                    'test' => 'https://youtu.be/_OghkKOfT88',
+                    'live' => 'https://youtu.be/6hDGsauucow',
+                ]
+            ],
+            'traits'           => [
+                'down to earth',
+                'results oriented',
+                'celebrity is a means to an end',
+                'aware he might be an underdog',
+                // Suggestions from ChatGPT.
+                'quietly confident in his process',
+                'measures success differently from mainstream Acts',
+                'sees GRMLN as “one of the few doing it right”'
+            ],
+            'languages'        => ['en'],
+            'rank'             => ActRank::UNDERDOG,
+            'is_fan_favourite' => false,
+            'notes'            => [
+                'A solo black male house producer in his late 30s.',
+                'Usually works entirely on his own.',
+                'Emphasise messages with catchy hooks in his songs.',
+            ],
         ],
-        ['name'             => 'Chelsea Chapel',
-         'subtitle'         => null,
-         'genres'           => ['Classical'],
-         'url'              => '',
-         'traits'           => [
-             'quiet confidence',
-             'humble but aware of her abilities',
-             'noble, complimentary of other Acts'
-         ],
-         'languages'        => ['en', 'ja'],
-         'rank'             => ActRank::LOVED,
-         'is_fan_favourite' => false,
-         'notes'            => [
-             'An English/Japanese female contemporary classical singer in her mid 20s.',
-             'Most remembered for her plus-sized figure.',
-             'Does not often do interviews.'
-         ],
+        [
+            'name'             => 'Chelsea Chapel',
+            'subtitle'         => null,
+            'genres'           => ['Classical'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/a2-xiGQdsRU',
+                ]
+            ],
+            'traits'           => [
+                'quiet confidence',
+                'humble but aware of her abilities',
+                'noble, complimentary of other Acts',
+                'appreciates Clémence\'s composure'
+            ],
+            'languages'        => ['en', 'ja'],
+            'rank'             => ActRank::LOVED,
+            'is_fan_favourite' => false,
+            'notes'            => [
+                'An English/Japanese female contemporary classical singer in her mid 20s.',
+                'Most remembered for her plus-sized figure.',
+                'Does not often do interviews.'
+            ],
         ],
         [
             'name'             => 'Cielo Groove',
             'subtitle'         => 'ft. Saima Gaines',
             'genres'           => ['Latin', 'R&B'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/AfamktDyxzE',
+                ]
+            ],
             'traits'           => [
                 'Cielo Groove: laid-back, enthusiastic about the pairing and Latin music',
+                'Cielo Groove: respects Violeta\'s legacy',
                 'Saima Gaines: somewhat sassy, resentful of Bryknii and her assured fame',
                 // Suggestions from ChatGPT.
                 'Saima Gaines: determined to prove she does not rely on production tricks',
@@ -201,14 +247,23 @@ class RehearseData
             'name'             => 'Clémence Duval',
             'subtitle'         => null,
             'genres'           => ['Pop'],
+            'song'             => [
+                'language' => 'fr',
+                'title'    => 'Les Vraies Figures Ne Plient Pas',
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/GRqV3zeffa0',
+                ]
+            ],
             'traits'           => [
-                'An almost too perfect public image',
-                'Emotionally distant in contrast to her performances',
-                'Very aware of her appeal as a singer',
+                'an almost too perfect public image',
+                'emotionally distant in contrast to her performances',
+                'very aware of her appeal as a singer',
                 // Suggestions from ChatGPT.
                 'carefully controls every aspect of her image',
                 'rarely breaks composure in public',
-                'treats vulnerability as part of performance rather than reality'
+                'treats vulnerability as part of performance rather than reality',
+                'privately admires Chelsea\'s purity'
             ],
             'languages'        => ['en', 'fr'],
             'rank'             => ActRank::LOVED,
@@ -229,13 +284,16 @@ class RehearseData
             'subtitle'         => null,
             'genres'           => ['Barbershop'],
             'song'             => [
-                'url' => 'https://youtu.be/_3weTrkDw9s',
+                'url' => [
+                    'test' => 'https://youtu.be/_3weTrkDw9s',
+                    'live' => 'https://youtu.be/Y_fEfA0LkNk',
+                ]
             ],
             'traits'           => [
-                'Does not see any other Act as competition',
-                'Liberal-minded',
-                'Generally laid back',
-                'Family oriented',
+                'does not see any other Act as competition',
+                'liberal-minded',
+                'generally laid back',
+                'family oriented',
                 // Suggestion from ChatGPT.
                 'quietly amused by the Forty Twos\' intensity'
             ],
@@ -252,11 +310,17 @@ class RehearseData
             'name'             => 'Elora James',
             'subtitle'         => null,
             'genres'           => ['Soul'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/gW1kciQOmHE',
+                ]
+            ],
             'traits'           => [
-                'Identifies with the Contest theme on an intersectional level',
-                'Bold and authentic',
-                'Balanced in her speech',
-                'Looking to elevate her profile as a result of the Contest'
+                'identifies with the Contest theme on an intersectional level',
+                'bold and authentic',
+                'balanced in her speech',
+                'looking to elevate her profile as a result of the Contest'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::WILDCARD,
@@ -271,10 +335,16 @@ class RehearseData
             'name'             => 'Emma Finch',
             'subtitle'         => null,
             'genres'           => ['Americana', 'Folk'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/1P1JR9ih2uM',
+                ]
+            ],
             'traits'           => [
-                'Very liberal and left leaning',
-                'Seeks male approval but is pro-woman',
-                'Most concerned about bullying toward girls'
+                'very liberal and left leaning',
+                'seeks male approval but is pro-woman',
+                'most concerned about bullying toward girls'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::LOVED,
@@ -289,13 +359,16 @@ class RehearseData
             'name'             => 'Forty Twos, the',
             'subtitle'         => null,
             'song'             => [
-                'url' => 'https://youtu.be/PN9IODfFUag',
+                'url' => [
+                    'test' => 'https://youtu.be/PN9IODfFUag',
+                    'live' => 'https://youtu.be/VWquZGkUz_o',
+                ]
             ],
             'genres'           => ['Barbershop'],
             'traits'           => [
-                'Perhaps overly confident about their chances of winning',
-                'Essentially competing with the Coastliners for dominance',
-                'Career oriented',
+                'perhaps overly confident about their chances of winning',
+                'essentially competing with the Coastliners for dominance',
+                'career oriented',
                 // Suggestion from ChatGPT.
                 'views the Coastliners as outdated competition'
             ],
@@ -312,14 +385,21 @@ class RehearseData
             'name'             => 'GRMLN',
             'subtitle'         => null,
             'genres'           => ['EDM'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/NeyFskdFEcI',
+                ]
+            ],
             'traits'           => [
-                'Hard working and accomplished',
-                'Aware of social media sentiments and trends',
-                'Enjoys the party life while knowing his limits',
-                'Driven to give memorable performances',
+                'hard working and accomplished',
+                'aware of social media sentiments and trends',
+                'enjoys the party life while knowing his limits',
+                'driven to give memorable performances',
                 // Suggestions from ChatGPT.
                 'balances authenticity with awareness of trends',
-                'sometimes questioned for being too calculated'
+                'sometimes questioned for being too calculated',
+                'studies BZpeople\'s approach'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::LOVED,
@@ -335,15 +415,19 @@ class RehearseData
             'subtitle'         => null,
             'genres'           => ['Rock'],
             'song'             => [
-                'url' => 'https://youtu.be/48UnuOmf87w',
+                'url' => [
+                    'test' => 'https://youtu.be/48UnuOmf87w',
+                    'live' => 'https://youtu.be/OTdgvXbUpO8',
+                ]
             ],
             'traits'           => [
-                'Takes the F.O.L.D\'s treatment of the MODE Family personally',
-                'Confidently defiant',
-                'Motivated to win the Contest through their fans',
+                'takes the F.O.L.D\'s treatment of the MODE Family personally',
+                'confidently defiant',
+                'motivated to win the Contest through their fans',
                 // Suggestions from ChatGPT.
                 'feeds off audience energy',
-                'leans into controversy when necessary'
+                'leans into controversy when necessary',
+                'mutual respect for Violet Riot\'s authenticity'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::DOMINANT,
@@ -358,13 +442,20 @@ class RehearseData
             'name'             => 'Kendra Blaze',
             'subtitle'         => null,
             'genres'           => ['Pop'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/NwSepDk2aM4',
+                ]
+            ],
             'traits'           => [
-                'Singing is all, not shy to re-record several times',
-                'Generally reclusive, only appearing if absolutely necessary',
-                'Very private and reserved',
+                'singing is all, not shy to re-record several times',
+                'generally reclusive, only appearing if absolutely necessary',
+                'very private and reserved',
                 // Suggestions from ChatGPT.
                 'perfectionism often delays releases',
-                'avoids industry politics entirely'
+                'avoids industry politics entirely',
+                'relates to Marissa stepping back into the spotlight'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::DIVISIVE,
@@ -380,12 +471,15 @@ class RehearseData
             'subtitle'         => null,
             'genres'           => ['Hip Hop'],
             'song'             => [
-                'url' => 'https://youtu.be/pCzGsl4Rem0',
+                'url' => [
+                    'test' => 'https://youtu.be/pCzGsl4Rem0',
+                    'live' => 'https://youtu.be/-oL4flOMuD0',
+                ]
             ],
             'traits'           => [
-                'Hyper focused on music and production methods',
-                'Has a passing interest in female Acts, including Chelsea Chapel and Raya Vibes',
-                'Does not talk very much',
+                'hyper focused on music and production methods',
+                'has a passing interest in female Acts, including Chelsea Chapel and Raya Vibes',
+                'does not talk very much',
                 // Suggestions from ChatGPT.
                 'more comfortable behind the scenes than in the spotlight',
                 'respects craft over popularity'
@@ -403,11 +497,18 @@ class RehearseData
             'name'             => 'Lorien',
             'subtitle'         => null,
             'genres'           => ['Downtempo', 'EDM'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/Endp8hWGf3E',
+                ]
+            ],
             'traits'           => [
-                'Reveals her emotions through her music rather than in interviews',
-                'Focused on maintaining her public image',
+                'reveals her emotions through her music rather than in interviews',
+                'focused on maintaining her public image',
                 // Suggestions from ChatGPT.
-                'values aesthetic and control'
+                'values aesthetic and control',
+                'curiosity and slight creative tension with Sonder Drift'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::WILDCARD,
@@ -422,14 +523,21 @@ class RehearseData
             'name'             => 'Magenta Men',
             'subtitle'         => null,
             'genres'           => ['Funk', 'Soul'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/rz4G8mixGZY',
+                ]
+            ],
             'traits'           => [
-                'Very rarely rehearses their performances',
-                'Try to outdo each other during performances',
-                'An overall respect for each other, despite some rivalry',
+                'very rarely rehearses their performances',
+                'try to outdo each other during performances',
+                'an overall respect for each other, despite some rivalry',
                 // Suggestions from ChatGPT.
                 'secretly believes he is the real star of the duo (each member)',
                 'thrives on unpredictability during live performances',
-                'uses charm to mask competitiveness'
+                'uses charm to mask competitiveness',
+                'sees Max Bellamy as “one of the few who gets it”'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::DIVISIVE,
@@ -449,13 +557,17 @@ class RehearseData
             'subtitle'         => null,
             'genres'           => ['Pop'],
             'song'             => [
-                'url' => 'https://youtu.be/PdvOFNFjXXc',
+                'url' => [
+                    'test' => 'https://youtu.be/PdvOFNFjXXc',
+                    'live' => 'https://youtu.be/UezSvx7rj3c',
+                ]
             ],
             'traits'           => [
-                'Eager to show the younger Acts how it\'s done',
-                'Aware her time in the spotlight is over',
-                'Wants one more opportunity to shine',
-                'At peace with her former fame and retirement'
+                'eager to show the younger Acts how it\'s done',
+                'aware her time in the spotlight is over',
+                'wants one more opportunity to shine',
+                'at peace with her former fame and retirement',
+                'respects Kendra\'s discipline'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::UNDERDOG,
@@ -470,11 +582,18 @@ class RehearseData
             'name'             => 'Max Bellamy',
             'subtitle'         => 'and The Moonlight Swingers',
             'genres'           => ['Big Band', 'Swing'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/W1C9eyQGUtM',
+                ]
+            ],
             'traits'           => [
-                'Focused on optimism and happiness',
-                'Ambitious for his career',
-                'Wants to succeed for the Moonlight Swingers as much as for himself',
-                'Believes in the power of big band and swing music'
+                'focused on optimism and happiness',
+                'ambitious for his career',
+                'wants to succeed for the Moonlight Swingers as much as for himself',
+                'believes in the power of big band and swing music',
+                'respects Magenta Men\'s stage presence'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::WILDCARD,
@@ -489,15 +608,22 @@ class RehearseData
             'name'             => 'Miles Everly',
             'subtitle'         => null,
             'genres'           => ['Soft Rock'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/9wqux5Daf7I',
+                ]
+            ],
             'traits'           => [
-                'Extremely laid back',
-                'Does not care about winning the Contest',
-                'Somewhat liberal minded',
-                'Not looking to impress anyone',
+                'extremely laid back',
+                'does not care about winning the Contest',
+                'somewhat liberal minded',
+                'not looking to impress anyone',
                 // Suggestions from ChatGPT.
                 'quietly observant of other Acts',
                 'avoids conflict entirely',
-                'downplays his own ability'
+                'downplays his own ability',
+                'quietly supports Raya\'s optimism'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::WILDCARD,
@@ -515,11 +641,18 @@ class RehearseData
             'name'             => 'Raya Vibes',
             'subtitle'         => null,
             'genres'           => ['Reggae', 'R&B'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/-uiwEfpmMq8',
+                ]
+            ],
             'traits'           => [
-                'Generally cheerful and passionate about her performances',
-                'Rarely expresses anything other than optimism',
-                'Always looking for her next musical vibe',
-                'Destined to be a star, but aware of the work involved'
+                'generally cheerful and passionate about her performances',
+                'rarely expresses anything other than optimism',
+                'always looking for her next musical vibe',
+                'destined to be a star, but aware of the work involved',
+                'enjoys Miles\' calm presence'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::UNDERDOG,
@@ -534,13 +667,17 @@ class RehearseData
             'subtitle'         => null,
             'genres'           => ['Blues'],
             'song'             => [
-                'url' => 'https://youtu.be/4wzmAueMIzE',
+                'url' => [
+                    'test' => 'https://youtu.be/4wzmAueMIzE',
+                    'live' => 'https://youtu.be/TCMSdCqSxGU',
+                ]
             ],
             'traits'           => [
-                'Faithful to his electric guitar',
-                'Traditional, perhaps old-fashioned',
-                'Sees the blues as the one authentic genre of music',
-                'Matter of fact, does not like indirectness'
+                'faithful to his electric guitar',
+                'traditional, perhaps old-fashioned',
+                'sees the blues as the one authentic genre of music',
+                'matter of fact, does not like indirectness',
+                "has no tolerance toward musical shortcuts"
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::DIVISIVE,
@@ -557,17 +694,22 @@ class RehearseData
             'song'             => [
                 'language' => 'fr',
                 'title'    => 'Les Vraies Figures Ne Plient Pas',
-                'url'      => 'https://youtu.be/mmmz5m5iR78',
+                'url'      => [
+                    'test' => 'https://youtu.be/mmmz5m5iR78',
+                    'live' => 'https://youtu.be/gPL5piSYJLY',
+                ]
             ],
             'traits'           => [
-                'Insists on speaking French, refuses to speak English',
-                'Effortlessly dominant',
-                'Very rarely gives interviews',
-                'Sees the other Acts as beneath her',
+                'insists on speaking French, refuses to speak English',
+                'effortlessly dominant',
+                'very rarely gives interviews',
+                'sees the other Acts as beneath her',
                 // Suggestions from ChatGPT.
                 'expects others to adapt to her, not the other way around',
                 'views technical excellence as non-negotiable',
-                'unintentionally intimidating presence'
+                'unintentionally intimidating presence',
+                'dismisses overly produced Acts',
+                'has an unspoken admiration for RJ Mercer'
             ],
             'languages'        => ['fr'],
             'rank'             => ActRank::DOMINANT,
@@ -586,14 +728,21 @@ class RehearseData
             'name'             => 'Sonder Drift',
             'subtitle'         => null,
             'genres'           => ['Downtempo', 'EDM'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/h1u2VJN9dvk',
+                ]
+            ],
             'traits'           => [
-                'Brother is highly protective of his sister',
-                'Sister is focused on purity',
-                'Representing the independent side of music production',
-                'Socially conscious',
-                'Their music is a voice for the free-spirited',
+                'brother is highly protective of his sister',
+                'sister is focused on purity',
+                'representing the independent side of music production',
+                'socially conscious',
+                'their music is a voice for the free-spirited',
                 // Suggestions from ChatGPT.
-                'values purity and independence'
+                'values purity and independence',
+                'curiosity and slight creative tension with Lorien'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::WILDCARD,
@@ -613,11 +762,15 @@ class RehearseData
             'song'             => [
                 'title'    => 'Shin no Jinbutsu Wa Kusshinai',
                 'language' => 'ja',
-                'url'      => 'https://youtu.be/egAJXeP5Mpc',
+                'url'      => [
+                    'test' => 'https://youtu.be/egAJXeP5Mpc',
+                    'live' => 'https://youtu.be/zULFHBeWMj8',
+                ]
             ],
             'traits'           => [
-                'Somewhat shy, having has a sheltered upbringing',
-                'Takes her performances very seriously'
+                'somewhat shy, having has a sheltered upbringing',
+                'takes her performances very seriously',
+                'cautiously supportive of Airi'
             ],
             'languages'        => ['en', 'ja'],
             'rank'             => ActRank::WILDCARD,
@@ -634,12 +787,16 @@ class RehearseData
             'subtitle'         => null,
             'genres'           => ['EDM', 'Pop'],
             'song'             => [
-                'url' => 'https://youtu.be/Uv5H1twkw2Y',
+                'url' => [
+                    'test' => 'https://youtu.be/Uv5H1twkw2Y',
+                    'live' => 'https://youtu.be/ihkkqGtFKcM',
+                ]
             ],
             'traits'           => [
-                'Both enjoy the collaboration',
-                'Sees the Contest as a means to discover potential collaborations with other Acts',
-                'Hopes to do well in the Contest, win or lose'
+                'both enjoy the collaboration',
+                'sees the Contest as a means to discover potential collaborations with other Acts',
+                'hopes to do well in the Contest, win or lose',
+                'appreciation of Buck & Jeb\'s spirit'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::LOVED,
@@ -656,14 +813,17 @@ class RehearseData
             'subtitle'         => null,
             'genres'           => ['EDM'],
             'song'             => [
-                'url' => 'https://youtu.be/vqHHUuoeYrA',
+                'url' => [
+                    'test' => 'https://youtu.be/vqHHUuoeYrA',
+                    'live' => 'https://youtu.be/Ue0D9p4F8uk',
+                ]
             ],
             'traits'           => [
-                'Most of the talking is done through the older members',
-                'The youngest is only consulted for soundbites',
-                'Generally easygoing and calm',
-                'Lets the music do the talking',
-                'Somewhat at odds with GRMLN',
+                'most of the talking is done through the older members',
+                'the youngest is only consulted for soundbites',
+                'generally easygoing and calm',
+                'lets the music do the talking',
+                'somewhat at odds with GRMLN',
                 // Suggestions from ChatGPT.
                 'carefully constructed group identity',
                 'internal hierarchy influences decision-making'
@@ -683,17 +843,21 @@ class RehearseData
             'subtitle'         => null,
             'genres'           => ['Punk', 'Rock'],
             'song'             => [
-                'url' => 'https://youtu.be/TvDHwelexFk',
+                'url' => [
+                    'test' => 'https://youtu.be/TvDHwelexFk',
+                    'live' => 'https://youtu.be/GqzhMIMLVdA',
+                ]
             ],
             'traits'           => [
-                'Extroverted, particularly the lead',
-                'Confident without being overly aggressive',
-                'On the surface, appears to be all about female autonomy',
-                'Will speak fondly of one or two of the male Acts in the Contest',
-                'Will show appreciation for other female Acts',
+                'extroverted, particularly the lead',
+                'confident without being overly aggressive',
+                'on the surface, appears to be all about female autonomy',
+                'will speak fondly of one or two of the male Acts in the Contest',
+                'will show appreciation for other female Acts',
                 // Suggestions from ChatGPT.
                 'more nuanced than their image suggests',
-                'selective about who they respect'
+                'selective about who they respect',
+                'mutual respect for High School Dropout\'s authenticity'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::DIVISIVE,
@@ -708,15 +872,22 @@ class RehearseData
             'name'             => 'Violeta Montenegro',
             'subtitle'         => null,
             'genres'           => ['Latin'],
+            'song'             => [
+                'url' => [
+                    'test' => '',
+                    'live' => 'https://youtu.be/ox4EzOJx7kg',
+                ]
+            ],
             'traits'           => [
-                'Proud of her genre',
-                'In her mind, has something to prove',
-                'Only respects genuine musicians and singers',
-                'More focused on her performance than the essence of the Contest',
+                'proud of her genre',
+                'in her mind, has something to prove',
+                'only respects genuine musicians and singers',
+                'more focused on her performance than the essence of the Contest',
                 // Suggestions from ChatGPT.
                 'openly critical of modern music trends',
                 'holds strong opinions on authenticity in music',
-                'carries herself like an established legend'
+                'carries herself like an established legend',
+                'sceptical of Cielo Groove, but acknowledges their effort'
             ],
             'languages'        => ['en', 'es'],
             'rank'             => ActRank::WILDCARD,
@@ -736,12 +907,16 @@ class RehearseData
             'subtitle'         => null,
             'genres'           => ['Pop', 'Rock'],
             'song'             => [
-                'url' => 'https://youtu.be/aV-SuEhPg9Y',
+                'url' => [
+                    'test' => 'https://youtu.be/aV-SuEhPg9Y',
+                    'live' => 'https://youtu.be/4EplOKKiOyU',
+                ]
             ],
             'traits'           => [
-                'Entered the Contest to expand their fan base, particularly internationally',
-                'Plays on their appeal to female fans',
-                'Confident they will at least make it to the finals'
+                'entered the Contest to expand their fan base, particularly internationally',
+                'plays on their appeal to female fans',
+                'confident they will at least make it to the finals',
+                'Bryknii is their only real concern'
             ],
             'languages'        => ['en'],
             'rank'             => ActRank::LOVED,

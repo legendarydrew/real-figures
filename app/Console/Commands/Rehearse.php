@@ -117,11 +117,10 @@ class Rehearse extends Command
             ]);
 
             // Song (if available).
-            if (isset($act['song']))
+            if (empty($act['song']['url']['test']))
             {
-
                 Song::factory()->for($row)
-                    ->withUrl($act['song']['url'])
+                    ->withUrl($act['song']['url']['test'])
                     ->createOne([
                         'title'       => $act['song']['title'] ?? config('contest.song.default-title'),
                         'act_id'      => $row->id,
