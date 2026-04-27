@@ -26,9 +26,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "ext-curl": "*",
         "ext-tidy": "*",
         "fakerphp/faker": "^1.24",
-        "garf/laravel-pinger": "^2.0",
         "inertiajs/inertia-laravel": "^2.0",
         "intervention/image-laravel": "^1.5",
         "laravel/envoy": "^2.11",

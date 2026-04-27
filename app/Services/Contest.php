@@ -11,7 +11,6 @@ use App\Models\RoundOutcome;
 use App\Models\Stage;
 use App\Models\StageWinner;
 use App\Transformers\SongTransformer;
-use Garf\LaravelPinger\Pinger;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -239,9 +238,6 @@ class Contest
      */
     public function pingNewsPost(NewsPost $post): void
     {
-        if (app()->isProduction()) {
-            (new Pinger)->pingAll($post->title, $post->url, route('feeds.main'));
-        }
-
+        (new Pinger)->pingAll($post->title, $post->url, route('feeds.main'));
     }
 }

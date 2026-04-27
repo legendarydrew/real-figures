@@ -70,14 +70,14 @@ export default function ActsPage({ acts, ranks }: Readonly<{ acts: PaginatedResp
 
                 <Pagination results={acts} onPageChange={pageHandler}/>
 
-                {ranks.total && (
+                {ranks.total ? (
                     <div className="act-rank-bar">
                         {ranks.list.map((rank) => (
                             <span key={rank} className={rank.toLowerCase()} title={rank}
                                   style={{ width: (ranks.count[rank] / ranks.total * 100) + '%' }}></span>
                         ))}
                     </div>
-                )}
+                ) : ''}
 
                 {acts.meta.pagination.total ? (
                     <div className="grid p-4 auto-rows-min gap-1 md:grid-cols-3 lg:grid-cols-4">
