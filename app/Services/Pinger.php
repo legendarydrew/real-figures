@@ -157,7 +157,7 @@ class Pinger
     public function configured(string $page_title, string $page_url, ?string $rss = null): bool
     {
         $xml = $this->getXml($page_title, $page_url, $rss);
-        $services = config('post.ping');
+        $services = config('services.ping');
         foreach ($services as $service) {
             $this->sendPing($service, $xml);
         }
