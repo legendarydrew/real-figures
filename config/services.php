@@ -84,4 +84,14 @@ return [
         ],
     ],
 
+    'ping' => [
+        // Which services to ping once a post is published.
+        'https://ping.blogs.yandex.ru',
+        'https://blogsearch.google.com/ping/RPC2',
+        'https://api.my.yahoo.com/RPC2',
+        'https://api.my.yahoo.com/rss/ping',
+        'https://ping.feedburner.com',
+        'https://ping.weblogs.se/',
+    ],
+
 ];
