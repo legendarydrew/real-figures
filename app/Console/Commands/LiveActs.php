@@ -18,6 +18,7 @@ use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
@@ -48,6 +49,7 @@ class LiveActs extends Command
      */
     protected function removeExistingData(): void
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         $this->comment('- removing existing Rounds');
         RoundVote::truncate();
         Round::truncate();
@@ -57,6 +59,7 @@ class LiveActs extends Command
         Song::truncate();
         $this->comment('- removing existing Acts');
         Act::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // Remove existing Act images, replacing them with those for the defined Acts.
         (new Filesystem)->cleanDirectory(public_path('img/act'));

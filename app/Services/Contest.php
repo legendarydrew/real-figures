@@ -238,6 +238,6 @@ class Contest
      */
     public function pingNewsPost(NewsPost $post): void
     {
-        (new Pinger)->pingAll($post->title, $post->url, route('feeds.main'));
+        (new Pinger)->configured($post->title, $post->url, route('feeds.main'));
     }
 }
