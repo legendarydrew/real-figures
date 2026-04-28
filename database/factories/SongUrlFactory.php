@@ -11,11 +11,17 @@ class SongUrlFactory extends Factory
 {
     public function definition(): array
     {
-        // https://github.com/aalaap/faker-youtube
-        fake()->addProvider(new \Faker\Provider\Youtube(fake()));
+        try {
+            // https://github.com/aalaap/faker-youtube
+            fake()->addProvider(new \Faker\Provider\Youtube(fake()));
 
-        return [
-            'url' => fake()->youtubeUri(),
-        ];
+            return [
+                'url' => fake()->youtubeUri(),
+            ];
+        } catch (\Throwable $err) {
+            return [
+                'url' => fake()->url(),
+            ];
+        }
     }
 }
