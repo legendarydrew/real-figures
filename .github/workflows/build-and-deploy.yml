@@ -32,6 +32,8 @@ env:
 
 jobs:
   build:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
 
     steps:
@@ -150,6 +152,8 @@ jobs:
           echo "e"
 
   release:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     needs: deploy
     steps:
