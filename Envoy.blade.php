@@ -53,7 +53,7 @@ set_permissions
 activate_release
 optimise
 migrate
-content_update
+create_superuser
 cleanup
 @endstory
 
@@ -88,6 +88,14 @@ cd {{ $new_release_dir }}
 
 {{-- Generate a new app key. --}}
 {{ $php }} artisan key:generate -q
+@endtask
+
+@task('copy_previous_files', ['on' => 'web'])
+echo "=> Copying existing Act images..."
+[[ -d {{ $current_release_dir }}/public/img/act ]] && cp -r {{ $current_release_dir }}/public/img/act {{ $new_release_dir }}/public/img/act
+
+echo "=> Copying log files..."
+[[ -d {{ $current_release_dir }}/storage/logs ]] && cp -r {{ $current_release_dir }}/storage/logs {{ $new_release_dir }}/storage/logs
 @endtask
 
 @task('set_permissions', ['on' => 'web'])
@@ -127,7 +135,7 @@ cd {{ $new_release_dir }}
 {{-- the list of disabled functions in PHP is temporarily emptied, as migrating requires proc_open() which is disabled.--}}
 @endtask
 
-@task('content_update', ['on' => 'web'])
+@task('create_superuser', ['on' => 'web'])
 echo '=> Creating superuser'
 cd {{ $new_release_dir }}
 {{ $php }} artisan rt:superuser "{{ $su_email }}" "{{ $su_password }}"
