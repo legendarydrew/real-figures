@@ -61,7 +61,7 @@ class Round extends Model
     public function scopeActive(Builder $builder): Builder
     {
         return $builder->where('starts_at', '<=', now())
-            ->where('ends_at', '>', now());
+                       ->where('ends_at', '>', now());
     }
 
     /**
@@ -97,13 +97,13 @@ class Round extends Model
     public function requiresManualVote(): bool
     {
         return $this->hasEnded() && $this->songs->isNotEmpty() &&
-            ($this->votes->isEmpty() || $this->outcomes->every(fn (RoundOutcome $outcome) => $outcome->score === 0));
+            ($this->votes->isEmpty() || $this->outcomes->every(fn(RoundOutcome $outcome) => $outcome->score === 0));
     }
 
     public function getFullTitleAttribute(): string
     {
         $stage_round_count = $this->stage->rounds()->count();
-        $key = $stage_round_count === 1 ? 'contest.round.title.only_round' : 'contest.round.title.many_rounds';
+        $key               = $stage_round_count === 1 ? 'contest.round.title.only_round' : 'contest.round.title.many_rounds';
 
         return trans($key, [
             'stage_title' => $this->stage->title,
@@ -125,6 +125,7 @@ class Round extends Model
                 'first_choice_id'  => $choices[0],
                 'second_choice_id' => $choices[1] ?? null,
                 'third_choice_id'  => $choices[2] ?? null,
+                'created_at'       => fake()->dateTimeBetween($this->starts_at, $this->ends_at)
             ]);
 
         }
@@ -132,6 +133,7 @@ class Round extends Model
 
     /**
      * Returns a "playlist" of Songs in this Round, for use in the Song player.
+     *
      * @return array
      */
     public function playlist(): array
