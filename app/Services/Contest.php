@@ -95,10 +95,13 @@ class Contest
         // In accordance with the Contest rules, only votes cast during the Round are counted.
         // Bear in mind that it's possible for a Song not to have received any votes!
 
-        $votes = $round->votes->filter(fn(RoundVote $v) => $v->created_at->isBetween($round->starts_at, $round->ends_at));
+        $round->load(['votes', 'songs']);
+        $votes = $round->votes;
+        if (!$manual) {
+            $votes = $votes->filter(fn(RoundVote $v) => $v->created_at->isBetween($round->starts_at, $round->ends_at));
+        }
         if ($votes->isNotEmpty())
         {
-            $round->load(['songs']);
             DB::transaction(function () use ($round, $votes, $manual)
             {
                 $round->outcomes()->delete();
