@@ -89,11 +89,11 @@ final class DataTest extends TestCase
     public function test_with_votes_analytics(): void
     {
         $stage = Stage::factory()->createOne();
-        Round::factory()->for($stage)->withSongs()->withVotes()->create();
+        $round = Round::factory()->for($stage)->withSongs()->withVotes()->create();
 
         $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
 
         $response->assertOk();
-        $response->assertInertia(fn (Assert $page) => $page->has('votes', 8));
+        $response->assertInertia(fn (Assert $page) => $page->has('votes', $round->votes_count));
     }
 }
