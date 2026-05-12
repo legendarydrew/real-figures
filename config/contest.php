@@ -30,6 +30,7 @@ return [
     'judgement' => [
         'winners'     => 1,
         'runners-up'  => 3,
+        'min-votes'   => env('CONTEST_MIN_VOTES', 1),
         'allow-ties'  => env('CONTEST_ALLOW_TIES', true),
         'panel-count' => env('CONTEST_PANEL_COUNT', 0),
         // number of "panel" members for manual voting, in addition to the user.
@@ -47,8 +48,8 @@ return [
             \App\Enums\NewsPostType::STAGE->value   => 0.4,
             \App\Enums\NewsPostType::ROUND->value   => 0.6,
         ],
-        'retry' => [
-            'attempts' => 3,
+        'retry'       => [
+            'attempts'   => 3,
             'backoff_ms' => 150, // small delay between retries
         ],
     ],
