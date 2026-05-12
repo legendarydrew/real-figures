@@ -92,7 +92,7 @@ class RoundFactory extends Factory
         return $this->afterCreating(function (Round $round)
         {
             $vote_count = fake()->numberBetween(1, 300);
-            $round->randomVote($vote_count);
+            $round->castRandomVote($vote_count);
         });
     }
 

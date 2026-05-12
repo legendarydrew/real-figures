@@ -30,7 +30,7 @@ return [
     'judgement' => [
         'winners'     => 1,
         'runners-up'  => 3,
-        'min-votes'   => env('CONTEST_MIN_VOTES', 1),
+        'min-votes'   => max(1, env('CONTEST_MIN_VOTES', 1)),
         'allow-ties'  => env('CONTEST_ALLOW_TIES', true),
         'panel-count' => env('CONTEST_PANEL_COUNT', 0),
         // number of "panel" members for manual voting, in addition to the user.

@@ -40,7 +40,7 @@ final class EndOfRoundTest extends TestCase
 
         // Create some votes.
         $vote_count = fake()->numberBetween(1, 10);
-        $this->round->randomVote($vote_count);
+        $this->round->castRandomVote($vote_count);
 
         // Check that there are no existing round outcomes.
         self::assertEquals(0, $this->round->outcomes()->count());
