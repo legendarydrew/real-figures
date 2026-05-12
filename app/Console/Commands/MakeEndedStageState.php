@@ -75,7 +75,7 @@ class MakeEndedStageState extends Command
             if (fake()->boolean(80))
             {
                 $vote_count = fake()->numberBetween(1, 300);
-                $round->randomVote($vote_count);
+                $round->castRandomVote($vote_count);
             }
         }
 
