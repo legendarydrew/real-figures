@@ -171,11 +171,24 @@ final class ManualVoteStoreTest extends TestCase
 
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
 
-        self::assertTrue($this->round->outcomes->every(fn ($outcome) => $outcome->was_manual));
-
         $this->round->refresh();
         self::assertCount(8, $this->round->votes);
 
+        self::assertCount(count($this->song_ids), $this->round->outcomes);
+        self::assertTrue($this->round->outcomes->every(fn ($outcome) => $outcome->was_manual));
+    }
+
+    public function test_manual_vote_preserves_other_votes(): void
+    {
+        $min_votes = (int)config('contest.judgement.min-votes');
+        $this->round->castRandomVote($min_votes);
+
+        config()->set('contest.judgement.panel-count', 3);
+
+        $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
+
+        $this->round->refresh();
+        self::assertCount((1 + 3) + $min_votes, $this->round->votes); // our vote + panel + existing
         self::assertCount(count($this->song_ids), $this->round->outcomes);
         self::assertTrue($this->round->outcomes->every(fn ($outcome) => $outcome->was_manual));
     }

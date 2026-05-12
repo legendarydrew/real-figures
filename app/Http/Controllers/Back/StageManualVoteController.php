@@ -46,6 +46,7 @@ class StageManualVoteController extends Controller
 
     /**
      * Cast the manual votes for the specified Stage.
+     * Because there is a minimum vote threshold, manual votes are added to any existing ones.
      *
      * @throws \Throwable
      */
