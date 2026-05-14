@@ -98,7 +98,7 @@ Route::prefix('/api')->group(function ()
         Route::get('analytics/votes', [VotesController::class, 'index'])->name('analytics.votes');
         Route::get('analytics/votes/choices', [VoteChoicesController::class, 'index'])->name('analytics.vote-choices');
 
-        Route::post('dumbrick', [DumbrickController::class, 'store']);
+        Route::post('dumbrick', [DumbrickController::class, 'store'])->name('dumbrick.store');
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
 
