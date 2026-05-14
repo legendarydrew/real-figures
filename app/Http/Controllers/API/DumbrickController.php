@@ -44,10 +44,12 @@ class DumbrickController extends Controller
         $vote_count = 0;
         DB::transaction(function () use ($current_round, $rows, &$vote_count)
         {
-            $song_ids = $current_round->songs()->pluck('id')->toArray();
+            $song_ids   = $current_round->songs->pluck('id')->toArray();
+            $song_count = count($song_ids);
             foreach ($rows as $row)
             {
-                $choices = array_map(fn($letter) => ord($letter) - ord("A"), (array)$row);
+                $letters = str_split($row);
+                $choices = array_map(fn($letter) => ord($letter) - ord("A"), $letters);
                 if (empty($choices))
                 {
                     continue;
@@ -56,9 +58,9 @@ class DumbrickController extends Controller
                 RoundVote::create([
                     'round_id'         => $current_round->id,
                     'vote_type'        => VoteType::DUMBRICK,
-                    'first_choice_id'  => $song_ids[$choices[0]],
-                    'second_choice_id' => $song_ids[$choices[1]] ?? null,
-                    'third_choice_id'  => $song_ids[$choices[2]] ?? null,
+                    'first_choice_id'  => $song_ids[$choices[0] % $song_count],
+                    'second_choice_id' => isset($choices[1]) ? $song_ids[$choices[1] % $song_count] : null,
+                    'third_choice_id'  => isset($choices[2]) ? $song_ids[$choices[2] % $song_count] : null,
                 ]);
                 $vote_count++;
             }

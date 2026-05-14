@@ -23,7 +23,7 @@ class DumbrickRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'data' => ['required', 'file', 'mimes:text/plain'],
+            'data' => ['required', 'file', 'mimes:txt'],
         ];
     }
 }

@@ -28,6 +28,7 @@ use App\Http\Controllers\API\Analytics\VotesController;
 use App\Http\Controllers\API\ContactMessagesController;
 use App\Http\Controllers\API\ContactMessagesRespondController;
 use App\Http\Controllers\API\DonationController;
+use App\Http\Controllers\API\DumbrickController;
 use App\Http\Controllers\API\GoldenBuzzerBreakdownController;
 use App\Http\Controllers\API\GoldenBuzzerController;
 use App\Http\Controllers\API\LanguagesController;
@@ -96,6 +97,8 @@ Route::prefix('/api')->group(function ()
         Route::get('analytics/viewports', [ViewportController::class, 'index'])->name('analytics.viewports');
         Route::get('analytics/votes', [VotesController::class, 'index'])->name('analytics.votes');
         Route::get('analytics/votes/choices', [VoteChoicesController::class, 'index'])->name('analytics.vote-choices');
+
+        Route::post('dumbrick', [DumbrickController::class, 'store']);
 
         Route::get('golden-buzzers/breakdown', [GoldenBuzzerBreakdownController::class, 'index']);
 
