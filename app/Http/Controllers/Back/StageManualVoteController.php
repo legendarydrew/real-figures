@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Enums\VoteType;
 use App\Facades\ContestFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManualVoteRequest;
@@ -76,6 +77,7 @@ class StageManualVoteController extends Controller
                     // Cast a vote for the Round, as directed.
                     RoundVote::create([
                         'round_id' => $round->id,
+                        'vote_type' => VoteType::MANUAL,
                         'first_choice_id' => $vote['song_ids']['first'],
                         'second_choice_id' => $vote['song_ids']['second'],
                         'third_choice_id' => $vote['song_ids']['third'],
@@ -113,6 +115,7 @@ class StageManualVoteController extends Controller
             // Cast the vote!
             RoundVote::create([
                 'round_id' => $round_id,
+                'vote_type' => VoteType::MANUAL,
                 'first_choice_id' => $choices[0],
                 'second_choice_id' => $choices[1],
                 'third_choice_id' => $choices[2],
