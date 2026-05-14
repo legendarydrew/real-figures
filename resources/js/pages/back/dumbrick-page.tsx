@@ -53,7 +53,7 @@ export default function DumbrickPage({ currentRound }: Readonly<Props>) {
                 {currentRound ? (
                     // Upload a file.
                     <form>
-                        <label className="button primary small" htmlFor="dbFile">
+                        <label className="button secondary w-80 mx-auto" htmlFor="dbFile">
                             <UploadIcon/>
                             Upload Dumbrick data
                         </label>
