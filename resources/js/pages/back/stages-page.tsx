@@ -14,6 +14,7 @@ import { StageResultsDialog } from '@/components/admin/stage-results-dialog';
 import { StageVotesDialog } from '@/components/admin/stage-votes-dialog';
 import { Nothing } from '@/components/mode/nothing';
 import { AdminHeader } from '@/components/admin/admin-header';
+import { CuboidIcon } from 'lucide-react';
 
 export default function StagesPage({ stages, songs }: Readonly<{ stages: Stage[], songs }>) {
 
@@ -39,32 +40,36 @@ export default function StagesPage({ stages, songs }: Readonly<{ stages: Stage[]
         });
     }
 
-    const chooseWinnerHandler = (stage: Stage) => {
+    const chooseWinnerHandler = (stage: Stage): void => {
         setCurrentStage(stage);
         setIsWinnerDialogOpen(true);
     }
 
-    const showResultsHandler = (stage: Stage) => {
+    const showResultsHandler = (stage: Stage): void => {
         setCurrentStage(stage);
         setIsStageResultsDialogOpen(true);
     }
 
-    const showVotesHandler = (stage: Stage) => {
+    const showVotesHandler = (stage: Stage): void => {
         setCurrentStage(stage);
         setIsStageVotesDialogOpen(true);
     }
 
-    const editHandler = (stage: Stage) => {
+    const dumbrickHandler = (): void => {
+        router.visit(route('admin.dumbrick'));
+    }
+
+    const editHandler = (stage: Stage): void => {
         setCurrentStage(stage);
         setIsEditDialogOpen(true);
     }
 
-    const deleteHandler = (stage: Stage) => {
+    const deleteHandler = (stage: Stage): void => {
         setCurrentStage(stage);
         setIsDeleteDialogOpen(true);
     }
 
-    const confirmDeleteHandler = () => {
+    const confirmDeleteHandler = (): void => {
         if (currentStage) {
             router.delete(route('stages.destroy', { id: currentStage.id }), {
                 preserveUrl: true,
@@ -91,19 +96,23 @@ export default function StagesPage({ stages, songs }: Readonly<{ stages: Stage[]
             <div className="admin-content">
 
                 <AdminHeader title="Stages">
+                    <Button variant="secondary" onClick={dumbrickHandler}>
+                        <CuboidIcon className="size-4"/>
+                        Dumbrick
+                    </Button>
                     <Button onClick={editHandler}>Create Stage</Button>
                 </AdminHeader>
 
                 <div className="my-4">
-                {stages.length ? stages.map((stage) => (
-                    <StageItem key={stage.id} onAllocate={allocateHandler} onEdit={editHandler}
-                               onDelete={deleteHandler} onChooseWinner={chooseWinnerHandler}
-                               onShowResults={showResultsHandler}
-                               onShowVotes={showVotesHandler}
-                               stage={stage}/>
-                )) : (
-                    <Nothing>No Stages have been set up.</Nothing>
-                )}
+                    {stages.length ? stages.map((stage) => (
+                        <StageItem key={stage.id} onAllocate={allocateHandler} onEdit={editHandler}
+                                   onDelete={deleteHandler} onChooseWinner={chooseWinnerHandler}
+                                   onShowResults={showResultsHandler}
+                                   onShowVotes={showVotesHandler}
+                                   stage={stage}/>
+                    )) : (
+                        <Nothing>No Stages have been set up.</Nothing>
+                    )}
                 </div>
 
                 <StageDialog stage={currentStage} open={isEditDialogOpen}
@@ -125,5 +134,5 @@ export default function StagesPage({ stages, songs }: Readonly<{ stages: Stage[]
                 </DestructiveDialog>
             </div>
         </AppLayout>
-);
+    );
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\API\Stage;
 
+use App\Enums\VoteType;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\RoundSongs;
@@ -160,6 +161,7 @@ final class ManualVoteStoreTest extends TestCase
         // Ensure the Songs received the correct vote.
         $vote = $this->round->votes->first();
 
+        self::assertEquals(VoteType::MANUAL->value, $vote->vote_type);
         self::assertEquals($this->payload['votes'][0]['song_ids']['first'], $vote->first_choice_id);
         self::assertEquals($this->payload['votes'][0]['song_ids']['second'], $vote->second_choice_id);
         self::assertEquals($this->payload['votes'][0]['song_ids']['third'], $vote->third_choice_id);
@@ -173,6 +175,7 @@ final class ManualVoteStoreTest extends TestCase
 
         $this->round->refresh();
         self::assertCount(8, $this->round->votes);
+        self::assertTrue($this->round->votes->every(fn ($vote) => $vote->vote_type === VoteType::MANUAL->value));
 
         self::assertCount(count($this->song_ids), $this->round->outcomes);
         self::assertTrue($this->round->outcomes->every(fn ($outcome) => $outcome->was_manual));

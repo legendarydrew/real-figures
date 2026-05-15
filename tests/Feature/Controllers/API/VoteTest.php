@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\API;
 
+use App\Enums\VoteType;
 use App\Models\Act;
 use App\Models\Round;
 use App\Models\Stage;
@@ -51,6 +52,7 @@ final class VoteTest extends TestCase
         self::assertEquals(1, $this->round->votes()->count());
 
         $vote = $this->round->votes()->first();
+        self::assertEquals(VoteType::ORGANIC->value, $vote->vote_type);
         self::assertEquals($this->songs->get('0')->id, $vote->first_choice_id);
         self::assertEquals($this->songs->get('1')->id, $vote->second_choice_id);
         self::assertEquals($this->songs->get('2')->id, $vote->third_choice_id);

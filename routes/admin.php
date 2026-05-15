@@ -12,6 +12,7 @@ use App\Http\Controllers\Back\AnalyticsController;
 use App\Http\Controllers\Back\ContactMessageController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\DonationsController;
+use App\Http\Controllers\Back\DumbrickController;
 use App\Http\Controllers\Back\GoldenBuzzersController;
 use App\Http\Controllers\Back\NewsController;
 use App\Http\Controllers\Back\NewsGenerateController;
@@ -41,6 +42,7 @@ Route::prefix('/admin')
          Route::get('analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
          Route::get('contact', [ContactMessageController::class, 'index'])->name('admin.contact');
          Route::get('donations', [DonationsController::class, 'index'])->name('admin.donations');
+         Route::get('dumbrick', [DumbrickController::class, 'index'])->name('admin.dumbrick');
          Route::get('golden-buzzers', [GoldenBuzzersController::class, 'index'])->name('admin.golden-buzzers');
          Route::get('news', [NewsController::class, 'index'])->name('admin.news');
          Route::get('news/generate', [NewsGenerateController::class, 'index'])->name('admin.news-generate');

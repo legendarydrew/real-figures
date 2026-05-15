@@ -94,8 +94,6 @@ final class RequiresManualVoteTest extends TestCase
 
     protected function createRoundOutcomes(Round $round, int $vote_count): void
     {
-        $vote_count = max(1, $vote_count);
-
         foreach ($this->song_ids as $song_id) {
             RoundSongs::create([
                 'round_id' => $round->id,

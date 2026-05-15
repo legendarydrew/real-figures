@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\VoteType;
 use App\Transformers\SongTransformer;
 use Database\Factories\RoundFactory;
 use Illuminate\Database\Eloquent\Attributes\Guarded;
@@ -115,6 +116,13 @@ class Round extends Model
         ]);
     }
 
+    /**
+     * Cast the specified number of "manual" (independent panel) votes for this Round.
+     * The Songs chosen are entirely at random, and there are between one and three Song choices.
+     *
+     * @param int $count
+     * @return void
+     */
     public function castRandomVote(int $count = 1): void
     {
         $song_ids = $this->songs->map(fn(Song $song) => $song->id);
@@ -126,6 +134,7 @@ class Round extends Model
 
             RoundVote::create([
                 'round_id'         => $this->id,
+                'vote_type'        => VoteType::MANUAL,
                 'first_choice_id'  => $choices[0],
                 'second_choice_id' => $choices[1] ?? null,
                 'third_choice_id'  => $choices[2] ?? null,
