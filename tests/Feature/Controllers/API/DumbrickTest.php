@@ -20,11 +20,15 @@ final class DumbrickTest extends TestCase
     private Round        $round;
     private UploadedFile $file;
 
-    public function test_as_guest(): void
+
+    protected function setUp(): void
     {
-        $this->createDataFile(['ABC']);
-        $response = $this->postJson(self::ENDPOINT, ['data' => $this->file]);
-        $response->assertUnauthorized();
+        parent::setUp();
+
+        Storage::fake('local');
+
+        $stage       = Stage::factory()->createOne();
+        $this->round = Round::factory()->for($stage)->started()->withSongs(4)->createOne();
     }
 
     protected function createDataFile(array $contents): void
@@ -40,6 +44,13 @@ final class DumbrickTest extends TestCase
             null,
             true
         );
+    }
+
+    public function test_as_guest(): void
+    {
+        $this->createDataFile(['ABC']);
+        $response = $this->postJson(self::ENDPOINT, ['data' => $this->file]);
+        $response->assertUnauthorized();
     }
 
     public function test_as_user(): void
@@ -134,13 +145,13 @@ final class DumbrickTest extends TestCase
         $response->assertJsonPath('votes', 3);
     }
 
-    protected function setUp(): void
+    public function test_no_current_round(): void
     {
-        parent::setUp();
-
-        Storage::fake('local');
-
-        $stage       = Stage::factory()->createOne();
-        $this->round = Round::factory()->for($stage)->started()->withSongs(4)->createOne();
+        $this->round->delete();
+        $this->createDataFile(['ABC']);
+        $response = $this->actingAs($this->user)->postJson(self::ENDPOINT, ['data' => $this->file]);
+        $response->assertBadRequest();
     }
+
+
 }
