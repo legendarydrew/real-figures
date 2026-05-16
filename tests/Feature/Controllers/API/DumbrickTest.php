@@ -153,5 +153,4 @@ final class DumbrickTest extends TestCase
         $response->assertBadRequest();
     }
 
-
 }
