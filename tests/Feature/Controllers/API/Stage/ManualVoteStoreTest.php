@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\API\Stage;
 
+use App\Enums\VoteType;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\RoundSongs;
@@ -160,6 +161,7 @@ final class ManualVoteStoreTest extends TestCase
         // Ensure the Songs received the correct vote.
         $vote = $this->round->votes->first();
 
+        self::assertEquals(VoteType::MANUAL->value, $vote->vote_type);
         self::assertEquals($this->payload['votes'][0]['song_ids']['first'], $vote->first_choice_id);
         self::assertEquals($this->payload['votes'][0]['song_ids']['second'], $vote->second_choice_id);
         self::assertEquals($this->payload['votes'][0]['song_ids']['third'], $vote->third_choice_id);
@@ -171,11 +173,25 @@ final class ManualVoteStoreTest extends TestCase
 
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
 
-        self::assertTrue($this->round->outcomes->every(fn ($outcome) => $outcome->was_manual));
-
         $this->round->refresh();
         self::assertCount(8, $this->round->votes);
+        self::assertTrue($this->round->votes->every(fn ($vote) => $vote->vote_type === VoteType::MANUAL->value));
 
+        self::assertCount(count($this->song_ids), $this->round->outcomes);
+        self::assertTrue($this->round->outcomes->every(fn ($outcome) => $outcome->was_manual));
+    }
+
+    public function test_manual_vote_preserves_other_votes(): void
+    {
+        $min_votes = (int)config('contest.judgement.min-votes');
+        $this->round->castRandomVote($min_votes);
+
+        config()->set('contest.judgement.panel-count', 3);
+
+        $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
+
+        $this->round->refresh();
+        self::assertCount((1 + 3) + $min_votes, $this->round->votes); // our vote + panel + existing
         self::assertCount(count($this->song_ids), $this->round->outcomes);
         self::assertTrue($this->round->outcomes->every(fn ($outcome) => $outcome->was_manual));
     }

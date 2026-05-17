@@ -19,19 +19,21 @@ final class RequiresManualVoteTest extends TestCase
     private Stage $stage;
 
     private array $song_ids;
+    private int $min_votes;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        $this->min_votes = (int)config('contest.judgement.min-votes');
         $this->stage = Stage::factory()->createOne();
         $this->song_ids = Song::factory(3)->withAct()->create()->pluck('id')->toArray();
     }
 
-    public function test_round_has_ended_with_votes(): void
+    public function test_round_has_ended_with_enough_votes(): void
     {
         $round = Round::factory()->ended()->for($this->stage)->create();
-        $this->createRoundOutcomes($round, no_votes: false);
+        $this->createRoundOutcomes($round, $this->min_votes);
 
         self::assertFalse($round->requiresManualVote());
     }
@@ -39,7 +41,15 @@ final class RequiresManualVoteTest extends TestCase
     public function test_round_has_ended_with_no_votes(): void
     {
         $round = Round::factory()->ended()->for($this->stage)->create();
-        $this->createRoundOutcomes($round, no_votes: true);
+        $this->createRoundOutcomes($round, 0);
+
+        self::assertTrue($round->requiresManualVote());
+    }
+
+    public function test_round_has_ended_with_too_few_votes(): void
+    {
+        $round = Round::factory()->ended()->for($this->stage)->create();
+        $this->createRoundOutcomes($round, $this->min_votes - 1);
 
         self::assertTrue($round->requiresManualVote());
     }
@@ -47,7 +57,7 @@ final class RequiresManualVoteTest extends TestCase
     public function test_round_has_not_ended_with_votes(): void
     {
         $round = Round::factory()->started()->for($this->stage)->create();
-        $this->createRoundOutcomes($round, no_votes: false);
+        $this->createRoundOutcomes($round, $this->min_votes);
 
         self::assertFalse($round->requiresManualVote());
     }
@@ -55,7 +65,7 @@ final class RequiresManualVoteTest extends TestCase
     public function test_round_has_not_ended_with_no_votes(): void
     {
         $round = Round::factory()->started()->for($this->stage)->create();
-        $this->createRoundOutcomes($round, no_votes: true);
+        $this->createRoundOutcomes($round, 0);
 
         self::assertFalse($round->requiresManualVote());
     }
@@ -82,7 +92,7 @@ final class RequiresManualVoteTest extends TestCase
         self::assertFalse($round->requiresManualVote());
     }
 
-    protected function createRoundOutcomes(Round $round, bool $no_votes): void
+    protected function createRoundOutcomes(Round $round, int $vote_count): void
     {
         foreach ($this->song_ids as $song_id) {
             RoundSongs::create([
@@ -91,26 +101,23 @@ final class RequiresManualVoteTest extends TestCase
             ]);
         }
 
-        if (! $no_votes) {
-            // Create the respective votes.
-            // (It doesn't matter in this case that the scores match: we should have votes if we have outcomes.)
-            $vote_count = fake()->numberBetween(2, 10);
-            for ($i = 0; $i < $vote_count; $i++) {
-                $songs = fake()->randomElements($this->song_ids, 3);
-                RoundVote::create([
-                    'round_id' => $round->id,
-                    'first_choice_id' => $songs[0],
-                    'second_choice_id' => $songs[1],
-                    'third_choice_id' => $songs[2],
-                ]);
-            }
+        // Create the respective votes.
+        // (It doesn't matter in this case that the scores match: we should have votes if we have outcomes.)
+        for ($i = 0; $i < $vote_count; $i++) {
+            $songs = fake()->randomElements($this->song_ids, 3);
+            RoundVote::create([
+                'round_id' => $round->id,
+                'first_choice_id' => $songs[0],
+                'second_choice_id' => $songs[1],
+                'third_choice_id' => $songs[2],
+            ]);
         }
 
         RoundOutcome::factory(count($this->song_ids))->for($round)->create([
             'song_id' => new Sequence(...$this->song_ids),
-            'first_votes' => $no_votes ? 0 : fake()->numberBetween(1, 5),
-            'second_votes' => $no_votes ? 0 : fake()->numberBetween(1, 5),
-            'third_votes' => $no_votes ? 0 : fake()->numberBetween(1, 5),
+            'first_votes' => $vote_count ? fake()->numberBetween(1, 5) : 0,
+            'second_votes' => $vote_count ? fake()->numberBetween(1, 5) : 0,
+            'third_votes' => $vote_count ? fake()->numberBetween(1, 5) : 0,
         ]);
     }
 }

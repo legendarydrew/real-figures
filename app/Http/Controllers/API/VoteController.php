@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\VoteType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VoteRequest;
 use App\Models\Round;
@@ -27,7 +28,8 @@ class VoteController extends Controller
         // Perform additional checks!
 
         $round = Round::with('songs')->findOrFail($data['round_id']);
-        if (! $round->hasStarted() || $round->hasEnded()) {
+        if (!$round->hasStarted() || $round->hasEnded())
+        {
             abort(Response::HTTP_BAD_REQUEST, 'Invalid round.');
         }
 
@@ -42,6 +44,7 @@ class VoteController extends Controller
         $choices = $song_votes->toArray();
 
         RoundVote::create([
+            'vote_type'        => VoteType::ORGANIC,
             'round_id'         => $round->id,
             'first_choice_id'  => $choices[0],
             'second_choice_id' => $choices[1] ?? null,

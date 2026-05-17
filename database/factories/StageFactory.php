@@ -56,7 +56,7 @@ class StageFactory extends Factory
                 // Randomise the chance of a Stage having votes vs. resorting to a "manual vote".
                 if (fake()->boolean(80))
                 {
-                    $round->randomVote(100);
+                    $round->castRandomVote(100);
                     EndOfRound::dispatchSync($round);
                 }
             }
