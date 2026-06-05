@@ -3,7 +3,7 @@ import React from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { LanguageFlag } from '@/components/mode/language-flag';
 import { ActImage } from '@/components/mode/act-image';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, GavelIcon, MicrochipIcon, PersonStandingIcon } from 'lucide-react';
 
 interface StageItemProps {
     round: Round;
@@ -21,11 +21,6 @@ export const StageRoundItem: React.FC<StageItemProps> = ({ round }) => {
                         <ActImage key={song.id} act={song.act} size="10 "/>
                     ))}
                 </div>
-                <span className="w-[9em] py-2 text-right text-sm">
-                    { round.vote_count ? (<>
-                        {round.vote_count} {round.vote_count === 1 ? 'vote' : 'votes'}
-                    </>) : <em className="text-muted-foreground">No votes</em>}
-                </span>
                 <span className="w-[10em] py-2 text-center text-xs">{round.starts_at}</span>
                 <span className="text-xs py-2 text-muted-foreground">to</span>
                 <span className="w-[10em] py-2 text-center text-xs">{round.ends_at}</span>
@@ -49,6 +44,30 @@ export const StageRoundItem: React.FC<StageItemProps> = ({ round }) => {
                         </li>
                     ))}
                 </ul>
+
+                {/* Breakdown of votes (if any). */}
+                { round.vote_count.total ? (
+                    <div className="flex gap-8 items-center text-sm py-2 px-4 font-semibold rounded-sm bg-secondary/10 mt-2 leading-none">
+                        <span className="font-bold flex-grow text-base">
+                            { round.vote_count.total } { round.vote_count.total === 1 ? 'Vote' : 'Votes' }
+                        </span>
+                        <span className="text-right flex items-center gap-1" title="Organic votes">
+                            <PersonStandingIcon className="size-4" />
+                            { round.vote_count.public }
+                        </span>
+                        <span className="text-right flex items-center gap-1 text-indigo-700" title="Manual votes">
+                            <GavelIcon className="size-4" />
+                            { round.vote_count.manual }
+                        </span>
+                        <span className="text-right flex items-center gap-1 text-green-700" title="Dumbrick votes">
+                            <MicrochipIcon className="size-4" />
+                            { round.vote_count.dumbrick }
+                        </span>
+                    </div>
+                    ) : (
+                    <div className="nothing text-sm">No votes</div>
+                )}
+
             </CollapsibleContent>
         </Collapsible>
     );

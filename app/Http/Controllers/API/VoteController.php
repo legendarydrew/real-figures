@@ -44,7 +44,7 @@ class VoteController extends Controller
         $choices = $song_votes->toArray();
 
         RoundVote::create([
-            'vote_type'        => VoteType::ORGANIC,
+            'vote_type'        => VoteType::ORGANIC->value,
             'round_id'         => $round->id,
             'first_choice_id'  => $choices[0],
             'second_choice_id' => $choices[1] ?? null,

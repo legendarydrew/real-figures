@@ -14,3 +14,4 @@ class VoteBreakdown
         return fractal($round, new RoundVoteBreakdownTransformer)->toArray();
     }
 }
+

@@ -57,7 +57,7 @@ class DumbrickController extends Controller
 
                 RoundVote::create([
                     'round_id'         => $current_round->id,
-                    'vote_type'        => VoteType::DUMBRICK,
+                    'vote_type'        => VoteType::DUMBRICK->value,
                     'first_choice_id'  => $song_ids[$choices[0] % $song_count],
                     'second_choice_id' => isset($choices[1]) ? $song_ids[$choices[1] % $song_count] : null,
                     'third_choice_id'  => isset($choices[2]) ? $song_ids[$choices[2] % $song_count] : null,

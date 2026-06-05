@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Enums\ContestStatus;
+use App\Enums\VoteType;
 use App\Facades\ContestFacade;
 use App\Facades\ContestFacade as Contest;
 use App\Http\Controllers\Controller;
@@ -81,6 +82,7 @@ class DashboardController extends Controller
     protected function getVotesThisWeek(): array
     {
         $vote_counts = RoundVote::where('created_at', '>', now()->subWeek())
+            ->whereVoteType(VoteType::ORGANIC->value)
             ->select([DB::raw('DATE(created_at) as date'), DB::raw('COUNT(id) as votes')])
             ->groupBy('date')
             ->get();
