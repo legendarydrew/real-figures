@@ -227,6 +227,7 @@ export interface RoundVoteBreakdown {
     id: number;
     title: string;  // The Round's full title.
     vote_count: number;
+    dumbrick_count: number;
     songs: {
         song: Song,
         score: number;

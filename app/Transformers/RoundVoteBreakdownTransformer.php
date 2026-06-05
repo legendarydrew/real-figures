@@ -2,6 +2,7 @@
 
 namespace App\Transformers;
 
+use App\Enums\VoteType;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use League\Fractal\TransformerAbstract;
@@ -10,18 +11,25 @@ class RoundVoteBreakdownTransformer extends TransformerAbstract
 {
     public function transform(Round $round): array
     {
+        $votes = $round->votes();
+
         return [
-            'id' => (int) $round->id,
-            'title' => $round->full_title,
-            'vote_count' => $round->votes()->count(),
-            'songs' => $round->outcomes->map(fn (RoundOutcome $outcome) => [
-                'song' => fractal($outcome->song, SongTransformer::class)->toArray(),
-                'score' => $outcome->score,
-                'first_choice_votes' => $outcome->first_votes,
+            'id'          => (int)$round->id,
+            'title'       => $round->full_title,
+            'vote_count'  => [
+                'total'    => $votes->count(),
+                'public'   => $votes->whereType(VoteType::MANUAL)->count(),
+                'manual'   => $votes->whereType(VoteType::MANUAL)->count(),
+                'dumbrick' => $votes->whereType(VoteType::DUMBRICK)->count(),
+            ],
+            'songs'       => $round->outcomes->map(fn(RoundOutcome $outcome) => [
+                'song'                => fractal($outcome->song, SongTransformer::class)->toArray(),
+                'score'               => $outcome->score,
+                'first_choice_votes'  => $outcome->first_votes,
                 'second_choice_votes' => $outcome->second_votes,
-                'third_choice_votes' => $outcome->third_votes,
-                'has_buzzer' => $outcome->song->hasGoldenBuzzer($round),
-                'win_status' => $outcome->song->roundWinStatus($round),
+                'third_choice_votes'  => $outcome->third_votes,
+                'has_buzzer'          => $outcome->song->hasGoldenBuzzer($round),
+                'win_status'          => $outcome->song->roundWinStatus($round),
             ]),
             'manual_vote' => $round->outcomes->every('was_manual'),
         ];
