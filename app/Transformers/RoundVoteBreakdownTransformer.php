@@ -5,6 +5,7 @@ namespace App\Transformers;
 use App\Enums\VoteType;
 use App\Models\Round;
 use App\Models\RoundOutcome;
+use App\Models\RoundVote;
 use League\Fractal\TransformerAbstract;
 
 class RoundVoteBreakdownTransformer extends TransformerAbstract
