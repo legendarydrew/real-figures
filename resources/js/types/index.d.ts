@@ -126,7 +126,12 @@ export interface Round {
     starts_at: string;
     ends_at: string;
     songs?: Song[];
-    vote_count: number;
+    vote_count: {
+        total: number;
+        public: number;
+        manual: number;
+        dumbrick: number;
+    };
 }
 
 export interface PaginatedResponse<T> {

@@ -11,16 +11,16 @@ class RoundVoteBreakdownTransformer extends TransformerAbstract
 {
     public function transform(Round $round): array
     {
-        $votes = $round->votes();
+        $votes = $round->votes;
 
         return [
             'id'          => (int)$round->id,
             'title'       => $round->full_title,
             'vote_count'  => [
                 'total'    => $votes->count(),
-                'public'   => $votes->whereType(VoteType::MANUAL)->count(),
-                'manual'   => $votes->whereType(VoteType::MANUAL)->count(),
-                'dumbrick' => $votes->whereType(VoteType::DUMBRICK)->count(),
+                'public'   => $votes->filter(fn(RoundVote $vote) => $vote->vote_type === VoteType::ORGANIC->value)->count(),
+                'manual'   => $votes->filter(fn(RoundVote $vote) => $vote->vote_type === VoteType::MANUAL->value)->count(),
+                'dumbrick' => $votes->filter(fn(RoundVote $vote) => $vote->vote_type === VoteType::DUMBRICK->value)->count(),
             ],
             'songs'       => $round->outcomes->map(fn(RoundOutcome $outcome) => [
                 'song'                => fractal($outcome->song, SongTransformer::class)->toArray(),

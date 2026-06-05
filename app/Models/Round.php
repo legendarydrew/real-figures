@@ -134,7 +134,7 @@ class Round extends Model
 
             RoundVote::create([
                 'round_id'         => $this->id,
-                'vote_type'        => VoteType::MANUAL,
+                'vote_type'        => VoteType::MANUAL->value,
                 'first_choice_id'  => $choices[0],
                 'second_choice_id' => $choices[1] ?? null,
                 'third_choice_id'  => $choices[2] ?? null,

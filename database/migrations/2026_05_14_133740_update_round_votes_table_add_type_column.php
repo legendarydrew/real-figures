@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::table('round_votes', function (Blueprint $table)
         {
             $table->enum('vote_type', VoteType::cases())
-                  ->default(VoteType::ORGANIC)
+                  ->default(VoteType::ORGANIC->value)
                   ->after('round_id');
         });
     }
