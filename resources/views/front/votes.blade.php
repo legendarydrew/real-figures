@@ -28,7 +28,7 @@
                                 @if($breakdown['manual_vote'])
                                     Winners were determined by an independent panel.
                                 @else
-                                    <b>{{ $breakdown['vote_count'] }}</b> total votes cast.
+                                    <b>{{ $breakdown['vote_count']['total'] }}</b> total votes cast.
                                 @endif
 
                             </caption>

@@ -92,10 +92,10 @@ cd {{ $new_release_dir }}
 
 @task('copy_previous_files', ['on' => 'web'])
 echo "=> Copying existing Act images..."
-[[ -d {{ $current_release_dir }}/public/img/act ]] && cp -r {{ $current_release_dir }}/public/img/act {{ $new_release_dir }}/public/img/act
+[[ -d {{ $current_release_dir }}/public/img/act ]] && cp -r {{ $current_release_dir }}/public/img/act {{ $new_release_dir }}/public/img
 
 echo "=> Copying log files..."
-[[ -d {{ $current_release_dir }}/storage/logs ]] && cp -r {{ $current_release_dir }}/storage/logs {{ $new_release_dir }}/storage/logs
+[[ -d {{ $current_release_dir }}/storage/logs ]] && cp -r {{ $current_release_dir }}/storage/logs {{ $new_release_dir }}/storage
 @endtask
 
 @task('set_permissions', ['on' => 'web'])

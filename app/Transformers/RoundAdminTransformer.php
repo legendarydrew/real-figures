@@ -2,7 +2,9 @@
 
 namespace App\Transformers;
 
+use App\Enums\VoteType;
 use App\Models\Round;
+use App\Models\RoundVote;
 use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 
@@ -12,12 +14,19 @@ class RoundAdminTransformer extends TransformerAbstract
 
     public function transform(Round $round): array
     {
+        $votes = $round->votes;
+
         return [
-            'id' => (int) $round->id,
-            'title' => $round->title,
-            'starts_at' => $round->starts_at->format('F d Y H:i'),
-            'ends_at' => $round->ends_at->format('F d Y H:i'),
-            'vote_count' => $round->votes_count,
+            'id'         => (int)$round->id,
+            'title'      => $round->title,
+            'starts_at'  => $round->starts_at->format('F d Y H:i'),
+            'ends_at'    => $round->ends_at->format('F d Y H:i'),
+            'vote_count' => [
+                'total'    => $votes->count(),
+                'public'   => $votes->filter(fn(RoundVote $vote) => $vote->vote_type === VoteType::ORGANIC->value)->count(),
+                'manual'   => $votes->filter(fn(RoundVote $vote) => $vote->vote_type === VoteType::MANUAL->value)->count(),
+                'dumbrick' => $votes->filter(fn(RoundVote $vote) => $vote->vote_type === VoteType::DUMBRICK->value)->count(),
+            ],
         ];
     }
 

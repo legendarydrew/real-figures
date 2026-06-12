@@ -21,7 +21,7 @@ final class ByRoundTest extends TestCase
 
         self::assertEquals($round->id, $breakdown['id']);
         self::assertEquals($round->full_title, $breakdown['title']);
-        self::assertEquals($round->votes()->count(), $breakdown['vote_count']);
+        self::assertEquals($round->votes()->count(), $breakdown['vote_count']['total']);
         self::assertCount(0, $round->songs);
     }
 
@@ -33,7 +33,7 @@ final class ByRoundTest extends TestCase
 
         self::assertEquals($round->id, $breakdown['id']);
         self::assertEquals($round->full_title, $breakdown['title']);
-        self::assertEquals($round->votes()->count(), $breakdown['vote_count']);
+        self::assertEquals($round->votes()->count(), $breakdown['vote_count']['total']);
         self::assertCount($round->songs()->count(), $round->songs);
     }
 
@@ -46,7 +46,7 @@ final class ByRoundTest extends TestCase
 
         self::assertEquals($round->id, $breakdown['id']);
         self::assertEquals($round->full_title, $breakdown['title']);
-        self::assertEquals($round->votes()->count(), $breakdown['vote_count']);
+        self::assertEquals($round->votes()->count(), $breakdown['vote_count']['total']);
         self::assertCount($round->songs()->count(), $round->songs);
     }
 }
