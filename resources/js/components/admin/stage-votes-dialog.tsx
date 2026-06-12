@@ -6,6 +6,7 @@ import { LoaderCircleIcon } from 'lucide-react';
 import { Alert } from '@/components/mode/alert';
 import HeadingSmall from '@/components/heading-small';
 import { SongBanner } from '@/components/mode/song-banner';
+import { RoundVoteBreakdownChart } from '@/components/admin/round-vote-breakdown';
 
 interface StageVotesDialogProps {
     // Dialog properties.
@@ -39,8 +40,8 @@ export const StageVotesDialog: FC<StageVotesDialogProps> = ({ open, onOpenChange
             .then((response) => {
                 setBreakdown(response.data);
             })
-            .catch((response) => {
-                setError(response.response.data.message);
+            .catch((err) => {
+                setError(err.response.data.message);
             })
             .finally(() => setIsLoading(false));
     }
@@ -55,11 +56,12 @@ export const StageVotesDialog: FC<StageVotesDialogProps> = ({ open, onOpenChange
                         {error && <Alert type="error">{error}</Alert>}
                         <div className="overflow-y-auto max-h-[50dvh]">
                             {breakdown?.map((row) => (
-                                <div key={row.id} className="my-2">
+                                <div key={row.id} className="mt-2 mb-8">
+                                    <HeadingSmall title={row.title}/>
+                                    <RoundVoteBreakdownChart results={row.breakdown} />
+                                    {/* include vote type counts! */}
                                     <div className="flex text-sm font-semibold items-center">
-                                        <div className="flex-grow">
-                                            <HeadingSmall title={row.title}/>
-                                        </div>
+                                        <div className="flex-grow">Act</div>
                                         <div className="w-[6em] px-3 text-right">
                                             <span className="text-xs">Score</span>
                                         </div>
