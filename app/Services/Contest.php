@@ -10,6 +10,7 @@ use App\Models\NewsPost;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\RoundVote;
+use App\Models\Song;
 use App\Models\Stage;
 use App\Models\StageWinner;
 use App\Transformers\BasicActTransformer;
@@ -277,37 +278,39 @@ class Contest
     {
         $scores = config('contest.points');
         $round->loadMissing(['votes', 'songs']);
-        $votes  = $round->votes;
+        $votes = $round->votes;
 
         // Which Acts are in this Round?
-        $act_ids = $round->songs->pluck('act_id')->unique();
-
-        // Breakdown of Acts and their scores based on vote type.
         $breakdown = [];
-        $act_ids->each(function (int $act_id) use (&$breakdown)
+        $song_acts = [];
+        $round->songs->each(function (Song $song) use (&$breakdown, &$song_acts)
         {
-            $breakdown[$act_id] = [
-                'id'                      => $act_id,
+            $song_acts[$song->id]     = $song->act_id;
+            $breakdown[$song->act_id] = [
+                'id'                      => $song->act_id,
                 VoteType::ORGANIC->value  => 0,
                 VoteType::MANUAL->value   => 0,
                 VoteType::DUMBRICK->value => 0
             ];
         });
-        $votes->each(function (RoundVote $vote) use (&$breakdown, $scores)
+
+        $votes->each(function (RoundVote $vote) use ($song_acts, &$breakdown, $scores)
         {
             $keys = ['first_choice_id', 'second_choice_id', 'third_choice_id'];
+            // these are Songs!
             foreach ($keys as $i => $key)
             {
-                $act_id = $vote->getAttributeValue($key);
-                if (!is_null($act_id))
+                $song_id = $vote->getAttributeValue($key);
+                if (!is_null($song_id))
                 {
+                    $act_id                               = $song_acts[$song_id];
                     $breakdown[$act_id][$vote->vote_type] += $scores[$i];
                 }
             }
         });
 
         // Return Act information along with the breakdown.
-        $acts = Act::whereIn('id', $act_ids)->get();
+        $acts = Act::whereIn('id', $song_acts)->get();
         return [
             'acts'      => fractal($acts, new BasicActTransformer())->toArray(),
             'breakdown' => array_values($breakdown)

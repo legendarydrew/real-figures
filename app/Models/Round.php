@@ -117,13 +117,13 @@ class Round extends Model
     }
 
     /**
-     * Cast the specified number of "manual" (independent panel) votes for this Round.
+     * Cast the specified number of votes for this Round.
      * The Songs chosen are entirely at random, and there are between one and three Song choices.
      *
      * @param int $count
      * @return void
      */
-    public function castRandomVote(int $count = 1): void
+    public function castRandomVote(int $count = 1, VoteType $type = VoteType::MANUAL): void
     {
         $song_ids = $this->songs->map(fn(Song $song) => $song->id);
 
@@ -134,7 +134,7 @@ class Round extends Model
 
             RoundVote::create([
                 'round_id'         => $this->id,
-                'vote_type'        => VoteType::MANUAL->value,
+                'vote_type'        => $type->value,
                 'first_choice_id'  => $choices[0],
                 'second_choice_id' => $choices[1] ?? null,
                 'third_choice_id'  => $choices[2] ?? null,

@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\Enums\VoteType;
+use App\Facades\ContestFacade;
 use App\Models\Round;
 use App\Models\RoundOutcome;
 use App\Models\RoundVote;
@@ -33,6 +34,7 @@ class RoundVoteBreakdownTransformer extends TransformerAbstract
                 'win_status'          => $outcome->song->roundWinStatus($round),
             ]),
             'manual_vote' => $round->outcomes->every('was_manual'),
+            'breakdown'   => ContestFacade::breakdownVoteTypes($round)
         ];
     }
 }

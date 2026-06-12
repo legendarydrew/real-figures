@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\VoteType;
 use App\Facades\ContestFacade;
 use App\Facades\RoundAllocateFacade;
 use App\Models\Act;
@@ -387,7 +388,7 @@ class Rehearse extends Command
     {
         $vote_count = ($judgement || fake()->boolean(70)) ?
             fake()->numberBetween(1, 200) : 0;
-        $round->castRandomVote($vote_count);
+        $round->castRandomVote($vote_count, VoteType::ORGANIC);
         return $vote_count;
     }
 
