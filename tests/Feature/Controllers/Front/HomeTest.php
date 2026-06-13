@@ -20,4 +20,10 @@ final class HomeTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('front.home');
     }
+
+    public function test_rogue_post_request(): void
+    {
+        $response = $this->post(route('home'), ['abc' => 123]);
+        $response->assertMethodNotAllowed();
+    }
 }

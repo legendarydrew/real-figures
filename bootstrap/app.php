@@ -64,6 +64,12 @@ return Application::configure(basePath: dirname(__DIR__))
                               ]);
                           }
 
+                          if ($response->getStatusCode() === Response::HTTP_METHOD_NOT_ALLOWED) {
+                              // Report more information about the exception.
+                              // On the live site, we were getting strange errors regarding a POST request on the home page.
+                              logger()->info('Method not allowed',[$request->method(), $request->url(), $request->all()]);
+                          }
+
                           logger()->error($exception);
 
                           return $response;
