@@ -48,6 +48,7 @@ $php = $php ?: 'php';
 create_project_folder
 {{--rsync--}}
 scp
+copy_previous_files
 verify_install
 set_permissions
 activate_release
@@ -92,10 +93,10 @@ cd {{ $new_release_dir }}
 
 @task('copy_previous_files', ['on' => 'web'])
 echo "=> Copying existing Act images..."
-[[ -d {{ $current_release_dir }}/public/img/act ]] && cp -r {{ $current_release_dir }}/public/img/act {{ $new_release_dir }}/public/img
+[[ -d {{ $current_release_dir }}/public/img/act ]] && cp -r {{ $current_release_dir }}/public/img/act {{ $new_release_dir }}/public/img/act
 
 echo "=> Copying log files..."
-[[ -d {{ $current_release_dir }}/storage/logs ]] && cp -r {{ $current_release_dir }}/storage/logs {{ $new_release_dir }}/storage
+[[ -d {{ $current_release_dir }}/storage/logs ]] && cp -r {{ $current_release_dir }}/storage/logs {{ $new_release_dir }}/storage/logs
 @endtask
 
 @task('set_permissions', ['on' => 'web'])
