@@ -41,8 +41,8 @@ class RoundResults
      */
     public function calculate(Round $round, ?int $runner_up_count = null): ?array
     {
-        $runner_up_count = $runner_up_count ?? config('contest.judgement.runners-up');
-        $allow_ties = config('contest.judgement.allow-ties');
+        $runner_up_count = $runner_up_count ?? config('contest.judgement.runners_up');
+        $allow_ties = config('contest.judgement.allow_ties');
 
         if (! $this->isRoundEligible($round)) {
             return null;
@@ -81,7 +81,7 @@ class RoundResults
 
     protected function pickRunnersUp(Collection $results, int $count): Collection
     {
-        $allow_ties = config('contest.judgement.allow-ties');
+        $allow_ties = config('contest.judgement.allow_ties');
 
         $runners_up = new Collection;
 

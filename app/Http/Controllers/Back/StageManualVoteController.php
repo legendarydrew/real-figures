@@ -105,8 +105,8 @@ class StageManualVoteController extends Controller
      */
     protected function castPanelVotes(int $round_id, array $song_ids, array $voted): void
     {
-        $vote_count = max(0, config('contest.judgement.panel-count'));
-        $vote_bias = max(0, min(100, config('contest.judgement.panel-bias')));
+        $vote_count = max(0, config('contest.judgement.panel_count'));
+        $vote_bias = max(0, min(100, config('contest.judgement.panel_bias')));
 
         for ($i = 0; $i < $vote_count; $i++) {
             // Determine whether the panel member's vote matches the user's, or is completely random.

@@ -25,7 +25,7 @@ final class RequiresManualVoteTest extends TestCase
     {
         parent::setUp();
 
-        $this->min_votes = (int)config('contest.judgement.min-votes');
+        $this->min_votes = (int)config('contest.judgement.min_votes');
         $this->stage = Stage::factory()->createOne();
         $this->song_ids = Song::factory(3)->withAct()->create()->pluck('id')->toArray();
     }

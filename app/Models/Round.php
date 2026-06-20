@@ -99,7 +99,7 @@ class Round extends Model
      */
     public function requiresManualVote(): bool
     {
-        $too_few_votes = $this->votes->count() < (int)config('contest.judgement.min-votes');
+        $too_few_votes = $this->votes->count() < (int)config('contest.judgement.min_votes');
         $zero_points   = $this->outcomes->every(fn(RoundOutcome $outcome) => (int)$outcome->score === 0);
 
         return $this->hasEnded() && $this->songs->isNotEmpty() && ($too_few_votes || $zero_points);

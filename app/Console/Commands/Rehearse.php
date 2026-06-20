@@ -123,7 +123,7 @@ class Rehearse extends Command
                 Song::factory()->for($row)
                     ->withUrl($act['song']['url']['test'])
                     ->createOne([
-                        'title'       => $act['song']['title'] ?? config('contest.song.default-title'),
+                        'title'       => $act['song']['title'] ?? config('contest.song.default_title'),
                         'act_id'      => $row->id,
                         'language_id' => Language::whereCode($act['song']['language'] ?? 'en')->first()->id,
                     ]);

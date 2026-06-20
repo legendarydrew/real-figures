@@ -70,7 +70,7 @@ class NewsPromptController extends Controller
         $history = NewsPost::published()->whereIn('id', $data['history'])
                            ->get()
                            ->map(fn(NewsPost $post) => sprintf('%s - %s',
-                               $post->published_at->format(config('contest.format.full-date')),
+                               $post->published_at->format(config('contest.format.full_date')),
                                $post->title));
 
         return response()->json(['prompt' => [...$prompt->toArray(), 'history' => $history]]);

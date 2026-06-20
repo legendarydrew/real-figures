@@ -55,7 +55,7 @@ class NewsGenerateController extends Controller
                                                               'id'        => $post->id,
                                                               'type'      => $post->type,
                                                               'title'     => $post->title,
-                                                              'published' => $post->published_at->format(config('contest.format.full-date')),
+                                                              'published' => $post->published_at->format(config('contest.format.full_date')),
                                                           ])),
         ]);
     }

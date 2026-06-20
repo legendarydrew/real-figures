@@ -15,8 +15,8 @@ class ContactMessageTransformer extends TransformerAbstract
             'email' => $message->email,
             'ip' => $message->ip_address,
             'body' => $message->body,
-            'sent_at' => $message->created_at->format(config('contest.format.full-date')),
-            'read_at' => $message->read_at ? $message->read_at->format(config('contest.format.full-date')) : null,
+            'sent_at' => $message->created_at->format(config('contest.format.full_date')),
+            'read_at' => $message->read_at ? $message->read_at->format(config('contest.format.full_date')) : null,
             'is_spam' => (bool) $message->is_spam,
             'was_read' => (bool) $message->was_read,
         ];

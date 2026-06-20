@@ -56,7 +56,7 @@ final class ManualVoteStoreTest extends TestCase
             ],
         ];
 
-        config()->set('contest.judgement.panel-count', 0);
+        config()->set('contest.judgement.panel_count', 0);
     }
 
     public function test_as_guest(): void
@@ -149,7 +149,7 @@ final class ManualVoteStoreTest extends TestCase
     public function test_manual_vote_creates_vote(): void
     {
         // This test assumes there are no other panel members.
-        self::assertEquals(0, config('contest.judgement.panel-count'));
+        self::assertEquals(0, config('contest.judgement.panel_count'));
 
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
 
@@ -169,7 +169,7 @@ final class ManualVoteStoreTest extends TestCase
 
     public function test_manual_vote_with_panel_creates_votes(): void
     {
-        config()->set('contest.judgement.panel-count', 7);
+        config()->set('contest.judgement.panel_count', 7);
 
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
 
@@ -183,10 +183,10 @@ final class ManualVoteStoreTest extends TestCase
 
     public function test_manual_vote_preserves_other_votes(): void
     {
-        $min_votes = (int)config('contest.judgement.min-votes');
+        $min_votes = (int)config('contest.judgement.min_votes');
         $this->round->castRandomVote($min_votes);
 
-        config()->set('contest.judgement.panel-count', 3);
+        config()->set('contest.judgement.panel_count', 3);
 
         $this->actingAs($this->user)->postJson(sprintf(self::ENDPOINT, $this->stage->id), $this->payload);
 
