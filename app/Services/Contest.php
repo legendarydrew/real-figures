@@ -17,6 +17,7 @@ use App\Transformers\BasicActTransformer;
 use App\Transformers\SongTransformer;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class Contest
 {
@@ -90,7 +91,7 @@ class Contest
     /**
      * Create RoundOutcomes for the specified Round.
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function buildRoundOutcomes(Round $round, bool $manual = false): void
     {
@@ -100,10 +101,20 @@ class Contest
 
         $round->load(['votes', 'songs']);
         $votes = $round->votes;
+
         if (!$manual)
         {
             $votes = $votes->filter(fn(RoundVote $v) => $v->created_at->isBetween($round->starts_at, $round->ends_at));
         }
+
+        // If there are enough "organic" and manual votes to meet the threshold, completely throw out any
+        // Dumbrick votes when calculating scores. This will help toward ensuring the results are reflective of
+        // actual sentiments.
+        $organic_votes = $votes->filter(fn(RoundVote $v) => $v->vote_type !== VoteType::DUMBRICK->value);
+        if ($organic_votes->count() >= config('contest.judgement.min_votes')) {
+            $votes = $organic_votes;
+        }
+
         if ($votes->isNotEmpty())
         {
             DB::transaction(function () use ($round, $votes, $manual)
