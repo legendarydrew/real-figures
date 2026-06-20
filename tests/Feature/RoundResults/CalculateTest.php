@@ -49,13 +49,13 @@ final class CalculateTest extends TestCase
                 'third_votes' => new Sequence(...range(1, $this->number_of_songs)),
             ]);
 
-        config()->set('contest.judgement.allow-ties', true);
+        config()->set('contest.judgement.allow_ties', true);
         $results = RoundResultsFacade::calculate($this->round);
 
         self::assertNotNull($results);
         self::assertCount(1, $results['winners']);
 
-        config()->set('contest.judgement.allow-ties', false);
+        config()->set('contest.judgement.allow_ties', false);
         $results = RoundResultsFacade::calculate($this->round);
 
         self::assertNotNull($results);
@@ -79,13 +79,13 @@ final class CalculateTest extends TestCase
                 'song_id' => new Sequence(...array_slice($this->song_ids, $tied_winner_count)),
             ]);
 
-        config()->set('contest.judgement.allow-ties', true);
+        config()->set('contest.judgement.allow_ties', true);
         $results = RoundResultsFacade::calculate($this->round);
 
         self::assertNotNull($results);
         self::assertCount($tied_winner_count, $results['winners']);
 
-        config()->set('contest.judgement.allow-ties', false);
+        config()->set('contest.judgement.allow_ties', false);
         $results = RoundResultsFacade::calculate($this->round);
 
         self::assertNotNull($results);

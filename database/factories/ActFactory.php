@@ -56,7 +56,7 @@ class ActFactory extends Factory
     public function withSong(?string $song_title = null): ActFactory
     {
         return $this->afterCreating(fn(Act $act) => Song::factory()->for($act)->createOne([
-            'title' => $song_title ?? config('contest.song.default-title'),
+            'title' => $song_title ?? config('contest.song.default_title'),
         ])
         );
     }

@@ -12,8 +12,8 @@ class SubscriberTransformer extends TransformerAbstract
         return [
             'id' => (int) $subscriber->id,
             'email' => $subscriber->email,
-            'created_at' => $subscriber->created_at->format(config('contest.format.full-date')),
-            'updated_at' => $subscriber->updated_at->format(config('contest.format.full-date')),
+            'created_at' => $subscriber->created_at->format(config('contest.format.full_date')),
+            'updated_at' => $subscriber->updated_at->format(config('contest.format.full_date')),
         ];
     }
 }

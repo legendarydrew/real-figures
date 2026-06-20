@@ -14,7 +14,7 @@ class GoldenBuzzerTransformer extends TransformerAbstract
         return [
             'id' => (int) $donation->id,
             'name' => $donation->is_anonymous ? trans('anonymous') : $donation->name,
-            'created_at' => $donation->created_at->format(config('contest.format.full-date')),
+            'created_at' => $donation->created_at->format(config('contest.format.full_date')),
             'is_anonymous' => $donation->is_anonymous,
             'message' => $donation->message ?? null,
             'amount' => sprintf('%s %s', $donation->currency, number_format($donation->amount, 2)),

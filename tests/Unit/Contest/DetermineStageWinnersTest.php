@@ -62,7 +62,7 @@ final class DetermineStageWinnersTest extends TestCase
 
     public function test_stage_one_winner_with_ties_enabled(): void
     {
-        config()->set('contest.judgement.allow-ties', true);
+        config()->set('contest.judgement.allow_ties', true);
 
         foreach ($this->song_ids as $song_id) {
             RoundOutcome::factory()->create([
@@ -80,7 +80,7 @@ final class DetermineStageWinnersTest extends TestCase
 
     public function test_stage_multiple_winners_with_ties_enabled(): void
     {
-        config()->set('contest.judgement.allow-ties', true);
+        config()->set('contest.judgement.allow_ties', true);
 
         $winners = fake()->randomElements($this->song_ids);
         $others = array_diff($this->song_ids, $winners);
@@ -111,7 +111,7 @@ final class DetermineStageWinnersTest extends TestCase
 
     public function test_stage_one_winner_with_ties_disabled(): void
     {
-        config()->set('contest.judgement.allow-ties', false);
+        config()->set('contest.judgement.allow_ties', false);
 
         foreach ($this->song_ids as $song_id) {
             RoundOutcome::factory()->create([
@@ -129,7 +129,7 @@ final class DetermineStageWinnersTest extends TestCase
 
     public function test_stage_multiple_winners_with_ties_disabled(): void
     {
-        config()->set('contest.judgement.allow-ties', false);
+        config()->set('contest.judgement.allow_ties', false);
         foreach ($this->song_ids as $song_id) {
             RoundOutcome::factory()->create([
                 'round_id' => $this->round->id,
@@ -164,7 +164,7 @@ final class DetermineStageWinnersTest extends TestCase
 
     public function test_stage_runners_up_with_ties_enabled(): void
     {
-        config()->set('contest.judgement.allow-ties', true);
+        config()->set('contest.judgement.allow_ties', true);
 
         // overall winner
         RoundOutcome::factory()->create([
@@ -199,7 +199,7 @@ final class DetermineStageWinnersTest extends TestCase
 
     public function test_stage_runners_up_with_ties_disabled(): void
     {
-        config()->set('contest.judgement.allow-ties', false);
+        config()->set('contest.judgement.allow_ties', false);
 
         // overall winner
         RoundOutcome::factory()->create([

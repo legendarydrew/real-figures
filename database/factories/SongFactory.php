@@ -29,7 +29,7 @@ class SongFactory extends Factory
         $language = $language ?? Language::factory()->createOne();
 
         return [
-            'title' => config('contest.song.default-title'),
+            'title' => config('contest.song.default_title'),
             'language_id' => $language->id,
         ];
     }
