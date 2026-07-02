@@ -6,7 +6,7 @@
           content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @hasSection('page-title')
-        <title>@yield('page-title') &mdash; {{ config('app.name') }}</title>
+        <title>@yield('page-title')</title>
     @else
         <title>{{ config('app.name') }}</title>
     @endif
