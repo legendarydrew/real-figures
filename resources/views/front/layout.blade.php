@@ -5,10 +5,11 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@hasSection('page-title')
-            @yield('page-title') &mdash;
-        @endif{{ config('app.name') }}</title>
-    <title>@yield('page-title', config('app.name'))</title>
+    @hasSection('page-title')
+        <title>@yield('page-title')</title>
+    @else
+        <title>{{ config('app.name') }}</title>
+    @endif
     <meta name="description" content="@yield('page-description')"/>
     <meta name="paypal-client" content="{{ config('services.paypal.client_id')}}"/>
     @yield('meta')

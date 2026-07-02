@@ -17,6 +17,7 @@ class NewsPostTransformer extends TransformerAbstract
         return [
             'id' => (int) $post->id,
             'title' => $post->title,
+            'page_title' => $post->page_title,
             'url' => $post->url,
             'content' => $post->content,
             'excerpt' => $post->excerpt,
