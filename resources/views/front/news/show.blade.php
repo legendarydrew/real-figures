@@ -1,6 +1,6 @@
 @extends('front.layout')
 
-@section('page-title', $post['title'])
+@section('page-title', $post['page_title'])
 @section('page-description', $post['excerpt'])
 @section('page-image', asset('img/og/og-news.jpg'))
 @section('page-type', 'article')
