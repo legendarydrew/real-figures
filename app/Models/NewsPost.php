@@ -24,8 +24,8 @@ class NewsPost extends Model implements Feedable
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom('title')
-            ->saveSlugsTo('slug');
+                          ->generateSlugsFrom('title')
+                          ->saveSlugsTo('slug');
     }
 
     public function getDates(): array
@@ -43,6 +43,30 @@ class NewsPost extends Model implements Feedable
         $text_content = strip_tags(Str::markdown($this->content));
 
         return Str::words($text_content, 20);
+    }
+
+    public function getPageTitleAttribute(): string
+    {
+        // For SEO purposes, the page's title tag content should not be longer than 70 characters.
+        // We're assuming there are no prefixes or suffixes.
+        $source_words = explode(' ', $this->title);
+        $dest_words   = [];
+        $length       = 0;
+        foreach ($source_words as $word)
+        {
+            $length += strlen($word);
+            if ($length + 3 >= 70)
+            {
+                break;
+            }
+            $dest_words[] = $word;
+        }
+        $output = implode(' ', $dest_words);
+        if (count($dest_words) < count($source_words))
+        {
+            $output .= '...';
+        }
+        return $output;
     }
 
     public function getUrlAttribute(): string
@@ -75,10 +99,10 @@ class NewsPost extends Model implements Feedable
     public function otherRecentPosts(): ?Collection
     {
         return NewsPost::published()
-            ->wherenotIn('id', [$this->id, $this->previousPost()?->id, $this->nextPost()?->id])
-            ->orderByDesc('id')
-            ->take(4)
-            ->get();
+                       ->wherenotIn('id', [$this->id, $this->previousPost()?->id, $this->nextPost()?->id])
+                       ->orderByDesc('id')
+                       ->take(4)
+                       ->get();
     }
 
     /**
@@ -86,19 +110,19 @@ class NewsPost extends Model implements Feedable
      */
     public function actsMentioned(): Collection
     {
-        return Act::get()->filter(fn (Act $act) => str_contains(strtolower($this->content), strtolower($act->name)));
+        return Act::get()->filter(fn(Act $act) => str_contains(strtolower($this->content), strtolower($act->name)));
     }
 
     public function toFeedItem(): FeedItem
     {
         return FeedItem::create()
-            ->id($this->id)
-            ->title($this->title)
-            ->summary($this->excerpt)
-            ->updated($this->updated_at)
-            ->link($this->url)
-            ->authorName(config('contest.feed.author'))
-            ->authorEmail(config('contest.feed.email'));
+                       ->id($this->id)
+                       ->title($this->title)
+                       ->summary($this->excerpt)
+                       ->updated($this->updated_at)
+                       ->link($this->url)
+                       ->authorName(config('contest.feed.author'))
+                       ->authorEmail(config('contest.feed.email'));
     }
 
     public static function getFeedItems()
