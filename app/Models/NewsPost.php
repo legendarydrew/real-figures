@@ -52,11 +52,12 @@ class NewsPost extends Model implements Feedable
         $source_words = explode(' ', $this->title);
         $dest_words   = [];
         $length       = 0;
-        foreach ($source_words as $word)
+        foreach ($source_words as $i => $word)
         {
             $length += strlen($word);
-            if ($length + 3 >= 70)
+            if (($length + $i) >= config('contest.news.max_title_length', 70) - 3)
             {
+                // $i is used to represent spaces in the page title.
                 break;
             }
             $dest_words[] = $word;
