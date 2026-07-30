@@ -19,7 +19,7 @@ class IsBase64Image implements ValidationRule
     {
         // https://stackoverflow.com/a/39442808/4073160
         try {
-            Image::read($value);
+            Image::decode($value);
         } catch (Exception $e) {
             $fail("$attribute is an invalid image: {$e->getMessage()}");
         }

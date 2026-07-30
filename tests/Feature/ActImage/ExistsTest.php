@@ -38,6 +38,7 @@ final class ExistsTest extends TestCase
 
     public function test_non_existent_image(): void
     {
+        @unlink(ActImageFacade::path($this->act));
         self::assertFalse(ActImageFacade::exists($this->act));
     }
 }

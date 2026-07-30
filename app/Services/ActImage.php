@@ -28,7 +28,7 @@ class ActImage
         @mkdir($this->getImageFolder(), 0755, true);
 
         // Save the image.
-        Image::read($image)
+        Image::decode($image)
             ->scaleDown(...config('contest.images.resize'))
             ->save($this->path($act));
     }

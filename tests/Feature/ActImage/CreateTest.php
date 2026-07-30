@@ -5,6 +5,7 @@ namespace Tests\Feature\ActImage;
 use App\Facades\ActImageFacade;
 use App\Models\Act;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Intervention\Image\Laravel\Facades\Image;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use Tests\TestCase;
 
@@ -39,7 +40,7 @@ final class CreateTest extends TestCase
         ActImageFacade::create($this->act, $image);
 
         $path = ActImageFacade::path($this->act);
-        $new_image = \Intervention\Image\Laravel\Facades\Image::read($path);
+        $new_image = Image::decode($path);
         self::assertLessThanOrEqual(config('contest.images.resize')[0], $new_image->width());
         self::assertLessThanOrEqual(config('contest.images.resize')[1], $new_image->height());
 
