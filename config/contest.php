@@ -66,4 +66,7 @@ return [
         'author'      => 'CATAWOL Records',
         'email'       => 'holla@silentmode.tv',
     ],
+    'news', [
+        'max_title_length' => 70
+    ]
 ];

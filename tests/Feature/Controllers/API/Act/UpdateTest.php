@@ -118,7 +118,7 @@ final class UpdateTest extends TestCase
     public function test_updates_and_adds_image(): void
     {
         fake()->addProvider(new FakerPicsumImagesProvider(fake()));
-        $this->payload['new_image'] = Image::read(fake()->image())->encode()->toDataUri();
+        $this->payload['new_image'] = Image::decode(fake()->image())->encode()->toDataUri();
         $this->payload['remove_image'] = false;
         $this->actingAs($this->user)->patchJson(sprintf(self::ENDPOINT, $this->act->id), $this->payload);
 
