@@ -17,6 +17,7 @@ class StageAdminTransformer extends TransformerAbstract
             'title' => $stage->title,
             'description' => $stage->description,
             'golden_buzzer_perks' => $stage->golden_buzzer_perks,
+            'minimum_choices' => (int) $stage->minimum_choices,
             'status' => [
                 'text' => $stage->status,
                 'choose_winners' => $stage->canChooseWinners(),

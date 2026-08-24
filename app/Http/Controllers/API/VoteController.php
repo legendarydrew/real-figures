@@ -35,6 +35,9 @@ class VoteController extends Controller
 
         $song_votes     = collect([$data['first_choice_id'], $data['second_choice_id'], $data['third_choice_id']])
             ->filter(fn($choice) => !is_null($choice));
+        if ($song_votes->count() < $round->stage->minimum_choices) {
+            abort(Response::HTTP_UNPROCESSABLE_ENTITY, 'The minimum number of choices was not met.');
+        }
         $round_song_ids = $round->songs->pluck('id')->toArray();
         if (!$song_votes->every(fn($song_vote) => in_array($song_vote, $round_song_ids)))
         {

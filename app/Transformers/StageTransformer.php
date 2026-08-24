@@ -17,6 +17,7 @@ class StageTransformer extends TransformerAbstract
             'id' => (int) $stage->id,
             'title' => $stage->title,
             'description' => $stage->description,
+            'minimum_choices' => (int) $stage->minimum_choices,
             'status' => $stage->status,
         ];
     }

@@ -29,6 +29,7 @@ class StageRequest extends FormRequest
             ],
             'description' => ['required', 'string'],
             'golden_buzzer_perks' => ['nullable', 'string'],
+            'minimum_choices' => ['sometimes', 'integer', 'between:1,3'],
         ];
     }
 }

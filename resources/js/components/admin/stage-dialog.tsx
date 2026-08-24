@@ -30,6 +30,7 @@ type StageForm = {
     title: string;
     description: string;
     golden_buzzer_perks?: string;
+    minimum_choices: number;
 }
 
 export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage }) => {
@@ -37,7 +38,8 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
     const { data, setData, post, patch, errors, setError, processing } = useForm<Required<StageForm>>({
         title: '',
         description: '',
-        golden_buzzer_perks: ''
+        golden_buzzer_perks: '',
+        minimum_choices: 1
     });
 
     useEffect(() => {
@@ -45,7 +47,14 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
         setData({
             title: isEditing() ? stage?.title : '',
             description: isEditing() ? stage?.description : '',
-            golden_buzzer_perks: isEditing() ? stage?.golden_buzzer_perks : ''
+            golden_buzzer_perks: isEditing() ? stage?.golden_buzzer_perks : '',
+            minimum_choices: isEditing() ? stage?.minimum_choices : 1
+        });
+        setError({
+           title: '',
+           description: '',
+           golden_buzzer_perks: '',
+           minimum_choices: ''
         });
     }, [stage]);
 
@@ -108,6 +117,21 @@ export const StageDialog: FC<StageDialogProps> = ({ open, onOpenChange, stage })
                         <Input id="stageName" type="text" className="font-bold" value={data.title}
                                onChange={changeTitleHandler}/>
                         <InputError message={errors.title}/>
+                    </div>
+
+                    <div className="mb-4">
+                        <Label htmlFor="stageMinimumChoices">Minimum vote choices</Label>
+                        <div className="flex gap-4 items-center">
+                            <span className="w-16">
+                            <Input id="stageMinimumChoices" type="number" min="1" max="3"
+                                   value={data.minimum_choices}
+                                   onChange={(e) => {
+                                       setData('minimum_choices', Number(e.target.value));
+                                       setError('minimum_choices', '');
+                                   }}/>
+                            </span>
+                            <InputError message={errors.minimum_choices}/>
+                        </div>
                     </div>
 
                     <div className="flex flex-col lg:flex-row gap-5">

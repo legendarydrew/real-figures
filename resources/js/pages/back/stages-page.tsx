@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { StageDialog } from '@/components/admin/stage-dialog';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Stage } from '@/types';
 import { StageItem } from '@/components/admin/stage-item';
 import { RoundAllocateDialog } from '@/components/admin/round-allocate-dialog';
@@ -16,7 +16,7 @@ import { Nothing } from '@/components/mode/nothing';
 import { AdminHeader } from '@/components/admin/admin-header';
 import { CuboidIcon } from 'lucide-react';
 
-export default function StagesPage({ stages, songs }: Readonly<{ stages: Stage[], songs }>) {
+export default function StagesPage({ stages, songs }: Readonly<{ stages: Stage[], songs: any }>) {
 
     const [currentStage, setCurrentStage] = useState<Stage>();
     const [isAllocateDialogOpen, setIsAllocateDialogOpen] = useState<boolean>(false);

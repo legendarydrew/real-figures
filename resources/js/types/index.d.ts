@@ -59,6 +59,7 @@ export interface Stage {
     title: string;
     description: string;
     golden_buzzer_perks?: string;
+    minimum_choices: number;
     status?: {
         text: string;
         choose_winners: boolean;
@@ -123,6 +124,7 @@ export interface Round {
     id: number;
     title: string;
     full_title: string;
+    minimum_choices: number;
     starts_at: string;
     ends_at: string;
     songs?: Song[];
