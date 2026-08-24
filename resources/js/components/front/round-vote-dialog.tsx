@@ -112,7 +112,7 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
 
     return (
         <>
-            <p>Vote for <b>{round.minimum_choices === 3 ? 'three' : `at least ${round.minimum_choices}`} and up to three</b> of your favourite Songs in this Round, in the order that you like them.</p>
+            <p>Vote for <b>{round.minimum_choices === 3 ? 'three' : `at least ${round.minimum_choices}`}</b> of your favourite Songs in this Round, in the order that you like them.</p>
 
             <div className="round-vote">
                 {round.songs.map((song) => (
@@ -145,6 +145,7 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
 
                 <LoadingButton variant="primary" size="lg" type="button" className="w-full text-base"
                                isLoading={isVoting}
+                               disabled={choiceCount < round.minimum_choices}
                                onClick={castVoteHandler}>
                     <VoteIcon/> Cast Vote
                 </LoadingButton>
