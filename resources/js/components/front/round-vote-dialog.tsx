@@ -50,6 +50,8 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
         return Object.hasOwn(errors, `${position}_choice_id`);
     };
 
+    const choiceCount = Object.values(userVotes).filter((vote) => !!vote).length;
+
     const setVoteHandler = (song: Song, position: string): void => {
         // Ensure that Song ids are not duplicated in the user's votes.
         const newUserVotes = { ...userVotes, [position]: song.id };
@@ -67,6 +69,11 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
 
     const castVoteHandler = (): void => {
         if (isVoting) {
+            return;
+        }
+
+        if (choiceCount < round.minimum_choices) {
+            setErrors({ minimum_choices: 'Please select the minimum number of Songs.' });
             return;
         }
 
@@ -105,7 +112,7 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
 
     return (
         <>
-            <p>Vote for <b>up to three</b> of your favourite Songs in this Round, in the order that you like them.</p>
+            <p>Vote for <b>{round.minimum_choices === 3 ? 'three' : `at least ${round.minimum_choices}`}</b> of your favourite Songs in this Round, in the order that you like them.</p>
 
             <div className="round-vote">
                 {round.songs.map((song) => (
@@ -138,6 +145,7 @@ export const RoundVoteDialog: React.FC<RoundVoteDialogProps> = ({ round }) => {
 
                 <LoadingButton variant="primary" size="lg" type="button" className="w-full text-base"
                                isLoading={isVoting}
+                               disabled={choiceCount < round.minimum_choices}
                                onClick={castVoteHandler}>
                     <VoteIcon/> Cast Vote
                 </LoadingButton>

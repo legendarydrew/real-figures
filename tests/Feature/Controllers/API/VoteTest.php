@@ -16,12 +16,14 @@ final class VoteTest extends TestCase
 
     protected const string ENDPOINT = '/api/vote';
 
+    private Stage $stage;
+
     protected function setUp(): void
     {
         parent::setUp();
-        $stage       = Stage::factory()->create();
+        $this->stage = Stage::factory()->create();
         $this->round = Round::factory()->withSongs(4)->create([
-            'stage_id'  => $stage->id,
+            'stage_id'  => $this->stage->id,
             'starts_at' => now(),
             'ends_at' => now()->addDay(),
         ]);
@@ -195,6 +197,18 @@ final class VoteTest extends TestCase
 
         $payload  = [...$this->payload, 'third_choice_id' => null];
         $response = $this->postJson(self::ENDPOINT, $payload);
+        $response->assertCreated();
+    }
+
+    public final function test_stage_minimum_choices_is_enforced(): void
+    {
+        $this->stage->update(['minimum_choices' => 2]);
+
+        $payload = [...$this->payload, 'second_choice_id' => null, 'third_choice_id' => null];
+        $response = $this->postJson(self::ENDPOINT, $payload);
+        $response->assertUnprocessable();
+
+        $response = $this->postJson(self::ENDPOINT, [...$payload, 'second_choice_id' => $this->songs->get(1)->id]);
         $response->assertCreated();
     }
 
