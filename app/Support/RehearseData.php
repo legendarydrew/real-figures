@@ -22,12 +22,14 @@ class RehearseData
             'title'               => 'Stage 1: Knockouts',
             'description'         => 'Eight Rounds featuring four Acts each, competing to determine which Songs go through to the Finals.',
             'golden_buzzer_perks' => 'Acts will be given a profile and a new promotional image.',
+            'minimum_choices'     => 1
         ],
         [
             'title'               => 'Stage 2: Finals',
             'description'         => 'Qualifying Acts going head-to-head to determine a Grand Winner and three Runners-Up. ' .
                 'The winning Song becomes the official anthem of the Contest.',
             'golden_buzzer_perks' => 'Acts will be represented as 3D-printed figures in SilentMode\'s style.',
+            'minimum_choices'     => 3
         ],
     ];
 
@@ -39,7 +41,7 @@ class RehearseData
             'song'             => [
                 'title'    => 'Jinbutsu Wa Kusshinai',
                 'language' => 'ja',
-                'url' => [
+                'url'      => [
                     'test' => '',
                     'live' => 'https://youtu.be/dQriLqZRDks',
                 ]
@@ -62,7 +64,7 @@ class RehearseData
         ],
         [
             'name'             => 'Axel King',
-            'subtitle'         => null,
+            'subtitle'         => 'and The Roses',
             'genres'           => ['Blues', 'Rock'],
             'song'             => [
                 'url' => [
@@ -250,7 +252,7 @@ class RehearseData
             'song'             => [
                 'language' => 'fr',
                 'title'    => 'Les Vraies Figures Ne Plient Pas',
-                'url' => [
+                'url'      => [
                     'test' => '',
                     'live' => 'https://youtu.be/GRqV3zeffa0',
                 ]

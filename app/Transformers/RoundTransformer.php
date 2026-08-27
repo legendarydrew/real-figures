@@ -21,6 +21,7 @@ class RoundTransformer extends TransformerAbstract
             'title' => $round->title,
             'full_title' => $round->full_title,
             'deadline' => $round->ends_at->toISOString(),
+            'minimum_choices' => (int) $round->stage->minimum_choices,
         ];
     }
 

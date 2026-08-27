@@ -14,6 +14,7 @@ class CurrentStageTransformer extends TransformerAbstract
             'id' => (int) $stage->id,
             'title' => $stage->title,
             'golden_buzzer_perks' => $stage->golden_buzzer_perks ? Str::markdown($stage->golden_buzzer_perks) : '',
+            'minimum_choices' => (int) $stage->minimum_choices,
             'status' => [
                 'text' => $stage->status,
             ],
