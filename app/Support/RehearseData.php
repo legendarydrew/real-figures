@@ -64,7 +64,7 @@ class RehearseData
         ],
         [
             'name'             => 'Axel King',
-            'subtitle'         => null,
+            'subtitle'         => 'and The Roses',
             'genres'           => ['Blues', 'Rock'],
             'song'             => [
                 'url' => [

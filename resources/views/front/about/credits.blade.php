@@ -33,9 +33,9 @@
             <dl class="about-credits-list">
                 <dt>Song creation</dt>
                 <dd>
-                    <a href="https://udio.com" rel="external" target="_blank">Udio</a>
-                    {{-- /--}}
-                    {{-- <a href="https://suno.com/invite/@headdy470" rel="external" target="_blank">Suno</a>--}}
+                    <a href="https://udio.com" rel="external" target="_blank">Udio</a> (Stage 1)
+                    <br />
+                     <a href="https://suno.com/invite/@headdy470" rel="external" target="_blank">Suno</a> (Stage 2)
                 </dd>
                 <dt>Lyric translations</dt>
                 <dd>
@@ -53,7 +53,8 @@
                 </dd>
                 <dt>Coding aid</dt>
                 <dd>
-                    <a href="https://chat.openai.com/" rel="external" target="_blank">ChatGPT</a>
+                    <a href="https://chat.openai.com/" rel="external" target="_blank">ChatGPT</a> /
+                    <a href="https://github.com/copilot" rel="external" target="_blank">Copilot</a>
                 </dd>
             </dl>
         </div>
