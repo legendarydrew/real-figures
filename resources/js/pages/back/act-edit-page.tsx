@@ -260,7 +260,7 @@ export default function ActEditPage({ act, genreList, ranks }: Readonly<{ act: A
                         </div>
 
                         {/* Right side */}
-                        <div className="flex-shrink-0 flex-grow">
+                        <div className="w-3/5 flex-shrink-0">
                             <HeadingSmall title="Profile (optional)"/>
 
                             <div>
