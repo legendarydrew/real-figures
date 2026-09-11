@@ -20,7 +20,7 @@ class ActRequest extends FormRequest
             'name'                => ['required', 'string'],
             'subtitle'            => ['nullable', 'string'],
             'slug'                => ['nullable', 'string',
-                Rule::unique('acts', 'name')->ignore($this->id)],
+                Rule::unique('acts', 'slug')->ignore($this->id)],
             'profile'             => ['sometimes', 'array'],
             'profile.description' => ['nullable', 'string'],
             'new_image'           => ['nullable', new IsBase64Image],
