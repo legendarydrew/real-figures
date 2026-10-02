@@ -36,6 +36,8 @@ class RoundResults
      * If the Round has not yet ended, or there are no associated outcomes, nothing is returned.
      * If ties are allowed, there may be more than one winner and more than the requested number
      * of runners-up.
+     * Acts with a score of zero will be excluded, to avoid the potential scenario of having
+     * EVERYBODY as a winner or runner-up.
      *
      * @return Collection[]|null
      */
@@ -48,7 +50,10 @@ class RoundResults
             return null;
         }
 
-        $results = $this->ranked($round);
+        // Obtain a list of outcomes (each corresponding to a Song) in ranked order,
+        // filtering out any that didn't score.
+        $results = $this->ranked($round)
+                        ->filter(fn(RoundOutcome $result) => $result->score > 0);
         $output = [
             'winners' => new Collection,
         ];

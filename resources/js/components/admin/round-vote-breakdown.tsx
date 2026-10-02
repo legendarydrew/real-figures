@@ -1,7 +1,7 @@
 import { Bar, BarChart, XAxis } from 'recharts';
 
 interface Props {
-    results: { acts: any[], breakdown: { id: number, O: number, M, number, D: number }[] }
+    results: { acts: any[], breakdown: { id: number, O: number, M: number, D: number }[] }
 }
 
 export const RoundVoteBreakdownChart: React.FC<Props> = ({ results }) => {
@@ -25,9 +25,9 @@ export const RoundVoteBreakdownChart: React.FC<Props> = ({ results }) => {
             responsive
             data={results.breakdown}>
             <XAxis dataKey="id" type="category" tick={CustomXAxisLabel} tickLine={false} height={actImageWidth + 12} />
-            <Bar stackId="score" dataKey="O" maxBarSize={actImageWidth} fill="var(--chart-1-9)"/>
-            <Bar stackId="score" dataKey="M" maxBarSize={actImageWidth} fill="var(--indigo-700)"/>
-            <Bar stackId="score" dataKey="D" maxBarSize={actImageWidth} fill="var(--green-500)"/>
+            <Bar stackId="score" dataKey="O" maxBarSize={actImageWidth} fill="var(--chart-3-7)"/>
+            <Bar stackId="score" dataKey="M" maxBarSize={actImageWidth} fill="var(--chart-4-7)"/>
+            <Bar stackId="score" dataKey="D" maxBarSize={actImageWidth} fill="var(--chart-2-7)"/>
         </BarChart>
     ) : '';
 };
